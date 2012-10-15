@@ -1,0 +1,49 @@
+#container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.hideMe {
+	position: absolute;
+	top: -10000px;
+	overflow: hidden;
+	line-height: 1px;
+	height: 1px;
+}
+
+#uniLogo a {
+	display: block;
+
+	width: 192px;
+	height: 46px;
+
+	background-image: url(../img/uniLogo.gif);
+}
+
+
+header#mainHeader #highLevelSelect {
+	overflow: hidden;
+}
+
+header#mainHeader #highLevelSelect select {
+	float: right;
+}
+
+
+ul#search {
+	list-style-type: none;
+}
+
+ul#search li#results ul {
+	list-style-type: none;
+	height: 400px;
+	overflow-y: scroll;
+}
+
+.notification {
+	width: 400px;
+}
+
+#calendar {
+	
+}

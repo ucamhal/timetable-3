@@ -6,15 +6,16 @@
         <link rel="stylesheet" href="css/style.css">
 
         <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/app.js"></script>
 	</head>
 	<body>
 		<div id="container">
 
-			<header>
-				<div id="uniLogo">
-					<h1>University of Cambridge</h1>
-				</div>
+			<header id="mainHeader">
+				<h1 id="uniLogo">
+					<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
+				</h1>
 
 				<div id="highLevelSelect">
 					<select name="year">
@@ -24,14 +25,30 @@
 				</div>
 			</header>
 
-			<div id="content">
+			<!-- ## NOTIFICATIONS MARKUP
 
-				<ul id="search">
-					<li id="mainSearch">
+
+			<div class="notification clearfix">
+				<header class="clearfix">
+					<h3 class="pull-left">Get started</h3>
+					<a href="#" class="pull-right close">&times;</a>
+				</header>
+
+				<p>Some introduction test</p>
+
+				<a href="#" class="btn btn-primary pull-right">ok</a>
+			</div>
+			-->
+
+
+			<div id="content" class="clearfix">
+				<ul id="search" class="pull-left">
+					<li id="select">
 						<label for="iAmSelect">I am</label>
 						<select id="iAmSelect" name="iAm">
 							<option value="firstYear">a first year</option>
-							<option value="secondYear">a second year</select>
+							<option value="secondYear">a second year</option>
+							<option value="thirdYear">a third year</option>
 						</select>
 
 						<label for="courseSelect">studying</label>
@@ -43,37 +60,24 @@
 						</select>
 					</li>
 
-					<li id="searchOptions">
+					<li id="advancedOptions">
 						<a href="#">Advanced search options</a>
 					</li>
 
-					<li id="searchResults">
+					<li id="results">
 						<h3>Found 13 results</h3>
-
 						<ul>
 							<li>
 								<h4>Lecture in something</h4>
-								<a href="#" class="btnAddSingleLecture">Add</a>
-							</li>
-							<li>
-								<h4>Lecture in something</h4>
-								<a href="#" class="btnAddSingleLecture">Add</a>
-							</li>
-							<li>
-								<h4>Lecture in something</h4>
-								<a href="#" class="btnAddSingleLecture">Add</a>
-							</li>
-							<li>
-								<h4>Lecture in something</h4>
-								<a href="#" class="btnAddSingleLecture">Add</a>
+								<a href="#" class="btnAddSingleLecture btn">Add</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 
-				<div id="calendar">
+				<div id="calendar" class="pull-right">
+					<img src="img/calendar.png" />
 				</div>
-
 			</div>
 
 		</div>
