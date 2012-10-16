@@ -1,0 +1,29 @@
+# Compiled Python files
+*.pyc
+
+# SQLite databases etc
+app-data/*
+
+# Annoying OSX files
+.DS_Store
+
+# Vim swap files
+*.swp
+
+# Eclipse files
+.project
+.pydevproject
+.settings/*
+
+# Django project marker for dj (could add this really...)
+.djangoproject
+
+# Personal/local settings files
+app/local_settings.py
+
+# Assembled static files
+static-data/staticroot/
+
+# Ignore Sublime Text project files
+*.sublime-project
+*.sublime-workspace

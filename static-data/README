@@ -1,0 +1,5 @@
+The application may store static resources here and in production
+
+python manage.py collectstatic 
+
+should be run to collect all static resources for serving by the apache web server
