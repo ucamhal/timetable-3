@@ -43,15 +43,9 @@ class ThingIndex(SchemalessSearchIndex, indexes.RealTimeSearchIndex,
     name = CharField(model_attr="name")
     fullname = CharField(model_attr="fullname")
     
-    children = MultiValueField()
-    
     def prepare_text(self, thing):
         return """%s %s""" % (
             thing.name, thing.fullname)
-
-    # This is an example more than anything else
-    def prepare_children(self, thing):
-        return [child.name for child in thing.thing_set.all()]
     
     def get_model(self):
         return Thing
