@@ -255,7 +255,7 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'level': 'CRITICAL',
             'propagate': True,
         },
         # Show messages at INFO level for loggers under model.management
@@ -264,7 +264,13 @@ LOGGING = {
             'level':'INFO',
             'propagate': False
         },
-        # Show messages at ERROR level for all other timetables loggers
+        # Show messages at DEBUG level for all other timetables loggers
+        'timetables.models': {
+            'handlers': ['console'],
+            'level':'DEBUG',
+            'propagate': False
+        },
+        # Show messages at DEBUG level for all other timetables loggers
         'timetables': {
             'handlers': ['console'],
             'level':'ERROR',

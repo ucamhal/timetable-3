@@ -20,6 +20,7 @@ app-data/*
 
 # Personal/local settings files
 app/local_settings.py
+app/personal_settings.py
 
 # Assembled static files
 static-data/staticroot/
