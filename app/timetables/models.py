@@ -1,18 +1,20 @@
 # This is the holder for the model.
-from django.db import models
+
 import pickle
 import hashlib
 import base64
 import os
+import time
+
+from django.db import models
 from django.contrib import admin
-import logging
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-import time
 
-
+import logging
+log = logging.getLogger(__name__)
 
 # Length of a hash required to idedentify items.
 # The item can be retrieved by hashing an external identifier and selecting
@@ -51,7 +53,7 @@ class HierachicalModel(models.Model):
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
-        logging.error("Presaving Hierachy")
+        log.debug("Presaving Hierachy")
         if instance.pathid is None or instance.pathid == "":
             instance.pathid = HierachicalModel.hash(instance.fullpath)
             instance.name = os.path.basename(instance.fullpath)
@@ -89,12 +91,21 @@ class SchemalessModel(models.Model):
         '''
         pass
     
+    def get_index_data(self):
+        """
+        Returns: Data for haystack to index based on the contents of the 'data'
+            attribute.
+        """
+        # Override this to return the data to be indexed by Haystack when
+        # indexing instances of this model.
+        return {}
+    
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         '''
         Called before save and makes certain data contains a pickled version of _data
         '''
-        logging.error("Presaving Schemaless")
+        log.debug("Presaving Schemaless")
         instance = kwargs['instance']
         if hasattr(instance,"_data") and instance._data is not None:
             instance.update_fields(instance._data)
@@ -145,7 +156,7 @@ class Thing(SchemalessModel, HierachicalModel):
         # So this is the only way
         HierachicalModel._prepare_save(sender,**kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
-        logging.error("Done Calling Super on Pre-save")
+        log.debug("Done Calling Super on Pre-save")
 
         
 pre_save.connect(Thing._pre_save, sender=Thing)
@@ -199,6 +210,17 @@ class Event(SchemalessModel):
     
     def __unicode__(self):
         return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
+    
+    def get_index_data(self):
+        # Override this to return the data to be indexed by Haystack when
+        # indexing instances of this model.
+        data = {}
+        
+        if self.metadata.has_key("extra"):
+            data["extra"] = self.metadata["extra"]
+        
+        return data
+    
     
     
 class EventSourceTag(models.Model):
