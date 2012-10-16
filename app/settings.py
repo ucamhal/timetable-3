@@ -313,7 +313,8 @@ PASSWORD_HASHERS = (
 
 EVENT_EXPORTERS = {
     "ics" : "timetables.utils.formats.ical.ICalExporter",
-    "csv" : "timetables.utils.formats.spreadsheet.CsvExporter"
+    "csv" : "timetables.utils.formats.spreadsheet.CsvExporter",
+    "json" : "timetables.utils.formats.jsonformat.JsonExporter"
 }
 
 # Add Query Level Cache if present on system.

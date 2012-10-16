@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     
     url(r'(?P<thing>.*)\.ics', ExportEvents.as_view(), name="export ics"),
     url(r'(?P<thing>.*)\.csv', ExportEvents.as_view(), name="export csv"),
+    url(r'(?P<thing>.*)\.json', ExportEvents.as_view(), name="export json"),
 )

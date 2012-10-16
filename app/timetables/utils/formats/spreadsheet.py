@@ -2,6 +2,9 @@
 Created on Oct 17, 2012
 
 @author: ieb
+
+
+This file is names spreadsheet as opposed to csv to avoid import issues withe standard module csv.
 '''
 import StringIO
 from django.http import HttpResponse
@@ -11,7 +14,7 @@ class CsvExporter(object):
     '''
     Export data in CSV form. 
     '''
-    def export(self, events, metadata_names=None):
+    def export(self, events, metadata_names=None, feed_name="events"):
         '''
         export the events with an optional mapping of metadata to column headers.
         :param events: a sequence of events, that should stream
@@ -63,6 +66,6 @@ class CsvExporter(object):
                 yield csvfile.getvalue()
            
         response = HttpResponse(generate(),content_type="text/csv; charset=utf-8")
-        response['Content-Disposition'] = "attachment; filename=events.csv"
+        response['Content-Disposition'] = "attachment; filename=%s.csv" % feed_name
         response.streaming = True
         return response

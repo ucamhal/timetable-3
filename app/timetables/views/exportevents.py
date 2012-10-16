@@ -14,6 +14,7 @@ from timetables.models import HierachicalModel, Thing
 from django.utils.importlib import import_module
 import types
 from django.conf import settings
+import string
 log = logging.getLogger(__name__)
 del logging
 
@@ -38,6 +39,9 @@ class ExportEvents(View):
             return identifier()
         log.error("Class %s found in %s is not a class" % ( class_name, module_name))                
         return None
+    
+    def _path_to_filename(self, fullpath):
+        return "".join(x if x.isalpha() or x.isdigit() else '_' for x in fullpath )
 
     @method_decorator(condition(etag_func=None))
     def get(self, request, thing):
@@ -50,7 +54,7 @@ class ExportEvents(View):
                 exporter = self._newexporter(exporter_class)
                 if exporter is not None:
                     events = thing.get_events()
-                    return exporter.export(events)
+                    return exporter.export(events, feed_name=self._path_to_filename(thing.fullpath))
                 return HttpResponseBadRequest("Sorry, Format not recognized, can't load class %s " % exporter_class )
             return HttpResponseBadRequest("Sorry, Format not recognized")
 

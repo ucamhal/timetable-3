@@ -11,7 +11,7 @@ class ICalExporter(object):
     '''
     An iCal Exporter.
     '''
-    def export(self, events, metadata_names=None):
+    def export(self, events, metadata_names=None, feed_name="events"):
         '''
         Creates a streaming http response of ical data representing the contents of the events sequence
         :param events: a sequence of events
@@ -45,6 +45,6 @@ class ICalExporter(object):
                 yield event.as_string()
             yield "END:VCALENDAR\r\n"
         response = HttpResponse(generate(),content_type="text/calendar; charset=utf-8")
-        response['Content-Disposition'] = "attachment; filename=events.ics"
+        response['Content-Disposition'] = "attachment; filename=%s.ics" % feed_name
         response.streaming = True
         return response
