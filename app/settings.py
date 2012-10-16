@@ -311,6 +311,11 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
+EVENT_EXPORTERS = {
+    "ics" : "timetables.utils.formats.ical.ICalExporter",
+    "csv" : "timetables.utils.formats.spreadsheet.CsvExporter"
+}
+
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
 try:

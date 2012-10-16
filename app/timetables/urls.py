@@ -16,6 +16,6 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
-    url(r'(?P<thing>.*).ics', ExportEvents.as_view(), name="export ics"),
-    url(r'(?P<thing>.*).csv', ExportEvents.as_view(), name="export csv"),
+    url(r'(?P<thing>.*)\.ics', ExportEvents.as_view(), name="export ics"),
+    url(r'(?P<thing>.*)\.csv', ExportEvents.as_view(), name="export csv"),
 )
