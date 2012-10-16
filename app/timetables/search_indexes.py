@@ -14,7 +14,7 @@ class SchemalessSearchIndex(indexes.SearchIndex):
 
         # Delegate to the SchemalessModel to provide dynamic data to index based
         # on the schemaless data it stores in it's 'data' field. 
-        self.prepared_data.update(schemaless.get_index_data())
+        self.prepared_data.update(schemaless.metadata)
 
         return self.prepared_data
 

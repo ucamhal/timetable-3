@@ -90,16 +90,7 @@ class SchemalessModel(models.Model):
         Override this if there are fields that need to be updated from the metadata
         '''
         pass
-    
-    def get_index_data(self):
-        """
-        Returns: Data for haystack to index based on the contents of the 'data'
-            attribute.
-        """
-        # Override this to return the data to be indexed by Haystack when
-        # indexing instances of this model.
-        return {}
-    
+        
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         '''
