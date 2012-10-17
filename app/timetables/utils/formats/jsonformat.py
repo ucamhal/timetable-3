@@ -8,6 +8,7 @@ This module is named jsonformat as opposed to json to avoid import issues.
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
+from timetables.utils.date import DateConverter
 
 class JsonExporter(object):
     '''
@@ -28,9 +29,10 @@ class JsonExporter(object):
             for e in events:
                 event = {
                         'summary' : '%s' % e.title,
-                        'dtstart' : e.start.isoformat(),
-                        'dtend' : e.end.isoformat(),
+                        'dtstart' :  DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat(),
+                        'dtend' :  DateConverter.from_datetime(e.end, e.metadata.get("x-allday")).isoformat(),
                         'location' : e.location,
+                        'uid' : e.uid
                         }
                 # If a mapping has been provided, unpack
                 if metadata_names is not None:
@@ -38,7 +40,6 @@ class JsonExporter(object):
                     for metadata_name, jsonname in metadata_names.iteritems():
                         if metadata_name in metadata:
                             event[jsonname] = metadata[metadata_name]
-                event['uid'] = '%s@timetables.caret.cam.ac.uk' % e.id
                 if first:
                     yield "%s" % json.dumps(event, indent=JSON_INDENT)
                     first = False

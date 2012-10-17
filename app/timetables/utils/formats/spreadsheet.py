@@ -9,6 +9,7 @@ This file is names spreadsheet as opposed to csv to avoid import issues withe st
 import StringIO
 from django.http import HttpResponse
 import csv
+from timetables.utils.date import DateConverter
 
 class CsvExporter(object):
     '''
@@ -28,6 +29,7 @@ class CsvExporter(object):
             # If a mapping has been provided, unpack
             columns = [
                     "id",
+                    "uid",
                     "Title",
                     "Location",
                     "Start",
@@ -45,10 +47,11 @@ class CsvExporter(object):
                 csvwriter = csv.writer(csvfile)
                 columns = [
                         e.id,
+                        e.uid,
                         e.title,
                         e.location,
-                        e.start,
-                        e.end
+                        DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat(),
+                        DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat()
                         ]
                 # If a mapping has been provided, unpack
                 if metadata_names is not None:
