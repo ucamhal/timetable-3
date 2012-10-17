@@ -27,7 +27,8 @@ MAX_NAME_LENGTH=32
 MAX_LONG_NAME=512
 # Size of a UID, some ical feeds generate massive ones.
 MAX_UID_LENGTH=512
-
+# Max length of a Thing's type
+THING_TYPE_LENGTH=12
 
 
 class HierachicalModel(models.Model):
@@ -127,6 +128,9 @@ class Thing(SchemalessModel, HierachicalModel):
     If we want to apply permissions, they should be applied to Things.
     Probably in a seperate Hierachical model, where the permission is resolved hierachically.
     '''
+    type = models.CharField("Identifies the type of object represented by the Thing",
+            max_length=THING_TYPE_LENGTH, db_index=True, default="")
+
     # Full name of this thing.
     fullname = models.CharField(max_length=2048)
     
@@ -148,6 +152,30 @@ class Thing(SchemalessModel, HierachicalModel):
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
 
+
+class ThingProxyModule(Thing):
+    """
+    Proxy of Thing class used for indexing module things
+    """
+    class Meta:
+        proxy = True
+
+
+class ThingProxySubject(Thing):
+    """
+    Proxy of Thing class used for indexing subject things
+    """
+    class Meta:
+        proxy = True
+
+
+class ThingProxySeries(Thing):
+    """
+    Proxy of Thing class used for indexing series things
+    """
+    class Meta:
+        proxy = True
+        
         
 pre_save.connect(Thing._pre_save, sender=Thing)
 
