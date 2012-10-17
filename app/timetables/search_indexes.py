@@ -1,7 +1,7 @@
 from timetables.models import Thing, Event
 
 from haystack import indexes
-from haystack.fields import (CharField, DateTimeField, MultiValueField)
+from haystack.fields import (CharField, DateTimeField)
 
 class SchemalessSearchIndex(indexes.SearchIndex):
     """
