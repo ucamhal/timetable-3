@@ -152,6 +152,30 @@ class Thing(SchemalessModel, HierachicalModel):
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
 
+
+class ThingProxyModule(Thing):
+    """
+    Proxy of Thing class used for indexing module things
+    """
+    class Meta:
+        proxy = True
+
+
+class ThingProxySubject(Thing):
+    """
+    Proxy of Thing class used for indexing subject things
+    """
+    class Meta:
+        proxy = True
+
+
+class ThingProxySeries(Thing):
+    """
+    Proxy of Thing class used for indexing series things
+    """
+    class Meta:
+        proxy = True
+        
         
 pre_save.connect(Thing._pre_save, sender=Thing)
 
