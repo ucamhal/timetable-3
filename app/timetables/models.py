@@ -1,17 +1,14 @@
 # This is the holder for the model.
 
-import pickle
 import hashlib
 import base64
 import os
 import time
 
 from django.db import models
-from django.contrib import admin
-from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save
-from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.utils import simplejson as json
 
 import logging
 log = logging.getLogger(__name__)
@@ -28,6 +25,8 @@ MAX_URL_LENGTH=2048
 MAX_NAME_LENGTH=32
 # Size of long names
 MAX_LONG_NAME=512
+# Size of a UID, some ical feeds generate massive ones.
+MAX_UID_LENGTH=512
 
 
 
@@ -177,6 +176,14 @@ class EventSource(SchemalessModel):
             return "%s" % ( self.sourceid)
             
 
+    @classmethod
+    def _pre_save(cls, sender, **kwargs):
+        # Invoking multiple parent class or instnace methods is broken in python 2.6
+        # So this is the only way
+        SchemalessModel._prepare_save(sender,**kwargs)
+
+        
+pre_save.connect(EventSource._pre_save, sender=EventSource)
     
     
 
@@ -192,6 +199,7 @@ class Event(SchemalessModel):
     end = models.DateTimeField()
     title = models.CharField(max_length=MAX_LONG_NAME)
     location = models.CharField(max_length=MAX_LONG_NAME)
+    uid = models.CharField(max_length=MAX_UID_LENGTH)
     
     # Relationships
     # source is where the source comes from and contain the default tag.
@@ -202,15 +210,17 @@ class Event(SchemalessModel):
     def __unicode__(self):
         return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
     
-    def get_index_data(self):
-        # Override this to return the data to be indexed by Haystack when
-        # indexing instances of this model.
-        data = {}
+    @classmethod
+    def _pre_save(cls, sender, **kwargs):
+        # Invoking multiple parent class or instnace methods is broken in python 2.6
+        # So this is the only way
+        SchemalessModel._prepare_save(sender,**kwargs)
+        instance = kwargs['instance']
+        if instance.uid is None or instance.uid == "":
+            instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME)) 
+
         
-        if self.metadata.has_key("extra"):
-            data["extra"] = self.metadata["extra"]
-        
-        return data
+pre_save.connect(Event._pre_save, sender=Event)
     
     
     
