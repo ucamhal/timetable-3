@@ -53,7 +53,6 @@ class HierachicalModel(models.Model):
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
-        log.debug("Presaving Hierachy")
         if instance.pathid is None or instance.pathid == "":
             instance.pathid = HierachicalModel.hash(instance.fullpath)
             instance.name = os.path.basename(instance.fullpath)
@@ -96,7 +95,6 @@ class SchemalessModel(models.Model):
         '''
         Called before save and makes certain data contains a pickled version of _data
         '''
-        log.debug("Presaving Schemaless")
         instance = kwargs['instance']
         if hasattr(instance,"_data") and instance._data is not None:
             instance.update_fields()
@@ -126,7 +124,7 @@ class Thing(SchemalessModel, HierachicalModel):
 
 
     If we want to apply permissions, they should be applied to Things.
-    Probably in a seperate Hierachical model, where the permission is resolved hierachically.
+    Probably in a separate Hierarchical model, where the permission is resolved hierarchically.
     '''
     type = models.CharField("Identifies the type of object represented by the Thing",
             max_length=THING_TYPE_LENGTH, db_index=True, default="")
