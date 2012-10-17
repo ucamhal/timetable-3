@@ -35,11 +35,16 @@ class JsonExporter(object):
                         'uid' : e.uid
                         }
                 # If a mapping has been provided, unpack
+                metadata = e.metadata
+                protected = frozenset(event.keys())
                 if metadata_names is not None:
-                    metadata = e.metadata
                     for metadata_name, jsonname in metadata_names.iteritems():
-                        if metadata_name in metadata:
+                        if jsonname not in protected and metadata_name in metadata:
                             event[jsonname] = metadata[metadata_name]
+                else:
+                    for k,v in metadata.iteritems():
+                        if k not in protected:
+                            event[k] = v
                 if first:
                     yield "%s" % json.dumps(event, indent=JSON_INDENT)
                     first = False
