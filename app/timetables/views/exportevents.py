@@ -8,15 +8,10 @@ from django.http import HttpResponseBadRequest, \
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import condition
 
-import logging
 from django.views.generic.base import View
 from timetables.models import HierachicalModel, Thing
-from django.utils.importlib import import_module
-import types
 from django.conf import settings
-import string
-log = logging.getLogger(__name__)
-del logging
+from timetables.utils.reflection import newinstance
 
 
 
@@ -26,19 +21,6 @@ class ExportEvents(View):
     Export all events in either csv or ical form.
     '''
     
-    def _newexporter(self,clsname):
-        module_name = ".".join(clsname.split(".")[:-1])
-        class_name = clsname.split(".")[-1]
-        module = import_module(module_name)
-        try:
-            identifier = getattr(module,class_name)
-        except AttributeError:
-            log.error("Class %s not found in %s " % ( class_name, module_name))
-            return None
-        if isinstance(identifier, (types.ClassType, types.TypeType)):
-            return identifier()
-        log.error("Class %s found in %s is not a class" % ( class_name, module_name))                
-        return None
     
     def _path_to_filename(self, fullpath):
         return "".join(x if x.isalpha() or x.isdigit() else '_' for x in fullpath )
@@ -51,7 +33,7 @@ class ExportEvents(View):
             thing = Thing.objects.get(pathid=hashid)
             if outputformat in settings.EVENT_EXPORTERS:
                 exporter_class = settings.EVENT_EXPORTERS[outputformat]
-                exporter = self._newexporter(exporter_class)
+                exporter = newinstance(exporter_class)
                 if exporter is not None:
                     events = thing.get_events()
                     return exporter.export(events, feed_name=self._path_to_filename(thing.fullpath))
