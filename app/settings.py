@@ -39,6 +39,9 @@ ADMINS = (
 # This url is where feeback from users to the application is sent.
 FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
 
+# This is the name of the server, used for generating event uids
+INSTANCE_NAME = "timetables.caret.cam.ac.uk"
+
 MANAGERS = ADMINS
 try:
     import psycopg2.extensions
@@ -317,6 +320,9 @@ EVENT_EXPORTERS = {
     "json" : "timetables.utils.formats.jsonformat.JsonExporter"
 }
 
+EVENT_IMPORTERS = {
+    "ics" : "timetables.utils.formats.ical.ICalImporter"
+}
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
 try:
