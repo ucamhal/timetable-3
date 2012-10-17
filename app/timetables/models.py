@@ -80,7 +80,7 @@ class SchemalessModel(models.Model):
                 self._data = dict()
             else:
                 try:
-                    self._data = pickle.loads(self.data)
+                    self._data = json.loads(self.data)
                 except:
                     self._data = dict()
         return self._data
@@ -99,8 +99,8 @@ class SchemalessModel(models.Model):
         log.debug("Presaving Schemaless")
         instance = kwargs['instance']
         if hasattr(instance,"_data") and instance._data is not None:
-            instance.update_fields(instance._data)
-            instance.data = pickle.dumps(instance._data)
+            instance.update_fields()
+            instance.data = json.dumps(instance._data)
         else:
             instance.data = ""
         
