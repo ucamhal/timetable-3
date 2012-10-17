@@ -54,6 +54,14 @@ $(function () {
 		event.preventDefault();
 	});
 
+	$('a#advancedOptions, #advancedSearch input[type="submit"], #advancedSearch a.close').click(function () {
+		if ($('#advancedSearch').is(':visible') === true) {
+			$('#advancedSearch').slideUp('fast');
+		} else {
+			$('#advancedSearch').slideDown('fast');
+		}
+	});
+
 	$('a[href="#"]').click(function (event) {
 		event.preventDefault();
 	});

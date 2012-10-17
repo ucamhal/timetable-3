@@ -208,12 +208,13 @@ div#results.empty p {
 	position: relative;
 	left: -50%;
 	margin: 0 auto;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
 }
 
 .alertHolder {
 	position: absolute;
 	left: 50%;
-	top: 50%;
+	top: 37%;
 	z-index: 20;
 }
 
@@ -241,7 +242,8 @@ div#calendarData div#calendarNavigation {
 	margin-left: 90px;
 }
 
-div#calendarData div#calendarNavigation a, div#calendarData div#calendarNavigation h4 {
+div#calendarData div#calendarNavigation a,
+div#calendarData div#calendarNavigation h4 {
 	margin-right: 15px;
 }
 
@@ -252,12 +254,14 @@ div#calendarData div#calendarNavigation a {
 div#advancedSearch {
 	position: absolute;
 	right: 0;
-	background-color: #f9f9f9;
+	background-color: #fcfcfc;
 	width: 960px;
 	z-index: 30;
 	color: black;
 
-	box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+	display: none;
+
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
 }
 
 div#advancedSearch label {
@@ -265,21 +269,32 @@ div#advancedSearch label {
 }
 
 div#advancedSearch label.btn-inverse {	
-	margin-bottom: 10px;
 	padding: 9px 0 8px 15px;
+	margin-bottom: 0;
+	background-color: #eeeff7;
+	background-image: none;
+	color: #383838;
+	text-shadow: 0px -1px 0px rgba(255, 255, 255, .24);
+	border-bottom-style: dashed;
+	border-bottom-color: rgba(0, 0, 0, .2);
+	border-bottom-width: 1px;
 }
 
 div#advancedSearch h3 {
 	padding: 10px;
 	line-height: 1em;
-	background-color: #8A95A4;
+	background-color: #828495;
 	background-image: none;
 	margin: 0;
 	font-size: 1.5em;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(255, 255, 255, .1);
 }
 
 div#advancedSearch input {
 	width: inherit;
+	margin: 0;
 }
 
 div#advancedSearch ul {
@@ -289,10 +304,18 @@ div#advancedSearch ul {
 }
 
 div#advancedSearch .column1,
+div#advancedSearch .column2,
+div#advancedSearch .column3 {
+	height: 550px;
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+
+div#advancedSearch .column1,
 div#advancedSearch .column2 {
 	border-right-style: solid;
 	border-right-width: 1px;
-	border-right-color: rgba(0, 0, 0, .4);
+	border-right-color: rgba(0, 0, 0, .1);
 }
 
 div#advancedSearch .column1 {
@@ -308,12 +331,74 @@ div#advancedSearch .column3 {
 }
 
 div#advancedSearch .column2 > ul > li {
-	width: 195px;
+	width: 185px;
 	overflow: hidden;
 }
 
 li#advancedSearchKeyword input {
-	margin-top: 5px;
-	margin-bottom: 15px;
+	margin: 15px 0 17px 12px;
 	width: 240px;
+}
+
+li#advancedSearchType ul {
+	margin-left: 24px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+li#advancedSearchType ul li {
+	margin-top: 10px;
+}
+
+li#advancedSearchType ul input,
+li#advancedSearchTerm input,
+li#advancedSearchDay input,
+li#advancedSearchTripos input,
+li#advancedSearchPart input {
+	margin-top: 7px;
+}
+
+li#advancedSearchType ul label {
+	margin-left: 8px;
+	margin-right: 40px;
+	line-height: inherit;
+}
+
+li#advancedSearchTerm ul label,
+li#advancedSearchDay ul label,
+li#advancedSearchTripos ul label,
+li#advancedSearchPart ul label {
+	margin-left: 6px;
+	margin-right: 19px;
+	margin-bottom: 15px;
+}
+
+li#advancedSearchTripos ul label {
+	margin-right: 0;
+}
+
+li#advancedSearchTerm ul,
+li#advancedSearchDay ul,
+li#advancedSearchPart ul,
+li#advancedSearchTripos > ul,
+li#advancedSearchLecturer div {
+	margin: 10px;
+}
+
+li#advancedSearchLecturer div select {
+	margin: 0;
+	width: 260px;
+}
+
+li#advancedSearchTripos ul label {
+	width: 140px;
+}
+
+li#advancedSearchSubmit input {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	margin-right: 10px;
+	height: 50px;
+	width: 140px;
 }
