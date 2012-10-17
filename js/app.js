@@ -2,14 +2,15 @@ $(function () {
 	"use strict";
 
 	//populate results list
+	
 	(function populateResults(toAdd) {
 		var i,
-			$singleResult = $('#results > ul > li');
+			$singleResult = $('#results > ul > li:last-child');
 
 		for (i = 0; i < toAdd; i += 1) {
 			$('#results > ul').append($singleResult.clone());
 		}
-	}(12));
+	}(5));
 
 	//initiate fullcalendar
 	$('#calendar').fullCalendar({
@@ -59,6 +60,19 @@ $(function () {
 			$('#advancedSearch').slideUp('fast');
 		} else {
 			$('#advancedSearch').slideDown('fast');
+		}
+	});
+
+	$('#results a.more').click(function (event) {
+		switch ($(this).text()) {
+		case 'more':
+			$(this).text('show less');
+			$('.courseMoreInfo', $(this).parent().parent()).slideDown('fast');
+			break;
+		case 'show less':
+			$(this).text('more');
+			$('.courseMoreInfo', $(this).parent().parent()).slideUp('fast');
+			break;
 		}
 	});
 

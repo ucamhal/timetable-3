@@ -227,14 +227,27 @@
 					</div>
 				</div>
 
-
-				<div id="signInContainer">
-					<a href="#" class="btn btn-primary pull-right">Sign in</a>
+				<!-- ## USER NOT LOGGED IN -->
+				
+				<div id="actionsContainer">
+					<div class="pull-right">
+						<a href="#" class="btn btn-primary">Sign in</a>
+					</div>
 				</div>
+				
 
+				<!-- ## USER LOGGED IN -->
+				<!--
+				<div id="actionsContainer">
+					<div class="pull-right">
+						<a href="#" class="btn btn-primary">Save</a>
+						<a href="#" class="btn btn-primary">Export to calendar</a>
+					</div>
+				</div>
+				-->
 			</header>
 
-			
+			<!--
 			<div class="alertHolder">
 				<div class="alert alert-block alert-success">
 					<button type="button" class="close" data-dismiss="alert">x</button>
@@ -242,7 +255,7 @@
 					Tell us what year you are in and what you are studying to start your custom timetable.
 				</div>
 			</div>
-			<!--
+			-->
 			<div class="alertHolder">
 				<div class="alert alert-block alert-success clearfix">
 					<button type="button" class="close" data-dismiss="alert">x</button>
@@ -251,14 +264,79 @@
 					<a href="#" class="btn btn-success pull-right">Sign in</a>
 				</div>
 			</div>
-			-->
+			
 			<div id="content" class="clearfix">
 				<div id="results" class="pull-left">
+					<!-- ## If results are empty -->
 					<!--
 					<p>Your modules will appear here</p>
 					-->
+
 					<h3>Found 13 modules</h3>
 					<ul id="resultsList">
+						<li class="clearfix course">
+                    		<h5 class="pull-left">Language classes</h5>
+                    		<div class="pull-right clearfix">
+                    			<a class="pull-left more" href="#">more</a>
+                    			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                    		</div>
+                    		<ul class="courseMoreInfo">
+                    			<li class="courseSeries clearfix">
+                					<div class="pull-left">
+                						<h5>An introduction to the language of 16th Century texts.</h5>
+	                    				<span class="courseDatePattern">W1</span>
+	                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+                					</div>
+                					<a href="#" class="btn pull-right">Add</a>
+                    			</li>
+                    			<li class="courseSeries clearfix">
+                					<div class="pull-left">
+                						<h5>An introduction to the language of 16th Century texts.</h5>
+	                    				<span class="courseDatePattern">W1</span>
+	                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+                					</div>
+                					<a href="#" class="btn pull-right">Add</a>
+                    			</li>
+                    		</ul>
+                    	</li>
+                    	<li class="clearfix course">
+                    		<h5 class="pull-left">Early Modern French</h5>
+                    		<div class="pull-right clearfix">
+                    			<a class="pull-left more" href="#">more</a>
+                    			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                    		</div>
+                    		<ul class="courseMoreInfo">
+                    			<li class="courseSeries clearfix">
+                					<div class="pull-left">
+                						<h5>An introduction to the language of 16th Century texts.</h5>
+	                    				<span class="courseDatePattern">W1</span>
+	                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+                					</div>
+                					<a href="#" class="btn pull-right">Add</a>
+                    			</li>
+                    			<li class="courseSeries clearfix">
+                					<div class="pull-left">
+                						<h5>An introduction to the language of 16th Century texts.</h5>
+	                    				<span class="courseDatePattern">W1</span>
+	                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+                					</div>
+                					<a href="#" class="btn pull-right">Add</a>
+                    			</li>
+                    		</ul>
+                    	</li>
+                    	<li class="courseSeries clearfix">
+        					<div class="pull-left">
+        						<h5>An introduction to the language of 16th Century texts.</h5>
+                				<span class="courseDatePattern">W1</span>
+                				<span class="courseLocation">Sidgiwck Av.</span><br/>
+                				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+        					</div>
+        					<a href="#" class="btn pull-right">Add</a>
+            			</li>
 						<li>
                             <h4 class="btn-inverse clearfix">Physics <span class="pull-right">choose from&hellip;</span></h4>
                             <ul class="courseList">
@@ -268,6 +346,26 @@
                             			<a class="pull-left more" href="#">more</a>
                             			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
                             		</div>
+                            		<ul class="courseMoreInfo">
+		                    			<li class="courseSeries clearfix">
+		                					<div class="pull-left">
+		                						<h5>An introduction to the language of 16th Century texts.</h5>
+			                    				<span class="courseDatePattern">W1</span>
+			                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+			                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+		                					</div>
+		                					<a href="#" class="btn pull-right">Add</a>
+		                    			</li>
+		                    			<li class="courseSeries clearfix">
+		                					<div class="pull-left">
+		                						<h5>An introduction to the language of 16th Century texts.</h5>
+			                    				<span class="courseDatePattern">W1</span>
+			                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+			                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+		                					</div>
+		                					<a href="#" class="btn pull-right">Add</a>
+		                    			</li>
+		                    		</ul>
                             	</li>
                             	<li class="clearfix">
                             		<h5 class="pull-left">Course B</h5>
@@ -275,6 +373,26 @@
                             			<a class="pull-left more" href="#">more</a>
                             			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
                             		</div>
+                            		<ul class="courseMoreInfo">
+		                    			<li class="courseSeries clearfix">
+		                					<div class="pull-left">
+		                						<h5>An introduction to the language of 16th Century texts.</h5>
+			                    				<span class="courseDatePattern">W1</span>
+			                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+			                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+		                					</div>
+		                					<a href="#" class="btn pull-right">Add</a>
+		                    			</li>
+		                    			<li class="courseSeries clearfix">
+		                					<div class="pull-left">
+		                						<h5>An introduction to the language of 16th Century texts.</h5>
+			                    				<span class="courseDatePattern">W1</span>
+			                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+			                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+		                					</div>
+		                					<a href="#" class="btn pull-right">Add</a>
+		                    			</li>
+		                    		</ul>
                             	</li>
                             </ul>
                         </li>
@@ -295,8 +413,7 @@
 							<h4 class="pull-left">Week 2</h4>
 							<a class="pull-left badge badge-info" href="#">&gt;</a>
 						</div>
-
-						<h4 class="pull-right">Michaelmas Term</h3>
+						<h4 class="pull-right">Michaelmas Term</h4>
 					</div>
 
 					<div id="calendar">

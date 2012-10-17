@@ -12,10 +12,22 @@ div#content {
 }
 
 h1#uniLogo, div#inputArea > div,
-header#mainHeader div#signInContainer {
+header#mainHeader div#actionsContainer {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+header#mainHeader div#actionsContainer {
+	padding-top: 15px;	
+}
+
+header#mainHeader div#actionsContainer a {
+	margin-right: 10px;
+}
+
+header#mainHeader div#actionsContainer a:last-child {
+	margin-right: 0;
 }
 
 h1#uniLogo, div#inputArea > div {
@@ -76,10 +88,6 @@ header#mainHeader {
 	margin-bottom: 34px;
 }
 
-header#mainHeader div#signInContainer {
-	padding-top: 15px;
-}
-
 div#results ul {
 	margin-left: 0;
 }
@@ -137,11 +145,13 @@ div#results h3 {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
-div#results ul.courseList {
+div#results ul.courseList,
+div#results ul.courseMoreInfo {
 	list-style-type: none;
 }
 
-div#results ul.courseList li {
+div#results ul.courseList > li,
+div#results li.course {
 	padding: 10px 15px;
 	border-style: none;
 	border-bottom-style: solid;
@@ -152,16 +162,29 @@ div#results ul.courseList li {
 	background-color: #f8f8f8;
 }
 
-div#results ul.courseList div {
+div#results ul#resultsList > li.courseSeries {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .1);
+}
+
+div#results ul.courseList > li > h5 {
+	padding-left: 20px;
+}
+
+div#results ul.courseList div,
+div#results li.course div {
 	margin-right: 5px;
 	padding-top: 2px;
 }
 
-div#results ul.courseList div a.more {
+div#results ul.courseList div a.more,
+div#results li.course div a.more {
 	padding-top: 5px;
 }
 
-div#results ul.courseList div a.btn {
+div#results ul.courseList div a.btn,
+div#results li.course div a.btn {
 	margin-left: 20px;
 }
 
@@ -183,6 +206,54 @@ div#results ul#resultsList h4 span {
 	font-size: .85em;
 }
 
+div#results li.courseSeries div {
+	width: 170px;
+}
+
+div#results li.courseSeries a.btn {
+	margin-right: 20px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries a.btn {
+	margin-right: 4px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo {
+	display: none;
+	clear: both;
+
+	border-top-style: dashed;
+	border-top-width: 1px;
+	border-top-color: rgba(0, 0, 0, .2);
+
+	padding: 0;
+}
+
+div#results ul.courseList li.courseSeries {
+	margin-left: 20px;
+}
+
+div#results ul.courseList li.courseSeries div {
+	width: 160px;
+}
+
+div#results li.courseSeries {
+	padding-bottom: 15px;
+	background-color: #F8F8F8;
+
+	clear: both;
+	padding-left: 40px;
+
+	background-image: url(../img/clock.png);
+	background-repeat: no-repeat;
+	background-position: 15px 14px;
+}
+
+div#results li.courseSeries h5 {
+	margin-bottom: 3px;
+}
 
 div#results.empty p {
 	border-style: dashed;
@@ -209,6 +280,10 @@ div#results.empty p {
 	left: -50%;
 	margin: 0 auto;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+}
+
+.alert a.btn {
+	margin-top: 15px;
 }
 
 .alertHolder {
