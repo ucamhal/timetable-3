@@ -5,13 +5,13 @@ import traceback
 import logging, calendar, datetime
 from timetables.utils.v1.grouptemplate import GroupTemplate
 from django.db import models
-from timetables.models import Event
+from timetables.models import Event, HierachicalModel
 log = logging.getLogger(__name__)
 del(logging)
 
 
 def generate(source, title, location, date_time_pattern, group_template, terms, term_name):
-    log.error(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
+    log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
     year = Year(terms)
     groupTemplate = GroupTemplate(group_template)
     for p in date_time_pattern.split(";"):
