@@ -1,0 +1,22 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files we want to always be normalized and converted 
+# to native line endings on checkout.
+*.py text
+*.html text
+*.js text
+*.txt text
+*.css text
+*.conf text
+*.json text
+*.md text
+*.sh text
+*.wsgi text
+*.yaml text
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.gif binary
+*.db binary
