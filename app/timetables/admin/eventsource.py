@@ -14,11 +14,13 @@ import traceback
 class EventSourceForm(forms.ModelForm):
     class Meta:
         model = EventSource
-        exclude = ('data','sourcetype','sourceurl',)
+        exclude = ('sourcetype','sourceurl',)
 
 class EventSourceAdmin(admin.ModelAdmin):
     form = EventSourceForm
-    
+    list_display = ( "sourceid", "sourceurl", "sourcetype", )
+    list_filter = ( "sourcetype", )
+    search_fields = ( "sourceid",  )    
     actions = ["unpack_events"]
     
     def unpack_events(self, request, queryset):

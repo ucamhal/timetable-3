@@ -9,7 +9,7 @@ from icalendar.cal import Calendar, Alarm
 import logging
 from timetables.models import Event
 import datetime
-from django.utils.timezone import utc
+from django.utils.timezone import utc, pytz
 from timetables.utils.date import DateConverter
 
 
@@ -74,10 +74,13 @@ class ICalImporter(object):
         except:
             return default_value
         
-    def _get_value(self, calcomp, key):
+    def _get_value(self, calcomp, key, default_timezone):
         try:
             o = calcomp.decoded(key)
-            if isinstance(o, (datetime.date, datetime.datetime)):
+            if isinstance(o, datetime.datetime):
+                # Must give it a default timezone if not present.
+                return DateConverter.to_datetime(o,defaultzone=default_timezone).isoformat()
+            if isinstance(o, datetime.date):
                 return o.isoformat()
             return o
         except:
@@ -89,23 +92,37 @@ class ICalImporter(object):
         iCalEvent.ignore_exceptions = False
         Alarm.ignore_exceptions = True
         cal = Calendar.from_ical(feedfile.read())
+        # Some icalendar feed choose to use X-WR-TIMEZONE to denote the timezone of the creator of the feed.
+        # Although there is some argument out there, [1] this should be used to define the timezone of any
+        # events that don't are not UTC and don't have a TZID reference. The icalendar library does not 
+        # Use this property but since this is a shared calendar system we have to use it at the point of 
+        # sharing, ie when the date is unpacked from the feed.
+        #
+        # 1 http://blog.jonudell.net/2011/10/17/x-wr-timezone-considered-harmful/
+        try:
+            default_timezone = pytz.timezone(cal.get('X-WR-TIMEZONE'))
+        except:
+            default_timezone = None # Unless we put TZ support into the UI to allow users to set their timezone, this is the best we can do.
+        metadata = source.metadata
         for k,v in cal.iteritems():
+            metadata[k.lower()] = self._get_value(cal,k,default_timezone)
             logging.error("Calendar %s %s " % (k,v))
-        nevents = 0
+        events = []
         for e in cal.walk('VEVENT'):
-            event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART')),
-                          end=DateConverter.to_datetime(e.decoded('DTEND')),
+            event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),
+                          end=DateConverter.to_datetime(e.decoded('DTEND'),defaultzone=default_timezone),
                           location=self._safe_get(e, "LOCATION", ""),
                           title=self._safe_get(e, "SUMMARY", ""),
                           uid=self._safe_get(e, "UID", ""),
                           source=source)
             metadata = event.metadata
             for k,v in e.iteritems():
-                metadata[k.lower()] = self._get_value(e,k)
+                metadata[k.lower()] = self._get_value(e,k,default_timezone)
 
             metadata['x-allday'] = DateConverter.is_date(e.decoded('DTSTART'))
-            event.save()
-            nevents = nevents + 1
-        return nevents
+            events.append(event)
+        source.save()
+        Event.objects.bulk_create(events)
+        return len(events)
 
 

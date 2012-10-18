@@ -4,6 +4,9 @@ from django.contrib import admin
 from timetables.utils.repo import RepoView
 from django.views.decorators.csrf import csrf_exempt
 from timetables.views.exportevents import ExportEvents
+from timetables.views.linkthing import LinkThing
+from timetables.views.viewthing import ViewThing
+from timetables.views.viewevents import ViewEvents
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,7 +19,15 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
-    url(r'(?P<thing>.*)\.ics', ExportEvents.as_view(), name="export ics"),
-    url(r'(?P<thing>.*)\.csv', ExportEvents.as_view(), name="export csv"),
-    url(r'(?P<thing>.*)\.json', ExportEvents.as_view(), name="export json"),
+    url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
+    url(r'(?P<thing>.*)\.events\.csv$', ExportEvents.as_view(), name="export csv"),
+    url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
+    # View of the things events
+    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
+    
+    # Update service end points
+    url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
+    # View of the thing
+    url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing link"),
+    
 )
