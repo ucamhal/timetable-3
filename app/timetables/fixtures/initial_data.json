@@ -616,7 +616,7 @@
       "data": "",
       "pathid": "StzTCdj4cf89jp-yYRiOr5lx0oA=",
       "fullpath": "tripos/nst/p1b/abiol",
-      "type": "option",
+      "type": "subject",
       "fullname": "Animal Biology"
     },
     "model": "timetables.thing",
@@ -629,7 +629,7 @@
       "data": "",
       "pathid": "jA-gqiz77_WxaidokP2xETjmgFQ=",
       "fullpath": "tripos/nst/p1b/bmb",
-      "type": "option",
+      "type": "subject",
       "fullname": "Biochemistry and Molecular Biology"
     },
     "model": "timetables.thing",
@@ -642,7 +642,7 @@
       "data": "",
       "pathid": "Y5InBwpoFZ1s8Upe1Kk-fpJuLSc=",
       "fullpath": "tripos/nst/p1b/cdevb",
-      "type": "option",
+      "type": "subject",
       "fullname": "Cell and Developmental Biology"
     },
     "model": "timetables.thing",
@@ -655,7 +655,7 @@
       "data": "",
       "pathid": "gMrllrohrm-F9jWxov1wyI90l-E=",
       "fullpath": "tripos/nst/p1b/chema",
-      "type": "option",
+      "type": "subject",
       "fullname": "Chemistry A"
     },
     "model": "timetables.thing",
@@ -668,7 +668,7 @@
       "data": "",
       "pathid": "aGoqiHtHyaTH1te2wuoopLL3Irg=",
       "fullpath": "tripos/nst/p1b/chemb",
-      "type": "option",
+      "type": "subject",
       "fullname": "Chemistry B"
     },
     "model": "timetables.thing",
@@ -681,7 +681,7 @@
       "data": "",
       "pathid": "5mKuiZwnT6YqujMNXjZg9oD0r3w=",
       "fullpath": "tripos/nst/p1b/ecol",
-      "type": "option",
+      "type": "subject",
       "fullname": "Ecology"
     },
     "model": "timetables.thing",
@@ -694,7 +694,7 @@
       "data": "",
       "pathid": "K-Xj1qmLSzqqGicygpXLtwaJQ8Q=",
       "fullpath": "tripos/nst/p1b/epsych",
-      "type": "option",
+      "type": "subject",
       "fullname": "Experimental Psychology"
     },
     "model": "timetables.thing",
@@ -707,7 +707,7 @@
       "data": "",
       "pathid": "f6HbI9i9GsRdl6y05rhNP4m_4b0=",
       "fullpath": "tripos/nst/p1b/geoscia",
-      "type": "option",
+      "type": "subject",
       "fullname": "Geological Sciences A"
     },
     "model": "timetables.thing",
@@ -720,7 +720,7 @@
       "data": "",
       "pathid": "XzRuzWWruFsEi6TUUtYjKJy5_4g=",
       "fullpath": "tripos/nst/p1b/geoscib",
-      "type": "option",
+      "type": "subject",
       "fullname": "Geological Sciences B"
     },
     "model": "timetables.thing",
@@ -733,7 +733,7 @@
       "data": "",
       "pathid": "rdN99N-k-WmScr2_r6FocehvhtQ=",
       "fullpath": "tripos/nst/p1b/hps",
-      "type": "option",
+      "type": "subject",
       "fullname": "History and Philosophy of Science"
     },
     "model": "timetables.thing",
@@ -746,7 +746,7 @@
       "data": "",
       "pathid": "TwVwHbpOuh9V8c6RhI8yAFbcqTw=",
       "fullpath": "tripos/nst/p1b/msm",
-      "type": "option",
+      "type": "subject",
       "fullname": "Materials Science"
     },
     "model": "timetables.thing",
@@ -759,7 +759,7 @@
       "data": "",
       "pathid": "O-F6iJibhTFpReIX-i0SvyJgE-c=",
       "fullpath": "tripos/nst/p1b/maths",
-      "type": "option",
+      "type": "subject",
       "fullname": "Mathematics"
     },
     "model": "timetables.thing",
@@ -772,7 +772,7 @@
       "data": "",
       "pathid": "o5AE6iwbwvKcfYd-SEtCPFP6ehY=",
       "fullpath": "tripos/nst/p1b/neurobiol",
-      "type": "option",
+      "type": "subject",
       "fullname": "Neurobiology"
     },
     "model": "timetables.thing",
@@ -785,7 +785,7 @@
       "data": "",
       "pathid": "i2TQFowEV0Fh0IQ0Qv_hNvFplQA=",
       "fullpath": "tripos/nst/p1b/path",
-      "type": "option",
+      "type": "subject",
       "fullname": "Pathology"
     },
     "model": "timetables.thing",
@@ -798,7 +798,7 @@
       "data": "",
       "pathid": "w3iF4xTCVhjDw-cMOZwjVYbdu64=",
       "fullpath": "tripos/nst/p1b/pharm",
-      "type": "option",
+      "type": "subject",
       "fullname": "Pharmacology"
     },
     "model": "timetables.thing",
@@ -811,7 +811,7 @@
       "data": "",
       "pathid": "-87abJ0CkPEMOY07xryXmHYX1eg=",
       "fullpath": "tripos/nst/p1b/pyh",
-      "type": "option",
+      "type": "subject",
       "fullname": "Physics A"
     },
     "model": "timetables.thing",
@@ -824,7 +824,7 @@
       "data": "",
       "pathid": "VMD3vnySuR1TYEUoJykPLXPvxI8=",
       "fullpath": "tripos/nst/p1b/advphy",
-      "type": "option",
+      "type": "subject",
       "fullname": "Physics B"
     },
     "model": "timetables.thing",
@@ -837,7 +837,7 @@
       "data": "",
       "pathid": "2p6tr26pmxYm52SVCTBimMhyO9A=",
       "fullpath": "tripos/nst/p1b/physiol",
-      "type": "option",
+      "type": "subject",
       "fullname": "Physiology"
     },
     "model": "timetables.thing",
@@ -850,7 +850,7 @@
       "data": "",
       "pathid": "o54aMd9qYYq2A8dQS8RFhpN6PDk=",
       "fullpath": "tripos/nst/p1b/pmsci",
-      "type": "option",
+      "type": "subject",
       "fullname": "Plant and Microbial Sciences"
     },
     "model": "timetables.thing",
@@ -863,7 +863,7 @@
       "data": "",
       "pathid": "nt2l7GPPbyPser6fpRJIJZ2TaAs=",
       "fullpath": "tripos/nst/p2/astro",
-      "type": "option",
+      "type": "subject",
       "fullname": "Astrophysics"
     },
     "model": "timetables.thing",
@@ -876,7 +876,7 @@
       "data": "",
       "pathid": "GWXe2AN0IZKdgOC4SFBfgSjhDDU=",
       "fullpath": "tripos/nst/p2/biochem",
-      "type": "option",
+      "type": "subject",
       "fullname": "Biochemistry"
     },
     "model": "timetables.thing",
@@ -889,7 +889,7 @@
       "data": "",
       "pathid": "UWli3SrLGB8SU_wqKukP0Y1soiU=",
       "fullpath": "tripos/nst/p2/chem",
-      "type": "option",
+      "type": "subject",
       "fullname": "Chemistry"
     },
     "model": "timetables.thing",
@@ -902,7 +902,7 @@
       "data": "",
       "pathid": "FvpF6DTwkMTgEc9zWuf3dzGEf9I=",
       "fullpath": "tripos/nst/p2/etp",
-      "type": "option",
+      "type": "subject",
       "fullname": "Experimental and Theoretical Physics"
     },
     "model": "timetables.thing",
@@ -915,7 +915,7 @@
       "data": "",
       "pathid": "5-EsCSFzfPmb6SuH9UYx6miY3T0=",
       "fullpath": "tripos/nst/p2/gen",
-      "type": "option",
+      "type": "subject",
       "fullname": "Genetics"
     },
     "model": "timetables.thing",
@@ -928,7 +928,7 @@
       "data": "",
       "pathid": "EAco9315GbIgWwfY5e3nLyU8Itc=",
       "fullpath": "tripos/nst/p2/geosci",
-      "type": "option",
+      "type": "subject",
       "fullname": "Geological Sciences"
     },
     "model": "timetables.thing",
@@ -941,7 +941,7 @@
       "data": "",
       "pathid": "v_nhpwK1GpXwjiWwOhFljIOhDVA=",
       "fullpath": "tripos/nst/p2/hps",
-      "type": "option",
+      "type": "subject",
       "fullname": "History and Philosophy of Science"
     },
     "model": "timetables.thing",
@@ -954,7 +954,7 @@
       "data": "",
       "pathid": "g1clTjTksN33_zt1K3UDdXNATLg=",
       "fullpath": "tripos/nst/p2/msm",
-      "type": "option",
+      "type": "subject",
       "fullname": "Materials Science"
     },
     "model": "timetables.thing",
@@ -967,7 +967,7 @@
       "data": "",
       "pathid": "p6YAVOraXWfyb0HQ29paZh8HFEo=",
       "fullpath": "tripos/nst/p2/neurosci",
-      "type": "option",
+      "type": "subject",
       "fullname": "Neuroscience"
     },
     "model": "timetables.thing",
@@ -980,7 +980,7 @@
       "data": "",
       "pathid": "LSCWgI32NI_2YjlLOOp11x7w9j0=",
       "fullpath": "tripos/nst/p2/path",
-      "type": "option",
+      "type": "subject",
       "fullname": "Pathology"
     },
     "model": "timetables.thing",
@@ -993,7 +993,7 @@
       "data": "",
       "pathid": "o94K3iVGhOZ0vib1aWinm3QSNIQ=",
       "fullpath": "tripos/nst/p2/pharm",
-      "type": "option",
+      "type": "subject",
       "fullname": "Pharmacology"
     },
     "model": "timetables.thing",
@@ -1006,7 +1006,7 @@
       "data": "",
       "pathid": "xh_uaoZvPkZaabjmYYRH9LwfV_g=",
       "fullpath": "tripos/nst/p2/pdn",
-      "type": "option",
+      "type": "subject",
       "fullname": "Physiology, Development, & Neuroscience"
     },
     "model": "timetables.thing",
@@ -1019,7 +1019,7 @@
       "data": "",
       "pathid": "zx8OGz1ZgAPV61pv6qJQdGJqzAg=",
       "fullpath": "tripos/nst/p2/phyphycs",
-      "type": "option",
+      "type": "subject",
       "fullname": "Physiology & Psychology"
     },
     "model": "timetables.thing",
@@ -1032,7 +1032,7 @@
       "data": "",
       "pathid": "x96r6eJ5ZN-JYGarjymKN6bFwTA=",
       "fullpath": "tripos/nst/p2/plantsci",
-      "type": "option",
+      "type": "subject",
       "fullname": "Plant Sciences"
     },
     "model": "timetables.thing",
@@ -1045,7 +1045,7 @@
       "data": "",
       "pathid": "oFwFGqX5Yg7P5rTe1e5UHUVlVdc=",
       "fullpath": "tripos/nst/p2/phycs",
-      "type": "option",
+      "type": "subject",
       "fullname": "Psychology"
     },
     "model": "timetables.thing",
@@ -1058,7 +1058,7 @@
       "data": "",
       "pathid": "-1j8XefzBMGEiwRQvLmfQ_C9Vbo=",
       "fullpath": "tripos/nst/p2/zool",
-      "type": "option",
+      "type": "subject",
       "fullname": "Zoology"
     },
     "model": "timetables.thing",
@@ -1071,7 +1071,7 @@
       "data": "",
       "pathid": "lMqThUoDb3j1D60EvVB8Mw3grso=",
       "fullpath": "tripos/nst/p3/astro",
-      "type": "option",
+      "type": "subject",
       "fullname": "Astrophysics"
     },
     "model": "timetables.thing",
@@ -1084,7 +1084,7 @@
       "data": "",
       "pathid": "E9TejzJFLSn8Fw1MqR3mUPRlcJc=",
       "fullpath": "tripos/nst/p3/biochem",
-      "type": "option",
+      "type": "subject",
       "fullname": "Biochemistry"
     },
     "model": "timetables.thing",
@@ -1097,7 +1097,7 @@
       "data": "",
       "pathid": "zIhik4MCAEr-oypFRms_AliJlJc=",
       "fullpath": "tripos/nst/p3/chem",
-      "type": "option",
+      "type": "subject",
       "fullname": "Chemistry"
     },
     "model": "timetables.thing",
@@ -1110,7 +1110,7 @@
       "data": "",
       "pathid": "QC6vruLI0D3EUhZXcjBuve-ybUg=",
       "fullpath": "tripos/nst/p3/etp",
-      "type": "option",
+      "type": "subject",
       "fullname": "Experimental and Theoretical Physics"
     },
     "model": "timetables.thing",
@@ -1123,7 +1123,7 @@
       "data": "",
       "pathid": "8Bdcsuw8XG1tGzAtBf5RPkcn0-A=",
       "fullpath": "tripos/nst/p3/geosci",
-      "type": "option",
+      "type": "subject",
       "fullname": "Geological Sciences"
     },
     "model": "timetables.thing",
@@ -1136,7 +1136,7 @@
       "data": "",
       "pathid": "xwEkAnIgXim9eEnGQXZ7nXNpDPw=",
       "fullpath": "tripos/nst/p3/hps",
-      "type": "option",
+      "type": "subject",
       "fullname": "History and Philosophy of Science"
     },
     "model": "timetables.thing",
@@ -1149,7 +1149,7 @@
       "data": "",
       "pathid": "a55YhKIGzHtIyhxFt-h6H21p8ag=",
       "fullpath": "tripos/nst/p3/msm",
-      "type": "option",
+      "type": "subject",
       "fullname": "Materials Science"
     },
     "model": "timetables.thing",
@@ -1162,7 +1162,7 @@
       "data": "",
       "pathid": "P8d20Po-C1JzDU5lvGNGW-Or9js=",
       "fullpath": "tripos/nst/p3/sb",
-      "type": "option",
+      "type": "subject",
       "fullname": "Systems Biology"
     },
     "model": "timetables.thing",
