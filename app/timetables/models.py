@@ -66,7 +66,7 @@ class SchemalessModel(models.Model):
         abstract=True
     # A block of objects, all the meta data associated with this thing.
     # This avoids forcing all objects to have the same schema.
-    data = models.TextField(help_text="Additional data in json format")
+    data = models.TextField(blank=True, help_text="Additional data in json format")
      
     
     @property
@@ -127,7 +127,7 @@ class Thing(SchemalessModel, HierachicalModel):
     Probably in a separate Hierarchical model, where the permission is resolved hierarchically.
     '''
     type = models.CharField("Type",
-            max_length=THING_TYPE_LENGTH, db_index=True, default="", help_text="The type of the thing used to control its behavior")
+            max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behavior")
 
     # Full name of this thing.
     fullname = models.CharField("Full Name", max_length=2048,help_text="Full name of the thing, to be displayed to end users.")
