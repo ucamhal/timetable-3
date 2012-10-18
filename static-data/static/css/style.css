@@ -1,0 +1,479 @@
+div#content {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.hideMe {
+	position: absolute;
+	top: -10000px;
+	overflow: hidden;
+	line-height: 1px;
+	height: 1px;
+}
+
+h1#uniLogo, div#inputArea > div,
+header#mainHeader div#actionsContainer {
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+header#mainHeader div#actionsContainer {
+	padding-top: 15px;	
+}
+
+header#mainHeader div#actionsContainer a {
+	margin-right: 10px;
+}
+
+header#mainHeader div#actionsContainer a:last-child {
+	margin-right: 0;
+}
+
+h1#uniLogo, div#inputArea > div {
+	padding-top: 10px;
+	padding-bottom: 2px;
+}
+
+div#inputArea > div {
+	position: relative;
+}
+
+div#inputArea input,
+div#inputArea select {
+	margin-left: 14px;
+}
+
+div#inputArea label {
+	padding-top: 5px;
+}
+
+
+div#inputArea input {
+	width: 160px;
+	border-color: rgba(0, 0, 0, .4);
+}
+
+div#inputArea select  {
+	width: 90px;
+}
+
+div#inputArea a#advancedOptions span {
+	margin-left: 10px;
+}
+
+h1#uniLogo {
+	margin-bottom: 24px;
+	margin-top: 19px;
+}
+
+div#inputArea {
+	background-color: #333333;
+	color: #ffffff;
+	border-bottom-style: solid;
+	border-bottom-color: #c7aad1;
+	border-bottom-width: 10px;
+}
+
+h1#uniLogo a {
+	display: block;
+
+	width: 204px;
+	height: 42px;
+
+	background-image: url(../img/uniLogo.png);
+}
+
+header#mainHeader {
+	margin-bottom: 34px;
+}
+
+div#results ul {
+	margin-left: 0;
+}
+
+div#results {
+	background-color: #ededed;
+	width: 320px;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #d3d3d3;
+
+	height: 543px;
+	overflow: hidden;
+	background-color: #f3f3f3;
+	position: relative;
+}
+
+div#results > ul {
+	list-style-type: none;
+	height: auto;
+	
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	position: absolute;
+	top: 41px;
+	bottom: 0;
+
+	margin: 0;
+}
+
+div#results h3 {
+	position: absolute;
+	width: 320px;
+	z-index: 1;
+
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .3);
+	font-size: 1.1em;
+	text-align: center;
+
+	line-height: 2.5em;
+	padding: 0;
+
+	color: #ababab;
+	text-shadow: 0 2px 1px rgba(255, 255, 255, 1);
+
+	margin: 0;
+
+	overflow: hidden;
+	height: 40px;
+
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+div#results ul.courseList,
+div#results ul.courseMoreInfo {
+	list-style-type: none;
+}
+
+div#results ul.courseList > li,
+div#results li.course {
+	padding: 10px 15px;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .1);
+	border-radius: 0;
+	margin: 0;
+	background-color: #f8f8f8;
+}
+
+div#results ul#resultsList > li.courseSeries {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .1);
+}
+
+div#results ul.courseList > li > h5 {
+	padding-left: 20px;
+}
+
+div#results ul.courseList div,
+div#results li.course div {
+	margin-right: 5px;
+	padding-top: 2px;
+}
+
+div#results ul.courseList div a.more,
+div#results li.course div a.more {
+	padding-top: 5px;
+}
+
+div#results ul.courseList div a.btn,
+div#results li.course div a.btn {
+	margin-left: 20px;
+}
+
+div#results ul#resultsList {
+	width: 100%;
+}
+
+div#results ul#resultsList h4 {
+	font-size: 1.2em;
+	margin: 0;
+
+	padding: 10px 20px;
+	background-image: none;
+	background-color: #8a95a4;
+}
+
+div#results ul#resultsList h4 span {
+	font-weight: normal;
+	font-size: .85em;
+}
+
+div#results li.courseSeries div {
+	width: 170px;
+}
+
+div#results li.courseSeries a.btn {
+	margin-right: 20px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries a.btn {
+	margin-right: 4px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo {
+	display: none;
+	clear: both;
+
+	border-top-style: dashed;
+	border-top-width: 1px;
+	border-top-color: rgba(0, 0, 0, .2);
+
+	padding: 0;
+}
+
+div#results ul.courseList li.courseSeries {
+	margin-left: 20px;
+}
+
+div#results ul.courseList li.courseSeries div {
+	width: 160px;
+}
+
+div#results li.courseSeries {
+	padding-bottom: 15px;
+	background-color: #F8F8F8;
+
+	clear: both;
+	padding-left: 40px;
+
+	background-image: url(../img/clock.png);
+	background-repeat: no-repeat;
+	background-position: 15px 14px;
+}
+
+div#results li.courseSeries h5 {
+	margin-bottom: 3px;
+}
+
+div#results.empty p {
+	border-style: dashed;
+	border-color: rgba(0, 0, 0, .3);
+	border-width: 1px;
+
+	text-align: center;
+	width: 270px;
+
+	margin: 0 auto;
+	margin-top: 20px;
+
+	padding: 240px 0;
+
+	background-color: #f6f6f6;
+	color: #363636;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
+
+	box-shadow: 0 1px 2px rgba(255, 255, 255, 1);
+}
+
+.alert {
+	position: relative;
+	left: -50%;
+	margin: 0 auto;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+}
+
+.alert a.btn {
+	margin-top: 15px;
+}
+
+.alertHolder {
+	position: absolute;
+	left: 50%;
+	top: 37%;
+	z-index: 20;
+}
+
+div#calendarHolder {
+	width: 590px;
+	margin-top: -16px;
+}
+
+div#content {
+	padding-bottom: 50px;
+	margin-top: -20px;
+}
+
+div#calendarData {
+	padding-bottom: 20px;
+}
+
+div#calendarData h3, div#calendarData h4 {
+	margin: 0;
+	padding: 0;
+	line-height: 1.6em;
+}
+
+div#calendarData div#calendarNavigation {
+	margin-left: 90px;
+}
+
+div#calendarData div#calendarNavigation a,
+div#calendarData div#calendarNavigation h4 {
+	margin-right: 15px;
+}
+
+div#calendarData div#calendarNavigation a {
+	margin-top: 6px;
+}
+
+div#advancedSearch {
+	position: absolute;
+	right: 0;
+	background-color: #fcfcfc;
+	width: 960px;
+	z-index: 30;
+	color: black;
+
+	display: none;
+
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+}
+
+div#advancedSearch label {
+	line-height: 1em;
+}
+
+div#advancedSearch label.btn-inverse {	
+	padding: 9px 0 8px 15px;
+	margin-bottom: 0;
+	background-color: #eeeff7;
+	background-image: none;
+	color: #383838;
+	text-shadow: 0px -1px 0px rgba(255, 255, 255, .24);
+	border-bottom-style: dashed;
+	border-bottom-color: rgba(0, 0, 0, .2);
+	border-bottom-width: 1px;
+}
+
+div#advancedSearch h3 {
+	padding: 10px;
+	line-height: 1em;
+	background-color: #828495;
+	background-image: none;
+	margin: 0;
+	font-size: 1.5em;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(255, 255, 255, .1);
+}
+
+div#advancedSearch input {
+	width: inherit;
+	margin: 0;
+}
+
+div#advancedSearch ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+div#advancedSearch .column1,
+div#advancedSearch .column2,
+div#advancedSearch .column3 {
+	height: 550px;
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+
+div#advancedSearch .column1,
+div#advancedSearch .column2 {
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-right-color: rgba(0, 0, 0, .1);
+}
+
+div#advancedSearch .column1 {
+	width: 284px;
+}
+
+div#advancedSearch .column2 {
+	width: 390px;
+}
+
+div#advancedSearch .column3 {
+	width: 284px;
+}
+
+div#advancedSearch .column2 > ul > li {
+	width: 185px;
+	overflow: hidden;
+}
+
+li#advancedSearchKeyword input {
+	margin: 15px 0 17px 12px;
+	width: 240px;
+}
+
+li#advancedSearchType ul {
+	margin-left: 24px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+li#advancedSearchType ul li {
+	margin-top: 10px;
+}
+
+li#advancedSearchType ul input,
+li#advancedSearchTerm input,
+li#advancedSearchDay input,
+li#advancedSearchTripos input,
+li#advancedSearchPart input {
+	margin-top: 7px;
+}
+
+li#advancedSearchType ul label {
+	margin-left: 8px;
+	margin-right: 40px;
+	line-height: inherit;
+}
+
+li#advancedSearchTerm ul label,
+li#advancedSearchDay ul label,
+li#advancedSearchTripos ul label,
+li#advancedSearchPart ul label {
+	margin-left: 6px;
+	margin-right: 19px;
+	margin-bottom: 15px;
+}
+
+li#advancedSearchTripos ul label {
+	margin-right: 0;
+}
+
+li#advancedSearchTerm ul,
+li#advancedSearchDay ul,
+li#advancedSearchPart ul,
+li#advancedSearchTripos > ul,
+li#advancedSearchLecturer div {
+	margin: 10px;
+}
+
+li#advancedSearchLecturer div select {
+	margin: 0;
+	width: 260px;
+}
+
+li#advancedSearchTripos ul label {
+	width: 140px;
+}
+
+li#advancedSearchSubmit input {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	margin-right: 10px;
+	height: 50px;
+	width: 140px;
+}

@@ -5,15 +5,24 @@ require.config({
     paths: {
         domReady: "libs/domReady",
         jquery: "libs/jquery-1.8.0",
-        "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min"
+        "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min",
+        underscore: "libs/underscore",
+        "jquery-bbq": "libs/jquery.bbq",
+        fullcalendar: "libs/fullcalendar"
     },
     shim: {
         jquery: {
             exports: "$"
         },
-        script: {
-            deps: ["jquery"]
-        }
+        "underscore": {
+			exports: "_"
+		},
+		'bootstrap": {
+			deps: ["jquery']
+		},
+		"fullcalendar" : {
+			deps: ["jquery"]
+		}
     }
 });
 
@@ -24,7 +33,7 @@ require(
 
    // work out what module was asked for and get require to load it.
    
-   var page_module = $("script[src$='require.js']").attr("data-page-module");
+   var page_module = $("script[src$="require.js"]").attr("data-page-module");
    if(!page_module) {
        console.log("No Script for page was defined in the html scipt tag where require.js was loaded from add data-page-module='nameofmodule' " + 
                "require.js's script tag.");
