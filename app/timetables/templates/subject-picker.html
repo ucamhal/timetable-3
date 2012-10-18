@@ -1,8 +1,6 @@
 {% load timetables %}
-<select class="subject">
 {% for subject in subjects %}
 	<option data-levels="{{ subject.subject_ids_by_level|json }}">
         {{ subject.subject_name }} ({{ subject.tripos_name }})
     </option>
 {% endfor %}
-</select>
