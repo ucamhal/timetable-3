@@ -12,10 +12,8 @@ define(['jquery', 'underscore'], function ($, _) {
 
 			_.defaults(this, {
 				selector: 'body',
-				$el: $(this.selector)
+				$el: $(this.selector),
 			});
-
-			this.updateHash();
 
 			$('a#advancedOptions, #advancedSearch input[type="submit"], #advancedSearch a.close', this.$el).click(function () {
 				if ($('#advancedSearch').is(':visible') === true) {
@@ -32,9 +30,32 @@ define(['jquery', 'underscore'], function ($, _) {
 
 		updateHash: function () {
 			$.bbq.pushState({
-				course: $('select#iAmInput', this.$el).val(),
-				part: $('select#courseSelect', this.$el).val()
+				course: $("select#iAmInput", this.$el).val(),
+				part: $("select#courseSelect", this.$el).val()
 			});
+		},
+
+		updateSelectedCourse: function (selectedCourse) {
+			$("select#iAmInput", this.$el).val($("select#iAmInput option:contains('" + selectedCourse + "')", this.$el).attr('value'));
+		},
+
+		updateSelectedPart: function (selectedPart) {
+			$("select#courseSelect", this.$el).val(selectedPart);
+		},
+
+		updatePartOptions: function (selectedCourseOption) {
+			var parts = $("select#iAmInput option:contains('" + selectedCourseOption + "')", this.$el).data("levels"),
+				partsLength = parts.length,
+				i;
+
+			if(parts !== this.activeParts) {
+				this.activeParts = parts;
+				$("select#courseSelect", this.$el).empty();
+				for(i = 0; i < partsLength; i += 1) {
+					$("select#courseSelect", this.$el).append("<option value=\"" + parts[i].subject_id + "\">" + parts[i].level_name + "</option>");
+				}
+				$("select#courseSelect", this.$el).trigger('change');
+			}
 		}
 	});
 

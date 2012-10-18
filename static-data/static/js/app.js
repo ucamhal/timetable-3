@@ -29,12 +29,13 @@ define([
 			}),
 				hashController = new HashController({
 				resultsView: results,
-				calendarView: calendar
+				calendarView: calendar,
+				inputAreaView: inputArea
 			});
 
 
 			$('a[href="#"]').click(function (event) {
-				event.preventDefault();
+				//event.preventDefault();
 			});
 
 			$(window).trigger('hashchange');

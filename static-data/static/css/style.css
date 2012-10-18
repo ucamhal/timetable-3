@@ -44,6 +44,10 @@ div#inputArea select {
 	margin-left: 14px;
 }
 
+div#inputArea select#iAmInput {
+	width: 300px;
+}
+
 div#inputArea label {
 	padding-top: 5px;
 }
