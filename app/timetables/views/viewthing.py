@@ -11,7 +11,7 @@ from django.shortcuts import render
 
 class ViewThing(View):
     '''
-    Renders a view of a thing based on its type.
+    Renders a view of a things events based on its type.
     '''
     
     def get(self, request, thing):
