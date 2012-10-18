@@ -4,6 +4,7 @@ from django.contrib import admin
 from timetables.utils.repo import RepoView
 from django.views.decorators.csrf import csrf_exempt
 from timetables.views.exportevents import ExportEvents
+from timetables.views.linkthing import LinkThing
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,4 +20,7 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     url(r'(?P<thing>.*)\.events\.csv$', ExportEvents.as_view(), name="export csv"),
     url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
+    
+    # Update service end points
+    url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
 )
