@@ -1,0 +1,1171 @@
+[
+  {
+    "fields": {
+      "name": "tripos",
+      "data": "",
+      "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
+      "fullpath": "tripos",
+      "type": "",
+      "fullname": "All Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "3"
+  },
+  {
+    "fields": {
+      "name": "nst",
+      "parent": "3",
+      "data": "",
+      "pathid": "Z_Ubp7mmiRWEybGngDmeYQ8g870=",
+      "fullpath": "tripos/nst",
+      "type": "",
+      "fullname": "Natural Science Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "5"
+  },
+  {
+    "fields": {
+      "name": "classics",
+      "parent": "3",
+      "data": "",
+      "pathid": "zGizYN-rXuk2aSPvuLyFZrun390=",
+      "fullpath": "tripos/classics",
+      "type": "",
+      "fullname": "Classical Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "6"
+  },
+  {
+    "fields": {
+      "name": "engineering",
+      "parent": "3",
+      "data": "",
+      "pathid": "wXQ1rjANd5koc6QWrw_wAEv1RQ0=",
+      "fullpath": "tripos/engineering",
+      "type": "",
+      "fullname": "Engineering Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "7"
+  },
+  {
+    "fields": {
+      "name": "philosophy",
+      "parent": "3",
+      "data": "",
+      "pathid": "2dGMif-Sb-UmS199wiut2uY1k7U=",
+      "fullpath": "tripos/philosophy",
+      "type": "tripos",
+      "fullname": "Philosophy Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "8"
+  },
+  {
+    "fields": {
+      "name": "economics",
+      "parent": "3",
+      "data": "",
+      "pathid": "2GjrJ1B_O7BziyzW40mAbzfAeOs=",
+      "fullpath": "tripos/economics",
+      "type": "tripos",
+      "fullname": "Economics Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "9"
+  },
+  {
+    "fields": {
+      "name": "computer_science",
+      "parent": "3",
+      "data": "",
+      "pathid": "qBfkm-iu9ftgops_yCMUhadrIV8=",
+      "fullpath": "tripos/computer_science",
+      "type": "tripos",
+      "fullname": "Computer Science Tripos"
+    },
+    "model": "timetables.thing",
+    "pk": "10"
+  },
+  {
+    "fields": {
+      "name": "mml",
+      "parent": "3",
+      "data": "",
+      "pathid": "UqUhCfwF4WQ-fiGZo0DCPS08Gc8=",
+      "fullpath": "tripos/mml",
+      "type": "tripos",
+      "fullname": "Medieval and Modern Languages (MML)"
+    },
+    "model": "timetables.thing",
+    "pk": "11"
+  },
+  {
+    "fields": {
+      "name": "maths",
+      "parent": "3",
+      "data": "",
+      "pathid": "pSef0Wce2ylEOXU1xgQop0PlKq0=",
+      "fullpath": "tripos/maths",
+      "type": "tripos",
+      "fullname": "Maths"
+    },
+    "model": "timetables.thing",
+    "pk": "12"
+  },
+  {
+    "fields": {
+      "name": "architecture",
+      "parent": "3",
+      "data": "",
+      "pathid": "ge9ZPvkfdkDXOUrkKIu1AzYBL9Y=",
+      "fullpath": "tripos/architecture",
+      "type": "tripos",
+      "fullname": "Architecture"
+    },
+    "model": "timetables.thing",
+    "pk": "13"
+  },
+  {
+    "fields": {
+      "name": "hphs",
+      "parent": "3",
+      "data": "",
+      "pathid": "MJyMm-_UAzK8IrUF-GY6e_Oq_O4=",
+      "fullpath": "tripos/hphs",
+      "type": "tripos",
+      "fullname": "History and Philosophy of Science"
+    },
+    "model": "timetables.thing",
+    "pk": "14"
+  },
+  {
+    "fields": {
+      "name": "divinity",
+      "parent": "3",
+      "data": "",
+      "pathid": "_O4PjNyR0qahtnYpDbevbE_VU6Y=",
+      "fullpath": "tripos/divinity",
+      "type": "tripos",
+      "fullname": "Divinity"
+    },
+    "model": "timetables.thing",
+    "pk": "15"
+  },
+  {
+    "fields": {
+      "name": "land",
+      "parent": "3",
+      "data": "",
+      "pathid": "viMlgw4yj2-THTfa9G6_SUF3hCU=",
+      "fullpath": "tripos/land",
+      "type": "tripos",
+      "fullname": "Land Economy"
+    },
+    "model": "timetables.thing",
+    "pk": "16"
+  },
+  {
+    "fields": {
+      "name": "art",
+      "parent": "3",
+      "data": "",
+      "pathid": "fxihY7bOKiuShF29fc58r0kt_is=",
+      "fullpath": "tripos/art",
+      "type": "tripos",
+      "fullname": "History of Art"
+    },
+    "model": "timetables.thing",
+    "pk": "17"
+  },
+  {
+    "fields": {
+      "name": "p1a",
+      "parent": "5",
+      "data": "",
+      "pathid": "PyShjoAgnO67FLHbKBvNAPBDdCA=",
+      "fullpath": "tripos/nst/p1a",
+      "type": "part",
+      "fullname": "Part IA"
+    },
+    "model": "timetables.thing",
+    "pk": "18"
+  },
+  {
+    "fields": {
+      "name": "p1b",
+      "parent": "5",
+      "data": "",
+      "pathid": "hQphsAihKhujtgI-9GlZuUtwMes=",
+      "fullpath": "tripos/nst/p1b",
+      "type": "part",
+      "fullname": "Part IB"
+    },
+    "model": "timetables.thing",
+    "pk": "19"
+  },
+  {
+    "fields": {
+      "name": "p2",
+      "parent": "5",
+      "data": "",
+      "pathid": "WVfEjVhYHCWrTYeJV-F_odOe2s8=",
+      "fullpath": "tripos/nst/p2",
+      "type": "part",
+      "fullname": "Part II"
+    },
+    "model": "timetables.thing",
+    "pk": "20"
+  },
+  {
+    "fields": {
+      "name": "p3",
+      "parent": "5",
+      "data": "",
+      "pathid": "8DuXh6RYiVBw_Axum3dR_Vcxs8w=",
+      "fullpath": "tripos/nst/p3",
+      "type": "part",
+      "fullname": "Part III"
+    },
+    "model": "timetables.thing",
+    "pk": "21"
+  },
+  {
+    "fields": {
+      "name": "IA",
+      "parent": "6",
+      "data": "",
+      "pathid": "LOkepC4J7XvzxfZzVGxTChK0wFs=",
+      "fullpath": "tripos/classics/IA",
+      "type": "part",
+      "fullname": "Part IA"
+    },
+    "model": "timetables.thing",
+    "pk": "22"
+  },
+  {
+    "fields": {
+      "name": "IB",
+      "parent": "6",
+      "data": "",
+      "pathid": "55aAhZN30f0zJ58Rk9paL42nnAU=",
+      "fullpath": "tripos/classics/IB",
+      "type": "part",
+      "fullname": "Part IB"
+    },
+    "model": "timetables.thing",
+    "pk": "23"
+  },
+  {
+    "fields": {
+      "name": "II",
+      "parent": "6",
+      "data": "",
+      "pathid": "keiGY10eo-GSrvdLbx04Fs14tz8=",
+      "fullpath": "tripos/classics/II",
+      "type": "part",
+      "fullname": "Part II"
+    },
+    "model": "timetables.thing",
+    "pk": "24"
+  },
+  {
+    "fields": {
+      "name": "III",
+      "parent": "6",
+      "data": "",
+      "pathid": "Ed_Kz90cGm7_qp1Vcl-skY19GJU=",
+      "fullpath": "tripos/classics/III",
+      "type": "part",
+      "fullname": "Part III"
+    },
+    "model": "timetables.thing",
+    "pk": "25"
+  },
+  {
+    "fields": {
+      "name": "IA",
+      "parent": "11",
+      "data": "",
+      "pathid": "WHQsFlQG7xYaSZINDAO6g33h8Bk=",
+      "fullpath": "tripos/mml/IA",
+      "type": "part",
+      "fullname": "Part IA"
+    },
+    "model": "timetables.thing",
+    "pk": "26"
+  },
+  {
+    "fields": {
+      "name": "IB",
+      "parent": "11",
+      "data": "",
+      "pathid": "tC2bQsGILGj5QuaWOAPBFvRHHCI=",
+      "fullpath": "tripos/mml/IB",
+      "type": "part",
+      "fullname": "Part IB"
+    },
+    "model": "timetables.thing",
+    "pk": "27"
+  },
+  {
+    "fields": {
+      "name": "II",
+      "parent": "11",
+      "data": "",
+      "pathid": "bv7a6t0zJoX4iVjsUZIWEGhOMnc=",
+      "fullpath": "tripos/mml/II",
+      "type": "part",
+      "fullname": "Part II"
+    },
+    "model": "timetables.thing",
+    "pk": "28"
+  },
+  {
+    "fields": {
+      "name": "opta_modern",
+      "parent": "26",
+      "data": "",
+      "pathid": "5BrwPrYURPfTIIpiKwd6s4wZ8uY=",
+      "fullpath": "tripos/mml/IA/opta_modern",
+      "type": "option",
+      "fullname": "Option A Modern Language"
+    },
+    "model": "timetables.thing",
+    "pk": "29"
+  },
+  {
+    "fields": {
+      "name": "opta_classical",
+      "parent": "26",
+      "data": "",
+      "pathid": "LnuzXIRsRK2NhZMnxvjuFv1tbvI=",
+      "fullpath": "tripos/mml/IA/opta_classical",
+      "type": "option",
+      "fullname": "Option A Classical Language (Ancient Greek only)"
+    },
+    "model": "timetables.thing",
+    "pk": "30"
+  },
+  {
+    "fields": {
+      "name": "optb_modern",
+      "parent": "26",
+      "data": "",
+      "pathid": "zV5qxiTCoSh1cWK58twZWyzlnYI=",
+      "fullpath": "tripos/mml/IA/optb_modern",
+      "type": "option",
+      "fullname": "Option B Modern Language"
+    },
+    "model": "timetables.thing",
+    "pk": "31"
+  },
+  {
+    "fields": {
+      "name": "optb_classical",
+      "parent": "26",
+      "data": "",
+      "pathid": "1tTMPQJzmNw4o5cPyzL8mZFgh2A=",
+      "fullpath": "tripos/mml/IA/optb_classical",
+      "type": "option",
+      "fullname": "Option B Classical Language"
+    },
+    "model": "timetables.thing",
+    "pk": "32"
+  },
+  {
+    "fields": {
+      "name": "post_ab",
+      "parent": "27",
+      "data": "",
+      "pathid": "UbKg3bo_fY9dbtUbn8t9YqVfLL8=",
+      "fullpath": "tripos/mml/IB/post_ab",
+      "type": "option",
+      "fullname": "Post- Option A + Option B:"
+    },
+    "model": "timetables.thing",
+    "pk": "33"
+  },
+  {
+    "fields": {
+      "name": "post_bb",
+      "parent": "27",
+      "data": "",
+      "pathid": "VGjDrZ2SuNtS2AZVvHETdldoCL8=",
+      "fullpath": "tripos/mml/IB/post_bb",
+      "type": "option",
+      "fullname": "Post- Option B + Option B:"
+    },
+    "model": "timetables.thing",
+    "pk": "34"
+  },
+  {
+    "fields": {
+      "name": "post_ab_classical",
+      "parent": "27",
+      "data": "",
+      "pathid": "MMgl9XOzB0yv6VfnOYu6lIuok6o=",
+      "fullpath": "tripos/mml/IB/post_ab_classical",
+      "type": "option",
+      "fullname": "Post- Option A Modern Language + Option B Classical Language:"
+    },
+    "model": "timetables.thing",
+    "pk": "35"
+  },
+  {
+    "fields": {
+      "name": "post_ba_classical",
+      "parent": "27",
+      "data": "",
+      "pathid": "aVae5SUcdSVZd2Lh-WmWf6XAV1w=",
+      "fullpath": "tripos/mml/IB/post_ba_classical",
+      "type": "option",
+      "fullname": "Post- Option B Modern Language + Option A Classical Language:"
+    },
+    "model": "timetables.thing",
+    "pk": "36"
+  },
+  {
+    "fields": {
+      "name": "post_bb_classical",
+      "parent": "27",
+      "data": "",
+      "pathid": "1mbcs9qeUvZp9OYa01_Sg-kbvmU=",
+      "fullpath": "tripos/mml/IB/post_bb_classical",
+      "type": "option",
+      "fullname": "Post- Option B Modern Language + Option B Classical Language"
+    },
+    "model": "timetables.thing",
+    "pk": "37"
+  },
+  {
+    "fields": {
+      "name": "year_away",
+      "parent": "28",
+      "data": "",
+      "pathid": "vW-Off4Ny9NEE-0aR9Z-li4TxAE=",
+      "fullpath": "tripos/mml/II/year_away",
+      "type": "option",
+      "fullname": "The Year Abroad"
+    },
+    "model": "timetables.thing",
+    "pk": "38"
+  },
+  {
+    "fields": {
+      "name": "year_home",
+      "parent": "28",
+      "data": "",
+      "pathid": "Cep6itl4U_AmoCeY21s40i5ScNY=",
+      "fullpath": "tripos/mml/II/year_home",
+      "type": "option",
+      "fullname": "The Year in Cambridge"
+    },
+    "model": "timetables.thing",
+    "pk": "39"
+  },
+  {
+    "fields": {
+      "name": "biol",
+      "parent": "18",
+      "data": "",
+      "pathid": "5gatnf6HWo9P4T0VSL__vQ61dl4=",
+      "fullpath": "tripos/nst/p1a/biol",
+      "type": "experimental",
+      "fullname": "Biology of Cells"
+    },
+    "model": "timetables.thing",
+    "pk": "40"
+  },
+  {
+    "fields": {
+      "name": "chem",
+      "parent": "18",
+      "data": "",
+      "pathid": "mb-Qpsst2c4iauW9Q4l5q31f3xk=",
+      "fullpath": "tripos/nst/p1a/chem",
+      "type": "experimental",
+      "fullname": "Chemistry"
+    },
+    "model": "timetables.thing",
+    "pk": "41"
+  },
+  {
+    "fields": {
+      "name": "compsci",
+      "parent": "18",
+      "data": "",
+      "pathid": "yn4fsRT5w8yAT16_4A4V4LAw5Vk=",
+      "fullpath": "tripos/nst/p1a/compsci",
+      "type": "experimental",
+      "fullname": "Computer Science"
+    },
+    "model": "timetables.thing",
+    "pk": "42"
+  },
+  {
+    "fields": {
+      "name": "geol",
+      "parent": "18",
+      "data": "",
+      "pathid": "a9pRiYIAXbvrT7JBMTmDJQ1SxjI=",
+      "fullpath": "tripos/nst/p1a/geol",
+      "type": "experimental",
+      "fullname": "Earth Sciences"
+    },
+    "model": "timetables.thing",
+    "pk": "43"
+  },
+  {
+    "fields": {
+      "name": "evo",
+      "parent": "18",
+      "data": "",
+      "pathid": "fdyg8tLP0MQJLT7ONAOVKWeH9Ig=",
+      "fullpath": "tripos/nst/p1a/evo",
+      "type": "experimental",
+      "fullname": "Evolution and Behaviour"
+    },
+    "model": "timetables.thing",
+    "pk": "44"
+  },
+  {
+    "fields": {
+      "name": "mat",
+      "parent": "18",
+      "data": "",
+      "pathid": "NkFfhos9ATihfknx8KlaIdR92y0=",
+      "fullpath": "tripos/nst/p1a/mat",
+      "type": "experimental",
+      "fullname": "Materials Science"
+    },
+    "model": "timetables.thing",
+    "pk": "45"
+  },
+  {
+    "fields": {
+      "name": "phy",
+      "parent": "18",
+      "data": "",
+      "pathid": "-jcJmhO7G8iHDQpC8PQRePEpXNY=",
+      "fullpath": "tripos/nst/p1a/phy",
+      "type": "experimental",
+      "fullname": "Physics"
+    },
+    "model": "timetables.thing",
+    "pk": "46"
+  },
+  {
+    "fields": {
+      "name": "physiol",
+      "parent": "18",
+      "data": "",
+      "pathid": "NDphUcrCQbpOSv6ZqqpJ7t7KYGY=",
+      "fullpath": "tripos/nst/p1a/physiol",
+      "type": "experimental",
+      "fullname": "Physiology of Organisms"
+    },
+    "model": "timetables.thing",
+    "pk": "47"
+  },
+  {
+    "fields": {
+      "name": "emaths",
+      "parent": "18",
+      "data": "",
+      "pathid": "nA9erd7rTs_1WynvYY4X0I57wZ8=",
+      "fullpath": "tripos/nst/p1a/emaths",
+      "type": "mathematics",
+      "fullname": "Elementary Mathematics for Biologists"
+    },
+    "model": "timetables.thing",
+    "pk": "48"
+  },
+  {
+    "fields": {
+      "name": "maths",
+      "parent": "18",
+      "data": "",
+      "pathid": "dCT0zZ2AFofOInBSTnF-6UbKzAM=",
+      "fullpath": "tripos/nst/p1a/maths",
+      "type": "mathematics",
+      "fullname": "Mathematics"
+    },
+    "model": "timetables.thing",
+    "pk": "49"
+  },
+  {
+    "fields": {
+      "name": "qbiol",
+      "parent": "18",
+      "data": "",
+      "pathid": "raK-ttBoAl05NTjoEiwCJnmWu8c=",
+      "fullpath": "tripos/nst/p1a/qbiol",
+      "type": "mathematics",
+      "fullname": "Mathematical Biology"
+    },
+    "model": "timetables.thing",
+    "pk": "50"
+  },
+  {
+    "fields": {
+      "name": "abiol",
+      "parent": "19",
+      "data": "",
+      "pathid": "StzTCdj4cf89jp-yYRiOr5lx0oA=",
+      "fullpath": "tripos/nst/p1b/abiol",
+      "type": "option",
+      "fullname": "Animal Biology"
+    },
+    "model": "timetables.thing",
+    "pk": "51"
+  },
+  {
+    "fields": {
+      "name": "bmb",
+      "parent": "19",
+      "data": "",
+      "pathid": "jA-gqiz77_WxaidokP2xETjmgFQ=",
+      "fullpath": "tripos/nst/p1b/bmb",
+      "type": "option",
+      "fullname": "Biochemistry and Molecular Biology"
+    },
+    "model": "timetables.thing",
+    "pk": "52"
+  },
+  {
+    "fields": {
+      "name": "cdevb",
+      "parent": "19",
+      "data": "",
+      "pathid": "Y5InBwpoFZ1s8Upe1Kk-fpJuLSc=",
+      "fullpath": "tripos/nst/p1b/cdevb",
+      "type": "option",
+      "fullname": "Cell and Developmental Biology"
+    },
+    "model": "timetables.thing",
+    "pk": "53"
+  },
+  {
+    "fields": {
+      "name": "chema",
+      "parent": "19",
+      "data": "",
+      "pathid": "gMrllrohrm-F9jWxov1wyI90l-E=",
+      "fullpath": "tripos/nst/p1b/chema",
+      "type": "option",
+      "fullname": "Chemistry A"
+    },
+    "model": "timetables.thing",
+    "pk": "54"
+  },
+  {
+    "fields": {
+      "name": "chemb",
+      "parent": "19",
+      "data": "",
+      "pathid": "aGoqiHtHyaTH1te2wuoopLL3Irg=",
+      "fullpath": "tripos/nst/p1b/chemb",
+      "type": "option",
+      "fullname": "Chemistry B"
+    },
+    "model": "timetables.thing",
+    "pk": "55"
+  },
+  {
+    "fields": {
+      "name": "ecol",
+      "parent": "19",
+      "data": "",
+      "pathid": "5mKuiZwnT6YqujMNXjZg9oD0r3w=",
+      "fullpath": "tripos/nst/p1b/ecol",
+      "type": "option",
+      "fullname": "Ecology"
+    },
+    "model": "timetables.thing",
+    "pk": "56"
+  },
+  {
+    "fields": {
+      "name": "epsych",
+      "parent": "19",
+      "data": "",
+      "pathid": "K-Xj1qmLSzqqGicygpXLtwaJQ8Q=",
+      "fullpath": "tripos/nst/p1b/epsych",
+      "type": "option",
+      "fullname": "Experimental Psychology"
+    },
+    "model": "timetables.thing",
+    "pk": "57"
+  },
+  {
+    "fields": {
+      "name": "geoscia",
+      "parent": "19",
+      "data": "",
+      "pathid": "f6HbI9i9GsRdl6y05rhNP4m_4b0=",
+      "fullpath": "tripos/nst/p1b/geoscia",
+      "type": "option",
+      "fullname": "Geological Sciences A"
+    },
+    "model": "timetables.thing",
+    "pk": "58"
+  },
+  {
+    "fields": {
+      "name": "geoscib",
+      "parent": "19",
+      "data": "",
+      "pathid": "XzRuzWWruFsEi6TUUtYjKJy5_4g=",
+      "fullpath": "tripos/nst/p1b/geoscib",
+      "type": "option",
+      "fullname": "Geological Sciences B"
+    },
+    "model": "timetables.thing",
+    "pk": "59"
+  },
+  {
+    "fields": {
+      "name": "hps",
+      "parent": "19",
+      "data": "",
+      "pathid": "rdN99N-k-WmScr2_r6FocehvhtQ=",
+      "fullpath": "tripos/nst/p1b/hps",
+      "type": "option",
+      "fullname": "History and Philosophy of Science"
+    },
+    "model": "timetables.thing",
+    "pk": "60"
+  },
+  {
+    "fields": {
+      "name": "msm",
+      "parent": "19",
+      "data": "",
+      "pathid": "TwVwHbpOuh9V8c6RhI8yAFbcqTw=",
+      "fullpath": "tripos/nst/p1b/msm",
+      "type": "option",
+      "fullname": "Materials Science"
+    },
+    "model": "timetables.thing",
+    "pk": "61"
+  },
+  {
+    "fields": {
+      "name": "maths",
+      "parent": "19",
+      "data": "",
+      "pathid": "O-F6iJibhTFpReIX-i0SvyJgE-c=",
+      "fullpath": "tripos/nst/p1b/maths",
+      "type": "option",
+      "fullname": "Mathematics"
+    },
+    "model": "timetables.thing",
+    "pk": "62"
+  },
+  {
+    "fields": {
+      "name": "neurobiol",
+      "parent": "19",
+      "data": "",
+      "pathid": "o5AE6iwbwvKcfYd-SEtCPFP6ehY=",
+      "fullpath": "tripos/nst/p1b/neurobiol",
+      "type": "option",
+      "fullname": "Neurobiology"
+    },
+    "model": "timetables.thing",
+    "pk": "63"
+  },
+  {
+    "fields": {
+      "name": "path",
+      "parent": "19",
+      "data": "",
+      "pathid": "i2TQFowEV0Fh0IQ0Qv_hNvFplQA=",
+      "fullpath": "tripos/nst/p1b/path",
+      "type": "option",
+      "fullname": "Pathology"
+    },
+    "model": "timetables.thing",
+    "pk": "64"
+  },
+  {
+    "fields": {
+      "name": "pharm",
+      "parent": "19",
+      "data": "",
+      "pathid": "w3iF4xTCVhjDw-cMOZwjVYbdu64=",
+      "fullpath": "tripos/nst/p1b/pharm",
+      "type": "option",
+      "fullname": "Pharmacology"
+    },
+    "model": "timetables.thing",
+    "pk": "65"
+  },
+  {
+    "fields": {
+      "name": "pyh",
+      "parent": "19",
+      "data": "",
+      "pathid": "-87abJ0CkPEMOY07xryXmHYX1eg=",
+      "fullpath": "tripos/nst/p1b/pyh",
+      "type": "option",
+      "fullname": "Physics A"
+    },
+    "model": "timetables.thing",
+    "pk": "66"
+  },
+  {
+    "fields": {
+      "name": "advphy",
+      "parent": "19",
+      "data": "",
+      "pathid": "VMD3vnySuR1TYEUoJykPLXPvxI8=",
+      "fullpath": "tripos/nst/p1b/advphy",
+      "type": "option",
+      "fullname": "Physics B"
+    },
+    "model": "timetables.thing",
+    "pk": "67"
+  },
+  {
+    "fields": {
+      "name": "physiol",
+      "parent": "19",
+      "data": "",
+      "pathid": "2p6tr26pmxYm52SVCTBimMhyO9A=",
+      "fullpath": "tripos/nst/p1b/physiol",
+      "type": "option",
+      "fullname": "Physiology"
+    },
+    "model": "timetables.thing",
+    "pk": "68"
+  },
+  {
+    "fields": {
+      "name": "pmsci",
+      "parent": "19",
+      "data": "",
+      "pathid": "o54aMd9qYYq2A8dQS8RFhpN6PDk=",
+      "fullpath": "tripos/nst/p1b/pmsci",
+      "type": "option",
+      "fullname": "Plant and Microbial Sciences"
+    },
+    "model": "timetables.thing",
+    "pk": "69"
+  },
+  {
+    "fields": {
+      "name": "astro",
+      "parent": "20",
+      "data": "",
+      "pathid": "nt2l7GPPbyPser6fpRJIJZ2TaAs=",
+      "fullpath": "tripos/nst/p2/astro",
+      "type": "option",
+      "fullname": "Astrophysics"
+    },
+    "model": "timetables.thing",
+    "pk": "70"
+  },
+  {
+    "fields": {
+      "name": "biochem",
+      "parent": "20",
+      "data": "",
+      "pathid": "GWXe2AN0IZKdgOC4SFBfgSjhDDU=",
+      "fullpath": "tripos/nst/p2/biochem",
+      "type": "option",
+      "fullname": "Biochemistry"
+    },
+    "model": "timetables.thing",
+    "pk": "71"
+  },
+  {
+    "fields": {
+      "name": "chem",
+      "parent": "20",
+      "data": "",
+      "pathid": "UWli3SrLGB8SU_wqKukP0Y1soiU=",
+      "fullpath": "tripos/nst/p2/chem",
+      "type": "option",
+      "fullname": "Chemistry"
+    },
+    "model": "timetables.thing",
+    "pk": "72"
+  },
+  {
+    "fields": {
+      "name": "etp",
+      "parent": "20",
+      "data": "",
+      "pathid": "FvpF6DTwkMTgEc9zWuf3dzGEf9I=",
+      "fullpath": "tripos/nst/p2/etp",
+      "type": "option",
+      "fullname": "Experimental and Theoretical Physics"
+    },
+    "model": "timetables.thing",
+    "pk": "73"
+  },
+  {
+    "fields": {
+      "name": "gen",
+      "parent": "20",
+      "data": "",
+      "pathid": "5-EsCSFzfPmb6SuH9UYx6miY3T0=",
+      "fullpath": "tripos/nst/p2/gen",
+      "type": "option",
+      "fullname": "Genetics"
+    },
+    "model": "timetables.thing",
+    "pk": "74"
+  },
+  {
+    "fields": {
+      "name": "geosci",
+      "parent": "20",
+      "data": "",
+      "pathid": "EAco9315GbIgWwfY5e3nLyU8Itc=",
+      "fullpath": "tripos/nst/p2/geosci",
+      "type": "option",
+      "fullname": "Geological Sciences"
+    },
+    "model": "timetables.thing",
+    "pk": "75"
+  },
+  {
+    "fields": {
+      "name": "hps",
+      "parent": "20",
+      "data": "",
+      "pathid": "v_nhpwK1GpXwjiWwOhFljIOhDVA=",
+      "fullpath": "tripos/nst/p2/hps",
+      "type": "option",
+      "fullname": "History and Philosophy of Science"
+    },
+    "model": "timetables.thing",
+    "pk": "76"
+  },
+  {
+    "fields": {
+      "name": "msm",
+      "parent": "20",
+      "data": "",
+      "pathid": "g1clTjTksN33_zt1K3UDdXNATLg=",
+      "fullpath": "tripos/nst/p2/msm",
+      "type": "option",
+      "fullname": "Materials Science"
+    },
+    "model": "timetables.thing",
+    "pk": "77"
+  },
+  {
+    "fields": {
+      "name": "neurosci",
+      "parent": "20",
+      "data": "",
+      "pathid": "p6YAVOraXWfyb0HQ29paZh8HFEo=",
+      "fullpath": "tripos/nst/p2/neurosci",
+      "type": "option",
+      "fullname": "Neuroscience"
+    },
+    "model": "timetables.thing",
+    "pk": "78"
+  },
+  {
+    "fields": {
+      "name": "path",
+      "parent": "20",
+      "data": "",
+      "pathid": "LSCWgI32NI_2YjlLOOp11x7w9j0=",
+      "fullpath": "tripos/nst/p2/path",
+      "type": "option",
+      "fullname": "Pathology"
+    },
+    "model": "timetables.thing",
+    "pk": "79"
+  },
+  {
+    "fields": {
+      "name": "pharm",
+      "parent": "20",
+      "data": "",
+      "pathid": "o94K3iVGhOZ0vib1aWinm3QSNIQ=",
+      "fullpath": "tripos/nst/p2/pharm",
+      "type": "option",
+      "fullname": "Pharmacology"
+    },
+    "model": "timetables.thing",
+    "pk": "80"
+  },
+  {
+    "fields": {
+      "name": "pdn",
+      "parent": "20",
+      "data": "",
+      "pathid": "xh_uaoZvPkZaabjmYYRH9LwfV_g=",
+      "fullpath": "tripos/nst/p2/pdn",
+      "type": "option",
+      "fullname": "Physiology, Development, & Neuroscience"
+    },
+    "model": "timetables.thing",
+    "pk": "81"
+  },
+  {
+    "fields": {
+      "name": "phyphycs",
+      "parent": "20",
+      "data": "",
+      "pathid": "zx8OGz1ZgAPV61pv6qJQdGJqzAg=",
+      "fullpath": "tripos/nst/p2/phyphycs",
+      "type": "option",
+      "fullname": "Physiology & Psychology"
+    },
+    "model": "timetables.thing",
+    "pk": "82"
+  },
+  {
+    "fields": {
+      "name": "plantsci",
+      "parent": "20",
+      "data": "",
+      "pathid": "x96r6eJ5ZN-JYGarjymKN6bFwTA=",
+      "fullpath": "tripos/nst/p2/plantsci",
+      "type": "option",
+      "fullname": "Plant Sciences"
+    },
+    "model": "timetables.thing",
+    "pk": "83"
+  },
+  {
+    "fields": {
+      "name": "phycs",
+      "parent": "20",
+      "data": "",
+      "pathid": "oFwFGqX5Yg7P5rTe1e5UHUVlVdc=",
+      "fullpath": "tripos/nst/p2/phycs",
+      "type": "option",
+      "fullname": "Psychology"
+    },
+    "model": "timetables.thing",
+    "pk": "84"
+  },
+  {
+    "fields": {
+      "name": "zool",
+      "parent": "20",
+      "data": "",
+      "pathid": "-1j8XefzBMGEiwRQvLmfQ_C9Vbo=",
+      "fullpath": "tripos/nst/p2/zool",
+      "type": "option",
+      "fullname": "Zoology"
+    },
+    "model": "timetables.thing",
+    "pk": "85"
+  },
+  {
+    "fields": {
+      "name": "astro",
+      "parent": "21",
+      "data": "",
+      "pathid": "lMqThUoDb3j1D60EvVB8Mw3grso=",
+      "fullpath": "tripos/nst/p3/astro",
+      "type": "option",
+      "fullname": "Astrophysics"
+    },
+    "model": "timetables.thing",
+    "pk": "86"
+  },
+  {
+    "fields": {
+      "name": "biochem",
+      "parent": "21",
+      "data": "",
+      "pathid": "E9TejzJFLSn8Fw1MqR3mUPRlcJc=",
+      "fullpath": "tripos/nst/p3/biochem",
+      "type": "option",
+      "fullname": "Biochemistry"
+    },
+    "model": "timetables.thing",
+    "pk": "87"
+  },
+  {
+    "fields": {
+      "name": "chem",
+      "parent": "21",
+      "data": "",
+      "pathid": "zIhik4MCAEr-oypFRms_AliJlJc=",
+      "fullpath": "tripos/nst/p3/chem",
+      "type": "option",
+      "fullname": "Chemistry"
+    },
+    "model": "timetables.thing",
+    "pk": "88"
+  },
+  {
+    "fields": {
+      "name": "etp",
+      "parent": "21",
+      "data": "",
+      "pathid": "QC6vruLI0D3EUhZXcjBuve-ybUg=",
+      "fullpath": "tripos/nst/p3/etp",
+      "type": "option",
+      "fullname": "Experimental and Theoretical Physics"
+    },
+    "model": "timetables.thing",
+    "pk": "89"
+  },
+  {
+    "fields": {
+      "name": "geosci",
+      "parent": "21",
+      "data": "",
+      "pathid": "8Bdcsuw8XG1tGzAtBf5RPkcn0-A=",
+      "fullpath": "tripos/nst/p3/geosci",
+      "type": "option",
+      "fullname": "Geological Sciences"
+    },
+    "model": "timetables.thing",
+    "pk": "90"
+  },
+  {
+    "fields": {
+      "name": "hps",
+      "parent": "21",
+      "data": "",
+      "pathid": "xwEkAnIgXim9eEnGQXZ7nXNpDPw=",
+      "fullpath": "tripos/nst/p3/hps",
+      "type": "option",
+      "fullname": "History and Philosophy of Science"
+    },
+    "model": "timetables.thing",
+    "pk": "91"
+  },
+  {
+    "fields": {
+      "name": "msm",
+      "parent": "21",
+      "data": "",
+      "pathid": "a55YhKIGzHtIyhxFt-h6H21p8ag=",
+      "fullpath": "tripos/nst/p3/msm",
+      "type": "option",
+      "fullname": "Materials Science"
+    },
+    "model": "timetables.thing",
+    "pk": "92"
+  },
+  {
+    "fields": {
+      "name": "sb",
+      "parent": "21",
+      "data": "",
+      "pathid": "P8d20Po-C1JzDU5lvGNGW-Or9js=",
+      "fullpath": "tripos/nst/p3/sb",
+      "type": "option",
+      "fullname": "Systems Biology"
+    },
+    "model": "timetables.thing",
+    "pk": "93"
+  }
+]
