@@ -25,7 +25,7 @@ class ViewThing(View):
             try:
                 return  render(request, "things/thing-%s.html" % typeofthing, context) 
             except:
-                return  render(request, "things/thing-default.html" % typeofthing, context) 
+                return  render(request, "things/thing-default.html" , context) 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 

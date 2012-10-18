@@ -22,12 +22,12 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     url(r'(?P<thing>.*)\.events\.csv$', ExportEvents.as_view(), name="export csv"),
     url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
+    # View of the things events
+    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
     
     # Update service end points
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing link"),
-    # View of the things events
-    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
     
 )

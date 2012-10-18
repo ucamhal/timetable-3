@@ -26,7 +26,7 @@ class ViewEvents(View):
             try:
                 return  render(request, "things/thing-events-%s.html" % typeofthing, context)
             except:
-                return  render(request, "things/thing-events-default.html" % typeofthing, context)
+                return  render(request, "things/thing-events-default.html" , context)
                 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
