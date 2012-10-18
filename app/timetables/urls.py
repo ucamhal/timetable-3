@@ -1,12 +1,17 @@
 from django.conf.urls.defaults import patterns, include, url
+
 # Enable Django's admin interface
 from django.contrib import admin
-from timetables.utils.repo import RepoView
 from django.views.decorators.csrf import csrf_exempt
+
+from timetables.utils.repo import RepoView
 from timetables.views.exportevents import ExportEvents
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing
 from timetables.views.viewevents import ViewEvents
+from timetables.views import clientapi
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -29,5 +34,9 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing link"),
+    
+    # clientapi views are intended for consumption by client-side Javascript
+    # code written by people without knowledge of the database schema.
+    url(r"subjects", clientapi.subjects)
     
 )

@@ -4,6 +4,7 @@ import hashlib
 import base64
 import os
 import time
+import itertools
 
 from django.db import models
 from django.db.models.signals import pre_save
@@ -261,5 +262,46 @@ class EventTag(models.Model):
         pass # If you add a pre_save hook, please wire this method into it
     
     
+def subjects():
+    """
+    Gets a sequence of all subjects.
+    
+    Subjects are grouped by tripos, and IDs are specified for the level the
+    subject is under.
+    
+    Returns: A sequence containing objects of the form:
+        {
+            "tripos_name": "Natural Sciences Tripos",
+            "subject_name": "Chemistry",
+            "subject_ids_by_level": [
+                {"subject_id": 1234, "level_name": "IA"}
+            ]
+        }
+    """
+    # Fetch subject name, subject id, subject's parent level name and subject's parent level's parent tripos name
+    subject_values = (Thing.objects.filter(type__in=["subject", "experimental", "option"])
+            .order_by("fullname", "parent__parent__fullname", "parent__fullname")
+            .values("fullname", "id", "parent__fullname", "parent__parent__fullname"))
+    
+    # Group together subjects under the same tripos with the same name.
+    for _, subjects in itertools.groupby(subject_values, 
+            lambda s: (s["fullname"], s["parent__parent__fullname"])):
+        tripos_name = None
+        subject_name = None
+        subject_ids_by_level = []
+        
+        for subject in subjects:
+            tripos_name = tripos_name or subject["parent__parent__fullname"]
+            subject_name = subject_name or subject["fullname"]
 
+            subject_ids_by_level.append({
+                "subject_id": subject["id"], 
+                "level_name": subject["parent__fullname"]
+            })
+        
+        yield {
+            "tripos_name": tripos_name,
+            "subject_name": subject_name,
+            "subject_ids_by_level": subject_ids_by_level
+        }
 
