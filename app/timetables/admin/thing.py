@@ -42,5 +42,5 @@ class ThingAdminForm(forms.ModelForm):
 class ThingAdmin(admin.ModelAdmin):
     form = ThingAdminForm
     list_display = ( "fullpath", "fullname", "type", )
-    list_filter = ( "type", )
+    list_filter = ( "type", "fullname", )
     search_fields = ( "fullpath", "fullname", )
