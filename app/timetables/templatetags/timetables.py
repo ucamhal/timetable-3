@@ -4,9 +4,6 @@ from django import template
 
 import json, logging
 
-from timetables.utils.Json import JSON_INDENT
-
-
 LOG = logging.getLogger(__name__)
 register = template.Library()
 
@@ -15,7 +12,7 @@ def json_encode(object):
     """JSON encodes the input value, returning JSON string."""
 
     try:
-        json_string = json.dumps(object, indent=JSON_INDENT)
+        json_string = json.dumps(object)
     except:
         LOG.exception("|json filter: Error JSON encoding object: %s" % object);
         json_string = "null /* error encoding JSON */"
