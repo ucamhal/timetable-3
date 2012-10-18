@@ -10,11 +10,14 @@ from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing
 from timetables.views.viewevents import ViewEvents
 from timetables.views import clientapi
+from timetables import views
 
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
+
+    url(r"^$", views.index, name="index"),
 
     # Django admin interface (NOT timetables administrators)
     url(r'^admin/', include(admin.site.urls)),
@@ -37,6 +40,6 @@ urlpatterns = patterns('',
     
     # clientapi views are intended for consumption by client-side Javascript
     # code written by people without knowledge of the database schema.
-    url(r"subjects", clientapi.subjects)
+    url(r"^subjects$", clientapi.subjects)
     
 )

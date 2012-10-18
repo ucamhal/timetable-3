@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Django settings for timetables project.
 import os
+from os import path
 import sys
 
 import logging
@@ -11,7 +12,7 @@ log = logging.getLogger("timetables.settings")
 del logging
 
 
-ROOT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

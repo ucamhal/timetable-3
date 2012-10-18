@@ -1,12 +1,14 @@
+{% load staticfiles %}
+
 <!doctype html>
 	<head>
 		<title>Timetables</title>
 
-		<link rel="stylesheet" href="css/libs/bootstrap/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/libs/fullcalendar/fullcalendar.css" />
-        <link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        <script data-main="js/main.js" src="js/libs/requirejs/require.min.js"></script>
+        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
 	</head>
 	<body>
 		<header id="mainHeader">
