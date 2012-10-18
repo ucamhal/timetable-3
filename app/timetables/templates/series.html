@@ -1,0 +1,10 @@
+<li class="courseSeries clearfix">
+    <div class="pull-left">
+        <h5>{{ thing.fullname }}</h5>
+        
+        <span class="courseDatePattern">{{ thing.metadata.datePattern }}</span>
+        <span class="courseLocation">{{ thing.metadata.location }}</span><br>
+        <span class="courseLecturer">{{ thing.metadata.people|join:", " }}</span>
+    </div>
+    <a href="#" class="btn pull-right">Add</a>
+</li>

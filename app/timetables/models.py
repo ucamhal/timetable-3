@@ -305,3 +305,7 @@ def subjects():
             "subject_ids_by_level": subject_ids_by_level
         }
 
+def modules(subject_id):
+    """
+    """
+    return Thing.objects.filter(parent_id=subject_id).order_by("fullname")
