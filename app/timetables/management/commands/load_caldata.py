@@ -224,6 +224,7 @@ class Command(BaseCommand):
                         
 
                         if "groups" in detail:
+                            events = []
                             for g in detail['groups']:
                                 term_name = g.get('term') or "Mi"
                                 term_name = term_name[:2]
@@ -232,13 +233,15 @@ class Command(BaseCommand):
                                     location = e.get('where') or g.get('location') or "Unknown"
                                     title = e.get('what') or groupTitle or 'Unnamed'
                                     date_time_pattern = g.get('when') or ""
-                                    total_events = total_events + generate(source=source, 
+                                    events.extend(generate(source=source, 
                                              title=title, 
                                              location=location, 
                                              date_time_pattern=date_time_pattern, 
                                              group_template=group_template, 
                                              terms=terms, 
-                                             term_name=term_name)
+                                             term_name=term_name))
+                            Event.objects.bulk_create(events)
+                            total_events = total_events + len(events)
             log.info("Created %s events " % total_events)
 
 

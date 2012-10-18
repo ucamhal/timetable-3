@@ -14,10 +14,10 @@ def generate(source, title, location, date_time_pattern, group_template, terms, 
     log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
     year = Year(terms)
     groupTemplate = GroupTemplate(group_template)
+    events = []
     for p in date_time_pattern.split(";"):
         pattern = "%s %s" % ( term_name, p.strip() )
         p = pparser.fullparse(pattern, groupTemplate)
-        n = 0
         dtField = models.DateTimeField()
         for start, end in year.atoms_to_isos(p.patterns()):
             event = Event(start=dtField.to_python(start), 
@@ -28,9 +28,8 @@ def generate(source, title, location, date_time_pattern, group_template, terms, 
             event.metadata.update({
                     "extra" : "Placeholder for extra metadata"
                         })
-            event.save()
-            n = n+1
-    return n
+            events.append(event)
+    return events
 
 
 
