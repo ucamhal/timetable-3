@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     
     # clientapi views are intended for consumption by client-side Javascript
     # code written by people without knowledge of the database schema.
-    url(r"^subjects$", clientapi.subjects)
+    url(r"^subjects$", clientapi.subjects),
+    url(r"^modules/(\d+)$", clientapi.modules)
     
 )
