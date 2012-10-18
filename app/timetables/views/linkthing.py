@@ -44,7 +44,9 @@ class LinkThing(View):
                 EventSourceTag.objects.filter(thing=thing,eventsource__in=EventSource.objects.filter(id__in=elist))
                 items = []
                 for es in EventSource.objects.filter(id__id=elist):
-                    items.append(EventSourceTag(thing=thing,eventsource=es))
+                    eventsourcetag = EventSourceTag(thing=thing,eventsource=es)
+                    eventsourcetag.prepare_save()
+                    items.append(eventsourcetag)
                 EventSourceTag.objects.bulk_create(items)
             
             elist = self._expand(request.POST.getlist("e"))
@@ -53,7 +55,9 @@ class LinkThing(View):
                 EventTag.objects.filter(thing=thing,eventsource__in=Event.objects.filter(id__in=elist))
                 items = []
                 for es in EventSource.objects.filter(id__id=elist):
-                    items.append(EventTag(thing=thing,event=es))
+                    eventtag = EventTag(thing=thing,event=es)
+                    eventtag.prepare_save()
+                    items.append(eventtag)
                 EventTag.objects.bulk_create(items)
             
                 

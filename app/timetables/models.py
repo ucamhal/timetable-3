@@ -141,6 +141,10 @@ class Thing(SchemalessModel, HierachicalModel):
     def get_all_events(cls, things):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things)|
                                     models.Q(eventtag__thing__in=things))
+
+    def prepare_save(self):
+        Thing._pre_save(Event,instance=self)
+
         
     @classmethod
     def _pre_save(cls, sender, **kwargs):
@@ -179,6 +183,9 @@ class EventSource(SchemalessModel):
         except:
             return "%s" % ( self.sourceid)
             
+    def prepare_save(self):
+        EventSource._pre_save(Event,instance=self)
+
 
     @classmethod
     def _pre_save(cls, sender, **kwargs):
@@ -214,6 +221,9 @@ class Event(SchemalessModel):
     def __unicode__(self):
         return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
     
+    def prepare_save(self):
+        Event._pre_save(Event,instance=self)
+    
     @classmethod
     def _pre_save(cls, sender, **kwargs):
         # Invoking multiple parent class or instnace methods is broken in python 2.6
@@ -235,6 +245,10 @@ class EventSourceTag(models.Model):
     '''
     thing = models.ForeignKey(Thing, help_text="The Thing that the EventSource is to be associated with")
     eventsource = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The EventSource that the Thing is to be associated with")
+
+    def prepare_save(self):
+        pass # If you add a pre_save hook, please wire this method into it
+
     
 class EventTag(models.Model):
     '''
@@ -243,6 +257,8 @@ class EventTag(models.Model):
     '''
     thing = models.ForeignKey(Thing, help_text="The Thing that the Event is to be associated with")
     event = models.ForeignKey(Event, help_text="The Event that the Thing is to be associated with")
+    def prepare_save(self):
+        pass # If you add a pre_save hook, please wire this method into it
     
     
 

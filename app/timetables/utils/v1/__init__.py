@@ -28,6 +28,7 @@ def generate(source, title, location, date_time_pattern, group_template, terms, 
             event.metadata.update({
                     "extra" : "Placeholder for extra metadata"
                         })
+            event.prepare_save()
             events.append(event)
     return events
 
