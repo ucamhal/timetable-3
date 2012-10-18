@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from timetables.views.exportevents import ExportEvents
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing
+from timetables.views.viewevents import ViewEvents
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -26,4 +27,7 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing link"),
+    # View of the things events
+    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
+    
 )
