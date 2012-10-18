@@ -14,7 +14,7 @@ import traceback
 class EventSourceForm(forms.ModelForm):
     class Meta:
         model = EventSource
-        exclude = ('data','sourcetype','sourceurl',)
+        exclude = ('sourcetype','sourceurl',)
 
 class EventSourceAdmin(admin.ModelAdmin):
     form = EventSourceForm

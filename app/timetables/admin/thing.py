@@ -11,7 +11,6 @@ from timetables.admin.widgets import TextWidget
 class ThingAdminForm(forms.ModelForm):
     class Meta:
         model = Thing
-        exclude = ( 'data', )
         widgets = {
          'pathid' : TextWidget(),
          'fullpath' : TextWidget()
@@ -24,8 +23,6 @@ class ThingAdminForm(forms.ModelForm):
         self.fields['fullpath'].required = False
             
             
-    def clean_data(self):
-        return self.instance.data
 
     def clean_pathid(self):
         return self.instance.pathid

@@ -13,7 +13,6 @@ from timetables.admin.thing import ThingAdmin
 class EventForm(forms.ModelForm):
     class Meta:
         model = EventSource
-        exclude = ('data',)
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
