@@ -1,0 +1,428 @@
+{% load staticfiles %}
+
+<!doctype html>
+	<head>
+		<title>Timetables</title>
+
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+
+        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
+	</head>
+	<body>
+		<header id="mainHeader">
+			<h1 id="uniLogo">
+				<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
+			</h1>
+
+			<div id="inputArea">
+				<div class="clearfix">
+					<label for="iAmInput" class="pull-left">I am studying</label>
+					<!--
+					<input type="text" name="iAmInput" id="iAmInput" class="pull-left" placeholder="a course" />
+					-->
+					<select id="iAmInput" class="pull-left">
+						{% include "subject-picker.html" %}
+					</select>
+					<select id="courseSelect" name="course" class="pull-left">
+					</select>
+
+					<div class="pull-right">
+						<a id="advancedOptions" class="btn" href="#">More search options <span class="caret"></span></a>
+
+						<div id="advancedSearch">
+							<h3 class="btn-inverse">More search options <a href="#" class="close">x</a></h3>
+							<ul class="clearfix">
+								<li class="pull-left column1">
+									<ul>
+										<li id="advancedSearchKeyword">
+											<label for="advancedKeywordInput" class="btn-inverse">Search by keyword</label>
+											<input type="text" name="keyword" id="advancedKeywordInput" placeholder="keyword" />
+										</li>
+										<li id="advancedSearchType">
+											<label class="btn-inverse">Filter by type</label>
+											<ul class="clearfix">
+												<li class="pull-left">
+													<input type="checkbox" id="typeC" class="pull-left" /><label for="typeC" class="badge pull-left">C</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="typeL" class="pull-left" /><label for="typeL" class="badge pull-left">L</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="typeP" class="pull-left" /><label for="typeP" class="badge pull-left">P</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="typeE" class="pull-left" /><label for="typeE" class="badge pull-left">E</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="typeF" class="pull-left" /><label for="typeF" class="badge pull-left">F</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="typeM" class="pull-left" /><label for="typeM" class="badge pull-left">M</label>
+												</li>
+											</ul>
+										</li>
+										<li id="advancedSearchTerm">
+											<label class="btn-inverse">Filter by term</label>
+											<ul class="clearfix">
+												<li class="pull-left">
+													<input type="checkbox" id="termMichaelmas" class="pull-left" /><label for="termMichaelmas" class="pull-left">Michaelmas</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="termEaster"  class="pull-left"/><label for="termEaster" class="pull-left">Easter</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="termLent"  class="pull-left"/><label for="termLent" class="pull-left">Lent</label>
+												</li>
+											</ul>
+										</li>
+										<li id="advancedSearchDay">
+											<label class="btn-inverse">Filter by day</label>
+											<ul class="clearfix">
+												<li class="pull-left">
+													<input type="checkbox" id="dayMo"  class="pull-left"/><label for="dayMo" class="pull-left">Mo.</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="dayTu"  class="pull-left"/><label for="dayTu" class="pull-left">Tu.</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="dayWe"  class="pull-left"/><label for="dayWe" class="pull-left">We.</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="dayTh"  class="pull-left"/><label for="dayTh" class="pull-left">Th.</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="dayFr"  class="pull-left"/><label for="dayFr" class="pull-left">Fr.</label>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+
+								<li class="pull-left column2" id="advancedSearchTripos">
+									<label class="btn-inverse">Filter by tripos</label>
+									<ul class="clearfix">
+										<li class="pull-left">
+											<ul>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+											</ul>
+										</li>
+										<li class="pull-left">
+											<ul>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
+												</li>
+												<li class="clearfix">
+													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+
+								<li class="pull-left column3">
+									<ul>
+										<li id="advancedSearchPart">
+											<label class="btn-inverse">Filter by part</label>
+											<ul class="clearfix">
+												<li class="pull-left">
+													<input type="checkbox" id="partIA" class="pull-left" /><label for="partIA" class="pull-left">IA</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="partIB" class="pull-left" /><label for="partIB" class="pull-left">IB</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="partII" class="pull-left" /><label for="partII" class="pull-left">II</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="partIII" class="pull-left" /><label for="partIII" class="pull-left">III</label>
+												</li>
+												<li class="pull-left">
+													<input type="checkbox" id="partMphil" class="pull-left" /><label for="partMphil" class="pull-left">MPhil</label>
+												</li>
+											</ul>
+										</li>
+										<li id="advancedSearchLecturer">
+											<label for="lecturerSelect" class="btn-inverse">Filter by lecturer</label>
+											<div>
+												<select id="lecturerSelect">
+													<option>Marcel Vandam (mvd23)</option>
+												</select>
+											</div>
+										</li>
+										<li id="advancedSearchSubmit">
+											<input type="submit" value="Search" class="btn btn-primary btn-large" />
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ## USER NOT LOGGED IN -->
+			
+			<div id="actionsContainer">
+				<div class="pull-right">
+					<a href="#" class="btn btn-primary">Sign in</a>
+				</div>
+			</div>
+			
+
+			<!-- ## USER LOGGED IN -->
+			<!--
+			<div id="actionsContainer">
+				<div class="pull-right">
+					<a href="#" class="btn btn-primary">Save</a>
+					<a href="#" class="btn btn-primary">Export to calendar</a>
+				</div>
+			</div>
+			-->
+		</header>
+
+		<!--
+		<div class="alertHolder">
+			<div class="alert alert-block alert-success">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				<h4>Get started</h4>
+				Tell us what year you are in and what you are studying to start your custom timetable.
+			</div>
+		</div>
+		-->
+		<div class="alertHolder">
+			<div class="alert alert-block alert-success clearfix">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				<h4>Already have a timetable?</h4>
+				Sign-in to see your timetable and make changes
+				<a href="#" class="btn btn-success pull-right">Sign in</a>
+			</div>
+		</div>
+		
+		<div id="content" class="clearfix">
+			<div id="results" class="pull-left">
+				<!-- ## If results are empty -->
+				<!--
+				<p>Your modules will appear here</p>
+				-->
+
+				<h3>Found 13 modules</h3>
+				<ul id="resultsList">
+					<!--
+					<li class="clearfix course">
+                		<h5 class="pull-left">Language classes</h5>
+                		<div class="pull-right clearfix">
+                			<a class="pull-left more" href="#">more</a>
+                			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                		</div>
+                		<ul class="courseMoreInfo">
+                			<li class="courseSeries clearfix">
+            					<div class="pull-left">
+            						<h5>An introduction to the language of 16th Century texts.</h5>
+                    				<span class="courseDatePattern">W1</span>
+                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+            					</div>
+            					<a href="#" class="btn pull-right">Add</a>
+                			</li>
+                			<li class="courseSeries clearfix">
+            					<div class="pull-left">
+            						<h5>An introduction to the language of 16th Century texts.</h5>
+                    				<span class="courseDatePattern">W1</span>
+                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+            					</div>
+            					<a href="#" class="btn pull-right">Add</a>
+                			</li>
+                		</ul>
+                	</li>
+                	<li class="clearfix course">
+                		<h5 class="pull-left">Early Modern French</h5>
+                		<div class="pull-right clearfix">
+                			<a class="pull-left more" href="#">more</a>
+                			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                		</div>
+                		<ul class="courseMoreInfo">
+                			<li class="courseSeries clearfix">
+            					<div class="pull-left">
+            						<h5>An introduction to the language of 16th Century texts.</h5>
+                    				<span class="courseDatePattern">W1</span>
+                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+            					</div>
+            					<a href="#" class="btn pull-right">Add</a>
+                			</li>
+                			<li class="courseSeries clearfix">
+            					<div class="pull-left">
+            						<h5>An introduction to the language of 16th Century texts.</h5>
+                    				<span class="courseDatePattern">W1</span>
+                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+            					</div>
+            					<a href="#" class="btn pull-right">Add</a>
+                			</li>
+                		</ul>
+                	</li>
+                	<li class="courseSeries clearfix">
+    					<div class="pull-left">
+    						<h5>An introduction to the language of 16th Century texts.</h5>
+            				<span class="courseDatePattern">W1</span>
+            				<span class="courseLocation">Sidgiwck Av.</span><br/>
+            				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+    					</div>
+    					<a href="#" class="btn pull-right">Add</a>
+        			</li>
+					<li>
+                        <h4 class="btn-inverse clearfix">Physics <span class="pull-right">choose from&hellip;</span></h4>
+                        <ul class="courseList">
+                        	<li class="clearfix">
+                        		<h5 class="pull-left">Course A</h5>
+                        		<div class="pull-right clearfix">
+                        			<a class="pull-left more" href="#">more</a>
+                        			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                        		</div>
+                        		<ul class="courseMoreInfo">
+	                    			<li class="courseSeries clearfix">
+	                					<div class="pull-left">
+	                						<h5>An introduction to the language of 16th Century texts.</h5>
+		                    				<span class="courseDatePattern">W1</span>
+		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+	                					</div>
+	                					<a href="#" class="btn pull-right">Add</a>
+	                    			</li>
+	                    			<li class="courseSeries clearfix">
+	                					<div class="pull-left">
+	                						<h5>An introduction to the language of 16th Century texts.</h5>
+		                    				<span class="courseDatePattern">W1</span>
+		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+	                					</div>
+	                					<a href="#" class="btn pull-right">Add</a>
+	                    			</li>
+	                    		</ul>
+                        	</li>
+                        	<li class="clearfix">
+                        		<h5 class="pull-left">Course B</h5>
+                        		<div class="pull-right clearfix">
+                        			<a class="pull-left more" href="#">more</a>
+                        			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                        		</div>
+                        		<ul class="courseMoreInfo">
+	                    			<li class="courseSeries clearfix">
+	                					<div class="pull-left">
+	                						<h5>An introduction to the language of 16th Century texts.</h5>
+		                    				<span class="courseDatePattern">W1</span>
+		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+	                					</div>
+	                					<a href="#" class="btn pull-right">Add</a>
+	                    			</li>
+	                    			<li class="courseSeries clearfix">
+	                					<div class="pull-left">
+	                						<h5>An introduction to the language of 16th Century texts.</h5>
+		                    				<span class="courseDatePattern">W1</span>
+		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
+		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
+	                					</div>
+	                					<a href="#" class="btn pull-right">Add</a>
+	                    			</li>
+	                    		</ul>
+                        	</li>
+                        </ul>
+                    </li>
+                	-->
+				</ul>
+			</div>
+
+			<div id="calendarHolder" class="pull-right">
+				<div id="calendarHeading">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#">Week</a></li>
+						<li><a href="#">Month</a></li>
+						<li><a href="#">List</a></li>
+					</ul>
+
+					<div id="calendarData" class="clearfix">
+						<a href="#" class="btn pull-left">Undo changes</a>
+						<div class="pull-left" id="calendarNavigation">
+							<a class="pull-left badge badge-info" href="#">&lt;</a>
+							<h4 class="pull-left">Week 2</h4>
+							<a class="pull-left badge badge-info" href="#">&gt;</a>
+						</div>
+						<h4 class="pull-right">Michaelmas Term</h4>
+					</div>
+				</div>
+
+				<div id="calendar">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

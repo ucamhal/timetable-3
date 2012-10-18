@@ -5,13 +5,23 @@ require.config({
     paths: {
         domReady: "libs/domReady",
         jquery: "libs/jquery-1.8.0",
-        "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min"
+        "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min",
+        "jquery-bbq": "libs/jquery.bbq",
+        underscore: "libs/underscore",
+        bootstrap: "libs/bootstrap",
+        fullcalendar: "libs/fullcalendar"
     },
     shim: {
         jquery: {
             exports: "$"
         },
-        script: {
+        "underscore": {
+            exports: "_"
+        },
+        "bootstrap": {
+            deps: ["jquery"]
+        },
+        "fullcalendar" : {
             deps: ["jquery"]
         }
     }
@@ -35,7 +45,7 @@ require(
    // Load the module defined as the page's entry point, but dont attach to the event thats loading the rest of the page.
    window.setTimeout(function() {
        require([page_module], function(page_module) {
-       	  // that should be enough to get it loaded.
+             // that should be enough to get it loaded.
           });
        },10);
 
