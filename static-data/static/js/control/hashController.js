@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function ($, _) {
+define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
 	"use strict";
 
 	var HashController = function (opt) {

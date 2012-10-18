@@ -4,7 +4,8 @@ define([
 	'view/student/components/inputArea',
 	'view/student/components/results',
 	'view/student/components/calendar',
-	'control/hashController'
+	'control/hashController',
+	'bootstrap'
 ], function ($, _, InputArea, Results, Calendar, HashController) {
 	"use strict";
 

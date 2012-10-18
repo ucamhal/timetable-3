@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function ($, _) {
+define(['jquery', 'underscore', 'fullcalendar'], function ($, _) {
 	"use strict";
 
 	var CalendarContent = function (opt) {
@@ -31,7 +31,7 @@ define(['jquery', 'underscore'], function ($, _) {
 		},
 
 		showPrev: function () {
-			this.$el.fullCalendar('prev')
+			this.$el.fullCalendar('prev');
 		},
 
 		setView: function (view) {

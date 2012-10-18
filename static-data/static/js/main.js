@@ -6,8 +6,9 @@ require.config({
         domReady: "libs/domReady",
         jquery: "libs/jquery-1.8.0",
         "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min",
-        underscore: "libs/underscore",
         "jquery-bbq": "libs/jquery.bbq",
+        underscore: "libs/underscore",
+        bootstrap: "libs/bootstrap",
         fullcalendar: "libs/fullcalendar"
     },
     shim: {
