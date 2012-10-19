@@ -9,9 +9,6 @@ from timetables.views.exportevents import ExportEvents
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
-from timetables.views import clientapi
-from timetables import views
-from timetables.views.clientapi import SubjectsView, ModulesView
 from timetables.views.indexview import IndexView
 
 
@@ -46,11 +43,5 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
-
-
-    
-    # clientapi views are intended for consumption by client-side Javascript
-    # code written by people without knowledge of the database schema.
-    url(r"^subjects$", SubjectsView.as_view(), name="subjects view"),
     
 )
