@@ -47,3 +47,12 @@ class ViewThing(View):
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 
+
+class ChildrenView(View):
+
+    def get(self, request, thing):
+        try:
+            return render(request, "list-of-things.html",
+                          {"things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing))})
+        except Thing.DoesNotExist:
+            return HttpResponseNotFound()

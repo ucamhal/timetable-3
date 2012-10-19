@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from timetables.utils.repo import RepoView
 from timetables.views.exportevents import ExportEvents
 from timetables.views.linkthing import LinkThing
-from timetables.views.viewthing import ViewThing
+from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
 from timetables.views import clientapi
 from timetables import views
@@ -35,17 +35,22 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
     # View of the things events
     url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
+    # Generate an Html view of children
+    url(r'(?P<thing>.*?)\.children\.html$', ChildrenView.as_view(), name="thing view"),
+
+
+    # Generate an Html view of things
+    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing view"),
     
     # Update service end points
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
 
-    url(r'(?P<thing>.*)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing view"),
+
     
     # clientapi views are intended for consumption by client-side Javascript
     # code written by people without knowledge of the database schema.
     url(r"^subjects$", SubjectsView.as_view(), name="subjects view"),
-    url(r"^modules/(?P<fullpath>.*)$", ModulesView.as_view(), name="modules view")
     
 )

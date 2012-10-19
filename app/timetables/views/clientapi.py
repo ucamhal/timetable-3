@@ -61,25 +61,6 @@ class SubjectsView(View):
         """
         return render(request, "subject-picker.html", {"subjects": self._subjects()})
 
-class ModulesView(View):
-    
-    def _modules(self, fullpath):
-        """
-        """
-        hash = HierachicalModel.hash(fullpath)
-        logging.error("Loading Hash %s %s  " % (fullpath, hash))
-        return Thing.objects.filter(parent__pathid=hash).order_by("fullname")
-
-    def get(self, request, fullpath):
-        """
-        Gets a search results HTML fragment containing a series of modules.
-        
-        Args:
-            subject_id: The ID of the subject to get modules for. This ID should be
-                found via the subject_id field found in the respose data from
-                the subjects() view.
-        """
-        return render(request, "list-of-things.html", {"things": self._modules(fullpath)})
 
 
 
