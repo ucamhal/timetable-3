@@ -93,13 +93,13 @@ class SchemalessModel(models.Model):
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         '''
-        Called before save and makes certain data contains a pickled version of _data
+        Called before save and makes certain data contains a json version of _data
         '''
         instance = kwargs['instance']
         if hasattr(instance,"_data") and instance._data is not None:
             instance.update_fields()
             instance.data = json.dumps(instance._data)
-        else:
+        elif instance.data is None: # Only set to nothing if None, metadata might not have been touched.
             instance.data = ""
         
 
