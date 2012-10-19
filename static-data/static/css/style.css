@@ -3,6 +3,10 @@ div#content {
 	margin: 0 auto;
 }
 
+.notImplemented {
+	opacity: .3;
+}
+
 .hideMe {
 	position: absolute;
 	top: -10000px;
@@ -479,5 +483,4 @@ li#advancedSearchSubmit input {
 	right: 10px;
 	margin-right: 10px;
 	height: 50px;
-	width: 140px;
 }
