@@ -9,7 +9,8 @@ define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
 	_.extend(HashController.prototype, {
 		initialize: function () {
 			var self = this;
-
+			// FIXME: modify this code to store the state correctly, only the part parameter is needed, and that should not be called part (as its not a part)
+			// FIXME: "path" might be a better term since thats what it is.
 			_.defaults(this, {
 				parameters: [
 					{

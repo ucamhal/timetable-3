@@ -55,11 +55,7 @@ class ThingAdminForm(forms.ModelForm):
         return self.instance.pathid
     
     def clean_data(self):
-        # The Thing model expects a _data attribute to be set on itself
-        # containing the parsed JSON data to update itself with when saved.
-        # This method serves the dual purpose of ensuring the JSON entered in
-        # the form is valid (reporting errors if it's not) and setting this
-        # _data attribute if the form's JSON is valid.
+        # Validate data is valid json.
         json_data = self.cleaned_data["data"]
         
         # Allow an empty data field
@@ -67,7 +63,7 @@ class ThingAdminForm(forms.ModelForm):
             return ""
         
         try:
-            self.instance._data = json.loads(self.cleaned_data["data"])
+            json.loads(self.cleaned_data["data"])
         except Exception as e:
             raise ValidationError(e.message)
         return self.cleaned_data["data"]

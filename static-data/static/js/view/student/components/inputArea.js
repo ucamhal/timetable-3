@@ -52,7 +52,7 @@ define(['jquery', 'underscore'], function ($, _) {
 				this.activeParts = parts;
 				$("select#courseSelect", this.$el).empty();
 				for(i = 0; i < partsLength; i += 1) {
-					$("select#courseSelect", this.$el).append("<option value=\"" + parts[i].subject_id + "\">" + parts[i].level_name + "</option>");
+					$("select#courseSelect", this.$el).append("<option value=\"" + parts[i].fullpath + "\">" + parts[i].level_name + "</option>");
 				}
 				$("select#courseSelect", this.$el).trigger('change');
 			}
