@@ -2298,5 +2298,82 @@
     },
     "model": "timetables.thing",
     "pk": "180"
+  },
+  {
+    "fields": {
+      "name": "user",
+      "data": "{\"description\": \"Root Thing for all users\"}",
+      "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=",
+      "fullpath": "user",
+      "type": "",
+      "fullname": "All Users"
+    },
+    "model": "timetables.thing",
+    "pk": "100001"
+  },
+  {
+    "fields": {
+      "name": "anonymous",
+      "parent": "100001",
+      "data": "",
+      "pathid": "TBC7RHmFKPKnhjC5zbARnps7z4w=",
+      "fullpath": "user/anonymous",
+      "type": "user",
+      "fullname": "A User"
+    },
+    "model": "timetables.thing",
+    "pk": "100002"
+  },
+  {
+    "fields": {
+      "name": "ieb",
+      "parent": "100001",
+      "data": "",
+      "pathid": "KJ4Vz4FA1ChXVeSFK5CzAewIUxI=",
+      "fullpath": "user/ieb",
+      "type": "user",
+      "fullname": "A User"
+    },
+    "model": "timetables.thing",
+    "pk": "100003"
+  },
+  {
+    "fields": {
+      "name": "hal",
+      "parent": "100001",
+      "data": "",
+      "pathid": "6cNw3dH9KHajMrM--6Cu-BikfQg=",
+      "fullpath": "user/hal",
+      "type": "user",
+      "fullname": "A User"
+    },
+    "model": "timetables.thing",
+    "pk": "100004"
+  },
+  {
+    "fields": {
+      "name": "ib236",
+      "parent": "100001",
+      "data": "",
+      "pathid": "Q71W55dTP6AZ0HfWwJfddDJKUi0=",
+      "fullpath": "user/ib236",
+      "type": "user",
+      "fullname": "A User"
+    },
+    "model": "timetables.thing",
+    "pk": "100005"
+  },
+  {
+    "fields": {
+      "name": "hwtb2",
+      "parent": "100001",
+      "data": "",
+      "pathid": "wbxL_HpKTZ_QA6dX3cjPReztLTo=",
+      "fullpath": "user/hwtb2",
+      "type": "user",
+      "fullname": "A User"
+    },
+    "model": "timetables.thing",
+    "pk": "100006"
   }
 ]
