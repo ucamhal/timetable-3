@@ -2,7 +2,7 @@
   {
     "fields": {
       "name": "tripos",
-      "data": "",
+      "data": "{ \"some\" : \"testdata\" }",
       "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
       "fullpath": "tripos",
       "type": "",
@@ -2207,5 +2207,96 @@
     },
     "model": "timetables.thing",
     "pk": "173"
+  },
+  {
+    "fields": {
+      "name": "lectures",
+      "parent": "122",
+      "data": "",
+      "pathid": "bKoOH_e6T-QVdvm1_hzQF8G8-TE=",
+      "fullpath": "tripos/nst/IA/compsci/lectures",
+      "type": "module",
+      "fullname": "Lectures"
+    },
+    "model": "timetables.thing",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "name": "practicals",
+      "parent": "122",
+      "data": "",
+      "pathid": "Ho4RwH4xse-p58ZSW6bg69_clWY=",
+      "fullpath": "tripos/nst/IA/compsci/practicals",
+      "type": "module",
+      "fullname": "Practicals"
+    },
+    "model": "timetables.thing",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "name": "registration",
+      "parent": "122",
+      "data": "{\"datePattern\": \"Mi1 Th 2-4\", \"type\": \"lecture\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr R. Harle\"]}",
+      "pathid": "5l_veu_zpxtaqIrcsoGtBSBru1A=",
+      "fullpath": "tripos/nst/IA/compsci/registration",
+      "type": "series",
+      "fullname": "Registration"
+    },
+    "model": "timetables.thing",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "name": "comp-fundamentals",
+      "parent": "174",
+      "data": "{\"datePattern\": \"Mi1 MWF 10 ; Mi2 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr R. Harle\"]}",
+      "pathid": "M_kUFqgFclQHLDmEIYr5WH713Xw=",
+      "fullpath": "tripos/nst/IA/compsci/lectures/comp-fundamentals",
+      "type": "series",
+      "fullname": "Computer Fundamentals"
+    },
+    "model": "timetables.thing",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "name": "compsci-foundations",
+      "parent": "174",
+      "data": "{\"datePattern\": \"Mi2 MW 10 ; Mi3-6 MWF 10 ; Mi7 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Prof L. C. Paulson\"]}",
+      "pathid": "Nycc6BIOnWmc_7PcLUjSKiaFSeY=",
+      "fullpath": "tripos/nst/IA/compsci/lectures/compsci-foundations",
+      "type": "series",
+      "fullname": "Foundations of Computer Science"
+    },
+    "model": "timetables.thing",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "name": "discrete-maths-1",
+      "parent": "174",
+      "data": "{\"datePattern\": \"Mi7 MW 10 ; Mi8 MWF 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr S. Staton\"]}",
+      "pathid": "PgonW8LEw7rYQS7Bsr0Ufdg2FT8=",
+      "fullpath": "tripos/nst/IA/compsci/lectures/discrete-maths-1",
+      "type": "series",
+      "fullname": "Discrete Mathematics I"
+    },
+    "model": "timetables.thing",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "name": "practical",
+      "parent": "175",
+      "data": "{\"datePattern\": \"Le1-8 Th 2-4 Th 4-6]\", \"type\": \"practical\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr A. R. Beresford\"]}",
+      "pathid": "KiRSfAiwS57msmaMqPFlnrJJ_A4=",
+      "fullpath": "tripos/nst/IA/compsci/practicals/practical",
+      "type": "series",
+      "fullname": "Practical"
+    },
+    "model": "timetables.thing",
+    "pk": "180"
   }
 ]
