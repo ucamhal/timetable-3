@@ -8,10 +8,53 @@ define(['jquery', 'underscore'], function ($, _) {
 
 	_.extend(Results.prototype, {
 		initialize: function () {
+			var self = this;
+
 			_.defaults(this, {
 				selector: 'body',
 				$el: $(this.selector)
 			});
+
+			$("a.more", this.$el).live('click', function () {
+				switch ($(this).text()) {
+				case 'more':
+					$(this).text('show less');
+					$('.courseMoreInfo', $(this).parent().parent()).slideDown('fast');
+					break;
+				case 'show less':
+					$(this).text('more');
+					$('.courseMoreInfo', $(this).parent().parent()).slideUp('fast');
+					break;
+				}
+
+				event.preventDefault();
+			});
+
+			$("a.btn-add, a.btn-remove", this.$el).live("click", function (event) {
+				if ($(this).is('.btnAddSingleLecture')) {
+					self.toggleButtonState($(this).parent().parent().find("a.btn"), $(this).is(".btn-add"));
+				} else {
+					self.toggleButtonState($(this), $(this).is(".btn-add"));
+					if ($(this).parent().parent().is(".courseMoreInfo")) {
+						if ($(this).parent().parent().find(".btn-add").length <= 0) {
+							self.toggleButtonState($(this).parent().parent().parent().find(".btn-add.btnAddSingleLecture"), true);
+						} else {
+							self.toggleButtonState($(this).parent().parent().parent().find(".btn-remove.btnAddSingleLecture"), false);
+						}
+					}
+				}
+
+				event.preventDefault();
+			});
+
+		},
+
+		toggleButtonState: function ($btn, fromAdd) {
+			if (fromAdd === true) {
+				$btn.removeClass("btn-add btn-success").addClass("btn-remove btn-danger").text("Remove");
+			} else {
+				$btn.removeClass("btn-remove btn-danger").addClass("btn-add btn-success").text("Add");
+			}
 		},
 
 		updateResults: function (thingPath) {
@@ -20,21 +63,6 @@ define(['jquery', 'underscore'], function ($, _) {
         	
         	$.get('/' + thingPath + ".children.html", function (data) {
         		$('ul#resultsList', this.$el).empty().append(data);
-
-        		$('a.more', this.$el).click(function (event) {
-					switch ($(this).text()) {
-					case 'more':
-						$(this).text('show less');
-						$('.courseMoreInfo', $(this).parent().parent()).slideDown('fast');
-						break;
-					case 'show less':
-						$(this).text('more');
-						$('.courseMoreInfo', $(this).parent().parent()).slideUp('fast');
-						break;
-					}
-
-					event.preventDefault();
-				});
         	});
 		}
 	});

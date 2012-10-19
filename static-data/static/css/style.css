@@ -196,6 +196,10 @@ div#results li.course div a.btn {
 	margin-left: 20px;
 }
 
+div#results a.btn-add, div#results a.btn-remove {
+	opacity: .8;
+}
+
 div#results ul#resultsList {
 	width: 100%;
 }
@@ -221,6 +225,10 @@ div#results li.courseSeries div {
 div#results li.courseSeries a.btn {
 	margin-right: 20px;
 	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries div {
+	width: 150px;
 }
 
 div#results ul.courseMoreInfo li.courseSeries a.btn {
@@ -292,6 +300,12 @@ div#results.empty p {
 
 .alert a.btn {
 	margin-top: 15px;
+}
+
+.alert.calendarEventInfo {
+	position: absolute;
+	left: 10px;
+	z-index: 19;
 }
 
 .alertHolder {
