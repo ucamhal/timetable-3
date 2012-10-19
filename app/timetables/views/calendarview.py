@@ -23,11 +23,12 @@ class CalendarView(View):
             def generate():
                 yield "[\n"
                 # TODO: Support ranges
+                pattern = "%s"
                 for e in thing.get_events():
                     metadata = e.metadata
                     allday = metadata.get("x-allday") or False
                     if allday:
-                        yield json.dumps({
+                        yield pattern % json.dumps({
                                     "title" : e.title,
                                     "allDay" : True,
                                     "start" : DateConverter.from_datetime(e.start, True).isoformat(),
@@ -35,7 +36,7 @@ class CalendarView(View):
                                           },
                                      indent=JSON_INDENT)
                     else:
-                        yield json.dumps({
+                        yield pattern % json.dumps({
                                     "title" : e.title,
                                     "allDay" : False,
                                     "start" : DateConverter.from_datetime(e.start, False).isoformat(),
@@ -43,6 +44,7 @@ class CalendarView(View):
                                     "className" : "thing_%s" % thing.type
                                           },
                                      indent=JSON_INDENT)
+                    pattern = ",\n%s"
                 yield "]\n"
 
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
