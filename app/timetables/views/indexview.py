@@ -59,4 +59,8 @@ class IndexView(View):
 
     
     def get(self, request):
-        return render(request, "index.html", {"subjects": self._subjects()})
+        context = {
+                   "subjects": self._subjects(),
+                   "user" : request.user
+                   }
+        return render(request, "index.html", context)

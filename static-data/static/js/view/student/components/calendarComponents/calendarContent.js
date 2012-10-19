@@ -8,6 +8,12 @@ define(['jquery', 'underscore', 'fullcalendar'], function ($, _) {
 
 	_.extend(CalendarContent.prototype, {
 		initialize: function () {
+			var sourcepath = $("#userinfo").attr("userid");
+			if ( ! sourcepath ) {
+				sourcepath = $("#thinginfo").attr("fullpath");		
+			} else {
+				sourcepath = 'user/' + sourcepath; 
+			}
 			_.defaults(this, {
 				selector: 'body',
 				activeView: 'agendaWeek',
@@ -16,6 +22,7 @@ define(['jquery', 'underscore', 'fullcalendar'], function ($, _) {
 
 			this.$el.fullCalendar({
 				defaultView: this.activeView,
+				events: '/' +sourcepath+'.cal.json',
 				allDaySlot: false,
 				minTime: 7,
 				maxTime: 20,

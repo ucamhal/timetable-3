@@ -10,6 +10,7 @@ from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
+from timetables.views.calendarview import CalendarView, CalendarHtmlView
 
 
 admin.autodiscover()
@@ -31,13 +32,15 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.events\.csv$', ExportEvents.as_view(), name="export csv"),
     url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
     # View of the things events
-    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing link"),
+    url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing events view"),
     # Generate an Html view of children
-    url(r'(?P<thing>.*?)\.children\.html$', ChildrenView.as_view(), name="thing view"),
+    url(r'(?P<thing>.*?)\.children\.html$', ChildrenView.as_view(), name="thing childen view"),
+    url(r'(?P<thing>.*?)\.cal\.json', CalendarView.as_view(), name="thing calendar view"),
+    url(r'(?P<thing>.*?)\.cal\.html', CalendarHtmlView.as_view(), name="thing calendar htmlview"),
 
 
     # Generate an Html view of things
-    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing view"),
+    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing depth view"),
     
     # Update service end points
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
