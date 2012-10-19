@@ -1,0 +1,4 @@
+{% load timetables %}
+{% for thing in things %}
+	{% include_thing_template "things/thing-%s.html" thing %}
+{% endfor %}
