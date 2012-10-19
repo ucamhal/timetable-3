@@ -4,17 +4,33 @@ Created on Oct 17, 2012
 @author: ieb
 '''
 from django import forms
-from timetables.models import EventSource, Event
+from timetables.models import EventSource, Event, EventSourceTag, EventTag
 from django.contrib import admin
 from django.conf import settings
 from timetables.utils.reflection import newinstance
 import logging
 import traceback
 
+
+class EventSourceTagInline(admin.TabularInline):
+    model = EventSourceTag
+    extra = 1
+    raw_id_fields = ("eventsource",)
+
+class EventTagInline(admin.TabularInline):
+    model = EventTag
+    extra = 1
+    raw_id_fields = ("event",)
+
+class EventInline(admin.TabularInline):
+    model = Event
+    extra = 1
+
 class EventSourceForm(forms.ModelForm):
     class Meta:
         model = EventSource
         exclude = ('sourcetype','sourceurl',)
+
 
 class EventSourceAdmin(admin.ModelAdmin):
     form = EventSourceForm
@@ -22,6 +38,10 @@ class EventSourceAdmin(admin.ModelAdmin):
     list_filter = ( "sourcetype", )
     search_fields = ( "sourceid",  )    
     actions = ["unpack_events"]
+    inlines = [
+        EventSourceTagInline,
+        EventInline
+    ]
     
     def unpack_events(self, request, queryset):
         # Delete all events connected to this source
