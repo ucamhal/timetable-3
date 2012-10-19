@@ -76,6 +76,14 @@ else:
                         'autocommit': True, # If you set this to False, a transaction will be created every time even if the app doesnt use it. Dont set it to False, transactions are managed differently.
             }
         },
+        'testing': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': "%s/app-data/data.db" % ROOT_PATH, # Or path to database file if using sqlite3.
+            'USER': '', # Not used with sqlite3.
+            'PASSWORD': '', # Not used with sqlite3.
+            'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '', # Set to empty string for default. Not used with sqlite3.
+        }
     }
 
 
