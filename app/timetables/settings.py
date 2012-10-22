@@ -259,7 +259,7 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'console':{
-            'level':'DEBUG',
+            'level':'INFO',
             'class':'logging.StreamHandler',
             'formatter': 'long-console',
         },
@@ -270,22 +270,10 @@ LOGGING = {
             'level': 'CRITICAL',
             'propagate': True,
         },
-        # Show messages at INFO level for loggers under model.management
-        'timetables.model.management': {
-            'handlers': ['console'],
-            'level':'INFO',
-            'propagate': False
-        },
-        # Show messages at DEBUG level for all other timetables loggers
-        'timetables.models': {
-            'handlers': ['console'],
-            'level':'DEBUG',
-            'propagate': False
-        },
         # Show messages at DEBUG level for all other timetables loggers
         'timetables': {
             'handlers': ['console'],
-            'level':'ERROR',
+            'level':'INFO',
             'propagate': False
         },
     },
