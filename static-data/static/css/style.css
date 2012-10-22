@@ -3,6 +3,10 @@ div#content {
 	margin: 0 auto;
 }
 
+.dontDisplayMe {
+	display: none;
+}
+
 .notImplemented {
 	opacity: .3;
 }
@@ -339,6 +343,11 @@ div#calendarData h3, div#calendarData h4 {
 	margin: 0;
 	padding: 0;
 	line-height: 1.6em;
+}
+
+div#calendarData h4 {
+	min-width: 114px;
+	text-align: center;
 }
 
 div#calendarData div#calendarNavigation {

@@ -35,7 +35,7 @@
 					</select>
 					<select id="courseSelect" name="course" class="pull-left">
 					</select>
-
+					<!-- ## Advanced search (currently not implemented)
 					<div class="pull-right">
 						<a id="advancedOptions" class="btn" href="#">More search options <span class="caret"></span></a>
 
@@ -231,7 +231,7 @@
 								</li>
 							</ul>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
 
@@ -427,19 +427,34 @@
 			<div id="calendarHolder" class="pull-right">
 				<div id="calendarHeading">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#">Week</a></li>
-						<li><a href="#">Month</a></li>
-						<li><a href="#">List</a></li>
+						<li class="active agendaWeek"><a href="#">Week</a></li>
+						<li class="month"><a href="#">Month</a></li>
+						<li class="list"><a href="#">List</a></li>
 					</ul>
 
 					<div id="calendarData" class="clearfix">
-						<a href="#" class="btn pull-left">Undo changes</a>
-						<div class="pull-left" id="calendarNavigation">
-							<a class="pull-left badge badge-info" href="#">&lt;</a>
-							<h4 class="pull-left">Week 2</h4>
-							<a class="pull-left badge badge-info" href="#">&gt;</a>
+						<div class="agendaWeek">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<div class="pull-left" id="calendarNavigation">
+								<a class="pull-left badge badge-info" href="#">&lt;</a>
+								<h4 class="pull-left">Week 2</h4>
+								<a class="pull-left badge badge-info" href="#">&gt;</a>
+							</div>
+							<h4 class="pull-right">Michaelmas Term</h4>
 						</div>
-						<h4 class="pull-right">Michaelmas Term</h4>
+						<div class="month dontDisplayMe">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<div class="pull-left" id="calendarNavigation">
+								<a class="pull-left badge badge-info" href="#">&lt;</a>
+								<h4 class="pull-left">October 2012</h4>
+								<a class="pull-left badge badge-info" href="#">&gt;</a>
+							</div>
+							<h4 class="pull-right">Michaelmas Term</h4>
+						</div>
+						<div class="list dontDisplayMe">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<h4 class="pull-right">Michaelmas Term</h4>
+						</div>
 					</div>
 				</div>
 

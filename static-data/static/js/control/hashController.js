@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
+define(["jquery", "underscore", "jquery-bbq"], function ($, _) {
 	"use strict";
 
 	var HashController = function (opt) {
@@ -9,22 +9,24 @@ define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
 	_.extend(HashController.prototype, {
 		initialize: function () {
 			var self = this;
-			
-			_.defaults(this, {
 
+			_.defaults(this, {
 				parameters: {
 					calendarView: function (val) {
-						var viewToSet = 'agendaWeek';
+						var viewToSet = "agendaWeek";
 
 						switch (val) {
-						case 'week':
-							viewToSet = 'agendaWeek';
+						case "week":
+							viewToSet = "agendaWeek";
 							break;
-						case 'month':
-							viewToSet = 'month';
+						case "month":
+							viewToSet = "month";
+							break;
+						case "list":
+							viewToSet = "list";
 							break;
 						}
-						this.calendarView.content.setView(viewToSet);
+						this.calendarView.setView(viewToSet);
 					},
 
 					path: function (thingPath) {
@@ -36,7 +38,7 @@ define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
 				previousState: {}
 			});
 
-			$(window).bind('hashchange', function () {
+			$(window).bind("hashchange", function () {
 				var i,
 					parametersLength = self.parameters.length,
 					currentState = $.bbq.getState(),
@@ -44,7 +46,7 @@ define(['jquery', 'underscore', 'jquery-bbq'], function ($, _) {
 
 				for (key in currentState) {
 					if (currentState.hasOwnProperty(key)) {
-						if (typeof self.parameters[key] !== 'undefined' && (typeof self.previousState[key] === 'undefined' || self.previousState[key] !== currentState[key])) {
+						if (typeof self.parameters[key] !== "undefined" && (typeof self.previousState[key] === "undefined" || self.previousState[key] !== currentState[key])) {
 							self.parameters[key].call(self, currentState[key]);
 						}
 					}
