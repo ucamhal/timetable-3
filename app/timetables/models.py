@@ -9,6 +9,8 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
 
 import logging
 log = logging.getLogger(__name__)
@@ -180,8 +182,24 @@ class Thing(SchemalessModel, HierachicalModel):
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
 
-        
-        
+
+@receiver(user_logged_in)
+def _create_user_thing(sender, request, user, **kwargs):
+    user_path = "user/%s" % user.username
+    user_hash = HierachicalModel.hash(user_path)
+    users_thing = Thing.objects.get(pathid=HierachicalModel.hash("user"))
+    
+    defaults={
+        "name": user.username,
+        "parent": users_thing,
+        "fullname": "A User",
+        "type": "user",
+        "fullpath": user_path
+    }
+    
+    Thing.objects.get_or_create(pathid=user_hash, defaults=defaults)
+
+
 pre_save.connect(Thing._pre_save, sender=Thing)
 
 def _get_upload_path(instance, filename):
@@ -219,10 +237,8 @@ class EventSource(SchemalessModel):
         # So this is the only way
         SchemalessModel._prepare_save(sender,**kwargs)
 
-        
 pre_save.connect(EventSource._pre_save, sender=EventSource)
-    
-    
+
 
 class Event(SchemalessModel):
     '''
