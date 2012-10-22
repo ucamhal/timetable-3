@@ -320,6 +320,12 @@ div#calendarHolder {
 	margin-top: -16px;
 }
 
+ 
+div.fullWidthCalendar {
+	width: 100% ! important;
+}
+
+
 div#content {
 	padding-bottom: 50px;
 	margin-top: -20px;
