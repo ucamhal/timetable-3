@@ -15,7 +15,10 @@
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
 	    <div id="userinfo" style="display:none"
 	        userid="{{ user.username }}"  
-	        ></div>
+	        >
+	        {# used for ajax post operations, I prefer this to the cookie method. #}
+	        {% csrf_token %}
+	        </div>
 		<header id="mainHeader">
 			<h1 id="uniLogo">
 				<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>

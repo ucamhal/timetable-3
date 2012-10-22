@@ -49,6 +49,32 @@ class HierachicalModel(models.Model):
         m = hashlib.sha1()
         m.update(key)
         return base64.urlsafe_b64encode(m.digest())
+
+    @classmethod
+    def treequery(cls, paths, inclusive=True, max_depth=10):
+        '''
+        Get the decendents of this Thing, down to a maximum depth.
+        :param inclusive:
+        :param max_depth:
+        '''
+        pathhashes = [ HierachicalModel.hash(p) for p in paths]
+        q = None
+        if inclusive:
+            q = models.Q(pathid__in=pathhashes)
+        key = "pathid"
+        # Construct an or clause so to find all children though their parents.
+        for i in range(0,max_depth):
+            key = "parent__%s" % key
+            qterm = "%s__in" % key
+            kwargs = {}
+            kwargs[qterm] = pathhashes
+            if q is None:
+                q = models.Q(**kwargs)
+            else:
+                q = q | models.Q(**kwargs)
+        logging.error(q)
+        return q
+
     
     @classmethod
     def _prepare_save(cls, sender, **kwargs):

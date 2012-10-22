@@ -32,9 +32,9 @@ define(['jquery', 'underscore'], function ($, _) {
 
 			$("a.btn-add, a.btn-remove", this.$el).live("click", function (event) {
 				if ($(this).is('.btnAddSingleLecture')) {
-					self.toggleButtonState($(this).parent().parent().find("a.btn"), $(this).is(".btn-add"));
+					self.associate($(this).parent().parent().find("a.btn"), $(this).is(".btn-add"));
 				} else {
-					self.toggleButtonState($(this), $(this).is(".btn-add"));
+					self.associate($(this), $(this).is(".btn-add"));
 					if ($(this).parent().parent().is(".courseMoreInfo")) {
 						if ($(this).parent().parent().find(".btn-add").length <= 0) {
 							self.toggleButtonState($(this).parent().parent().parent().find(".btn-add.btnAddSingleLecture"), true);
@@ -64,7 +64,31 @@ define(['jquery', 'underscore'], function ($, _) {
         	$.get('/' + thingPath + ".children.html", function (data) {
         		$('ul#resultsList', this.$el).empty().append(data);
         	});
-		}
+		},
+		associate : function (source, add) {
+			var self = this;
+			var sourcepath = "";
+			var crsf = "";
+			if ( $("#userinfo").length == 1 ) {
+				sourcepath = 'user/' + $("#userinfo").attr("userid");
+				crsf = $("#userinfo").find("[name=csrfmiddlewaretoken]").val()
+			} else if (  $("#thinginfo").length == 1 ) {
+				sourcepath = $("#thinginfo").attr("fullpath");
+				crsf = $("#thinginfo").find("[name=csrfmiddlewaretoken").val()
+			}
+			var postdata  = {}
+			if ( add ) {
+				postdata['t'] = $(source).attr("data-fullpath");
+			} else {
+				postdata['td'] = $(source).attr("data-fullpath");
+			}
+			postdata['csrfmiddlewaretoken'] = crsf;
+			$.post(sourcepath+".link", postdata, function() {
+				self.toggleButtonState($(source), add);
+			}).error(function() {
+				alert("Failed to "+(add?"add":"remove")+" items");
+			});
+		},
 	});
 
 	return Results;
