@@ -15,7 +15,10 @@
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
 	    <div id="userinfo" style="display:none"
 	        userid="{{ user.username }}"  
-	        ></div>
+	        >
+	        {# used for ajax post operations, I prefer this to the cookie method. #}
+	        {% csrf_token %}
+	        </div>
 		<header id="mainHeader">
 			<h1 id="uniLogo">
 				<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
@@ -222,7 +225,7 @@
 											</div>
 										</li>
 										<li id="advancedSearchSubmit">
-											<input type="submit" value="Search" class="btn btn-primary btn-large" />
+											<input type="submit" value="Search [not implemented]" class="btn btn-primary btn-large notImplemented" />
 										</li>
 									</ul>
 								</li>
@@ -261,6 +264,7 @@
 			</div>
 		</div>
 		-->
+		<!--
 		<div class="alertHolder">
 			<div class="alert alert-block alert-success clearfix">
 				<button type="button" class="close" data-dismiss="alert">x</button>
@@ -269,7 +273,21 @@
 				<a href="#" class="btn btn-success pull-right">Sign in</a>
 			</div>
 		</div>
-		
+		-->
+
+		<!--
+		<div class="calendarEventInfo alert alert-block clearfix">
+			<button type="button" class="close" data-dismiss="alert">x</button>
+			<h5>An introduction to the language of 16th century texts</h5>
+			<span class="courseDatePattern">Wednesday 1pm,</span>
+			<br/>
+			<span class="courseLocation">LT1 William Gates Bdg,</span>
+			<br/>
+			<span class="courseLecturer">Dr R. Harle</span>
+			<a href="#" class="btn btn-danger pull-right">Remove</a>
+		</div>
+		-->
+
 		<div id="content" class="clearfix">
 			<div id="results" class="pull-left">
 				<!-- ## If results are empty -->
@@ -284,7 +302,7 @@
                 		<h5 class="pull-left">Language classes</h5>
                 		<div class="pull-right clearfix">
                 			<a class="pull-left more" href="#">more</a>
-                			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
                 		</div>
                 		<ul class="courseMoreInfo">
                 			<li class="courseSeries clearfix">
@@ -294,7 +312,7 @@
                     				<span class="courseLocation">Sidgiwck Av.</span><br/>
                     				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
             					</div>
-            					<a href="#" class="btn pull-right">Add</a>
+            					<a href="#" class="btn pull-right btn-add">Add</a>
                 			</li>
                 			<li class="courseSeries clearfix">
             					<div class="pull-left">
@@ -303,7 +321,7 @@
                     				<span class="courseLocation">Sidgiwck Av.</span><br/>
                     				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
             					</div>
-            					<a href="#" class="btn pull-right">Add</a>
+            					<a href="#" class="btn pull-right btn-add">Add</a>
                 			</li>
                 		</ul>
                 	</li>
@@ -311,7 +329,7 @@
                 		<h5 class="pull-left">Early Modern French</h5>
                 		<div class="pull-right clearfix">
                 			<a class="pull-left more" href="#">more</a>
-                			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
                 		</div>
                 		<ul class="courseMoreInfo">
                 			<li class="courseSeries clearfix">
@@ -321,7 +339,7 @@
                     				<span class="courseLocation">Sidgiwck Av.</span><br/>
                     				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
             					</div>
-            					<a href="#" class="btn pull-right">Add</a>
+            					<a href="#" class="btn pull-right btn-add">Add</a>
                 			</li>
                 			<li class="courseSeries clearfix">
             					<div class="pull-left">
@@ -330,7 +348,7 @@
                     				<span class="courseLocation">Sidgiwck Av.</span><br/>
                     				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
             					</div>
-            					<a href="#" class="btn pull-right">Add</a>
+            					<a href="#" class="btn pull-right btn-add">Add</a>
                 			</li>
                 		</ul>
                 	</li>
@@ -341,7 +359,7 @@
             				<span class="courseLocation">Sidgiwck Av.</span><br/>
             				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
     					</div>
-    					<a href="#" class="btn pull-right">Add</a>
+    					<a href="#" class="btn pull-right">Add btn-add</a>
         			</li>
 					<li>
                         <h4 class="btn-inverse clearfix">Physics <span class="pull-right">choose from&hellip;</span></h4>
@@ -350,7 +368,7 @@
                         		<h5 class="pull-left">Course A</h5>
                         		<div class="pull-right clearfix">
                         			<a class="pull-left more" href="#">more</a>
-                        			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                        			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
                         		</div>
                         		<ul class="courseMoreInfo">
 	                    			<li class="courseSeries clearfix">
@@ -360,7 +378,7 @@
 		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
 		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
 	                					</div>
-	                					<a href="#" class="btn pull-right">Add</a>
+	                					<a href="#" class="btn pull-right btn-add">Add</a>
 	                    			</li>
 	                    			<li class="courseSeries clearfix">
 	                					<div class="pull-left">
@@ -369,7 +387,7 @@
 		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
 		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
 	                					</div>
-	                					<a href="#" class="btn pull-right">Add</a>
+	                					<a href="#" class="btn pull-right btn-add">Add</a>
 	                    			</li>
 	                    		</ul>
                         	</li>
@@ -377,7 +395,7 @@
                         		<h5 class="pull-left">Course B</h5>
                         		<div class="pull-right clearfix">
                         			<a class="pull-left more" href="#">more</a>
-                        			<a href="#" class="pull-left btnAddSingleLecture btn">Add</a>
+                        			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
                         		</div>
                         		<ul class="courseMoreInfo">
 	                    			<li class="courseSeries clearfix">
@@ -387,7 +405,7 @@
 		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
 		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
 	                					</div>
-	                					<a href="#" class="btn pull-right">Add</a>
+	                					<a href="#" class="btn pull-right btn-add">Add</a>
 	                    			</li>
 	                    			<li class="courseSeries clearfix">
 	                					<div class="pull-left">
@@ -396,7 +414,7 @@
 		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
 		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
 	                					</div>
-	                					<a href="#" class="btn pull-right">Add</a>
+	                					<a href="#" class="btn pull-right btn-add">Add</a>
 	                    			</li>
 	                    		</ul>
                         	</li>

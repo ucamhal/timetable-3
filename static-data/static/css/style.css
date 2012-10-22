@@ -3,6 +3,10 @@ div#content {
 	margin: 0 auto;
 }
 
+.notImplemented {
+	opacity: .3;
+}
+
 .hideMe {
 	position: absolute;
 	top: -10000px;
@@ -192,6 +196,10 @@ div#results li.course div a.btn {
 	margin-left: 20px;
 }
 
+div#results a.btn-add, div#results a.btn-remove {
+	opacity: .8;
+}
+
 div#results ul#resultsList {
 	width: 100%;
 }
@@ -217,6 +225,10 @@ div#results li.courseSeries div {
 div#results li.courseSeries a.btn {
 	margin-right: 20px;
 	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries div {
+	width: 150px;
 }
 
 div#results ul.courseMoreInfo li.courseSeries a.btn {
@@ -290,6 +302,12 @@ div#results.empty p {
 	margin-top: 15px;
 }
 
+.alert.calendarEventInfo {
+	position: absolute;
+	left: 10px;
+	z-index: 19;
+}
+
 .alertHolder {
 	position: absolute;
 	left: 50%;
@@ -301,6 +319,12 @@ div#calendarHolder {
 	width: 590px;
 	margin-top: -16px;
 }
+
+ 
+div.fullWidthCalendar {
+	width: 100% ! important;
+}
+
 
 div#content {
 	padding-bottom: 50px;
@@ -479,5 +503,4 @@ li#advancedSearchSubmit input {
 	right: 10px;
 	margin-right: 10px;
 	height: 50px;
-	width: 140px;
 }

@@ -6,5 +6,9 @@
         <span class="courseLocation">{{ thing.metadata.location }}</span><br>
         <span class="courseLecturer">{{ thing.metadata.people|join:", " }}</span>
     </div>
-    <a href="#" class="btn pull-right">Add</a>
+    {% if thing.fullpath in related %}
+    <a href="#" class="btn pull-right btn-remove btn-danger" data-fullpath="{{ thing.fullpath }}" >Remove</a>
+    {% else %}
+    <a href="#" class="btn pull-right btn-add btn-success" data-fullpath="{{ thing.fullpath }}" >Add</a>
+    {% endif %}
 </li>
