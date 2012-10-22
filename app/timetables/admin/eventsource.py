@@ -40,7 +40,10 @@ class EventSourceAdmin(admin.ModelAdmin):
     actions = ["unpack_events"]
     inlines = [
         EventSourceTagInline,
-        EventInline
+        
+        # Uncomment EventInline to see events in the EventSource editor. Event
+        # form needs work.
+        #EventInline
     ]
     
     def unpack_events(self, request, queryset):
