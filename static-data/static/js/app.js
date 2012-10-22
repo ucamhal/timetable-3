@@ -35,7 +35,7 @@ define([
 
 
 			$('a[href="#"]').click(function (event) {
-				//event.preventDefault();
+				event.preventDefault();
 			});
 
 			$(window).trigger('hashchange');
