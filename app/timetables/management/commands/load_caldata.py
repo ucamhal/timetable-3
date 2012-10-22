@@ -240,10 +240,27 @@ class Command(BaseCommand):
                                              group_template=group_template, 
                                              terms=terms, 
                                              term_name=term_name))
-                            Event.objects.bulk_create(events)
+                            self.bulk_create(events)
                             total_events = total_events + len(events)
             log.info("Created %s events " % total_events)
 
+    def bulk_create(self, events, max_batch_size=500):
+        """
+        Inserts a list of events using Event.objects.bulk_create while ensuring
+        SQLite doesn't get too many at once.
+        
+        Args:
+            events: The events to insert
+            max_batch_size: The maximum number of events to insert at once.
+        """
+        # SQLite blows up if bulk_create exceeds 500 entries it seems. e.g.:
+        # http://stackoverflow.com/questions/9527851/
+        remaining = events
+        while True:
+            to_insert, remaining = remaining[:max_batch_size], remaining[max_batch_size:]
+            if not to_insert:
+                return
+            Event.objects.bulk_create(to_insert)
 
     def _parseSet(self, id, patterns):
         for r in patterns:

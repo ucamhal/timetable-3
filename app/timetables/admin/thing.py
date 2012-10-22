@@ -5,6 +5,7 @@ Created on Oct 17, 2012
 '''
 from timetables.models import Thing
 from timetables.admin.widgets import TextWidget
+from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
 
 from django import forms
 from django.contrib import admin
@@ -20,8 +21,7 @@ class ThingAdminForm(forms.ModelForm):
          'pathid' : TextWidget(),
          'fullpath' : TextWidget()
         }
-        
-        
+    
     def __init__(self, *args, **kwargs):
         kwargs = self.pretty_print_initial_json_data(kwargs)
         
@@ -84,3 +84,7 @@ class ThingAdmin(admin.ModelAdmin):
     list_display = ( "fullpath", "fullname", "type", )
     list_filter = ( "type", "fullname", )
     search_fields = ( "fullpath", "fullname", )
+    inlines = [
+        EventSourceTagInline,
+        EventTagInline
+    ]
