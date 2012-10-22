@@ -29,19 +29,10 @@ class ViewThing(View):
                 except:
                     return  render(request, "things/thing-default.html" , context) 
             else:
-                things = None
-                q = models.Q(pathid=hashid)
                 depth = int(depth)
                 if depth > 10 or depth < 0:
                     return HttpResponseBadRequest("Sorry no more than 10 levels allowed")
-                key = "pathid"
-                # Construct an or clause so to find all children though their parents.
-                for i in range(0,int(depth)):
-                    key = "parent__%s" % key
-                    kwargs = {}
-                    kwargs[key] = hashid
-                    q = q | models.Q(**kwargs)
-                things = Thing.objects.filter(q).order_bu("fullname")     
+                things = Thing.objects.filter(HierachicalModel.treequery([thing], max_depth=depth)).order_by("fullname")
                 return render(request, "list-of-things.html", {"things": things})
 
         except Thing.DoesNotExist:
@@ -52,7 +43,18 @@ class ChildrenView(View):
 
     def get(self, request, thing):
         try:
+            relatedthings = frozenset([])
+            if "t" in request.GET:
+                # Get the things linked to the thing supplied by EventTag or EventSoruceTag
+                # eventtag__event__eventtag__thing__in looks for things linked to the same event
+                # eventsourcetag__eventsource__eventsourcetag__thing for things linked to the same eventsource
+                path = request.GET["t"]
+                relatedthings = frozenset([ x.fullpath for x in Thing.objects.filter(
+                                     models.Q(eventtag__event__eventtag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path])))|
+                                     models.Q(eventsourcetag__eventsource__eventsourcetag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path]))))
+                                           ])
             return render(request, "list-of-things.html",
-                          {"things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing))})
+                          {"things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing)),
+                           "related" : relatedthings })
         except Thing.DoesNotExist:
             return HttpResponseNotFound()

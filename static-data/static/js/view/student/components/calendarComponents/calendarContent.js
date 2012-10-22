@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'fullcalendar'], function ($, _) {
+define(['jquery', 'underscore', 'util/page', 'fullcalendar'], function ($, _, page) {
 	"use strict";
 
 	var CalendarContent = function (opt) {
@@ -8,12 +8,7 @@ define(['jquery', 'underscore', 'fullcalendar'], function ($, _) {
 
 	_.extend(CalendarContent.prototype, {
 		initialize: function () {
-			var sourcepath = $("#userinfo").attr("userid");
-			if ( ! sourcepath ) {
-				sourcepath = $("#thinginfo").attr("fullpath");		
-			} else {
-				sourcepath = 'user/' + sourcepath; 
-			}
+			var sourcepath = page.getThingPath();
 			_.defaults(this, {
 				selector: 'body',
 				activeView: 'agendaWeek',
