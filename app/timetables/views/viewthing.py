@@ -43,7 +43,18 @@ class ChildrenView(View):
 
     def get(self, request, thing):
         try:
+            relatedthings = frozenset([])
+            if "t" in request.GET:
+                # Get the things linked to the thing supplied by EventTag or EventSoruceTag
+                # eventtag__event__eventtag__thing__in looks for things linked to the same event
+                # eventsourcetag__eventsource__eventsourcetag__thing for things linked to the same eventsource
+                path = request.GET["t"]
+                relatedthings = frozenset([ x.fullpath for x in Thing.objects.filter(
+                                     models.Q(eventtag__event__eventtag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path])))|
+                                     models.Q(eventsourcetag__eventsource__eventsourcetag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path]))))
+                                           ])
             return render(request, "list-of-things.html",
-                          {"things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing))})
+                          {"things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing)),
+                           "related" : relatedthings })
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
