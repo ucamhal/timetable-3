@@ -40,7 +40,8 @@ class IncludeThingTemplateNode(Node):
             template = loader.get_template(self.template_name % (thing.type,))
         except:
             template = loader.get_template(self.template_name % ("default",))
-        template_context = Context({
+        template_context = Context(dict_=context)
+        template_context.update({
             'thing': thing
         })
         return template.render(template_context)
