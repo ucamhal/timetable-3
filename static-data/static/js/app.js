@@ -1,11 +1,11 @@
 define([
-	'jquery',
-	'underscore',
-	'view/student/components/inputArea',
-	'view/student/components/results',
-	'view/student/components/calendar',
-	'control/hashController',
-	'bootstrap'
+	"jquery",
+	"underscore",
+	"view/student/components/inputArea",
+	"view/student/components/results",
+	"view/student/components/calendar",
+	"control/hashController",
+	"bootstrap"
 ], function ($, _, InputArea, Results, Calendar, HashController) {
 	"use strict";
 
@@ -16,29 +16,35 @@ define([
 	_.extend(Application.prototype, {
 		initialize: function () {
 
-			var inputArea = new InputArea({
-				selector: 'div#inputArea'
-			}),
-				results = new Results({
-				selector: 'div#results'
-			}),
-				calendar = new Calendar({
-				selector: 'div#calendarHolder',
-				headingSelector: 'div#calendarHeading',
-				contentSelector: 'div#calendar'
-			}),
-				hashController = new HashController({
-				resultsView: results,
-				calendarView: calendar,
-				inputAreaView: inputArea
+			_.mixin({
+				capitalize: function (string) {
+					return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+				}
 			});
 
+			var inputArea = new InputArea({
+					selector: "div#inputArea"
+				}),
+				results = new Results({
+					selector: "div#results"
+				}),
+				calendar = new Calendar({
+					selector: "div#calendarHolder",
+					headingSelector: "div#calendarHeading",
+					contentSelector: "div#calendar"
+				}),
+				hashController = new HashController({
+					resultsView: results,
+					calendarView: calendar,
+					inputAreaView: inputArea
+				});
 
-			$('a[href="#"]').click(function (event) {
+
+			$("a[href=\"#\"]").click(function (event) {
 				event.preventDefault();
 			});
 
-			$(window).trigger('hashchange');
+			$(window).trigger("hashchange");
 		}
 	});
 
