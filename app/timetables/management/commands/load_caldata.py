@@ -257,7 +257,6 @@ class Command(BaseCommand):
         return None
 
     def _get_module(self, detail):
-        log.error("Name is %s " % detail['name'])
         if detail['name'] in KNOWN_MODULES:
             return KNOWN_MODULES[detail['name']]
         parts = detail['name'].split(" ")
@@ -428,7 +427,6 @@ class Command(BaseCommand):
                             if x is not None:
                                 u.append(x)
                         thingpath = "tripos/%s" % ("/".join(u))
-                        log.info("Possible Thing path  %s " % (thingpath))
 
                         types = []
                         if self._tripos_for_url(name) is not None:
@@ -437,10 +435,11 @@ class Command(BaseCommand):
                             types.append("level")
                         if module is not None:
                             types.append("module")
+
                         
                         
                         thing = Thing.create_path(thingpath,    { 
-                                            "fullname" : nameParts['name'][:31]
+                                            "fullname" : detail['name'][:31]
                                             }, types
                                         )
                         if eventSourceLevel == "file":
@@ -453,10 +452,12 @@ class Command(BaseCommand):
                         if "groups" in detail:
                             events = []
                             n = 0
+                            sources = 0
                             for g in detail['groups']:
                                 if eventSourceLevel == "group":
                                     source = self.loadEventSource(("%s %s" % (groupTitle, n))[:63], ("%s:%s" % (dfn,n))[:2047])
                                     EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
+                                    sources = sources + 1
                                 term_name = g.get('term') or "Mi"
                                 term_name = term_name[:2]
                                 group_template = g.get('code') or ""
@@ -467,6 +468,7 @@ class Command(BaseCommand):
                                     if eventSourceLevel == "element":
                                         source = self.loadEventSource(("%s %s" % (groupTitle, title))[:63] , ("%s:%s:%s" % (dfn,n,title))[:2047])
                                         EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
+                                        sources = sources + 1
                                     events.extend(generate(source=source, 
                                              title=title, 
                                              location=location, 
@@ -476,6 +478,8 @@ class Command(BaseCommand):
                                              term_name=term_name))
                             self.bulk_create(events)
                             total_events = total_events + len(events)
+                            log.info("%s (%s) added %s events in %s series" % (thingpath, types[-1], len(events), sources))
+
             log.info("Created %s events " % total_events)
             
     def loadEventSource(self,name,url):
