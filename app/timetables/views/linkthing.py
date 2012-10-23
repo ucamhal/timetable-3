@@ -7,7 +7,8 @@ from django.views.generic.base import View
 from timetables.utils.xact import xact
 from timetables.models import HierachicalModel, Thing, EventSourceTag,\
     EventSource, Event, EventTag
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse,\
+    HttpResponseForbidden
 from django.utils.decorators import method_decorator
 import logging
 
@@ -33,7 +34,22 @@ class LinkThing(View):
     def post(self, request, thing):
         hashid = HierachicalModel.hash(thing)
         try:
-            thing = Thing.objects.get(pathid=hashid)
+            if not request.user.is_staff:
+                if not request.user.is_authenticated():
+                    return HttpResponseForbidden()
+                if not thing.startswith("user/"):
+                    return HttpResponseForbidden()
+                if not thing == "user/%s" % request.user.username:
+                    return HttpResponseForbidden("Not your calendar")
+            try:
+                thing = Thing.objects.get(pathid=hashid)
+            except Thing.DoesNotExist:
+                path = "user/%s" % request.user.username
+                if thing == path:
+                    thing = Thing.create_path(path, {
+                            "type" : "user",
+                            "fullname" : "A Users Calendar"
+                        });
             
             # Delete associations first
             elist = self._expand(request.POST.getlist("esd"))
