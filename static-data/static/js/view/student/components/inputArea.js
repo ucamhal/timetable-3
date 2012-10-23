@@ -29,7 +29,20 @@ define(['jquery', 'underscore'], function ($, _) {
 
 			if(typeof $.bbq.getState('path') === 'undefined') {
 				$('select#iAmInput').trigger('change');
-			}	
+			}
+
+			/*
+			$("#iAmInputText").typeahead({
+				source: (function () {
+					var results = [];
+					$("#iAmInput option").each(function () {
+						results.push($.trim($(this).text()));
+					});
+					console.log(results);
+					return results;
+				}())
+			});
+			*/
 		},
 
 		getThingPathFromSelectedOption: function ($select) {

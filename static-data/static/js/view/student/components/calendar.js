@@ -25,13 +25,29 @@ define([
 				heading: new CalendarHeading({
 					selector: this.headingSelector,
 					parent: this
-				})
+				}),
+				size: {
+					width: 0,
+					height: 0
+				}
 			});
 		},
 
 		setView: function (viewToSet) {
 			this.content.setView(viewToSet);
 			this.heading.setView(viewToSet);
+			this.resize();
+		},
+
+		resize: function (to) {
+			to = to || this.size;
+
+			this.$el.height(to.height);
+			this.$el.width(to.width);
+
+			var calendarHeight = this.$el.height() - this.heading.$el.outerHeight();
+			this.content.setHeight(calendarHeight);
+			this.size = to;
 		}
 	});
 

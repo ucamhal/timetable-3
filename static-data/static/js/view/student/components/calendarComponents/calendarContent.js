@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "util/page", "fullcalendar"], function ($, _, page) {
+define(["jquery", "underscore", "util/page", "view/student/components/calendarComponents/listView", "fullcalendar"], function ($, _, page, ListView) {
 	"use strict";
 
 	var CalendarContent = function (opt) {
@@ -14,6 +14,10 @@ define(["jquery", "underscore", "util/page", "fullcalendar"], function ($, _, pa
 				activeView: "agendaWeek",
 				$el: $(this.selector, this.parent.$el),
 				activeTerm: "michaelmas",
+				listView: new ListView({
+					selector: "#listView",
+					parent: this
+				}),
 				// #TODO This data should be pulled in from a json file
 				terms: {
 					michaelmas: {
@@ -167,8 +171,19 @@ define(["jquery", "underscore", "util/page", "fullcalendar"], function ($, _, pa
 				firstDay: 1,
 				columnFormat: {
 					week: "ddd dd/M"
+				},
+				eventClick: function (calEvent, jsEvent, view) {
+					/*$(jsEvent.target).popover({
+						title: "Calendar event",
+						content: calEvent.title,
+						trigger: 'manual'
+					}).popover('show');*/
 				}
 			});
+		},
+
+		refresh: function () {
+			this.$el.fullCalendar("refetchEvents");
 		},
 
 		showNext: function () {
@@ -184,8 +199,10 @@ define(["jquery", "underscore", "util/page", "fullcalendar"], function ($, _, pa
 
 			if (view === "list") {
 				$(".fc-content", this.$el).hide();
+				this.listView.$el.show();
 			} else {
 				$(".fc-content", this.$el).show();
+				this.listView.$el.hide();
 				this.$el.fullCalendar("changeView", view);
 			}
 		},
@@ -297,6 +314,15 @@ define(["jquery", "underscore", "util/page", "fullcalendar"], function ($, _, pa
 
 			this.activeTerm = activeTerm;
 			return activeTerm;
+		},
+
+		setFullCalendarAspectRatio: function (ratio) {
+			this.$el.fullCalendar('option', 'aspectRatio', ratio);
+		},
+
+		setHeight: function (height) {
+			this.$el.fullCalendar('option', 'height', height);
+			this.$el.height(height);
 		}
 	});
 

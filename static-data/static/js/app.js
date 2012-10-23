@@ -40,11 +40,36 @@ define([
 				});
 
 
+			results.addEventListener("timetableChanged", function (event) {
+				calendar.content.refresh();
+			});
+
 			$("a[href=\"#\"]").click(function (event) {
 				event.preventDefault();
 			});
 
-			$(window).trigger("hashchange");
+			$(window).resize(function (e) {
+				var maxWidth = $(window).width() - 200;
+
+				if(maxWidth < 960) {
+					maxWidth = 960;
+				} else if (maxWidth > 1400) {
+					maxWidth = 1400;
+				}
+
+				$("#inputArea > div").width(maxWidth);
+				$("#uniLogo").width(maxWidth);
+				$("#content").width(maxWidth);
+				$("#actionsContainer").width(maxWidth);
+
+				results.resize();
+				calendar.resize({
+					height: results.$el.height(),
+					width: maxWidth - results.$el.outerWidth() - 50
+				});
+
+			});
+			$(window).trigger("resize").trigger("hashchange");
 		}
 	});
 
