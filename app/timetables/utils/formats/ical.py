@@ -87,42 +87,44 @@ class ICalImporter(object):
             return "%s" % calcomp[key]
                 
 
-    def import_events(self, source, feedfile):
+    def import_events(self, source):
         Event.objects.filter(source=source).delete()
         iCalEvent.ignore_exceptions = False
         Alarm.ignore_exceptions = True
-        cal = Calendar.from_ical(feedfile.read())
-        # Some icalendar feed choose to use X-WR-TIMEZONE to denote the timezone of the creator of the feed.
-        # Although there is some argument out there, [1] this should be used to define the timezone of any
-        # events that don't are not UTC and don't have a TZID reference. The icalendar library does not 
-        # Use this property but since this is a shared calendar system we have to use it at the point of 
-        # sharing, ie when the date is unpacked from the feed.
-        #
-        # 1 http://blog.jonudell.net/2011/10/17/x-wr-timezone-considered-harmful/
-        try:
-            default_timezone = pytz.timezone(cal.get('X-WR-TIMEZONE'))
-        except:
-            default_timezone = None # Unless we put TZ support into the UI to allow users to set their timezone, this is the best we can do.
-        metadata = source.metadata
-        for k,v in cal.iteritems():
-            metadata[k.lower()] = self._get_value(cal,k,default_timezone)
-            logging.error("Calendar %s %s " % (k,v))
-        events = []
-        for e in cal.walk('VEVENT'):
-            event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),
-                          end=DateConverter.to_datetime(e.decoded('DTEND'),defaultzone=default_timezone),
-                          location=self._safe_get(e, "LOCATION", ""),
-                          title=self._safe_get(e, "SUMMARY", ""),
-                          uid=self._safe_get(e, "UID", ""),
-                          source=source)
-            metadata = event.metadata
-            for k,v in e.iteritems():
-                metadata[k.lower()] = self._get_value(e,k,default_timezone)
 
-            metadata['x-allday'] = DateConverter.is_date(e.decoded('DTSTART'))
-            events.append(event)
-        source.save()
-        Event.objects.bulk_create(events)
-        return len(events)
+        with source.sourcefile.file as feedfile:
+            cal = Calendar.from_ical(feedfile.read())
+            # Some icalendar feed choose to use X-WR-TIMEZONE to denote the timezone of the creator of the feed.
+            # Although there is some argument out there, [1] this should be used to define the timezone of any
+            # events that don't are not UTC and don't have a TZID reference. The icalendar library does not 
+            # Use this property but since this is a shared calendar system we have to use it at the point of 
+            # sharing, ie when the date is unpacked from the feed.
+            #
+            # 1 http://blog.jonudell.net/2011/10/17/x-wr-timezone-considered-harmful/
+            try:
+                default_timezone = pytz.timezone(cal.get('X-WR-TIMEZONE'))
+            except:
+                default_timezone = None # Unless we put TZ support into the UI to allow users to set their timezone, this is the best we can do.
+            metadata = source.metadata
+            for k,v in cal.iteritems():
+                metadata[k.lower()] = self._get_value(cal,k,default_timezone)
+                logging.error("Calendar %s %s " % (k,v))
+            events = []
+            for e in cal.walk('VEVENT'):
+                event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),
+                              end=DateConverter.to_datetime(e.decoded('DTEND'),defaultzone=default_timezone),
+                              location=self._safe_get(e, "LOCATION", ""),
+                              title=self._safe_get(e, "SUMMARY", ""),
+                              uid=self._safe_get(e, "UID", ""),
+                              source=source)
+                metadata = event.metadata
+                for k,v in e.iteritems():
+                    metadata[k.lower()] = self._get_value(e,k,default_timezone)
+    
+                metadata['x-allday'] = DateConverter.is_date(e.decoded('DTSTART'))
+                events.append(event)
+            source.save()
+            Event.objects.bulk_create(events)
+            return len(events)
 
 

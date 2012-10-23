@@ -34,28 +34,6 @@ NAME_PATTERNS = (
             re.compile("(?P<level>.*?) in (?P<name>.*)$"),
         )
 
-TERM_STARTS = {
-            "2011" : ( datetime.date(2011,10,04),datetime.date(2012,01,17),datetime.date(2012,04,24) ),
-            "2012" : ( datetime.date(2012,10,02),datetime.date(2013,01,15),datetime.date(2013,04,23) ),
-            "2013" : ( datetime.date(2013,10,8),datetime.date(2014,01,14),datetime.date(2014,04,22) ),
-            "2014" : ( datetime.date(2014,10,07),datetime.date(2015,01,13),datetime.date(2015,04,21) ),
-            "2015" : ( datetime.date(2015,10,06),datetime.date(2016,01,12),datetime.date(2016,04,19) ),
-            "2016" : ( datetime.date(2016,10,04),datetime.date(2017,01,17),datetime.date(2017,04,25) ),
-            "2017" : ( datetime.date(2017,10,03),datetime.date(2018,01,16),datetime.date(2018,04,24) ),
-            "2018" : ( datetime.date(2018,10,02),datetime.date(2019,01,15),datetime.date(2019,04,23) ),
-            "2019" : ( datetime.date(2019,10,8),datetime.date(2020,01,14),datetime.date(2020,04,21) ),
-            "2020" : ( datetime.date(2020,10,06),datetime.date(2021,01,19),datetime.date(2021,04,27) ),
-            "2021" : ( datetime.date(2021,10,05),datetime.date(2022,01,18),datetime.date(2022,04,26) ),
-            "2022" : ( datetime.date(2022,10,04),datetime.date(2023,01,17),datetime.date(2023,04,25) ),
-            "2023" : ( datetime.date(2023,10,03),datetime.date(2024,01,16),datetime.date(2024,04,23) ),
-            "2024" : ( datetime.date(2024,10,8),datetime.date(2025,01,21),datetime.date(2025,04,29) ),
-            "2025" : ( datetime.date(2025,10,07),datetime.date(2026,01,20),datetime.date(2026,04,28) ),
-            "2026" : ( datetime.date(2026,10,06),datetime.date(2027,01,19),datetime.date(2027,04,27) ),
-            "2027" : ( datetime.date(2027,10,05),datetime.date(2028,01,18),datetime.date(2028,04,25) ),
-            "2028" : ( datetime.date(2028,10,03),datetime.date(2029,01,16),datetime.date(2029,04,24) ),
-            "2029" : ( datetime.date(2029,10,02),datetime.date(2030,01,15),datetime.date(2030,04,23) )
-            }
-
 KNOWN_NAMES = {
         "Natural Sciences Tripos" : "nst",
         "Philosophy Tripos" : "phil",

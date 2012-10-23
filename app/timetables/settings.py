@@ -318,7 +318,8 @@ EVENT_EXPORTERS = {
 }
 
 EVENT_IMPORTERS = {
-    "ics" : "timetables.utils.formats.ical.ICalImporter"
+    "ics" : "timetables.utils.formats.ical.ICalImporter",
+    "pattern" : "timetables.utils.formats.datepattern.DatePatternImporter"
 }
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
