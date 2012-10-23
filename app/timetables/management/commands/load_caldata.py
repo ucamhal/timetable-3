@@ -16,6 +16,7 @@ import datetime
 from optparse import make_option
 from django.utils.http import urlencode
 import urllib2
+from timetables.utils import datetimes
 log = logging.getLogger(__name__)
 
 
@@ -318,7 +319,7 @@ class Command(BaseCommand):
         for year in top["years"]:
             log.info("Processing Year %s " % year['name'])
             start_year = int(re.match("(\d{4})", year['name']).group(1))
-            terms = TERM_STARTS[str(start_year)]
+            terms = datetimes.TERM_STARTS[start_year]
             for tripos in year['triposes']:
                 if not 'parts' in tripos or \
                         len(tripos['parts']) == 0 or \
