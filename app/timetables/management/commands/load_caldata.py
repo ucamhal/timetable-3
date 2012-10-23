@@ -319,7 +319,6 @@ class Command(BaseCommand):
         for year in top["years"]:
             log.info("Processing Year %s " % year['name'])
             start_year = int(re.match("(\d{4})", year['name']).group(1))
-            terms = datetimes.TERM_STARTS[start_year]
             for tripos in year['triposes']:
                 if not 'parts' in tripos or \
                         len(tripos['parts']) == 0 or \
@@ -453,7 +452,7 @@ class Command(BaseCommand):
                                              location=location, 
                                              date_time_pattern=date_time_pattern, 
                                              group_template=group_template, 
-                                             terms=terms, 
+                                             start_year=start_year, 
                                              term_name=term_name))
                             self.bulk_create(events)
                             total_events = total_events + len(events)
