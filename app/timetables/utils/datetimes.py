@@ -235,20 +235,3 @@ TERM_STARTS = {
 }
 
 
-def expand_date_pattern(patterns_string, start_year):
-    """ 
-    Expand date pattern(s) into tuples of start and end times
-    
-    Args:
-        patterns_string: string containing one or more date patterns; separate multiple patterns using semi-colon
-        start_year: integer year corresponding to TERM_STARTS
-        
-    Returns:
-        list of tuples containing start and end times
-    """
-    year = Year(TERM_STARTS[start_year])
-    
-    fp = FullPattern(patterns_string)
-    
-    return year.atoms_to_isos(fp.patterns(), True)
-    

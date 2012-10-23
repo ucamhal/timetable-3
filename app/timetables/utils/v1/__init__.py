@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 del(logging)
 
 
-def generate(source, title, location, date_time_pattern, group_template, terms, term_name):
+def generate(source, title, location, date_time_pattern, group_template, terms, term_name, data=None):
     # log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
     year = Year(terms)
     groupTemplate = GroupTemplate(group_template)
@@ -25,9 +25,8 @@ def generate(source, title, location, date_time_pattern, group_template, terms, 
                           source=source,
                           title=title,
                           location=location)
-            event.metadata.update({
-                    "extra" : "Placeholder for extra metadata"
-                        })
+            if data is not None:
+                event.metadata.update(data)
             event.prepare_save()
             events.append(event)
     return events
