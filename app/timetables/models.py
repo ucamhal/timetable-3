@@ -76,7 +76,7 @@ class HierachicalModel(models.Model):
         return q
     
     @classmethod
-    def create_path(cls, path, properties):
+    def create_path(cls, path, properties, types=None):
         '''
         Create a cls based on the path and properties. Will recursively create any parents are required.
         :param path: The full path of the cls
@@ -84,11 +84,15 @@ class HierachicalModel(models.Model):
         '''
         parent = os.path.dirname(path)
         parent_obj = None
-        if parent is not None and parent != ".":
+        if parent is not None and parent != "." and parent != "" and parent != path:
             try:
                 parent_obj = cls.objects.get(pathid=HierachicalModel.hash(parent))
             except cls.DoesNotExist:
-                parent_obj = cls.create_path(parent, {})
+                if types is None:
+                    parent_obj = cls.create_path(parent, {})
+                else:
+                    parent_obj = cls.create_path(parent, {}, types[:-1])
+
 
         pathhash = HierachicalModel.hash(path)
         try:
@@ -97,9 +101,14 @@ class HierachicalModel(models.Model):
             name = os.path.basename(path)
             properties.update({
                         "parent" : parent_obj,
-                        "name" : name,
+                        "name" : name[:31],
                         "fullpath" : path,
                         "pathid" : pathhash })
+            if "type" not in properties:
+                if types:
+                    properties['type'] = types[-1]
+                else:
+                    properties['type'] = "undefined"
             return cls.objects.create(**properties)
 
 
