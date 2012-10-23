@@ -65,7 +65,7 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
         		$('ul#resultsList', this.$el).empty().append(data);
         	});
 		},
-		associate : function (source, add) {
+		associate: function (source, add) {
 			var self = this;
 			var sourcepath = page.getThingPath();
 			var crsf = page.getCrsf();
@@ -78,10 +78,25 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			postdata['csrfmiddlewaretoken'] = crsf;
 			$.post(sourcepath+".link", postdata, function() {
 				self.toggleButtonState($(source), add);
+				self.dispatchEvent("timetableChanged");
 			}).error(function() {
 				alert("Failed to "+(add?"add":"remove")+" items");
 			});
 		},
+
+		addEventListener: function (eventName, callback) {
+			this.$el.bind(eventName, callback);
+		},
+
+		dispatchEvent: function (eventName) {
+			this.$el.trigger(eventName);
+		},
+
+		resize: function () {
+			var topOffset = this.$el.offset().top;
+			var heightToSet = $(window).height() - 30 - topOffset;
+			this.$el.height(heightToSet);
+		}
 	});
 
 	return Results;
