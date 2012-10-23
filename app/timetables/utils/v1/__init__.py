@@ -11,7 +11,7 @@ del(logging)
 
 
 def generate(source, title, location, date_time_pattern, group_template, terms, term_name):
-    log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
+    # log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
     year = Year(terms)
     groupTemplate = GroupTemplate(group_template)
     events = []

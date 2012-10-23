@@ -9,8 +9,6 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
-from django.contrib.auth.signals import user_logged_in
-from django.dispatch import receiver
 
 import logging
 log = logging.getLogger(__name__)
@@ -76,6 +74,43 @@ class HierachicalModel(models.Model):
                 q = q | models.Q(**kwargs)
         logging.error(q)
         return q
+    
+    @classmethod
+    def create_path(cls, path, properties, types=None):
+        '''
+        Create a cls based on the path and properties. Will recursively create any parents are required.
+        :param path: The full path of the cls
+        :param properties: The properties of the cls. If fullpath or pathid are set they will be ignored
+        '''
+        parent = os.path.dirname(path)
+        parent_obj = None
+        if parent is not None and parent != "." and parent != "" and parent != path:
+            try:
+                parent_obj = cls.objects.get(pathid=HierachicalModel.hash(parent))
+            except cls.DoesNotExist:
+                if types is None:
+                    parent_obj = cls.create_path(parent, {})
+                else:
+                    parent_obj = cls.create_path(parent, {}, types[:-1])
+
+
+        pathhash = HierachicalModel.hash(path)
+        try:
+            return cls.objects.get(pathid=pathhash)
+        except cls.DoesNotExist:
+            name = os.path.basename(path)
+            properties.update({
+                        "parent" : parent_obj,
+                        "name" : name[:31],
+                        "fullpath" : path,
+                        "pathid" : pathhash })
+            if "type" not in properties:
+                if types:
+                    properties['type'] = types[-1]
+                else:
+                    properties['type'] = "undefined"
+            return cls.objects.create(**properties)
+
 
     
     @classmethod
@@ -181,23 +216,6 @@ class Thing(SchemalessModel, HierachicalModel):
         HierachicalModel._prepare_save(sender,**kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
-
-
-@receiver(user_logged_in)
-def _create_user_thing(sender, request, user, **kwargs):
-    user_path = "user/%s" % user.username
-    user_hash = HierachicalModel.hash(user_path)
-    users_thing = Thing.objects.get(pathid=HierachicalModel.hash("user"))
-    
-    defaults={
-        "name": user.username,
-        "parent": users_thing,
-        "fullname": "A User",
-        "type": "user",
-        "fullpath": user_path
-    }
-    
-    Thing.objects.get_or_create(pathid=user_hash, defaults=defaults)
 
 
 pre_save.connect(Thing._pre_save, sender=Thing)

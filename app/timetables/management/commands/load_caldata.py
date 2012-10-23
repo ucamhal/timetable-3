@@ -10,8 +10,12 @@ import os
 
 import logging
 from timetables.utils.v1 import generate
-from timetables.models import EventSource, HierachicalModel, Event
+from timetables.models import EventSource, HierachicalModel, Event, Thing,\
+    EventSourceTag
 import datetime
+from optparse import make_option
+from django.utils.http import urlencode
+import urllib2
 log = logging.getLogger(__name__)
 
 
@@ -51,10 +55,166 @@ TERM_STARTS = {
             "2028" : ( datetime.date(2028,10,03),datetime.date(2029,01,16),datetime.date(2029,04,24) ),
             "2029" : ( datetime.date(2029,10,02),datetime.date(2030,01,15),datetime.date(2030,04,23) )
             }
+
+KNOWN_NAMES = {
+        "Natural Sciences Tripos" : "nst",
+        "Philosophy Tripos" : "phil",
+        "Music Tripos" : "music",
+        "Music Studies" : "music",
+        "Musical Composition" : "music",
+        "Master of Music (Choral Studies)" : "music",
+        "MML" : "mml",
+        "Computational Biology" : "compbio",
+        "Real Estate Finance" : "real",
+        "Environmental Policy" : "enviro",
+        "Land Economy Tripos" : "land",
+        "Politics, Psychology and Sociology Tripos" : "pps",
+        "International Relations (PT)" : "intrel",
+        "Veterinary Medicine 6th Year" : "vet",
+        "Veterinary Medicine 5th Year" : "vet",
+        "Veterinary Medicine 4th Year" : "vet",
+        "Veterinary Medicine 3rd Year" : "vet",
+        "Veterinary Medicine 2nd Year" : "vet",
+        "Veterinary Medicine 1st Year" : "vet",
+        "Architecture Tripos" :"arch",
+        "History of Art Tripos" : "art",
+        "Environmental Design in Architecture Option A" : "envdesa",
+        "Environmental Design in Architecture Option B" : "envdesb",
+        "History of Art and Architecture" : "hisart",
+        "AMES" : "ames",
+        "Asian and Middle Eastern Studies (Chinese Studies)" : "ames",
+        "Philosophy" : "phil",
+        "Master of Music (Choral Studies)" : "music",
+        "Screen Media and Cultures" : "screen",
+        "Russian Studies" : "russian",
+        "European Literature and Culture" : "eurolit",
+        "Linguistics Tripos" : "ling",
+        "Certificate for Humanities Computing for Languages" : "crash",
+        "Medical and Veterinary Sciences Tripos IA, IB and II" : "vet",
+        "Non-examinable Mathematics courses for Graduates" : "maths",
+        "Mathematics Tripos" : "maths",
+        "Master of Law " : "law",
+        "Law Tripos" : "law",
+        "Planning, Growth and Regeneration" : "plan",
+        "Land Economy Research" : "landres",
+        "Land Economy Tripos" : "land",
+        "Social Anthropology" : "anth",
+        "Social and Developmental Psychology" : "sdpsy",
+        "Engineering Tripos" : "eng",
+        "Education (PCGE)" : "edu",
+        "Master of Education (Option A)" : "edu",
+        "Education Tripos" : "edu",
+        "Economics" :  "econ",
+        "Advanced Chemical Engineering" : "eng", 
+        "Advanced Computer Science Option A" : "cs", 
+        "Advanced Computer Science Option B" : "cs", 
+        "American Literature" : "alit",
+        "Anglo-Saxon, Norse & Celtic" : "asnc",
+        "Anglo-Saxon, Norse and Celtic" : "asnc",
+        "Archaeological Research" : "archanth",
+        "Archaeology" : "archanth",
+        "Archaeology and Anthropology" : "archanth",
+        "Asian and Middle Eastern Studies (East Asian Studies)" : "ames",
+        "Asian and Middle Eastern Studies (Hebrew Studies)" : "ames",
+        "Asian and Middle Eastern Studies (Middle Eastern & Islamic Studies)" : "ames",
+        "Asian and Middle Eastern Studies (Sanskrit & South Asian Studies)" : "ames",
+        "Assyriology" : "ames",
+        "Bioscience Enterprise" : "biosci",
+        "Chemical Engineering Tripos" : "chemeng",
+        "Classical Tripos" : "classics",
+        "Classical Tripos Prelim to" : "classics",
+        "Clinical Medicine" : "med",
+        "Clinical Science - Translational Medicine and Theraputics (TMAT)" : "med",
+        "Computer Science Tripos" : "cs",
+        "Conservation Leadership" : "cons",
+        "Early Modern History" : "hist",
+        "Economic Research" : "econ",
+        "Economic and Social History" : "econ",
+        "Economics Tripos" : "econ",
+        "Education (Option B Thematic Route)" : "edu",
+        "Egyptology" : "classics",
+        "Engineering" : "eng",
+        "English Studies [18th Century & Romantic]" : "english",
+        "English Tripos" : "english",
+        "Environment, Society and Development" : "env",
+        "Environmental Science" : "env",
+        "Geographical Research" : "geo",
+        "Geographical Tripos" : "geo",
+        "Graduate Courses" : "grad",
+        "Historical Studies" : "his",
+        "Historical Tripos" : "his",
+        "History Phil & Sociology of Science, Technology & Medicine" : "his",
+        "Interdisciplinary Design for the Built Environment (PT)" : "land",
+        "International Relations Option A" : "law",
+        "International Relations Option B" : "law",
+        "Jewish-Christian Relations (PT)" : "law",
+        "Latin American Studies" : "latin",
+        "Management Studies Tripos" : "judge",
+        "Master of Education (Option B)" : "edu",
+        "Master of Law" : "law",
+        "Medieval History" : "mml",
+        "Medieval and Renaissance Literature" : "mlit",
+        "Micro- and Nanotechnology" : "bio",
+        "Modern European History" : "hist",
+        "Modern Society and Global Transformations" : "hist",
+        "Multi-Disciplinary Gender Studies" : "med",
+        "Polar Studies" : "polar",
+        "Political Thought and Intellectual History" : "pol",
+        "Politics" : "pol",
+        "Scientific Computing" : "cs",
+        "Theological and Religious Studies Tripos" : "relig",
+        "Theology and Religious Studies" : "relig"
+        }
+KNOWN_LEVELS = {
+                "I" : "I",
+                "IA" : "IA",
+                "IB" : "IB",
+                "II" : "II",
+                "IIA" : "IIA",
+                "IIB" : "IIB",
+                "III" : "III",
+                "MPhil" : "MPhil",
+                "Veterinary Medicine 6th Year" : "6",
+                "Veterinary Medicine 5th Year" : "5",
+                "Veterinary Medicine 4th Year" : "4",
+                "Veterinary Medicine 3rd Year" : "3",
+                "Veterinary Medicine 2nd Year" : "2",
+                "Veterinary Medicine 1st Year" : "1",
+                "MSt" : "MSt",
+                "Medical and Veterinary Sciences Tripos IA, IB and II" : "UG",
+                "Non-examinable Mathematics courses for Graduates" : "grad",
+                "Master of Law " : "MLLB",
+                "MRes" : "MRes",
+                "Master of Education (Option A)" : "medu",
+                "Master of Education (Option B)" : "medu",
+                "Management Studies Tripos" : "mba",
+                "MEng" : "MEng"
+        }
+
+KNOWN_MODULES = {
+                 "Entire course" : None
+        }
 class Command(BaseCommand):
     args = '<path_to_caldata_location> [list]|[<Subject::level> <Subject::level>] '
     help = 'Loads test data to populate the db for the first time, allowing dump'
 
+    option_list = BaseCommand.option_list + (
+        make_option('--file',
+            action='store_true',
+            dest='source_file',
+            default=False,
+            help='Map files to EventSource objects'),
+        make_option('--group',
+            action='store_true',
+            dest='source_group',
+            default=False,
+            help='Map groups to EventSource objects'),
+        make_option('--element',
+            action='store_true',
+            dest='source_element',
+            default=False,
+            help='Map element to EventSource objects'),
+        )
 
     def handle(self, *args, **options):
         if not args or len(args) == 0:
@@ -70,11 +230,50 @@ class Command(BaseCommand):
             self.load_calendar_data(None, args[0], listOnly)
         else:
             nameFilter = []
+            eventSourceLevel = "file" 
+            if options.get("source_group"):
+                eventSourceLevel = "group" 
+            if options.get("source_element"):
+                eventSourceLevel = "element" 
             for a in args[1:]:
                 nameFilter.append(a.lower())
-            self.load_calendar_data(nameFilter, args[0], listOnly)
+            
+            self.load_calendar_data(nameFilter, args[0], listOnly, eventSourceLevel)
+            
+    def _for_url(self, name):
+        if name is None:
+            return None
+        return urllib2.quote(name.strip().lower().replace(" ","_").encode("utf8"))
+    
+    def _get_level(self, nameParts):
+        if "level" in nameParts:
+            if nameParts["level"] in KNOWN_LEVELS:
+                return KNOWN_LEVELS[nameParts["level"]]
+            log.error("No Url Mapping for parsed level %s " % nameParts["level"])
+            return nameParts["level"]
+        if nameParts["name"] in KNOWN_LEVELS:
+            return KNOWN_LEVELS[nameParts["name"]]
+        log.error("No Url Mapping for named level %s " % nameParts["name"])
+        return None
 
-    def load_calendar_data(self, nameFilter, caldir, listOnly):
+    def _get_module(self, detail):
+        if detail['name'] in KNOWN_MODULES:
+            return KNOWN_MODULES[detail['name']]
+        parts = detail['name'].split(" ")
+        if parts[-1] in KNOWN_LEVELS:
+            return " ".join(parts[:-1])
+        return " ".join(parts)
+
+    def _tripos_for_url(self, name):
+        a = True
+        s = ""
+        name = name.strip()
+        if name in KNOWN_NAMES:
+            return urllib2.quote(KNOWN_NAMES[name].encode("utf8"))
+        log.error("No Url Mapping for %s " % name)
+        return urllib2.quote(name.strip().lower().replace(" ","_").encode("utf8"))
+
+    def load_calendar_data(self, nameFilter, caldir, listOnly, eventSourceLevel="file"):
         # Scan the eventdata subdir
         # For each json file found parse and load
         """
@@ -125,6 +324,7 @@ class Command(BaseCommand):
                     "name": "Architecture & History of Art"
                 },
         """
+        
         caldir = os.path.abspath(caldir)
         topF = open("%s/top.json" % caldir)
         top = json.loads(topF.read())
@@ -149,6 +349,7 @@ class Command(BaseCommand):
                     continue
                 if listOnly:
                     log.info("Processing Tripos %s" % (tripos['name']))
+                    
                 triposId = self._parseId(tripos['parts'][0]['id'])
                 if triposId is None:
                     continue
@@ -170,6 +371,7 @@ class Command(BaseCommand):
                     if nameParts is None:
                         nameParts = {"name" : p["name"] }
                         log.error("Failed to parse name  %s " % p["name"])
+                    '''
 
                     if 'level' in nameParts:
                         partId = "%s::%s" % (nameParts['name'], nameParts['level'])
@@ -179,8 +381,8 @@ class Command(BaseCommand):
                         if listOnly:
                             log.info("Skipping Part triposId %s  Part %s " % (triposCode, partId))
                         continue
-
-                    log.info("Processing Part triposId %s  Part %s " % (triposCode, partId))
+                    '''
+                    log.info("Processing Part triposId %s  Part %s " % (p["name"], nameParts))
                     if listOnly:
                         continue
 
@@ -189,7 +391,7 @@ class Command(BaseCommand):
 
 
                     dre = re.compile("details_%s\d*.json$" % p['id'])
-                    log.info("Scanning with pattern %s " % dre.pattern)
+                    # log.info("Scanning with pattern %s " % dre.pattern)
 
                     organiser = "Unknown"
 
@@ -197,19 +399,15 @@ class Command(BaseCommand):
                         if not dre.match(dfn):
                             continue
                         detailFileName = "%s/%s" % (caldir, dfn)
-                        log.info("Found %s " % detailFileName)
+                        # log.info("Found %s " % detailFileName)
                         detailF = open(detailFileName)
                         detail = json.loads(detailF.read())
                         detailF.close()
                         
-                        source, created = EventSource.objects.get_or_create(sourceid=HierachicalModel.hash(dfn))
-                        if created:
-                            source.sourceurl = dfn
-                        else:
-                            Event.objects.filter(source=source).delete()
                         
                         groupTitle = "Unknown"
                         subjectName = "Unknown"
+                        level = "0"
                         if "name" in detail:
                             subjectName = detail['name']
                             groupTitle = detail['name']
@@ -220,12 +418,46 @@ class Command(BaseCommand):
                             level = nameParts['name']
                             groupTitle = nameParts['name']
 
+                        name = nameParts['name']
+                        level = self._get_level(nameParts)
+                        module = self._get_module(detail)
+                        
+                        u = []
+                        for x in [self._tripos_for_url(name), level, self._for_url(module) ]:
+                            if x is not None:
+                                u.append(x)
+                        thingpath = "tripos/%s" % ("/".join(u))
+
+                        types = []
+                        if self._tripos_for_url(name) is not None:
+                            types.append("tripos")
+                        if level is not None:
+                            types.append("level")
+                        if module is not None:
+                            types.append("module")
+
+                        
+                        
+                        thing = Thing.create_path(thingpath,    { 
+                                            "fullname" : detail['name'][:31]
+                                            }, types
+                                        )
+                        if eventSourceLevel == "file":
+                            source = self.loadEventSource(groupTitle[:63], dfn[:2047])
+                            EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
+
                         # Todo: create an Thing here to associate with the source departments/department/subject/name
                         
 
                         if "groups" in detail:
                             events = []
+                            n = 0
+                            sources = 0
                             for g in detail['groups']:
+                                if eventSourceLevel == "group":
+                                    source = self.loadEventSource(("%s %s" % (groupTitle, n))[:63], ("%s:%s" % (dfn,n))[:2047])
+                                    EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
+                                    sources = sources + 1
                                 term_name = g.get('term') or "Mi"
                                 term_name = term_name[:2]
                                 group_template = g.get('code') or ""
@@ -233,6 +465,10 @@ class Command(BaseCommand):
                                     location = e.get('where') or g.get('location') or "Unknown"
                                     title = e.get('what') or groupTitle or 'Unnamed'
                                     date_time_pattern = g.get('when') or ""
+                                    if eventSourceLevel == "element":
+                                        source = self.loadEventSource(("%s %s" % (groupTitle, title))[:63] , ("%s:%s:%s" % (dfn,n,title))[:2047])
+                                        EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
+                                        sources = sources + 1
                                     events.extend(generate(source=source, 
                                              title=title, 
                                              location=location, 
@@ -242,7 +478,20 @@ class Command(BaseCommand):
                                              term_name=term_name))
                             self.bulk_create(events)
                             total_events = total_events + len(events)
+                            log.info("%s (%s) added %s events in %s series" % (thingpath, types[-1], len(events), sources))
+
             log.info("Created %s events " % total_events)
+            
+    def loadEventSource(self,name,url):
+        source, created = EventSource.objects.get_or_create(sourceid=name)
+        if created:
+            source.sourceurl = url
+            source.type = "S"
+            source.save()
+        else:
+            Event.objects.filter(source=source).delete()
+        return source
+
 
     def bulk_create(self, events, max_batch_size=500):
         """

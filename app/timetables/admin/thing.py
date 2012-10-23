@@ -84,6 +84,7 @@ class ThingAdmin(admin.ModelAdmin):
     list_display = ( "fullpath", "fullname", "type", )
     list_filter = ( "type", "fullname", )
     search_fields = ( "fullpath", "fullname", )
+    list_editable = ("type",)
     inlines = [
         EventSourceTagInline,
         EventTagInline
