@@ -3,6 +3,10 @@ div#content {
 	margin: 0 auto;
 }
 
+.dontDisplayMe {
+	display: none;
+}
+
 .notImplemented {
 	opacity: .3;
 }
@@ -108,7 +112,7 @@ div#results {
 	border-width: 1px;
 	border-color: #d3d3d3;
 
-	height: 543px;
+	min-height: 300px;
 	overflow: hidden;
 	background-color: #f3f3f3;
 	position: relative;
@@ -320,6 +324,10 @@ div#calendarHolder {
 	margin-top: -16px;
 }
 
+div#calendarHolder div#calendar {
+	overflow-y: scroll;
+}
+
  
 div.fullWidthCalendar {
 	width: 100% ! important;
@@ -327,7 +335,6 @@ div.fullWidthCalendar {
 
 
 div#content {
-	padding-bottom: 50px;
 	margin-top: -20px;
 }
 
@@ -341,6 +348,11 @@ div#calendarData h3, div#calendarData h4 {
 	line-height: 1.6em;
 }
 
+div#calendarData h4 {
+	min-width: 114px;
+	text-align: center;
+}
+
 div#calendarData div#calendarNavigation {
 	margin-left: 90px;
 }
@@ -352,6 +364,34 @@ div#calendarData div#calendarNavigation h4 {
 
 div#calendarData div#calendarNavigation a {
 	margin-top: 6px;
+}
+
+
+div#calendar div#listViewList h4 {
+	width: 200px;
+	text-align: right;
+}
+
+div#calendar div#listViewList h4, div#calendar div#listViewList h5 {
+	margin: 0;
+	
+}
+
+div#calendar div#listViewList ul {
+	margin: 0;
+	list-style-type: none;
+}
+
+div#calendar div#listViewList ul ul {
+	width: 250px;
+	margin-left: 30px;
+	margin-bottom: 20px;
+}
+
+div#calendar div#listViewList ul ul li {
+	padding-bottom: 20px;
+	line-height: 1.3em;
+	margin-right: 0;
 }
 
 div#advancedSearch {

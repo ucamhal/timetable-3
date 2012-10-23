@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function ($, _) {
+define(["jquery", "underscore"], function ($, _) {
 	"use strict";
 
 	var CalendarHeading = function (opt) {
@@ -11,37 +11,82 @@ define(['jquery', 'underscore'], function ($, _) {
 			var self = this;
 
 			_.defaults(this, {
-				selector: 'body',
-				$el: $(this.selector, this.parent.$el)
+				selector: "body",
+				$el: $(this.selector, this.parent.$el),
+				activeView: "agendaWeek"
 			});
 
-			$('#calendarData a', this.$el).click(function (event) {
+			$("#calendarData a", this.$el).live("click", function (event) {
 				switch ($(this).text()) {
-				case '<':
+				case "<":
 					self.parent.content.showPrev();
 					break;
-				case '>':
+				case ">":
 					self.parent.content.showNext();
 					break;
 				}
+
+				self.updateTerm();
+				self.updateTimeIndication();
 			});
 
-			$('.nav a', this.$el).click(function (event) {
-				if ($(this).parent().is('.active') === false) {
-					$('#calendarHolder .nav li').removeClass('active');
-					$(this).parent().addClass('active');
-					self.updateHash();
-				}
-
+			$(".nav a", this.$el).live("click", function (event) {
+				self.updateCalendarViewHashTo($(this).text().toLowerCase());
 				event.preventDefault();
 			});
 
-			self.updateHash();
+			if (typeof $.bbq.getState("calendarView") === "undefined") {
+				self.updateCalendarViewHashTo("week");
+			}
 		},
 
-		updateHash: function () {
+		setView: function (viewToSet) {
+			this.activeView = viewToSet;
+			$("#calendarData > div", this.$el).hide();
+			$("#calendarData ." + viewToSet, this.$el).show();
+			$(".nav li", this.$el).removeClass("active").filter("." + viewToSet).addClass("active");
+			this.updateTerm();
+			this.updateTimeIndication();
+		},
+
+		updateTerm: function () {
+			var activeTerm = this.parent.content.getActiveTerm(),
+				textToChange = "No term active";
+
+			if (activeTerm) {
+				textToChange = _(activeTerm).capitalize() + " Term";
+			}
+
+			$("#calendarData > div > h4", this.$el).text(textToChange);
+		},
+
+		updateTimeIndication: function () {
+
+			switch (this.activeView) {
+			case "month":
+				var activeDate = this.parent.content.getActiveDate(),
+					activeMonth = this.parent.content.getFullMonthFromDate(activeDate),
+					activeYear = this.parent.content.getYearFromDate(activeDate);
+				$("#calendarNavigation > h4", this.$el).text(_(activeMonth).capitalize() + " " + activeYear);
+				//activeMonth = this.parent.content.getFullYearFromDate(this.parent.content.getActiveDate());
+				break;
+			case "agendaWeek":
+				var textToChange = "Outside term",
+					activeWeekInTerm = this.parent.content.getActiveWeekInCurrentTerm();
+
+				if (activeWeekInTerm) {
+					textToChange = "Week " + activeWeekInTerm;
+				}
+
+				$("#calendarNavigation > h4", this.$el).text(textToChange);
+				break;
+			}
+
+		},
+
+		updateCalendarViewHashTo: function (state) {
 			$.bbq.pushState({
-				calendarView: $('.nav li.active a', this.$el).text().toLowerCase()
+				calendarView: state
 			});
 		}
 	});
