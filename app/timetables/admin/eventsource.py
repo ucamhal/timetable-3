@@ -47,22 +47,8 @@ class EventSourceAdmin(admin.ModelAdmin):
     ]
     
     def unpack_events(self, request, queryset):
-        # Delete all events connected to this source
-        Event.objects.filter(source__in=queryset).delete()
-        imported = 0
-        sources = 0
-        # Scan the file
-        for event_source in queryset:
-            try:
-                import_classname = settings.EVENT_IMPORTERS.get(event_source.sourcetype)
-                if not import_classname:
-                    import_classname = settings.EVENT_IMPORTERS['ics']
-                importer = newinstance(import_classname)
-                imported = imported + importer.import_events(event_source)
-                sources = sources + 1
-            except:
-                logging.error(traceback.format_exc())
-                raise
+        sources, imported = Event.objects.unpack_sources(queryset)
         self.message_user(request, "%s sources successfully unpacked producing %s events " % (sources, imported) )
+        
         
     unpack_events.description = "Extract Events from the Event Source"

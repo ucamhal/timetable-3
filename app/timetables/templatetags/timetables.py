@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from django import template
 
 import json, logging
-from django.template.base import Node, Variable
+from django.template.base import Node, Variable, TemplateDoesNotExist
 from django.template import loader
 from django.template.context import Context
 
@@ -38,7 +38,7 @@ class IncludeThingTemplateNode(Node):
         thing = self.context_thing.resolve(context)
         try:
             template = loader.get_template(self.template_name % (thing.type,))
-        except:
+        except TemplateDoesNotExist:
             template = loader.get_template(self.template_name % ("default",))
         template_context = Context(dict_=context)
         template_context.update({

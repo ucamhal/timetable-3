@@ -72,8 +72,12 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			var postdata  = {}
 			if ( add ) {
 				postdata['t'] = $(source).attr("data-fullpath");
+				postdata['es'] = $(source).attr("data-eventsourceid");
+				postdata['e'] = $(source).attr("data-eventid");
 			} else {
 				postdata['td'] = $(source).attr("data-fullpath");
+				postdata['esd'] = $(source).attr("data-eventsourceid");
+				postdata['ed'] = $(source).attr("data-eventid");
 			}
 			postdata['csrfmiddlewaretoken'] = crsf;
 			$.post(sourcepath+".link", postdata, function() {
