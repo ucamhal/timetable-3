@@ -19,10 +19,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r"^$", IndexView.as_view(), name="thing view default"),
-    url(r"^index.html$", IndexView.as_view(), name="thing view index"),
+    url(r"^index\.html$", IndexView.as_view(), name="thing view index"),
 
     url(r"^editor$", AdminView.as_view(), name="admin"),
-    url(r"^editor/index.html$", AdminView.as_view(), name="admin"),
+    url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
     # Django admin interface (NOT timetables administrators)
     url(r'^admin/', include(admin.site.urls)),
@@ -38,7 +38,7 @@ urlpatterns = patterns('',
     # View of the things events
     url(r'(?P<thing>.*)\.events\.html$', ViewEvents.as_view(), name="thing events view"),
     # Generate an Html view of children
-    url(r'(?P<  >.*?)\.children\.html$', ChildrenView.as_view(), name="thing childen view"),
+    url(r'(?P<thing>.*?)\.children\.html$', ChildrenView.as_view(), name="thing childen view"),
     url(r'(?P<thing>.*?)\.cal\.json', CalendarView.as_view(), name="thing calendar view"),
     url(r'(?P<thing>.*?)\.cal\.html', CalendarHtmlView.as_view(), name="thing calendar htmlview"),
 
