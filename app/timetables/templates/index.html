@@ -10,19 +10,18 @@
 
         <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
 	</head>
-	<body>
+	<body id="student">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
-	    <div id="userinfo" style="display:none"
-	        userid="{{ user.username }}"  
-	        >
+	    <div id="userinfo" style="display:none" userid="{{ user.username }}" class="dontDisplayMe">
 	        {# used for ajax post operations, I prefer this to the cookie method. #}
 	        {% csrf_token %}
-	        </div>
+        </div>
+
 		<header id="mainHeader">
-			<h1 id="uniLogo">
-				<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
-			</h1>
+			<div id="uniLogo">
+				<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>
+			</div>
 
 			<div id="inputArea">
 				<div class="clearfix">
