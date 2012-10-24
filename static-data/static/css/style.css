@@ -27,7 +27,10 @@ header#mainHeader div#actionsContainer {
 }
 
 header#mainHeader div#actionsContainer {
-	padding-top: 15px;	
+	padding-top: 15px;
+	padding-bottom: 16px;
+	position: relative;
+	z-index: 10;
 }
 
 header#mainHeader div#actionsContainer a {
@@ -299,7 +302,7 @@ div#results.empty p {
 	position: relative;
 	left: -50%;
 	margin: 0 auto;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
 }
 
 .alert a.btn {
@@ -310,6 +313,21 @@ div#results.empty p {
 	position: absolute;
 	left: 10px;
 	z-index: 19;
+	max-width: 320px;
+}
+
+.alert.calendarEventInfo .arrow {
+	position: absolute;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	top: 50%;
+	left: -12px;
+	margin-top: -10px;
+	border-right-color: #454545;
+	border-width: 10px 10px 10px 0;
 }
 
 .alertHolder {
@@ -321,7 +339,6 @@ div#results.empty p {
 
 div#calendarHolder {
 	width: 590px;
-	margin-top: -16px;
 }
 
 div#calendarHolder div#calendar {
@@ -353,6 +370,7 @@ div#calendarData h4 {
 	text-align: center;
 }
 
+/*
 div#calendarData div#calendarNavigation {
 	margin-left: 90px;
 }
@@ -365,11 +383,46 @@ div#calendarData div#calendarNavigation h4 {
 div#calendarData div#calendarNavigation a {
 	margin-top: 6px;
 }
+*/
+
+div#calendarData div.calendarNavigation {
+	position: relative;
+	left: 35%;
+	top: 5px;
+	text-align: left;
+}
+
+div#calendarData div.calendarNavigation ul {
+	list-style-type: none;
+	position: relative;
+	left: -65%;
+}
+
+div#calendarData ul.calendarNavigation li {
+	position: relative;
+}
+
+div#calendarData div.calendarNavigation ul li a, div#calendarData div.calendarNavigation ul li h4 {
+	text-align: center;
+}
+
+div#calendarData div.calendarNavigation ul li h4 {
+	min-width: 180px;
+	margin: 0;
+	line-height: 1em;
+}
+
+div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
+	min-width: 130px;
+}
+
+
 
 
 div#calendar div#listViewList h4 {
 	width: 200px;
 	text-align: right;
+	margin: 0 auto;
 }
 
 div#calendar div#listViewList h4, div#calendar div#listViewList h5 {

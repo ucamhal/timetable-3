@@ -242,7 +242,9 @@
 			
 			<div id="actionsContainer">
 				<div class="pull-right">
-					<a href="#" class="btn btn-primary">Sign in</a>
+					<a href="#" class="btn btn-primary signIn">Sign in</a>
+					<a href="#" class="btn dontDisplayMe save">Save</a>
+					<a href="#" class="btn dontDisplayMe export">Export to calendar</a>
 				</div>
 			</div>
 			
@@ -278,8 +280,9 @@
 		</div>
 		-->
 
-		<!--
-		<div class="calendarEventInfo alert alert-block clearfix">
+		
+		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe">
+			<div class="arrow"></div>
 			<button type="button" class="close" data-dismiss="alert">x</button>
 			<h5>An introduction to the language of 16th century texts</h5>
 			<span class="courseDatePattern">Wednesday 1pm,</span>
@@ -287,9 +290,9 @@
 			<span class="courseLocation">LT1 William Gates Bdg,</span>
 			<br/>
 			<span class="courseLecturer">Dr R. Harle</span>
-			<a href="#" class="btn btn-danger pull-right">Remove</a>
+			<a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
 		</div>
-		-->
+		
 
 		<div id="content" class="clearfix">
 			<div id="results" class="pull-left">
@@ -438,19 +441,23 @@
 					<div id="calendarData" class="clearfix">
 						<div class="agendaWeek">
 							<a href="#" class="btn pull-left">Undo changes</a>
-							<div class="pull-left" id="calendarNavigation">
-								<a class="pull-left badge badge-info" href="#">&lt;</a>
-								<h4 class="pull-left">Week 2</h4>
-								<a class="pull-left badge badge-info" href="#">&gt;</a>
+							<div class="calendarNavigation pull-left">
+								<ul class="clearfix">
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
+									<li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+								</ul>
 							</div>
 							<h4 class="pull-right">Michaelmas Term</h4>
 						</div>
 						<div class="month dontDisplayMe">
 							<a href="#" class="btn pull-left">Undo changes</a>
-							<div class="pull-left" id="calendarNavigation">
-								<a class="pull-left badge badge-info" href="#">&lt;</a>
-								<h4 class="pull-left">October 2012</h4>
-								<a class="pull-left badge badge-info" href="#">&gt;</a>
+							<div class="calendarNavigation pull-left">
+								<ul class="clearfix">
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
+									<li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+								</ul>
 							</div>
 							<h4 class="pull-right">Michaelmas Term</h4>
 						</div>

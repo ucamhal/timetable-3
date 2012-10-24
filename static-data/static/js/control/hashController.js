@@ -32,6 +32,10 @@ define(["jquery", "underscore", "jquery-bbq"], function ($, _) {
 					path: function (thingPath) {
 						this.inputAreaView.updateSelectBoxes(thingPath);
 						this.resultsView.updateResults(thingPath);
+					},
+
+					signedIn: function (signedIn) {
+						this.actionsView.setSignedInState(signedIn);
 					}
 				},
 
