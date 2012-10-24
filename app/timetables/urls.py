@@ -10,6 +10,7 @@ from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
+from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView
 
 
@@ -18,7 +19,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r"^$", IndexView.as_view(), name="thing view default"),
-    url(r"^index.html$", IndexView.as_view(), name="thing view index"),
+    url(r"^index\.html$", IndexView.as_view(), name="thing view index"),
+
+    url(r"^editor$", AdminView.as_view(), name="admin"),
+    url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
     # Django admin interface (NOT timetables administrators)
     url(r'^admin/', include(admin.site.urls)),

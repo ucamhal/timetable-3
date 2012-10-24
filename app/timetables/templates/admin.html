@@ -1,0 +1,254 @@
+{% load staticfiles %}
+
+<!doctype html>
+	<head>
+		<title>Timetables</title>
+
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+
+        <script data-main="{% static "js/main.js" %}" data-page-module="adminIndex" src="{% static "js/libs/require.js" %}"></script>
+	</head>
+	<body id="admin">
+	    <!--  this tag contains information about the current user. If there is a better way 
+	    of doing this please feel free, but remember to search the codebase for userinfo -->
+	    <div id="userinfo" class="dontDisplayMe" userid="{{ user.username }}" >
+	        {# used for ajax post operations, I prefer this to the cookie method. #}
+	        {% csrf_token %}
+        </div>
+
+		<header id="mainHeader">
+			<div id="uniLogo" class="clearfix">
+				<h1 class="pull-left"><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>
+				<ul class="pull-right clearfix">
+					<li class="pull-left"><a href="../">Student view</a></li>
+					<li class="pull-left"><a href="#">Admin (log out)</a>
+				</ul>
+			</div>
+
+			<div id="inputArea">
+				<div class="clearfix">
+					<label for="iAmInput" class="pull-left">Find</label>
+					<select id="iAmInput" class="pull-left">
+						{% include "subject-picker.html" %}
+					</select>
+
+					<label for="courseSelect" class="pull-left">for</label>
+					<select id="courseSelect" name="course" class="pull-left">
+					</select>
+
+					<select id="yearSelect" name="yearSelect" class="pull-right">
+						<option value="2012">2012 / 13</option>
+						<option value="2013">2013 / 14</option>
+						<option value="2014">2014 / 15</option>
+						<option value="2015">2015 / 16</option>
+					</select>
+					
+				</div>
+			</div>
+		</header>
+		
+		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe">
+			<div class="arrow"></div>
+			<button type="button" class="close" data-dismiss="alert">x</button>
+			<h5>An introduction to the language of 16th century texts</h5>
+			<span class="courseDatePattern">Wednesday 1pm,</span>
+			<br/>
+			<span class="courseLocation">LT1 William Gates Bdg,</span>
+			<br/>
+			<span class="courseLecturer">Dr R. Harle</span>
+			<a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
+		</div>
+		
+
+		<div id="content" class="clearfix">
+
+			<div id="results" class="pull-left empty">
+				<h3>13 modules for French, IA</h3>
+				<a href="#" class="btn btn-success">+ Add module</a>
+				<div>
+					<h4>Create a new module</h4>
+
+					<label for="moduleName">Module</label>
+					<input type="text" name="moduleName" id="moduleName" />
+
+					<label for="moduleLocation">Location</label>
+					<input type="text" name="moduleLocation" id="moduleLocation" />
+
+					<label for="moduleFromTime">Time</label>
+					<select name="moduleFromTime" id="moduleFromTime">
+						<option value="7">7 am</option>
+						<option value="8">8 am</option>
+						<option value="9">9 am</option>
+						<option value="10">10 am</option>
+						<option value="11">11 am</option>
+						<option value="12">12 am</option>
+						<option value="13">1 pm</option>
+						<option value="14">2 pm</option>
+						<option value="15">3 pm</option>
+						<option value="16">4 pm</option>
+						<option value="17">5 pm</option>
+						<option value="18">6 pm</option>
+						<option value="19">7 pm</option>
+					</select>
+
+					<label for="moduleToTime">to</label>
+					<select name="moduleToTime" id="moduleToTime">
+						<option value="7">7 am</option>
+						<option value="8">8 am</option>
+						<option value="9">9 am</option>
+						<option value="10">10 am</option>
+						<option value="11">11 am</option>
+						<option value="12">12 am</option>
+						<option value="13">1 pm</option>
+						<option value="14">2 pm</option>
+						<option value="15">3 pm</option>
+						<option value="16">4 pm</option>
+						<option value="17">5 pm</option>
+						<option value="18">6 pm</option>
+						<option value="19">7 pm</option>
+					</select>
+
+					<label for="moduleDay">on</label>
+					<select name="moduleDay" id="moduleDay">
+						<option value="monday">Monday</option>
+						<option value="tuesday">Tuesday</option>
+						<option value="wednesday">Wednesday</option>
+						<option value="thursday">Thursday</option>
+						<option value="friday">Friday</option>
+						<option value="saturday">Saturday</option>
+					</select>
+
+					<label for="moduleFromWeek">From</label>
+					<select name="moduleFromWeek" id="moduleFromWeek">
+						<option value="1">Week 1</option>
+						<option value="2">Week 2</option>
+						<option value="3">Week 3</option>
+						<option value="4">Week 4</option>
+						<option value="5">Week 5</option>
+						<option value="6">Week 6</option>
+						<option value="7">Week 7</option>
+						<option value="8">Week 8</option>
+						<option value="9">Week 9</option>
+					</select>
+
+					<label for="moduleToWeek">to</label>
+					<select name="moduleToWeek" id="moduleToWeek">
+						<option value="1">Week 1</option>
+						<option value="2">Week 2</option>
+						<option value="3">Week 3</option>
+						<option value="4">Week 4</option>
+						<option value="5">Week 5</option>
+						<option value="6">Week 6</option>
+						<option value="7">Week 7</option>
+						<option value="8">Week 8</option>
+						<option value="9">Week 9</option>
+					</select>
+
+					<input type="radio" name="moduleRepeat" value="weekly" id="moduleRepeatWeekly" />
+					<label for="moduleRepeatWeekly">weekly</label>
+
+					<input type="radio" name="moduleRepeat" value="fortnightly" id="moduleRepeatFornightly" />
+					<label for="moduleRepeatFortnightly">fortnightly</label>
+				</div>
+
+				<ul id="resultsList">
+					<li class="clearfix course">
+						<h5>Early modern french lectures</h5>
+						<span class="courseDatePattern">W1 (weeks 5-6)</span>
+						<ul class="courseActions pull-right clearfix">
+							<li class="pull-left"><a href="#">view</a></li>
+							<li class="pull-left"><a href="#">edit</a></li>
+						</ul>
+						<div class="courseMoreInfo">
+							<ul>
+								<li class="courseSeries clearfix">
+	        						<h5>An introduction to the language of 16th Century texts.</h5>
+	                				<span class="courseDatePattern">W1</span>
+	                				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                				<span class="courseLecturer">Dr. W. Bennett</span>
+	                				<ul class="courseActions">
+	                					<li><a href="#">remove</a></li>
+	                					<li><a href="#">edit</a></li>
+	                				</ul>
+	                			</li>
+	                			<li class="courseSeries clearfix">
+	        						<h5>Translating early modern French texts</h5>
+	                				<span class="courseDatePattern">W1</span>
+	                				<span class="courseLocation">Sidgiwck Av.</span><br/>
+	                				<span class="courseLecturer">Prof P. Bayley</span>
+	                				<ul class="courseActions">
+	                					<li><a href="#">remove</a></li>
+	                					<li><a href="#">edit</a></li>
+	                				</ul>
+	                			</li>
+							</ul>
+							<a href="#" class="btn btn-success">Add event</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div id="calendarHolder" class="pull-right">
+				<div id="timetablesOverview">
+					<h3>Timetables in MML</h3>
+
+					<ul class="clearfix">
+						<li class="btn btn-addTimetable pull-left"><a href="#">New timetable</a></li>
+						<li class="btn pull-left"><a href="#">French IA</a></li>
+						<li class="btn pull-left"><a href="#">French IB</a></li>
+						<li class="btn pull-left"><a href="#">French II</a></li>
+						<li class="btn pull-left"><a href="#">German IA</a></li>
+						<li class="btn pull-left"><a href="#">German IB</a></li>
+						<li class="btn pull-left"><a href="#">German II</a></li>
+						<li class="btn pull-left"><a href="#">Italian IA</a></li>
+						<li class="btn pull-left"><a href="#">Italian IB</a></li>
+						<li class="btn pull-left"><a href="#">Italian II</a></li>
+					</ul>
+				</div>
+				<!--
+				<div id="calendarHeading">
+					<ul class="nav nav-tabs">
+						<li class="active agendaWeek"><a href="#">Week</a></li>
+						<li class="month"><a href="#">Month</a></li>
+						<li class="list"><a href="#">List</a></li>
+					</ul>
+
+					<div id="calendarData" class="clearfix">
+						<div class="agendaWeek">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<div class="calendarNavigation pull-left">
+								<ul class="clearfix">
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
+									<li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+								</ul>
+							</div>
+							<h4 class="pull-right">Michaelmas Term</h4>
+						</div>
+						<div class="month dontDisplayMe">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<div class="calendarNavigation pull-left">
+								<ul class="clearfix">
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
+									<li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
+									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+								</ul>
+							</div>
+							<h4 class="pull-right">Michaelmas Term</h4>
+						</div>
+						<div class="list dontDisplayMe">
+							<a href="#" class="btn pull-left">Undo changes</a>
+							<h4 class="pull-right">Michaelmas Term</h4>
+						</div>
+					</div>
+				</div>
+
+				<div id="calendar">
+				</div>
+				-->
+			</div>
+		</div>
+	</body>
+</html>

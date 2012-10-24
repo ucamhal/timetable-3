@@ -173,11 +173,19 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 					week: "ddd dd/M"
 				},
 				eventClick: function (calEvent, jsEvent, view) {
-					/*$(jsEvent.target).popover({
-						title: "Calendar event",
-						content: calEvent.title,
-						trigger: 'manual'
-					}).popover('show');*/
+					$(".calendarEventInfo", view.element).fadeOut("10", function () {
+						$(this).remove();
+					});
+
+					var $newPopup = $(".calendarEventInfo.dontDisplayMe").clone().removeClass("dontDisplayMe");
+					$("table", view.element).append($newPopup);
+					$newPopup.css({
+						top: $(jsEvent.currentTarget).offset().top - $(view.element).offset().top,
+						left: $(jsEvent.currentTarget).offset().left - $(view.element).offset().left + $(jsEvent.currentTarget).outerWidth() + 10,
+						display: "none"
+					}).fadeIn("10");
+
+					$("h5", $newPopup).text(calEvent.title);
 				}
 			});
 		},
