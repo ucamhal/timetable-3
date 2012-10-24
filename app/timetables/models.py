@@ -11,6 +11,7 @@ from django.conf import settings
 from django.utils import simplejson as json
 
 import logging
+from timetables.managers import EventManager
 log = logging.getLogger(__name__)
 
 # Length of a hash required to idedentify items.
@@ -260,6 +261,9 @@ class Event(SchemalessModel):
     Also, there could be 1000s of these in memory at anyone time, so we must not add a manager or do anything 
     that could increase the memory footprint more than necessary. Even the text field may be bad.
     '''
+
+    objects = EventManager()
+
     # Basic Metadata that we need to operate on this event
     start = models.DateTimeField(help_text="Start of the Event")
     end = models.DateTimeField(help_text="End of the Event")
