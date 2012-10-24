@@ -11,6 +11,7 @@ from django.conf import settings
 from django.utils import simplejson as json
 
 import logging
+from timetables.managers import EventManager
 log = logging.getLogger(__name__)
 
 # Length of a hash required to idedentify items.
@@ -232,7 +233,7 @@ class EventSource(SchemalessModel):
     sourceurl = models.URLField("Url", max_length=MAX_URL_LENGTH, blank=True,null=True, help_text="If not uploading, enter a URL where the server can pull the events from, must be an ical feed.")
     # local copy of the file.
     
-    sourcefile = models.FileField(upload_to=_get_upload_path, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
+    sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
     
     def __unicode__(self):
         try:
@@ -260,6 +261,9 @@ class Event(SchemalessModel):
     Also, there could be 1000s of these in memory at anyone time, so we must not add a manager or do anything 
     that could increase the memory footprint more than necessary. Even the text field may be bad.
     '''
+
+    objects = EventManager()
+
     # Basic Metadata that we need to operate on this event
     start = models.DateTimeField(help_text="Start of the Event")
     end = models.DateTimeField(help_text="End of the Event")

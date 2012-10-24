@@ -84,7 +84,7 @@ class LinkThing(View):
                 # Delete then bulk add, note that no hooks on bulk add
                 EventSourceTag.objects.filter(thing=thing,eventsource__in=EventSource.objects.filter(id__in=elist))
                 items = []
-                for es in EventSource.objects.filter(id__id=elist):
+                for es in EventSource.objects.filter(id__in=elist):
                     eventsourcetag = EventSourceTag(thing=thing,eventsource=es)
                     eventsourcetag.prepare_save()
                     items.append(eventsourcetag)
@@ -93,7 +93,7 @@ class LinkThing(View):
             elist = self._expand(request.POST.getlist("e"))
             if len(elist) > 0:
                 # Delete then bulk add, note that no hooks on bulk add
-                EventTag.objects.filter(thing=thing,eventsource__in=Event.objects.filter(id__in=elist))
+                EventTag.objects.filter(thing=thing,event__in=Event.objects.filter(id__in=elist))
                 items = []
                 for e in Event.objects.filter(id__id=elist):
                     eventtag = EventTag(thing=thing,event=e)

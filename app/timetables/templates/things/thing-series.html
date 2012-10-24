@@ -11,4 +11,10 @@
     {% else %}
     <a href="#" class="btn pull-right btn-add btn-success" data-fullpath="{{ thing.fullpath }}" >Add</a>
     {% endif %}
+    
+    <ul class="courseMoreInfo">
+    {% for eventsourcetag in thing.eventsourcetag_set.all %}
+            {% include "things/eventsource.html" with eventsource=eventsourcetag.eventsource %}
+    {% endfor %}
+    </ul>
 </li>
