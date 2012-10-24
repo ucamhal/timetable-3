@@ -233,7 +233,7 @@ class EventSource(SchemalessModel):
     sourceurl = models.URLField("Url", max_length=MAX_URL_LENGTH, blank=True,null=True, help_text="If not uploading, enter a URL where the server can pull the events from, must be an ical feed.")
     # local copy of the file.
     
-    sourcefile = models.FileField(upload_to=_get_upload_path, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
+    sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
     
     def __unicode__(self):
         try:
