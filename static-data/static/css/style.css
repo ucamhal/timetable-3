@@ -19,7 +19,7 @@ div#content {
 	height: 1px;
 }
 
-h1#uniLogo, div#inputArea > div,
+div#uniLogo, div#inputArea > div,
 header#mainHeader div#actionsContainer {
 	width: 960px;
 	margin-left: auto;
@@ -27,7 +27,10 @@ header#mainHeader div#actionsContainer {
 }
 
 header#mainHeader div#actionsContainer {
-	padding-top: 15px;	
+	padding-top: 15px;
+	padding-bottom: 16px;
+	position: relative;
+	z-index: 10;
 }
 
 header#mainHeader div#actionsContainer a {
@@ -38,7 +41,7 @@ header#mainHeader div#actionsContainer a:last-child {
 	margin-right: 0;
 }
 
-h1#uniLogo, div#inputArea > div {
+div#uniLogo, div#inputArea > div {
 	padding-top: 10px;
 	padding-bottom: 2px;
 }
@@ -48,8 +51,13 @@ div#inputArea > div {
 }
 
 div#inputArea input,
-div#inputArea select {
+div#inputArea select,
+div#inputArea label {
 	margin-left: 14px;
+}
+
+div#inputArea label:first-child {
+	margin-left: 0;
 }
 
 div#inputArea select#iAmInput {
@@ -70,11 +78,15 @@ div#inputArea select  {
 	width: 90px;
 }
 
+div#inputArea select#yearSelect {
+	width: 100px;
+}
+
 div#inputArea a#advancedOptions span {
 	margin-left: 10px;
 }
 
-h1#uniLogo {
+div#uniLogo {
 	margin-bottom: 24px;
 	margin-top: 19px;
 }
@@ -87,13 +99,37 @@ div#inputArea {
 	border-bottom-width: 10px;
 }
 
-h1#uniLogo a {
+div#uniLogo h1 {
+	margin: 0;
+	line-height: 1em;
+}
+
+div#uniLogo h1 a {
 	display: block;
 
 	width: 204px;
 	height: 42px;
 
 	background-image: url(../img/uniLogo.png);
+}
+
+div#uniLogo ul {
+	list-style-type: none;
+	margin: 0;
+	padding-top: 12px;
+}
+
+div#uniLogo ul li {
+	margin-left: 14px;
+	padding-left: 14px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: rgba(0, 0, 0, .2);
+}
+
+div#uniLogo ul li:first-child {
+	margin-left: 0;
+	border-style: none;
 }
 
 header#mainHeader {
@@ -157,8 +193,37 @@ div#results h3 {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
+#admin div#results h3 {
+	border-bottom-style: none;
+	box-shadow: none;
+}
+
+#admin div#results > ul {
+	top: 82px;
+}
+
+#admin div#results > a {
+	z-index: 2;
+	position: absolute;
+	top: 41px;
+	display: block;
+	width: 320px;
+	padding: 0;
+	margin: 0;
+	line-height: 2.8em;
+	border-radius: 0;
+	height: 40px;
+
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .3);
+
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
 div#results ul.courseList,
-div#results ul.courseMoreInfo {
+div#results ul.courseMoreInfo,
+div#results div.courseMoreInfo ul {
 	list-style-type: none;
 }
 
@@ -231,16 +296,19 @@ div#results li.courseSeries a.btn {
 	margin-top: 12px;
 }
 
-div#results ul.courseMoreInfo li.courseSeries div {
+div#results ul.courseMoreInfo li.courseSeries div,
+div#results div.courseMoreInfo li.courseSeries div {
 	width: 150px;
 }
 
-div#results ul.courseMoreInfo li.courseSeries a.btn {
+div#results ul.courseMoreInfo li.courseSeries a.btn,
+div#results div.courseMoreInfo li.courseSeries a.btn {
 	margin-right: 4px;
 	margin-top: 12px;
 }
 
-div#results ul.courseMoreInfo {
+div#results ul.courseMoreInfo,
+div#results div.courseMoreInfo {
 	display: none;
 	clear: both;
 
@@ -281,12 +349,13 @@ div#results.empty p {
 	border-width: 1px;
 
 	text-align: center;
-	width: 270px;
+	width: 230px;
 
 	margin: 0 auto;
 	margin-top: 20px;
+	margin-bottom: 20px;
 
-	padding: 240px 0;
+	padding: 240px 20px;
 
 	background-color: #f6f6f6;
 	color: #363636;
@@ -295,11 +364,37 @@ div#results.empty p {
 	box-shadow: 0 1px 2px rgba(255, 255, 255, 1);
 }
 
+
+#admin li.course > a.btn {
+	display: block;
+}
+
+#admin li.course:hover > ul.courseActions {
+	display: block;
+}
+
+#admin li.course > ul.courseActions {
+	display: none;
+}
+
+#admin li.course ul.courseActions {
+	list-style-type: none;
+}
+
+#admin li.course ul.courseActions li {
+	margin-left: 20px;
+	font-size: 1.1em;
+}
+
+
+
+
+
 .alert {
 	position: relative;
 	left: -50%;
 	margin: 0 auto;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
 }
 
 .alert a.btn {
@@ -310,6 +405,21 @@ div#results.empty p {
 	position: absolute;
 	left: 10px;
 	z-index: 19;
+	max-width: 320px;
+}
+
+.alert.calendarEventInfo .arrow {
+	position: absolute;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	top: 50%;
+	left: -12px;
+	margin-top: -10px;
+	border-right-color: #454545;
+	border-width: 10px 10px 10px 0;
 }
 
 .alertHolder {
@@ -321,7 +431,6 @@ div#results.empty p {
 
 div#calendarHolder {
 	width: 590px;
-	margin-top: -16px;
 }
 
 div#calendarHolder div#calendar {
@@ -353,23 +462,44 @@ div#calendarData h4 {
 	text-align: center;
 }
 
-div#calendarData div#calendarNavigation {
-	margin-left: 90px;
+div#calendarData div.calendarNavigation {
+	position: relative;
+	left: 35%;
+	top: 5px;
+	text-align: left;
 }
 
-div#calendarData div#calendarNavigation a,
-div#calendarData div#calendarNavigation h4 {
-	margin-right: 15px;
+div#calendarData div.calendarNavigation ul {
+	list-style-type: none;
+	position: relative;
+	left: -65%;
 }
 
-div#calendarData div#calendarNavigation a {
-	margin-top: 6px;
+div#calendarData ul.calendarNavigation li {
+	position: relative;
 }
+
+div#calendarData div.calendarNavigation ul li a, div#calendarData div.calendarNavigation ul li h4 {
+	text-align: center;
+}
+
+div#calendarData div.calendarNavigation ul li h4 {
+	min-width: 180px;
+	margin: 0;
+	line-height: 1em;
+}
+
+div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
+	min-width: 130px;
+}
+
+
 
 
 div#calendar div#listViewList h4 {
 	width: 200px;
 	text-align: right;
+	margin: 0 auto;
 }
 
 div#calendar div#listViewList h4, div#calendar div#listViewList h5 {
@@ -544,3 +674,47 @@ li#advancedSearchSubmit input {
 	margin-right: 10px;
 	height: 50px;
 }
+
+/*
+ *	Admin Specific CSS
+ */
+
+div#timetablesOverview h3 {
+	border-bottom-style: solid;
+	border-bottom-color: rgba(0, 0, 0, .15);
+	border-bottom-width: 1px;
+	padding-bottom: 3px;
+	margin-bottom: 30px;
+}
+
+div#timetablesOverview ul {
+	list-style-type: none;
+	margin: 0;
+}
+
+div#timetablesOverview li {
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 60px;
+	width: 60px;
+}
+
+div#timetablesOverview li a {
+	display: block;
+	padding-top: 10px;
+}
+
+div#timetablesOverview li.btn-addTimetable {
+	border-style: dashed;
+	border-width: 2px;
+	height: 58px;
+	background-image: none;
+	background-color: #ffffff;
+}
+
+
+
+
+
+
+
