@@ -11,7 +11,10 @@ class DatePatternImporter(object):
         if not datePattern:
             raise ValueError("Event source with type pattern did not contain datePattern key in data")
         group_template =  metadata.get("group_template") or ""
-        start_year = int(metadata.get("year")) or server_datetime_now().year
+        try:
+            start_year = int(metadata.get("year"))
+        except:
+            start_year = server_datetime_now().year
         title = source.sourceid # FIXME, not certain how wise this is, we might want to 
         #                         either change the name of the field or use something else. not sure.
         location = metadata.get("location", '')

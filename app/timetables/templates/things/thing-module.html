@@ -14,5 +14,8 @@
     {% for subthing in thing.thing_set.all %}
             {% include_thing_template "things/thing-%s.html" subthing %}
     {% endfor %}
+    {% for eventsourcetag in thing.eventsourcetag_set.all %}
+            {% include "things/eventsource.html" with eventsource=eventsourcetag.eventsource %}
+    {% endfor %}
     </ul>
 </li>
