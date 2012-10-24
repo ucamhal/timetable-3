@@ -11,6 +11,8 @@ from django.utils import simplejson as json
 from timetables.utils.date import DateConverter
 from django.shortcuts import render
 
+from operator import add
+
 class CalendarView(View):
     '''
     Renders a json stream suitable for use in the calendar.
@@ -27,11 +29,16 @@ class CalendarView(View):
                 for e in thing.get_events():
                     metadata = e.metadata
                     allday = metadata.get("x-allday") or False
+                    lecturer = metadata.get("people") or []
+                    type = metadata.get("type") or False
                     if allday:
                         yield pattern % json.dumps({
                                     "title" : e.title,
                                     "allDay" : True,
                                     "start" : DateConverter.from_datetime(e.start, True).isoformat(),
+                                    "location" : e.location,
+                                    "lecturer" : lecturer,
+                                    "type" : type,
                                     "className" : "thing_%s" % thing.type
                                           },
                                      indent=JSON_INDENT)
@@ -41,14 +48,23 @@ class CalendarView(View):
                                     "allDay" : False,
                                     "start" : DateConverter.from_datetime(e.start, False).isoformat(),
                                     "end" : DateConverter.from_datetime(e.end, False).isoformat(),
+                                    "location" : e.location,
+                                    "lecturer" : lecturer,
+                                    "type" : type,
                                     "className" : "thing_%s" % thing.type
                                           },
                                      indent=JSON_INDENT)
                     pattern = ",\n%s"
                 yield "]\n"
 
+            
+            # debug
+            content = reduce(add, generate())
+            response = HttpResponse(content,content_type=JSON_CONTENT_TYPE)
+            return response
+            
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
-            response.streaming = True
+            #response.streaming = True
             return response
 
         except Thing.DoesNotExist:

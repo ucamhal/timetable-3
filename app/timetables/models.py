@@ -142,10 +142,10 @@ class SchemalessModel(models.Model):
             if self.data is None or self.data == "":
                 self._data = dict()
             else:
-                try:
-                    self._data = json.loads(self.data)
-                except:
-                    self._data = dict()
+                #try:
+                self._data = json.loads(self.data)
+                #except:
+                    #self._data = dict()
         return self._data
     
     def update_fields(self):
