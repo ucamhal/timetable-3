@@ -1,14 +1,20 @@
-'''
-Created on Oct 24, 2012
-
-@author: ieb
-'''
-from django.db.models.manager import Manager
+from django.db import models
 from django.conf import settings
+
 from timetables.utils.reflection import newinstance
 
 
-class EventManager(Manager):
+class QuerySetManager(models.Manager):
+    """
+    A Manager which allows models to provide a customised queryset.
+    
+    See: http://djangosnippets.org/snippets/734/ 
+    """
+    def get_query_set(self):
+            return self.model.QuerySet(self.model)
+
+
+class EventManager(QuerySetManager):
     
     
     def unpack_sources(self, queryset):
