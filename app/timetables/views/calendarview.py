@@ -8,12 +8,11 @@ from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View
 
-from timetables.models import HierachicalModel, Thing
+from timetables.models import HierachicalModel, Thing, Event
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 
 
-from operator import add
 
 class CalendarView(View):
     '''
@@ -59,14 +58,10 @@ class CalendarView(View):
                     pattern = ",\n%s"
                 yield "]\n"
 
-            
-            # debug
-            content = reduce(add, generate())
-            response = HttpResponse(content,content_type=JSON_CONTENT_TYPE)
-            return response
-            
+
+
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
-            #response.streaming = True
+            response.streaming = True
             return response
 
         except Thing.DoesNotExist:

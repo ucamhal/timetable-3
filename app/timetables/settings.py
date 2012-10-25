@@ -16,6 +16,11 @@ ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# To enable Raven Authentication set this true and protect /accounts/login
+# If false, a testing url will be used.
+ENABLE_RAVEN=False
+
+
 # To enable redeployment, set this to a unique string in your local settings and configure
 # your source code repository to post to http://host/repo/{{ REDEPLOY_KEY }}
 # All this will do it write a file to disk in a known location of a set size.

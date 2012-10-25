@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from timetables.utils.reflection import newinstance
+from timetables.querysets import EventQuerySet
 
 
 class QuerySetManager(models.Manager):
@@ -11,11 +12,12 @@ class QuerySetManager(models.Manager):
     See: http://djangosnippets.org/snippets/734/ 
     """
     def get_query_set(self):
-            return self.model.QuerySet(self.model)
+            return self.querySet(self.model)
 
 
 class EventManager(QuerySetManager):
     
+    querySet = EventQuerySet
     
     def unpack_sources(self, queryset):
         # Prevent a cycle.

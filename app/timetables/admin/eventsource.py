@@ -34,9 +34,9 @@ class EventSourceForm(forms.ModelForm):
 
 class EventSourceAdmin(admin.ModelAdmin):
     form = EventSourceForm
-    list_display = ( "sourceid", "sourceurl", "sourcetype", )
+    list_display = ( "title", "sourceurl", "sourcetype", )
     list_filter = ( "sourcetype", )
-    search_fields = ( "sourceid",  )    
+    search_fields = ( "title",  )
     actions = ["unpack_events"]
     inlines = [
         EventSourceTagInline,

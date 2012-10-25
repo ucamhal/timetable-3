@@ -11,7 +11,7 @@ import os
 import logging
 from timetables.utils.v1 import generate
 from timetables.models import EventSource, HierachicalModel, Event, Thing,\
-    EventSourceTag
+    EventSourceTag, MAX_NAME_LENGTH, MAX_URL_LENGTH
 import datetime
 from optparse import make_option
 from django.utils.http import urlencode
@@ -421,7 +421,7 @@ class Command(BaseCommand):
                                             }, types
                                         )
                         if eventSourceLevel == "file":
-                            source = self.loadEventSource(groupTitle[:63], dfn[:2047])
+                            source = self.loadEventSource(groupTitle[:(MAX_NAME_LENGTH-1)], dfn[:(MAX_URL_LENGTH-1)])
                             EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
 
                         # Todo: create an Thing here to associate with the source departments/department/subject/name
@@ -433,7 +433,7 @@ class Command(BaseCommand):
                             sources = 0
                             for g in detail['groups']:
                                 if eventSourceLevel == "group":
-                                    source = self.loadEventSource(("%s %s" % (groupTitle, n))[:63], ("%s:%s" % (dfn,n))[:2047])
+                                    source = self.loadEventSource(("%s %s" % (groupTitle, n))[:(MAX_NAME_LENGTH-1)], ("%s:%s" % (dfn,n))[:(MAX_URL_LENGTH-1)])
                                     EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
                                     sources = sources + 1
                                 term_name = g.get('term') or "Mi"
@@ -444,7 +444,7 @@ class Command(BaseCommand):
                                     title = e.get('what') or groupTitle or 'Unnamed'
                                     date_time_pattern = g.get('when') or ""
                                     if eventSourceLevel == "element":
-                                        source = self.loadEventSource(("%s %s" % (groupTitle, title))[:63] , ("%s:%s:%s" % (dfn,n,title))[:2047])
+                                        source = self.loadEventSource(("%s %s" % (groupTitle, title))[:(MAX_NAME_LENGTH-1)] , ("%s:%s:%s" % (dfn,n,title))[:(MAX_URL_LENGTH-1)])
                                         EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
                                         sources = sources + 1
                                     events.extend(generate(source=source, 
@@ -461,7 +461,7 @@ class Command(BaseCommand):
             log.info("Created %s events " % total_events)
             
     def loadEventSource(self,name,url):
-        source, created = EventSource.objects.get_or_create(sourceid=name)
+        source, created = EventSource.objects.get_or_create(title=name)
         if created:
             source.sourceurl = url
             source.type = "S"
