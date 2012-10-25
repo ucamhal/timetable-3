@@ -18,8 +18,7 @@ class DatePatternImporter(object):
             start_year = int(metadata.get("year"))
         except:
             start_year = server_datetime_now().year
-        title = source.sourceid # FIXME, not certain how wise this is, we might want to
-        #                         either change the name of the field or use something else. not sure.
+        title = source.title
         location = metadata.get("location", '')
         term_name = metadata.get('term') or "Mi"
         term_name = term_name[:2]
@@ -36,4 +35,4 @@ class DatePatternImporter(object):
             Event.objects.bulk_create(events)
             return len(events)
         except:
-            log.error("Failed to process date patter %s in eventsource %s  (%s)" % ( datePattern, source.sourceid, source.id))
+            log.error("Failed to process date patter %s in eventsource %s  (%s)" % ( datePattern, source.title, source.id))

@@ -36,15 +36,15 @@ class EventTagAdmin(admin.ModelAdmin):
 
 
 class EventSourceTagAdmin(admin.ModelAdmin):
-    list_display = ( "list_display_fullpath", "list_display_sourceid",  )
-    search_fields = ( "thing__fullpath", "eventsource__sourceid",   )
+    list_display = ( "list_display_fullpath", "list_display_title",  )
+    search_fields = ( "thing__fullpath", "eventsource__title",   )
     list_select_related = True
     
     def list_display_fullpath(self, obj):
         return obj.thing.fullpath
 
-    def list_display_sourceid(self, obj):
-        return obj.eventsource.sourceid
+    def list_display_title(self, obj):
+        return obj.eventsource.title
 
 
 admin.site.register(Thing, ThingAdmin)

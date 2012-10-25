@@ -3132,7 +3132,7 @@
   },
   {
     "fields": {
-      "sourceid": "Registration",
+      "title": "Registration",
       "sourceurl": "registration",
       "data": "{\"datePattern\": \"Mi1 Th 2-4\", \"type\": \"lecture\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
@@ -3143,7 +3143,7 @@
   },
   {
     "fields": {
-      "sourceid": "Computer Fundamentals",
+      "title": "Computer Fundamentals",
       "sourceurl": "comp-fundamentals\n\n",
       "data": "{\"datePattern\": \"Mi1 MWF 10 ; Mi2 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
@@ -3154,7 +3154,7 @@
   },
   {
     "fields": {
-      "sourceid": "Foundations of Computer Science",
+      "title": "Foundations of Computer Science",
       "sourceurl": "compsci-foundations\n\n",
       "data": "{\"datePattern\": \"Mi2 MW 10 ; Mi3-6 MWF 10 ; Mi7 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Prof L. C. Paulson\"]}",
       "sourcetype": "pattern",
@@ -3165,7 +3165,7 @@
   },
   {
     "fields": {
-      "sourceid": "Discrete Mathematics I",
+      "title": "Discrete Mathematics I",
       "sourceurl": "discrete-maths-1",
       "data": "{\"datePattern\": \"Mi7 MW 10 ; Mi8 MWF 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr S. Staton\"]}",
       "sourcetype": "pattern",
@@ -3176,7 +3176,7 @@
   },
   {
     "fields": {
-      "sourceid": "Practical",
+      "title": "Practical",
       "sourceurl": "practical",
       "data": "{\"datePattern\": \"Le1-8 Th 2-4 Th 4-6\", \"type\": \"practical\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr A. R. Beresford\"]}",
       "sourcetype": "pattern",
@@ -3187,7 +3187,7 @@
   },
   {
     "fields": {
-      "sourceid": "Introductory meeting for all first year students",
+      "title": "Introductory meeting for all first year students",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 W 11\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
@@ -3198,7 +3198,7 @@
   },
   {
     "fields": {
-      "sourceid": "Meeting for all second year students",
+      "title": "Meeting for all second year students",
       "sourceurl": "meeting",
       "data": "{\"datePattern\": \"Mi1 W 10:30\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
@@ -3209,7 +3209,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old English Literature",
+      "title": "Old English Literature",
       "sourceurl": "oe-lit",
       "data": "{\"datePattern\": \"Mi2-7, Le1-6 F 4\", \"type\": \"lecture\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
@@ -3220,7 +3220,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old English language and texts (First year students)",
+      "title": "Old English language and texts (First year students)",
       "sourceurl": "oe-lang-texts",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 F 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
@@ -3231,7 +3231,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old English texts (Second year students)",
+      "title": "Old English texts (Second year students)",
       "sourceurl": "oe-lang",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 3\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
@@ -3242,7 +3242,7 @@
   },
   {
     "fields": {
-      "sourceid": "The North Atlantic Settlements",
+      "title": "The North Atlantic Settlements",
       "sourceurl": "north-atlantic-settlements",
       "data": "{\"datePattern\": \"Mi1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
@@ -3253,7 +3253,7 @@
   },
   {
     "fields": {
-      "sourceid": "Norway before 1150",
+      "title": "Norway before 1150",
       "sourceurl": "norway",
       "data": "{\"datePattern\": \"Le1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
@@ -3264,7 +3264,7 @@
   },
   {
     "fields": {
-      "sourceid": "Themes and problems in Scandinavian History",
+      "title": "Themes and problems in Scandinavian History",
       "sourceurl": "themes-in-scand-hist",
       "data": "{\"datePattern\": \"Ea1-4, M 2\", \"type\": \"seminar\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
@@ -3275,7 +3275,7 @@
   },
   {
     "fields": {
-      "sourceid": "Pictish Kingdoms",
+      "title": "Pictish Kingdoms",
       "sourceurl": "pictish-kingdoms",
       "data": "{\"datePattern\": \"Mi1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
@@ -3286,7 +3286,7 @@
   },
   {
     "fields": {
-      "sourceid": "Wales and Dumnonia",
+      "title": "Wales and Dumnonia",
       "sourceurl": "wales-dumnonia",
       "data": "{\"datePattern\": \"Le1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
@@ -3297,7 +3297,7 @@
   },
   {
     "fields": {
-      "sourceid": "Themes and problems in Brittonic History",
+      "title": "Themes and problems in Brittonic History",
       "sourceurl": "themes-in-brittonic-history",
       "data": "{\"datePattern\": \"Ea1-4, Tu 10\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
@@ -3308,7 +3308,7 @@
   },
   {
     "fields": {
-      "sourceid": "Gaelic Scotland and the Isle of Man",
+      "title": "Gaelic Scotland and the Isle of Man",
       "sourceurl": "gaelic-scotland",
       "data": "{\"datePattern\": \"MI1-8, Le1-8, W 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
@@ -3319,7 +3319,7 @@
   },
   {
     "fields": {
-      "sourceid": "Themes and problems in Gaelic history",
+      "title": "Themes and problems in Gaelic history",
       "sourceurl": "themes-in-gaelic-history",
       "data": "{\"datePattern\": \"Ea1-4, W 4\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
@@ -3330,7 +3330,7 @@
   },
   {
     "fields": {
-      "sourceid": "Snorri's Edda",
+      "title": "Snorri's Edda",
       "sourceurl": "snorris-edda",
       "data": "{\"datePattern\": \"Mi2-8, Th 10\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
@@ -3341,7 +3341,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old Norse Eddic Poetry",
+      "title": "Old Norse Eddic Poetry",
       "sourceurl": "eddic-poetry",
       "data": "{\"datePattern\": \"Le1-6, Th 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr B Schorn et al.\"]}",
       "sourcetype": "pattern",
@@ -3352,7 +3352,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old Norse Language and Texts (First year students)",
+      "title": "Old Norse Language and Texts (First year students)",
       "sourceurl": "norse-texts-1",
       "data": "{\"datePattern\": \"Mi1-6,8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
@@ -3363,7 +3363,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old Norse Language and Texts (First year students) continued",
+      "title": "Old Norse Language and Texts (First year students) continued",
       "sourceurl": "norse-texts-1-cont",
       "data": "{\"datePattern\": \"Le1-8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Ms V Cribb\"]}",
       "sourcetype": "pattern",
@@ -3374,7 +3374,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old Norse Language and Texts (Second year students)",
+      "title": "Old Norse Language and Texts (Second year students)",
       "sourceurl": "norse-texts-2",
       "data": "{\"datePattern\": \"Mi1-6,8 M 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
@@ -3385,7 +3385,7 @@
   },
   {
     "fields": {
-      "sourceid": "Old Norse Language and Texts (Second year students) continued",
+      "title": "Old Norse Language and Texts (Second year students) continued",
       "sourceurl": "norse-texts-2-cont",
       "data": "{\"datePattern\": \"Le1-8 M 11\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr B Schorn\"]}",
       "sourcetype": "pattern",
@@ -3396,7 +3396,7 @@
   },
   {
     "fields": {
-      "sourceid": "Number Theory",
+      "title": "Number Theory",
       "sourceurl": "nt",
       "data": "{\"datePattern\": \"mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. J M E Hyland\"]}",
       "sourcetype": "pattern",
@@ -3407,7 +3407,7 @@
   },
   {
     "fields": {
-      "sourceid": "Fluid Dynamics",
+      "title": "Fluid Dynamics",
       "sourceurl": "fluid-dynamics",
       "data": "{\"datePattern\": \"Mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof. E J Hinch\"]}",
       "sourcetype": "pattern",
@@ -3418,7 +3418,7 @@
   },
   {
     "fields": {
-      "sourceid": "Logic and Set Theory",
+      "title": "Logic and Set Theory",
       "sourceurl": "logic-set-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. P T Johnstone\"]}",
       "sourcetype": "pattern",
@@ -3429,7 +3429,7 @@
   },
   {
     "fields": {
-      "sourceid": "Principles of Statistics",
+      "title": "Principles of Statistics",
       "sourceurl": "principles-of-stats",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. A P Dawid\"]}",
       "sourcetype": "pattern",
@@ -3440,7 +3440,7 @@
   },
   {
     "fields": {
-      "sourceid": "Numerical Analysis",
+      "title": "Numerical Analysis",
       "sourceurl": "num-analysis",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr C B Schoenlieb\"]}",
       "sourcetype": "pattern",
@@ -3451,7 +3451,7 @@
   },
   {
     "fields": {
-      "sourceid": "Probability and Measure",
+      "title": "Probability and Measure",
       "sourceurl": "probability-measure",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof J R Norris\"]}",
       "sourcetype": "pattern",
@@ -3462,7 +3462,7 @@
   },
   {
     "fields": {
-      "sourceid": "Partial Differential Equations",
+      "title": "Partial Differential Equations",
       "sourceurl": "pde",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Dr D M A Stuart\"]}",
       "sourcetype": "pattern",
@@ -3473,7 +3473,7 @@
   },
   {
     "fields": {
-      "sourceid": "Integrable Systems",
+      "title": "Integrable Systems",
       "sourceurl": "integrable-systems",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. a Iserles\"]}",
       "sourcetype": "pattern",
@@ -3484,7 +3484,7 @@
   },
   {
     "fields": {
-      "sourceid": "Representation Theory",
+      "title": "Representation Theory",
       "sourceurl": "rep-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr S J Wadsley\"]}",
       "sourcetype": "pattern",
@@ -3495,7 +3495,7 @@
   },
   {
     "fields": {
-      "sourceid": "2. Music History 1",
+      "title": "2. Music History 1",
       "sourceurl": "music-hist-1",
       "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
@@ -3506,7 +3506,7 @@
   },
   {
     "fields": {
-      "sourceid": "5. Tonal Skills- Harmony",
+      "title": "5. Tonal Skills- Harmony",
       "sourceurl": "tonal-skills-harmony",
       "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
@@ -3517,7 +3517,7 @@
   },
   {
     "fields": {
-      "sourceid": "4. Introduction to Analysis",
+      "title": "4. Introduction to Analysis",
       "sourceurl": "analysis",
       "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
@@ -3528,7 +3528,7 @@
   },
   {
     "fields": {
-      "sourceid": "1. Musicology Today",
+      "title": "1. Musicology Today",
       "sourceurl": "musicology-today",
       "data": "{\"datePattern\": \"Mi1-8 Th 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"IRMC\"]}",
       "sourcetype": "pattern",
@@ -3539,7 +3539,7 @@
   },
   {
     "fields": {
-      "sourceid": "5. Tonal Skills - Counterpoint",
+      "title": "5. Tonal Skills - Counterpoint",
       "sourceurl": "tonal-skills-counterpoint",
       "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
@@ -3550,7 +3550,7 @@
   },
   {
     "fields": {
-      "sourceid": "3. Music History 2",
+      "title": "3. Music History 2",
       "sourceurl": "music-hist-2",
       "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
@@ -3561,7 +3561,7 @@
   },
   {
     "fields": {
-      "sourceid": "1. Introduction - Recital/Composition/Essay",
+      "title": "1. Introduction - Recital/Composition/Essay",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
