@@ -1,6 +1,7 @@
-from calendar import calendar
+import calendar
 import itertools
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render
 from django.utils import simplejson as json
@@ -11,7 +12,7 @@ from django.views.generic.base import View
 from timetables.models import HierachicalModel, Thing, Event
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
-
+from timetables.utils import datetimes
 
 
 class CalendarView(View):
@@ -81,6 +82,19 @@ class CalendarHtmlView(View):
             return HttpResponseNotFound()
 
 
+@login_required
+def event_list(request, year=None, month=None):
+    assert not bool(year) ^ bool(month), "provide both or neither year, month"
+    # Default to current month/year if not provided
+    now = datetimes.server_datetime_now()
+    year = int(year or now.year)
+    month = int(month or now.month)
+    
+    calendar = MonthListCalendar.from_personal_calendar(
+            request.user, year, month)
+    
+    return render(request, "event-list.html", {"calendar": calendar})
+
 class MonthListCalendar(object):
     """
     Models the data shown in the calendar list page. i.e. a list of events under
@@ -120,10 +134,7 @@ class MonthListCalendar(object):
         return (Event.objects.all()
                 .in_users_timetable(username)
                 .in_range(start, end)
-                .include_series_length()
-                .prefetch_related("owning_series__associated_staff")
-                .prefetch_related("default_timeslot")
-                .order_by("default_timeslot__start_time"))
+                .order_by("start"))
     
     @staticmethod
     def _month_range(year, month):
@@ -152,13 +163,13 @@ class MonthListCalendar(object):
         return (e for e in self._events if self._event_in_month(e))
 
     def _event_in_month(self, event):
-        datetime = event.default_timeslot.start_time
+        datetime = event.start
         return datetime.month == self.month and datetime.year == self.year
 
     @staticmethod
     def event_day(event):
         "Returns: The numeric day of the month the Event instance starts on."
-        return event.default_timeslot.start_time.day
+        return event.start.day
 
     @staticmethod
     def _bucket_into_days(all_events):

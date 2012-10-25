@@ -49,7 +49,7 @@ define([
 				calendar.content.refresh();
 			});
 
-			$("a[href=\"#\"]").click(function (event) {
+			$("a[href=\"#\"]").live("click", function (event) {
 				event.preventDefault();
 			});
 

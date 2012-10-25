@@ -199,6 +199,10 @@ class Thing(SchemalessModel, HierachicalModel):
     type = models.CharField("Type",
             max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behavior")
 
+    sources = models.ManyToManyField("EventSource", through="EventSourceTag", related_name="things")
+
+    direct_events = models.ManyToManyField("Event", through="EventTag", related_name="direct_things")
+
     # Full name of this thing.
     fullname = models.CharField("Full Name", max_length=MAX_LONG_NAME,help_text="Full name of the thing, to be displayed to end users.")
     

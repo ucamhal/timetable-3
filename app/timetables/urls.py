@@ -11,7 +11,8 @@ from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
 from timetables.views.adminview import AdminView
-from timetables.views.calendarview import CalendarView, CalendarHtmlView
+from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
+    event_list
 from timetables.views.account import LogoutView, LoginView
 
 
@@ -62,4 +63,6 @@ urlpatterns = patterns('',
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     
+    url(r'^eventlist/$', event_list, name="event list"),
+    url(r'^eventlist/(?P<year>\d{4})/(?P<month>\d{1,2})/$', event_list, name="event list specific"),
 )
