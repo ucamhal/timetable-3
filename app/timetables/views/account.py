@@ -15,12 +15,15 @@ from django.conf import settings
 from django.shortcuts import render
 from django.utils.http import urlencode
 from django.contrib import messages
+from django.contrib.auth.backends import RemoteUserBackend
+
 import logging
 
 class LoginView(View):
     '''
     Login view.
     '''
+    backend = RemoteUserBackend()
 
     def get(self, request):
         if request.user.is_authenticated():
@@ -28,13 +31,14 @@ class LoginView(View):
                 return HttpResponseRedirect(request.REQUEST['next'])
             return HttpResponseRedirect(reverse('home'))
         if settings.ENABLE_RAVEN:
-            if "HTTP_REMOTE_USER" in request.META:
-                username = request.META['HTTP_REMOTE_USER']
+            if "REMOTE_USER" in request.META:
+                username = request.META['REMOTE_USER']
                 try:
-                    user = User.objects.get_by_natural_key(request.META['HTTP_REMOTE_USER'])
+                    user = User.objects.get_by_natural_key(username)
                 except User.DoesNotExist:
                     # Create a user with an invalid password hash of None
-                    user = User.objects.create_user(username,settings.USER_NAME_PATTERN % username )
+                    user = User.objects.create_user(username, "%s@cam.ac.uk" % username )
+                user.backend = "%s.%s" % (self.backend.__module__, self.backend.__class__.__name__)
                 return self._do_login(request, user)
             if "next" in request.REQUEST:
                 return HttpResponseRedirect(request.REQUEST['next'])
