@@ -10,6 +10,8 @@ from django.db.models import Q
 from timetables.models import Thing
 
 import itertools
+from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 
 class IndexView(View):
 
@@ -88,7 +90,16 @@ class IndexView(View):
     
     def get(self, request):
         context = {
-                   "subjects": self._all_subjects(),
-                   "user" : request.user
+                   "subjects": self._all_subjects()
                    }
+        if request.user.is_authenticated():
+            context["user"] = request.user
+            context["loggedin"] = True
+        else:
+            context["user"] = AnonymousUser()
+            context["loggedin"] = False
+        try:
+            context['raven_url'] = settings.RAVEN_URL
+        except:
+            pass
         return render(request, "index.html", context)

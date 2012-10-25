@@ -93,8 +93,13 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			$.post(sourcepath+".link", postdata, function() {
 				self.toggleButtonState($(source), add);
 				self.dispatchEvent("timetableChanged");
-			}).error(function() {
-				alert("Failed to "+(add?"add":"remove")+" items");
+			}).error(function(response, status, error) {
+				console.log("Status code is "+response.status+" error:"+error);
+				if ( response.status === 403 ) {
+					$('#signinModal').modal('show');					
+				} else {
+					$('#errorModal').modal('show');
+				}
 			});
 		},
 

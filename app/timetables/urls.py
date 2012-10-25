@@ -12,14 +12,14 @@ from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
 from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView
+from timetables.views.account import LogoutView, LoginView
 
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r"^$", IndexView.as_view(), name="thing view default"),
-    url(r"^index\.html$", IndexView.as_view(), name="thing view index"),
+    url(r"^$", IndexView.as_view(), name="home"),
 
     url(r"^editor$", AdminView.as_view(), name="admin"),
     url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
@@ -28,11 +28,22 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
+    url(r'^account/login',
+            LoginView.as_view(),
+            name="login url"),
+
+    url(r'^account/logout',
+            LogoutView.as_view(),
+            name="logout url"),
+
+
 
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
+    # This pattern is only really used for reverse, should never be matched forwards
+    url(r'(.*?)/(.*)\.events\.ics$', ExportEvents.as_view(), name="export named ics"),
     url(r'(?P<thing>.*)\.events\.csv$', ExportEvents.as_view(), name="export csv"),
     url(r'(?P<thing>.*)\.events\.json$', ExportEvents.as_view(), name="export json"),
     # View of the things events
