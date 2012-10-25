@@ -1,2607 +1,2607 @@
 [
   {
     "fields": {
-      "title": "Registration",
       "sourceurl": "registration",
       "data": "{\"datePattern\": \"Mi1 Th 2-4\", \"type\": \"lecture\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Registration"
     },
     "model": "timetables.eventsource",
     "pk": "1"
   },
   {
     "fields": {
-      "title": "Computer Fundamentals",
       "sourceurl": "comp-fundamentals\n\n",
       "data": "{\"datePattern\": \"Mi1 MWF 10 ; Mi2 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Computer Fundamentals"
     },
     "model": "timetables.eventsource",
     "pk": "2"
   },
   {
     "fields": {
-      "title": "Foundations of Computer Science",
       "sourceurl": "compsci-foundations\n\n",
       "data": "{\"datePattern\": \"Mi2 MW 10 ; Mi3-6 MWF 10 ; Mi7 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Prof L. C. Paulson\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Foundations of Computer Science"
     },
     "model": "timetables.eventsource",
     "pk": "3"
   },
   {
     "fields": {
-      "title": "Discrete Mathematics I",
       "sourceurl": "discrete-maths-1",
       "data": "{\"datePattern\": \"Mi7 MW 10 ; Mi8 MWF 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr S. Staton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Discrete Mathematics I"
     },
     "model": "timetables.eventsource",
     "pk": "4"
   },
   {
     "fields": {
-      "title": "Practical",
       "sourceurl": "practical",
       "data": "{\"datePattern\": \"Le1-8 Th 2-4 Th 4-6\", \"type\": \"practical\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr A. R. Beresford\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Practical"
     },
     "model": "timetables.eventsource",
     "pk": "5"
   },
   {
     "fields": {
-      "title": "Introductory meeting for all first year students",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 W 11\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introductory meeting for all first year students"
     },
     "model": "timetables.eventsource",
     "pk": "6"
   },
   {
     "fields": {
-      "title": "Meeting for all second year students",
       "sourceurl": "meeting",
       "data": "{\"datePattern\": \"Mi1 W 10:30\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Meeting for all second year students"
     },
     "model": "timetables.eventsource",
     "pk": "7"
   },
   {
     "fields": {
-      "title": "Old English Literature",
       "sourceurl": "oe-lit",
       "data": "{\"datePattern\": \"Mi2-7, Le1-6 F 4\", \"type\": \"lecture\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English Literature"
     },
     "model": "timetables.eventsource",
     "pk": "8"
   },
   {
     "fields": {
-      "title": "Old English language and texts (First year students)",
       "sourceurl": "oe-lang-texts",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 F 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "9"
   },
   {
     "fields": {
-      "title": "Old English texts (Second year students)",
       "sourceurl": "oe-lang",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 3\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "10"
   },
   {
     "fields": {
-      "title": "The North Atlantic Settlements",
       "sourceurl": "north-atlantic-settlements",
       "data": "{\"datePattern\": \"Mi1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "The North Atlantic Settlements"
     },
     "model": "timetables.eventsource",
     "pk": "11"
   },
   {
     "fields": {
-      "title": "Norway before 1150",
       "sourceurl": "norway",
       "data": "{\"datePattern\": \"Le1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Norway before 1150"
     },
     "model": "timetables.eventsource",
     "pk": "12"
   },
   {
     "fields": {
-      "title": "Themes and problems in Scandinavian History",
       "sourceurl": "themes-in-scand-hist",
       "data": "{\"datePattern\": \"Ea1-4, M 2\", \"type\": \"seminar\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Scandinavian History"
     },
     "model": "timetables.eventsource",
     "pk": "13"
   },
   {
     "fields": {
-      "title": "Pictish Kingdoms",
       "sourceurl": "pictish-kingdoms",
       "data": "{\"datePattern\": \"Mi1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Pictish Kingdoms"
     },
     "model": "timetables.eventsource",
     "pk": "14"
   },
   {
     "fields": {
-      "title": "Wales and Dumnonia",
       "sourceurl": "wales-dumnonia",
       "data": "{\"datePattern\": \"Le1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Wales and Dumnonia"
     },
     "model": "timetables.eventsource",
     "pk": "15"
   },
   {
     "fields": {
-      "title": "Themes and problems in Brittonic History",
       "sourceurl": "themes-in-brittonic-history",
       "data": "{\"datePattern\": \"Ea1-4, Tu 10\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Brittonic History"
     },
     "model": "timetables.eventsource",
     "pk": "16"
   },
   {
     "fields": {
-      "title": "Gaelic Scotland and the Isle of Man",
       "sourceurl": "gaelic-scotland",
       "data": "{\"datePattern\": \"MI1-8, Le1-8, W 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Gaelic Scotland and the Isle of Man"
     },
     "model": "timetables.eventsource",
     "pk": "17"
   },
   {
     "fields": {
-      "title": "Themes and problems in Gaelic history",
       "sourceurl": "themes-in-gaelic-history",
       "data": "{\"datePattern\": \"Ea1-4, W 4\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Gaelic history"
     },
     "model": "timetables.eventsource",
     "pk": "18"
   },
   {
     "fields": {
-      "title": "Snorri's Edda",
       "sourceurl": "snorris-edda",
       "data": "{\"datePattern\": \"Mi2-8, Th 10\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Snorri's Edda"
     },
     "model": "timetables.eventsource",
     "pk": "19"
   },
   {
     "fields": {
-      "title": "Old Norse Eddic Poetry",
       "sourceurl": "eddic-poetry",
       "data": "{\"datePattern\": \"Le1-6, Th 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr B Schorn et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Eddic Poetry"
     },
     "model": "timetables.eventsource",
     "pk": "20"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students)",
       "sourceurl": "norse-texts-1",
       "data": "{\"datePattern\": \"Mi1-6,8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "21"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students) continued",
       "sourceurl": "norse-texts-1-cont",
       "data": "{\"datePattern\": \"Le1-8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Ms V Cribb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "22"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students)",
       "sourceurl": "norse-texts-2",
       "data": "{\"datePattern\": \"Mi1-6,8 M 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "23"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students) continued",
       "sourceurl": "norse-texts-2-cont",
       "data": "{\"datePattern\": \"Le1-8 M 11\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr B Schorn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "24"
   },
   {
     "fields": {
-      "title": "Number Theory",
       "sourceurl": "nt",
       "data": "{\"datePattern\": \"mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. J M E Hyland\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Number Theory"
     },
     "model": "timetables.eventsource",
     "pk": "25"
   },
   {
     "fields": {
-      "title": "Fluid Dynamics",
       "sourceurl": "fluid-dynamics",
       "data": "{\"datePattern\": \"Mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof. E J Hinch\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Fluid Dynamics"
     },
     "model": "timetables.eventsource",
     "pk": "26"
   },
   {
     "fields": {
-      "title": "Logic and Set Theory",
       "sourceurl": "logic-set-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. P T Johnstone\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Logic and Set Theory"
     },
     "model": "timetables.eventsource",
     "pk": "27"
   },
   {
     "fields": {
-      "title": "Principles of Statistics",
       "sourceurl": "principles-of-stats",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. A P Dawid\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Principles of Statistics"
     },
     "model": "timetables.eventsource",
     "pk": "28"
   },
   {
     "fields": {
-      "title": "Numerical Analysis",
       "sourceurl": "num-analysis",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr C B Schoenlieb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Numerical Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "29"
   },
   {
     "fields": {
-      "title": "Probability and Measure",
       "sourceurl": "probability-measure",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof J R Norris\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Probability and Measure"
     },
     "model": "timetables.eventsource",
     "pk": "30"
   },
   {
     "fields": {
-      "title": "Partial Differential Equations",
       "sourceurl": "pde",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Dr D M A Stuart\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Partial Differential Equations"
     },
     "model": "timetables.eventsource",
     "pk": "31"
   },
   {
     "fields": {
-      "title": "Integrable Systems",
       "sourceurl": "integrable-systems",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. a Iserles\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Integrable Systems"
     },
     "model": "timetables.eventsource",
     "pk": "32"
   },
   {
     "fields": {
-      "title": "Representation Theory",
       "sourceurl": "rep-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr S J Wadsley\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Representation Theory"
     },
     "model": "timetables.eventsource",
     "pk": "33"
   },
   {
     "fields": {
-      "title": "2. Music History 1",
       "sourceurl": "music-hist-1",
       "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "2. Music History 1"
     },
     "model": "timetables.eventsource",
     "pk": "34"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills- Harmony",
       "sourceurl": "tonal-skills-harmony",
       "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills- Harmony"
     },
     "model": "timetables.eventsource",
     "pk": "35"
   },
   {
     "fields": {
-      "title": "4. Introduction to Analysis",
       "sourceurl": "analysis",
       "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "4. Introduction to Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "36"
   },
   {
     "fields": {
-      "title": "1. Musicology Today",
       "sourceurl": "musicology-today",
       "data": "{\"datePattern\": \"Mi1-8 Th 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Musicology Today"
     },
     "model": "timetables.eventsource",
     "pk": "37"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills - Counterpoint",
       "sourceurl": "tonal-skills-counterpoint",
       "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills - Counterpoint"
     },
     "model": "timetables.eventsource",
     "pk": "38"
   },
   {
     "fields": {
-      "title": "3. Music History 2",
       "sourceurl": "music-hist-2",
       "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "3. Music History 2"
     },
     "model": "timetables.eventsource",
     "pk": "39"
   },
   {
     "fields": {
-      "title": "1. Introduction - Recital/Composition/Essay",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Introduction - Recital/Composition/Essay"
     },
     "model": "timetables.eventsource",
     "pk": "40"
   },
   {
     "fields": {
-      "title": "Undergraduate Skills",
       "sourceurl": "ug-skills",
       "data": "{\"datePattern\": \"Mi1-8 M 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Undergraduate Skills"
     },
     "model": "timetables.eventsource",
     "pk": "41"
   },
   {
     "fields": {
-      "title": "6. Tonal Skills 2",
       "sourceurl": "tonal-skills-2",
       "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "6. Tonal Skills 2"
     },
     "model": "timetables.eventsource",
     "pk": "42"
   },
   {
     "fields": {
-      "title": "Recital",
       "sourceurl": "recital",
       "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Recital"
     },
     "model": "timetables.eventsource",
     "pk": "43"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Mi1-8 Th 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "44"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Ea1-4 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "45"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Le1-8 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Ms N Petrovskaia\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "46"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "47"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"SR25\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "48"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Ea1-4 M 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "49"
   },
   {
     "fields": {
-      "title": "Introduction to Medieval Welsh (First year students)",
       "sourceurl": "mid-welsh-intro",
       "data": "{\"datePattern\": \"Mi1-2 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Medieval Welsh (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "50"
   },
   {
     "fields": {
-      "title": "Medieval Welsh Prose Literature (First and second year students)",
       "sourceurl": "mid-welsh-prose",
       "data": "{\"datePattern\": \"Mi2-6, Le1-6 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Welsh Prose Literature (First and second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "51"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Mi1-8 F 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "52"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Mi1-8 T 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "53"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "54"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "55"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Ea1-4 Tu 11\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "56"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
-      "data": "{\"datePattern\": \"Ea1-4 We 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
+      "data": "{\"datePattern\": \"Ea1-4 W 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "57"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Mi1-8 W 12\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "58"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Le1-8 W 12\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "59"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "60"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "61"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8, Ea1-4 M 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "62"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8 Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "63"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Le1-8 M 11, Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr R Love\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "64"
   },
   {
     "fields": {
-      "title": "Welcome and Introduction to studying History at Cambridge (first year students)",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi0 W 11-1\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr M A Goldie and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Welcome and Introduction to studying History at Cambridge (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "65"
   },
   {
     "fields": {
-      "title": "session 1",
       "sourceurl": "1",
       "data": "{\"datePattern\": \"Mi0 Tu 9.30-9.50\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 1"
     },
     "model": "timetables.eventsource",
     "pk": "66"
   },
   {
     "fields": {
-      "title": "session 2",
       "sourceurl": "2",
       "data": "{\"datePattern\": \"Mi0 Tu 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 2"
     },
     "model": "timetables.eventsource",
     "pk": "67"
   },
   {
     "fields": {
-      "title": "session 8",
       "sourceurl": "8",
       "data": "{\"datePattern\": \"Mi0 W 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 8"
     },
     "model": "timetables.eventsource",
     "pk": "68"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 F 2\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "69"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "70"
   },
   {
     "fields": {
-      "title": "Online Resources: A guide for Part I students (first years)",
       "sourceurl": "online-resources",
       "data": "{\"datePattern\": \"Mi2 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Online Resources: A guide for Part I students (first years)"
     },
     "model": "timetables.eventsource",
     "pk": "71"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)",
       "sourceurl": "themes-and-sources-1",
       "data": "{\"datePattern\": \"Mi0 F 10-10.30\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "72"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)",
       "sourceurl": "themes-and-sources-2",
       "data": "{\"datePattern\": \"Mi1 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "73"
   },
   {
     "fields": {
-      "title": "Historiography (all years)",
       "sourceurl": "historiography",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Historiography (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "74"
   },
   {
     "fields": {
-      "title": "Concepts and Problems (all years)",
       "sourceurl": "concepts-and-problems",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Concepts and Problems (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "75"
   },
   {
     "fields": {
-      "title": "Great Books (all years)",
       "sourceurl": "great-books",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Great Books (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "76"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)",
       "sourceurl": "dissertation-guide",
       "data": "{\"datePattern\": \"Le1 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M A Goldie\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "77"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide to online research resources (second years)",
       "sourceurl": "dissertation-online-resources",
       "data": "{\"datePattern\": \"Le8 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide to online research resources (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "78"
   },
   {
     "fields": {
-      "title": "How to revise for Part I",
       "sourceurl": "revise",
       "data": "{\"datePattern\": \"Le8 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr C Burt\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "How to revise for Part I"
     },
     "model": "timetables.eventsource",
     "pk": "79"
   },
   {
     "fields": {
-      "title": "Registration",
       "sourceurl": "registration",
       "data": "{\"datePattern\": \"Mi1 Th 2-4\", \"type\": \"lecture\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Registration"
     },
     "model": "timetables.eventsource",
     "pk": "1"
   },
   {
     "fields": {
-      "title": "Computer Fundamentals",
       "sourceurl": "comp-fundamentals\n\n",
       "data": "{\"datePattern\": \"Mi1 MWF 10 ; Mi2 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Computer Fundamentals"
     },
     "model": "timetables.eventsource",
     "pk": "2"
   },
   {
     "fields": {
-      "title": "Foundations of Computer Science",
       "sourceurl": "compsci-foundations\n\n",
       "data": "{\"datePattern\": \"Mi2 MW 10 ; Mi3-6 MWF 10 ; Mi7 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Prof L. C. Paulson\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Foundations of Computer Science"
     },
     "model": "timetables.eventsource",
     "pk": "3"
   },
   {
     "fields": {
-      "title": "Discrete Mathematics I",
       "sourceurl": "discrete-maths-1",
       "data": "{\"datePattern\": \"Mi7 MW 10 ; Mi8 MWF 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr S. Staton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Discrete Mathematics I"
     },
     "model": "timetables.eventsource",
     "pk": "4"
   },
   {
     "fields": {
-      "title": "Practical",
       "sourceurl": "practical",
       "data": "{\"datePattern\": \"Le1-8 Th 2-4 Th 4-6\", \"type\": \"practical\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr A. R. Beresford\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Practical"
     },
     "model": "timetables.eventsource",
     "pk": "5"
   },
   {
     "fields": {
-      "title": "Introductory meeting for all first year students",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 W 11\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introductory meeting for all first year students"
     },
     "model": "timetables.eventsource",
     "pk": "6"
   },
   {
     "fields": {
-      "title": "Meeting for all second year students",
       "sourceurl": "meeting",
       "data": "{\"datePattern\": \"Mi1 W 10:30\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Meeting for all second year students"
     },
     "model": "timetables.eventsource",
     "pk": "7"
   },
   {
     "fields": {
-      "title": "Old English Literature",
       "sourceurl": "oe-lit",
       "data": "{\"datePattern\": \"Mi2-7, Le1-6 F 4\", \"type\": \"lecture\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English Literature"
     },
     "model": "timetables.eventsource",
     "pk": "8"
   },
   {
     "fields": {
-      "title": "Old English language and texts (First year students)",
       "sourceurl": "oe-lang-texts",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 F 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "9"
   },
   {
     "fields": {
-      "title": "Old English texts (Second year students)",
       "sourceurl": "oe-lang",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 3\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "10"
   },
   {
     "fields": {
-      "title": "The North Atlantic Settlements",
       "sourceurl": "north-atlantic-settlements",
       "data": "{\"datePattern\": \"Mi1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "The North Atlantic Settlements"
     },
     "model": "timetables.eventsource",
     "pk": "11"
   },
   {
     "fields": {
-      "title": "Norway before 1150",
       "sourceurl": "norway",
       "data": "{\"datePattern\": \"Le1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Norway before 1150"
     },
     "model": "timetables.eventsource",
     "pk": "12"
   },
   {
     "fields": {
-      "title": "Themes and problems in Scandinavian History",
       "sourceurl": "themes-in-scand-hist",
       "data": "{\"datePattern\": \"Ea1-4, M 2\", \"type\": \"seminar\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Scandinavian History"
     },
     "model": "timetables.eventsource",
     "pk": "13"
   },
   {
     "fields": {
-      "title": "Pictish Kingdoms",
       "sourceurl": "pictish-kingdoms",
       "data": "{\"datePattern\": \"Mi1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Pictish Kingdoms"
     },
     "model": "timetables.eventsource",
     "pk": "14"
   },
   {
     "fields": {
-      "title": "Wales and Dumnonia",
       "sourceurl": "wales-dumnonia",
       "data": "{\"datePattern\": \"Le1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Wales and Dumnonia"
     },
     "model": "timetables.eventsource",
     "pk": "15"
   },
   {
     "fields": {
-      "title": "Themes and problems in Brittonic History",
       "sourceurl": "themes-in-brittonic-history",
       "data": "{\"datePattern\": \"Ea1-4, Tu 10\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Brittonic History"
     },
     "model": "timetables.eventsource",
     "pk": "16"
   },
   {
     "fields": {
-      "title": "Gaelic Scotland and the Isle of Man",
       "sourceurl": "gaelic-scotland",
       "data": "{\"datePattern\": \"MI1-8, Le1-8, W 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Gaelic Scotland and the Isle of Man"
     },
     "model": "timetables.eventsource",
     "pk": "17"
   },
   {
     "fields": {
-      "title": "Themes and problems in Gaelic history",
       "sourceurl": "themes-in-gaelic-history",
       "data": "{\"datePattern\": \"Ea1-4, W 4\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Gaelic history"
     },
     "model": "timetables.eventsource",
     "pk": "18"
   },
   {
     "fields": {
-      "title": "Snorri's Edda",
       "sourceurl": "snorris-edda",
       "data": "{\"datePattern\": \"Mi2-8, Th 10\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Snorri's Edda"
     },
     "model": "timetables.eventsource",
     "pk": "19"
   },
   {
     "fields": {
-      "title": "Old Norse Eddic Poetry",
       "sourceurl": "eddic-poetry",
       "data": "{\"datePattern\": \"Le1-6, Th 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr B Schorn et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Eddic Poetry"
     },
     "model": "timetables.eventsource",
     "pk": "20"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students)",
       "sourceurl": "norse-texts-1",
       "data": "{\"datePattern\": \"Mi1-6,8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "21"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students) continued",
       "sourceurl": "norse-texts-1-cont",
       "data": "{\"datePattern\": \"Le1-8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Ms V Cribb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "22"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students)",
       "sourceurl": "norse-texts-2",
       "data": "{\"datePattern\": \"Mi1-6,8 M 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "23"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students) continued",
       "sourceurl": "norse-texts-2-cont",
       "data": "{\"datePattern\": \"Le1-8 M 11\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr B Schorn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "24"
   },
   {
     "fields": {
-      "title": "Number Theory",
       "sourceurl": "nt",
       "data": "{\"datePattern\": \"mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. J M E Hyland\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Number Theory"
     },
     "model": "timetables.eventsource",
     "pk": "25"
   },
   {
     "fields": {
-      "title": "Fluid Dynamics",
       "sourceurl": "fluid-dynamics",
       "data": "{\"datePattern\": \"Mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof. E J Hinch\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Fluid Dynamics"
     },
     "model": "timetables.eventsource",
     "pk": "26"
   },
   {
     "fields": {
-      "title": "Logic and Set Theory",
       "sourceurl": "logic-set-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. P T Johnstone\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Logic and Set Theory"
     },
     "model": "timetables.eventsource",
     "pk": "27"
   },
   {
     "fields": {
-      "title": "Principles of Statistics",
       "sourceurl": "principles-of-stats",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. A P Dawid\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Principles of Statistics"
     },
     "model": "timetables.eventsource",
     "pk": "28"
   },
   {
     "fields": {
-      "title": "Numerical Analysis",
       "sourceurl": "num-analysis",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr C B Schoenlieb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Numerical Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "29"
   },
   {
     "fields": {
-      "title": "Probability and Measure",
       "sourceurl": "probability-measure",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof J R Norris\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Probability and Measure"
     },
     "model": "timetables.eventsource",
     "pk": "30"
   },
   {
     "fields": {
-      "title": "Partial Differential Equations",
       "sourceurl": "pde",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Dr D M A Stuart\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Partial Differential Equations"
     },
     "model": "timetables.eventsource",
     "pk": "31"
   },
   {
     "fields": {
-      "title": "Integrable Systems",
       "sourceurl": "integrable-systems",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. a Iserles\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Integrable Systems"
     },
     "model": "timetables.eventsource",
     "pk": "32"
   },
   {
     "fields": {
-      "title": "Representation Theory",
       "sourceurl": "rep-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr S J Wadsley\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Representation Theory"
     },
     "model": "timetables.eventsource",
     "pk": "33"
   },
   {
     "fields": {
-      "title": "2. Music History 1",
       "sourceurl": "music-hist-1",
       "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "2. Music History 1"
     },
     "model": "timetables.eventsource",
     "pk": "34"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills- Harmony",
       "sourceurl": "tonal-skills-harmony",
       "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills- Harmony"
     },
     "model": "timetables.eventsource",
     "pk": "35"
   },
   {
     "fields": {
-      "title": "4. Introduction to Analysis",
       "sourceurl": "analysis",
       "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "4. Introduction to Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "36"
   },
   {
     "fields": {
-      "title": "1. Musicology Today",
       "sourceurl": "musicology-today",
       "data": "{\"datePattern\": \"Mi1-8 Th 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Musicology Today"
     },
     "model": "timetables.eventsource",
     "pk": "37"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills - Counterpoint",
       "sourceurl": "tonal-skills-counterpoint",
       "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills - Counterpoint"
     },
     "model": "timetables.eventsource",
     "pk": "38"
   },
   {
     "fields": {
-      "title": "3. Music History 2",
       "sourceurl": "music-hist-2",
       "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "3. Music History 2"
     },
     "model": "timetables.eventsource",
     "pk": "39"
   },
   {
     "fields": {
-      "title": "1. Introduction - Recital/Composition/Essay",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Introduction - Recital/Composition/Essay"
     },
     "model": "timetables.eventsource",
     "pk": "40"
   },
   {
     "fields": {
-      "title": "Undergraduate Skills",
       "sourceurl": "ug-skills",
       "data": "{\"datePattern\": \"Mi1-8 M 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Undergraduate Skills"
     },
     "model": "timetables.eventsource",
     "pk": "41"
   },
   {
     "fields": {
-      "title": "6. Tonal Skills 2",
       "sourceurl": "tonal-skills-2",
       "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "6. Tonal Skills 2"
     },
     "model": "timetables.eventsource",
     "pk": "42"
   },
   {
     "fields": {
-      "title": "Recital",
       "sourceurl": "recital",
       "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Recital"
     },
     "model": "timetables.eventsource",
     "pk": "43"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Mi1-8 Th 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "44"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Ea1-4 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "45"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Le1-8 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Ms N Petrovskaia\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "46"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "47"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"SR25\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "48"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Ea1-4 M 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "49"
   },
   {
     "fields": {
-      "title": "Introduction to Medieval Welsh (First year students)",
       "sourceurl": "mid-welsh-intro",
       "data": "{\"datePattern\": \"Mi1-2 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Medieval Welsh (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "50"
   },
   {
     "fields": {
-      "title": "Medieval Welsh Prose Literature (First and second year students)",
       "sourceurl": "mid-welsh-prose",
       "data": "{\"datePattern\": \"Mi2-6, Le1-6 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Welsh Prose Literature (First and second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "51"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Mi1-8 F 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "52"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Mi1-8 T 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "53"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "54"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "55"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Ea1-4 Tu 11\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "56"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
-      "data": "{\"datePattern\": \"Ea1-4 We 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
+      "data": "{\"datePattern\": \"Ea1-4 W 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "57"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Mi1-8 W 12\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "58"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Le1-8 W 12\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "59"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "60"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "61"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8, Ea1-4 M 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "62"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8 Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "63"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Le1-8 M 11, Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr R Love\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "64"
   },
   {
     "fields": {
-      "title": "Welcome and Introduction to studying History at Cambridge (first year students)",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi0 W 11-1\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr M A Goldie and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Welcome and Introduction to studying History at Cambridge (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "65"
   },
   {
     "fields": {
-      "title": "session 1",
       "sourceurl": "1",
       "data": "{\"datePattern\": \"Mi0 Tu 9.30-9.50\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 1"
     },
     "model": "timetables.eventsource",
     "pk": "66"
   },
   {
     "fields": {
-      "title": "session 2",
       "sourceurl": "2",
       "data": "{\"datePattern\": \"Mi0 Tu 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 2"
     },
     "model": "timetables.eventsource",
     "pk": "67"
   },
   {
     "fields": {
-      "title": "session 8",
       "sourceurl": "8",
       "data": "{\"datePattern\": \"Mi0 W 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 8"
     },
     "model": "timetables.eventsource",
     "pk": "68"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 F 2\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "69"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "70"
   },
   {
     "fields": {
-      "title": "Online Resources: A guide for Part I students (first years)",
       "sourceurl": "online-resources",
       "data": "{\"datePattern\": \"Mi2 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Online Resources: A guide for Part I students (first years)"
     },
     "model": "timetables.eventsource",
     "pk": "71"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)",
       "sourceurl": "themes-and-sources-1",
       "data": "{\"datePattern\": \"Mi0 F 10-10.30\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "72"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)",
       "sourceurl": "themes-and-sources-2",
       "data": "{\"datePattern\": \"Mi1 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "73"
   },
   {
     "fields": {
-      "title": "Historiography (all years)",
       "sourceurl": "historiography",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Historiography (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "74"
   },
   {
     "fields": {
-      "title": "Concepts and Problems (all years)",
       "sourceurl": "concepts-and-problems",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Concepts and Problems (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "75"
   },
   {
     "fields": {
-      "title": "Great Books (all years)",
       "sourceurl": "great-books",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Great Books (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "76"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)",
       "sourceurl": "dissertation-guide",
       "data": "{\"datePattern\": \"Le1 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M A Goldie\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "77"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide to online research resources (second years)",
       "sourceurl": "dissertation-online-resources",
       "data": "{\"datePattern\": \"Le8 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide to online research resources (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "78"
   },
   {
     "fields": {
-      "title": "How to revise for Part I",
       "sourceurl": "revise",
       "data": "{\"datePattern\": \"Le8 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr C Burt\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "How to revise for Part I"
     },
     "model": "timetables.eventsource",
     "pk": "79"
   },
   {
     "fields": {
-      "title": "Registration",
       "sourceurl": "registration",
       "data": "{\"datePattern\": \"Mi1 Th 2-4\", \"type\": \"lecture\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Registration"
     },
     "model": "timetables.eventsource",
     "pk": "1"
   },
   {
     "fields": {
-      "title": "Computer Fundamentals",
       "sourceurl": "comp-fundamentals\n\n",
       "data": "{\"datePattern\": \"Mi1 MWF 10 ; Mi2 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr R. Harle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Computer Fundamentals"
     },
     "model": "timetables.eventsource",
     "pk": "2"
   },
   {
     "fields": {
-      "title": "Foundations of Computer Science",
       "sourceurl": "compsci-foundations\n\n",
       "data": "{\"datePattern\": \"Mi2 MW 10 ; Mi3-6 MWF 10 ; Mi7 F 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Prof L. C. Paulson\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Foundations of Computer Science"
     },
     "model": "timetables.eventsource",
     "pk": "3"
   },
   {
     "fields": {
-      "title": "Discrete Mathematics I",
       "sourceurl": "discrete-maths-1",
       "data": "{\"datePattern\": \"Mi7 MW 10 ; Mi8 MWF 10\", \"type\": \"lecture\", \"location\": \"Arts School, Room A\", \"people\": [\"Dr S. Staton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Discrete Mathematics I"
     },
     "model": "timetables.eventsource",
     "pk": "4"
   },
   {
     "fields": {
-      "title": "Practical",
       "sourceurl": "practical",
       "data": "{\"datePattern\": \"Le1-8 Th 2-4 Th 4-6\", \"type\": \"practical\", \"location\": \"LT1 William Gates Bdg\", \"people\": [\"Dr A. R. Beresford\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Practical"
     },
     "model": "timetables.eventsource",
     "pk": "5"
   },
   {
     "fields": {
-      "title": "Introductory meeting for all first year students",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 W 11\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introductory meeting for all first year students"
     },
     "model": "timetables.eventsource",
     "pk": "6"
   },
   {
     "fields": {
-      "title": "Meeting for all second year students",
       "sourceurl": "meeting",
       "data": "{\"datePattern\": \"Mi1 W 10:30\", \"type\": \"lecture\", \"location\": \"Faculty of English: S-R24\", \"people\": [\"Head of Department and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Meeting for all second year students"
     },
     "model": "timetables.eventsource",
     "pk": "7"
   },
   {
     "fields": {
-      "title": "Old English Literature",
       "sourceurl": "oe-lit",
       "data": "{\"datePattern\": \"Mi2-7, Le1-6 F 4\", \"type\": \"lecture\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English Literature"
     },
     "model": "timetables.eventsource",
     "pk": "8"
   },
   {
     "fields": {
-      "title": "Old English language and texts (First year students)",
       "sourceurl": "oe-lang-texts",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 F 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "9"
   },
   {
     "fields": {
-      "title": "Old English texts (Second year students)",
       "sourceurl": "oe-lang",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 3\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Dance\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old English texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "10"
   },
   {
     "fields": {
-      "title": "The North Atlantic Settlements",
       "sourceurl": "north-atlantic-settlements",
       "data": "{\"datePattern\": \"Mi1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "The North Atlantic Settlements"
     },
     "model": "timetables.eventsource",
     "pk": "11"
   },
   {
     "fields": {
-      "title": "Norway before 1150",
       "sourceurl": "norway",
       "data": "{\"datePattern\": \"Le1-8, M 2\", \"type\": \"lecture\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Norway before 1150"
     },
     "model": "timetables.eventsource",
     "pk": "12"
   },
   {
     "fields": {
-      "title": "Themes and problems in Scandinavian History",
       "sourceurl": "themes-in-scand-hist",
       "data": "{\"datePattern\": \"Ea1-4, M 2\", \"type\": \"seminar\", \"location\": \"GR07\", \"people\": [\"Dr E A Rowe\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Scandinavian History"
     },
     "model": "timetables.eventsource",
     "pk": "13"
   },
   {
     "fields": {
-      "title": "Pictish Kingdoms",
       "sourceurl": "pictish-kingdoms",
       "data": "{\"datePattern\": \"Mi1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Pictish Kingdoms"
     },
     "model": "timetables.eventsource",
     "pk": "14"
   },
   {
     "fields": {
-      "title": "Wales and Dumnonia",
       "sourceurl": "wales-dumnonia",
       "data": "{\"datePattern\": \"Le1-8, Tu 10\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Wales and Dumnonia"
     },
     "model": "timetables.eventsource",
     "pk": "15"
   },
   {
     "fields": {
-      "title": "Themes and problems in Brittonic History",
       "sourceurl": "themes-in-brittonic-history",
       "data": "{\"datePattern\": \"Ea1-4, Tu 10\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Brittonic History"
     },
     "model": "timetables.eventsource",
     "pk": "16"
   },
   {
     "fields": {
-      "title": "Gaelic Scotland and the Isle of Man",
       "sourceurl": "gaelic-scotland",
       "data": "{\"datePattern\": \"MI1-8, Le1-8, W 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Gaelic Scotland and the Isle of Man"
     },
     "model": "timetables.eventsource",
     "pk": "17"
   },
   {
     "fields": {
-      "title": "Themes and problems in Gaelic history",
       "sourceurl": "themes-in-gaelic-history",
       "data": "{\"datePattern\": \"Ea1-4, W 4\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr F L Edmonds\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Themes and problems in Gaelic history"
     },
     "model": "timetables.eventsource",
     "pk": "18"
   },
   {
     "fields": {
-      "title": "Snorri's Edda",
       "sourceurl": "snorris-edda",
       "data": "{\"datePattern\": \"Mi2-8, Th 10\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Snorri's Edda"
     },
     "model": "timetables.eventsource",
     "pk": "19"
   },
   {
     "fields": {
-      "title": "Old Norse Eddic Poetry",
       "sourceurl": "eddic-poetry",
       "data": "{\"datePattern\": \"Le1-6, Th 10\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr B Schorn et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Eddic Poetry"
     },
     "model": "timetables.eventsource",
     "pk": "20"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students)",
       "sourceurl": "norse-texts-1",
       "data": "{\"datePattern\": \"Mi1-6,8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "21"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (First year students) continued",
       "sourceurl": "norse-texts-1-cont",
       "data": "{\"datePattern\": \"Le1-8, M 3\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Ms V Cribb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (First year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "22"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students)",
       "sourceurl": "norse-texts-2",
       "data": "{\"datePattern\": \"Mi1-6,8 M 11\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Dr J E Quinn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "23"
   },
   {
     "fields": {
-      "title": "Old Norse Language and Texts (Second year students) continued",
       "sourceurl": "norse-texts-2-cont",
       "data": "{\"datePattern\": \"Le1-8 M 11\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr B Schorn\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Norse Language and Texts (Second year students) continued"
     },
     "model": "timetables.eventsource",
     "pk": "24"
   },
   {
     "fields": {
-      "title": "Number Theory",
       "sourceurl": "nt",
       "data": "{\"datePattern\": \"mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. J M E Hyland\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Number Theory"
     },
     "model": "timetables.eventsource",
     "pk": "25"
   },
   {
     "fields": {
-      "title": "Fluid Dynamics",
       "sourceurl": "fluid-dynamics",
       "data": "{\"datePattern\": \"Mi1-8 MWF 9\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof. E J Hinch\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Fluid Dynamics"
     },
     "model": "timetables.eventsource",
     "pk": "26"
   },
   {
     "fields": {
-      "title": "Logic and Set Theory",
       "sourceurl": "logic-set-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR2\", \"people\": [\"Prof. P T Johnstone\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Logic and Set Theory"
     },
     "model": "timetables.eventsource",
     "pk": "27"
   },
   {
     "fields": {
-      "title": "Principles of Statistics",
       "sourceurl": "principles-of-stats",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. A P Dawid\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Principles of Statistics"
     },
     "model": "timetables.eventsource",
     "pk": "28"
   },
   {
     "fields": {
-      "title": "Numerical Analysis",
       "sourceurl": "num-analysis",
       "data": "{\"datePattern\": \"Mi1-8 MWF 10\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr C B Schoenlieb\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Numerical Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "29"
   },
   {
     "fields": {
-      "title": "Probability and Measure",
       "sourceurl": "probability-measure",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR3\", \"people\": [\"Prof J R Norris\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Probability and Measure"
     },
     "model": "timetables.eventsource",
     "pk": "30"
   },
   {
     "fields": {
-      "title": "Partial Differential Equations",
       "sourceurl": "pde",
       "data": "{\"datePattern\": \"Mi1-8 MWF 11\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Dr D M A Stuart\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Partial Differential Equations"
     },
     "model": "timetables.eventsource",
     "pk": "31"
   },
   {
     "fields": {
-      "title": "Integrable Systems",
       "sourceurl": "integrable-systems",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR4\", \"people\": [\"Prof. a Iserles\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Integrable Systems"
     },
     "model": "timetables.eventsource",
     "pk": "32"
   },
   {
     "fields": {
-      "title": "Representation Theory",
       "sourceurl": "rep-theory",
       "data": "{\"datePattern\": \"Mi1-8 MWF 12\", \"type\": \"lecture\", \"location\": \"MR9\", \"people\": [\"Dr S J Wadsley\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Representation Theory"
     },
     "model": "timetables.eventsource",
     "pk": "33"
   },
   {
     "fields": {
-      "title": "2. Music History 1",
       "sourceurl": "music-hist-1",
       "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "2. Music History 1"
     },
     "model": "timetables.eventsource",
     "pk": "34"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills- Harmony",
       "sourceurl": "tonal-skills-harmony",
       "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills- Harmony"
     },
     "model": "timetables.eventsource",
     "pk": "35"
   },
   {
     "fields": {
-      "title": "4. Introduction to Analysis",
       "sourceurl": "analysis",
       "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "4. Introduction to Analysis"
     },
     "model": "timetables.eventsource",
     "pk": "36"
   },
   {
     "fields": {
-      "title": "1. Musicology Today",
       "sourceurl": "musicology-today",
       "data": "{\"datePattern\": \"Mi1-8 Th 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Musicology Today"
     },
     "model": "timetables.eventsource",
     "pk": "37"
   },
   {
     "fields": {
-      "title": "5. Tonal Skills - Counterpoint",
       "sourceurl": "tonal-skills-counterpoint",
       "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "5. Tonal Skills - Counterpoint"
     },
     "model": "timetables.eventsource",
     "pk": "38"
   },
   {
     "fields": {
-      "title": "3. Music History 2",
       "sourceurl": "music-hist-2",
       "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "3. Music History 2"
     },
     "model": "timetables.eventsource",
     "pk": "39"
   },
   {
     "fields": {
-      "title": "1. Introduction - Recital/Composition/Essay",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "1. Introduction - Recital/Composition/Essay"
     },
     "model": "timetables.eventsource",
     "pk": "40"
   },
   {
     "fields": {
-      "title": "Undergraduate Skills",
       "sourceurl": "ug-skills",
       "data": "{\"datePattern\": \"Mi1-8 M 10-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SC\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Undergraduate Skills"
     },
     "model": "timetables.eventsource",
     "pk": "41"
   },
   {
     "fields": {
-      "title": "6. Tonal Skills 2",
       "sourceurl": "tonal-skills-2",
       "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "6. Tonal Skills 2"
     },
     "model": "timetables.eventsource",
     "pk": "42"
   },
   {
     "fields": {
-      "title": "Recital",
       "sourceurl": "recital",
       "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Recital"
     },
     "model": "timetables.eventsource",
     "pk": "43"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Mi1-8 Th 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "44"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Ea1-4 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "45"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (first year students)",
       "sourceurl": "mid-welsh-lang-1",
       "data": "{\"datePattern\": \"Le1-8 Th 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Ms N Petrovskaia\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "46"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "47"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"SR25\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "48"
   },
   {
     "fields": {
-      "title": "Middle Welsh language and texts (second year students)",
       "sourceurl": "mid-welsh-lang-2",
       "data": "{\"datePattern\": \"Ea1-4 M 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Middle Welsh language and texts (second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "49"
   },
   {
     "fields": {
-      "title": "Introduction to Medieval Welsh (First year students)",
       "sourceurl": "mid-welsh-intro",
       "data": "{\"datePattern\": \"Mi1-2 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Medieval Welsh (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "50"
   },
   {
     "fields": {
-      "title": "Medieval Welsh Prose Literature (First and second year students)",
       "sourceurl": "mid-welsh-prose",
       "data": "{\"datePattern\": \"Mi2-6, Le1-6 Tu 4\", \"type\": \"lecture\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Welsh Prose Literature (First and second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "51"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Mi1-8 F 10\", \"type\": \"class\", \"location\": \"GR04\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "52"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Mi1-8 T 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Prof. P Russell\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "53"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 F 10\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "54"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
-      "data": "{\"datePattern\": \"Le-1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
+      "data": "{\"datePattern\": \"Le1-8 M 10\", \"type\": \"class\", \"location\": \"GR03\", \"people\": [\"Dr E Boyle\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "55"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (First year students)",
       "sourceurl": "oi-texts-1",
       "data": "{\"datePattern\": \"Ea1-4 Tu 11\", \"type\": \"seminar\", \"location\": \"GR04\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (First year students)"
     },
     "model": "timetables.eventsource",
     "pk": "56"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
-      "data": "{\"datePattern\": \"Ea1-4 We 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
+      "data": "{\"datePattern\": \"Ea1-4 W 12\", \"type\": \"seminar\", \"location\": \"GR06\", \"people\": [\"Dr M Ni Mhaonaigh\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "57"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Mi1-8 W 12\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "58"
   },
   {
     "fields": {
-      "title": "Old Irish Language and texts (Second year students)",
       "sourceurl": "oi-texts-2",
       "data": "{\"datePattern\": \"Le1-8 W 12\", \"type\": \"class\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Old Irish Language and texts (Second year students)"
     },
     "model": "timetables.eventsource",
     "pk": "59"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR06\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "60"
   },
   {
     "fields": {
-      "title": "Medieval Irish Literature",
       "sourceurl": "oi-lit",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"GR05\", \"people\": [\"Dr R Crampton et al.\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Medieval Irish Literature"
     },
     "model": "timetables.eventsource",
     "pk": "61"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8, Ea1-4 M 11\", \"type\": \"class\", \"location\": \"GR05\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "62"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Mi1-8 Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr D Woodman\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "63"
   },
   {
     "fields": {
-      "title": "Beginners' Latin Language",
       "sourceurl": "latin-begin",
       "data": "{\"datePattern\": \"Le1-8 M 11, Th 12\", \"type\": \"class\", \"location\": \"SR24\", \"people\": [\"Dr R Love\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Beginners' Latin Language"
     },
     "model": "timetables.eventsource",
     "pk": "64"
   },
   {
     "fields": {
-      "title": "Welcome and Introduction to studying History at Cambridge (first year students)",
       "sourceurl": "intro",
       "data": "{\"datePattern\": \"Mi0 W 11-1\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr M A Goldie and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Welcome and Introduction to studying History at Cambridge (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "65"
   },
   {
     "fields": {
-      "title": "session 1",
       "sourceurl": "1",
       "data": "{\"datePattern\": \"Mi0 Tu 9.30-9.50\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 1"
     },
     "model": "timetables.eventsource",
     "pk": "66"
   },
   {
     "fields": {
-      "title": "session 2",
       "sourceurl": "2",
       "data": "{\"datePattern\": \"Mi0 Tu 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 2"
     },
     "model": "timetables.eventsource",
     "pk": "67"
   },
   {
     "fields": {
-      "title": "session 8",
       "sourceurl": "8",
       "data": "{\"datePattern\": \"Mi0 W 10-10.20\", \"type\": \"lecture\", \"location\": \"Seeley Library\", \"people\": [\"Dr L Washington and Library staff\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "session 8"
     },
     "model": "timetables.eventsource",
     "pk": "68"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 F 2\", \"type\": \"lecture\", \"location\": \"Lady Mitchell Hall\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "69"
   },
   {
     "fields": {
-      "title": "Study Skills: First Year Historians",
       "sourceurl": "study-skills",
       "data": "{\"datePattern\": \"Mi1 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr R Horrox\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Study Skills: First Year Historians"
     },
     "model": "timetables.eventsource",
     "pk": "70"
   },
   {
     "fields": {
-      "title": "Online Resources: A guide for Part I students (first years)",
       "sourceurl": "online-resources",
       "data": "{\"datePattern\": \"Mi2 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Online Resources: A guide for Part I students (first years)"
     },
     "model": "timetables.eventsource",
     "pk": "71"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)",
       "sourceurl": "themes-and-sources-1",
       "data": "{\"datePattern\": \"Mi0 F 10-10.30\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources I: Choosing your option (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "72"
   },
   {
     "fields": {
-      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)",
       "sourceurl": "themes-and-sources-2",
       "data": "{\"datePattern\": \"Mi1 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M Ryan and others\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Introduction to Themes and Sources II: Preparing for the course (first year students)"
     },
     "model": "timetables.eventsource",
     "pk": "73"
   },
   {
     "fields": {
-      "title": "Historiography (all years)",
       "sourceurl": "historiography",
       "data": "{\"datePattern\": \"Mi1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Historiography (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "74"
   },
   {
     "fields": {
-      "title": "Concepts and Problems (all years)",
       "sourceurl": "concepts-and-problems",
       "data": "{\"datePattern\": \"Mi1-8, Le1-8 M 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Concepts and Problems (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "75"
   },
   {
     "fields": {
-      "title": "Great Books (all years)",
       "sourceurl": "great-books",
       "data": "{\"datePattern\": \"Le1-8 Th 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Great Books (all years)"
     },
     "model": "timetables.eventsource",
     "pk": "76"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)",
       "sourceurl": "dissertation-guide",
       "data": "{\"datePattern\": \"Le1 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr M A Goldie\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide for Part I students thinking about doing a dissertation in Part II (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "77"
   },
   {
     "fields": {
-      "title": "Doing a dissertation: a guide to online research resources (second years)",
       "sourceurl": "dissertation-online-resources",
       "data": "{\"datePattern\": \"Le8 F 2\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr L Washington\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "Doing a dissertation: a guide to online research resources (second years)"
     },
     "model": "timetables.eventsource",
     "pk": "78"
   },
   {
     "fields": {
-      "title": "How to revise for Part I",
       "sourceurl": "revise",
       "data": "{\"datePattern\": \"Le8 M 3\", \"type\": \"lecture\", \"location\": \"LG19, Faculty of Law\", \"people\": [\"Dr C Burt\"]}",
       "sourcetype": "pattern",
-      "sourcefile": ""
+      "sourcefile": "",
+      "title": "How to revise for Part I"
     },
     "model": "timetables.eventsource",
     "pk": "79"
@@ -6767,11 +6767,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-1",
+      "name": "euro-arch-1st-millenium-1",
       "parent": "94",
       "data": "",
-      "pathid": "8uVFrdx2iNnkcjzy3ZlRHxgyRZ8=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-1",
+      "pathid": "2CuDvMKQEFJgDrCbSELZaMr5TSg=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-1",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (1) (Paper 14)"
     },
@@ -6780,11 +6780,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-2",
+      "name": "euro-arch-1st-millenium-2",
       "parent": "94",
       "data": "",
-      "pathid": "9Ex_QzR6jaCD083izVET4Ssmjls=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-2",
+      "pathid": "RiIeckBpplAmUqkm_RpcJMSDmxE=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-2",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (2) (Paper 15)"
     },
@@ -9521,11 +9521,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-1",
+      "name": "euro-arch-1st-millenium-1",
       "parent": "94",
       "data": "",
-      "pathid": "8uVFrdx2iNnkcjzy3ZlRHxgyRZ8=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-1",
+      "pathid": "2CuDvMKQEFJgDrCbSELZaMr5TSg=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-1",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (1) (Paper 14)"
     },
@@ -9534,11 +9534,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-2",
+      "name": "euro-arch-1st-millenium-2",
       "parent": "94",
       "data": "",
-      "pathid": "9Ex_QzR6jaCD083izVET4Ssmjls=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-2",
+      "pathid": "RiIeckBpplAmUqkm_RpcJMSDmxE=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-2",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (2) (Paper 15)"
     },
@@ -12275,11 +12275,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-1",
+      "name": "euro-arch-1st-millenium-1",
       "parent": "94",
       "data": "",
-      "pathid": "8uVFrdx2iNnkcjzy3ZlRHxgyRZ8=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-1",
+      "pathid": "2CuDvMKQEFJgDrCbSELZaMr5TSg=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-1",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (1) (Paper 14)"
     },
@@ -12288,11 +12288,11 @@
   },
   {
     "fields": {
-      "name": "european-archaeology-1st-millenium-2",
+      "name": "euro-arch-1st-millenium-2",
       "parent": "94",
       "data": "",
-      "pathid": "9Ex_QzR6jaCD083izVET4Ssmjls=",
-      "fullpath": "tripos/asnc/I/european-archaeology-1st-millenium-2",
+      "pathid": "RiIeckBpplAmUqkm_RpcJMSDmxE=",
+      "fullpath": "tripos/asnc/I/euro-arch-1st-millenium-2",
       "type": "module",
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (2) (Paper 15)"
     },
