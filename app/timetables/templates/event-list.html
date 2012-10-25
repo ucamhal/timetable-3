@@ -1,0 +1,42 @@
+{% load url from future %}
+
+
+<div class="event-list">
+
+    {# left column containing mini calendar #}
+    <div class="rename-me--month-calendar">
+        <div>
+            <a class="prev" href="{% url "event list specific" year=calendar.prev_year month=calendar.prev_month %}" class="ic-prev"></a>
+            <span class="middle-date" >{{ calendar.start_date|date:"F Y" }}</span>
+            <a class="next" href="{% url "event list specific" year=calendar.next_year month=calendar.next_month %}" class="ic-next"></a>
+        </div>
+        {% include "month-small.html" with month_calendar=calendar %}
+    </div>
+
+    {# right column containing list of days #}
+    <ul class="days">
+        {% for day in calendar.month_days %}
+        <li class="day">
+            <h4>{{ day.date|date:"l jS F" }}</h4>
+            
+            {% for event in day.events %}                                    
+                <ul class="events">
+                    <li class="event {{ event.type }}"><h4>{{ event.title }}</h4></li>
+                    <li>
+                        {{ event.start|date:"P" }} &ndash; {{ event.end|date:"P" }}{% if event.metadata.location %},{% endif %}
+                        {{ event.metadata.location }}
+                    </li>
+                    <li>
+                        {{ event.metadata.people|join:", " }}
+                        {# FIXME: need to include subject + part #}
+                    </li>
+                </ul>
+            {% endfor %}
+        </li>
+        {% empty %}
+        <p>No events this month.</p>
+        {% endfor %}
+    </ul>
+
+    <div class="clear"></div>
+</div>

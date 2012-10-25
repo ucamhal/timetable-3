@@ -1,0 +1,34 @@
+<table class="calendar-month calendar-month_size_small">
+    {% if include_monthyear %}
+    <caption class="calendar-month__monthyear">{{ month_calendar.start_date|date:"F Y" }}</caption>
+    {% endif %}
+    <thead class="calendar__head-">
+        <tr>
+        {% for day_name in month_calendar.calendar_week_days_names %}
+            <th class="calendar-month__head-cell calendar-month__head-cell_day_{{ day_name|lower }}">{{ day_name|slice:":1" }}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+
+    {% for row in month_calendar.calendar_month_days_by_row %}
+    <tr>
+        {% for day in row %}
+            {% if not day %}
+                <td class="calendar-month__day calendar-month__day_status_other-month"></td>
+            {% else %}
+                <td data-date="{{ day.date|date:"Y-m-d" }}"
+                {% if day.has_events %}
+                    class="calendar-month__day calendar-month__day_status_occupied"
+                {% else %}
+                    class="calendar-month__day calendar-month__day_status_available"
+                {% endif %}
+                >
+                    <div class="calendar-month__day-container">
+                        {{ day.day }}
+                    </div>
+                </td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
