@@ -61,18 +61,21 @@ define(["jquery", "underscore"], function ($, _) {
 		},
 
 		updateTimeIndication: function () {
+			var textToChange,
+				activeWeekInTerm;
 
 			switch (this.activeView) {
 			case "month":
+			case "list":
 				var activeDate = this.parent.content.getActiveDate(),
 					activeMonth = this.parent.content.getFullMonthFromDate(activeDate),
 					activeYear = this.parent.content.getYearFromDate(activeDate);
-				$(".month .calendarNavigation ul h4", this.$el).text(_(activeMonth).capitalize() + " " + activeYear);
+				$(".month .calendarNavigation ul h4, .list .calendarNavigation ul h4", this.$el).text(_(activeMonth).capitalize() + " " + activeYear);
 				//activeMonth = this.parent.content.getFullYearFromDate(this.parent.content.getActiveDate());
 				break;
 			case "agendaWeek":
-				var textToChange = "Outside term",
-					activeWeekInTerm = this.parent.content.getActiveWeekInCurrentTerm();
+				textToChange = "Outside term";
+				activeWeekInTerm = this.parent.content.getActiveWeekInCurrentTerm();
 
 				if (activeWeekInTerm) {
 					textToChange = "Week " + activeWeekInTerm;
@@ -81,7 +84,6 @@ define(["jquery", "underscore"], function ($, _) {
 				$(".agendaWeek .calendarNavigation ul h4", this.$el).text(textToChange);
 				break;
 			}
-			
 
 		},
 

@@ -8,7 +8,9 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 
 	_.extend(CalendarContent.prototype, {
 		initialize: function () {
-			var sourcepath = page.getThingPath();
+			var sourcepath = page.getThingPath(),
+				self = this;
+
 			_.defaults(this, {
 				selector: "body",
 				activeView: "agendaWeek",
@@ -173,17 +175,64 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 					week: "ddd dd/M"
 				},
 				eventClick: function (calEvent, jsEvent, view) {
+					var $newPopup = $(".calendarEventInfo.dontDisplayMe").clone().removeClass("dontDisplayMe"),
+						$parent = (function () {
+							switch (view.name) {
+							case "agendaWeek":
+								return $("> div > div", view.element);
+								break;
+							case "month":
+								return $("table", view.element);
+								break;
+							default:
+								return view.element;
+							}
+						}());
+
 					$(".calendarEventInfo", view.element).fadeOut("10", function () {
 						$(this).remove();
 					});
 
-					var $newPopup = $(".calendarEventInfo.dontDisplayMe").clone().removeClass("dontDisplayMe");
-					$("table", view.element).append($newPopup);
+					$parent.prepend($newPopup);
+
 					$newPopup.css({
-						top: $(jsEvent.currentTarget).offset().top - $(view.element).offset().top,
+						top: $(jsEvent.currentTarget).offset().top - $parent.offset().top + $parent.scrollTop() - ($newPopup.outerHeight() / 2) + ($(jsEvent.currentTarget).outerHeight() / 2) - 8,
 						left: $(jsEvent.currentTarget).offset().left - $(view.element).offset().left + $(jsEvent.currentTarget).outerWidth() + 10,
 						display: "none"
 					}).fadeIn("10");
+					
+					$("span.courseDatePattern", $newPopup).text(self.getFullDayFromDate(calEvent._start) + " " + self.getTwelveHourTimeFromDate(calEvent._start));
+
+					$("span.courseLocation", $newPopup).text((function (location) {
+						var locationText = location;
+						if (typeof location === "undefined" || location.length <= 0) {
+							locationText = "No location specified.";
+						}
+						return locationText;
+					}(calEvent.location)));
+
+					$("span.courseLecturer", $newPopup).text((function (lecturers) {
+						var lecturersText = "",
+							lecturersLength = lecturers.length,
+							i;
+						if (lecturersLength > 0) {
+							if (lecturersLength === 1) {
+								lecturersText = lecturers[0];
+							} else {
+								for (i = 0; i < lecturersLength; i += 1) {
+									lecturersText += lecturers[i];
+
+									if (i !== lecturersLength - 1) {
+										lecturersText += ", ";
+									}
+								}
+							}
+
+						} else {
+							lecturersText = "No lecturers specified."
+						}
+						return lecturersText;
+					}(calEvent.lecturer)));
 
 					$("h5", $newPopup).text(calEvent.title);
 				}
@@ -195,18 +244,41 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		showNext: function () {
+			this.clearCalendarPopups();
 			this.$el.fullCalendar("next");
+			if (this.activeView === "list") {
+				this.renderListView();
+			}
 		},
 
 		showPrev: function () {
+			this.clearCalendarPopups();
 			this.$el.fullCalendar("prev");
+			if (this.activeView === "list") {
+				this.renderListView();
+			}
+		},
+
+		renderListView: function () {
+			console.log(this.listView);
+			this.listView.render({
+				year: this.getYearFromDate(this.getActiveDate()),
+				month: this.getMonthFromDate(this.getActiveDate())
+			});
+		},
+
+		clearCalendarPopups: function () {
+			$(".calendarEventInfo", this.$el.fullCalendar("getView").element).remove();
 		},
 
 		setView: function (view) {
+			this.clearCalendarPopups();
 			this.activeView = view;
 
 			if (view === "list") {
 				$(".fc-content", this.$el).hide();
+				this.$el.fullCalendar("changeView", "month");
+				this.renderListView();
 				this.listView.$el.show();
 			} else {
 				$(".fc-content", this.$el).show();
@@ -223,6 +295,14 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 			return $.fullCalendar.formatDate(date, "d");
 		},
 
+		getShortDayFromDate: function (date) {
+			return $.fullCalendar.formatDate(date, "ddd");
+		},
+
+		getFullDayFromDate: function (date) {
+			return $.fullCalendar.formatDate(date, "dddd");
+		},
+
 		getMonthFromDate: function (date) {
 			return $.fullCalendar.formatDate(date, "M");
 		},
@@ -235,8 +315,8 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 			return $.fullCalendar.formatDate(date, "MMMM");
 		},
 
-		getShortDayFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "ddd");
+		getTwelveHourTimeFromDate: function (date) {
+			return $.fullCalendar.formatDate(date, "h(':'mm)tt");
 		},
 
 		dateWithinTerm: function (date, termYears) {
