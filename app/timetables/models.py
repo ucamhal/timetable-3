@@ -6,7 +6,6 @@ import os
 import time
 
 from django.db import models
-from django.db.models import query
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
@@ -45,6 +44,10 @@ class HierachicalModel(models.Model):
     # The name of the Thing. It will match the last element of fullpath. Its limited in length and not the full name. Think of it as the URL element.
     name = models.CharField(max_length=MAX_NAME_LENGTH, help_text="short name of this thing, used in the path and urls")
 
+
+    # FIXME: (ieb) I don't think theses should be here, but there may be no option
+    # as we may need the classmethods for extension. They break the principal
+    # of keeping the model just entities.
 
     @classmethod
     def hash(cls, key):
@@ -143,6 +146,8 @@ class SchemalessModel(models.Model):
             if self.data is None or self.data == "":
                 self._data = dict()
             else:
+                # Question: (ieb) The try catch was added to that invalid data would not bring the application to its knees.
+                # Without that try catch, invalid data will break the whole application. Any idea why the try catch has been commented out ?
                 #try:
                 self._data = json.loads(self.data)
                 #except:
@@ -294,45 +299,6 @@ class Event(SchemalessModel):
             instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
     
     
-    class QuerySet(query.QuerySet):
-        def in_users_timetable(self, user):
-            """
-            Filter the queryset to contain events in the personal timetable of
-            the specified user.
-            
-            Args:
-                user: The username or User instance of the user whose timetable
-                    the events should be in.
-            """
-            if isinstance(user, basestring):
-                username = user
-            else:
-                username = user.username
-            
-            return self.filter(source__eventsourcetag__thing__name=username,
-                    source__eventsourcetag__thing__type="user")
-        
-        def in_range(self, start, end):
-            """
-            Filters the queryset to contain events intersecting the specified
-            start and end dates.
-            """
-            if start > end:
-                raise ValueError(
-                        "start was > end. start: %s, end: %s" % (start, end))
-            
-            # Note: it's assumed that event's timeslots's start & end are
-            # correctly sorted...
-            ends_before_start= models.Q(end__lte=start)
-            starts_after_end= models.Q(start__gte=end)
-            
-            outside_range = ends_before_start | starts_after_end
-            inside_range = ~outside_range
-            
-            return self.filter(inside_range)
-        
-        def include_series_length(self):
-            return self.annotate(Count("owning_series__event"))
 
         
 pre_save.connect(Event._pre_save, sender=Event)
