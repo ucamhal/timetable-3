@@ -1,34 +1,39 @@
-<table class="calendar-month calendar-month_size_small">
+<table class="table table-bordered">
     {% if include_monthyear %}
-    <caption class="calendar-month__monthyear">{{ month_calendar.start_date|date:"F Y" }}</caption>
+    <caption>{{ month_calendar.start_date|date:"F Y" }}</caption>
     {% endif %}
-    <thead class="calendar__head-">
+    <thead>
+        <!--
+        <tr class="activeMonth">
+            <th class="btn-inverse" colspan="7">{{ calendar.start_date|date:"F Y" }}</th>
+        </tr>
+        -->
         <tr>
         {% for day_name in month_calendar.calendar_week_days_names %}
-            <th class="calendar-month__head-cell calendar-month__head-cell_day_{{ day_name|lower }}">{{ day_name|slice:":1" }}</th>
+            <th>{{ day_name|slice:":1" }}</th>
         {% endfor %}
         </tr>
     </thead>
 
-    {% for row in month_calendar.calendar_month_days_by_row %}
-    <tr>
-        {% for day in row %}
-            {% if not day %}
-                <td class="calendar-month__day calendar-month__day_status_other-month"></td>
-            {% else %}
-                <td data-date="{{ day.date|date:"Y-m-d" }}"
-                {% if day.has_events %}
-                    class="calendar-month__day calendar-month__day_status_occupied"
+    <tbody>
+        {% for row in month_calendar.calendar_month_days_by_row %}
+        <tr>
+            {% for day in row %}
+                {% if not day %}
+                    <td></td>
                 {% else %}
-                    class="calendar-month__day calendar-month__day_status_available"
-                {% endif %}
-                >
-                    <div class="calendar-month__day-container">
+                    <td data-date="{{ day.date|date:"Y-m-d" }}"
+                    {% if day.has_events %}
+                        class="occupied"
+                    {% else %}
+                        class="available"
+                    {% endif %}
+                    >
                         {{ day.day }}
-                    </div>
-                </td>
-            {% endif %}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
+    </tbody>
 </table>
