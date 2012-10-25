@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load url from future %}
 
 <!doctype html>
 	<head>
@@ -13,7 +14,7 @@
 	<body id="student">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
-	    <div id="userinfo" style="display:none" userid="{{ user.username }}" class="dontDisplayMe">
+	    <div id="userinfo" style="display:none" userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" class="dontDisplayMe">
 	        {# used for ajax post operations, I prefer this to the cookie method. #}
 	        {% csrf_token %}
         </div>
@@ -241,9 +242,15 @@
 			
 			<div id="actionsContainer">
 				<div class="pull-right">
-					<a href="#" class="btn btn-primary signIn">Sign in</a>
+					{% if loggedin %}
+					<a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
+					<a href="{% url "export named ics" "user" user.username %}" class="btn">Export to calendar</a>
+					{% else %}
+					<a href="{% url "login url" %}" class="btn btn-primary">Sign in</a>
+					<!-- 
 					<a href="#" class="btn dontDisplayMe save">Save</a>
-					<a href="#" class="btn dontDisplayMe export">Export to calendar</a>
+					 -->
+					{% endif %}
 				</div>
 			</div>
 			
@@ -279,6 +286,32 @@
 		</div>
 		-->
 
+		<div class="modal hide fade in" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true" style="display: none;">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="signinLabel">Already have a timetable or want one ?</h3>
+		  </div>
+		  <div class="modal-body">
+				Sign-in to see your timetable and make changes
+				<a href="{% url "login url" %}" class="btn btn-success pull-right">Sign in</a>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		  </div>
+		</div>
+
+		<div class="modal hide fade in" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true" style="display: none;">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="errorLabel">Ooops !</h3>
+		  </div>
+		  <div class="modal-body">
+		  			Oh No, something went wrong. If keeps happening, please do tell us.
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		  </div>
+		</div>
 		
 		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe">
 			<div class="arrow"></div>
