@@ -10,7 +10,6 @@ from timetables.models import HierachicalModel, Thing, EventSourceTag,\
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.utils.decorators import method_decorator
-import logging
 
 
 class LinkThing(View):
@@ -62,19 +61,15 @@ class LinkThing(View):
             # If there is a list of things to delete, this is a little more complicated.
             tlist = self._expand(request.POST.getlist("td"))
             if len(tlist) > 0:
-                logging.error("Remove things  %s " % tlist)
                 # remove all EventTags and EventSourceTags that link this thing to Events or EventSource linked to by any child
                 # The following query gets the decendents of all the things listed
                 decendents = Thing.objects.filter(HierachicalModel.treequery(tlist))
-                logging.error("All Decendents is %s " % decendents)
                 # Then get the Events associated with all the decendents of all the things
                 decendent_events = Event.objects.filter(eventtag__thing__in=decendents)
-                logging.error("All Decendents events are %s " % decendent_events)
                 # And delete all events tags on this thing, that match those events.
                 EventTag.objects.filter(thing=thing, event__in=decendent_events).delete()
                 # get all eventsources that are associated with the list of decendent things
                 decendent_eventsource = EventSource.objects.filter(eventsourcetag__thing__in=decendents)
-                logging.error("All Decendents event_sources are %s " % decendent_eventsource)
                 EventSourceTag.objects.filter(thing=thing,
                                               eventsource__in=decendent_eventsource).delete()
 
@@ -103,14 +98,11 @@ class LinkThing(View):
             
             tlist = self._expand(request.POST.getlist("t"))
             if len(tlist) > 0:
-                logging.error("Adding things  %s " % tlist)
                 # remove all EventTags and EventSourceTags that link this thing to Events or EventSource linked to by any child
                 # The following query gets the decendents of all the things listed
                 decendents = Thing.objects.filter(HierachicalModel.treequery(tlist))
-                logging.error("All Decendents is %s " % decendents)
                 # Then get the Events associated with all the decendents of all the things
                 decendent_events = Event.objects.filter(eventtag__thing__in=decendents)
-                logging.error("All Decendents Events are %s " % decendent_events)
                 # And delete all events tags on this thing, that match those events.
                 EventTag.objects.filter(thing=thing, event__in=decendent_events)
                 # get all eventsources that are associated with the list of decendent things
@@ -124,7 +116,6 @@ class LinkThing(View):
                     eventtag = EventTag(thing=thing,event=e)
                     eventtag.prepare_save()
                     items.append(eventtag)
-                logging.error("Will associate %s " % items )
                 EventTag.objects.bulk_create(items)
 
                 # Next the Event Sources bulk creating EventSourceTags
@@ -133,7 +124,6 @@ class LinkThing(View):
                     eventtag = EventSourceTag(thing=thing,eventsource=es)
                     eventtag.prepare_save()
                     items.append(eventtag)
-                logging.error("Will associate %s " % items )
                 EventSourceTag.objects.bulk_create(items)
 
             return HttpResponse("ok")

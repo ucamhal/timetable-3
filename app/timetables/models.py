@@ -77,7 +77,6 @@ class HierachicalModel(models.Model):
                 q = models.Q(**kwargs)
             else:
                 q = q | models.Q(**kwargs)
-        logging.error(q)
         return q
     
     @classmethod
@@ -199,6 +198,11 @@ class Thing(SchemalessModel, HierachicalModel):
     type = models.CharField("Type",
             max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behavior")
 
+    # NOTE: Please use these fields with caution, only on read to make queries more efficient.
+    # thing.sources.all() is equivalent to thing.eventsourcetag.eventsource but it is more efficient
+    # Ideally a select_related or prefetch_related should be used which makes the two forms of the call identical.
+    # However, you can't use select_related on many to many fields which is one of the reasons they were not used
+    # in the initial data model. Read the Django doc for an explanation.
     sources = models.ManyToManyField("EventSource", through="EventSourceTag", related_name="things")
 
     direct_events = models.ManyToManyField("Event", through="EventTag", related_name="direct_things")
