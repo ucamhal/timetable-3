@@ -6,7 +6,9 @@ define([
 	"view/student/components/calendar",
 	"view/student/components/actions",
 	"control/hashController",
-	"bootstrap"
+	"bootstrap",
+	"bootstrapTimePicker",
+	"bootstrapDatePicker"
 ], function ($, _, InputArea, Results, Calendar, Actions, HashController) {
 	"use strict";
 
