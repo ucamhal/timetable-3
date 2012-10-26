@@ -17,7 +17,6 @@ from django.utils.http import urlencode
 from django.contrib import messages
 from django.contrib.auth.backends import RemoteUserBackend
 
-import logging
 
 class LoginView(View):
     '''
@@ -60,7 +59,6 @@ class LoginView(View):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        logging.error("Authenticating with %s %s gave %s " % (username,password, user))
         return self._do_login(request, user)
 
 

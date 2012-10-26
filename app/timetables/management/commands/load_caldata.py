@@ -417,7 +417,7 @@ class Command(BaseCommand):
                         
                         
                         thing = Thing.create_path(thingpath,    { 
-                                            "fullname" : detail['name'][:31]
+                                            "fullname" : detail['name'][:(MAX_NAME_LENGTH-1)]
                                             }, types
                                         )
                         if eventSourceLevel == "file":
