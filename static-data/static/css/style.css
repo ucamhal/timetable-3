@@ -193,6 +193,7 @@ div#results h3 {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
+/*
 #admin div#results h3 {
 	border-bottom-style: none;
 	box-shadow: none;
@@ -220,6 +221,7 @@ div#results h3 {
 
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
+*/
 
 div#results ul.courseList,
 div#results ul.courseMoreInfo,
@@ -493,8 +495,33 @@ div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
 	min-width: 130px;
 }
 
+div#calendar div#listViewCalendar {
+	position: fixed;
+}
+div#calendar div#listViewCalendar table {
+	width: 280px;
+}
 
+div#calendar div#listViewCalendar table td.occupied {
+	background-color: #fbf9e3;
+}
 
+div#calendar div#listViewCalendar table td.available {
+	background-color: #e4f0d8;
+}
+
+div#calendar div#listViewCalendar table td,
+div#calendar div#listViewCalendar table th {
+	text-align: center;
+	vertical-align: middle;
+	padding: 10px 0;
+	text-shadow: 1px -1px 1px rgba(255, 255, 255, 1);
+}
+
+div#calendar div#listViewCalendar table th {
+	text-shadow: none;
+	padding: 5px 0;
+}
 
 div#calendar div#listViewList h4 {
 	width: 200px;

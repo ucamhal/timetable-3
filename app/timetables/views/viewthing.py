@@ -41,26 +41,47 @@ class ViewThing(View):
 
 
 class ChildrenView(View):
-
+    
+    QUERY_RELATED = "t"
+    
     def get(self, request, thing):
         try:
-            relatedthings = frozenset([])
-            if "t" in request.GET:
-                # Get the things linked to the thing supplied by EventTag or EventSoruceTag
+            thing = Thing.objects.get(pathid=HierachicalModel.hash(thing))
+            relatedthings = frozenset()
+            relatedsources = frozenset()
+            
+            related_path = request.GET[ChildrenView.QUERY_RELATED]
+            if related_path:
+                # Get the things linked to the thing supplied by EventTag or EventSourceTag
                 # eventtag__event__eventtag__thing__in looks for things linked to the same event
                 # eventsourcetag__eventsource__eventsourcetag__thing for things linked to the same eventsource
-                path = request.GET["t"]
-                relatedthings = frozenset([ x.fullpath for x in Thing.objects.filter(
-                                     models.Q(eventtag__event__eventtag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path])))|
-                                     models.Q(eventsourcetag__eventsource__eventsourcetag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path]))))
-                                           ])
+                related_children_q = HierachicalModel.treequery([related_path])
+                related = Thing.objects.filter(related_children_q)
+                
+                contains_event_in_related = models.Q(
+                        eventtag__event__eventtag__thing__in=related)
+                contains_eventseries_in_related = models.Q(
+                        eventsourcetag__eventsource__eventsourcetag__thing__in=related)
+
+                relatedthings = frozenset(Thing.objects
+                        .filter(contains_event_in_related |
+                                contains_eventseries_in_related)
+                        .values_list("fullpath", flat=True))
+                
                 # get all the sources that the target has related
-                relatedsources = frozenset([ x.id for x in EventSource.objects.filter(
-                                    eventsourcetag__thing__in=Thing.objects.filter(HierachicalModel.treequery([path])))
-                                            ])
-            context = { "things": Thing.objects.filter(parent__pathid=HierachicalModel.hash(thing)),
-                           "related" : relatedthings,
-                           "relatedsources" : relatedsources }
+                relatedsources = frozenset(EventSource.objects
+                        .filter(eventsourcetag__thing__in=related)
+                        .values_list("id", flat=True))
+            
+            
+            # Currently the template renders sources after things. We may wish
+            # to put them into one list and sort them as one. 
+            context = {
+                "things": Thing.objects.filter(parent__pathid=thing.pathid),
+                "related" : relatedthings,
+                "relatedsources" : relatedsources,
+                "sources": thing.sources.all()
+            }
             return render(request, "list-of-things.html",
                           context)
         except Thing.DoesNotExist:

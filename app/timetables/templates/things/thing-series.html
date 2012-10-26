@@ -14,8 +14,8 @@
     
     {% if thing.eventsourcetag_set.all %}
     <ul class="courseMoreInfo">
-    {% for eventsourcetag in thing.eventsourcetag_set.all %}
-            {% include "things/eventsource.html" with eventsource=eventsourcetag.eventsource %}
+    {% for eventsource in thing.sources.all %}
+        {% include "things/eventsource.html" %}
     {% endfor %}
     </ul>
     {% endif %}
