@@ -403,6 +403,34 @@ div#results.empty p {
 	margin-top: 15px;
 }
 
+.alert.calendarEventInfo.admin a.btn {
+	margin-top: 0;
+}
+
+.alert.calendarEventInfo.admin a.cancel {
+	margin-right: 8px;
+}
+
+.alert.calendarEventInfo.admin .datepicker {
+	padding-left: 0;
+}
+
+.alert.calendarEventInfo.admin .datepicker input {
+	width: 90px;
+}
+
+.alert.calendarEventInfo.admin label {
+	width: 70px;
+}
+
+.alert.calendarEventInfo.admin br {
+	clear: both;
+}
+
+.alert.calendarEventInfo.admin {
+	width: 500px;
+}
+
 .alert.calendarEventInfo {
 	position: absolute;
 	left: 10px;

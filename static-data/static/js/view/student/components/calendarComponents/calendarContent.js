@@ -175,20 +175,69 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 					week: "ddd dd/M"
 				},
 				eventClick: function (calEvent, jsEvent, view) {
-					var $newPopup = $(".calendarEventInfo.dontDisplayMe").clone().removeClass("dontDisplayMe"),
+					var $newPopup = $(".calendarEventInfo.dontDisplayMe.student").clone().removeClass("dontDisplayMe"),
 						$parent = (function () {
 							switch (view.name) {
 							case "agendaWeek":
 								return $("> div > div", view.element);
 								break;
 							case "month":
-								return $("table", view.element);
+								return self.$el;
 								break;
 							default:
 								return view.element;
 							}
 						}());
 
+					if ($.bbq.getState("admin") === "true") {
+						$newPopup = $(".calendarEventInfo.dontDisplayMe.admin").clone().removeClass("dontDisplayMe");
+						$("div.progress div", $newPopup).text("Loading event data...");
+						$(".timepicker-default", $newPopup).timepicker();
+						$(".datepicker", $newPopup).datepicker();
+
+						var timer = setTimeout(function () {
+							$("*", $newPopup).show();
+							$(".progress", $newPopup).hide();
+							$parent.trigger("scroll");
+						}, 1500);
+					} else {
+						$("span.courseDatePattern", $newPopup).text(self.getFullDayFromDate(calEvent._start) + " " + self.getTwelveHourTimeFromDate(calEvent._start));
+
+						$("span.courseLocation", $newPopup).text((function (location) {
+							var locationText = location;
+							if (typeof location === "undefined" || location.length <= 0) {
+								locationText = "No location specified.";
+							}
+							return locationText;
+						}(calEvent.location)));
+
+						$("span.courseLecturer", $newPopup).text((function (lecturers) {
+							var lecturersText = "",
+								lecturersLength = lecturers.length,
+								i;
+							if (lecturersLength > 0) {
+								if (lecturersLength === 1) {
+									lecturersText = lecturers[0];
+								} else {
+									for (i = 0; i < lecturersLength; i += 1) {
+										lecturersText += lecturers[i];
+
+										if (i !== lecturersLength - 1) {
+											lecturersText += ", ";
+										}
+									}
+								}
+
+							} else {
+								lecturersText = "No lecturers specified."
+							}
+							return lecturersText;
+						}(calEvent.lecturer)));
+
+						$("h5", $newPopup).text(calEvent.title);
+					}
+
+					/*
 					$(".calendarEventInfo", view.element).fadeOut("10", function () {
 						$(this).remove();
 					});
@@ -200,41 +249,59 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 						left: $(jsEvent.currentTarget).offset().left - $(view.element).offset().left + $(jsEvent.currentTarget).outerWidth() + 10,
 						display: "none"
 					}).fadeIn("10");
-					
-					$("span.courseDatePattern", $newPopup).text(self.getFullDayFromDate(calEvent._start) + " " + self.getTwelveHourTimeFromDate(calEvent._start));
+					*/
 
-					$("span.courseLocation", $newPopup).text((function (location) {
-						var locationText = location;
-						if (typeof location === "undefined" || location.length <= 0) {
-							locationText = "No location specified.";
+					$(".calendarEventInfo").each(function () {
+						if (!$(this).is(".dontDisplayMe")) {
+							$(this).fadeOut("10", function () {
+								$(this).remove();
+							});
 						}
-						return locationText;
-					}(calEvent.location)));
+					});
 
-					$("span.courseLecturer", $newPopup).text((function (lecturers) {
-						var lecturersText = "",
-							lecturersLength = lecturers.length,
-							i;
-						if (lecturersLength > 0) {
-							if (lecturersLength === 1) {
-								lecturersText = lecturers[0];
-							} else {
-								for (i = 0; i < lecturersLength; i += 1) {
-									lecturersText += lecturers[i];
+					$("body").append($newPopup);
+					$newPopup.css({
+						top: $(jsEvent.currentTarget).offset().top - ($newPopup.outerHeight() / 2 - $(jsEvent.currentTarget).outerHeight() / 2),
+						left: $(jsEvent.currentTarget).offset().left + $(jsEvent.currentTarget).outerWidth() + 10
+					});
 
-									if (i !== lecturersLength - 1) {
-										lecturersText += ", ";
-									}
-								}
-							}
+					$("a", $newPopup).click(function (event) {
+						switch ($(this).text().toLowerCase()) {
+						case "save":
+							console.log("save");
+							$("form, div.clearfix", $newPopup).hide();
+							$(".progress", $newPopup).show().find("div").text("Saving event...");
+							$parent.trigger("scroll");
 
+							var timer = setTimeout(function () {
+								$("*", $newPopup).show();
+								$(".progress", $newPopup).hide();
+								$parent.trigger("scroll");
+							}, 1500);
+							break;
+						case "remove event":
+							console.log("remove event");
+							break;
+						case "cancel":
+							$newPopup.remove();
+							$parent.unbind("scroll");
+						}
+
+						event.preventDefault();
+					});
+
+					$parent.scroll(function () {
+						if ($(jsEvent.currentTarget).offset().top < $parent.offset().top || $(jsEvent.currentTarget).offset().top + $(jsEvent.currentTarget).outerHeight() > $parent.offset().top + $parent.outerHeight()) {
+							$newPopup.fadeOut("10", function () {
+								$newPopup.remove();
+							});
 						} else {
-							lecturersText = "No lecturers specified."
+							$newPopup.css({
+								top: $(jsEvent.currentTarget).offset().top - ($newPopup.outerHeight() / 2 - $(jsEvent.currentTarget).outerHeight() / 2),
+								left: $(jsEvent.currentTarget).offset().left + $(jsEvent.currentTarget).outerWidth() + 10
+							});
 						}
-						return lecturersText;
-					}(calEvent.lecturer)));
-
-					$("h5", $newPopup).text(calEvent.title);
+					});
 				}
 			});
 		},
@@ -268,7 +335,11 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		clearCalendarPopups: function () {
-			$(".calendarEventInfo", this.$el.fullCalendar("getView").element).remove();
+			$(".calendarEventInfo").each(function () {
+				if (!$(this).is(".dontDisplayMe")) {
+					$(this).remove();
+				}
+			});
 		},
 
 		setView: function (view) {
