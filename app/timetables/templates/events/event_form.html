@@ -1,72 +1,58 @@
 {% load url from future %}
 
-<div class="calendarEventInfo alert alert-block clearfix admin">
-    <div class="arrow"></div>
-    <button type="button" class="close" data-dismiss="alert">x</button>
-    <h5>Edit event</h5>
+<form class="dontDisplayMe clearfix" action="{% url "event form" event_id=form.instance.id %}" method="POST">
+    {% csrf_token %}
 
-    <form class="form-inline" action="{% url "event form" event_id=form.instance.id %}" method="POST">
-        {% csrf_token %}
+    <label for="{{ form.title.html_name }}">Title:</label>
+    {{ form.title }}
+    {{ form.title.errors }}
+    <br/>
 
-        <label for="{{ form.title.html_name }}">Title:</label>
-        {{ form.title }}
-        {{ form.title.errors }}
-        <br/>
+    <label for="{{ form.event_type.html_name }}">Type:</label>
+    {{ form.event_type }}
+    {{ form.event_type.errors }}
+    <br/>
 
-        <label for="{{ form.event_type.html_name }}">Type:</select>
-        {{ form.event_type }}
-        {{ form.event_type.errors }}
-        <br/>
+    <label for="{{ form.location.html_name }}">Location:</label>
+    {{ form.location }}
+    {{ form.location.errors }}
+    <br/>
 
-        <label for="{{ form.location.html_name }}">Location:</label>
-        {{ form.location }}
-        {{ form.location.errors }}
-        <br/>
-
-        <label for="{{ form.date.html_name }}">Date:</label>
-        <div class="input-append date datepicker" data-date="26-10-2012" data-date-format="yyyy/mm/dd">
-            {{ form.date }}
-            <span class="add-on"><i class="icon-th"></i></span>
-            {{ form.date.errors }}
-        </div>
-        <br/>
-
-        <label for="{{ form.start.html_name }}">From:</label>
-        <div class="input-append bootstrap-timepicker-component">
-            <input type="text" id="editFromEventTime" name="{{ form.start.html_name }}"
-                   class="timepicker-default input-small" value="{{ form.start.value }}">
-            <span class="add-on">
-                <i class="icon-time"></i>
-            </span>
-            {{ form.start.errors }}
-        </div>
-        
-        <label for="{{ form.end.html_name }}">To:</label>
-        <div class="input-append bootstrap-timepicker-component">
-            <input type="text" id="editEventToTime" name="{{ form.end.html_name }}"
-                   class="timepicker-default input-small" value="{{ form.start.value }}">
-            <span class="add-on">
-                <i class="icon-time"></i>
-            </span>
-            {{ form.end.errors }}
-        </div>
-        <br/>
-
-        <label for="{{ form.people.html_name }}">Lecturer:</label>
-        {{ form.people }}
-        {{ form.people.errors }}
-        
-        {% if not request.is_ajax %}
-            <!-- for testing -->
-            <input type="submit" value="Save"/>
-        {% endif %}
-    </form>
-
-    <div class="clearfix">
-        <a href="#" class="btn btn-danger pull-left">Remove event</a>
-        <div class="pull-right clearfix">
-            <a href="#">cancel</a>
-            <a href="#" class="btn btn-success">Save</a>
-        </div>
+    <label for="{{ form.date.html_name }}">Date:</label>
+    <div class="input-append date datepicker" data-date="26-10-2012" data-date-format="yyyy/mm/dd">
+        {{ form.date }}
+        <span class="add-on"><i class="icon-th"></i></span>
+        {{ form.date.errors }}
     </div>
-</div>
+    <br/>
+
+    <label for="{{ form.start.html_name }}">From:</label>
+    <div class="input-append bootstrap-timepicker-component">
+        <input type="text" id="editFromEventTime" name="{{ form.start.html_name }}"
+               class="timepicker-default input-small" value="{{ form.start.value }}">
+        <span class="add-on">
+            <i class="icon-time"></i>
+        </span>
+        {{ form.start.errors }}
+    </div>
+    
+    <label for="{{ form.end.html_name }}">To:</label>
+    <div class="input-append bootstrap-timepicker-component">
+        <input type="text" id="editEventToTime" name="{{ form.end.html_name }}"
+               class="timepicker-default input-small" value="{{ form.end.value }}">
+        <span class="add-on">
+            <i class="icon-time"></i>
+        </span>
+        {{ form.end.errors }}
+    </div>
+    <br/>
+
+    <label for="{{ form.people.html_name }}">Lecturer:</label>
+    {{ form.people }}
+    {{ form.people.errors }}
+    
+    {% if not request.is_ajax %}
+        <!-- for testing -->
+        <input type="submit" value="Save"/>
+    {% endif %}
+</form>

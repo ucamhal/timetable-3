@@ -6,6 +6,8 @@ from django.core import urlresolvers
 
 from timetables import forms
 from timetables import models
+from timetables.views import calendarview
+import json
 
 
 def event_form(request, event_id=None):
@@ -24,8 +26,12 @@ def event_form(request, event_id=None):
             event = form.save()
             
             event.save()
-            return http.HttpResponseRedirect(urlresolvers.reverse("event form",
-                    kwargs=dict(event_id=event_id)))
+            
+            # Return a JSON representation of the event sutable for giving to
+            # fullcalendar
+            event_json = json.dumps(
+                    calendarview.CalendarView.to_fullcalendar(event))
+            return http.HttpResponse(event_json, content_type="application/json")
     else:
         form = forms.EventForm(instance=event)
     

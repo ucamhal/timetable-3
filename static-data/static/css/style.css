@@ -452,6 +452,12 @@ div#results.empty p {
 	border-width: 10px 10px 10px 0;
 }
 
+.alert.calendarEventInfo label,
+.alert.calendarEventInfo input,
+.alert.calendarEventInfo select {
+	float: left;
+}
+
 .alertHolder {
 	position: absolute;
 	left: 50%;
