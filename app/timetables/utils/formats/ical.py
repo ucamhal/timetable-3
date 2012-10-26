@@ -6,7 +6,6 @@ Created on Oct 17, 2012
 from icalendar import Event as iCalEvent
 from django.http import HttpResponse
 from icalendar.cal import Calendar, Alarm
-import logging
 from timetables.models import Event
 import datetime
 from django.utils.timezone import utc, pytz
@@ -108,7 +107,6 @@ class ICalImporter(object):
             metadata = source.metadata
             for k,v in cal.iteritems():
                 metadata[k.lower()] = self._get_value(cal,k,default_timezone)
-                logging.error("Calendar %s %s " % (k,v))
             events = []
             for e in cal.walk('VEVENT'):
                 event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),

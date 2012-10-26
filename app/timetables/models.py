@@ -77,7 +77,6 @@ class HierachicalModel(models.Model):
                 q = models.Q(**kwargs)
             else:
                 q = q | models.Q(**kwargs)
-        logging.error(q)
         return q
     
     @classmethod
