@@ -13,12 +13,41 @@ from timetables.models import HierachicalModel, Thing, Event
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
+import operator
 
 
 class CalendarView(View):
     '''
     Renders a json stream suitable for use in the calendar.
     '''
+    
+    @classmethod
+    def to_fullcalendar(cls, event):
+        metadata = event.metadata
+        allday = bool(metadata.get("x-allday"))
+        lecturer = metadata.get("people") or []
+        type = metadata.get("type") or False
+        if allday:
+            return {
+                "djid": event.id,
+                "title" : event.title,
+                "allDay" : True,
+                "start" : DateConverter.from_datetime(event.start, True).isoformat(),
+                "location" : event.location,
+                "lecturer" : lecturer,
+                "type" : type
+            }
+        else:
+            return {
+                "djid": event.id,
+                "title" : event.title,
+                "allDay" : False,
+                "start" : DateConverter.from_datetime(event.start, False).isoformat(),
+                "end" : DateConverter.from_datetime(event.end, False).isoformat(),
+                "location" : event.location,
+                "lecturer" : lecturer,
+                "type" : type
+            }
     
     def get(self, request, thing):
         hashid = HierachicalModel.hash(thing)
@@ -29,36 +58,14 @@ class CalendarView(View):
                 # TODO: Support ranges
                 pattern = "%s"
                 for e in thing.get_events():
-                    metadata = e.metadata
-                    allday = metadata.get("x-allday") or False
-                    lecturer = metadata.get("people") or []
-                    type = metadata.get("type") or False
-                    if allday:
-                        yield pattern % json.dumps({
-                                    "title" : e.title,
-                                    "allDay" : True,
-                                    "start" : DateConverter.from_datetime(e.start, True).isoformat(),
-                                    "location" : e.location,
-                                    "lecturer" : lecturer,
-                                    "type" : type,
-                                    "className" : "thing_%s" % thing.type
-                                          },
-                                     indent=JSON_INDENT)
-                    else:
-                        yield pattern % json.dumps({
-                                    "title" : e.title,
-                                    "allDay" : False,
-                                    "start" : DateConverter.from_datetime(e.start, False).isoformat(),
-                                    "end" : DateConverter.from_datetime(e.end, False).isoformat(),
-                                    "location" : e.location,
-                                    "lecturer" : lecturer,
-                                    "type" : type,
-                                    "className" : "thing_%s" % thing.type
-                                          },
-                                     indent=JSON_INDENT)
+                    event_obj = self.to_fullcalendar(e)
+                    event_obj["className"] = "thing_%s" % thing.type
+                    yield pattern % json.dumps(event_obj, indent=JSON_INDENT)
                     pattern = ",\n%s"
                 yield "]\n"
 
+
+            return HttpResponse(reduce(operator.add, generate()))
 
 
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)

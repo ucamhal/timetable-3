@@ -9,6 +9,8 @@ require.config({
         "jquery-bbq": "libs/jquery.bbq",
         underscore: "libs/underscore",
         bootstrap: "libs/bootstrap",
+        bootstrapDatePicker: "libs/bootstrap-plugins/bootstrap-datepicker",
+        bootstrapTimePicker: "libs/bootstrap-plugins/bootstrap-timepicker",
         fullcalendar: "libs/fullcalendar"
     },
     shim: {
