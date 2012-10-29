@@ -6,6 +6,8 @@
 		<title>Timetables</title>
 
 		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap-datepicker.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap-timepicker.css" %}" />
 		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
@@ -313,7 +315,7 @@
 		  </div>
 		</div>
 		
-		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe">
+		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe student">
 			<div class="arrow"></div>
 			<button type="button" class="close" data-dismiss="alert">x</button>
 			<h5>An introduction to the language of 16th century texts</h5>
@@ -323,6 +325,25 @@
 			<br/>
 			<span class="courseLecturer">Dr R. Harle</span>
 			<a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
+		</div>
+
+		<div class="calendarEventInfo alert alert-block clearfix admin dontDisplayMe">
+			<div class="arrow"></div>
+			<button type="button" class="close" data-dismiss="alert">x</button>
+			<h5>Edit event</h5>
+			<div class="progress progress-striped active">
+			  <div class="bar" style="width: 100%;"></div>
+			</div>
+
+			{# Form content fetched via AJAX #}
+
+			<div class="clearfix dontDisplayMe">
+				<a href="#" class="btn btn-danger pull-left">Remove event</a>
+				<div class="pull-right clearfix">
+					<a href="#" class="cancel">cancel</a>
+					<a href="#" class="btn btn-success">Save</a>
+				</div>
+			</div>
 		</div>
 		
 

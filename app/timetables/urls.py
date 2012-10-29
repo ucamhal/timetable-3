@@ -14,6 +14,7 @@ from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     event_list
 from timetables.views.account import LogoutView, LoginView
+from timetables.views import forms
 
 
 admin.autodiscover()
@@ -65,4 +66,7 @@ urlpatterns = patterns('',
     
     url(r'^eventlist/$', event_list, name="event list"),
     url(r'^eventlist/(?P<year>\d{4})/(?P<month>\d{1,2})/$', event_list, name="event list specific"),
+    
+    # Editing endpoints
+    url(r'^events/edit/(?P<event_id>\d+)$', forms.event_form, name="event form"),
 )
