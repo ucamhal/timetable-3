@@ -355,6 +355,8 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		setHeight: function (height) {
+			// #TODO FullCalendar doesn't take the max height in agendaWeek view
+			// Can be fixed by lowering the slotMinutes option, FullCalendar doesn't however allow us to change this at runtime
 			this.$el.fullCalendar('option', 'height', height);
 			this.$el.height(height);
 		},
