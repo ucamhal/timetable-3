@@ -353,8 +353,160 @@
 				<!--
 				<p>Your modules will appear here</p>
 				-->
+				<div id="resultsHead">
+					<h3>Found 13 modules</h3>
+					
+					<a href="#" class="btn btn-inverse addModule">Add a module</a>
+					<form id="addModule" class="clearfix dontDisplayMe">
+						<h4>Create a new module</h4>
 
-				<h3>Found 13 modules</h3>
+						<ul id="addModuleFields">
+							<li class="clearfix">
+								<label for="addModuleName" class="pull-left">Module</label>
+								<input type="text" name="addModuleName" id="addModuleName" placeholder="Module name" class="pull-right" />
+							</li>
+							<li class="clearfix">
+								<label for="addModuleLocation" class="pull-left">Location</label>
+								<input type="text" name="addModuleLocation" id="addModuleLocation" placeholder="Location" class="pull-right" />
+							</li>
+							<li class="clearfix">
+
+								<label for="addModuleFromTime" class="pull-left">Time</label>
+								<div class="pull-right">
+
+									<div class="input-append bootstrap-timepicker-component pull-left">
+								        <input type="text" id="addModuleFromTime" name="addModuleFromTime" class="timepicker-default input-small" />
+								        <span class="add-on">
+								            <i class="icon-time"></i>
+								        </span>
+								    </div>
+
+									<label for="addModuleToTime" class="pull-left">to</label>
+									<div class="input-append bootstrap-timepicker-component pull-left">
+								        <input type="text" id="addModuleToTime" name="addModuleToTime" class="timepicker-default input-small" />
+								        <span class="add-on">
+								            <i class="icon-time"></i>
+								        </span>
+								    </div>
+								</div>
+								<br />
+
+								<label for="addModuleDay" class="pull-left">on</label>
+								<select id="addModuleDay" name="addModuleDay" class="pull-right">
+									<option value="mo">Monday</option>
+									<option value="tu">Tuesday</option>
+									<option value="we">Wednesday</option>
+									<option value="th">Thursday</option>
+									<option value="fr">Friday</option>
+									<option value="sa">Saturday</option>
+								</select>
+								<br />
+
+								<label for="addModuleFromWeek" class="pull-left">From</label>
+								<div class="pull-right">
+									<select id="addModuleFromWeek" class="pull-left">
+										<option value="1">Week 1</option>
+										<option value="2">Week 2</option>
+										<option value="3">Week 3</option>
+										<option value="4">Week 4</option>
+										<option value="5">Week 5</option>
+										<option value="6">Week 6</option>
+										<option value="7">Week 7</option>
+										<option value="8">Week 8</option>
+										<option value="9">Week 9</option>
+									</select>
+
+									<label for="addModuleToWeek" class="pull-left">to</label>
+									<select id="addModuleToWeek" class="pull-left">
+										<option value="1">Week 1</option>
+										<option value="2">Week 2</option>
+										<option value="3">Week 3</option>
+										<option value="4">Week 4</option>
+										<option value="5">Week 5</option>
+										<option value="6">Week 6</option>
+										<option value="7">Week 7</option>
+										<option value="8">Week 8</option>
+										<option value="9">Week 9</option>
+									</select>
+								</div>
+								<br />
+
+								<ul class="pull-right">
+									<li class="pull-left">
+										<input type="radio" name="addModuleRepeatPattern" id="addModuleRepeatPatternWeekly" class="pull-left" />
+										<label for="addModuleRepeatPatternWeekly" class="pull-left">weekly</label>
+									</li>
+									<li class="pull-left">
+										<input type="radio" name="addModuleRepeatPattern" id="addModuleRepeatPatternFortnightly" class="pull-left" />
+										<label for="addModuleRepeatPatternFortnightly" class="pull-left">fortnightly</label>
+									</li>
+								</ul>
+								<br />
+
+								<label class="pull-left">During</label>
+								<ul class="clearfix pull-right">
+									<li class="pull-left">
+										<input type="checkbox" name="addModuleMichaelmas" id="addModuleMichaelmas" class="pull-left" />
+										<label for="addModuleMichaelmas" class="pull-left">Michaelmas</label>
+									</li>
+									<li class="pull-left">
+										<input type="checkbox" name="addModuleLent" id="addModuleLent" class="pull-left" />
+										<label for="addModuleLent" class="pull-left">Lent</label>
+									</li>
+									<li class="pull-left">
+										<input type="checkbox" name="addModuleEaster" id="addModuleEaster" class="pull-left" />
+										<label for="addModuleEaster" class="pull-left">Easter</label>						
+									</li>
+								</ul>
+							</li>
+							<li class="clearfix">
+								<label for="addModuleLecturer" class="pull-left">Lecturer</label>
+								<input type="text" name="addModuleLecturer" id="addModuleLecturer" placeholder="Lecturer" class="pull-right" />
+							</li>
+							<li class="clearfix">
+								<label for="addModuleType" class="pull-left">Type</label>
+								<select id="addModuleType" class="pull-right">
+									<option value="lecture">lecture</option>
+									<option value="languageClass">language class</option>
+									<option value="practical">practical</option>
+									<option value="seminar">seminar</option>
+								</select>
+							</li>
+						</ul>
+
+						<!--
+						<ul>
+							<li class="clearfix">
+								<input type="radio" name="addModuleType" id="addModuleTypeLecture" class="pull-left" />
+								<label for="addModuleTypeLecture" class="pull-left">Lecture</label>
+							</li>
+							<li class="clearfix">
+								<input type="radio" name="addModuleType" id="addModuleTypeLanguageClass" class="pull-left" />
+								<label for="addModuleTypeLanguageClass" class="pull-left">Language Class</label>
+							</li>
+							<li class="clearfix">
+								<input type="radio" name="addModuleType" id="addModuleTypePractical" class="pull-left" />
+								<label for="addModuleTypePractical" class="pull-left">Practical</label>
+							</li>
+							<li class="clearfix">
+								<input type="radio" name="addModuleType" id="addModuleTypeSeminar" class="pull-left" />
+								<label for="addModuleTypeSeminar" class="pull-left">Seminar</label>
+							</li>
+						</ul>
+						-->
+
+						<ul class="pull-right">
+							<li class="pull-left">
+								<a href="#" class="btn btn-danger">cancel</a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="btn btn-success">Add module</a>
+							</li>
+						</ul>
+						<br />
+					</form>
+				</div>
+
 				<ul id="resultsList">
 					<!--
 					<li class="clearfix course">
