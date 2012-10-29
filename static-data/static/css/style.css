@@ -154,21 +154,15 @@ div#results {
 	position: relative;
 }
 
-div#results > ul {
-	list-style-type: none;
-	height: auto;
-	
-	overflow-y: scroll;
-	overflow-x: hidden;
-
+div#results div#resultsHead h3,
+div#results div#resultsHead > a.btn {
 	position: absolute;
-	top: 41px;
-	bottom: 0;
-
-	margin: 0;
+	width: 320px;
+	display: block;
+	z-index: 1;
 }
 
-div#results h3 {
+div#results div#resultsHead h3 {
 	position: absolute;
 	width: 320px;
 	z-index: 1;
@@ -191,6 +185,112 @@ div#results h3 {
 	height: 40px;
 
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+div#results div#resultsHead > a.btn {
+	display: block;
+	top: 40px;
+	height: 30px;
+	border-radius: 0;
+
+	padding: 0;
+	margin: 0;
+
+	line-height: 2.1em;
+}
+
+div#results div#resultsHead form#addModule h4 {
+	font-size: 1.1em;
+	text-align: center;
+	background-color: rgba(0, 0, 0, .05);
+	padding: 12px 0;
+	margin: 0;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, .2);
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(255, 255, 255, .6);
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+}
+
+div#results div#resultsHead form#addModule ul > li {
+	padding-right: 10px;
+}
+
+div#results div#resultsHead form#addModule ul#addModuleFields > li {
+	padding: 10px;
+	padding-bottom: 0;
+	border-bottom-style: dashed;
+	border-bottom-color: rgba(0, 0, 0, .1);
+	border-bottom-width: 1px;
+}
+
+div#results div#resultsHead form#addModule ul#addModuleFields ul li input {
+	margin-top: 9px;
+	margin-right: 3px;
+}
+
+div#results div#resultsHead form#addModule {
+	position: absolute;
+	top: 72px;
+	z-index: 2;
+	background-color: #FFFFFF;
+	width: 290px;
+	padding-bottom: 5px;
+	left: 15px;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+}
+
+div#results div#resultsHead form#addModule label {
+	line-height: 2em;
+	margin: 0;
+	padding: 0;
+}
+
+div#results div#resultsHead form#addModule div label {
+	padding: 0 5px;
+}
+
+div#results div#resultsHead form#addModule div select {
+	width: 90px;
+}
+
+
+div#results div#resultsHead form#addModule br {
+	clear: both;
+}
+
+div#results div#resultsHead form#addModule ul {
+	list-style-type: none;
+}
+
+div#results div#resultsHead form#addModule input[type="text"] {
+	width: 180px;
+}
+
+div#results div#resultsHead form#addModule select {
+	width: 195px;
+}
+
+div#results div#resultsHead form#addModule .bootstrap-timepicker-component input {
+	width: 60px;
+}
+
+
+/*
+ * #TODO make the top dynamically
+ */
+div#results > ul {
+	list-style-type: none;
+	height: auto;
+	
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	position: absolute;
+	top: 71px;
+	bottom: 0;
+
+	margin: 0;
 }
 
 /*
