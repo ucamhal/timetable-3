@@ -12,9 +12,9 @@ from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
 from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
-    event_list
+    EventListView
 from timetables.views.account import LogoutView, LoginView
-from timetables.views import forms
+from timetables.views.eventedit import EventEdit
 
 
 admin.autodiscover()
@@ -43,6 +43,11 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
+        # FIXME: This should be ^event/(?P<event_id>\d+)\.html$  The POST method indicates update, GET would render a view of the event. 
+    # Editing endpoints
+    url(r'^event/(?P<event_id>\d+)', EventEdit.as_view(), name="event form"),
+
+
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     # This pattern is only really used for reverse, should never be matched forwards
     url(r'(.*?)/(.*)\.events\.ics$', ExportEvents.as_view(), name="export named ics"),
@@ -54,6 +59,7 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*?)\.children\.html$', ChildrenView.as_view(), name="thing childen view"),
     url(r'(?P<thing>.*?)\.cal\.json', CalendarView.as_view(), name="thing calendar view"),
     url(r'(?P<thing>.*?)\.cal\.html', CalendarHtmlView.as_view(), name="thing calendar htmlview"),
+    url(r'(?P<thing>.*?)\.callist\.html', EventListView.as_view(), name="thing calendar list"),
 
 
     # Generate an Html view of things
@@ -64,12 +70,5 @@ urlpatterns = patterns('',
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     
-    # FIXME: These Url patterns have an implied user they should be of the form '(?P<thing>.*?)\.callist\.html' with an optional 
-    # filter of year and month. At the moment, they can't be cached, and break the URL scheme. 
-    url(r'^eventlist/$', event_list, name="event list"),
-    url(r'^eventlist/(?P<year>\d{4})/(?P<month>\d{1,2})/$', event_list, name="event list specific"),
     
-    # FIXME: This should be ^event/(?P<event_id>\d+)\.html$  The POST method indicates update, GET would render a view of the event. 
-    # Editing endpoints
-    url(r'^events/edit/(?P<event_id>\d+)$', forms.event_form, name="event form"),
 )

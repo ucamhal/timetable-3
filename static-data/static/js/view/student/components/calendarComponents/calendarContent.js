@@ -379,7 +379,7 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 			}());
 
 			// The path to the endpoint to GET/POST the event edit form from/to
-			var editFormPath = "/events/edit/" + encodeURIComponent(calEvent.djid);
+			var editFormPath = "/event/" + encodeURIComponent(calEvent.djid);
 
 			function insertForm (form) {
 				var $form = $(form);

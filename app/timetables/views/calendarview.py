@@ -2,17 +2,19 @@ import calendar
 import itertools
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse,\
+    HttpResponseForbidden
 from django.shortcuts import render
 from django.utils import simplejson as json
 from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View
 
-from timetables.models import HierachicalModel, Thing, Event
+from timetables.models import HierachicalModel, Thing
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
+from timetables.backend import HierachicalSubject
 
 
 class CalendarView(View):
@@ -49,6 +51,8 @@ class CalendarView(View):
             }
     
     def get(self, request, thing):
+        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+            return HttpResponseForbidden("Denied")
         hashid = HierachicalModel.hash(thing)
         try:
             thing = Thing.objects.get(pathid=hashid)
@@ -80,25 +84,39 @@ class CalendarHtmlView(View):
     '''
     
     def get(self, request, thing, depth="0"):
+        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing,depth=depth)):
+            return HttpResponseForbidden("Denied")
         hashid = HierachicalModel.hash(thing)
         try:
             return  render(request, "calendar.html",  { "thing" : Thing.objects.get(pathid=hashid) }) 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 
-# FIXME: This should not be a method, it should be a View as with the other Views.
-@login_required
-def event_list(request, year=None, month=None):
-    assert not bool(year) ^ bool(month), "provide both or neither year, month"
-    # Default to current month/year if not provided
-    now = datetimes.server_datetime_now()
-    year = int(year or now.year)
-    month = int(month or now.month)
+class EventListView(View):
+    '''
+    Renders an event list view of events associated with a thing.
+    '''
     
-    calendar = MonthListCalendar.from_personal_calendar(
-            request.user, year, month)
-    
-    return render(request, "event-list.html", {"calendar": calendar})
+    def get(self, request, thing):
+        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+            return HttpResponseForbidden("Denied")
+        year = request.GET.get("y") or None
+        month = request.GET.get("m") or None
+
+        assert not bool(year) ^ bool(month), "provide both or neither year, month"
+        # Default to current month/year if not provided
+        now = datetimes.server_datetime_now()
+        year = int(year or now.year)
+        month = int(month or now.month)
+
+        hashid = HierachicalModel.hash(thing)
+        try:
+            return render(request, "event-list.html", {
+                        "calendar": MonthListCalendar(year, month, Thing.objects.get(pathid=hashid).get_events())
+                        })
+        except Thing.DoesNotExist:
+            return HttpResponseNotFound()
+
 
 class MonthListCalendar(object):
     """
@@ -116,35 +134,14 @@ class MonthListCalendar(object):
         self._month = month
         self._year = year
         self._cal = calendar.Calendar(firstweekday)
-        self._events = events
+        start, end = self._month_range(year, month)
+        self._events = events.in_range(start, end).order_by("start")
         
         # It's required that _events be sorted by starting date/time
         self.events_by_day = self._bucket_into_days(self.events)
+
     
-    # FIXME: this should be from_thing_calendar(cls, fullpath, year, month, **kwargs):
-    @classmethod
-    def from_personal_calendar(cls, username, year, month, **kwargs):
-        """
-        Instantiates a MonthListCalendar with the contents of the specified
-        username's personal timetable at the month and year.
-        """
-        return cls(year, month, cls._load_events(username, year, month),
-                 **kwargs)
-    
-    # FIXME: this should be generalised to be a Things path and not a username.
-    @staticmethod
-    def _load_events(username, year, month):
-        """
-        Loads a month's worth of events from the personal timetable of username.
-        """
-        start, end = MonthListCalendar._month_range(year, month)
-        return (Event.objects.all()
-                .in_users_timetable(username)
-                .in_range(start, end)
-                .order_by("start"))
-    
-    @staticmethod
-    def _month_range(year, month):
+    def _month_range(self, year, month):
         """
         Returns: a 2 pair of datetime objects at the start and end of the
             specified month (inclusive).

@@ -4,11 +4,12 @@ Created on Oct 18, 2012
 @author: ieb
 '''
 from django.views.generic.base import View
-from timetables.models import HierachicalModel, Thing, EventSource,\
-    EventSourceTag
-from django.http import HttpResponseNotFound, HttpResponseBadRequest
+from timetables.models import HierachicalModel, Thing, EventSource
+from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
+    HttpResponseForbidden
 from django.shortcuts import render
 from django.db import models
+from timetables.backend import HierachicalSubject
 
 
 class ViewThing(View):
@@ -17,6 +18,8 @@ class ViewThing(View):
     '''
     
     def get(self, request, thing, depth="0"):
+        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing, depth=depth)):
+            return HttpResponseForbidden("Denied")
         hashid = HierachicalModel.hash(thing)
         try:
             if depth == "0":
@@ -45,6 +48,8 @@ class ChildrenView(View):
     QUERY_RELATED = "t"
     
     def get(self, request, thing):
+        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing,fulldepth=True)):
+            return HttpResponseForbidden("Denied")
         try:
             thing = Thing.objects.get(pathid=HierachicalModel.hash(thing))
             relatedthings = frozenset()
