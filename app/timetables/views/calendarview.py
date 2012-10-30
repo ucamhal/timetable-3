@@ -88,7 +88,7 @@ class CalendarHtmlView(View):
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 
-
+# FIXME: This should not be a method, it should be a View as with the other Views.
 @login_required
 def event_list(request, year=None, month=None):
     assert not bool(year) ^ bool(month), "provide both or neither year, month"
@@ -123,6 +123,7 @@ class MonthListCalendar(object):
         # It's required that _events be sorted by starting date/time
         self.events_by_day = self._bucket_into_days(self.events)
     
+    # FIXME: this should be from_thing_calendar(cls, fullpath, year, month, **kwargs):
     @classmethod
     def from_personal_calendar(cls, username, year, month, **kwargs):
         """
@@ -132,6 +133,7 @@ class MonthListCalendar(object):
         return cls(year, month, cls._load_events(username, year, month),
                  **kwargs)
     
+    # FIXME: this should be generalised to be a Things path and not a username.
     @staticmethod
     def _load_events(username, year, month):
         """
