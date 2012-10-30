@@ -64,9 +64,12 @@ urlpatterns = patterns('',
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     
+    # FIXME: These Url patterns have an implied user they should be of the form '(?P<thing>.*?)\.callist\.html' with an optional 
+    # filter of year and month. At the moment, they can't be cached, and break the URL scheme. 
     url(r'^eventlist/$', event_list, name="event list"),
     url(r'^eventlist/(?P<year>\d{4})/(?P<month>\d{1,2})/$', event_list, name="event list specific"),
     
+    # FIXME: This should be ^event/(?P<event_id>\d+)\.html$  The POST method indicates update, GET would render a view of the event. 
     # Editing endpoints
     url(r'^events/edit/(?P<event_id>\d+)$', forms.event_form, name="event form"),
 )

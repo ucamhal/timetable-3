@@ -365,7 +365,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-1",
-      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "2. Music History 1"
@@ -376,7 +376,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-harmony",
-      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
+      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills- Harmony"
@@ -387,7 +387,7 @@
   {
     "fields": {
       "sourceurl": "analysis",
-      "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 W 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "4. Introduction to Analysis"
@@ -409,7 +409,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-counterpoint",
-      "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Th 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills - Counterpoint"
@@ -420,7 +420,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-2",
-      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
+      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "3. Music History 2"
@@ -431,7 +431,7 @@
   {
     "fields": {
       "sourceurl": "intro",
-      "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
+      "data": "{\"datePattern\": \"Mi1 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "1. Introduction - Recital/Composition/Essay"
@@ -453,7 +453,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-2",
-      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9:30-10:30; Mi 3 M 10-11:30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "6. Tonal Skills 2"
@@ -464,7 +464,7 @@
   {
     "fields": {
       "sourceurl": "recital",
-      "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi6,7 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Recital"
@@ -893,7 +893,7 @@
   {
     "fields": {
       "sourceurl": "money",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen, Dr J C Muldrew and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen\", \" Dr J C Muldrew and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Money and Society from late Antiquity to the Financial Revolution"
@@ -904,7 +904,7 @@
   {
     "fields": {
       "sourceurl": "courts",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick, Prof. M C Carpenter and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick\", \" Prof. M C Carpenter and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Royal and princely courts: ancient, medieval and early modern"
@@ -1047,7 +1047,7 @@
   {
     "fields": {
       "sourceurl": "core",
-      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters and Dr D L Smith\"]}",
+      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters and Dr D L Smith\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Core lectures: British political and constitutional history"
@@ -1091,7 +1091,7 @@
   {
     "fields": {
       "sourceurl": "monarchy",
-      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters\"]}",
+      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Monarchy, religion and revolution, 1603-1702"
@@ -1190,7 +1190,7 @@
   {
     "fields": {
       "sourceurl": "seminar",
-      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance, Dr R Love\"]}",
+      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\", \" Dr R Love\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Graduate seminar (all graduate students)"
@@ -1208,6 +1208,1095 @@
     },
     "model": "timetables.eventsource",
     "pk": "110"
+  },
+  {
+    "fields": {
+      "sourceurl": "land-law",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Goymour\", \" Turner\", \" Oldham\", \" Thornton\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Land Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "sourceurl": "tort",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Howarth\", \" Morgan O'Sullivan\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Tort"
+    },
+    "model": "timetables.eventsource",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "sourceurl": "eu",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Barnard\", \" Gehring\", \" Hinarejos\", \" Waibel\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "EU Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "sourceurl": "euro-human-rts",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 9\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Feldman\", \" Palmer\", \" Hughes\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "European Human Rights Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "sourceurl": "labour",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 MTu 10\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Barnard\", \" Deakin\", \" Fraser-Butlin\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Labour Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "sourceurl": "ip",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Liddell\", \" Bently\", \" Seville\", \" Cooper\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Intellectual Property"
+    },
+    "model": "timetables.eventsource",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "sourceurl": "admin-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 3\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Forsyth\", \" Elliott\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Administrative Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "sourceurl": "history",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Jones\", \" Ibbetson\", \" Waddilove\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal History"
+    },
+    "model": "timetables.eventsource",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-ii",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11, W 3\", \"type\": \"lecture\", \"location\": \"B16\", \"people\": [\"Allison\", \" Ford\", \" Ibbetson\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Law II"
+    },
+    "model": "timetables.eventsource",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Nouwen\", \" De Smet\", \" Plant\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Select Issues in International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-procedure",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 5\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Procedure"
+    },
+    "model": "timetables.eventsource",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 9\", \"type\": \"lecture\", \"location\": \"GL19\", \"people\": [\"Bainham\", \" Oldham\", \" Sloan\", \" Scherpe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "sourceurl": "contract",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Andrews\", \" Morgan\", \" O'Sullivan\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Contract"
+    },
+    "model": "timetables.eventsource",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "sourceurl": "equity",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Worthington\", \" Fox\", \" Thornton\", \" Virgo\", \" Turner\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Equity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "sourceurl": "criminal",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Miles\", \" Virgo\", \" Spencer\", \" Du Bois-Pedain\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Gray\", \" Nouwen\", \" O'Keefe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "sourceurl": "cpe",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 5\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Padfield\", \" Munday\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Procedure and Criminal Evidence"
+    },
+    "model": "timetables.eventsource",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "sourceurl": "law-and-econ",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Howarth\", \" Deakin\", \" Salmon\", \" Aldred\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law and Economics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Oldham\", \" Bainham\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family in Society"
+    },
+    "model": "timetables.eventsource",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "sourceurl": "public",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G26\", \"people\": [\"Forsyth\", \" Allen\", \" Scolnicov\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Public Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "sourceurl": "ethics",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G11\", \"people\": [\"Du Bois-Pedain\", \" Stark\", \" Simester\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Ethics and the Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "sourceurl": "lp-hr",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal Process: Justics and Human Rights"
+    },
+    "model": "timetables.eventsource",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-geometry",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "sourceurl": "set-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Set Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-the-environment",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of the Environment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "sourceurl": "statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "sourceurl": "commutative-algebra",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Commutative Algebra"
+    },
+    "model": "timetables.eventsource",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-networks",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Networks"
+    },
+    "model": "timetables.eventsource",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "sourceurl": "numerical-solutions",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Numerical Solution of Differential Equations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "sourceurl": "kinetic-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Kinetic Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-fluid-dynamics",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Astrophysical Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "sourceurl": "general-relativity",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "General Relativity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-financial-models",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Financial Models"
+    },
+    "model": "timetables.eventsource",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "sourceurl": "additive-combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Additive Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "sourceurl": "slow-viscous-flow",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Slow Viscous Flow"
+    },
+    "model": "timetables.eventsource",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "sourceurl": "cosmology",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Cosmology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "sourceurl": "lie-algebras",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Lie Algebras and their Representations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "sourceurl": "operational-research",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Mathematics of Operational Research"
+    },
+    "model": "timetables.eventsource",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "sourceurl": "biological-physics",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biological Physics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Field Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Algebraic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-probability",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Probability"
+    },
+    "model": "timetables.eventsource",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "sourceurl": "approximation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Approximation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "sourceurl": "combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "sourceurl": "differential-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "sourceurl": "distribution-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Distribution Theory and Applications"
+    },
+    "model": "timetables.eventsource",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "sourceurl": "stars",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Structure and Evolution of Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "sourceurl": "symmetries-fields-and-particles",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Symmetries, Fields and Particles"
+    },
+    "model": "timetables.eventsource",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "sourceurl": "fourier-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Introduction to Fourier Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-topology",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Topology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "sourceurl": "convex-optimisation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Convex Optimisation with Applications in Image Processing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "sourceurl": "time-series-and-monte-carlo-inference-i",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Time Series and Monte Carlo Inference (I)"
+    },
+    "model": "timetables.eventsource",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "sourceurl": "computational-complexity",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computational Complexity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "sourceurl": "category-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Category Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "sourceurl": "perturbation-methods",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Perturbation Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "sourceurl": "actuarial-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Actuarial Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 2-4\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "sourceurl": "standard-model",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Standard Model"
+    },
+    "model": "timetables.eventsource",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "sourceurl": "extremal-graph-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Extremal Graph Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "sourceurl": "sampling-techniques",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Contemporary Sampling Techniques and Compressed Sensing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "sourceurl": "supersymmetry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Supersymmetry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "sourceurl": "aspects-of-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Aspects of Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "sourceurl": "elliptic-curves",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Elliptic Curves"
+    },
+    "model": "timetables.eventsource",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-climate",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Climate"
+    },
+    "model": "timetables.eventsource",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-calculus",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Calculus"
+    },
+    "model": "timetables.eventsource",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Quantum Field theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-bayesian-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Bayesian Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-energy",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Energy"
+    },
+    "model": "timetables.eventsource",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "sourceurl": "analytic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Analytic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "sourceurl": "spectral-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Spectral Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "sourceurl": "nonparametric-statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Nonparametric Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-foundations",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Foundations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "sourceurl": "galaxies",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Origin and Evolution of Galaxies"
+    },
+    "model": "timetables.eventsource",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "sourceurl": "kakeya-universe",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Kakeya Universe and Incidence Problems in R*"
+    },
+    "model": "timetables.eventsource",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "sourceurl": "group-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Group Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "sourceurl": "sound-generatoin",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Sound Generation and Propagation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "sourceurl": "binary-stars",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Binary Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "sourceurl": "optimal-investment",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Optimal Investment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "sourceurl": "string-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "String Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "sourceurl": "complex-manifolds",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Complex Manifolds"
+    },
+    "model": "timetables.eventsource",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "sourceurl": "percolation",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Percolation and Related Topics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "sourceurl": "design-of-experiments",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Design of Experiments"
+    },
+    "model": "timetables.eventsource",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-discs",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Dynamics of Astrophysical Discs"
+    },
+    "model": "timetables.eventsource",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "sourceurl": "black-holes",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Black Holes"
+    },
+    "model": "timetables.eventsource",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "sourceurl": "computability-and-logic",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computability and Logic"
+    },
+    "model": "timetables.eventsource",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "sourceurl": "solidification-of-fluids",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Solidification of Fluids"
+    },
+    "model": "timetables.eventsource",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "sourceurl": "image-processing",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Image Processing - Variational and PDE Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "sourceurl": "applications-of-differential-geometry",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applications of Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "sourceurl": "schramm-loewner-evolutions",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Schramm-Loewner Evolutions"
+    },
+    "model": "timetables.eventsource",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "sourceurl": "polar-oceans",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Polar Oceans and Climate Change"
+    },
+    "model": "timetables.eventsource",
+    "pk": "205"
+  },
+  {
+    "fields": {
+      "sourceurl": "biostatistics",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biostatistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "206"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-computation",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Computation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "207"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-demos",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Laboratory Demonstrations in Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "208"
+  },
+  {
+    "fields": {
+      "sourceurl": "solitons",
+      "data": "{\"datePattern\": \"Ea1-4 MTuThF 10\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Classical and Quantum Solitons"
+    },
+    "model": "timetables.eventsource",
+    "pk": "209"
   },
   {
     "fields": {
@@ -1575,7 +2664,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-1",
-      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "2. Music History 1"
@@ -1586,7 +2675,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-harmony",
-      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
+      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills- Harmony"
@@ -1597,7 +2686,7 @@
   {
     "fields": {
       "sourceurl": "analysis",
-      "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 W 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "4. Introduction to Analysis"
@@ -1619,7 +2708,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-counterpoint",
-      "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Th 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills - Counterpoint"
@@ -1630,7 +2719,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-2",
-      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
+      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "3. Music History 2"
@@ -1641,7 +2730,7 @@
   {
     "fields": {
       "sourceurl": "intro",
-      "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
+      "data": "{\"datePattern\": \"Mi1 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "1. Introduction - Recital/Composition/Essay"
@@ -1663,7 +2752,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-2",
-      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9:30-10:30; Mi 3 M 10-11:30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "6. Tonal Skills 2"
@@ -1674,7 +2763,7 @@
   {
     "fields": {
       "sourceurl": "recital",
-      "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi6,7 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Recital"
@@ -2103,7 +3192,7 @@
   {
     "fields": {
       "sourceurl": "money",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen, Dr J C Muldrew and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen\", \" Dr J C Muldrew and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Money and Society from late Antiquity to the Financial Revolution"
@@ -2114,7 +3203,7 @@
   {
     "fields": {
       "sourceurl": "courts",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick, Prof. M C Carpenter and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick\", \" Prof. M C Carpenter and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Royal and princely courts: ancient, medieval and early modern"
@@ -2257,7 +3346,7 @@
   {
     "fields": {
       "sourceurl": "core",
-      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters and Dr D L Smith\"]}",
+      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters and Dr D L Smith\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Core lectures: British political and constitutional history"
@@ -2301,7 +3390,7 @@
   {
     "fields": {
       "sourceurl": "monarchy",
-      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters\"]}",
+      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Monarchy, religion and revolution, 1603-1702"
@@ -2400,7 +3489,7 @@
   {
     "fields": {
       "sourceurl": "seminar",
-      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance, Dr R Love\"]}",
+      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\", \" Dr R Love\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Graduate seminar (all graduate students)"
@@ -2418,6 +3507,1095 @@
     },
     "model": "timetables.eventsource",
     "pk": "110"
+  },
+  {
+    "fields": {
+      "sourceurl": "land-law",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Goymour\", \" Turner\", \" Oldham\", \" Thornton\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Land Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "sourceurl": "tort",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Howarth\", \" Morgan O'Sullivan\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Tort"
+    },
+    "model": "timetables.eventsource",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "sourceurl": "eu",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Barnard\", \" Gehring\", \" Hinarejos\", \" Waibel\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "EU Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "sourceurl": "euro-human-rts",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 9\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Feldman\", \" Palmer\", \" Hughes\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "European Human Rights Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "sourceurl": "labour",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 MTu 10\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Barnard\", \" Deakin\", \" Fraser-Butlin\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Labour Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "sourceurl": "ip",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Liddell\", \" Bently\", \" Seville\", \" Cooper\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Intellectual Property"
+    },
+    "model": "timetables.eventsource",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "sourceurl": "admin-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 3\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Forsyth\", \" Elliott\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Administrative Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "sourceurl": "history",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Jones\", \" Ibbetson\", \" Waddilove\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal History"
+    },
+    "model": "timetables.eventsource",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-ii",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11, W 3\", \"type\": \"lecture\", \"location\": \"B16\", \"people\": [\"Allison\", \" Ford\", \" Ibbetson\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Law II"
+    },
+    "model": "timetables.eventsource",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Nouwen\", \" De Smet\", \" Plant\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Select Issues in International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-procedure",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 5\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Procedure"
+    },
+    "model": "timetables.eventsource",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 9\", \"type\": \"lecture\", \"location\": \"GL19\", \"people\": [\"Bainham\", \" Oldham\", \" Sloan\", \" Scherpe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "sourceurl": "contract",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Andrews\", \" Morgan\", \" O'Sullivan\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Contract"
+    },
+    "model": "timetables.eventsource",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "sourceurl": "equity",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Worthington\", \" Fox\", \" Thornton\", \" Virgo\", \" Turner\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Equity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "sourceurl": "criminal",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Miles\", \" Virgo\", \" Spencer\", \" Du Bois-Pedain\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Gray\", \" Nouwen\", \" O'Keefe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "sourceurl": "cpe",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 5\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Padfield\", \" Munday\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Procedure and Criminal Evidence"
+    },
+    "model": "timetables.eventsource",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "sourceurl": "law-and-econ",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Howarth\", \" Deakin\", \" Salmon\", \" Aldred\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law and Economics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Oldham\", \" Bainham\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family in Society"
+    },
+    "model": "timetables.eventsource",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "sourceurl": "public",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G26\", \"people\": [\"Forsyth\", \" Allen\", \" Scolnicov\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Public Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "sourceurl": "ethics",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G11\", \"people\": [\"Du Bois-Pedain\", \" Stark\", \" Simester\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Ethics and the Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "sourceurl": "lp-hr",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal Process: Justics and Human Rights"
+    },
+    "model": "timetables.eventsource",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-geometry",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "sourceurl": "set-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Set Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-the-environment",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of the Environment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "sourceurl": "statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "sourceurl": "commutative-algebra",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Commutative Algebra"
+    },
+    "model": "timetables.eventsource",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-networks",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Networks"
+    },
+    "model": "timetables.eventsource",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "sourceurl": "numerical-solutions",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Numerical Solution of Differential Equations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "sourceurl": "kinetic-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Kinetic Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-fluid-dynamics",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Astrophysical Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "sourceurl": "general-relativity",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "General Relativity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-financial-models",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Financial Models"
+    },
+    "model": "timetables.eventsource",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "sourceurl": "additive-combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Additive Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "sourceurl": "slow-viscous-flow",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Slow Viscous Flow"
+    },
+    "model": "timetables.eventsource",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "sourceurl": "cosmology",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Cosmology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "sourceurl": "lie-algebras",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Lie Algebras and their Representations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "sourceurl": "operational-research",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Mathematics of Operational Research"
+    },
+    "model": "timetables.eventsource",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "sourceurl": "biological-physics",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biological Physics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Field Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Algebraic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-probability",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Probability"
+    },
+    "model": "timetables.eventsource",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "sourceurl": "approximation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Approximation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "sourceurl": "combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "sourceurl": "differential-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "sourceurl": "distribution-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Distribution Theory and Applications"
+    },
+    "model": "timetables.eventsource",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "sourceurl": "stars",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Structure and Evolution of Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "sourceurl": "symmetries-fields-and-particles",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Symmetries, Fields and Particles"
+    },
+    "model": "timetables.eventsource",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "sourceurl": "fourier-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Introduction to Fourier Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-topology",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Topology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "sourceurl": "convex-optimisation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Convex Optimisation with Applications in Image Processing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "sourceurl": "time-series-and-monte-carlo-inference-i",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Time Series and Monte Carlo Inference (I)"
+    },
+    "model": "timetables.eventsource",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "sourceurl": "computational-complexity",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computational Complexity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "sourceurl": "category-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Category Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "sourceurl": "perturbation-methods",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Perturbation Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "sourceurl": "actuarial-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Actuarial Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 2-4\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "sourceurl": "standard-model",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Standard Model"
+    },
+    "model": "timetables.eventsource",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "sourceurl": "extremal-graph-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Extremal Graph Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "sourceurl": "sampling-techniques",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Contemporary Sampling Techniques and Compressed Sensing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "sourceurl": "supersymmetry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Supersymmetry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "sourceurl": "aspects-of-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Aspects of Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "sourceurl": "elliptic-curves",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Elliptic Curves"
+    },
+    "model": "timetables.eventsource",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-climate",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Climate"
+    },
+    "model": "timetables.eventsource",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-calculus",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Calculus"
+    },
+    "model": "timetables.eventsource",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Quantum Field theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-bayesian-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Bayesian Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-energy",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Energy"
+    },
+    "model": "timetables.eventsource",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "sourceurl": "analytic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Analytic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "sourceurl": "spectral-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Spectral Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "sourceurl": "nonparametric-statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Nonparametric Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-foundations",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Foundations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "sourceurl": "galaxies",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Origin and Evolution of Galaxies"
+    },
+    "model": "timetables.eventsource",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "sourceurl": "kakeya-universe",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Kakeya Universe and Incidence Problems in R*"
+    },
+    "model": "timetables.eventsource",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "sourceurl": "group-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Group Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "sourceurl": "sound-generatoin",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Sound Generation and Propagation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "sourceurl": "binary-stars",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Binary Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "sourceurl": "optimal-investment",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Optimal Investment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "sourceurl": "string-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "String Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "sourceurl": "complex-manifolds",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Complex Manifolds"
+    },
+    "model": "timetables.eventsource",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "sourceurl": "percolation",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Percolation and Related Topics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "sourceurl": "design-of-experiments",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Design of Experiments"
+    },
+    "model": "timetables.eventsource",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-discs",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Dynamics of Astrophysical Discs"
+    },
+    "model": "timetables.eventsource",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "sourceurl": "black-holes",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Black Holes"
+    },
+    "model": "timetables.eventsource",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "sourceurl": "computability-and-logic",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computability and Logic"
+    },
+    "model": "timetables.eventsource",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "sourceurl": "solidification-of-fluids",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Solidification of Fluids"
+    },
+    "model": "timetables.eventsource",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "sourceurl": "image-processing",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Image Processing - Variational and PDE Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "sourceurl": "applications-of-differential-geometry",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applications of Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "sourceurl": "schramm-loewner-evolutions",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Schramm-Loewner Evolutions"
+    },
+    "model": "timetables.eventsource",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "sourceurl": "polar-oceans",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Polar Oceans and Climate Change"
+    },
+    "model": "timetables.eventsource",
+    "pk": "205"
+  },
+  {
+    "fields": {
+      "sourceurl": "biostatistics",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biostatistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "206"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-computation",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Computation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "207"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-demos",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Laboratory Demonstrations in Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "208"
+  },
+  {
+    "fields": {
+      "sourceurl": "solitons",
+      "data": "{\"datePattern\": \"Ea1-4 MTuThF 10\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Classical and Quantum Solitons"
+    },
+    "model": "timetables.eventsource",
+    "pk": "209"
   },
   {
     "fields": {
@@ -2785,7 +4963,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-1",
-      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Tu 11-12:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"SKR\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "2. Music History 1"
@@ -2796,7 +4974,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-harmony",
-      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
+      "data": "{\"datePattern\": \"Mi1,3,5,7 W 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"TW\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills- Harmony"
@@ -2807,7 +4985,7 @@
   {
     "fields": {
       "sourceurl": "analysis",
-      "data": "{\"datePattern\": \"Mi1-8 W 11.30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 W 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"NJM\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "4. Introduction to Analysis"
@@ -2829,7 +5007,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-counterpoint",
-      "data": "{\"datePattern\": \"Mi1-8 Th 11.3-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
+      "data": "{\"datePattern\": \"Mi1-8 Th 11:30-1\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"AA\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "5. Tonal Skills - Counterpoint"
@@ -2840,7 +5018,7 @@
   {
     "fields": {
       "sourceurl": "music-hist-2",
-      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11.30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
+      "data": "{\"datePattern\": \"Mi1,3-7 F 10-11:30\", \"type\": \"lecture\", \"location\": \"LR2\", \"people\": [\"MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "3. Music History 2"
@@ -2851,7 +5029,7 @@
   {
     "fields": {
       "sourceurl": "intro",
-      "data": "{\"datePattern\": \"Mi1 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
+      "data": "{\"datePattern\": \"Mi1 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"Mf/JEH/IRMC\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "1. Introduction - Recital/Composition/Essay"
@@ -2873,7 +5051,7 @@
   {
     "fields": {
       "sourceurl": "tonal-skills-2",
-      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9.30-10.30, Mi 3 M 10-11.30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi2,4,5 Tu 9:30-10:30; Mi 3 M 10-11:30 \", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "6. Tonal Skills 2"
@@ -2884,7 +5062,7 @@
   {
     "fields": {
       "sourceurl": "recital",
-      "data": "{\"datePattern\": \"Mi6,7 M 9.30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB, MWE\"]}",
+      "data": "{\"datePattern\": \"Mi6,7 M 9:30-11\", \"type\": \"lecture\", \"location\": \"RR\", \"people\": [\"SJB\", \" MWE\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Recital"
@@ -3313,7 +5491,7 @@
   {
     "fields": {
       "sourceurl": "money",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen, Dr J C Muldrew and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Dr M Allen\", \" Dr J C Muldrew and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Money and Society from late Antiquity to the Financial Revolution"
@@ -3324,7 +5502,7 @@
   {
     "fields": {
       "sourceurl": "courts",
-      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick, Prof. M C Carpenter and others\"]}",
+      "data": "{\"datePattern\": \"Le2,4,6,8, Ea1-5 W 11-1\", \"type\": \"class\", \"location\": \"\", \"people\": [\"Prof. R McKitterick\", \" Prof. M C Carpenter and others\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Royal and princely courts: ancient, medieval and early modern"
@@ -3467,7 +5645,7 @@
   {
     "fields": {
       "sourceurl": "core",
-      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters and Dr D L Smith\"]}",
+      "data": "{\"datePattern\": \"Mi1-5 TuF 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters and Dr D L Smith\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Core lectures: British political and constitutional history"
@@ -3511,7 +5689,7 @@
   {
     "fields": {
       "sourceurl": "monarchy",
-      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie, Prof. J S Morrill, Dr M K Peters\"]}",
+      "data": "{\"datePattern\": \"Le1-8 Tu 9\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"Dr M A Goldie\", \" Prof. J S Morrill\", \" Dr M K Peters\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Monarchy, religion and revolution, 1603-1702"
@@ -3610,7 +5788,7 @@
   {
     "fields": {
       "sourceurl": "seminar",
-      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance, Dr R Love\"]}",
+      "data": "{\"datePattern\": \"Mi2,3,6,7, Le 1-7, Ea 2-5 M 5; Mi4 M 4-4:45\", \"type\": \"seminar\", \"location\": \"GR06/07\", \"people\": [\"Dr R Dance\", \" Dr R Love\"]}",
       "sourcetype": "pattern",
       "sourcefile": "",
       "title": "Graduate seminar (all graduate students)"
@@ -3631,6 +5809,1095 @@
   },
   {
     "fields": {
+      "sourceurl": "land-law",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Goymour\", \" Turner\", \" Oldham\", \" Thornton\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Land Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "sourceurl": "tort",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Howarth\", \" Morgan O'Sullivan\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Tort"
+    },
+    "model": "timetables.eventsource",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "sourceurl": "eu",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Barnard\", \" Gehring\", \" Hinarejos\", \" Waibel\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "EU Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "sourceurl": "euro-human-rts",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 9\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Feldman\", \" Palmer\", \" Hughes\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "European Human Rights Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "sourceurl": "labour",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 MTu 10\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Barnard\", \" Deakin\", \" Fraser-Butlin\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Labour Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "sourceurl": "ip",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Liddell\", \" Bently\", \" Seville\", \" Cooper\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Intellectual Property"
+    },
+    "model": "timetables.eventsource",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "sourceurl": "admin-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 3\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Forsyth\", \" Elliott\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Administrative Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "sourceurl": "history",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Jones\", \" Ibbetson\", \" Waddilove\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal History"
+    },
+    "model": "timetables.eventsource",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-ii",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 11, W 3\", \"type\": \"lecture\", \"location\": \"B16\", \"people\": [\"Allison\", \" Ford\", \" Ibbetson\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Law II"
+    },
+    "model": "timetables.eventsource",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Nouwen\", \" De Smet\", \" Plant\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Select Issues in International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "sourceurl": "civil-procedure",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 M 5\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Civil Procedure"
+    },
+    "model": "timetables.eventsource",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 9\", \"type\": \"lecture\", \"location\": \"GL19\", \"people\": [\"Bainham\", \" Oldham\", \" Sloan\", \" Scherpe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "sourceurl": "contract",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 10\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Andrews\", \" Morgan\", \" O'Sullivan\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law of Contract"
+    },
+    "model": "timetables.eventsource",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "sourceurl": "equity",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Worthington\", \" Fox\", \" Thornton\", \" Virgo\", \" Turner\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Equity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "sourceurl": "criminal",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG19\", \"people\": [\"Miles\", \" Virgo\", \" Spencer\", \" Du Bois-Pedain\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "sourceurl": "constitutional-law",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 11\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Elliott\", \" Allan\", \" Palmer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Constitutional Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "sourceurl": "international",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Gray\", \" Nouwen\", \" O'Keefe\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "International Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "sourceurl": "cpe",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 5\", \"type\": \"lecture\", \"location\": \"LG18\", \"people\": [\"Padfield\", \" Munday\", \" Spencer\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Criminal Procedure and Criminal Evidence"
+    },
+    "model": "timetables.eventsource",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "sourceurl": "law-and-econ",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"LG17\", \"people\": [\"Howarth\", \" Deakin\", \" Salmon\", \" Aldred\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Law and Economics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "sourceurl": "family",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Oldham\", \" Bainham\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Family in Society"
+    },
+    "model": "timetables.eventsource",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "sourceurl": "public",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G26\", \"people\": [\"Forsyth\", \" Allen\", \" Scolnicov\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Public Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "sourceurl": "ethics",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G11\", \"people\": [\"Du Bois-Pedain\", \" Stark\", \" Simester\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Ethics and the Criminal Law"
+    },
+    "model": "timetables.eventsource",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "sourceurl": "lp-hr",
+      "data": "{\"datePattern\": \"Mi1-8, Le1-8, Ea1-4 Tu 2-4\", \"type\": \"lecture\", \"location\": \"G28\", \"people\": [\"Andrews\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Legal Process: Justics and Human Rights"
+    },
+    "model": "timetables.eventsource",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-geometry",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "sourceurl": "set-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Set Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-the-environment",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of the Environment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "sourceurl": "statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "sourceurl": "commutative-algebra",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Commutative Algebra"
+    },
+    "model": "timetables.eventsource",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-networks",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Networks"
+    },
+    "model": "timetables.eventsource",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "sourceurl": "numerical-solutions",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Numerical Solution of Differential Equations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "sourceurl": "kinetic-theory",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Kinetic Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-fluid-dynamics",
+      "data": "{\"datePattern\": \"Mi1-8 M 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Astrophysical Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "sourceurl": "general-relativity",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "General Relativity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-financial-models",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Financial Models"
+    },
+    "model": "timetables.eventsource",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "sourceurl": "additive-combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Additive Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "sourceurl": "slow-viscous-flow",
+      "data": "{\"datePattern\": \"Mi1-8 M 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Slow Viscous Flow"
+    },
+    "model": "timetables.eventsource",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "sourceurl": "cosmology",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Cosmology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "sourceurl": "lie-algebras",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Lie Algebras and their Representations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "sourceurl": "operational-research",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Mathematics of Operational Research"
+    },
+    "model": "timetables.eventsource",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "sourceurl": "biological-physics",
+      "data": "{\"datePattern\": \"Mi1-8 M 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biological Physics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Field Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Algebraic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-probability",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Probability"
+    },
+    "model": "timetables.eventsource",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "sourceurl": "approximation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Approximation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "sourceurl": "combinatorics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Combinatorics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "sourceurl": "differential-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "sourceurl": "distribution-theory",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Distribution Theory and Applications"
+    },
+    "model": "timetables.eventsource",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "sourceurl": "stars",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Structure and Evolution of Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "sourceurl": "symmetries-fields-and-particles",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Symmetries, Fields and Particles"
+    },
+    "model": "timetables.eventsource",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "sourceurl": "fourier-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Introduction to Fourier Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "sourceurl": "algebraic-topology",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Algebraic Topology"
+    },
+    "model": "timetables.eventsource",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "sourceurl": "convex-optimisation",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Convex Optimisation with Applications in Image Processing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "sourceurl": "time-series-and-monte-carlo-inference-i",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Time Series and Monte Carlo Inference (I)"
+    },
+    "model": "timetables.eventsource",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "sourceurl": "computational-complexity",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computational Complexity"
+    },
+    "model": "timetables.eventsource",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "sourceurl": "category-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Category Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "sourceurl": "perturbation-methods",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Perturbation Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "sourceurl": "actuarial-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Actuarial Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  Tu 2-4\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "sourceurl": "standard-model",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Standard Model"
+    },
+    "model": "timetables.eventsource",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "sourceurl": "extremal-graph-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Extremal Graph Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "sourceurl": "sampling-techniques",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Contemporary Sampling Techniques and Compressed Sensing"
+    },
+    "model": "timetables.eventsource",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "sourceurl": "supersymmetry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Supersymmetry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "sourceurl": "aspects-of-analysis",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Aspects of Analysis"
+    },
+    "model": "timetables.eventsource",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "sourceurl": "elliptic-curves",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Elliptic Curves"
+    },
+    "model": "timetables.eventsource",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-climate",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Climate"
+    },
+    "model": "timetables.eventsource",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "sourceurl": "stochastic-calculus",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Stochastic Calculus"
+    },
+    "model": "timetables.eventsource",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "sourceurl": "advanced-quantum-field-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Advanced Quantum Field theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "sourceurl": "applied-bayesian-statistics",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applied Bayesian Statistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-of-energy",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Fluid Dynamics of Energy"
+    },
+    "model": "timetables.eventsource",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "sourceurl": "analytic-number-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Analytic Number Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "sourceurl": "spectral-geometry",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Spectral Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "sourceurl": "representation-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Representation Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "sourceurl": "nonparametric-statistical-theory",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Nonparametric Statistical Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-foundations",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Foundations"
+    },
+    "model": "timetables.eventsource",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "sourceurl": "galaxies",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Origin and Evolution of Galaxies"
+    },
+    "model": "timetables.eventsource",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "sourceurl": "kakeya-universe",
+      "data": "{\"datePattern\": \"Mi1-8  MWF 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "The Kakeya Universe and Incidence Problems in R*"
+    },
+    "model": "timetables.eventsource",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "sourceurl": "group-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Topics in Group Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "sourceurl": "sound-generatoin",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Sound Generation and Propagation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "sourceurl": "binary-stars",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Binary Stars"
+    },
+    "model": "timetables.eventsource",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "sourceurl": "optimal-investment",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS9\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Optimal Investment"
+    },
+    "model": "timetables.eventsource",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "sourceurl": "string-theory",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "String Theory"
+    },
+    "model": "timetables.eventsource",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "sourceurl": "complex-manifolds",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Complex Manifolds"
+    },
+    "model": "timetables.eventsource",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "sourceurl": "percolation",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Percolation and Related Topics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "sourceurl": "design-of-experiments",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Design of Experiments"
+    },
+    "model": "timetables.eventsource",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "sourceurl": "astrophysical-discs",
+      "data": "{\"datePattern\": \"Mi1-8  TuThS 10\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Dynamics of Astrophysical Discs"
+    },
+    "model": "timetables.eventsource",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "sourceurl": "black-holes",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Black Holes"
+    },
+    "model": "timetables.eventsource",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "sourceurl": "computability-and-logic",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Computability and Logic"
+    },
+    "model": "timetables.eventsource",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "sourceurl": "solidification-of-fluids",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Solidification of Fluids"
+    },
+    "model": "timetables.eventsource",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "sourceurl": "image-processing",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 11\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Image Processing - Variational and PDE Methods"
+    },
+    "model": "timetables.eventsource",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "sourceurl": "applications-of-differential-geometry",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Applications of Differential Geometry"
+    },
+    "model": "timetables.eventsource",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "sourceurl": "schramm-loewner-evolutions",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Schramm-Loewner Evolutions"
+    },
+    "model": "timetables.eventsource",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "sourceurl": "polar-oceans",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Polar Oceans and Climate Change"
+    },
+    "model": "timetables.eventsource",
+    "pk": "205"
+  },
+  {
+    "fields": {
+      "sourceurl": "biostatistics",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Biostatistics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "206"
+  },
+  {
+    "fields": {
+      "sourceurl": "quantum-computation",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Quantum Computation"
+    },
+    "model": "timetables.eventsource",
+    "pk": "207"
+  },
+  {
+    "fields": {
+      "sourceurl": "fluid-dynamics-demos",
+      "data": "{\"datePattern\": \"LE1-8  TuThS 12\", \"type\": \"lecture\", \"location\": \"Mr4\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Laboratory Demonstrations in Fluid Dynamics"
+    },
+    "model": "timetables.eventsource",
+    "pk": "208"
+  },
+  {
+    "fields": {
+      "sourceurl": "solitons",
+      "data": "{\"datePattern\": \"Ea1-4 MTuThF 10\", \"type\": \"class\", \"location\": \"CATAM room\", \"people\": [\"Dr C. Birkar\"]}",
+      "sourcetype": "pattern",
+      "sourcefile": "",
+      "title": "Classical and Quantum Solitons"
+    },
+    "model": "timetables.eventsource",
+    "pk": "209"
+  },
+  {
+    "fields": {
       "thing": "130",
       "eventsource": "1"
     },
@@ -4167,7 +7434,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "82"
     },
     "model": "timetables.eventsourcetag",
@@ -4175,7 +7442,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "83"
     },
     "model": "timetables.eventsourcetag",
@@ -4183,7 +7450,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "84"
     },
     "model": "timetables.eventsourcetag",
@@ -4191,7 +7458,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "85"
     },
     "model": "timetables.eventsourcetag",
@@ -4199,7 +7466,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "86"
     },
     "model": "timetables.eventsourcetag",
@@ -4207,7 +7474,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "87"
     },
     "model": "timetables.eventsourcetag",
@@ -4215,7 +7482,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "88"
     },
     "model": "timetables.eventsourcetag",
@@ -4223,7 +7490,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "89"
     },
     "model": "timetables.eventsourcetag",
@@ -4231,7 +7498,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "90"
     },
     "model": "timetables.eventsourcetag",
@@ -4239,7 +7506,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "91"
     },
     "model": "timetables.eventsourcetag",
@@ -4247,7 +7514,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "92"
     },
     "model": "timetables.eventsourcetag",
@@ -4255,7 +7522,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "93"
     },
     "model": "timetables.eventsourcetag",
@@ -4263,7 +7530,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "95"
     },
     "model": "timetables.eventsourcetag",
@@ -4388,6 +7655,886 @@
     },
     "model": "timetables.eventsourcetag",
     "pk": "95"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "111"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "96"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "97"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "98"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "99"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "100"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "101"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "102"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "115"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "103"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "116"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "104"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "105"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "106"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "107"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "108"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "109"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "110"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "121"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "122"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "124"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "125"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "129"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "130"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "131"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "132"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "133"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "134"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "135"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "136"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "137"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "138"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "139"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "140"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "141"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "142"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "143"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "144"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "145"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "146"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "147"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "148"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "149"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "151"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "152"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "154"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "155"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "156"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "157"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "158"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "159"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "160"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "161"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "162"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "163"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "164"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "165"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "166"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "167"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "168"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "169"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "170"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "171"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "172"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "173"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "174"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "175"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "176"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "177"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "178"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "179"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "180"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "181"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "182"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "183"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "184"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "185"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "186"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "187"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "188"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "189"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "190"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "191"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "192"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "193"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "194"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "195"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "196"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "197"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "198"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "199"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "200"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "201"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "202"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "203"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "204"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "205"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "206"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "207"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "208"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "209"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "205"
   },
   {
     "fields": {
@@ -4927,7 +9074,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "82"
     },
     "model": "timetables.eventsourcetag",
@@ -4935,7 +9082,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "83"
     },
     "model": "timetables.eventsourcetag",
@@ -4943,7 +9090,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "84"
     },
     "model": "timetables.eventsourcetag",
@@ -4951,7 +9098,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "85"
     },
     "model": "timetables.eventsourcetag",
@@ -4959,7 +9106,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "86"
     },
     "model": "timetables.eventsourcetag",
@@ -4967,7 +9114,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "87"
     },
     "model": "timetables.eventsourcetag",
@@ -4975,7 +9122,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "88"
     },
     "model": "timetables.eventsourcetag",
@@ -4983,7 +9130,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "89"
     },
     "model": "timetables.eventsourcetag",
@@ -4991,7 +9138,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "90"
     },
     "model": "timetables.eventsourcetag",
@@ -4999,7 +9146,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "91"
     },
     "model": "timetables.eventsourcetag",
@@ -5007,7 +9154,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "92"
     },
     "model": "timetables.eventsourcetag",
@@ -5015,7 +9162,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "93"
     },
     "model": "timetables.eventsourcetag",
@@ -5023,7 +9170,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "95"
     },
     "model": "timetables.eventsourcetag",
@@ -5148,6 +9295,886 @@
     },
     "model": "timetables.eventsourcetag",
     "pk": "95"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "111"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "96"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "97"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "98"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "99"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "100"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "101"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "102"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "115"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "103"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "116"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "104"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "105"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "106"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "107"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "108"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "109"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "110"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "121"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "122"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "124"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "125"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "129"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "130"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "131"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "132"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "133"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "134"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "135"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "136"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "137"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "138"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "139"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "140"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "141"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "142"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "143"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "144"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "145"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "146"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "147"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "148"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "149"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "151"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "152"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "154"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "155"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "156"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "157"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "158"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "159"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "160"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "161"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "162"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "163"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "164"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "165"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "166"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "167"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "168"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "169"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "170"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "171"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "172"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "173"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "174"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "175"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "176"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "177"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "178"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "179"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "180"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "181"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "182"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "183"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "184"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "185"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "186"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "187"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "188"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "189"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "190"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "191"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "192"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "193"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "194"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "195"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "196"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "197"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "198"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "199"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "200"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "201"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "202"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "203"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "204"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "205"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "206"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "207"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "208"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "209"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "205"
   },
   {
     "fields": {
@@ -5687,7 +10714,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "82"
     },
     "model": "timetables.eventsourcetag",
@@ -5695,7 +10722,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "83"
     },
     "model": "timetables.eventsourcetag",
@@ -5703,7 +10730,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "84"
     },
     "model": "timetables.eventsourcetag",
@@ -5711,7 +10738,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "85"
     },
     "model": "timetables.eventsourcetag",
@@ -5719,7 +10746,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "86"
     },
     "model": "timetables.eventsourcetag",
@@ -5727,7 +10754,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "87"
     },
     "model": "timetables.eventsourcetag",
@@ -5735,7 +10762,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "88"
     },
     "model": "timetables.eventsourcetag",
@@ -5743,7 +10770,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "89"
     },
     "model": "timetables.eventsourcetag",
@@ -5751,7 +10778,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "90"
     },
     "model": "timetables.eventsourcetag",
@@ -5759,7 +10786,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "91"
     },
     "model": "timetables.eventsourcetag",
@@ -5767,7 +10794,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "92"
     },
     "model": "timetables.eventsourcetag",
@@ -5775,7 +10802,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "93"
     },
     "model": "timetables.eventsourcetag",
@@ -5783,7 +10810,7 @@
   },
   {
     "fields": {
-      "thing": "210",
+      "thing": "207",
       "eventsource": "95"
     },
     "model": "timetables.eventsourcetag",
@@ -5908,10 +10935,891 @@
     },
     "model": "timetables.eventsourcetag",
     "pk": "95"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "111"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "96"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "97"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "112"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "98"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "99"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "113"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "100"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "101"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "114"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "102"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "115"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "103"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "116"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "104"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "105"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "117"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "106"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "107"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "118"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "108"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "109"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "119"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "110"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "111"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "120"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "112"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "121"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "113"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "122"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "114"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "115"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "123"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "116"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "124"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "117"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "125"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "118"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "119"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "126"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "120"
+  },
+  {
+    "fields": {
+      "thing": "71",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "121"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "127"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "122"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "123"
+  },
+  {
+    "fields": {
+      "thing": "72",
+      "eventsource": "128"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "124"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "129"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "125"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "130"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "126"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "131"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "127"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "132"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "128"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "133"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "129"
+  },
+  {
+    "fields": {
+      "thing": "73",
+      "eventsource": "134"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "130"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "135"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "131"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "136"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "132"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "137"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "133"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "138"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "134"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "139"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "135"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "140"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "136"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "141"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "137"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "142"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "138"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "143"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "139"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "144"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "140"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "145"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "141"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "146"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "142"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "147"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "143"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "148"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "144"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "149"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "145"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "146"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "151"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "147"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "152"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "148"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "150"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "149"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "154"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "150"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "155"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "151"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "156"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "152"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "157"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "153"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "158"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "154"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "159"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "155"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "160"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "156"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "161"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "157"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "162"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "158"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "163"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "159"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "164"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "160"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "165"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "161"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "166"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "162"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "167"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "163"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "168"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "164"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "169"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "165"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "170"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "166"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "171"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "167"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "172"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "168"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "173"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "169"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "174"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "170"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "175"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "171"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "176"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "172"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "177"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "173"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "178"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "174"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "179"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "175"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "180"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "176"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "181"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "177"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "182"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "178"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "183"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "179"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "184"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "180"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "185"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "181"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "186"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "182"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "187"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "183"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "188"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "184"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "189"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "185"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "190"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "186"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "191"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "187"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "192"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "188"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "193"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "189"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "194"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "190"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "195"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "191"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "196"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "192"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "197"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "193"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "198"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "194"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "199"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "195"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "200"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "196"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "201"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "197"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "202"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "198"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "203"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "199"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "204"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "200"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "205"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "201"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "206"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "202"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "207"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "203"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "208"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "204"
+  },
+  {
+    "fields": {
+      "thing": "44",
+      "eventsource": "209"
+    },
+    "model": "timetables.eventsourcetag",
+    "pk": "205"
   },
   {
     "fields": {
       "name": "tripos",
+      "parent": null,
       "data": "{ \"some\" : \"testdata\" }",
       "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
       "fullpath": "tripos",
@@ -8602,6 +14510,7 @@
   {
     "fields": {
       "name": "user",
+      "parent": null,
       "data": "{\"description\": \"Root Thing for all users\"}",
       "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=",
       "fullpath": "user",
@@ -8679,6 +14588,7 @@
   {
     "fields": {
       "name": "tripos",
+      "parent": null,
       "data": "{ \"some\" : \"testdata\" }",
       "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
       "fullpath": "tripos",
@@ -11369,6 +17279,7 @@
   {
     "fields": {
       "name": "user",
+      "parent": null,
       "data": "{\"description\": \"Root Thing for all users\"}",
       "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=",
       "fullpath": "user",
@@ -11446,6 +17357,7 @@
   {
     "fields": {
       "name": "tripos",
+      "parent": null,
       "data": "{ \"some\" : \"testdata\" }",
       "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
       "fullpath": "tripos",
@@ -14136,6 +20048,7 @@
   {
     "fields": {
       "name": "user",
+      "parent": null,
       "data": "{\"description\": \"Root Thing for all users\"}",
       "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=",
       "fullpath": "user",
