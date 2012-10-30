@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function ($, _) {
+define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 
 	var ListView = function (opt) {
 		_.extend(this, opt);
@@ -18,16 +18,20 @@ define(['jquery', 'underscore'], function ($, _) {
 
 		render: function (date) {
 			var self = this,
-				url = "/eventlist";
+				url = page.getThingPath()+".callist.html";
 
 			if (date !== this.date) {
 				this.date = date;
-				
+
+				var data = {}
 				if (date) {
-					url += "/" + date.year + "/" + date.month;
+					data = {
+						"y" : date.year,
+						"m" : date.month
+					}
 				}
 
-				$.get(url, function (data) {
+				$.get(url, data, function (data) {
 					self.$el.empty().html(data);
 				});
 			}
