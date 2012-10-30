@@ -21,7 +21,9 @@ class EventQuerySet(query.QuerySet):
             username = user
         else:
             username = user.username
-        
+        # FIXME: There is no guarantee this is right. thing.name is not unique and thing.name == username could return more than just the Thing
+        # representing the thing. The fullpath is unique and the Thing should be accessed by pathid=hash(fullpath)
+        # this method should be re-written to be in_things_timetable(self, fullpath)
         return self.filter(source__eventsourcetag__thing__name=username,
                 source__eventsourcetag__thing__type="user")
     

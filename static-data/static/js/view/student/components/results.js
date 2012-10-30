@@ -35,13 +35,35 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 					self.associate($(this).parent().parent().find("a.btn"), $(this).is(".btn-add"));
 				} else {
 					self.associate($(this), $(this).is(".btn-add"));
-					if ($(this).parent().parent().is(".courseMoreInfo")) {
-						if ($(this).parent().parent().find(".btn-add").length <= 0) {
-							self.toggleButtonState($(this).parent().parent().parent().find(".btn-add.btnAddSingleLecture"), true);
-						} else {
-							self.toggleButtonState($(this).parent().parent().parent().find(".btn-remove.btnAddSingleLecture"), false);
-						}
-					}
+				}
+
+				event.preventDefault();
+			});
+
+
+			/*
+			 * #ADMIN functioncality, will want to move this somewhere else
+			 */
+		 	$("#resultsHead form#addModule .timepicker-default").timepicker();
+
+			$("#resultsHead a.addModule", this.$el).toggle(function (event) {
+				console.log("showForm");
+				$("#resultsHead form#addModule", this.$el).slideDown(200);
+				event.preventDefault();
+			}, function (event) {
+				console.log("hideForm");
+				$("#resultsHead form#addModule", this.$el).slideUp(200);
+				event.preventDefault();
+			});
+
+			$("#resultsHead form#addModule a").click(function (event) {
+				console.log($(this).text().toLowerCase());
+				switch ($(this).text().toLowerCase()) {
+					case "cancel":
+						$("#resultsHead a.addModule", self.$el).trigger("click");
+						break;
+					case "add module":
+						break;
 				}
 
 				event.preventDefault();
@@ -75,11 +97,12 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
         		$("> h3", self.$el).text(textToChange);
         	});
 		},
-		associate: function (source, add) {
+
+		associate: function (source, add, parentButton) {
 			var self = this;
 			var sourcepath = page.getThingPath();
 			var crsf = page.getCrsf();
-			var postdata  = {}
+			var postdata  = {};
 			if ( add ) {
 				postdata['t'] = $(source).attr("data-fullpath");
 				postdata['es'] = $(source).attr("data-eventsourceid");
@@ -91,7 +114,8 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			}
 			postdata['csrfmiddlewaretoken'] = crsf;
 			$.post(sourcepath+".link", postdata, function() {
-				self.toggleButtonState($(source), add);
+				//self.toggleButtonState($(source), add);
+				self.updateButtonStates(source);
 				self.dispatchEvent("timetableChanged");
 			}).error(function(response, status, error) {
 				console.log("Status code is "+response.status+" error:"+error);
@@ -101,6 +125,21 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 					$('#errorModal').modal('show');
 				}
 			});
+		},
+
+		updateButtonStates: function ($source) {
+			if ($source.is('.btnAddSingleLecture')) {
+				this.toggleButtonState($source.parent().parent().find("a.btn"), $source.is(".btn-add"));
+			} else {
+				this.toggleButtonState($source, $source.is(".btn-add"));
+				if ($source.parent().parent().is(".courseMoreInfo")) {
+					if ($source.parent().parent().find(".btn-add").length <= 0) {
+						this.toggleButtonState($source.parent().parent().parent().find(".btn-add.btnAddSingleLecture"), true);
+					} else {
+						this.toggleButtonState($source.parent().parent().parent().find(".btn-remove.btnAddSingleLecture"), false);
+					}
+				}
+			}
 		},
 
 		addEventListener: function (eventName, callback) {
