@@ -16,14 +16,22 @@
 	<body id="student">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
-	    <div id="userinfo" style="display:none" userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" class="dontDisplayMe">
+	    <div id="userinfo" style="display:none" 
+	    	userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" 
+	    	userrole="{% if user.is_staff %}staff{% else %}student{% endif %}"
+	    	class="dontDisplayMe">
 	        {# used for ajax post operations, I prefer this to the cookie method. #}
 	        {% csrf_token %}
         </div>
 
 		<header id="mainHeader">
+				{% if user.is_staff %}
+				{% endif %}
 			<div id="uniLogo">
 				<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>
+				<div class="pull-right clearfix">
+					<a href="javascript:void()" id="view-toggle" data-toggle="View as staff" >View as student</button>
+				</div>
 			</div>
 
 			<div id="inputArea">

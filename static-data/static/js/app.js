@@ -5,10 +5,11 @@ define([
 	"view/student/components/results",
 	"view/student/components/calendar",
 	"control/hashController",
+	"util/page",
 	"bootstrap",
 	"bootstrapTimePicker",
 	"bootstrapDatePicker"
-], function ($, _, InputArea, Results, Calendar, HashController) {
+], function ($, _, InputArea, Results, Calendar, HashController, page) {
 	"use strict";
 
 	var Application = function () {
@@ -48,6 +49,17 @@ define([
 
 			$("a[href=\"#\"]").live("click", function (event) {
 				event.preventDefault();
+			});
+
+			$("#view-toggle").click(function(event) {
+				if ( page.adminEnabled() ) {
+					page.disableAdmin();
+				} else {
+					page.enableAdmin();
+				}
+				var d = $(this).text();
+				$(this).text($(this).attr("data-toggle"));
+				$(this).attr("data-toggle",d);
 			});
 
 			$(window).resize(function (e) {

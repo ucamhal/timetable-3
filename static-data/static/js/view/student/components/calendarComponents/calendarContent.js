@@ -412,8 +412,7 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 					});
 				});
 			}
-
-			if ($.bbq.getState("admin") === "true") {
+			if (page.adminEnabled()) {
 				$newPopup = $(".calendarEventInfo.dontDisplayMe.admin").clone().removeClass("dontDisplayMe");
 				$("div.progress div", $newPopup).text("Loading event data...");
 
