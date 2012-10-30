@@ -4,12 +4,11 @@ define([
 	"view/student/components/inputArea",
 	"view/student/components/results",
 	"view/student/components/calendar",
-	"view/student/components/actions",
 	"control/hashController",
 	"bootstrap",
 	"bootstrapTimePicker",
 	"bootstrapDatePicker"
-], function ($, _, InputArea, Results, Calendar, Actions, HashController) {
+], function ($, _, InputArea, Results, Calendar, HashController) {
 	"use strict";
 
 	var Application = function () {
@@ -36,14 +35,10 @@ define([
 					headingSelector: "div#calendarHeading",
 					contentSelector: "div#calendar"
 				}),
-				actions = new Actions({
-					selector: "div#actionsContainer"
-				}),
 				hashController = new HashController({
 					resultsView: results,
 					calendarView: calendar,
-					inputAreaView: inputArea,
-					actionsView: actions
+					inputAreaView: inputArea
 				});
 
 

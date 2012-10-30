@@ -45,8 +45,7 @@ define([
 			this.$el.height(to.height);
 			this.$el.width(to.width);
 
-			var calendarHeight = this.$el.height() - this.heading.$el.outerHeight();
-			this.content.setHeight(calendarHeight);
+			this.content.setHeight(this.$el.height() - this.heading.$el.outerHeight());
 			this.size = to;
 		}
 	});

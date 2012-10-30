@@ -355,6 +355,8 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		setHeight: function (height) {
+			// #TODO FullCalendar doesn't take the max height in agendaWeek view
+			// Can be fixed by lowering the slotMinutes option, FullCalendar doesn't however allow us to change this at runtime
 			this.$el.fullCalendar('option', 'height', height);
 			this.$el.height(height);
 		},
@@ -379,7 +381,7 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 			// The path to the endpoint to GET/POST the event edit form from/to
 			var editFormPath = "/events/edit/" + encodeURIComponent(calEvent.djid);
 
-			function insertForm(form) {
+			function insertForm (form) {
 				var $form = $(form);
 
 				// kill any existing forms
@@ -418,8 +420,8 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 				// Fetch pre-populated form for the clicked event
 				// FIXME: get event id...
 				$.get(editFormPath, insertForm);
-			} else {
-				$("span.courseDatePattern", $newPopup).text(self.getFullDayFromDate(calEvent._start) + " " + self.getTwelveHourTimeFromDate(calEvent._start));
+			} else {				
+				$("span.courseDatePattern", $newPopup).text(this.getFullDayFromDate(calEvent._start) + " " + this.getTwelveHourTimeFromDate(calEvent._start));
 
 				$("span.courseLocation", $newPopup).text((function (location) {
 					var locationText = location;
