@@ -13,7 +13,6 @@ from timetables.models import HierachicalModel, Thing, Event
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
-import operator
 
 
 class CalendarView(View):
@@ -65,7 +64,6 @@ class CalendarView(View):
                 yield "]\n"
 
 
-            return HttpResponse(reduce(operator.add, generate()))
 
 
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
