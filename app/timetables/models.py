@@ -200,7 +200,7 @@ class Thing(SchemalessModel, HierachicalModel):
     Probably in a separate Hierarchical model, where the permission is resolved hierarchically.
     '''
     type = models.CharField("Type",
-            max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behavior")
+            max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behaviour")
 
     # NOTE: Please use these fields with caution, only on read to make queries more efficient.
     # thing.sources.all() is equivalent to thing.eventsourcetag.eventsource but it is more efficient
