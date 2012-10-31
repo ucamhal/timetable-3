@@ -106,3 +106,4 @@ class TestISO8601Date(TestCase):
 
 from timetables.utils.tests.ints import *
 from timetables.utils.tests.lookup import *
+from timetables.utils.tests.settings import *
