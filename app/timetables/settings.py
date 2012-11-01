@@ -201,6 +201,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'timetables.backend.TimetablesAuthorizationBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

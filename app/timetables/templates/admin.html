@@ -13,7 +13,9 @@
 	<body id="admin">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
-	    <div id="userinfo" class="dontDisplayMe" userid="{{ user.username }}" >
+	    <div id="userinfo" class="dontDisplayMe" 
+	    	userid="{{ user.username }}" 
+	    	userrole="{% if user.is_staff %}staff{% else %}student{% endif %}">
 	        {# used for ajax post operations, I prefer this to the cookie method. #}
 	        {% csrf_token %}
         </div>

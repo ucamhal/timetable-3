@@ -10,6 +10,7 @@ from timetables.models import HierachicalModel, Thing, EventSourceTag,\
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.utils.decorators import method_decorator
+from timetables.backend import HierachicalSubject
 
 
 class LinkThing(View):
@@ -31,15 +32,11 @@ class LinkThing(View):
 
     @method_decorator(xact)
     def post(self, request, thing):
+        if not request.user.has_perm(HierachicalModel.PERM_LINK,HierachicalSubject(fullpath=thing)):
+            return HttpResponseForbidden("Not your calendar")
         hashid = HierachicalModel.hash(thing)
         try:
-            if not request.user.is_staff:
-                if not request.user.is_authenticated():
-                    return HttpResponseForbidden()
-                if not thing.startswith("user/"):
-                    return HttpResponseForbidden()
-                if not thing == "user/%s" % request.user.username:
-                    return HttpResponseForbidden("Not your calendar")
+
             try:
                 thing = Thing.objects.get(pathid=hashid)
             except Thing.DoesNotExist:

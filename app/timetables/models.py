@@ -45,6 +45,10 @@ class HierachicalModel(models.Model):
     name = models.CharField(max_length=MAX_NAME_LENGTH, help_text="short name of this thing, used in the path and urls")
 
 
+    PERM_LINK = "hierachy.link"
+    PERM_READ = "hierachy.read"
+
+
     # FIXME: (ieb) I don't think theses should be here, but there may be no option
     # as we may need the classmethods for extension. They break the principal
     # of keeping the model just entities.
@@ -275,6 +279,10 @@ class Event(SchemalessModel):
     Also, there could be 1000s of these in memory at anyone time, so we must not add a manager or do anything 
     that could increase the memory footprint more than necessary. Even the text field may be bad.
     '''
+
+    PERM_WRITE = "event.write"
+    PERM_READ = "event.read"
+
 
     objects = EventManager()
 
