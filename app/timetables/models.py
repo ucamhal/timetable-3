@@ -12,11 +12,12 @@ from django.utils import simplejson as json
 
 import logging
 from timetables.managers import EventManager
+from django.contrib.auth.models import User
 log = logging.getLogger(__name__)
 
-# Length of a hash required to idedentify items.
+# Length of a hash required to identify items.
 # The item can be retrieved by hashing an external identifier and selecting
-# based on the hash. This allows simple linking of data where we dont know the source.
+# based on the hash. This allows simple linking of data where we don't know the source.
 HASH_LENGTH=64
 # Maximum length of paths.
 MAX_PATH_LENGTH=2048
@@ -39,6 +40,98 @@ class AttributedLinkModel(models.Model):
     class Meta:
         abstract=True
     attribute = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The attribute of the association", null=True, blank=True)
+
+
+class ModifieableModel(models.Model):
+    '''
+    If added to a concrete model records when the instance was last modified and by who.
+    Note, this forces the updater to remember to set lastmodifiedBy to request.user
+    '''
+    class Meta:
+        abstract=True
+    lastmodified = models.DateTimeField(auto_now=True, auto_now_add=True)
+    # I would love to enforce this, but doing so is going to be onerous on anyone using it, hence the null=True
+    lastmodifiedBy = models.ForeignKey(User, null=True)
+
+class VersionableModel(models.Model):
+    '''
+    If added to a concrete model it will make the model versionable.
+    Versionable model instances are organized into sets identified by the master of
+    the set. One within the set will have current set to true, and each will have
+    a versionstamp when it was created.
+    To discover what changed between two points in time use the versionstamp to select a range of records.
+    This will allow users to be notified once a day or once an hour or only for items that are not being modified
+    all the time (by looking for items that have not been modified in the last 10 minutes, but have
+    been modified in the past X hours. It will also enable us to show recently modified items.
+
+    This is not intended to be used on Things. EventSourceTag, EventTag
+
+    Two ways of using it. 1 everything pointing to the master of a set.
+
+    On Events:
+    EventTag points to the master so when selecting an event we must in addition say master=events,current=True
+
+    On Event sources, all event.source point to the master and eventsourcetag.eventsource points to the master
+    so again the current is master=eventsource,current=True
+
+    2. update the pointers so that everything points to the current instance.
+
+    On Events:
+    # get the current version
+    Event.object.get(event__master=event.master,current=True)
+    # make everythign point to it.
+    EventTag.object.filter(event__master=event.master).update(event=event)
+
+    On EventSource
+    # get the current version
+    eventsource = EventSource.objects.get(eventsource__master=eventsource.master,current=True)
+    # make everything point to it.
+    Event.object.filter(source__master=eventsource.master).update(source=eventsource)
+    EventSourceTag.object.filter(eventsource__master=eventsource.master).update(eventsource=eventsource)
+
+    this could be implemented in the makecurrent method in each class.
+
+    AFACT, queries are not effected since everything points to the current event
+
+    '''
+    class Meta:
+        abstract=True
+
+    # Indicates the entity is the current entity
+    current = models.BooleanField(default=True)
+    # All rows point to a master, the master points to itself
+    master = models.ForeignKey("VersionableModel", null=True)
+    # Every version has a stamp when it was created.
+    versionstamp = models.DateTimeField(auto_now_add=True)
+
+    def makecurrent(self):
+        '''
+        Make this instance the current instance.
+        If the master has not been set this instance becomes the master.
+        
+        The procedure is on save to create a brand new instance and then make it current instead of saving.
+        '''
+        if self.master is None:
+            self.master = self
+        self.objects.filter(master=self.master,current=True).update(current=False)
+        self.current = True
+        self.save()
+
+    @classmethod
+    def _prepare_save(cls, sender, **kwargs):
+        instance = kwargs['instance']
+        if instance.master is None:
+            instance.master = instance
+            
+            
+    def copycreate(self, instance):
+        self.current = instance.current
+        if instance.master is None:
+            self.master = instance
+        else:
+            self.master = instance.master
+        # Do not copy the versionstamp. The DB will do this.
+
 
 class HierachicalModel(models.Model):
     class Meta:
@@ -183,6 +276,8 @@ class SchemalessModel(models.Model):
         elif instance.data is None: # Only set to nothing if None, metadata might not have been touched.
             instance.data = ""
         
+    def copycreate(self, instance):
+        self.data = instance.data
 
 
 class Thing(SchemalessModel, HierachicalModel):
@@ -252,7 +347,7 @@ def _get_upload_path(instance, filename):
     tpart = time.strftime('%Y/%m/%d',time.gmtime())
     return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , HierachicalModel.hash(filename))
 
-class EventSource(SchemalessModel):
+class EventSource(SchemalessModel, VersionableModel):
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
     # source url if the Event Source was loaded
@@ -260,6 +355,18 @@ class EventSource(SchemalessModel):
     # local copy of the file.
     
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
+
+    def __init__(self,args,**kwargs):
+        if "from_instance" in kwargs:
+            instance = kwargs['from_instance']
+            self.title = instance.title
+            self.sourcetype = instance.sourcetype
+            self.sourceurl = instance.sourceurl
+            self.sourcefile = instance.sourcefile
+            SchemalessModel.copycreate(self, instance)
+            VersionableModel.copycreate(self, instance)            
+            del(kwargs['from'])
+        super(EventSource, self).__init(args, **kwargs)
     
     def __unicode__(self):
         try:
@@ -275,12 +382,19 @@ class EventSource(SchemalessModel):
     def _pre_save(cls, sender, **kwargs):
         # Invoking multiple parent class or instnace methods is broken in python 2.6
         # So this is the only way
+        VersionableModel._prepare_save(sender, **kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
+
+    def makecurrent(self):
+        VersionableModel.makecurrent(self)
+        Event.object.filter(source__master=self.master).update(source=self)
+        EventSourceTag.object.filter(eventsource__master=self.master).update(eventsource=self)
+
 
 pre_save.connect(EventSource._pre_save, sender=EventSource)
 
 
-class Event(SchemalessModel):
+class Event(SchemalessModel, VersionableModel):
     '''
     Events are the most basic representation of a physical event. Events have a start and an end.
     These are not metaevents with repeats
@@ -307,6 +421,20 @@ class Event(SchemalessModel):
     source = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The Event source that created this event",  blank=True, null=True)
     
     
+    def __init__(self,args,**kwargs):
+        if "from" in kwargs:
+            instance = kwargs['from_instance']
+            self.start = instance.start
+            self.end = instance.end
+            self.title = instance.title
+            self.location = instance.location
+            self.uid = instance.uid
+            self.source = instance.source
+            SchemalessModel.copycreate(self, instance)
+            VersionableModel.copycreate(self, instance)            
+            del(kwargs['from_instance'])
+        super(Event, self).__init(args, **kwargs)
+    
     def __unicode__(self):
         return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
     
@@ -317,11 +445,15 @@ class Event(SchemalessModel):
     def _pre_save(cls, sender, **kwargs):
         # Invoking multiple parent class or instnace methods is broken in python 2.6
         # So this is the only way
+        VersionableModel._prepare_save(sender, **kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
         instance = kwargs['instance']
         if instance.uid is None or instance.uid == "":
             instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
     
+    def makecurrent(self):
+        VersionableModel.makecurrent(self)
+        EventTag.object.filter(event__master=self.master).update(event=self)
     
 
         
