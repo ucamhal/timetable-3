@@ -13,6 +13,7 @@ from django.utils import simplejson as json
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 log = logging.getLogger(__name__)
 
 # Length of a hash required to identify items.
@@ -55,81 +56,57 @@ class ModifieableModel(models.Model):
 
 class VersionableModel(models.Model):
     '''
-    If added to a concrete model it will make the model versionable.
-    Versionable model instances are organized into sets identified by the master of
-    the set. One within the set will have current set to true, and each will have
-    a versionstamp when it was created.
-    To discover what changed between two points in time use the versionstamp to select a range of records.
-    This will allow users to be notified once a day or once an hour or only for items that are not being modified
-    all the time (by looking for items that have not been modified in the last 10 minutes, but have
-    been modified in the past X hours. It will also enable us to show recently modified items.
-
-    This is not intended to be used on Things. EventSourceTag, EventTag
-
-    Two ways of using it. 1 everything pointing to the master of a set.
-
-    On Events:
-    EventTag points to the master so when selecting an event we must in addition say master=events,current=True
-
-    On Event sources, all event.source point to the master and eventsourcetag.eventsource points to the master
-    so again the current is master=eventsource,current=True
-
-    2. update the pointers so that everything points to the current instance.
-
-    On Events:
-    # get the current version
-    Event.object.get(event__master=event.master,current=True)
-    # make everythign point to it.
-    EventTag.object.filter(event__master=event.master).update(event=event)
-
-    On EventSource
-    # get the current version
-    eventsource = EventSource.objects.get(eventsource__master=eventsource.master,current=True)
-    # make everything point to it.
-    Event.object.filter(source__master=eventsource.master).update(source=eventsource)
-    EventSourceTag.object.filter(eventsource__master=eventsource.master).update(eventsource=eventsource)
-
-    this could be implemented in the makecurrent method in each class.
-
-    AFACT, queries are not effected since everything points to the current event
-
+    
     '''
     class Meta:
         abstract=True
 
+    # Unfortunately FKs can't point to abstract models and since we have 2 types we can't specify,
+    # so that remains abstract.
     # Indicates the entity is the current entity
     current = models.BooleanField(default=True)
-    # All rows point to a master, the master points to itself
-    master = models.ForeignKey("VersionableModel", null=True)
     # Every version has a stamp when it was created.
-    versionstamp = models.DateTimeField(auto_now_add=True)
+    versionstamp = models.DateTimeField(default=now)
 
-    def makecurrent(self):
+    @classmethod
+    def makecurrent(cls, self):
         '''
         Make this instance the current instance.
         If the master has not been set this instance becomes the master.
         
         The procedure is on save to create a brand new instance and then make it current instead of saving.
         '''
-        if self.master is None:
-            self.master = self
-        self.objects.filter(master=self.master,current=True).update(current=False)
+        if hasattr(self, "master"):
+            if self.master is None:
+                self.master = self
+            logging.error("Making all in set master  %s not current  " % self.master)
+            self.__class__.objects.filter(master=self.master,current=True).update(current=False)
+        logging.error("Updating this to be current %s for set %s   " % (self,self.master))
         self.current = True
         self.save()
 
     @classmethod
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
-        if instance.master is None:
-            instance.master = instance
-            
-            
-    def copycreate(self, instance):
-        self.current = instance.current
-        if instance.master is None:
-            self.master = instance
+        if hasattr(instance, "master"):
+            logging.error("Instance has master attribute on save %s  " % instance.master)
+            if instance.master is None:
+                instance.master = instance
         else:
-            self.master = instance.master
+            logging.error("Instance Does not have master attribute on save ")
+            
+    @classmethod
+    def copycreate(cls, self, instance):
+        self.current = instance.current
+        if hasattr(instance, "master"):
+            logging.error("Instance has master attribute %s " % instance.master)
+            if instance.master is None:
+                self.master = instance
+            else:
+                self.master = instance.master
+        else:
+            logging.error("Instance Does not have master attribute ")
+            
         # Do not copy the versionstamp. The DB will do this.
 
 
@@ -319,13 +296,13 @@ class Thing(SchemalessModel, HierachicalModel):
     
     
     def get_events(self):
-        return Event.objects.filter(models.Q(source__eventsourcetag__thing=self)|
-                                    models.Q(eventtag__thing=self))
+        return Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
+                                    models.Q(eventtag__thing=self,current=True))
         
     @classmethod
     def get_all_events(cls, things):
-        return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things)|
-                                    models.Q(eventtag__thing__in=things))
+        return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things, source__current=True)|
+                                    models.Q(eventtag__thing__in=things,current=True))
 
     def prepare_save(self):
         Thing._pre_save(Event,instance=self)
@@ -355,18 +332,23 @@ class EventSource(SchemalessModel, VersionableModel):
     # local copy of the file.
     
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
+    
+    # All rows point to a master, the master points to itself
+    master = models.ForeignKey("EventSource", related_name="versions", null=True)
 
-    def __init__(self,args,**kwargs):
+    def __init__(self,*args,**kwargs):
+        instance = None
         if "from_instance" in kwargs:
             instance = kwargs['from_instance']
+            del(kwargs['from_instance'])
+        super(EventSource, self).__init__(*args, **kwargs)
+        if instance is not None:
             self.title = instance.title
             self.sourcetype = instance.sourcetype
             self.sourceurl = instance.sourceurl
             self.sourcefile = instance.sourcefile
             SchemalessModel.copycreate(self, instance)
             VersionableModel.copycreate(self, instance)            
-            del(kwargs['from'])
-        super(EventSource, self).__init(args, **kwargs)
     
     def __unicode__(self):
         try:
@@ -387,8 +369,8 @@ class EventSource(SchemalessModel, VersionableModel):
 
     def makecurrent(self):
         VersionableModel.makecurrent(self)
-        Event.object.filter(source__master=self.master).update(source=self)
-        EventSourceTag.object.filter(eventsource__master=self.master).update(eventsource=self)
+        Event.objects.filter(source__master=self.master).update(source=self)
+        EventSourceTag.objects.filter(eventsource__master=self.master).update(eventsource=self)
 
 
 pre_save.connect(EventSource._pre_save, sender=EventSource)
@@ -415,15 +397,23 @@ class Event(SchemalessModel, VersionableModel):
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
     uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
+    # All rows point to a master, the master points to itself
+    master = models.ForeignKey("Event", related_name="versions", null=True)
+
+    
     # Relationships
     # source is where the source comes from and contain the default tag.
     # this is dont to reduce the size of teh EventTag tables.
     source = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The Event source that created this event",  blank=True, null=True)
     
     
-    def __init__(self,args,**kwargs):
-        if "from" in kwargs:
+    def __init__(self,*args,**kwargs):
+        instance = None
+        if "from_instance" in kwargs:
             instance = kwargs['from_instance']
+            del(kwargs['from_instance'])
+        super(Event, self).__init__(*args, **kwargs)
+        if instance is not None:
             self.start = instance.start
             self.end = instance.end
             self.title = instance.title
@@ -432,11 +422,9 @@ class Event(SchemalessModel, VersionableModel):
             self.source = instance.source
             SchemalessModel.copycreate(self, instance)
             VersionableModel.copycreate(self, instance)            
-            del(kwargs['from_instance'])
-        super(Event, self).__init(args, **kwargs)
     
     def __unicode__(self):
-        return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
+        return "%s %s %s - %s  (%s)" % ( self.title, self.location, self.start, self.end, self.id)
     
     def prepare_save(self):
         Event._pre_save(Event,instance=self)
@@ -459,7 +447,7 @@ class Event(SchemalessModel, VersionableModel):
     
     def makecurrent(self):
         VersionableModel.makecurrent(self)
-        EventTag.object.filter(event__master=self.master).update(event=self)
+        EventTag.objects.filter(event__master=self.master).update(event=self)
     
 
         
@@ -467,7 +455,7 @@ pre_save.connect(Event._pre_save, sender=Event)
     
     
     
-class EventSourceTag(models.Model, AttributedLinkModel):
+class EventSourceTag(AttributedLinkModel):
     '''
     EventTag could get huge. In many cases tings will need to be connected with a large set of orriginal
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -479,7 +467,7 @@ class EventSourceTag(models.Model, AttributedLinkModel):
         pass # If you add a pre_save hook, please wire this method into it
 
     
-class EventTag(models.Model, AttributedLinkModel):
+class EventTag(AttributedLinkModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -490,7 +478,7 @@ class EventTag(models.Model, AttributedLinkModel):
         pass # If you add a pre_save hook, please wire this method into it
     
     
-class ThingTag(models.Model, AttributedLinkModel):
+class ThingTag(AttributedLinkModel):
     '''
     Things can be related to one another using attributes. eg: A user thing may have administrative permissions over other things. In which case
     a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__attribute="admin") will show all Things that a user can admin.
