@@ -34,13 +34,13 @@ MAX_UID_LENGTH=512
 THING_TYPE_LENGTH=12
 
 
-class AttributedLinkModel(models.Model):
+class AnnotationModel(models.Model):
     '''
-    Links (ie Tags) may have an attribute associated with them to indicate something. The attribute is free form.
+    Links (ie Tags) may have an annotations associated with them to indicate something. The annotations is free form.
     '''
     class Meta:
         abstract=True
-    attribute = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The attribute of the association", null=True, blank=True)
+    annotation = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The annotation applied to the association", null=True, blank=True)
 
 
 class ModifieableModel(models.Model):
@@ -455,7 +455,7 @@ pre_save.connect(Event._pre_save, sender=Event)
     
     
     
-class EventSourceTag(AttributedLinkModel):
+class EventSourceTag(AnnotationModel):
     '''
     EventTag could get huge. In many cases tings will need to be connected with a large set of orriginal
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -467,7 +467,7 @@ class EventSourceTag(AttributedLinkModel):
         pass # If you add a pre_save hook, please wire this method into it
 
     
-class EventTag(AttributedLinkModel):
+class EventTag(AnnotationModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -478,10 +478,10 @@ class EventTag(AttributedLinkModel):
         pass # If you add a pre_save hook, please wire this method into it
     
     
-class ThingTag(AttributedLinkModel):
+class ThingTag(AnnotationModel):
     '''
-    Things can be related to one another using attributes. eg: A user thing may have administrative permissions over other things. In which case
-    a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__attribute="admin") will show all Things that a user can admin.
+    Things can be related to one another using annotations. eg: A user thing may have administrative permissions over other things. In which case
+    a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__annotation="admin") will show all Things that a user can admin.
     This is only intended to represent relationships between small trees of Things and is not indented to be used hierarchically. (ie if you can admin a parent
     you can admin children). Each relationship needs to be expressed explicitly. There can be no 
     '''
