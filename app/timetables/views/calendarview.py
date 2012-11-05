@@ -6,6 +6,7 @@ from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.shortcuts import render
 from django.utils import simplejson as json
+from django.utils import timezone
 from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View
@@ -28,12 +29,13 @@ class CalendarView(View):
         allday = bool(metadata.get("x-allday"))
         lecturer = metadata.get("people") or []
         type = metadata.get("type") or False
+        
         if allday:
             return {
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : True,
-                "start" : DateConverter.from_datetime(event.start, True).isoformat(),
+                "start" : DateConverter.from_datetime(event.start_local(), True).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
                 "type" : type
@@ -43,8 +45,8 @@ class CalendarView(View):
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : False,
-                "start" : DateConverter.from_datetime(event.start, False).isoformat(),
-                "end" : DateConverter.from_datetime(event.end, False).isoformat(),
+                "start" : DateConverter.from_datetime(event.start_local(), False).isoformat(),
+                "end" : DateConverter.from_datetime(event.end_local(), False).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
                 "type" : type
@@ -167,13 +169,13 @@ class MonthListCalendar(object):
         return (e for e in self._events if self._event_in_month(e))
 
     def _event_in_month(self, event):
-        datetime = event.start
+        datetime = event.start_local()
         return datetime.month == self.month and datetime.year == self.year
 
     @staticmethod
     def event_day(event):
         "Returns: The numeric day of the month the Event instance starts on."
-        return event.start.day
+        return event.start_local().day
 
     @staticmethod
     def _bucket_into_days(all_events):

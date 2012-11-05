@@ -9,6 +9,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
+from django.utils import timezone
 
 import logging
 from timetables.managers import EventManager
@@ -300,7 +301,8 @@ class Event(SchemalessModel):
     
     
     def __unicode__(self):
-        return "%s %s %s - %s " % ( self.title, self.location, self.start, self.end)
+        return "%s %s %s - %s " % (self.title, self.location,
+                self.start_local(timezone.utc), self.end_local(timezone.utc))
     
     def prepare_save(self):
         Event._pre_save(Event,instance=self)
@@ -314,7 +316,25 @@ class Event(SchemalessModel):
         if instance.uid is None or instance.uid == "":
             instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
     
+    def start_local(self, tz=None):
+        """
+        Gets the event's start datetime in the local display timezone (typically
+        Europe/London, but depends on TIMEZONE in settings).
+        
+        This should be used instead of accessing start directly unless there is
+        a good reason to do manual timezone conversion.
+        """
+        return timezone.localtime(self.start, tz)
     
+    def end_local(self, tz=None):
+        """
+        Gets the event's end datetime in the local display timezone (typically
+        Europe/London, but depends on TIMEZONE in settings).
+        
+        This should be used instead of accessing end directly unless there is
+        a good reason to do manual timezone conversion.
+        """
+        return timezone.localtime(self.end, tz)
 
         
 pre_save.connect(Event._pre_save, sender=Event)
