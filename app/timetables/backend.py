@@ -59,7 +59,7 @@ class HierachicalAuthorizationBackend(object):
                 # Get the thing associated with this user
                 userthing = Thing.objects.get(pathid=HierachicalModel.hash("user/%s" % user_obj.username))
                 # Check if this event is associated with an admin attribute via eventtag or eventsourcetag
-                Thing.objects.get(id=obj.thing,models.Q(related__thing=userthing,eventtag__attribute="admin"))
+                Thing.objects.get(id=obj.thing,related__thing=userthing,eventtag__attribute="admin")
                 return self.ALL
             except Thing.DoesNotExist:
                 # One or more of the things we were looking for doesn't exist, therefore therefore there is only read.
