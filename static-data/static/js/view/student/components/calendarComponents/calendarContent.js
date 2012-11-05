@@ -1,6 +1,13 @@
-define(["jquery", "underscore", "util/page", "view/student/components/calendarComponents/listView", "fullcalendar"], function ($, _, page, ListView) {
+define([
+	"jquery",
+	"underscore",
+	"util/page",
+	"view/student/components/calendarComponents/listView",
+	"view/student/components/calendarComponents/studentCalendarPopup",
+	"view/student/components/calendarComponents/adminCalendarPopup",
+	"fullcalendar"
+], function ($, _, page, ListView, StudentCalendarPopup, AdminCalendarPopup) {
 	"use strict";
-
 	var CalendarContent = function (opt) {
 		// Bind event handlers to always have this as a CalendarContext instance
 		_.bindAll(this, "onEventClick");
@@ -23,6 +30,7 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 					selector: "#listView",
 					parent: this
 				}),
+				activePopups: [],
 				// #TODO This data should be pulled in from a json file
 				terms: {
 					michaelmas: {
@@ -210,11 +218,16 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		clearCalendarPopups: function () {
-			$(".calendarEventInfo").each(function () {
-				if (!$(this).is(".dontDisplayMe")) {
-					$(this).remove();
+			var i,
+				selectedPopup,
+				arrayLength = this.activePopups.length;
+
+			for (i = 0; i < arrayLength; i += 1) {
+				selectedPopup = this.activePopups[i];
+				if (selectedPopup instanceof StudentCalendarPopup === true || selectedPopup instanceof AdminCalendarPopup === true) {
+					selectedPopup.removeAnimated();
 				}
-			});
+			}
 		},
 
 		setView: function (view) {
@@ -301,10 +314,10 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 
 				switch (this.getShortDayFromDate(termStartDateObject)) {
 				case "Mon":
-					dayOffset = singleDay * 0;
+					dayOffset = 0;
 					break;
 				case "Tue":
-					dayOffset = singleDay * 1;
+					dayOffset = singleDay;
 					break;
 				case "Wed":
 					dayOffset = singleDay * 2;
@@ -362,172 +375,43 @@ define(["jquery", "underscore", "util/page", "view/student/components/calendarCo
 		},
 
 		onEventClick: function (calEvent, jsEvent, view) {
-			var $calendarEl = this.$el;
 
-			var $newPopup = $(".calendarEventInfo.dontDisplayMe.student").clone().removeClass("dontDisplayMe");
-			var $parent = (function () {
-				switch (view.name) {
-				case "agendaWeek":
-					return $("> div > div", view.element);
-					break;
-				case "month":
-					return self.$el;
-					break;
-				default:
-					return view.element;
-				}
-			}());
-
-			// The path to the endpoint to GET/POST the event edit form from/to
-			var editFormPath = "/event/" + encodeURIComponent(calEvent.djid);
-
-			function insertForm (form) {
-				var $form = $(form);
-
-				// kill any existing forms
-				$newPopup.find("form").remove();
-				// insert the fetched form into the dialog.
-				$newPopup.find(".progress").after($form);
-
-				$("*", $newPopup).show();
-				$(".progress", $newPopup).hide();
-				$form.find(".timepicker-default").timepicker({defaultTime: "value"});
-				$form.find(".datepicker").datepicker();
-				$parent.trigger("scroll");
-
-				$form.data("submit", function() {
-					var formData = $form.serialize();
-					return $.post(editFormPath, formData, function(data) {
-
-						// Form submit was OK
-						if(_.isObject(data)) {
-							// Update the calendar event 
-							_.extend(calEvent, data);
-							$calendarEl.fullCalendar("updateEvent", calEvent);
-						}
-						// Form was returned w/ errors, redisplay
-						else {
-							insertForm(data);
-						}
-					});
-				});
-			}
-			if (page.adminEnabled()) {
-				$newPopup = $(".calendarEventInfo.dontDisplayMe.admin").clone().removeClass("dontDisplayMe");
-				$("div.progress div", $newPopup).text("Loading event data...");
-
-				// Fetch pre-populated form for the clicked event
-				// FIXME: get event id...
-				$.get(editFormPath, insertForm);
-			} else {				
-				$("span.courseDatePattern", $newPopup).text(this.getFullDayFromDate(calEvent._start) + " " + this.getTwelveHourTimeFromDate(calEvent._start));
-
-				$("span.courseLocation", $newPopup).text((function (location) {
-					var locationText = location;
-					if (typeof location === "undefined" || location.length <= 0) {
-						locationText = "No location specified.";
-					}
-					return locationText;
-				}(calEvent.location)));
-
-				$("span.courseLecturer", $newPopup).text((function (lecturers) {
-					var lecturersText = "",
-						lecturersLength = lecturers.length,
-						i;
-					if (lecturersLength > 0) {
-						if (lecturersLength === 1) {
-							lecturersText = lecturers[0];
-						} else {
-							for (i = 0; i < lecturersLength; i += 1) {
-								lecturersText += lecturers[i];
-
-								if (i !== lecturersLength - 1) {
-									lecturersText += ", ";
-								}
+			var self = this,
+				calendarPopup = (function () {
+					var opts = {
+						parent: self,
+						editFormPath: "/event/" + encodeURIComponent(calEvent.djid),
+						calEvent: calEvent,
+						jsEvent: jsEvent,
+						$scrollReference: (function () {
+							var toReturn;
+							switch (view.name) {
+							case "agendaWeek":
+								toReturn = $("> div > div", view.element);
+								break;
+							case "month":
+								toReturn = self.$el;
+								break;
+							default:
+								toReturn = view.element;
 							}
-						}
+							return toReturn;
+						}())
+					};
 
-					} else {
-						lecturersText = "No lecturers specified."
+					if (page.adminEnabled() === true) {
+						return new AdminCalendarPopup(opts);
 					}
-					return lecturersText;
-				}(calEvent.lecturer)));
 
-				$("h5", $newPopup).text(calEvent.title);
-			}
+					return new StudentCalendarPopup(opts);
 
-			/*
-			$(".calendarEventInfo", view.element).fadeOut("10", function () {
-				$(this).remove();
-			});
+				}());
 
-			$parent.prepend($newPopup);
+			this.clearCalendarPopups();
 
-			$newPopup.css({
-				top: $(jsEvent.currentTarget).offset().top - $parent.offset().top + $parent.scrollTop() - ($newPopup.outerHeight() / 2) + ($(jsEvent.currentTarget).outerHeight() / 2) - 8,
-				left: $(jsEvent.currentTarget).offset().left - $(view.element).offset().left + $(jsEvent.currentTarget).outerWidth() + 10,
-				display: "none"
-			}).fadeIn("10");
-			*/
-
-			$(".calendarEventInfo").each(function () {
-				if (!$(this).is(".dontDisplayMe")) {
-					$(this).fadeOut("10", function () {
-						$(this).remove();
-					});
-				}
-			});
-
-			$("body").append($newPopup);
-			$newPopup.css({
-				top: $(jsEvent.currentTarget).offset().top - ($newPopup.outerHeight() / 2 - $(jsEvent.currentTarget).outerHeight() / 2),
-				left: $(jsEvent.currentTarget).offset().left + $(jsEvent.currentTarget).outerWidth() + 10
-			});
-
-			$("a", $newPopup).click(function (event) {
-				switch ($(this).text().toLowerCase()) {
-				case "save":
-					console.log("save");
-					var $form = $("form", $newPopup);
-					$form.hide();
-					var jqxhr = $form.data("submit")();
-
-					$(".progress", $newPopup).show().find("div").text("Saving event...");
-					$parent.trigger("scroll");
-
-					jqxhr.always(function(){
-						$("*", $newPopup).show();
-						$(".progress", $newPopup).hide();
-						$parent.trigger("scroll");
-					}).fail(function() {
-						// called if POST fails
-						console.error("oh noes! form submit failed");
-						$form.show();
-					});
-					break;
-				case "remove event":
-					console.log("remove event");
-					break;
-				case "cancel":
-					$newPopup.remove();
-					$parent.unbind("scroll");
-				}
-
-				event.preventDefault();
-			});
-
-			$parent.scroll(function () {
-				if ($(jsEvent.currentTarget).offset().top < $parent.offset().top || $(jsEvent.currentTarget).offset().top + $(jsEvent.currentTarget).outerHeight() > $parent.offset().top + $parent.outerHeight()) {
-					$newPopup.fadeOut("10", function () {
-						$newPopup.remove();
-					});
-				} else {
-					$newPopup.css({
-						top: $(jsEvent.currentTarget).offset().top - ($newPopup.outerHeight() / 2 - $(jsEvent.currentTarget).outerHeight() / 2),
-						left: $(jsEvent.currentTarget).offset().left + $(jsEvent.currentTarget).outerWidth() + 10
-					});
-				}
-			});
+			$("body").append(calendarPopup.$el);
+			calendarPopup.reposition();
+			this.activePopups.push(calendarPopup);
 		}
 	});
 
