@@ -450,6 +450,12 @@ class Event(SchemalessModel, VersionableModel):
         instance = kwargs['instance']
         if instance.uid is None or instance.uid == "":
             instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
+
+    @classmethod
+    def after_bulk_operation(cls):
+        # bulk creates bypass everything, so we have make certain the master value is set.
+        cls.objects.raw("update timetables_event set master = id where master is null")
+
     
     def makecurrent(self):
         VersionableModel.makecurrent(self)
