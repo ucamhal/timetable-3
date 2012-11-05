@@ -13,11 +13,13 @@ from django.utils import timezone
 
 import logging
 from timetables.managers import EventManager
+from django.contrib.auth.models import User
+from django.utils.timezone import now
 log = logging.getLogger(__name__)
 
-# Length of a hash required to idedentify items.
+# Length of a hash required to identify items.
 # The item can be retrieved by hashing an external identifier and selecting
-# based on the hash. This allows simple linking of data where we dont know the source.
+# based on the hash. This allows simple linking of data where we don't know the source.
 HASH_LENGTH=64
 # Maximum length of paths.
 MAX_PATH_LENGTH=2048
@@ -31,6 +33,82 @@ MAX_LONG_NAME=512
 MAX_UID_LENGTH=512
 # Max length of a Thing's type
 THING_TYPE_LENGTH=12
+
+
+class AnnotationModel(models.Model):
+    '''
+    Links (ie Tags) may have an annotations associated with them to indicate something. The annotations is free form.
+    '''
+    class Meta:
+        abstract=True
+    annotation = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The annotation applied to the association", null=True, blank=True)
+
+
+class ModifieableModel(models.Model):
+    '''
+    If added to a concrete model records when the instance was last modified and by who.
+    Note, this forces the updater to remember to set lastmodifiedBy to request.user
+    '''
+    class Meta:
+        abstract=True
+    lastmodified = models.DateTimeField(auto_now=True, auto_now_add=True)
+    # I would love to enforce this, but doing so is going to be onerous on anyone using it, hence the null=True
+    lastmodifiedBy = models.ForeignKey(User, null=True)
+
+class VersionableModel(models.Model):
+    '''
+    
+    '''
+    class Meta:
+        abstract=True
+
+    # Unfortunately FKs can't point to abstract models and since we have 2 types we can't specify,
+    # so that remains abstract.
+    # Indicates the entity is the current entity
+    current = models.BooleanField(default=True)
+    # Every version has a stamp when it was created.
+    versionstamp = models.DateTimeField(default=now)
+
+    @classmethod
+    def makecurrent(cls, self):
+        '''
+        Make this instance the current instance.
+        If the master has not been set this instance becomes the master.
+        
+        The procedure is on save to create a brand new instance and then make it current instead of saving.
+        '''
+        if hasattr(self, "master"):
+            if self.master is None:
+                self.master = self
+            logging.error("Making all in set master  %s not current  " % self.master)
+            self.__class__.objects.filter(master=self.master,current=True).update(current=False)
+        logging.error("Updating this to be current %s for set %s   " % (self,self.master))
+        self.current = True
+        self.save()
+
+    @classmethod
+    def _prepare_save(cls, sender, **kwargs):
+        instance = kwargs['instance']
+        if hasattr(instance, "master"):
+            logging.error("Instance has master attribute on save %s  " % instance.master)
+            if instance.master is None:
+                instance.master = instance
+        else:
+            logging.error("Instance Does not have master attribute on save ")
+            
+    @classmethod
+    def copycreate(cls, self, instance):
+        self.current = instance.current
+        if hasattr(instance, "master"):
+            logging.error("Instance has master attribute %s " % instance.master)
+            if instance.master is None:
+                self.master = instance
+            else:
+                self.master = instance.master
+        else:
+            logging.error("Instance Does not have master attribute ")
+            
+        # Do not copy the versionstamp. The DB will do this.
 
 
 class HierachicalModel(models.Model):
@@ -176,6 +254,8 @@ class SchemalessModel(models.Model):
         elif instance.data is None: # Only set to nothing if None, metadata might not have been touched.
             instance.data = ""
         
+    def copycreate(self, instance):
+        self.data = instance.data
 
 
 class Thing(SchemalessModel, HierachicalModel):
@@ -217,13 +297,13 @@ class Thing(SchemalessModel, HierachicalModel):
     
     
     def get_events(self):
-        return Event.objects.filter(models.Q(source__eventsourcetag__thing=self)|
-                                    models.Q(eventtag__thing=self))
+        return Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
+                                    models.Q(eventtag__thing=self,current=True))
         
     @classmethod
     def get_all_events(cls, things):
-        return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things)|
-                                    models.Q(eventtag__thing__in=things))
+        return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things, source__current=True)|
+                                    models.Q(eventtag__thing__in=things,current=True))
 
     def prepare_save(self):
         Thing._pre_save(Event,instance=self)
@@ -245,7 +325,7 @@ def _get_upload_path(instance, filename):
     tpart = time.strftime('%Y/%m/%d',time.gmtime())
     return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , HierachicalModel.hash(filename))
 
-class EventSource(SchemalessModel):
+class EventSource(SchemalessModel, VersionableModel):
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
     # source url if the Event Source was loaded
@@ -253,6 +333,23 @@ class EventSource(SchemalessModel):
     # local copy of the file.
     
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
+    
+    # All rows point to a master, the master points to itself
+    master = models.ForeignKey("EventSource", related_name="versions", null=True)
+
+    def __init__(self,*args,**kwargs):
+        instance = None
+        if "from_instance" in kwargs:
+            instance = kwargs['from_instance']
+            del(kwargs['from_instance'])
+        super(EventSource, self).__init__(*args, **kwargs)
+        if instance is not None:
+            self.title = instance.title
+            self.sourcetype = instance.sourcetype
+            self.sourceurl = instance.sourceurl
+            self.sourcefile = instance.sourcefile
+            SchemalessModel.copycreate(self, instance)
+            VersionableModel.copycreate(self, instance)            
     
     def __unicode__(self):
         try:
@@ -268,12 +365,19 @@ class EventSource(SchemalessModel):
     def _pre_save(cls, sender, **kwargs):
         # Invoking multiple parent class or instnace methods is broken in python 2.6
         # So this is the only way
+        VersionableModel._prepare_save(sender, **kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
+
+    def makecurrent(self):
+        VersionableModel.makecurrent(self)
+        Event.objects.filter(source__master=self.master).update(source=self)
+        EventSourceTag.objects.filter(eventsource__master=self.master).update(eventsource=self)
+
 
 pre_save.connect(EventSource._pre_save, sender=EventSource)
 
 
-class Event(SchemalessModel):
+class Event(SchemalessModel, VersionableModel):
     '''
     Events are the most basic representation of a physical event. Events have a start and an end.
     These are not metaevents with repeats
@@ -294,15 +398,36 @@ class Event(SchemalessModel):
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
     uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
+    # All rows point to a master, the master points to itself
+    master = models.ForeignKey("Event", related_name="versions", null=True)
+
+    
     # Relationships
     # source is where the source comes from and contain the default tag.
     # this is dont to reduce the size of teh EventTag tables.
     source = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The Event source that created this event",  blank=True, null=True)
     
     
+    def __init__(self,*args,**kwargs):
+        instance = None
+        if "from_instance" in kwargs:
+            instance = kwargs['from_instance']
+            del(kwargs['from_instance'])
+        super(Event, self).__init__(*args, **kwargs)
+        if instance is not None:
+            self.start = instance.start
+            self.end = instance.end
+            self.title = instance.title
+            self.location = instance.location
+            self.uid = instance.uid
+            self.source = instance.source
+            SchemalessModel.copycreate(self, instance)
+            VersionableModel.copycreate(self, instance)            
+    
     def __unicode__(self):
-        return "%s %s %s - %s " % (self.title, self.location,
-                self.start_local(timezone.utc), self.end_local(timezone.utc))
+        return "%s %s %s - %s  (%s)" % (self.title, self.location,
+                self.start_local(timezone.utc), self.end_local(timezone.utc),
+                self.id)
     
     def prepare_save(self):
         Event._pre_save(Event,instance=self)
@@ -311,11 +436,21 @@ class Event(SchemalessModel):
     def _pre_save(cls, sender, **kwargs):
         # Invoking multiple parent class or instnace methods is broken in python 2.6
         # So this is the only way
+        VersionableModel._prepare_save(sender, **kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
         instance = kwargs['instance']
         if instance.uid is None or instance.uid == "":
             instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
-    
+
+    @classmethod
+    def after_bulk_operation(cls):
+        # bulk creates bypass everything, so we have make certain the master value is set.
+        cls.objects.raw("update timetables_event set master = id where master is null")
+
+    def makecurrent(self):
+        VersionableModel.makecurrent(self)
+        EventTag.objects.filter(event__master=self.master).update(event=self)
+
     def start_local(self, tz=None):
         """
         Gets the event's start datetime in the local display timezone (typically
@@ -325,7 +460,7 @@ class Event(SchemalessModel):
         a good reason to do manual timezone conversion.
         """
         return timezone.localtime(self.start, tz)
-    
+
     def end_local(self, tz=None):
         """
         Gets the event's end datetime in the local display timezone (typically
@@ -336,12 +471,11 @@ class Event(SchemalessModel):
         """
         return timezone.localtime(self.end, tz)
 
-        
 pre_save.connect(Event._pre_save, sender=Event)
     
     
     
-class EventSourceTag(models.Model):
+class EventSourceTag(AnnotationModel):
     '''
     EventTag could get huge. In many cases tings will need to be connected with a large set of orriginal
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -353,7 +487,7 @@ class EventSourceTag(models.Model):
         pass # If you add a pre_save hook, please wire this method into it
 
     
-class EventTag(models.Model):
+class EventTag(AnnotationModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -364,3 +498,12 @@ class EventTag(models.Model):
         pass # If you add a pre_save hook, please wire this method into it
     
     
+class ThingTag(AnnotationModel):
+    '''
+    Things can be related to one another using annotations. eg: A user thing may have administrative permissions over other things. In which case
+    a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__annotation="admin") will show all Things that a user can admin.
+    This is only intended to represent relationships between small trees of Things and is not indented to be used hierarchically. (ie if you can admin a parent
+    you can admin children). Each relationship needs to be expressed explicitly. There can be no 
+    '''
+    thing = models.ForeignKey(Thing, help_text="The source end of this relationship")
+    targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")

@@ -1,7 +1,6 @@
 import calendar
 import itertools
 
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.shortcuts import render
@@ -28,8 +27,7 @@ class CalendarView(View):
         metadata = event.metadata
         allday = bool(metadata.get("x-allday"))
         lecturer = metadata.get("people") or []
-        type = metadata.get("type") or False
-        
+        eventtype = metadata.get("type") or False
         if allday:
             return {
                 "djid": event.id,
@@ -38,7 +36,7 @@ class CalendarView(View):
                 "start" : DateConverter.from_datetime(event.start_local(), True).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : type
+                "type" : eventtype
             }
         else:
             return {
@@ -49,7 +47,7 @@ class CalendarView(View):
                 "end" : DateConverter.from_datetime(event.end_local(), False).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : type
+                "type" : eventtype
             }
     
     def get(self, request, thing):

@@ -488,6 +488,8 @@ class Command(BaseCommand):
             if not to_insert:
                 return
             Event.objects.bulk_create(to_insert)
+            Event.after_bulk_operation()
+
 
     def _parseSet(self, id, patterns):
         for r in patterns:
