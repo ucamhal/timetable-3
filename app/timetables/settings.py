@@ -238,6 +238,7 @@ INSTALLED_APPS = (
     # enable the haystack app so that we can index things.
     'haystack',
     'timetables',
+    'timetables.utils',
     'south', # For schema migration, easy_install South to use.
 )
 
