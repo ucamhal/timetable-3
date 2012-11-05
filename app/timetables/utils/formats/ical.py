@@ -123,6 +123,7 @@ class ICalImporter(object):
                 events.append(event)
             source.save()
             Event.objects.bulk_create(events)
+            Event.after_bulk_operation()
             return len(events)
 
 
