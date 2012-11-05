@@ -7,8 +7,7 @@ from django.views.generic.base import View
 from django.contrib.auth import login, authenticate, logout
 from django.utils.decorators import method_decorator
 from timetables.utils.xact import xact
-from django.http import HttpResponseForbidden, HttpResponse,\
-    HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -55,7 +54,6 @@ class LoginView(View):
 
     @method_decorator(xact)
     def post(self, request):
-        user = None
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
