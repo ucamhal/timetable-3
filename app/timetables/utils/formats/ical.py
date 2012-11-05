@@ -31,8 +31,8 @@ class ICalExporter(object):
             for e in events:
                 event = iCalEvent()
                 event['summary'] =  '%s' % e.title
-                event['dtstart'] = DateConverter.from_datetime(e.start, e.metadata.get("x-allday"))
-                event['dtend'] = DateConverter.from_datetime(e.end, e.metadata.get("x-allday"))
+                event['dtstart'] = DateConverter.from_datetime(e.start_local(), e.metadata.get("x-allday"))
+                event['dtend'] = DateConverter.from_datetime(e.end_local(), e.metadata.get("x-allday"))
                 event['location'] = e.location
                 event["uid"] = e.uid
                 # If a mapping has been provided, unpack

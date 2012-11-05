@@ -29,8 +29,8 @@ class JsonExporter(object):
             for e in events:
                 event = {
                         'summary' : '%s' % e.title,
-                        'dtstart' :  DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat(),
-                        'dtend' :  DateConverter.from_datetime(e.end, e.metadata.get("x-allday")).isoformat(),
+                        'dtstart' :  DateConverter.from_datetime(e.start_local(), e.metadata.get("x-allday")).isoformat(),
+                        'dtend' :  DateConverter.from_datetime(e.end_local(), e.metadata.get("x-allday")).isoformat(),
                         'location' : e.location,
                         'uid' : e.uid
                         }

@@ -120,12 +120,9 @@ HOSTNAME = "localhost"
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
-TIME_ZONE = 'Australia/Sydney'
+# This timezone is used as the local time for which all dates in the UI are
+# displayed. This should be the timezone Cambridge, UK is in. 
+TIME_ZONE = 'Europe/London'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -241,6 +238,7 @@ INSTALLED_APPS = (
     # enable the haystack app so that we can index things.
     'haystack',
     'timetables',
+    'timetables.utils',
     'south', # For schema migration, easy_install South to use.
 )
 
