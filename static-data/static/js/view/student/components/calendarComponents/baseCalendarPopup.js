@@ -24,11 +24,8 @@ define(["jquery", "underscore"], function ($, _) {
 
 			$(window).resize(this.reposition);
 			this.$scrollReference.bind("scroll", this.reposition);
-			this.reposition();
 		},
 		reposition: function () {
-			//FIXME first time reposition doesn't correctly position the element
-			//this.$el.outerHeight() seems to be 0
 			if ($(this.jsEvent.currentTarget).offset().top < this.$scrollReference.offset().top || $(this.jsEvent.currentTarget).offset().top + $(this.jsEvent.currentTarget).outerHeight() > this.$scrollReference.offset().top + this.$scrollReference.outerHeight()) {
 				this.removeAnimated();
 			} else {

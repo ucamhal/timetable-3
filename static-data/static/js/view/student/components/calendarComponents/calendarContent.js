@@ -410,6 +410,7 @@ define([
 			this.clearCalendarPopups();
 
 			$("body").append(calendarPopup.$el);
+			calendarPopup.reposition();
 			this.activePopups.push(calendarPopup);
 		}
 	});
