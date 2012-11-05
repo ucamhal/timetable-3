@@ -3,12 +3,13 @@ define([
 	"underscore",
 	"view/student/components/calendarComponents/baseCalendarPopup"
 ], function ($, _, BaseCalendarPopup) {
+	"use strict";
 
 	var StudentCalendarPopup = function (opts) {
 		_.extend(this, opts);
 		this.initialize();
 		this.baseInitialize();
-	}
+	};
 
 	_.extend(StudentCalendarPopup.prototype, BaseCalendarPopup.prototype);
 	_.extend(StudentCalendarPopup.prototype, {

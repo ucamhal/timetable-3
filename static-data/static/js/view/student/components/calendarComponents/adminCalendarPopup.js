@@ -3,6 +3,7 @@ define([
 	"underscore",
 	"view/student/components/calendarComponents/baseCalendarPopup"
 ], function ($, _, BaseCalendarPopup) {
+	"use strict";
 
 	var AdminCalendarPopup = function (opt) {
 		_.extend(this, opt);
@@ -60,11 +61,14 @@ define([
 		},
 
 		linkClickHandler: function (event) {
-			var self = this;
+			var self = this,
+				$form,
+				jqxhr;
+
 			switch ($(event.currentTarget).text().toLowerCase()) {
 			case "save":
-				var $form = $("form", this.$el),
-					jqxhr = $form.data("submit")();
+				$form = $("form", this.$el);
+				jqxhr = $form.data("submit")();
 
 				$form.hide();
 

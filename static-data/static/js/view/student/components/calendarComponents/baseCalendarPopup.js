@@ -1,9 +1,10 @@
 define(["jquery", "underscore"], function ($, _) {
+	"use strict";
 
 	var BaseCalendarPopup = function (opt) {
 		_.extend(this, opt);
 		this.baseInitialize();
-	}
+	};
 
 	_.extend(BaseCalendarPopup.prototype, {
 		baseInitialize: function () {
