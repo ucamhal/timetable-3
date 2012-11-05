@@ -32,6 +32,14 @@ MAX_UID_LENGTH=512
 THING_TYPE_LENGTH=12
 
 
+class AttributedLinkModel(models.Model):
+    '''
+    Links (ie Tags) may have an attribute associated with them to indicate something. The attribute is free form.
+    '''
+    class Meta:
+        abstract=True
+    attribute = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The attribute of the association", null=True, blank=True)
+
 class HierachicalModel(models.Model):
     class Meta:
         abstract=True
@@ -321,7 +329,7 @@ pre_save.connect(Event._pre_save, sender=Event)
     
     
     
-class EventSourceTag(models.Model):
+class EventSourceTag(models.Model, AttributedLinkModel):
     '''
     EventTag could get huge. In many cases tings will need to be connected with a large set of orriginal
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -333,7 +341,7 @@ class EventSourceTag(models.Model):
         pass # If you add a pre_save hook, please wire this method into it
 
     
-class EventTag(models.Model):
+class EventTag(models.Model, AttributedLinkModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -344,3 +352,12 @@ class EventTag(models.Model):
         pass # If you add a pre_save hook, please wire this method into it
     
     
+class ThingTag(models.Model, AttributedLinkModel):
+    '''
+    Things can be related to one another using attributes. eg: A user thing may have administrative permissions over other things. In which case
+    a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__attribute="admin") will show all Things that a user can admin.
+    This is only intended to represent relationships between small trees of Things and is not indented to be used hierarchically. (ie if you can admin a parent
+    you can admin children). Each relationship needs to be expressed explicitly. There can be no 
+    '''
+    thing = models.ForeignKey(Thing, help_text="The source end of this relationship")
+    targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")
