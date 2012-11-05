@@ -82,7 +82,10 @@ class ChildrenView(View):
             # Currently the template renders sources after things. We may wish
             # to put them into one list and sort them as one. 
             context = {
-                "things": Thing.objects.filter(parent__pathid=thing.pathid),
+                "things": Thing.objects.filter(parent__pathid=thing.pathid).prefetch_related(
+                        "eventsourcetag_set__eventsource",
+                        "thing_set__eventsourcetag_set__eventsource"
+                ),
                 "related" : relatedthings,
                 "relatedsources" : relatedsources,
                 "sources": thing.sources.all()
