@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 from django import shortcuts
-from django.core import urlresolvers
 
 from timetables import forms
 from timetables import models
@@ -39,9 +38,10 @@ class EventEdit(View):
         event = shortcuts.get_object_or_404(models.Event, id=event_id)
         form = forms.EventForm(request.POST, instance=event)
         if form.is_valid():
-            event = form.save()
-            
+            event = Event(from_instance=form.save())
+            # We must have the save here because we need an ID before we can change all the links between objects.
             event.save()
+            event.makecurrent()
             
             # Return a JSON representation of the event sutable for giving to
             # fullcalendar
