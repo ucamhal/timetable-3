@@ -16,7 +16,7 @@ except:
 # synchronously, thus avoiding the need to handle very large
 # results and allowing for faster retrieval:
 class AsyncLDAP(ldapobject.LDAPObject, ResultProcessor):
-  pass
+    pass
 
 class Lookup(object):
     """
@@ -120,7 +120,7 @@ class Lookup(object):
         # the users in lookup is unlikely to be timely or desired!
         if ( crsid_fragment == '' ): return []
 
-    	# Create a filter looking for all the uids beginning with the crsid
+        # Create a filter looking for all the uids beginning with the crsid
         # fragment:
         crsid_fragment_filter = '(uid=' + crsid_fragment + '*)'
 
