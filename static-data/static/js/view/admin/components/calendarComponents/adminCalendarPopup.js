@@ -34,6 +34,9 @@ define([
 
 		getHourFromTimepickerValue: function (value) {
 			var timeString = this.getStrippedTimeStringFromTimepickerValue(value);
+			if (timeString[0] + timeString[1] === "12") {
+				return "00";
+			}
 			return timeString[0] + timeString[1];
 		},
 
@@ -51,6 +54,10 @@ define([
 
 		getInputValueForTimeObject: function (timeObject) {
 			var inputValue = "";
+
+			if (timeObject.hour === "00") {
+				timeObject.hour = "12";
+			}
 
 			inputValue += timeObject.hour + ":" + timeObject.minutes + " ";
 

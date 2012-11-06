@@ -24,11 +24,9 @@ define([
 		 	$("#resultsHead form#addModule .timepicker-default").timepicker();
 
 			$("#resultsHead a.addModule", this.$el).toggle(function (event) {
-				console.log("showForm");
 				$("#resultsHead form#addModule", this.$el).slideDown(200);
 				event.preventDefault();
 			}, function (event) {
-				console.log("hideForm");
 				$("#resultsHead form#addModule", this.$el).slideUp(200);
 				event.preventDefault();
 			});
