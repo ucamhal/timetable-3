@@ -1,7 +1,7 @@
 define([
 	"jquery",
 	"underscore",
-	"view/base/BaseApp",
+	"view/base/baseApp",
 	"view/student/components/studentInputArea",
 	"view/student/components/studentResults",
 	"view/student/components/studentCalendar",
