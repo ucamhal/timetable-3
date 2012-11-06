@@ -241,8 +241,6 @@ class Command(BaseCommand):
         return " ".join(parts)
 
     def _tripos_for_url(self, name):
-        a = True
-        s = ""
         name = name.strip()
         if name in KNOWN_NAMES:
             return urllib2.quote(KNOWN_NAMES[name].encode("utf8"))
@@ -329,14 +327,6 @@ class Command(BaseCommand):
                 if triposId is None:
                     continue
 
-                triposCode = "%s%s" % (triposId['year_id'], triposId['tripos_id'])
-
-                triposName = tripos['name']
-
-                createdCount = {
-                           }
-                accessedCount = {
-                           }
                 partsProcessed = 0
                 for p in tripos['parts']:
                     n = 0
@@ -368,7 +358,6 @@ class Command(BaseCommand):
                     dre = re.compile("details_%s\d*.json$" % p['id'])
                     # log.info("Scanning with pattern %s " % dre.pattern)
 
-                    organiser = "Unknown"
 
                     for dfn in detail_files:
                         if not dre.match(dfn):
@@ -381,13 +370,10 @@ class Command(BaseCommand):
                         
                         
                         groupTitle = "Unknown"
-                        subjectName = "Unknown"
                         level = "0"
                         if "name" in detail:
-                            subjectName = detail['name']
                             groupTitle = detail['name']
                         elif "subject" in nameParts:
-                            subjectName = nameParts['subject']
                             groupTitle = nameParts['subject']
                         elif "name" in nameParts:
                             level = nameParts['name']
