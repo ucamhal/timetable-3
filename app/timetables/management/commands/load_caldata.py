@@ -10,13 +10,10 @@ import os
 
 import logging
 from timetables.utils.v1 import generate
-from timetables.models import EventSource, HierachicalModel, Event, Thing,\
+from timetables.models import EventSource, Event, Thing,\
     EventSourceTag, MAX_NAME_LENGTH, MAX_URL_LENGTH
-import datetime
 from optparse import make_option
-from django.utils.http import urlencode
 import urllib2
-from timetables.utils import datetimes
 log = logging.getLogger(__name__)
 
 

@@ -5,7 +5,6 @@ from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.shortcuts import render
 from django.utils import simplejson as json
-from django.utils import timezone
 from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View

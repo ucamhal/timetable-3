@@ -22,11 +22,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.test.simple import DjangoTestSuiteRunner, reorder_suite
 from django.utils.importlib import import_module
-from django.utils.unittest.loader import TestLoader, VALID_MODULE_NAME,\
-    _make_failed_import_test, _make_failed_load_tests
-import os
-import sys
-from fnmatch import fnmatch
+from django.utils.unittest.loader import TestLoader
 import re
 
 
