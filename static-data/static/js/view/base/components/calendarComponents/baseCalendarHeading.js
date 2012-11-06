@@ -1,13 +1,17 @@
-define(["jquery", "underscore"], function ($, _) {
+define([
+	"jquery",
+	"underscore"
+], function ($, _) {
+
 	"use strict";
 
-	var CalendarHeading = function (opt) {
-		_.extend(this, opt);
-		this.initialize();
+	var BaseCalendarHeading = function () {
+
 	};
 
-	_.extend(CalendarHeading.prototype, {
-		initialize: function () {
+	_.extend(BaseCalendarHeading.prototype, {
+
+		baseInitialize: function () {
 			var self = this;
 
 			_.defaults(this, {
@@ -92,7 +96,9 @@ define(["jquery", "underscore"], function ($, _) {
 				calendarView: state
 			});
 		}
+
 	});
 
-	return CalendarHeading;
+	return BaseCalendarHeading;
+
 });

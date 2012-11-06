@@ -10,7 +10,11 @@
 		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
+        {% if user.is_staff %}
+        	<script data-main="{% static "js/main.js" %}" data-page-module="adminIndex" src="{% static "js/libs/require.js" %}"></script>
+        {% else %}
+        	<script data-main="{% static "js/main.js" %}" data-page-module="studentIndex" src="{% static "js/libs/require.js" %}"></script>
+        {% endif %}
 	</head>
 	<body id="{% if user.is_staff %}admin{% else %}student{% endif %}">
 	    <!--  this tag contains information about the current user. If there is a better way 
@@ -104,7 +108,7 @@
 		    <h3 id="errorLabel">Ooops !</h3>
 		  </div>
 		  <div class="modal-body">
-		  			Oh No, something went wrong. If keeps happening, please do tell us.
+	  			Oh No, something went wrong. If keeps happening, please do tell us.
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

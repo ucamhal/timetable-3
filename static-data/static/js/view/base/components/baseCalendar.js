@@ -1,31 +1,20 @@
 define([
 	"jquery",
-	"underscore",
-	"view/student/components/calendarComponents/calendarHeading",
-	"view/student/components/calendarComponents/calendarContent"
-], function ($, _, CalendarHeading, CalendarContent) {
+	"underscore"
+], function ($, _) {
 	"use strict";
 
-	var Calendar = function (opt) {
-		_.extend(this, opt);
-		this.initialize();
+	var BaseCalendar = function () {
+
 	};
 
-	_.extend(Calendar.prototype, {
-		initialize: function () {
+	_.extend(BaseCalendar.prototype, {
+		baseInitialize: function () {
 			_.defaults(this, {
 				selector: "body",
 				headingSelector: "body",
 				contentSelector: "body",
 				$el: $(this.selector),
-				content: new CalendarContent({
-					selector: this.contentSelector,
-					parent: this
-				}),
-				heading: new CalendarHeading({
-					selector: this.headingSelector,
-					parent: this
-				}),
 				size: {
 					width: 0,
 					height: 0
@@ -50,5 +39,6 @@ define([
 		}
 	});
 
-	return Calendar;
+	return BaseCalendar;
+
 });

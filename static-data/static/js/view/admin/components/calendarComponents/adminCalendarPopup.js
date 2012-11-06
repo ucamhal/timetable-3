@@ -1,7 +1,7 @@
 define([
 	"jquery",
 	"underscore",
-	"view/student/components/calendarComponents/baseCalendarPopup"
+	"view/base/components/calendarComponents/baseCalendarPopup"
 ], function ($, _, BaseCalendarPopup) {
 	"use strict";
 
