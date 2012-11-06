@@ -491,17 +491,17 @@ class Event(SchemalessModel, VersionableModel):
         if self.starttz is None:
             return self.start_local()
         else:
-            tz = pytz.timezone(self.starttz)
+            tz = pytz.timezone("%s" % self.starttz)
             return self.start_local(tz)
 
     def end_origin(self):
         '''
         Get the start time in its original timezone at the point of entry.
         '''
-        if self.starttz is None:
+        if self.endtz is None:
             return self.end_local()
         else:
-            tz = pytz.timezone(self.starttz)
+            tz = pytz.timezone("%s" % self.endtz)
             return self.end_local(tz)
 
 
