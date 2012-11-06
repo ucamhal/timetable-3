@@ -28,6 +28,43 @@ define([
 			$.get(this.editFormPath, this.insertForm);
 		},
 
+		getStrippedTimeStringFromTimepickerValue: function (value) {
+			return value.replace(/(:| |PM|AM)/gi, "");
+		},
+
+		getHourFromTimepickerValue: function (value) {
+			var timeString = this.getStrippedTimeStringFromTimepickerValue(value);
+			return timeString[0] + timeString[1];
+		},
+
+		getMinutesFromTimepickerValue: function (value) {
+			var timeString = this.getStrippedTimeStringFromTimepickerValue(value);
+			return timeString[2] + timeString[3];
+		},
+
+		getAmPmFromTimepickerValue: function (value) {
+			if (value.search(/AM/gi) >= 0) {
+				return 0
+			}
+			return 1;
+		},
+
+		getInputValueForTimeObject: function (timeObject) {
+			var inputValue = "";
+
+			inputValue += timeObject.hour + ":" + timeObject.minutes + " ";
+
+			inputValue += (function () {
+				if(timeObject.amPm === 0) {
+					return "AM";
+				}
+
+				return "PM";
+			}());
+
+			return inputValue;
+		},
+
 		insertForm: function (form) {
 			var $form = $(form),
 				self = this;
@@ -42,6 +79,65 @@ define([
 			$form.find(".timepicker-default").timepicker({defaultTime: "value"});
 			$form.find(".datepicker").datepicker();
 			this.$scrollReference.trigger("scroll");
+
+			$("input.timepicker-default", $form).change(function () {
+				
+				var fromHour = self.getHourFromTimepickerValue($("input#editFromEventTime").val()),
+					fromMinutes = self.getMinutesFromTimepickerValue($("input#editFromEventTime").val()),
+					fromAmPm = self.getAmPmFromTimepickerValue($("input#editFromEventTime").val()),
+
+					toHour = self.getHourFromTimepickerValue($("input#editEventToTime", self.$el).val()),
+					toMinutes = self.getMinutesFromTimepickerValue($("input#editEventToTime", self.$el).val()),
+					toAmPm = self.getAmPmFromTimepickerValue($("input#editEventToTime", self.$el).val()),
+
+					changeTo;
+
+				if ($(this).attr("id") === "editFromEventTime") {
+
+					changeTo = {
+						amPm: toAmPm,
+						minutes: toMinutes,
+						hour: toHour
+					};
+
+					if (fromAmPm > toAmPm) {
+						changeTo.amPm = fromAmPm;
+					}
+
+					if (fromAmPm === toAmPm && Number(fromHour) > Number(toHour)) {
+						changeTo.hour = fromHour;
+					}
+
+					if (fromAmPm === toAmPm && fromHour === toHour && Number(fromMinutes) > Number(toMinutes)) {
+						changeTo.minutes = fromMinutes;
+					}
+
+					$("input#editEventToTime", $form).val(self.getInputValueForTimeObject(changeTo));
+
+
+				} else {
+
+					changeTo = {
+						amPm: fromAmPm,
+						minutes: fromMinutes,
+						hour: fromHour
+					};
+
+					if (toAmPm < fromAmPm) {
+						changeTo.amPm = toAmPm;
+					}
+
+					if (toAmPm === fromAmPm && Number(toHour) < Number(fromHour)) {
+						changeTo.hour = toHour;
+					}
+
+					if (toAmPm === fromAmPm && toHour === fromHour && Number(toMinutes) < Number(fromMinutes)) {
+						changeTo.minutes = toMinutes;
+					}
+
+					$("input#editFromEventTime", $form).val(self.getInputValueForTimeObject(changeTo));
+				}
+			});
 
 			$form.data("submit", function () {
 				var formData = $form.serialize();
