@@ -21,25 +21,26 @@ class CommaSeparatedCharField(forms.CharField):
         return values
 
 
+TYPE_UNKNOWN = "UNKNOWN"
+TYPE_LAB = "LAB"
+TYPE_LECTURE = "LECTURE"
+TYPE_LANG_CLASS = "LANG_CLASS"
+TYPE_PRACTICAL = "PRACTICAL"
+TYPE_SEMINAR = "SEMINAR"
+EVENT_TYPE_CHOICES = dict((
+    (TYPE_LAB, "Laboratory"),
+    (TYPE_LECTURE, "Lecture"),
+    (TYPE_LANG_CLASS, "Language Class"),
+    (TYPE_PRACTICAL, "Practical"),
+    (TYPE_SEMINAR, "Seminar"),
+    (TYPE_UNKNOWN, "----")
+))
+
+
 class EventForm(forms.ModelForm):
     """
     A form for editing Event instances.
     """
-    
-    TYPE_UNKNOWN = "UNKNOWN"
-    TYPE_LAB = "LAB"
-    TYPE_LECTURE = "LECTURE"
-    TYPE_LANG_CLASS = "LANG_CLASS"
-    TYPE_PRACTICAL = "PRACTICAL"
-    TYPE_SEMINAR = "SEMINAR"
-    EVENT_TYPE_CHOICES = dict((
-        (TYPE_LAB, "Laboratory"),
-        (TYPE_LECTURE, "Lecture"),
-        (TYPE_LANG_CLASS, "Language Class"),
-        (TYPE_PRACTICAL, "Practical"),
-        (TYPE_SEMINAR, "Seminar"),
-        (TYPE_UNKNOWN, "----")
-    ))
     
     DATE_FORMAT = "%d/%m/%Y"
     TIME_FORMAT = "%I:%M %p"
@@ -71,8 +72,8 @@ class EventForm(forms.ModelForm):
                 self.instance.end_local(), self.TIME_FORMAT)
         
         event_type = self.instance.metadata.get("type", "")
-        if not event_type in self.EVENT_TYPE_CHOICES:
-            event_type = self.TYPE_UNKNOWN
+        if not event_type in EVENT_TYPE_CHOICES:
+            event_type = TYPE_UNKNOWN
         self.initial["event_type"] = event_type
         
         self.initial["people"] = ", ".join(
@@ -105,5 +106,5 @@ class EventForm(forms.ModelForm):
                 end.hour, end.minute, tzinfo=tz)
         
         event.metadata["people"] = self.cleaned_data["people"]
-        if self.cleaned_data["event_type"] != self.TYPE_UNKNOWN:
+        if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             event.metadata["type"] =  self.cleaned_data["event_type"]
