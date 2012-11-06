@@ -453,23 +453,35 @@ class Event(SchemalessModel, VersionableModel):
 
     def start_local(self, tz=None):
         """
-        Gets the event's start datetime in the local display timezone (typically
-        Europe/London, but depends on TIMEZONE in settings).
+        Gets the event's start datetime in the specified timezone which defaults to
+        the server timezone.
         
         This should be used instead of accessing start directly unless there is
         a good reason to do manual timezone conversion.
+
+        ts is the required timezone if none then timezone.localtime is used to convert the value from
+        its current timezone into the local timezone
         """
-        return timezone.localtime(self.start, tz)
+        if tz is None:
+            return timezone.localtime(self.start)
+        else:
+            return tz.normalize(self.start.astimezone(tz))
 
     def end_local(self, tz=None):
         """
-        Gets the event's end datetime in the local display timezone (typically
-        Europe/London, but depends on TIMEZONE in settings).
+        Gets the event's end datetime in the specified timezone which defaults to
+        the server timezone.
         
         This should be used instead of accessing end directly unless there is
         a good reason to do manual timezone conversion.
+
+        ts is the required timezone if none then timezone.localtime is used to convert the value from
+        its current timezone into the local timezone
         """
-        return timezone.localtime(self.end, tz)
+        if tz is None:
+            return timezone.localtime(self.start)
+        else:
+            return tz.normalize(self.start.astimezone(tz))
 
 pre_save.connect(Event._pre_save, sender=Event)
     
