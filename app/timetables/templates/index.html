@@ -10,9 +10,11 @@
 		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
+        
+    	<script data-main="{% static "js/main.js" %}" data-page-module="{% if user.is_staff %}adminIndex{% else %}studentIndex{% endif %}" src="{% static "js/libs/require.js" %}"></script>
+        
 	</head>
-	<body id="student">
+	<body id="{% if user.is_staff %}admin{% else %}student{% endif %}">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
 	    <div id="userinfo" style="display:none" 
@@ -23,244 +25,33 @@
 	        {% csrf_token %}
         </div>
 
-		<header id="mainHeader">
-				{% if user.is_staff %}
-				{% endif %}
+    	<header id="mainHeader">
 			<div id="uniLogo">
 				<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>
+
+				{% if user.is_staff %}
 				<div class="pull-right clearfix">
-					<a href="javascript:void()" id="view-toggle" data-toggle="View as staff" >View as student</button>
+					<a href="javascript:void()" id="view-toggle" data-toggle="View as staff" >View as student</a>
 				</div>
+				{% endif %}
 			</div>
 
 			<div id="inputArea">
-				<div class="clearfix">
-					<label for="iAmInput" class="pull-left">I am studying</label>
-					
-					<!--
-					<input type="text" name="iAmInputText" id="iAmInputText" class="pull-left" placeholder="a course" data-provide="typeahead" data-items="5" />
-					-->
-					
-					<select id="iAmInput" class="pull-left">
-						{% include "subject-picker.html" %}
-					</select>
-					
-					<select id="courseSelect" name="course" class="pull-left">
-					</select>
-					<!-- ## Advanced search (currently not implemented)
-					<div class="pull-right">
-						<a id="advancedOptions" class="btn" href="#">More search options <span class="caret"></span></a>
-
-						<div id="advancedSearch">
-							<h3 class="btn-inverse">More search options <a href="#" class="close">x</a></h3>
-							<ul class="clearfix">
-								<li class="pull-left column1">
-									<ul>
-										<li id="advancedSearchKeyword">
-											<label for="advancedKeywordInput" class="btn-inverse">Search by keyword</label>
-											<input type="text" name="keyword" id="advancedKeywordInput" placeholder="keyword" />
-										</li>
-										<li id="advancedSearchType">
-											<label class="btn-inverse">Filter by type</label>
-											<ul class="clearfix">
-												<li class="pull-left">
-													<input type="checkbox" id="typeC" class="pull-left" /><label for="typeC" class="badge pull-left">C</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="typeL" class="pull-left" /><label for="typeL" class="badge pull-left">L</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="typeP" class="pull-left" /><label for="typeP" class="badge pull-left">P</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="typeE" class="pull-left" /><label for="typeE" class="badge pull-left">E</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="typeF" class="pull-left" /><label for="typeF" class="badge pull-left">F</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="typeM" class="pull-left" /><label for="typeM" class="badge pull-left">M</label>
-												</li>
-											</ul>
-										</li>
-										<li id="advancedSearchTerm">
-											<label class="btn-inverse">Filter by term</label>
-											<ul class="clearfix">
-												<li class="pull-left">
-													<input type="checkbox" id="termMichaelmas" class="pull-left" /><label for="termMichaelmas" class="pull-left">Michaelmas</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="termEaster"  class="pull-left"/><label for="termEaster" class="pull-left">Easter</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="termLent"  class="pull-left"/><label for="termLent" class="pull-left">Lent</label>
-												</li>
-											</ul>
-										</li>
-										<li id="advancedSearchDay">
-											<label class="btn-inverse">Filter by day</label>
-											<ul class="clearfix">
-												<li class="pull-left">
-													<input type="checkbox" id="dayMo"  class="pull-left"/><label for="dayMo" class="pull-left">Mo.</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="dayTu"  class="pull-left"/><label for="dayTu" class="pull-left">Tu.</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="dayWe"  class="pull-left"/><label for="dayWe" class="pull-left">We.</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="dayTh"  class="pull-left"/><label for="dayTh" class="pull-left">Th.</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="dayFr"  class="pull-left"/><label for="dayFr" class="pull-left">Fr.</label>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-
-								<li class="pull-left column2" id="advancedSearchTripos">
-									<label class="btn-inverse">Filter by tripos</label>
-									<ul class="clearfix">
-										<li class="pull-left">
-											<ul>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-											</ul>
-										</li>
-										<li class="pull-left">
-											<ul>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-												</li>
-												<li class="clearfix">
-													<input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-
-								<li class="pull-left column3">
-									<ul>
-										<li id="advancedSearchPart">
-											<label class="btn-inverse">Filter by part</label>
-											<ul class="clearfix">
-												<li class="pull-left">
-													<input type="checkbox" id="partIA" class="pull-left" /><label for="partIA" class="pull-left">IA</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="partIB" class="pull-left" /><label for="partIB" class="pull-left">IB</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="partII" class="pull-left" /><label for="partII" class="pull-left">II</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="partIII" class="pull-left" /><label for="partIII" class="pull-left">III</label>
-												</li>
-												<li class="pull-left">
-													<input type="checkbox" id="partMphil" class="pull-left" /><label for="partMphil" class="pull-left">MPhil</label>
-												</li>
-											</ul>
-										</li>
-										<li id="advancedSearchLecturer">
-											<label for="lecturerSelect" class="btn-inverse">Filter by lecturer</label>
-											<div>
-												<select id="lecturerSelect">
-													<option>Marcel Vandam (mvd23)</option>
-												</select>
-											</div>
-										</li>
-										<li id="advancedSearchSubmit">
-											<input type="submit" value="Search [not implemented]" class="btn btn-primary btn-large notImplemented" />
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>-->
-				</div>
+				{% if user.is_staff %}
+					{% include "admin/inputArea.html" %}
+				{% else %}
+					{% include "student/inputArea.html" %}
+				{% endif %}
 			</div>
 
 			<!-- ## USER NOT LOGGED IN -->
 			
 			<div id="actionsContainer">
-				<div class="pull-right">
-					{% if loggedin %}
-					<a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
-					<a href="{% url "export named ics" "user" user.username %}" class="btn">Export to calendar</a>
-					{% else %}
-					<a href="{% url "login url" %}" class="btn btn-primary">Sign in</a>
-					<!-- 
-					<a href="#" class="btn dontDisplayMe save">Save</a>
-					 -->
-					{% endif %}
-				</div>
+				{% if user.is_staff %}
+					{% include "admin/actionsContainer.html" %}
+				{% else %}
+					{% include "student/actionsContainer.html" %}
+				{% endif %}
 			</div>
 			
 
@@ -315,498 +106,36 @@
 		    <h3 id="errorLabel">Ooops !</h3>
 		  </div>
 		  <div class="modal-body">
-		  			Oh No, something went wrong. If keeps happening, please do tell us.
+	  			Oh No, something went wrong. If keeps happening, please do tell us.
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		  </div>
 		</div>
-		
-		<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe student">
-			<div class="arrow"></div>
-			<button type="button" class="close" data-dismiss="alert">x</button>
-			<h5>An introduction to the language of 16th century texts</h5>
-			<span class="courseDatePattern">Wednesday 1pm,</span>
-			<br/>
-			<span class="courseLocation">LT1 William Gates Bdg,</span>
-			<br/>
-			<span class="courseLecturer">Dr R. Harle</span>
-			<a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
-		</div>
 
-		<div class="calendarEventInfo alert alert-block clearfix admin dontDisplayMe">
-			<div class="arrow"></div>
-			<button type="button" class="close" data-dismiss="alert">x</button>
-			<h5>Edit event</h5>
-			<div class="progress progress-striped active">
-			  <div class="bar" style="width: 100%;"></div>
-			</div>
-
-			{# Form content fetched via AJAX #}
-
-			<div class="clearfix dontDisplayMe">
-				<a href="#" class="btn btn-danger pull-left">Remove event</a>
-				<div class="pull-right clearfix">
-					<a href="#" class="cancel">cancel</a>
-					<a href="#" class="btn btn-success">Save</a>
-				</div>
-			</div>
-		</div>
-		
+		{% if user.is_staff %}
+			{% include "admin/calendarEventInfo.html" %}
+		{% else %}
+			{% include "student/calendarEventInfo.html" %}
+		{% endif %}
 
 		<div id="content" class="clearfix">
 			<div id="results" class="pull-left">
-				<!-- ## If results are empty -->
-				<!--
-				<p>Your modules will appear here</p>
-				-->
-				<div id="resultsHead">
-					<h3>Found 13 modules</h3>
-					
-					<a href="#" class="btn btn-inverse addModule">Add a module</a>
-					<form id="addModule" class="clearfix dontDisplayMe">
-						<h4>Create a new module</h4>
-
-						<ul id="addModuleFields">
-							<li class="clearfix">
-								<label for="addModuleName" class="pull-left">Module</label>
-								<input type="text" name="addModuleName" id="addModuleName" placeholder="Module name" class="pull-right" />
-							</li>
-							<li class="clearfix">
-								<label for="addModuleLocation" class="pull-left">Location</label>
-								<input type="text" name="addModuleLocation" id="addModuleLocation" placeholder="Location" class="pull-right" />
-							</li>
-							<li class="clearfix">
-
-								<label for="addModuleFromTime" class="pull-left">Time</label>
-								<div class="pull-right">
-
-									<div class="input-append bootstrap-timepicker-component pull-left">
-								        <input type="text" id="addModuleFromTime" name="addModuleFromTime" class="timepicker-default input-small" />
-								        <span class="add-on">
-								            <i class="icon-time"></i>
-								        </span>
-								    </div>
-
-									<label for="addModuleToTime" class="pull-left">to</label>
-									<div class="input-append bootstrap-timepicker-component pull-left">
-								        <input type="text" id="addModuleToTime" name="addModuleToTime" class="timepicker-default input-small" />
-								        <span class="add-on">
-								            <i class="icon-time"></i>
-								        </span>
-								    </div>
-								</div>
-								<br />
-
-								<label for="addModuleDay" class="pull-left">on</label>
-								<select id="addModuleDay" name="addModuleDay" class="pull-right">
-									<option value="mo">Monday</option>
-									<option value="tu">Tuesday</option>
-									<option value="we">Wednesday</option>
-									<option value="th">Thursday</option>
-									<option value="fr">Friday</option>
-									<option value="sa">Saturday</option>
-								</select>
-								<br />
-
-								<label for="addModuleFromWeek" class="pull-left">From</label>
-								<div class="pull-right">
-									<select id="addModuleFromWeek" class="pull-left">
-										<option value="1">Week 1</option>
-										<option value="2">Week 2</option>
-										<option value="3">Week 3</option>
-										<option value="4">Week 4</option>
-										<option value="5">Week 5</option>
-										<option value="6">Week 6</option>
-										<option value="7">Week 7</option>
-										<option value="8">Week 8</option>
-										<option value="9">Week 9</option>
-									</select>
-
-									<label for="addModuleToWeek" class="pull-left">to</label>
-									<select id="addModuleToWeek" class="pull-left">
-										<option value="1">Week 1</option>
-										<option value="2">Week 2</option>
-										<option value="3">Week 3</option>
-										<option value="4">Week 4</option>
-										<option value="5">Week 5</option>
-										<option value="6">Week 6</option>
-										<option value="7">Week 7</option>
-										<option value="8">Week 8</option>
-										<option value="9">Week 9</option>
-									</select>
-								</div>
-								<br />
-
-								<ul class="pull-right">
-									<li class="pull-left">
-										<input type="radio" name="addModuleRepeatPattern" id="addModuleRepeatPatternWeekly" class="pull-left" />
-										<label for="addModuleRepeatPatternWeekly" class="pull-left">weekly</label>
-									</li>
-									<li class="pull-left">
-										<input type="radio" name="addModuleRepeatPattern" id="addModuleRepeatPatternFortnightly" class="pull-left" />
-										<label for="addModuleRepeatPatternFortnightly" class="pull-left">fortnightly</label>
-									</li>
-								</ul>
-								<br />
-
-								<label class="pull-left">During</label>
-								<ul class="clearfix pull-right">
-									<li class="pull-left">
-										<input type="checkbox" name="addModuleMichaelmas" id="addModuleMichaelmas" class="pull-left" />
-										<label for="addModuleMichaelmas" class="pull-left">Michaelmas</label>
-									</li>
-									<li class="pull-left">
-										<input type="checkbox" name="addModuleLent" id="addModuleLent" class="pull-left" />
-										<label for="addModuleLent" class="pull-left">Lent</label>
-									</li>
-									<li class="pull-left">
-										<input type="checkbox" name="addModuleEaster" id="addModuleEaster" class="pull-left" />
-										<label for="addModuleEaster" class="pull-left">Easter</label>						
-									</li>
-								</ul>
-							</li>
-							<li class="clearfix">
-								<label for="addModuleLecturer" class="pull-left">Lecturer</label>
-								<input type="text" name="addModuleLecturer" id="addModuleLecturer" placeholder="Lecturer" class="pull-right" />
-							</li>
-							<li class="clearfix">
-								<label for="addModuleType" class="pull-left">Type</label>
-								<select id="addModuleType" class="pull-right">
-									<option value="lecture">lecture</option>
-									<option value="languageClass">language class</option>
-									<option value="practical">practical</option>
-									<option value="seminar">seminar</option>
-								</select>
-							</li>
-						</ul>
-
-						<!--
-						<ul>
-							<li class="clearfix">
-								<input type="radio" name="addModuleType" id="addModuleTypeLecture" class="pull-left" />
-								<label for="addModuleTypeLecture" class="pull-left">Lecture</label>
-							</li>
-							<li class="clearfix">
-								<input type="radio" name="addModuleType" id="addModuleTypeLanguageClass" class="pull-left" />
-								<label for="addModuleTypeLanguageClass" class="pull-left">Language Class</label>
-							</li>
-							<li class="clearfix">
-								<input type="radio" name="addModuleType" id="addModuleTypePractical" class="pull-left" />
-								<label for="addModuleTypePractical" class="pull-left">Practical</label>
-							</li>
-							<li class="clearfix">
-								<input type="radio" name="addModuleType" id="addModuleTypeSeminar" class="pull-left" />
-								<label for="addModuleTypeSeminar" class="pull-left">Seminar</label>
-							</li>
-						</ul>
-						-->
-
-						<ul class="pull-right">
-							<li class="pull-left">
-								<a href="#" class="btn btn-danger">cancel</a>
-							</li>
-							<li class="pull-left">
-								<a href="#" class="btn btn-success">Add module</a>
-							</li>
-						</ul>
-						<br />
-					</form>
-				</div>
-
-				<ul id="resultsList">
-					<!--
-					<li class="clearfix course">
-                		<h5 class="pull-left">Language classes</h5>
-                		<div class="pull-right clearfix">
-                			<a class="pull-left more" href="#">more</a>
-                			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
-                		</div>
-                		<ul class="courseMoreInfo">
-                			<li class="courseSeries clearfix">
-            					<div class="pull-left">
-            						<h5>An introduction to the language of 16th Century texts.</h5>
-                    				<span class="courseDatePattern">W1</span>
-                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-            					</div>
-            					<a href="#" class="btn pull-right btn-add">Add</a>
-                			</li>
-                			<li class="courseSeries clearfix">
-            					<div class="pull-left">
-            						<h5>An introduction to the language of 16th Century texts.</h5>
-                    				<span class="courseDatePattern">W1</span>
-                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-            					</div>
-            					<a href="#" class="btn pull-right btn-add">Add</a>
-                			</li>
-                		</ul>
-                	</li>
-                	<li class="clearfix course">
-                		<h5 class="pull-left">Early Modern French</h5>
-                		<div class="pull-right clearfix">
-                			<a class="pull-left more" href="#">more</a>
-                			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
-                		</div>
-                		<ul class="courseMoreInfo">
-                			<li class="courseSeries clearfix">
-            					<div class="pull-left">
-            						<h5>An introduction to the language of 16th Century texts.</h5>
-                    				<span class="courseDatePattern">W1</span>
-                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-            					</div>
-            					<a href="#" class="btn pull-right btn-add">Add</a>
-                			</li>
-                			<li class="courseSeries clearfix">
-            					<div class="pull-left">
-            						<h5>An introduction to the language of 16th Century texts.</h5>
-                    				<span class="courseDatePattern">W1</span>
-                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-            					</div>
-            					<a href="#" class="btn pull-right btn-add">Add</a>
-                			</li>
-                		</ul>
-                	</li>
-                	<li class="courseSeries clearfix">
-    					<div class="pull-left">
-    						<h5>An introduction to the language of 16th Century texts.</h5>
-            				<span class="courseDatePattern">W1</span>
-            				<span class="courseLocation">Sidgiwck Av.</span><br/>
-            				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-    					</div>
-    					<a href="#" class="btn pull-right">Add btn-add</a>
-        			</li>
-					<li>
-                        <h4 class="btn-inverse clearfix">Physics <span class="pull-right">choose from&hellip;</span></h4>
-                        <ul class="courseList">
-                        	<li class="clearfix">
-                        		<h5 class="pull-left">Course A</h5>
-                        		<div class="pull-right clearfix">
-                        			<a class="pull-left more" href="#">more</a>
-                        			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
-                        		</div>
-                        		<ul class="courseMoreInfo">
-	                    			<li class="courseSeries clearfix">
-	                					<div class="pull-left">
-	                						<h5>An introduction to the language of 16th Century texts.</h5>
-		                    				<span class="courseDatePattern">W1</span>
-		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-	                					</div>
-	                					<a href="#" class="btn pull-right btn-add">Add</a>
-	                    			</li>
-	                    			<li class="courseSeries clearfix">
-	                					<div class="pull-left">
-	                						<h5>An introduction to the language of 16th Century texts.</h5>
-		                    				<span class="courseDatePattern">W1</span>
-		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-	                					</div>
-	                					<a href="#" class="btn pull-right btn-add">Add</a>
-	                    			</li>
-	                    		</ul>
-                        	</li>
-                        	<li class="clearfix">
-                        		<h5 class="pull-left">Course B</h5>
-                        		<div class="pull-right clearfix">
-                        			<a class="pull-left more" href="#">more</a>
-                        			<a href="#" class="pull-left btnAddSingleLecture btn btn-add">Add</a>
-                        		</div>
-                        		<ul class="courseMoreInfo">
-	                    			<li class="courseSeries clearfix">
-	                					<div class="pull-left">
-	                						<h5>An introduction to the language of 16th Century texts.</h5>
-		                    				<span class="courseDatePattern">W1</span>
-		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-	                					</div>
-	                					<a href="#" class="btn pull-right btn-add">Add</a>
-	                    			</li>
-	                    			<li class="courseSeries clearfix">
-	                					<div class="pull-left">
-	                						<h5>An introduction to the language of 16th Century texts.</h5>
-		                    				<span class="courseDatePattern">W1</span>
-		                    				<span class="courseLocation">Sidgiwck Av.</span><br/>
-		                    				<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-	                					</div>
-	                					<a href="#" class="btn pull-right btn-add">Add</a>
-	                    			</li>
-	                    		</ul>
-                        	</li>
-                        </ul>
-                    </li>
-                	-->
-				</ul>
+				{% if user.is_staff %}
+					{% include "admin/resultsPanel.html" %}
+				{% else %}
+					{% include "student/resultsPanel.html" %}
+				{% endif %}
 			</div>
 
 			<div id="calendarHolder" class="pull-right">
-				<div id="calendarHeading">
-					<ul class="nav nav-tabs">
-						<li class="active agendaWeek"><a href="#">Week</a></li>
-						<li class="month"><a href="#">Month</a></li>
-						<li class="list"><a href="#">List</a></li>
-					</ul>
-
-					<div id="calendarData" class="clearfix">
-						<div class="agendaWeek">
-							<a href="#" class="btn pull-left notImplemented">Undo changes</a>
-							<div class="calendarNavigation pull-left">
-								<ul class="clearfix">
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-									<li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-								</ul>
-							</div>
-							<h4 class="pull-right">Michaelmas Term</h4>
-						</div>
-						<div class="month dontDisplayMe">
-							<a href="#" class="btn pull-left notImplemented">Undo changes</a>
-							<div class="calendarNavigation pull-left">
-								<ul class="clearfix">
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-									<li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-								</ul>
-							</div>
-							<h4 class="pull-right">Michaelmas Term</h4>
-						</div>
-						<div class="list dontDisplayMe">
-							<a href="#" class="btn pull-left notImplemented">Undo changes</a>
-							<div class="calendarNavigation pull-left">
-								<ul class="clearfix">
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-									<li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
-									<li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-								</ul>
-							</div>
-							<h4 class="pull-right">Michaelmas Term</h4>
-						</div>
-					</div>
-				</div>
-
-				<div id="calendar">
-					<div id="listView" class="clearfix">
-						<!--
-						<div id="listViewCalendar" class="pull-left">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td colspan="7">October 2012</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mon</td>
-                                        <td>Tue</td>
-                                        <td>Wed</td>
-                                        <td>Thu</td>
-                                        <td>Fri</td>
-                                        <td>Sat</td>
-                                        <td>Sun</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>1</td>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td>15</td>
-                                        <td>16</td>
-                                        <td>17</td>
-                                        <td>18</td>
-                                        <td>19</td>
-                                        <td>20</td>
-                                    </tr>
-                                    <tr>
-                                        <td>21</td>
-                                        <td>22</td>
-                                        <td>23</td>
-                                        <td>24</td>
-                                        <td>25</td>
-                                        <td>26</td>
-                                        <td>27</td>
-                                    </tr>
-                                    <tr>
-                                        <td>28</td>
-                                        <td>29</td>
-                                        <td>30</td>
-                                        <td>31</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-						</div>
-						<div id="listViewList" class="pull-right">
-							<ul>
-								<li class="clearfix">
-									<h4 class="pull-left">Friday 5th Oct.</h4>
-									<ul class="pull-right">
-										<li class="class">
-											<h5>Early modern French</h5>
-											<span class="courseDatePattern">9am - 10am,</span> 
-											<span class="courseLocation">Morison R,</span><br/>
-											<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-										</li>
-									</ul>
-								</li>
-								<li class="clearfix">
-									<h4 class="pull-left">Monday 8th Oct.</h4>
-									<ul class="pull-right">
-										<li class="class">
-											<h5>Early modern French</h5>
-											<span class="courseDatePattern">9am - 10am,</span> 
-											<span class="courseLocation">Sidgwickav,</span><br/>
-											<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-										</li>
-										<li class="class">
-											<h5>l&apos;Analyse stylistique et grammaticale en fran&ccedil;ais</h5>
-											<span class="courseDatePattern">3pm - 5pm,</span> 
-											<span class="courseLocation">Sidgwickav,</span><br/>
-											<span class="courseLecturer">Mr. C. Gagne, French IA</span>
-										</li>
-									</ul>
-								</li>
-								<li class="clearfix">
-									<h4 class="pull-left">Wednesday 10th Oct.</h4>
-									<ul class="pull-right">
-										<li class="class">
-											<h5>Early modern French</h5>
-											<span class="courseDatePattern">9am - 10am,</span> 
-											<span class="courseLocation">Sidgwickav,</span><br/>
-											<span class="courseLecturer">Dr. W. Bennett, French IA</span>
-										</li>
-										<li class="class">
-											<h5>l&apos;Analyse stylistique et grammaticale en fran&ccedil;ais</h5>
-											<span class="courseDatePattern">3pm - 5pm,</span> 
-											<span class="courseLocation">Sidgwickav,</span><br/>
-											<span class="courseLecturer">Mr. C. Gagne, French IA</span>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>-->
-					</div>
-				</div>
+				{% if user.is_staff %}
+					{% include "admin/calendarHolder.html" %}
+				{% else %}
+					{% include "student/calendarHolder.html" %}
+				{% endif %}
 			</div>
 		</div>
+		
 	</body>
 </html>

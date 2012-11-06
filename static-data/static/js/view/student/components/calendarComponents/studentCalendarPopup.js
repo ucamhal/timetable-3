@@ -1,7 +1,7 @@
 define([
 	"jquery",
 	"underscore",
-	"view/student/components/calendarComponents/baseCalendarPopup"
+	"view/base/components/calendarComponents/baseCalendarPopup"
 ], function ($, _, BaseCalendarPopup) {
 	"use strict";
 
@@ -18,7 +18,7 @@ define([
 				$el: $(".calendarEventInfo.dontDisplayMe.student").clone().removeClass("dontDisplayMe")
 			});
 
-			$("span.courseDatePattern", this.$el).text(this.parent.getFullDayFromDate(this.calEvent._start) + " " + this.parent.getTwelveHourTimeFromDate(this.calEvent._start));
+			$("span.courseDatePattern", this.$el).text(_.getFullDayFromDate(this.calEvent._start) + " " + _.getTwelveHourTimeFromDate(this.calEvent._start));
 
 			$("span.courseLocation", this.$el).text((function (location) {
 				var locationText = location;

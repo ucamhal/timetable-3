@@ -2,34 +2,28 @@ define([
 	"jquery",
 	"underscore",
 	"util/page",
-	"view/student/components/calendarComponents/listView",
-	"view/student/components/calendarComponents/studentCalendarPopup",
-	"view/student/components/calendarComponents/adminCalendarPopup",
 	"fullcalendar"
-], function ($, _, page, ListView, StudentCalendarPopup, AdminCalendarPopup) {
+], function ($, _, page) {
 	"use strict";
-	var CalendarContent = function (opt) {
-		// Bind event handlers to always have this as a CalendarContext instance
-		_.bindAll(this, "onEventClick");
 
-		_.extend(this, opt);
-		this.initialize();
+	var BaseCalendarContent = function () {
+
 	};
 
-	_.extend(CalendarContent.prototype, {
-		initialize: function () {
+	_.extend(BaseCalendarContent.prototype, {
+		baseInitialize: function () {
+
 			var sourcepath = page.getThingPath(),
 				self = this;
+
+			// Bind event handlers to always have this as a CalendarContext instance
+			_.bindAll(this, "onEventClick");
 
 			_.defaults(this, {
 				selector: "body",
 				activeView: "agendaWeek",
 				$el: $(this.selector, this.parent.$el),
 				activeTerm: "michaelmas",
-				listView: new ListView({
-					selector: "#listView",
-					parent: this
-				}),
 				activePopups: [],
 				// #TODO This data should be pulled in from a json file
 				terms: {
@@ -187,8 +181,8 @@ define([
 				},
 				eventClick: this.onEventClick
 			});
-		},
 
+		},
 		refresh: function () {
 			this.$el.fullCalendar("refetchEvents");
 		},
@@ -196,25 +190,11 @@ define([
 		showNext: function () {
 			this.clearCalendarPopups();
 			this.$el.fullCalendar("next");
-			if (this.activeView === "list") {
-				this.renderListView();
-			}
 		},
 
 		showPrev: function () {
 			this.clearCalendarPopups();
 			this.$el.fullCalendar("prev");
-			if (this.activeView === "list") {
-				this.renderListView();
-			}
-		},
-
-		renderListView: function () {
-			console.log(this.listView);
-			this.listView.render({
-				year: this.getYearFromDate(this.getActiveDate()),
-				month: this.getMonthFromDate(this.getActiveDate())
-			});
 		},
 
 		clearCalendarPopups: function () {
@@ -224,7 +204,7 @@ define([
 
 			for (i = 0; i < arrayLength; i += 1) {
 				selectedPopup = this.activePopups[i];
-				if (selectedPopup instanceof StudentCalendarPopup === true || selectedPopup instanceof AdminCalendarPopup === true) {
+				if (selectedPopup instanceof this.CalendarPopup === true) {
 					selectedPopup.removeAnimated();
 				}
 			}
@@ -234,55 +214,19 @@ define([
 			this.clearCalendarPopups();
 			this.activeView = view;
 
-			if (view === "list") {
-				$(".fc-content", this.$el).hide();
-				this.$el.fullCalendar("changeView", "month");
-				this.renderListView();
-				this.listView.$el.show();
-			} else {
-				$(".fc-content", this.$el).show();
-				this.listView.$el.hide();
-				this.$el.fullCalendar("changeView", view);
-			}
+			$(".fc-content", this.$el).show();
+			this.$el.fullCalendar("changeView", view);
 		},
 
 		getActiveDate: function () {
 			return this.$el.fullCalendar("getDate");
 		},
 
-		getDayFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "d");
-		},
-
-		getShortDayFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "ddd");
-		},
-
-		getFullDayFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "dddd");
-		},
-
-		getMonthFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "M");
-		},
-
-		getYearFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "yyyy");
-		},
-
-		getFullMonthFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "MMMM");
-		},
-
-		getTwelveHourTimeFromDate: function (date) {
-			return $.fullCalendar.formatDate(date, "h(':'mm)tt");
-		},
-
 		dateWithinTerm: function (date, termYears) {
 
-			var dateDay = Number(this.getDayFromDate(date)),
-				dateMonth = Number(this.getMonthFromDate(date)),
-				dateYear = Number(this.getYearFromDate(date)),
+			var dateDay = Number(_.getDayFromDate(date)),
+				dateMonth = Number(_.getMonthFromDate(date)),
+				dateYear = Number(_.getYearFromDate(date)),
 				withinPeriod = false,
 				term = termYears[dateYear];
 
@@ -298,8 +242,8 @@ define([
 		getActiveWeekInCurrentTerm: function () {
 			var activeWeek,
 
-				activeDate = $.fullCalendar.parseDate(this.getMonthFromDate(this.getActiveDate()) + " " + this.getDayFromDate(this.getActiveDate()) + " " + this.getYearFromDate(this.getActiveDate())),
-				activeYear = this.getYearFromDate(activeDate),
+				activeDate = $.fullCalendar.parseDate(_.getMonthFromDate(this.getActiveDate()) + " " + _.getDayFromDate(this.getActiveDate()) + " " + _.getYearFromDate(this.getActiveDate())),
+				activeYear = _.getYearFromDate(activeDate),
 
 				singleDay = 1000 * 60 * 60 * 24,
 				singleWeek = singleDay * 7,
@@ -312,7 +256,7 @@ define([
 				activeTermData = this.terms[this.activeTerm][activeYear];
 				termStartDateObject = $.fullCalendar.parseDate(activeTermData.start.month + " " + activeTermData.start.day + " " + activeYear);
 
-				switch (this.getShortDayFromDate(termStartDateObject)) {
+				switch (_.getShortDayFromDate(termStartDateObject)) {
 				case "Mon":
 					dayOffset = 0;
 					break;
@@ -377,35 +321,26 @@ define([
 		onEventClick: function (calEvent, jsEvent, view) {
 
 			var self = this,
-				calendarPopup = (function () {
-					var opts = {
-						parent: self,
-						editFormPath: "/event/" + encodeURIComponent(calEvent.djid),
-						calEvent: calEvent,
-						jsEvent: jsEvent,
-						$scrollReference: (function () {
-							var toReturn;
-							switch (view.name) {
-							case "agendaWeek":
-								toReturn = $("> div > div", view.element);
-								break;
-							case "month":
-								toReturn = self.$el;
-								break;
-							default:
-								toReturn = view.element;
-							}
-							return toReturn;
-						}())
-					};
-
-					if (page.adminEnabled() === true) {
-						return new AdminCalendarPopup(opts);
-					}
-
-					return new StudentCalendarPopup(opts);
-
-				}());
+				calendarPopup = new this.CalendarPopup({
+					parent: self,
+					editFormPath: "/event/" + encodeURIComponent(calEvent.djid),
+					calEvent: calEvent,
+					jsEvent: jsEvent,
+					$scrollReference: (function () {
+						var toReturn;
+						switch (view.name) {
+						case "agendaWeek":
+							toReturn = $("> div > div", view.element);
+							break;
+						case "month":
+							toReturn = self.$el;
+							break;
+						default:
+							toReturn = view.element;
+						}
+						return toReturn;
+					}())
+				});
 
 			this.clearCalendarPopups();
 
@@ -415,5 +350,6 @@ define([
 		}
 	});
 
-	return CalendarContent;
+	return BaseCalendarContent;
+
 });
