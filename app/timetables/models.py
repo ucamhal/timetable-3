@@ -10,7 +10,6 @@ from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils import timezone
-
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
@@ -80,9 +79,7 @@ class VersionableModel(models.Model):
         if hasattr(self, "master"):
             if self.master is None:
                 self.master = self
-            logging.error("Making all in set master  %s not current  " % self.master)
             self.__class__.objects.filter(master=self.master,current=True).update(current=False)
-        logging.error("Updating this to be current %s for set %s   " % (self,self.master))
         self.current = True
         self.save()
 
@@ -90,23 +87,17 @@ class VersionableModel(models.Model):
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
         if hasattr(instance, "master"):
-            logging.error("Instance has master attribute on save %s  " % instance.master)
             if instance.master is None:
                 instance.master = instance
-        else:
-            logging.error("Instance Does not have master attribute on save ")
             
     @classmethod
     def copycreate(cls, self, instance):
         self.current = instance.current
         if hasattr(instance, "master"):
-            logging.error("Instance has master attribute %s " % instance.master)
             if instance.master is None:
                 self.master = instance
             else:
                 self.master = instance.master
-        else:
-            logging.error("Instance Does not have master attribute ")
             
         # Do not copy the versionstamp. The DB will do this.
 
