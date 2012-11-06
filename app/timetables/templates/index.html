@@ -10,11 +10,9 @@
 		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        {% if user.is_staff %}
-        	<script data-main="{% static "js/main.js" %}" data-page-module="adminIndex" src="{% static "js/libs/require.js" %}"></script>
-        {% else %}
-        	<script data-main="{% static "js/main.js" %}" data-page-module="studentIndex" src="{% static "js/libs/require.js" %}"></script>
-        {% endif %}
+        
+    	<script data-main="{% static "js/main.js" %}" data-page-module="{% if user.is_staff %}adminIndex{% else %}studentIndex{% endif %}" src="{% static "js/libs/require.js" %}"></script>
+        
 	</head>
 	<body id="{% if user.is_staff %}admin{% else %}student{% endif %}">
 	    <!--  this tag contains information about the current user. If there is a better way 

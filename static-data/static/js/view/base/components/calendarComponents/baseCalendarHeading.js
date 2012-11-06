@@ -72,8 +72,8 @@ define([
 			case "month":
 			case "list":
 				var activeDate = this.parent.content.getActiveDate(),
-					activeMonth = this.parent.content.getFullMonthFromDate(activeDate),
-					activeYear = this.parent.content.getYearFromDate(activeDate);
+					activeMonth = _.getFullMonthFromDate(activeDate),
+					activeYear = _.getYearFromDate(activeDate);
 				$(".month .calendarNavigation ul h4, .list .calendarNavigation ul h4", this.$el).text(_(activeMonth).capitalize() + " " + activeYear);
 				//activeMonth = this.parent.content.getFullYearFromDate(this.parent.content.getActiveDate());
 				break;

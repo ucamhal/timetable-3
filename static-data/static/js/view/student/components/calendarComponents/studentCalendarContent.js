@@ -42,7 +42,6 @@ define([
 		},
 
 		renderListView: function () {
-			console.log(this.listView);
 			this.listView.render({
 				year: _.getYearFromDate(this.getActiveDate()),
 				month: _.getMonthFromDate(this.getActiveDate())

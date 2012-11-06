@@ -32,6 +32,11 @@ define(["jquery", "underscore", "jquery-bbq"], function ($, _) {
 					path: function (thingPath) {
 						this.inputAreaView.updateSelectBoxes(thingPath);
 						this.resultsView.updateResults(thingPath);
+					},
+
+					selectedTimetable: function (selectedTimetable) {
+						this.calendarView.setTimetable(selectedTimetable);
+						this.resultsView.setTimetable(selectedTimetable);
 					}
 				},
 

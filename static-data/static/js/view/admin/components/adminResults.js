@@ -34,7 +34,6 @@ define([
 			});
 
 			$("#resultsHead form#addModule a").click(function (event) {
-				console.log($(this).text().toLowerCase());
 				switch ($(this).text().toLowerCase()) {
 					case "cancel":
 						$("#resultsHead a.addModule", self.$el).trigger("click");
@@ -46,6 +45,14 @@ define([
 				event.preventDefault();
 			});
 
+		},
+
+		setTimetable: function (timetable) {
+			if (typeof timetable !== "undefined" && timetable !== "" && timetable.toLowerCase() !== "new timetable") {
+				$("> *", this.$el).show();
+			} else {
+				$("> *", this.$el).hide();
+			}
 		}
 
 	});
