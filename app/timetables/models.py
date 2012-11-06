@@ -14,7 +14,7 @@ from django.utils import timezone
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
-from django.utils.timezone import now
+from django.utils.timezone import now, pytz
 log = logging.getLogger(__name__)
 
 # Length of a hash required to identify items.
@@ -392,8 +392,18 @@ class Event(SchemalessModel, VersionableModel):
     objects = EventManager()
 
     # Basic Metadata that we need to operate on this event
-    start = models.DateTimeField(help_text="Start of the Event")
-    end = models.DateTimeField(help_text="End of the Event")
+    start = models.DateTimeField(help_text="Start of the Event in local time")
+    end = models.DateTimeField(help_text="End of the Event in local time")
+    # These are here to preserve the timezone in which the data was entered.
+    # When Django saves to the database it whipes the timezone information by converting the time to
+    # UTC and then saving in the databases local timezone. For instance if using SQLLite this will result in 
+    # times entered in Sydney appearing in UTC in the database with no indication they were entered in AEST.
+    # Due to Djangos TZ the data will be correct, but the original intention will be lost.
+    # To display the time in server time, the start_local and end_local can be used.
+    # To display the time in the timezone in which it was entered, start_origin and end_origin should be used.
+    # All forms entering data must be made timezone aware 
+    starttz = models.CharField(max_length=MAX_NAME_LENGTH,help_text="The timezone in which start time was entered", default=settings.TIME_ZONE)
+    endtz = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The timezone in which end time was entered", default=settings.TIME_ZONE)
     title = models.CharField(max_length=MAX_LONG_NAME, help_text="Title of the event")
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
     uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
@@ -482,6 +492,27 @@ class Event(SchemalessModel, VersionableModel):
             return timezone.localtime(self.start)
         else:
             return tz.normalize(self.start.astimezone(tz))
+    
+    def start_origin(self):
+        '''
+        Get the start time in its original timezone at the point of entry.
+        '''
+        if self.starttz is None:
+            return self.start_local()
+        else:
+            tz = pytz.timezone(self.starttz)
+            return self.start_local(tz)
+
+    def end_origin(self):
+        '''
+        Get the start time in its original timezone at the point of entry.
+        '''
+        if self.starttz is None:
+            return self.end_local()
+        else:
+            tz = pytz.timezone(self.starttz)
+            return self.end_local(tz)
+
 
 pre_save.connect(Event._pre_save, sender=Event)
     
