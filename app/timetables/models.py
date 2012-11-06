@@ -480,9 +480,9 @@ class Event(SchemalessModel, VersionableModel):
         its current timezone into the local timezone
         """
         if tz is None:
-            return timezone.localtime(self.start)
+            return timezone.localtime(self.end)
         else:
-            return tz.normalize(self.start.astimezone(tz))
+            return tz.normalize(self.end.astimezone(tz))
     
     def start_origin(self):
         '''
