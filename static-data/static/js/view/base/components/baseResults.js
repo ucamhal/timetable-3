@@ -1,13 +1,18 @@
-define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
+define([
+	"jquery",
+	"underscore",
+	"util/page"
+], function ($, _, page) {
+
 	"use strict";
 
-	var Results = function (opt) {
-		_.extend(this, opt);
-		this.initialize();
+	var BaseResults = function () {
+
 	};
 
-	_.extend(Results.prototype, {
-		initialize: function () {
+	_.extend(BaseResults.prototype, {
+		baseInitialize: function () {
+
 			var self = this;
 
 			_.defaults(this, {
@@ -39,36 +44,13 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 
 				event.preventDefault();
 			});
+			
+		},
 
-
-			/*
-			 * #ADMIN functioncality, will want to move this somewhere else
-			 */
-		 	$("#resultsHead form#addModule .timepicker-default").timepicker();
-
-			$("#resultsHead a.addModule", this.$el).toggle(function (event) {
-				console.log("showForm");
-				$("#resultsHead form#addModule", this.$el).slideDown(200);
-				event.preventDefault();
-			}, function (event) {
-				console.log("hideForm");
-				$("#resultsHead form#addModule", this.$el).slideUp(200);
-				event.preventDefault();
-			});
-
-			$("#resultsHead form#addModule a").click(function (event) {
-				console.log($(this).text().toLowerCase());
-				switch ($(this).text().toLowerCase()) {
-					case "cancel":
-						$("#resultsHead a.addModule", self.$el).trigger("click");
-						break;
-					case "add module":
-						break;
-				}
-
-				event.preventDefault();
-			});
-
+		resize: function () {
+			var topOffset = this.$el.offset().top;
+			var heightToSet = $(window).height() - 30 - topOffset;
+			this.$el.height(heightToSet);
 		},
 
 		toggleButtonState: function ($btn, fromAdd) {
@@ -83,9 +65,10 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			var self = this,
 				resultsLength,
 				textToChange;
+
 			console.log('selected subject id', thingPath);
         	
-        	$.get('/' + thingPath + ".children.html?t="+encodeURIComponent(page.getThingPath()), function (data) {
+        	$.get('/' + thingPath + ".children.html?t=" + encodeURIComponent(page.getThingPath()), function (data) {
         		resultsLength = $('ul#resultsList', self.$el).empty().append(data).find("> li").length;
 
         		if (resultsLength === 1) {
@@ -116,7 +99,7 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 			$.post(sourcepath+".link", postdata, function() {
 				//self.toggleButtonState($(source), add);
 				self.updateButtonStates(source);
-				self.dispatchEvent("timetableChanged");
+				_.dispatchEvent(self.$el, "timetableChanged");
 			}).error(function(response, status, error) {
 				console.log("Status code is "+response.status+" error:"+error);
 				if ( response.status === 403 ) {
@@ -140,22 +123,9 @@ define(['jquery', 'underscore', 'util/page'], function ($, _, page) {
 					}
 				}
 			}
-		},
-
-		addEventListener: function (eventName, callback) {
-			this.$el.bind(eventName, callback);
-		},
-
-		dispatchEvent: function (eventName) {
-			this.$el.trigger(eventName);
-		},
-
-		resize: function () {
-			var topOffset = this.$el.offset().top;
-			var heightToSet = $(window).height() - 30 - topOffset;
-			this.$el.height(heightToSet);
 		}
 	});
 
-	return Results;
+	return BaseResults;
+
 });

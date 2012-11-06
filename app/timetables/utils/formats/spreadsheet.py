@@ -32,8 +32,10 @@ class CsvExporter(object):
                     "uid",
                     "Title",
                     "Location",
-                    "Start",
-                    "End"
+                    "Start localtime",
+                    "Start Orign Timezone",
+                    "End localtime",
+                    "End Orign Timezone",
                     ]
 
             if metadata_names is not None:
@@ -50,8 +52,10 @@ class CsvExporter(object):
                         e.uid,
                         e.title,
                         e.location,
-                        DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat(),
-                        DateConverter.from_datetime(e.start, e.metadata.get("x-allday")).isoformat()
+                        DateConverter.from_datetime(e.start_local(), e.metadata.get("x-allday")).isoformat(),
+                        e.starttz,
+                        DateConverter.from_datetime(e.start_local(), e.metadata.get("x-allday")).isoformat(),
+                        e.endtz
                         ]
                 # If a mapping has been provided, unpack
                 if metadata_names is not None:

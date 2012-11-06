@@ -1,0 +1,12 @@
+{% load url from future %}
+<div class="pull-right">
+	{% if loggedin %}
+	<a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
+	<a href="{% url "export named ics" "user" user.username %}" class="btn">Export to calendar</a>
+	{% else %}
+	<a href="{% url "login url" %}" class="btn btn-primary">Sign in</a>
+	<!-- 
+	<a href="#" class="btn dontDisplayMe save">Save</a>
+	 -->
+	{% endif %}
+</div>

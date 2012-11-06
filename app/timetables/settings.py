@@ -16,6 +16,13 @@ ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# This would be if you put all your tests within a top-level "tests" package.
+TEST_DISCOVERY_ROOT = "%s/app" % ROOT_PATH
+
+# This assumes you place the above ``DiscoveryRunner`` in ``tests/runner.py``.
+TEST_RUNNER = "timetables.utils.testrunner.DiscoveryRunner"
+
+
 # To enable Raven Authentication set this true and protect /accounts/login
 # If false, a testing url will be used.
 ENABLE_RAVEN=False
@@ -112,6 +119,9 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+# Lookup url, to disable set to None
+LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
+
 
 CACHES = {}
 
@@ -120,12 +130,9 @@ HOSTNAME = "localhost"
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
-TIME_ZONE = 'Australia/Sydney'
+# This timezone is used as the local time for which all dates in the UI are
+# displayed. This should be the timezone Cambridge, UK is in. 
+TIME_ZONE = 'Europe/London'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html

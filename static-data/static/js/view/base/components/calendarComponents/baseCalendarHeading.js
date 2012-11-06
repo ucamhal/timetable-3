@@ -1,13 +1,17 @@
-define(["jquery", "underscore"], function ($, _) {
+define([
+	"jquery",
+	"underscore"
+], function ($, _) {
+
 	"use strict";
 
-	var CalendarHeading = function (opt) {
-		_.extend(this, opt);
-		this.initialize();
+	var BaseCalendarHeading = function () {
+
 	};
 
-	_.extend(CalendarHeading.prototype, {
-		initialize: function () {
+	_.extend(BaseCalendarHeading.prototype, {
+
+		baseInitialize: function () {
 			var self = this;
 
 			_.defaults(this, {
@@ -68,8 +72,8 @@ define(["jquery", "underscore"], function ($, _) {
 			case "month":
 			case "list":
 				var activeDate = this.parent.content.getActiveDate(),
-					activeMonth = this.parent.content.getFullMonthFromDate(activeDate),
-					activeYear = this.parent.content.getYearFromDate(activeDate);
+					activeMonth = _.getFullMonthFromDate(activeDate),
+					activeYear = _.getYearFromDate(activeDate);
 				$(".month .calendarNavigation ul h4, .list .calendarNavigation ul h4", this.$el).text(_(activeMonth).capitalize() + " " + activeYear);
 				//activeMonth = this.parent.content.getFullYearFromDate(this.parent.content.getActiveDate());
 				break;
@@ -92,7 +96,9 @@ define(["jquery", "underscore"], function ($, _) {
 				calendarView: state
 			});
 		}
+
 	});
 
-	return CalendarHeading;
+	return BaseCalendarHeading;
+
 });

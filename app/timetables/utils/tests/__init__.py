@@ -104,5 +104,3 @@ class TestISO8601Date(TestCase):
             except ValueError:
                 pass
 
-from timetables.utils.tests.ints import *
-from timetables.utils.tests.lookup import *

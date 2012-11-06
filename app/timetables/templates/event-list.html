@@ -16,7 +16,7 @@
                 {% for event in day.events %}
                 <li>
                     <h5>{{ event.title }}</h5>
-                    <span class="courseDatePattern">{{ event.start|date:"P" }} &ndash; {{ event.end|date:"P" }}{% if event.metadata.location %},{% endif %}</span>
+                    <span class="courseDatePattern">{{ event.start_local|date:"P" }} &ndash; {{ event.end_local|date:"P" }}{% if event.metadata.location %},{% endif %}</span>
                     <span class="courseLocation">{{ event.metadata.location }}</span>
                     {# FIXME: need to include subject + part #}
                     <span class="courseLecturer">{{ event.metadata.people|join:", " }}</span>

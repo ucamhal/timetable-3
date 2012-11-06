@@ -8,8 +8,9 @@ from django.http import HttpResponse
 from icalendar.cal import Calendar, Alarm
 from timetables.models import Event
 import datetime
-from django.utils.timezone import utc, pytz
+from django.utils.timezone import pytz
 from timetables.utils.date import DateConverter
+import logging
 
 
 class ICalExporter(object):
@@ -31,8 +32,8 @@ class ICalExporter(object):
             for e in events:
                 event = iCalEvent()
                 event['summary'] =  '%s' % e.title
-                event['dtstart'] = DateConverter.from_datetime(e.start, e.metadata.get("x-allday"))
-                event['dtend'] = DateConverter.from_datetime(e.end, e.metadata.get("x-allday"))
+                event['dtstart'] = DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday"))
+                event['dtend'] = DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday"))
                 event['location'] = e.location
                 event["uid"] = e.uid
                 # If a mapping has been provided, unpack
@@ -105,24 +106,34 @@ class ICalImporter(object):
             except:
                 default_timezone = None # Unless we put TZ support into the UI to allow users to set their timezone, this is the best we can do.
             metadata = source.metadata
-            for k,v in cal.iteritems():
+            for k,_ in cal.iteritems():
                 metadata[k.lower()] = self._get_value(cal,k,default_timezone)
             events = []
             for e in cal.walk('VEVENT'):
-                event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),
-                              end=DateConverter.to_datetime(e.decoded('DTEND'),defaultzone=default_timezone),
+                dstart = e.decoded('DTSTART')
+                dend = e.decoded('DTEND')
+                starttz = default_timezone if dstart.tzinfo is None else dstart.tzinfo
+                endtz = default_timezone if dstart.tzinfo is None else dstart.tzinfo
+
+                event = Event(start=DateConverter.to_datetime(dstart,defaultzone=default_timezone),
+                              end=DateConverter.to_datetime(dend,defaultzone=default_timezone),
+                              starttz=starttz,
+                              endtz=endtz,
                               location=self._safe_get(e, "LOCATION", ""),
                               title=self._safe_get(e, "SUMMARY", ""),
                               uid=self._safe_get(e, "UID", ""),
                               source=source)
+                logging.error("Start time %s  origin timezone %s  as local %s as origin %s " % (event.start, event.starttz, event.start_local(), event.start_origin()))
+                logging.error("End time %s origin timezone %s  as local %s as origin %s " % (event.end, event.endtz, event.end_local(), event.end_origin()))
                 metadata = event.metadata
-                for k,v in e.iteritems():
+                for k,_ in e.iteritems():
                     metadata[k.lower()] = self._get_value(e,k,default_timezone)
     
                 metadata['x-allday'] = DateConverter.is_date(e.decoded('DTSTART'))
                 events.append(event)
             source.save()
             Event.objects.bulk_create(events)
+            Event.after_bulk_operation()
             return len(events)
 
 

@@ -33,6 +33,8 @@ class DatePatternImporter(object):
                                 data=metadata) # FIXME: Might want to filter the metadata or just use the source metadata in queries,
             #                                    not sure that we should duplicate this 100s of times.
             Event.objects.bulk_create(events)
+            Event.after_bulk_operation()
+
             return len(events)
         except:
             log.error("Failed to process date patter %s in eventsource %s  (%s)" % ( datePattern, source.title, source.id))

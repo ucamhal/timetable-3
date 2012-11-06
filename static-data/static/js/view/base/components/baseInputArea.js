@@ -1,13 +1,17 @@
-define(['jquery', 'underscore'], function ($, _) {
+define([
+	"jquery",
+	"underscore"
+], function ($, _) {
 	"use strict";
+	
+	var BaseInputArea = function () {
 
-	var InputArea = function (opt) {
-		_.extend(this, opt);
-		this.initialize();
 	};
 
-	_.extend(InputArea.prototype, {
-		initialize: function () {
+	_.extend(BaseInputArea.prototype, {
+
+		baseInitialize: function () {
+
 			var self = this;
 
 			_.defaults(this, {
@@ -15,34 +19,14 @@ define(['jquery', 'underscore'], function ($, _) {
 				$el: $(this.selector)
 			});
 
-			$('a#advancedOptions, #advancedSearch input[type="submit"], #advancedSearch a.close', this.$el).click(function () {
-				if ($('#advancedSearch').is(':visible') === true) {
-					$('#advancedSearch').slideUp('fast');
-				} else {
-					$('#advancedSearch').slideDown('fast');
-				}
-			});
-
 			$('select#iAmInput, select#courseSelect', this.$el).change(function (event) {
 				self.updateThingPathHash(self.getThingPathFromSelectedOption($(this)));
 			});
 
 			if(typeof $.bbq.getState('path') === 'undefined') {
-				$('select#iAmInput').trigger('change');
+				$('select#iAmInput', this.$el).trigger('change');
 			}
 
-			/*
-			$("#iAmInputText").typeahead({
-				source: (function () {
-					var results = [];
-					$("#iAmInput option").each(function () {
-						results.push($.trim($(this).text()));
-					});
-					console.log(results);
-					return results;
-				}())
-			});
-			*/
 		},
 
 		getThingPathFromSelectedOption: function ($select) {
@@ -88,7 +72,9 @@ define(['jquery', 'underscore'], function ($, _) {
 				path: value
 			});
 		}
+
 	});
 
-	return InputArea;
+	return BaseInputArea;
+
 });

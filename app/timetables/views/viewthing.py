@@ -64,9 +64,11 @@ class ChildrenView(View):
                 related = Thing.objects.filter(related_children_q)
                 
                 contains_event_in_related = models.Q(
-                        eventtag__event__eventtag__thing__in=related)
+                        eventtag__event__eventtag__thing__in=related, 
+                        eventtag__event__current=True)
                 contains_eventseries_in_related = models.Q(
-                        eventsourcetag__eventsource__eventsourcetag__thing__in=related)
+                        eventsourcetag__eventsource__eventsourcetag__thing__in=related, 
+                        eventsourcetag__eventsource__current=True)
 
                 relatedthings = frozenset(Thing.objects
                         .filter(contains_event_in_related |
@@ -75,17 +77,20 @@ class ChildrenView(View):
                 
                 # get all the sources that the target has related
                 relatedsources = frozenset(EventSource.objects
-                        .filter(eventsourcetag__thing__in=related)
+                        .filter(eventsourcetag__thing__in=related, current=True)
                         .values_list("id", flat=True))
             
             
             # Currently the template renders sources after things. We may wish
             # to put them into one list and sort them as one. 
             context = {
-                "things": Thing.objects.filter(parent__pathid=thing.pathid),
+                "things": Thing.objects.filter(parent__pathid=thing.pathid).prefetch_related(
+                        "eventsourcetag_set__eventsource",
+                        "thing_set__eventsourcetag_set__eventsource"
+                ),
                 "related" : relatedthings,
                 "relatedsources" : relatedsources,
-                "sources": thing.sources.all()
+                "sources": thing.sources.filter(current=True)
             }
             return render(request, "list-of-things.html",
                           context)

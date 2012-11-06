@@ -4,20 +4,25 @@ import itertools
 from ldap import filter
 from ldap import ldapobject
 from ldap.resiter import ResultProcessor
+from django.conf import settings
+
+try:
+    LDAP_LOOKUP_URL = settings.LDAP_LOOKUP_URL
+except:
+    LDAP_LOOKUP_URL = None
 
 # This class allows us to instantiate a ResultProcessor object
 # which allows us to retrieve results from an LDAP server
 # synchronously, thus avoiding the need to handle very large
 # results and allowing for faster retrieval:
 class AsyncLDAP(ldapobject.LDAPObject, ResultProcessor):
-  pass
+    pass
 
 class Lookup(object):
     """
     A basic interface into the lookup.cam.ac.uk service.
     """
 
-    _LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
     _LDAP_USER_SEARCH_BASE = ("ou=people, o=University of Cambridge,"
             "dc=cam,dc=ac,dc=uk")
     _LDAP_USER_SEARCH_ATTRS = ["uid", "mail", "displayName"]
@@ -27,8 +32,9 @@ class Lookup(object):
             "LookupUser", ["crsid", "name", "email"])
 
     def __init__(self):
-        self._ldap = AsyncLDAP(self._LDAP_LOOKUP_URL)
-        self._is_connected = False
+        if LDAP_LOOKUP_URL is not None:
+            self._ldap = AsyncLDAP(LDAP_LOOKUP_URL)
+            self._is_connected = False
 
     def __enter__(self):
         self.connect()
@@ -94,6 +100,7 @@ class Lookup(object):
 
     def _index_users_by_crsid(self, users):
         return dict((user.crsid, user) for user in users)
+    
 
     def get_users(self, crsids):
         return self._index_users_by_crsid(
@@ -113,8 +120,8 @@ class Lookup(object):
         # the users in lookup is unlikely to be timely or desired!
         if ( crsid_fragment == '' ): return []
 
-	# Create a filter looking for all the uids beginning with the crsid
-	# fragment:
+        # Create a filter looking for all the uids beginning with the crsid
+        # fragment:
         crsid_fragment_filter = '(uid=' + crsid_fragment + '*)'
 
         # If we hit any exceptions when searching (a possible one being a timeout)
@@ -131,7 +138,7 @@ class Lookup(object):
                 timeout=time_out,sizelimit=size_limit)
             return list(itertools.islice(self._ldap.allresults(msg_id),size_limit))
         except:
-            return []
+            pass
 
     # The format of each item returned by the ldap search is:
     # [100,[["uid=CRSID,ou=people,o=University of Cambridge,dc=cam,dc=ac,dc=uk",{"displayName":["DISPLAYNAME"],"uid": ["CRSID"]}]],2,[]],
@@ -152,7 +159,7 @@ class Lookup(object):
             pass
         label = uid
         if ( displayname ):
-             label += " (" + displayname + ")"
+            label += " (" + displayname + ")"
         return { "id": uid, "label": label, "value": uid }
 
     # Returns a list of matches for entries beginning with the given

@@ -1,7 +1,6 @@
 import calendar
 import itertools
 
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.shortcuts import render
@@ -27,27 +26,31 @@ class CalendarView(View):
         metadata = event.metadata
         allday = bool(metadata.get("x-allday"))
         lecturer = metadata.get("people") or []
-        type = metadata.get("type") or False
+        eventtype = metadata.get("type") or False
         if allday:
             return {
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : True,
-                "start" : DateConverter.from_datetime(event.start, True).isoformat(),
+                "start" : DateConverter.from_datetime(event.start_local(), True).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : type
+                "type" : eventtype
             }
         else:
             return {
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : False,
-                "start" : DateConverter.from_datetime(event.start, False).isoformat(),
-                "end" : DateConverter.from_datetime(event.end, False).isoformat(),
+                "start" : DateConverter.from_datetime(event.start_local(), False).isoformat(),
+                "end" : DateConverter.from_datetime(event.end_local(), False).isoformat(),
+                "start_origin" : DateConverter.from_datetime(event.start_origin(), False).isoformat(),
+                "end_origin" : DateConverter.from_datetime(event.end_origin(), False).isoformat(),
+                "starttz" : event.starttz,
+                "endtz" : event.endtz,
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : type
+                "type" : eventtype
             }
     
     def get(self, request, thing):
@@ -167,13 +170,13 @@ class MonthListCalendar(object):
         return (e for e in self._events if self._event_in_month(e))
 
     def _event_in_month(self, event):
-        datetime = event.start
+        datetime = event.start_local()
         return datetime.month == self.month and datetime.year == self.year
 
     @staticmethod
     def event_day(event):
         "Returns: The numeric day of the month the Event instance starts on."
-        return event.start.day
+        return event.start_local().day
 
     @staticmethod
     def _bucket_into_days(all_events):

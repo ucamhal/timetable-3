@@ -10,13 +10,10 @@ import os
 
 import logging
 from timetables.utils.v1 import generate
-from timetables.models import EventSource, HierachicalModel, Event, Thing,\
+from timetables.models import EventSource, Event, Thing,\
     EventSourceTag, MAX_NAME_LENGTH, MAX_URL_LENGTH
-import datetime
 from optparse import make_option
-from django.utils.http import urlencode
 import urllib2
-from timetables.utils import datetimes
 log = logging.getLogger(__name__)
 
 
@@ -244,8 +241,6 @@ class Command(BaseCommand):
         return " ".join(parts)
 
     def _tripos_for_url(self, name):
-        a = True
-        s = ""
         name = name.strip()
         if name in KNOWN_NAMES:
             return urllib2.quote(KNOWN_NAMES[name].encode("utf8"))
@@ -332,14 +327,6 @@ class Command(BaseCommand):
                 if triposId is None:
                     continue
 
-                triposCode = "%s%s" % (triposId['year_id'], triposId['tripos_id'])
-
-                triposName = tripos['name']
-
-                createdCount = {
-                           }
-                accessedCount = {
-                           }
                 partsProcessed = 0
                 for p in tripos['parts']:
                     n = 0
@@ -371,7 +358,6 @@ class Command(BaseCommand):
                     dre = re.compile("details_%s\d*.json$" % p['id'])
                     # log.info("Scanning with pattern %s " % dre.pattern)
 
-                    organiser = "Unknown"
 
                     for dfn in detail_files:
                         if not dre.match(dfn):
@@ -384,13 +370,10 @@ class Command(BaseCommand):
                         
                         
                         groupTitle = "Unknown"
-                        subjectName = "Unknown"
                         level = "0"
                         if "name" in detail:
-                            subjectName = detail['name']
                             groupTitle = detail['name']
                         elif "subject" in nameParts:
-                            subjectName = nameParts['subject']
                             groupTitle = nameParts['subject']
                         elif "name" in nameParts:
                             level = nameParts['name']
@@ -488,14 +471,16 @@ class Command(BaseCommand):
             if not to_insert:
                 return
             Event.objects.bulk_create(to_insert)
+            Event.after_bulk_operation()
 
-    def _parseSet(self, id, patterns):
+
+    def _parseSet(self, name, patterns):
         for r in patterns:
-            m = r.match(id)
+            m = r.match(name)
             if m is not None:
                     return m.groupdict()
         return None
-    def _parsePartName(self, id):
-        return self._parseSet(id, NAME_PATTERNS)
-    def _parseId(self, id):
-        return self._parseSet(id, ID_PATTERNS)
+    def _parsePartName(self, name):
+        return self._parseSet(name, NAME_PATTERNS)
+    def _parseId(self, name):
+        return self._parseSet(name, ID_PATTERNS)

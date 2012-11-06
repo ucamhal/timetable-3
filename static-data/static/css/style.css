@@ -275,10 +275,6 @@ div#results div#resultsHead form#addModule .bootstrap-timepicker-component input
 	width: 60px;
 }
 
-
-/*
- * #TODO make the top dynamically
- */
 div#results > ul {
 	list-style-type: none;
 	height: auto;
@@ -291,6 +287,10 @@ div#results > ul {
 	bottom: 0;
 
 	margin: 0;
+}
+
+#student div#results > ul {
+	top: 41px;
 }
 
 /*
