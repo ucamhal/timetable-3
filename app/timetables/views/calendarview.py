@@ -45,6 +45,10 @@ class CalendarView(View):
                 "allDay" : False,
                 "start" : DateConverter.from_datetime(event.start_local(), False).isoformat(),
                 "end" : DateConverter.from_datetime(event.end_local(), False).isoformat(),
+                "start_origin" : DateConverter.from_datetime(event.start_origin(), False).isoformat(),
+                "end_origin" : DateConverter.from_datetime(event.end_origin(), False).isoformat(),
+                "starttz" : event.starttz,
+                "endtz" : event.endtz,
                 "location" : event.location,
                 "lecturer" : lecturer,
                 "type" : eventtype

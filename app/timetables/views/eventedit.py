@@ -14,6 +14,7 @@ from timetables.utils.xact import xact
 from timetables.models import Event
 from timetables.backend import EventSubject
 from timetables.forms import EventForm
+import logging
 
 
 class EventEdit(View):
@@ -38,10 +39,14 @@ class EventEdit(View):
         event = shortcuts.get_object_or_404(models.Event, id=event_id)
         form = forms.EventForm(request.POST, instance=event)
         if form.is_valid():
+            logging.error("Saving Events ")
             event = Event(from_instance=form.save())
             # We must have the save here because we need an ID before we can change all the links between objects.
+            logging.error("Cloned %s " % event)
             event.save()
+            logging.error("Saved %s " % event)
             event.makecurrent()
+            logging.error("Made Current %s " % event)
             
             # Return a JSON representation of the event sutable for giving to
             # fullcalendar

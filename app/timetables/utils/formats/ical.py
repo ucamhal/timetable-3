@@ -31,8 +31,8 @@ class ICalExporter(object):
             for e in events:
                 event = iCalEvent()
                 event['summary'] =  '%s' % e.title
-                event['dtstart'] = DateConverter.from_datetime(e.start_local(), e.metadata.get("x-allday"))
-                event['dtend'] = DateConverter.from_datetime(e.end_local(), e.metadata.get("x-allday"))
+                event['dtstart'] = DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday"))
+                event['dtend'] = DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday"))
                 event['location'] = e.location
                 event["uid"] = e.uid
                 # If a mapping has been provided, unpack
@@ -109,8 +109,15 @@ class ICalImporter(object):
                 metadata[k.lower()] = self._get_value(cal,k,default_timezone)
             events = []
             for e in cal.walk('VEVENT'):
-                event = Event(start=DateConverter.to_datetime(e.decoded('DTSTART'),defaultzone=default_timezone),
-                              end=DateConverter.to_datetime(e.decoded('DTEND'),defaultzone=default_timezone),
+                dstart = e.decoded('DTSTART')
+                dend = e.decoded('DTEND')
+                starttz = default_timezone if dstart.tzinfo is None else dstart.tzinfo
+                endtz = default_timezone if dstart.tzinfo is None else dstart.tzinfo
+
+                event = Event(start=DateConverter.to_datetime(dstart,defaultzone=default_timezone),
+                              end=DateConverter.to_datetime(dend,defaultzone=default_timezone),
+                              starttz=starttz,
+                              endtz=endtz,
                               location=self._safe_get(e, "LOCATION", ""),
                               title=self._safe_get(e, "SUMMARY", ""),
                               uid=self._safe_get(e, "UID", ""),

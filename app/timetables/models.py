@@ -10,11 +10,10 @@ from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils import timezone
-
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
-from django.utils.timezone import now
+from django.utils.timezone import now, pytz
 log = logging.getLogger(__name__)
 
 # Length of a hash required to identify items.
@@ -80,9 +79,7 @@ class VersionableModel(models.Model):
         if hasattr(self, "master"):
             if self.master is None:
                 self.master = self
-            logging.error("Making all in set master  %s not current  " % self.master)
             self.__class__.objects.filter(master=self.master,current=True).update(current=False)
-        logging.error("Updating this to be current %s for set %s   " % (self,self.master))
         self.current = True
         self.save()
 
@@ -90,23 +87,17 @@ class VersionableModel(models.Model):
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
         if hasattr(instance, "master"):
-            logging.error("Instance has master attribute on save %s  " % instance.master)
             if instance.master is None:
                 instance.master = instance
-        else:
-            logging.error("Instance Does not have master attribute on save ")
             
     @classmethod
     def copycreate(cls, self, instance):
         self.current = instance.current
         if hasattr(instance, "master"):
-            logging.error("Instance has master attribute %s " % instance.master)
             if instance.master is None:
                 self.master = instance
             else:
                 self.master = instance.master
-        else:
-            logging.error("Instance Does not have master attribute ")
             
         # Do not copy the versionstamp. The DB will do this.
 
@@ -335,7 +326,7 @@ class EventSource(SchemalessModel, VersionableModel):
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
     
     # All rows point to a master, the master points to itself
-    master = models.ForeignKey("EventSource", related_name="versions", null=True)
+    master = models.ForeignKey("EventSource", related_name="versions", null=True, blank=True)
 
     def __init__(self,*args,**kwargs):
         instance = None
@@ -392,14 +383,24 @@ class Event(SchemalessModel, VersionableModel):
     objects = EventManager()
 
     # Basic Metadata that we need to operate on this event
-    start = models.DateTimeField(help_text="Start of the Event")
-    end = models.DateTimeField(help_text="End of the Event")
+    start = models.DateTimeField(help_text="Start of the Event in local time")
+    end = models.DateTimeField(help_text="End of the Event in local time")
+    # These are here to preserve the timezone in which the data was entered.
+    # When Django saves to the database it whipes the timezone information by converting the time to
+    # UTC and then saving in the databases local timezone. For instance if using SQLLite this will result in 
+    # times entered in Sydney appearing in UTC in the database with no indication they were entered in AEST.
+    # Due to Djangos TZ the data will be correct, but the original intention will be lost.
+    # To display the time in server time, the start_local and end_local can be used.
+    # To display the time in the timezone in which it was entered, start_origin and end_origin should be used.
+    # All forms entering data must be made timezone aware 
+    starttz = models.CharField(max_length=MAX_NAME_LENGTH,help_text="The timezone in which start time was entered", default=settings.TIME_ZONE)
+    endtz = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The timezone in which end time was entered", default=settings.TIME_ZONE)
     title = models.CharField(max_length=MAX_LONG_NAME, help_text="Title of the event")
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
     uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
     # All rows point to a master, the master points to itself
-    master = models.ForeignKey("Event", related_name="versions", null=True)
+    master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
 
     
     # Relationships
@@ -453,23 +454,56 @@ class Event(SchemalessModel, VersionableModel):
 
     def start_local(self, tz=None):
         """
-        Gets the event's start datetime in the local display timezone (typically
-        Europe/London, but depends on TIMEZONE in settings).
+        Gets the event's start datetime in the specified timezone which defaults to
+        the server timezone.
         
         This should be used instead of accessing start directly unless there is
         a good reason to do manual timezone conversion.
+
+        ts is the required timezone if none then timezone.localtime is used to convert the value from
+        its current timezone into the local timezone
         """
-        return timezone.localtime(self.start, tz)
+        if tz is None:
+            return timezone.localtime(self.start)
+        else:
+            return tz.normalize(self.start.astimezone(tz))
 
     def end_local(self, tz=None):
         """
-        Gets the event's end datetime in the local display timezone (typically
-        Europe/London, but depends on TIMEZONE in settings).
+        Gets the event's end datetime in the specified timezone which defaults to
+        the server timezone.
         
         This should be used instead of accessing end directly unless there is
         a good reason to do manual timezone conversion.
+
+        ts is the required timezone if none then timezone.localtime is used to convert the value from
+        its current timezone into the local timezone
         """
-        return timezone.localtime(self.end, tz)
+        if tz is None:
+            return timezone.localtime(self.end)
+        else:
+            return tz.normalize(self.end.astimezone(tz))
+    
+    def start_origin(self):
+        '''
+        Get the start time in its original timezone at the point of entry.
+        '''
+        if self.starttz is None:
+            return self.start_local()
+        else:
+            tz = pytz.timezone("%s" % self.starttz)
+            return self.start_local(tz)
+
+    def end_origin(self):
+        '''
+        Get the start time in its original timezone at the point of entry.
+        '''
+        if self.endtz is None:
+            return self.end_local()
+        else:
+            tz = pytz.timezone("%s" % self.endtz)
+            return self.end_local(tz)
+
 
 pre_save.connect(Event._pre_save, sender=Event)
     

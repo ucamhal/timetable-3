@@ -16,6 +16,13 @@ ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# This would be if you put all your tests within a top-level "tests" package.
+TEST_DISCOVERY_ROOT = "%s/app" % ROOT_PATH
+
+# This assumes you place the above ``DiscoveryRunner`` in ``tests/runner.py``.
+TEST_RUNNER = "timetables.utils.testrunner.DiscoveryRunner"
+
+
 # To enable Raven Authentication set this true and protect /accounts/login
 # If false, a testing url will be used.
 ENABLE_RAVEN=False
@@ -111,6 +118,9 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
+
+# Lookup url, to disable set to None
+LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
 
 
 CACHES = {}
@@ -238,7 +248,6 @@ INSTALLED_APPS = (
     # enable the haystack app so that we can index things.
     'haystack',
     'timetables',
-    'timetables.utils',
     'south', # For schema migration, easy_install South to use.
 )
 
