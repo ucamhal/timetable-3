@@ -14,7 +14,7 @@ from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     EventListView
 from timetables.views.account import LogoutView, LoginView
-from timetables.views.forms import EventEditFormView
+from timetables.views.forms import EventEditFormView, SeriesEditFormView
 
 
 admin.autodiscover()
@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
     url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
+    url(r'^series/(?P<series_id>\d+)', SeriesEditFormView.as_view(), name="series form"),
 
 
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),

@@ -317,6 +317,9 @@ def _get_upload_path(instance, filename):
     return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , HierachicalModel.hash(filename))
 
 class EventSource(SchemalessModel, VersionableModel):
+    
+    PERM_WRITE = "eventsource.write"
+    
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
     # source url if the Event Source was loaded
