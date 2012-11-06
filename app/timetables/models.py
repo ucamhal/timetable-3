@@ -142,7 +142,7 @@ class HierachicalModel(models.Model):
             q = models.Q(pathid__in=pathhashes)
         key = "pathid"
         # Construct an or clause so to find all children though their parents.
-        for i in range(0,max_depth):
+        for _ in range(0,max_depth):
             key = "parent__%s" % key
             qterm = "%s__in" % key
             kwargs = {}

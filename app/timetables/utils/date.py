@@ -5,7 +5,6 @@ Created on Oct 17, 2012
 '''
 import datetime
 from django.utils.timezone import utc
-import logging
 from timetables.utils.datetimes import server_timezone
 
 

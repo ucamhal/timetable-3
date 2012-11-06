@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from icalendar.cal import Calendar, Alarm
 from timetables.models import Event
 import datetime
-from django.utils.timezone import utc, pytz
+from django.utils.timezone import pytz
 from timetables.utils.date import DateConverter
 import logging
 
@@ -106,7 +106,7 @@ class ICalImporter(object):
             except:
                 default_timezone = None # Unless we put TZ support into the UI to allow users to set their timezone, this is the best we can do.
             metadata = source.metadata
-            for k,v in cal.iteritems():
+            for k,_ in cal.iteritems():
                 metadata[k.lower()] = self._get_value(cal,k,default_timezone)
             events = []
             for e in cal.walk('VEVENT'):
@@ -126,7 +126,7 @@ class ICalImporter(object):
                 logging.error("Start time %s  origin timezone %s  as local %s as origin %s " % (event.start, event.starttz, event.start_local(), event.start_origin()))
                 logging.error("End time %s origin timezone %s  as local %s as origin %s " % (event.end, event.endtz, event.end_local(), event.end_origin()))
                 metadata = event.metadata
-                for k,v in e.iteritems():
+                for k,_ in e.iteritems():
                     metadata[k.lower()] = self._get_value(e,k,default_timezone)
     
                 metadata['x-allday'] = DateConverter.is_date(e.decoded('DTSTART'))
