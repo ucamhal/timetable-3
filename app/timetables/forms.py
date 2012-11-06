@@ -3,6 +3,8 @@ from django.utils import datetime_safe as datetime
 from django.utils import timezone
 
 from timetables import models
+from timetables.utils.v1 import fullpattern
+from django.core.exceptions import ValidationError
 
 
 class CommaSeparatedCharField(forms.CharField):
@@ -20,26 +22,46 @@ class CommaSeparatedCharField(forms.CharField):
                 values.append(v)
         return values
 
+class DatePatternField(forms.CharField):
+    
+    default_error_messages = {
+        "unparsable": "This date pattern was not understood."
+    }
+    
+    def to_python(self, value):
+        try:
+            fp = fullpattern.FullPattern(value)
+            if not str(fp) == "":
+                return fp
+        # The date parser code throws Exception rather than a specific subclass,
+        # so our only choice is to catch all exceptions and assume they are
+        # parse errors.
+        except Exception:
+            pass
+        raise ValidationError(self.error_messages["unparsable"]) 
+
+TYPE_UNKNOWN = "UNKNOWN"
+TYPE_LAB = "LAB"
+TYPE_LECTURE = "LECTURE"
+TYPE_LANG_CLASS = "LANG_CLASS"
+TYPE_PRACTICAL = "PRACTICAL"
+TYPE_SEMINAR = "SEMINAR"
+EVENT_TYPE_CHOICES = dict((
+    (TYPE_LAB, "Laboratory"),
+    (TYPE_LECTURE, "Lecture"),
+    (TYPE_LANG_CLASS, "Language Class"),
+    (TYPE_PRACTICAL, "Practical"),
+    (TYPE_SEMINAR, "Seminar"),
+    (TYPE_UNKNOWN, "----")
+))
+
+event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items())
+
 
 class EventForm(forms.ModelForm):
     """
     A form for editing Event instances.
     """
-    
-    TYPE_UNKNOWN = "UNKNOWN"
-    TYPE_LAB = "LAB"
-    TYPE_LECTURE = "LECTURE"
-    TYPE_LANG_CLASS = "LANG_CLASS"
-    TYPE_PRACTICAL = "PRACTICAL"
-    TYPE_SEMINAR = "SEMINAR"
-    EVENT_TYPE_CHOICES = dict((
-        (TYPE_LAB, "Laboratory"),
-        (TYPE_LECTURE, "Lecture"),
-        (TYPE_LANG_CLASS, "Language Class"),
-        (TYPE_PRACTICAL, "Practical"),
-        (TYPE_SEMINAR, "Seminar"),
-        (TYPE_UNKNOWN, "----")
-    ))
     
     DATE_FORMAT = "%d/%m/%Y"
     TIME_FORMAT = "%I:%M %p"
@@ -71,8 +93,8 @@ class EventForm(forms.ModelForm):
                 self.instance.end_local(), self.TIME_FORMAT)
         
         event_type = self.instance.metadata.get("type", "")
-        if not event_type in self.EVENT_TYPE_CHOICES:
-            event_type = self.TYPE_UNKNOWN
+        if not event_type in EVENT_TYPE_CHOICES:
+            event_type = TYPE_UNKNOWN
         self.initial["event_type"] = event_type
         
         self.initial["people"] = ", ".join(
@@ -105,5 +127,59 @@ class EventForm(forms.ModelForm):
                 end.hour, end.minute, tzinfo=tz)
         
         event.metadata["people"] = self.cleaned_data["people"]
-        if self.cleaned_data["event_type"] != self.TYPE_UNKNOWN:
+        if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             event.metadata["type"] =  self.cleaned_data["event_type"]
+
+class SeriesForm(forms.ModelForm):
+    
+    when = DatePatternField(required=True)
+    event_type = event_type
+    people = CommaSeparatedCharField(required=True)
+    location = forms.CharField(max_length=models.MAX_LONG_NAME)
+    
+    class Meta:
+        model = models.EventSource
+        fields = ("title",)
+    
+    def __init__(self, *args, **kwargs):
+        super(SeriesForm, self).__init__(*args, **kwargs)
+        self._set_initial_values()
+    
+    def _set_initial_values(self):
+        if self.instance is None:
+            return
+        
+        if self.instance.sourcetype != "pattern":
+            raise ValueError("This form can only be used to edit eventsources "
+                    "with eventtype 'pattern'")
+        
+        self.initial["when"] = self.instance.metadata["datePattern"]
+        self.initial["location"] = self.instance.metadata["location"]
+        
+        event_type = self.instance.metadata.get("type", "")
+        if not event_type in EVENT_TYPE_CHOICES:
+            event_type = TYPE_UNKNOWN
+        self.initial["event_type"] = event_type
+        
+        self.initial["people"] = ", ".join(
+                self.instance.metadata.get("people", []))
+    
+    def save(self, commit=True):
+        series = super(SeriesForm, self).save(commit=False)
+        
+        self._save_extra_fields(series)
+        
+        if commit is True:
+            series.save()
+            
+        return series
+    
+    def _save_extra_fields(self, series):
+        series.eventtype = "pattern"
+        
+        series.metadata["datePattern"] = str(self.cleaned_data["when"])
+        series.metadata["location"] = self.cleaned_data["location"]
+        series.metadata["people"] = self.cleaned_data["people"]
+        
+        if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
+            series.metadata["type"] =  self.cleaned_data["event_type"]
