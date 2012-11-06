@@ -335,7 +335,7 @@ class EventSource(SchemalessModel, VersionableModel):
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
     
     # All rows point to a master, the master points to itself
-    master = models.ForeignKey("EventSource", related_name="versions", null=True)
+    master = models.ForeignKey("EventSource", related_name="versions", null=True, blank=True)
 
     def __init__(self,*args,**kwargs):
         instance = None
@@ -409,7 +409,7 @@ class Event(SchemalessModel, VersionableModel):
     uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
     # All rows point to a master, the master points to itself
-    master = models.ForeignKey("Event", related_name="versions", null=True)
+    master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
 
     
     # Relationships
