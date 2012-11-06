@@ -14,7 +14,8 @@ from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     EventListView
 from timetables.views.account import LogoutView, LoginView
-from timetables.views.forms import EventEditFormView, SeriesEditFormView
+from timetables.views.eventeditform import EventEditFormView
+from timetables.views.serieseditformview import SeriesEditFormView
 
 
 admin.autodiscover()
