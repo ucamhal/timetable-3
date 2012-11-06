@@ -474,13 +474,13 @@ class Command(BaseCommand):
             Event.after_bulk_operation()
 
 
-    def _parseSet(self, id, patterns):
+    def _parseSet(self, name, patterns):
         for r in patterns:
-            m = r.match(id)
+            m = r.match(name)
             if m is not None:
                     return m.groupdict()
         return None
-    def _parsePartName(self, id):
-        return self._parseSet(id, NAME_PATTERNS)
-    def _parseId(self, id):
-        return self._parseSet(id, ID_PATTERNS)
+    def _parsePartName(self, name):
+        return self._parseSet(name, NAME_PATTERNS)
+    def _parseId(self, name):
+        return self._parseSet(name, ID_PATTERNS)
