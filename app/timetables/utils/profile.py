@@ -11,6 +11,7 @@ from django.conf import settings
 
 import logging
 log = logging.getLogger(__name__)
+sqllog = logging.getLogger("SQL")
 del logging
 
 from django.db import connection
@@ -93,16 +94,18 @@ class SQLProfileMiddleware(object):
         # to disable output set DUMP_FULL_SQL to False in local_settings.py
         #
         if hasattr(request, "_dump_sql") and not request._dump_sql:
-            log.error("SQL PROFILE DISABLED FOR THIS REQUEST: don't set request._dump_sql = False")
+            sqllog.error("SQL PROFILE DISABLED FOR THIS REQUEST: don't set request._dump_sql = False")
             return response
         if '_dump_sql' in request.REQUEST or \
                 hasattr(request, "_dump_sql") or \
                 (len(connection.queries) > nmax or \
                 t > tmax): #@UndefinedVariable
             if DUMP_FULL_SQL:
+                sqllog.error("------------------------- Start SQL Timing Dump --------------------------------");
                 for q in sorted(connection.queries, key=lambda k: float(k['time'])): #@UndefinedVariable
-                    log.error(q)
-            log.error(" %s statements took %s seconds " % (len(connection.queries), t)) #@UndefinedVariable
+                    sqllog.error(q)
+                sqllog.error("------------------------- End SQL Timing Dump   --------------------------------");
+            sqllog.error(" %s statements took %s seconds " % (len(connection.queries), t)) #@UndefinedVariable
         return response
 
     def process_exception(self, request, exception):
