@@ -1,20 +1,19 @@
 from __future__ import absolute_import
+import json
+import logging
 
 from django import shortcuts
-
-from timetables import forms
-from timetables import models
-from timetables.views import calendarview
-import json
-from django.http import HttpResponseBadRequest, HttpResponseNotFound,\
-    HttpResponseForbidden, HttpResponse
-from django.views.generic.base import View
+from django.http import (HttpResponseBadRequest, HttpResponseNotFound,
+        HttpResponseForbidden, HttpResponse)
 from django.utils.decorators import method_decorator
-from timetables.utils.xact import xact
-from timetables.models import Event
+from django.views.generic.base import View
+
+from timetables import forms, models
 from timetables.backend import EventSubject
 from timetables.forms import EventForm
-import logging
+from timetables.models import Event
+from timetables.utils.xact import xact
+from timetables.views import calendarview
 
 
 class EventEditFormView(View):
