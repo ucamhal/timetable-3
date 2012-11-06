@@ -1,5 +1,6 @@
 from django import forms
 from django.utils import datetime_safe as datetime
+from django.utils import timezone
 
 from timetables import models
 
@@ -63,11 +64,11 @@ class EventForm(forms.ModelForm):
         if self.instance is None:
             return
         self.initial["date"] = datetime.strftime(
-                self.instance.start, self.DATE_FORMAT)
+                self.instance.start_local(), self.DATE_FORMAT)
         self.initial["start"] = datetime.strftime(
-                self.instance.start, self.TIME_FORMAT)
+                self.instance.start_local(), self.TIME_FORMAT)
         self.initial["end"] = datetime.strftime(
-                self.instance.end, self.TIME_FORMAT)
+                self.instance.end_local(), self.TIME_FORMAT)
         
         event_type = self.instance.metadata.get("type", "")
         if not event_type in self.EVENT_TYPE_CHOICES:
@@ -96,10 +97,12 @@ class EventForm(forms.ModelForm):
         start = self.cleaned_data["start"]
         end = self.cleaned_data["end"]
         
+        tz = timezone.get_current_timezone()
+        
         event.start = datetime.datetime(date.year, date.month, date.day,
-                start.hour, start.minute)
+                start.hour, start.minute, tzinfo=tz)
         event.end = datetime.datetime(date.year, date.month, date.day,
-                end.hour, end.minute)
+                end.hour, end.minute, tzinfo=tz)
         
         event.metadata["people"] = self.cleaned_data["people"]
         if self.cleaned_data["event_type"] != self.TYPE_UNKNOWN:
