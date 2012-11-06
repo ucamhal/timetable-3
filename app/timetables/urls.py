@@ -14,7 +14,7 @@ from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     EventListView
 from timetables.views.account import LogoutView, LoginView
-from timetables.views.eventedit import EventEdit
+from timetables.views.forms import EventEditFormView
 
 
 admin.autodiscover()
@@ -43,9 +43,7 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
-        # FIXME: This should be ^event/(?P<event_id>\d+)\.html$  The POST method indicates update, GET would render a view of the event. 
-    # Editing endpoints
-    url(r'^event/(?P<event_id>\d+)', EventEdit.as_view(), name="event form"),
+    url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
 
 
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),

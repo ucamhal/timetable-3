@@ -17,7 +17,7 @@ from timetables.forms import EventForm
 import logging
 
 
-class EventEdit(View):
+class EventEditFormView(View):
     
     def _render_form(self, request, form):
         return shortcuts.render(request, "events/event_form.html", {"form": form})
