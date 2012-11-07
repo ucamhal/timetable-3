@@ -1,14 +1,10 @@
-'''
-Created on Oct 16, 2012
-
-@author: ieb
-'''
-from django.contrib import admin
-from timetables.models import Thing, EventSource, Event, EventTag,\
-    EventSourceTag
 from django import forms
+from django.contrib import admin
+
 from timetables.admin.eventsource import EventSourceAdmin
 from timetables.admin.thing import ThingAdmin
+from timetables.models import (Thing, EventSource, Event, EventTag,
+        EventSourceTag)
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -16,15 +12,15 @@ class EventForm(forms.ModelForm):
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
-    list_display = ( "title", "location", "start", "end" )
-    list_filter = ( "location", "source", "status")
-    search_fields = ( "title", "location",   )    
+    list_display = ("title", "location", "start", "end")
+    list_filter = ("location", "source", "status")
+    search_fields = ("title", "location")
 
 class EventTagAdmin(admin.ModelAdmin):
-    list_display = ( "list_display_fullpath", "list_display_title", "list_display_location",  )
-    search_fields = ( "thing__fullpath", "event__title", "event__location",   )
+    list_display = ("list_display_fullpath", "list_display_title", "list_display_location")
+    search_fields = ("thing__fullpath", "event__title", "event__location")
     list_select_related = True
-    
+
     def list_display_fullpath(self, obj):
         return obj.thing.fullpath
 
@@ -36,8 +32,8 @@ class EventTagAdmin(admin.ModelAdmin):
 
 
 class EventSourceTagAdmin(admin.ModelAdmin):
-    list_display = ( "list_display_fullpath", "list_display_title",  )
-    search_fields = ( "thing__fullpath", "eventsource__title",   )
+    list_display = ("list_display_fullpath", "list_display_title")
+    search_fields = ("thing__fullpath", "eventsource__title")
     list_select_related = True
     
     def list_display_fullpath(self, obj):
