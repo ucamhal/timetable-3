@@ -9,11 +9,11 @@ from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View
 
-from timetables.models import HierachicalModel, Thing
+from timetables.models import Thing
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
-from timetables.backend import HierachicalSubject
+from timetables.backend import ThingSubject
 
 
 class CalendarView(View):
@@ -54,9 +54,9 @@ class CalendarView(View):
             }
     
     def get(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Denied")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
             thing = Thing.objects.get(pathid=hashid)
             def generate():
@@ -87,11 +87,14 @@ class CalendarHtmlView(View):
     '''
     
     def get(self, request, thing, depth="0"):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing,depth=depth)):
+        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing,depth=depth)):
             return HttpResponseForbidden("Denied")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
-            return  render(request, "calendar.html",  { "thing" : Thing.objects.get(pathid=hashid) }) 
+            if request.user.has_perm(Thing.PERM_WRITE, ThingSubject(fullpath=thing)):
+                return  render(request, "calendar-admin.html",  { "thing" : Thing.objects.get(pathid=hashid) })
+            else:
+                return  render(request, "calendar.html",  { "thing" : Thing.objects.get(pathid=hashid) })
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 
@@ -101,7 +104,7 @@ class EventListView(View):
     '''
     
     def get(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+        if not request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Denied")
         year = request.GET.get("y") or None
         month = request.GET.get("m") or None
@@ -112,7 +115,7 @@ class EventListView(View):
         year = int(year or now.year)
         month = int(month or now.month)
 
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
             return render(request, "event-list.html", {
                         "calendar": MonthListCalendar(year, month, Thing.objects.get(pathid=hashid).get_events())

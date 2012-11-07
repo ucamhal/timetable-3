@@ -4,10 +4,10 @@ Created on Oct 18, 2012
 @author: ieb
 '''
 from django.views.generic.base import View
-from timetables.models import HierachicalModel, Thing
+from timetables.models import Thing
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render
-from timetables.backend import HierachicalSubject
+from timetables.backend import ThingSubject
 
 
 class ViewEvents(View):
@@ -16,9 +16,9 @@ class ViewEvents(View):
     '''
     
     def get(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Denied")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
             thing = Thing.objects.get(pathid=hashid)
             typeofthing = thing.type

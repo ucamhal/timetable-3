@@ -1,90 +1,23 @@
+{% extends "index.html" %}
 {% load staticfiles %}
-{# This is a test template to verify the json feed. #}
-<!doctype html>
-	<head>
-		<title>Timetables</title>
-
-		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
-		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
-        <link rel="stylesheet" href="{% static "css/style.css" %}" />
-
-        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
-	</head>
-	<body>
-	    <!--  this tag contains information about the current user. If there is a better way 
-	    of doing this please feel free, but remember to search the codebase for userinfo -->
-	    <div id="thinginfo" style="display:none"
-	        fullpath="{{ thing.fullpath }}"
-	        userrole="{% if user.is_staff %}staff{% else %}student{% endif %}"  
-	        ></div>
-		<header id="mainHeader">
-			<h1 id="uniLogo">
-				<a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
-			</h1>
-
+{% block pagecontrols %}
+			<div id="inputArea">
+				<div class="clearfix">
+				</div>
+			</div>
 
 			<!-- ## USER NOT LOGGED IN -->
 			
 			<div id="actionsContainer">
-				<div class="pull-right">
-					<a href="#" class="btn btn-primary">Sign in</a>
-				</div>
+					{% include "student/actionsContainer.html" %}
 			</div>
-			
-
-			<!-- ## USER LOGGED IN -->
-			<!--
-			<div id="actionsContainer">
-				<div class="pull-right">
-					<a href="#" class="btn btn-primary">Save</a>
-					<a href="#" class="btn btn-primary">Export to calendar</a>
-				</div>
-			</div>
-			-->
-		</header>
-
-		<!--
-		<div class="alertHolder">
-			<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">x</button>
-				<h4>Get started</h4>
-				Tell us what year you are in and what you are studying to start your custom timetable.
-			</div>
-		</div>
-		-->
-		<div class="alertHolder">
-			<div class="alert alert-block alert-success clearfix">
-				<button type="button" class="close" data-dismiss="alert">x</button>
-				<h4>Already have a timetable?</h4>
-				Sign-in to see your timetable and make changes
-				<a href="#" class="btn btn-success pull-right">Sign in</a>
-			</div>
-		</div>
-		
+{% endblock %}
+{% block calendarinfo %}
+		{% include "student/calendarEventInfo.html" %}
 		<div id="content" class="clearfix">
 
-			<div id="calendarHolder" class="pull-right fullWidthCalendar">
-				<div id="calendarHeading">
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#">Week</a></li>
-						<li><a href="#">Month</a></li>
-						<li><a href="#">List</a></li>
-					</ul>
-
-					<div id="calendarData" class="clearfix">
-						<a href="#" class="btn pull-left">Undo changes</a>
-						<div class="pull-left" id="calendarNavigation">
-							<a class="pull-left badge badge-info" href="#">&lt;</a>
-							<h4 class="pull-left">Week 2</h4>
-							<a class="pull-left badge badge-info" href="#">&gt;</a>
-						</div>
-						<h4 class="pull-right">Michaelmas Term</h4>
-					</div>
-				</div>
-
-				<div id="calendar">
-				</div>
+			<div id="calendarHolder" class="pull-right fullWidthCalendar" >
+				{% include "student/calendarHolder.html" %}
 			</div>
 		</div>
-	</body>
-</html>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+{% load url from future %}
+{% block module %}adminIndex{% endblock %}
+{% block bodyid %}admin{% endblock %}
+{% block userinfo %}
+ <div id="userinfo" style="display:none" 
+	    	userid="{{ user.username }}" 
+	    	userrole="staff"
+	    	class="dontDisplayMe">
+	        {% csrf_token %}
+        </div>
+{% endblock %}
+{% block viewcontrol %}
+		<div class="pull-right clearfix">
+			<a href="javascript:void(0)" id="view-toggle" data-toggle="View as staff" >View as student</a>
+		</div>
+{% endblock %}
+{% block pagecontrols %}
+			<div id="inputArea">
+					{% include "admin/inputArea.html" %}
+			</div>
+
+			<!-- ## USER NOT LOGGED IN -->
+			
+			<div id="actionsContainer">
+					{% include "admin/actionsContainer.html" %}
+			</div>
+{% endblock %}
+{% block calendarinfo %}
+			{% include "admin/calendarEventInfo.html" %}
+
+		<div id="content" class="clearfix">
+			<div id="results" class="pull-left">
+					{% include "admin/resultsPanel.html" %}
+			</div>
+
+			<div id="calendarHolder" class="pull-right">
+					{% include "admin/calendarHolder.html" %}
+			</div>
+		</div>
+{% endblock %}
+
+
