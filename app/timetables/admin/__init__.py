@@ -17,7 +17,7 @@ class EventForm(forms.ModelForm):
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
     list_display = ( "title", "location", "start", "end" )
-    list_filter = ( "location", "source", )
+    list_filter = ( "location", "source", "status")
     search_fields = ( "title", "location",   )    
 
 class EventTagAdmin(admin.ModelAdmin):
