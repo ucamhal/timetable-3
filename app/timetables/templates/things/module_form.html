@@ -1,0 +1,16 @@
+{% load url from future %}
+
+<form action="{% url "module form" module_id=form.instance.id %}" method="POST">
+    {% csrf_token %}
+
+    <label for="{{ form.fullname.html_name }}">Title:</label>
+    {{ form.fullname }}
+    {{ form.fullname.errors }}
+    
+    {% if not request.is_ajax %}
+        <!-- for testing -->
+        <br/>
+        <input type="submit" value="Save"/>
+    {% endif %}
+    
+</form>
