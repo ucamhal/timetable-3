@@ -289,12 +289,12 @@ class Thing(SchemalessModel, HierachicalModel):
     
     def get_events(self):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
-                                    models.Q(eventtag__thing=self,current=True))
+                                    models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
         
     @classmethod
     def get_all_events(cls, things):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things, source__current=True)|
-                                    models.Q(eventtag__thing__in=things,current=True))
+                                    models.Q(eventtag__thing__in=things), current=True)
 
     def prepare_save(self):
         Thing._pre_save(Event,instance=self)
@@ -434,6 +434,7 @@ class Event(SchemalessModel, VersionableModel):
             self.location = instance.location
             self.uid = instance.uid
             self.source = instance.source
+            self.status = instance.status
             SchemalessModel.copycreate(self, instance)
             VersionableModel.copycreate(self, instance)            
     
