@@ -183,3 +183,10 @@ class SeriesForm(forms.ModelForm):
         
         if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             series.metadata["type"] =  self.cleaned_data["event_type"]
+            
+            
+class ModuleForm(forms.ModelForm):
+    
+    class Meta:
+        model = models.Thing
+        fields = ("fullname",)
