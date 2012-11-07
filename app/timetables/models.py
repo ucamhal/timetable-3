@@ -379,6 +379,14 @@ class Event(SchemalessModel, VersionableModel):
     that could increase the memory footprint more than necessary. Even the text field may be bad.
     '''
 
+    # The statuses an event can transition through.  
+    STATUS_LIVE = 0
+    STATUS_CANCELLED = 1
+    STATUSES = (
+        (STATUS_LIVE, "Live"),
+        (STATUS_CANCELLED, "Cancelled")
+    )
+
     PERM_WRITE = "event.write"
     PERM_READ = "event.read"
 
@@ -405,7 +413,8 @@ class Event(SchemalessModel, VersionableModel):
     # All rows point to a master, the master points to itself
     master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
 
-    
+    status = models.PositiveSmallIntegerField(choices=STATUSES,
+            default=STATUS_LIVE, help_text="The visibility of the event")
     # Relationships
     # source is where the source comes from and contain the default tag.
     # this is dont to reduce the size of teh EventTag tables.
