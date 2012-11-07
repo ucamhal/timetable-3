@@ -290,12 +290,12 @@ class Thing(SchemalessModel, HierachicalModel):
     
     def get_events(self):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
-                                    models.Q(eventtag__thing=self,current=True))
+                                    models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
         
     @classmethod
     def get_all_events(cls, things):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things, source__current=True)|
-                                    models.Q(eventtag__thing__in=things,current=True))
+                                    models.Q(eventtag__thing__in=things), current=True)
 
     def prepare_save(self):
         Thing._pre_save(Event,instance=self)
@@ -382,6 +382,14 @@ class Event(SchemalessModel, VersionableModel):
     that could increase the memory footprint more than necessary. Even the text field may be bad.
     '''
 
+    # The statuses an event can transition through.  
+    STATUS_LIVE = 0
+    STATUS_CANCELLED = 1
+    STATUSES = (
+        (STATUS_LIVE, "Live"),
+        (STATUS_CANCELLED, "Cancelled")
+    )
+
     PERM_WRITE = "event.write"
     PERM_READ = "event.read"
 
@@ -408,7 +416,8 @@ class Event(SchemalessModel, VersionableModel):
     # All rows point to a master, the master points to itself
     master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
 
-    
+    status = models.PositiveSmallIntegerField(choices=STATUSES,
+            default=STATUS_LIVE, help_text="The visibility of the event")
     # Relationships
     # source is where the source comes from and contain the default tag.
     # this is dont to reduce the size of teh EventTag tables.
@@ -428,6 +437,7 @@ class Event(SchemalessModel, VersionableModel):
             self.location = instance.location
             self.uid = instance.uid
             self.source = instance.source
+            self.status = instance.status
             SchemalessModel.copycreate(self, instance)
             VersionableModel.copycreate(self, instance)            
     

@@ -45,11 +45,16 @@
         </span>
         {{ form.end.errors }}
     </div>
-    <br/>
 
     <label for="{{ form.people.html_name }}">Lecturer:</label>
     {{ form.people }}
     {{ form.people.errors }}
+    <br/>
+    
+    
+    <label for="{{ form.cancel.html_name }}">Cancel event</label>
+    {{ form.cancel }}
+    {{ form.cancel.errors }}
     
     {% if not request.is_ajax %}
         <!-- for testing -->
