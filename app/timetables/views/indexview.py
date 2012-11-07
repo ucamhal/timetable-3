@@ -12,6 +12,7 @@ from timetables.models import Thing
 import itertools
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from timetables.backend import GlobalThingSubject
 
 class IndexView(View):
 
@@ -102,4 +103,8 @@ class IndexView(View):
             context['raven_url'] = settings.RAVEN_URL
         except:
             pass
-        return render(request, "index.html", context)
+        
+        if request.user.has_perm(Thing.PERM_WRITE, GlobalThingSubject()):
+            return render(request, "index-admin.html", context)
+        else:
+            return render(request, "index.html", context)
