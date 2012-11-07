@@ -117,6 +117,7 @@ class HierachicalModel(models.Model):
 
     PERM_LINK = "hierachy.link"
     PERM_READ = "hierachy.read"
+    PERM_WRITE = "hierachy.write"
 
 
     # FIXME: (ieb) I don't think theses should be here, but there may be no option
@@ -136,7 +137,7 @@ class HierachicalModel(models.Model):
         :param inclusive:
         :param max_depth:
         '''
-        pathhashes = [ HierachicalModel.hash(p) for p in paths]
+        pathhashes = [ cls.hash(p) for p in paths]
         q = None
         if inclusive:
             q = models.Q(pathid__in=pathhashes)
@@ -164,7 +165,7 @@ class HierachicalModel(models.Model):
         parent_obj = None
         if parent is not None and parent != "." and parent != "" and parent != path:
             try:
-                parent_obj = cls.objects.get(pathid=HierachicalModel.hash(parent))
+                parent_obj = cls.objects.get(pathid=cls.hash(parent))
             except cls.DoesNotExist:
                 if types is None:
                     parent_obj = cls.create_path(parent, {})
@@ -172,7 +173,7 @@ class HierachicalModel(models.Model):
                     parent_obj = cls.create_path(parent, {}, types[:-1])
 
 
-        pathhash = HierachicalModel.hash(path)
+        pathhash = cls.hash(path)
         try:
             return cls.objects.get(pathid=pathhash)
         except cls.DoesNotExist:
@@ -195,7 +196,7 @@ class HierachicalModel(models.Model):
     def _prepare_save(cls, sender, **kwargs):
         instance = kwargs['instance']
         if instance.pathid is None or instance.pathid == "":
-            instance.pathid = HierachicalModel.hash(instance.fullpath)
+            instance.pathid = cls.hash(instance.fullpath)
             instance.name = os.path.basename(instance.fullpath)
 
     def __unicode__(self):
@@ -314,11 +315,13 @@ pre_save.connect(Thing._pre_save, sender=Thing)
 def _get_upload_path(instance, filename):
     
     tpart = time.strftime('%Y/%m/%d',time.gmtime())
-    return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , HierachicalModel.hash(filename))
+    return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , Thing.hash(filename))
 
 class EventSource(SchemalessModel, VersionableModel):
     
+    PERM_READ = "eventsource.read"
     PERM_WRITE = "eventsource.write"
+    PERM_LINK = "eventsource.link"
     
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
