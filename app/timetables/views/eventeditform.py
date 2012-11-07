@@ -37,7 +37,7 @@ class EventEditFormView(View):
         event = shortcuts.get_object_or_404(models.Event, id=event_id)
         form = forms.EventForm(request.POST, instance=event)
         if form.is_valid():
-            event = Event(from_instance=form.save())
+            event = Event(from_instance=form.save(commit=False))
             # We must have the save here because we need an ID before we can change all the links between objects.
             event.save()
             event.makecurrent()
