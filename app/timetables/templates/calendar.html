@@ -8,9 +8,10 @@
 		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        <script data-main="{% static "js/main.js" %}" data-page-module="index" src="{% static "js/libs/require.js" %}"></script>
+        <script data-main="{% static "js/main.js" %}" data-page-module="studentIndex" src="{% static "js/libs/require.js" %}"></script>
 	</head>
 	<body>
+        <div id="results" class="dontDisplayMe"></div>
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
 	    <div id="thinginfo" style="display:none"
