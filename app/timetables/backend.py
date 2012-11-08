@@ -192,7 +192,7 @@ class EventAuthorizationHandler(BaseAuthorizationHandler):
             e = obj.event
             if e is not None:
                 Event.objects.filter(id=e.id).get(models.Q(eventtag__thing=userthing,eventtag__annotation="admin")|
-                              models.Q(source__eventsourcetag__thing=userthing,source_eventsourcetag__annotation="admin"))
+                              models.Q(source__eventsourcetag__thing=userthing,source__eventsourcetag__annotation="admin"))
                 return self.ALL
         except Thing.DoesNotExist:
             pass
