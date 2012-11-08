@@ -17,7 +17,6 @@ from timetables.views.account import LogoutView, LoginView
 from timetables.views.eventeditform import EventEditFormView
 from timetables.views.serieseditformview import SeriesEditFormView
 from timetables.views.moduleeditform import ModuleEditFormView
-
 from timetables.views import administrator
 
 
@@ -47,7 +46,7 @@ urlpatterns = patterns('',
 
 
     # Timetables administrators
-    url(r'^admin/'+FACULTY+'/$', administrator.faculty_view, name="admin faculty"),
+    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
     url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
     url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
 

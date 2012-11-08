@@ -1,0 +1,39 @@
+{% load staticfiles %}
+{% load url from future %}
+<!doctype html>
+	<head>
+		<title>Timetables</title>
+
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap-datepicker.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap-timepicker.css" %}" />
+		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+
+        {% block head %}
+        {% endblock head %}
+        
+    	<script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}studentIndex{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
+        
+	</head>
+	<body>
+
+		<header id="mainHeader">
+			<div id="uniLogo">
+				<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>	
+			</div>
+
+			<div id="inputArea">
+				{% block top_bar %}
+				{% endblock top_bar %}
+			</div>
+		</header>
+
+		<div id="content">
+			{% block content %}
+
+			{% endblock content %}
+		</div>
+
+	</body>
+</html>

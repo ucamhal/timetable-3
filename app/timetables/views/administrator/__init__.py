@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django import shortcuts
 
-def faculty_view(*args, **kwargs):
+def timetable_view(request, faculty=None):
     #print(kwargs["faculty"])
-    return HttpResponse("<p>This is the Admin faculty view page</p>")
+    print "bla"
+    return shortcuts.render(request, "administrator/timetable.html")
 
 def list_view(*args, **kwargs):
     #print(kwargs["faculty"])
