@@ -16,6 +16,7 @@ from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
 from timetables.views.account import LogoutView, LoginView
 from timetables.views.eventeditform import EventEditFormView
 from timetables.views.serieseditformview import SeriesEditFormView
+from timetables.views.editthing import EditThingView
 
 
 admin.autodiscover()
@@ -47,7 +48,7 @@ urlpatterns = patterns('',
     url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
     url(r'^series/(?P<series_id>\d+)', SeriesEditFormView.as_view(), name="series form"),
 
-
+    url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     # This pattern is only really used for reverse, should never be matched forwards
     url(r'(.*?)/(.*)\.events\.ics$', ExportEvents.as_view(), name="export named ics"),
@@ -62,11 +63,13 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*?)\.callist\.html', EventListView.as_view(), name="thing calendar list"),
 
 
-    # Generate an Html view of things
-    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing depth view"),
     
     # Update service end points
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
+    # Edit a thing
+    url(r'(?P<thing>.*)\.edit\.html$', EditThingView.as_view(), name="thing edit"),
+    # Generate an Html view of things
+    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing depth view"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     

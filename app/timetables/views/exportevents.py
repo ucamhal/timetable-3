@@ -9,10 +9,10 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import condition
 
 from django.views.generic.base import View
-from timetables.models import HierachicalModel, Thing
+from timetables.models import Thing
 from django.conf import settings
 from timetables.utils.reflection import newinstance
-from timetables.backend import HierachicalSubject
+from timetables.backend import ThingSubject
 
 
 
@@ -27,10 +27,10 @@ class ExportEvents(View):
         return "".join(x if x.isalpha() or x.isdigit() else '_' for x in fullpath )
 
     @method_decorator(condition(etag_func=None))
-    def get(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing)):
+    def get(self, request, thing, hmac=None):
+        if not request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing, hmac=hmac)):
             return HttpResponseForbidden("Denied")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         outputformat = request.path.split(".")[-1]
         try:
             thing = Thing.objects.get(pathid=hashid)

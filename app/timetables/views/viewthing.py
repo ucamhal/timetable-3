@@ -4,12 +4,12 @@ Created on Oct 18, 2012
 @author: ieb
 '''
 from django.views.generic.base import View
-from timetables.models import HierachicalModel, Thing, EventSource
+from timetables.models import Thing, EventSource
 from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponseForbidden
 from django.shortcuts import render
 from django.db import models
-from timetables.backend import HierachicalSubject
+from timetables.backend import ThingSubject
 
 
 class ViewThing(View):
@@ -18,9 +18,9 @@ class ViewThing(View):
     '''
     
     def get(self, request, thing, depth="0"):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing, depth=depth)):
+        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing, depth=depth)):
             return HttpResponseForbidden("Denied")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
             if depth == "0":
                 thing = Thing.objects.get(pathid=hashid)
@@ -36,7 +36,7 @@ class ViewThing(View):
                 depth = int(depth)
                 if depth > 10 or depth < 0:
                     return HttpResponseBadRequest("Sorry no more than 10 levels allowed")
-                things = Thing.objects.filter(HierachicalModel.treequery([thing], max_depth=depth)).order_by("fullname")
+                things = Thing.objects.filter(Thing.treequery([thing], max_depth=depth)).order_by("fullname")
                 return render(request, "list-of-things.html", {"things": things})
 
         except Thing.DoesNotExist:
@@ -48,10 +48,10 @@ class ChildrenView(View):
     QUERY_RELATED = "t"
     
     def get(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_READ,HierachicalSubject(fullpath=thing,fulldepth=True)):
+        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing,fulldepth=True)):
             return HttpResponseForbidden("Denied")
         try:
-            thing = Thing.objects.get(pathid=HierachicalModel.hash(thing))
+            thing = Thing.objects.get(pathid=Thing.hash(thing))
             relatedthings = frozenset()
             relatedsources = frozenset()
             
@@ -60,7 +60,7 @@ class ChildrenView(View):
                 # Get the things linked to the thing supplied by EventTag or EventSourceTag
                 # eventtag__event__eventtag__thing__in looks for things linked to the same event
                 # eventsourcetag__eventsource__eventsourcetag__thing for things linked to the same eventsource
-                related_children_q = HierachicalModel.treequery([related_path])
+                related_children_q = Thing.treequery([related_path])
                 related = Thing.objects.filter(related_children_q)
                 
                 contains_event_in_related = models.Q(

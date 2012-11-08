@@ -99,6 +99,8 @@ class EventForm(forms.ModelForm):
         
         self.initial["people"] = ", ".join(
                 self.instance.metadata.get("people", []))
+        
+        self.initial["cancel"] = self.instance.status == models.Event.STATUS_CANCELLED
     
     # Override save() in order to save our custom form fields as well as the
     # default model form fields.
@@ -129,6 +131,12 @@ class EventForm(forms.ModelForm):
         event.metadata["people"] = self.cleaned_data["people"]
         if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             event.metadata["type"] =  self.cleaned_data["event_type"]
+        
+        if self.cleaned_data["cancel"] is True:
+            event.status = models.Event.STATUS_CANCELLED
+        else:
+            event.status = models.Event.STATUS_LIVE
+
 
 class SeriesForm(forms.ModelForm):
     
@@ -183,3 +191,10 @@ class SeriesForm(forms.ModelForm):
         
         if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             series.metadata["type"] =  self.cleaned_data["event_type"]
+            
+            
+class ModuleForm(forms.ModelForm):
+    
+    class Meta:
+        model = models.Thing
+        fields = ("fullname",)

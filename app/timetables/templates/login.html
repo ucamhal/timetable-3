@@ -12,6 +12,7 @@
         <script data-main="{% static "js/main.js" %}" data-page-module="login" src="{% static "js/libs/require.js" %}"></script>
 	</head>
 <body>
+{% block form %}
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -39,5 +40,6 @@ FIXME: Add a suitable message here.
    {% csrf_token %}
 </form>
 {% endif %}
+{% endblock %}
 </body>	
 </html>

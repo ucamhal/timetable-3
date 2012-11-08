@@ -11,49 +11,40 @@
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
         
-    	<script data-main="{% static "js/main.js" %}" data-page-module="{% if user.is_staff %}adminIndex{% else %}studentIndex{% endif %}" src="{% static "js/libs/require.js" %}"></script>
+    	<script data-main="{% static "js/main.js" %}" data-page-module="{% block module %}studentIndex{% endblock %}" src="{% static "js/libs/require.js" %}"></script>
         
 	</head>
-	<body id="{% if user.is_staff %}admin{% else %}student{% endif %}">
+	<body id="{% block bodyid %}student{% endblock %}">
 	    <!--  this tag contains information about the current user. If there is a better way 
 	    of doing this please feel free, but remember to search the codebase for userinfo -->
+{% block userinfo %}
 	    <div id="userinfo" style="display:none" 
 	    	userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" 
-	    	userrole="{% if user.is_staff %}staff{% else %}student{% endif %}"
+	    	userrole="student"
 	    	class="dontDisplayMe">
 	        {# used for ajax post operations, I prefer this to the cookie method. #}
 	        {% csrf_token %}
         </div>
-
+{% endblock %}
     	<header id="mainHeader">
 			<div id="uniLogo">
 				<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>
 
-				{% if user.is_staff %}
-				<div class="pull-right clearfix">
-					<a href="javascript:void(0)" id="view-toggle" data-toggle="View as staff" >View as student</a>
-				</div>
-				{% endif %}
+{% block viewcontrol %}
+{% endblock %}			
 			</div>
 
+{% block pagecontrols %}
 			<div id="inputArea">
-				{% if user.is_staff %}
-					{% include "admin/inputArea.html" %}
-				{% else %}
-					{% include "student/inputArea.html" %}
-				{% endif %}
+				{% include "student/inputArea.html" %}
 			</div>
 
 			<!-- ## USER NOT LOGGED IN -->
 			
 			<div id="actionsContainer">
-				{% if user.is_staff %}
-					{% include "admin/actionsContainer.html" %}
-				{% else %}
-					{% include "student/actionsContainer.html" %}
-				{% endif %}
+				{% include "student/actionsContainer.html" %}
 			</div>
-			
+{% endblock %}			
 
 			<!-- ## USER LOGGED IN -->
 			<!--
@@ -113,29 +104,18 @@
 		  </div>
 		</div>
 
-		{% if user.is_staff %}
-			{% include "admin/calendarEventInfo.html" %}
-		{% else %}
-			{% include "student/calendarEventInfo.html" %}
-		{% endif %}
-
+{% block calendarinfo %}
+		{% include "student/calendarEventInfo.html" %}
 		<div id="content" class="clearfix">
 			<div id="results" class="pull-left">
-				{% if user.is_staff %}
-					{% include "admin/resultsPanel.html" %}
-				{% else %}
-					{% include "student/resultsPanel.html" %}
-				{% endif %}
+				{% include "student/resultsPanel.html" %}
 			</div>
 
 			<div id="calendarHolder" class="pull-right">
-				{% if user.is_staff %}
-					{% include "admin/calendarHolder.html" %}
-				{% else %}
-					{% include "student/calendarHolder.html" %}
-				{% endif %}
+				{% include "student/calendarHolder.html" %}
 			</div>
 		</div>
+{% endblock %}
 		
 	</body>
 </html>

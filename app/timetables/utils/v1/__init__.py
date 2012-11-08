@@ -5,7 +5,7 @@ import traceback
 import logging, calendar, datetime
 from timetables.utils.v1.grouptemplate import GroupTemplate
 from django.db import models
-from timetables.models import Event, HierachicalModel
+from timetables.models import Event
 from django.utils.datetime_safe import date
 log = logging.getLogger(__name__)
 del(logging)

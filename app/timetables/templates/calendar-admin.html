@@ -1,0 +1,23 @@
+{% extends "index-admin.html" %}
+{% block pagecontrols %}
+			<div id="inputArea">
+				<div class="clearfix">
+				</div>
+			</div>
+
+			<!-- ## USER NOT LOGGED IN -->
+			
+			<div id="actionsContainer">
+					{% include "admin/actionsContainer.html" %}
+			</div>
+{% endblock %}
+{% block calendarinfo %}
+			{% include "admin/calendarEventInfo.html" %}
+
+		<div id="content" class="clearfix">
+
+			<div id="calendarHolder" class="pull-right fullWidthCalendar">
+					{% include "admin/calendarHolder.html" %}
+			</div>
+		</div>
+{% endblock %}

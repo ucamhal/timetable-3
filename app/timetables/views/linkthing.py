@@ -5,12 +5,12 @@ Created on Oct 18, 2012
 '''
 from django.views.generic.base import View
 from timetables.utils.xact import xact
-from timetables.models import HierachicalModel, Thing, EventSourceTag,\
+from timetables.models import Thing, EventSourceTag,\
     EventSource, Event, EventTag
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.utils.decorators import method_decorator
-from timetables.backend import HierachicalSubject
+from timetables.backend import ThingSubject
 
 
 class LinkThing(View):
@@ -32,9 +32,9 @@ class LinkThing(View):
 
     @method_decorator(xact)
     def post(self, request, thing):
-        if not request.user.has_perm(HierachicalModel.PERM_LINK,HierachicalSubject(fullpath=thing)):
+        if not request.user.has_perm(Thing.PERM_LINK,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Not your calendar")
-        hashid = HierachicalModel.hash(thing)
+        hashid = Thing.hash(thing)
         try:
 
             try:
@@ -42,10 +42,7 @@ class LinkThing(View):
             except Thing.DoesNotExist:
                 path = "user/%s" % request.user.username
                 if thing == path:
-                    thing = Thing.create_path(path, {
-                            "type" : "user",
-                            "fullname" : "A Users Calendar"
-                        });
+                    thing = Thing.get_or_create_user_thing(request.user)
             
             # Delete associations first
             elist = self._expand(request.POST.getlist("esd"))
@@ -60,7 +57,7 @@ class LinkThing(View):
             if len(tlist) > 0:
                 # remove all EventTags and EventSourceTags that link this thing to Events or EventSource linked to by any child
                 # The following query gets the decendents of all the things listed
-                decendents = Thing.objects.filter(HierachicalModel.treequery(tlist))
+                decendents = Thing.objects.filter(Thing.treequery(tlist))
                 # Then get the Events associated with all the decendents of all the things
                 decendent_events = Event.objects.filter(eventtag__thing__in=decendents)
                 # And delete all events tags on this thing, that match those events.
@@ -97,7 +94,7 @@ class LinkThing(View):
             if len(tlist) > 0:
                 # remove all EventTags and EventSourceTags that link this thing to Events or EventSource linked to by any child
                 # The following query gets the decendents of all the things listed
-                decendents = Thing.objects.filter(HierachicalModel.treequery(tlist))
+                decendents = Thing.objects.filter(Thing.treequery(tlist))
                 # Then get the Events associated with all the decendents of all the things
                 decendent_events = Event.objects.filter(eventtag__thing__in=decendents)
                 # And delete all events tags on this thing, that match those events.
