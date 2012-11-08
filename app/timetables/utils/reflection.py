@@ -9,7 +9,7 @@ import types
 
 log = logging.getLogger(__name__)
 
-def newinstance(clsname):
+def newinstance(clsname, *args, **kwargs):
     module_name = ".".join(clsname.split(".")[:-1])
     class_name = clsname.split(".")[-1]
     module = import_module(module_name)
@@ -19,6 +19,6 @@ def newinstance(clsname):
         log.error("Class %s not found in %s " % ( class_name, module_name))
         return None
     if isinstance(identifier, (types.ClassType, types.TypeType)):
-        return identifier()
+        return identifier(*args, **kwargs)
     log.error("Class %s found in %s is not a class" % ( class_name, module_name))                
     return None
