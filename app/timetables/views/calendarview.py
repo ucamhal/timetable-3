@@ -14,6 +14,7 @@ from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
 from timetables.backend import ThingSubject
+from django.core.urlresolvers import reverse
 
 
 class CalendarView(View):
@@ -91,10 +92,23 @@ class CalendarHtmlView(View):
             return HttpResponseForbidden("Denied")
         hashid = Thing.hash(thing)
         try:
-            if request.user.has_perm(Thing.PERM_WRITE, ThingSubject(fullpath=thing)):
-                return  render(request, "calendar-admin.html",  { "thing" : Thing.objects.get(pathid=hashid) })
+            thing =  Thing.objects.get(pathid=hashid)
+            # create a url with a hmac in it if the thing is a user. If not just a simple url will do.
+            thingsubject = ThingSubject(thing=thing)
+            if thingsubject.is_user():
+                hmac = thingsubject.create_hmac()
+                ics_feed_url = reverse("export ics hmac", kwargs={ "thing" : thing.fullpath, "hmac" : hmac})
             else:
-                return  render(request, "calendar.html",  { "thing" : Thing.objects.get(pathid=hashid) })
+                ics_feed_url = reverse("export ics", kwargs={ "thing" : thing.fullpath})
+
+            context = {
+                       "thing" : Thing.objects.get(pathid=hashid) ,
+                       "ics_feed_url" : ics_feed_url
+                       }
+            if request.user.has_perm(Thing.PERM_WRITE, thingsubject):
+                return  render(request, "calendar-admin.html",  context)
+            else:
+                return  render(request, "calendar.html", context)
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 

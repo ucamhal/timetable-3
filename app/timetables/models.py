@@ -309,6 +309,18 @@ class Thing(SchemalessModel, HierachicalModel):
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
 
+    @classmethod
+    def get_or_create_user_thing(cls, user ):
+        path = "user/%s" % user.username
+        try:
+            return cls.objects.get(pathid=cls.hash(user.username))
+        except Thing.DoesNotExist:
+            return cls.create_path(path, {
+                    "type" : "user",
+                    "fullname" : "A Users Calendar"
+                });
+
+
 
 pre_save.connect(Thing._pre_save, sender=Thing)
 

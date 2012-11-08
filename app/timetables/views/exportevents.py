@@ -27,8 +27,8 @@ class ExportEvents(View):
         return "".join(x if x.isalpha() or x.isdigit() else '_' for x in fullpath )
 
     @method_decorator(condition(etag_func=None))
-    def get(self, request, thing):
-        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
+    def get(self, request, thing, hmac=None):
+        if not request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing, hmac=hmac)):
             return HttpResponseForbidden("Denied")
         hashid = Thing.hash(thing)
         outputformat = request.path.split(".")[-1]

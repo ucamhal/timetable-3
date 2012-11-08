@@ -10,7 +10,6 @@ from timetables.models import Event
 import datetime
 from django.utils.timezone import pytz
 from timetables.utils.date import DateConverter
-import logging
 
 
 class ICalExporter(object):
@@ -123,8 +122,6 @@ class ICalImporter(object):
                               title=self._safe_get(e, "SUMMARY", ""),
                               uid=self._safe_get(e, "UID", ""),
                               source=source)
-                logging.error("Start time %s  origin timezone %s  as local %s as origin %s " % (event.start, event.starttz, event.start_local(), event.start_origin()))
-                logging.error("End time %s origin timezone %s  as local %s as origin %s " % (event.end, event.endtz, event.end_local(), event.end_origin()))
                 metadata = event.metadata
                 for k,_ in e.iteritems():
                     metadata[k.lower()] = self._get_value(e,k,default_timezone)

@@ -48,7 +48,7 @@ urlpatterns = patterns('',
     url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
     url(r'^series/(?P<series_id>\d+)', SeriesEditFormView.as_view(), name="series form"),
 
-
+    url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     # This pattern is only really used for reverse, should never be matched forwards
     url(r'(.*?)/(.*)\.events\.ics$', ExportEvents.as_view(), name="export named ics"),
