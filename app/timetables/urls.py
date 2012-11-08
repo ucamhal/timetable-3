@@ -18,6 +18,11 @@ from timetables.views.eventeditform import EventEditFormView
 from timetables.views.serieseditformview import SeriesEditFormView
 from timetables.views.moduleeditform import ModuleEditFormView
 
+from timetables.views import administrator
+
+
+FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
+TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
 
 admin.autodiscover()
 
@@ -29,8 +34,8 @@ urlpatterns = patterns('',
     url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
     # Django admin interface (NOT timetables administrators)
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^django-admin/', include(admin.site.urls)),
+    url(r'^django-admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^account/login',
             LoginView.as_view(),
@@ -40,6 +45,11 @@ urlpatterns = patterns('',
             LogoutView.as_view(),
             name="logout url"),
 
+
+    # Timetables administrators
+    url(r'^admin/'+FACULTY+'/$', administrator.faculty_view, name="admin faculty"),
+    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
+    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
 
 
     # This has to be csrf exempt. Look at the view to see what it does.
