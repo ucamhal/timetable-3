@@ -1,6 +1,8 @@
+{% extends "login.html" %} 
+{# reusing the wrapper in login.html for testing, remove when no longer required #} 
 {% load url from future %}
-
-<form action="{% url "module form" module_id=form.instance.id %}" method="POST">
+{% block form %}
+<form action="{% url "thing edit" thing=form.instance.fullpath %}" method="POST">
     {% csrf_token %}
 
     <label for="{{ form.fullname.html_name }}">Title:</label>
@@ -14,3 +16,4 @@
     {% endif %}
     
 </form>
+{% endblock %}
