@@ -104,7 +104,5 @@ class IndexView(View):
         except:
             pass
         
-        if request.user.has_perm(Thing.PERM_WRITE, GlobalThingSubject()):
-            return render(request, "index-admin.html", context)
-        else:
-            return render(request, "index.html", context)
+        
+        return render(request, "student/base.html", context)
