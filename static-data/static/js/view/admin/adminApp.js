@@ -14,14 +14,14 @@ define([
 
 	var AdminApplication = function () {
 		this.initialize();
-		this.baseInitialize();
+		//this.baseInitialize();
 	}
 
 	_.extend(AdminApplication.prototype, BaseApplication.prototype)
 	_.extend(AdminApplication.prototype, {
 
 		initialize: function () {
-			
+			/*
 			_.defaults(this, {
 				results: new AdminResults({
 					selector: "div#results"
@@ -34,8 +34,15 @@ define([
 				inputArea: new AdminInputArea({
 					selector: "div#inputArea"
 				})
+			});*/
+
+			$(".accordion-body").on("show", function () {
+				$(this).prev().find("span.icon-folder-close").removeClass("icon-folder-close").addClass("icon-folder-open");
 			});
 
+			$(".accordion-body").on("hide", function () {
+				$(this).prev().find("span.icon-folder-open").removeClass("icon-folder-open").addClass("icon-folder-close");
+			});
 		}
 
 	});

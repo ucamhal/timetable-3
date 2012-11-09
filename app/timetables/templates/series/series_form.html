@@ -1,14 +1,14 @@
-{% load url from future %}{% spaceless %}
+{% load url from future %}
 
 <form action="{% url "series form" series_id=form.instance.id %}" method="POST">
     {% csrf_token %}
 
-    {{ form.as_p }}
+	{{ form.as_p }}
+    
+    {{ events.as_p }}
     
     {% if not request.is_ajax %}
         <!-- for testing -->
         <input type="submit" value="Save"/>
     {% endif %}
 </form>
-
-{% endspaceless %}

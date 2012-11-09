@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block top_bar %}
+<div id="inputArea">
+	{% include "student/inputArea.html" %}
+</div>
+
+<!-- ## USER NOT LOGGED IN -->
+
+<div id="actionsContainer">
+	{% include "student/actionsContainer.html" %}
+</div>
+{% endblock top_bar %}
+
+{% block content %}
+{% include "student/calendarEventInfo.html" %}
+<div id="results" class="pull-left">
+	{% include "student/resultsPanel.html" %}
+</div>
+
+<div id="calendarHolder" class="pull-right">
+	{% include "student/calendarHolder.html" %}
+</div>
+{% endblock content %}
