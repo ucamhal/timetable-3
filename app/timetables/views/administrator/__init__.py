@@ -3,8 +3,8 @@ from django import shortcuts
 from django.core import urlresolvers
 
 def admin_home(request):
-	return shortcuts.redirect(urlresolvers.reverse(
-			"admin timetable", kwargs=dict(faculty="test2")))
+    return shortcuts.redirect(urlresolvers.reverse(
+            "admin timetable", kwargs=dict(faculty="test2")))
 
 def timetable_view(request, faculty=None):
     return shortcuts.render(request, "administrator/timetable.html")
