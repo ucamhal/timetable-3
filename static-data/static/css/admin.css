@@ -7,3 +7,130 @@
 	background-position: -384px -120px;
 }
 */
+
+
+body ul {
+	list-style-type: none;
+	margin-left: 0;
+}
+
+ul.buttons li {
+	opacity: .6;
+}
+
+ul.buttons li:hover {
+	opacity: 1;
+}
+
+a.addModule {
+	margin-bottom: 30px;
+}
+
+.btn {
+	border-radius: 200px
+}
+
+.modulesList .module a.addSeries {
+	margin-bottom: 9px;
+}
+
+.btn span.icon-plus {
+	margin-right: 10px;
+}
+
+.addEvent span.icon-plus {
+	margin-right: 7px;
+}
+
+.addEvent {
+	color: #ce7400;
+}
+
+.addEvent {
+	margin-left: 8px;
+	padding-bottom: 10px;
+}
+
+.buttons li {
+	margin-right: 5px;
+}
+
+.events {
+	padding-bottom: 16px;
+}
+
+.events table {
+	margin-bottom: 5px;
+}
+
+.events td {
+	cursor: pointer;
+}
+
+.events td > .icon-pencil {
+	margin-left: 10px;
+}
+
+.seriesHeading.collapsed ul.buttons {
+	visibility: hidden;
+}
+
+.seriesHeading.collapsed:hover ul.buttons {
+	visibility: visible;
+}
+
+.modulesList > li {
+	margin-bottom: 30px;
+}
+
+.modulesList h3, .modulesList h4, .modulesList h5 {
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+}
+
+.moduleHeading {
+	margin-bottom: 10px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba(0, 0, 0, .4);
+	border-bottom-width: 3px;
+	padding: 10px 0;
+}
+
+.moduleHeading .buttons {
+	visibility: hidden;
+}
+
+.moduleHeading:hover .buttons {
+	visibility: visible;
+}
+
+.moduleHeading.hasOpenSeries .buttons {
+	visibility: visible;
+}
+
+.seriesList,
+.module > a.btn {
+	margin-left: 20px;
+}
+
+.module > a.btn {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.seriesHeading {
+	padding: 10px 0;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .2);
+}
+
+.seriesHeading h5 span {
+	margin-right: 8px;
+}
+
+.moduleHeading .buttons,
+.seriesHeading .buttons {
+	margin-left: 15px;
+}

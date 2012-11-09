@@ -36,12 +36,31 @@ define([
 				})
 			});*/
 
-			$(".accordion-body").on("show", function () {
-				$(this).prev().find("span.icon-folder-close").removeClass("icon-folder-close").addClass("icon-folder-open");
+			$("div.events table td > .icon-pencil").css("visibility", "hidden");
+			$("div.events table td:not(.lectureActions)").hover(function () {
+				$(this).find(".icon-pencil").css("visibility", "visible");
+			}, function () {
+				$(this).find(".icon-pencil").css("visibility", "hidden");
 			});
 
-			$(".accordion-body").on("hide", function () {
-				$(this).prev().find("span.icon-folder-open").removeClass("icon-folder-open").addClass("icon-folder-close");
+			$(".seriesHeading h5 a").toggle(function (event) {
+				$(this).parents(".module").find(".moduleHeading").addClass("hasOpenSeries");
+				$(this).parents(".seriesHeading").removeClass("collapsed");
+				$(this).parents(".series").find(".events").slideDown();
+				$(this).parent().find("span").removeClass("icon-chevron-right").addClass("icon-chevron-down");
+			}, function (event) {
+				$(this).parents(".seriesHeading").addClass("collapsed");
+				$(this).parents(".series").find(".events").slideUp();
+				$(this).parent().find("span").removeClass("icon-chevron-down").addClass("icon-chevron-right");
+				if ($(this).parents(".seriesList").find(".collapsed").length === $(this).parents(".seriesList").find(".seriesHeading").length) {
+					$(this).parents(".module").find(".moduleHeading").removeClass("hasOpenSeries")
+				}
+			});
+
+			$("div.events table td ul.buttons .icon-pencil").hover(function () {
+				$(this).parent().parent().parent().parent().find("td > .icon-pencil").css("visibility", "visible");
+			}, function () {
+				$(this).parent().parent().parent().parent().find("td > .icon-pencil").css("visibility", "hidden");
 			});
 		}
 
