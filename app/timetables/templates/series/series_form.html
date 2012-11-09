@@ -3,9 +3,17 @@
 <form action="{% url "series form" series_id=form.instance.id %}" method="POST">
     {% csrf_token %}
 
-	{{ form.as_p }}
+    <div style="margin: 60px 0;">
+    	{{ form.as_p }}
+    </div>
     
-    {{ events.as_p }}
+    <div style="">
+        {% for event in events %}
+            <div style="margin: 30 0px;">
+                {{ event.as_p }}
+            </div>
+        {% endfor %}
+    </div>
     
     {% if not request.is_ajax %}
         <!-- for testing -->

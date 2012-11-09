@@ -1,124 +1,135 @@
 {% extends "administrator/base.html" %}
 
 {% block admin_content %}
-<h3>Timetables for MML - French IA</h3>
-<div class="accordion" id="accordion">
-	<div class="accordion-group">
-		<div class="accordion-heading clearfix">
-			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="icon-folder-open"></span>Early modern French</a>
-		</div>
-
-		<div id="collapseOne" class="accordion-body collapse in">
-			<div class="accordion-inner">
-				<table class="events table table-striped">
-					<thead>
-						<tr>
-							<th>Lecture title</th>
-							<th>Location</th>
-							<th>Time</th>
-							<th>Lecturer</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 1</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 13/11 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 2</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 20/11 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 3</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 04/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 4</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 11/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 5</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 18/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div class="accordion-group">
-		<div class="accordion-heading">
-			<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="icon-folder-close"></span>L&apos;Analyse stylistique et grammaticale en fran&ccedil;ais</a>
-		</div>
-
-		<div id="collapseTwo" class="accordion-body collapse">
-			<div class="accordion-inner">
-				<table class="events table table-striped">
-					<thead>
-						<tr>
-							<th>Lecture title</th>
-							<th>Location</th>
-							<th>Time</th>
-							<th>Lecturer</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 1</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 13/11 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 2</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 20/11 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 3</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 04/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 4</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 11/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-						<tr>
-							<td contenteditable="true">An introduction to the language of 16th century texts: lecture 5</td>
-							<td contenteditable="true">Sigdwick Av.</td>
-							<td contenteditable="true">Tuesday 18/12 10:05</td>
-							<td contenteditable="true">Dr. W. Bennett</td>
-							<td contenteditable="true">Lecture</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+<h3>Timetables for
+    {% if tripos.type == "part" %}
+        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+    {% else %}
+        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+    {% endif %}
+</h3>
+<ul class="modules">
+    <li>
+        <h4>French</h4>
+        <div class="accordion" id="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading clearfix">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="icon-folder-close"></span>Early modern French</a>
+                </div>
+        
+                <div id="collapseOne" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <table class="events table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Lecture title</th>
+                                    <th>Location</th>
+                                    <th>Time</th>
+                                    <th>Lecturer</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 1</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 13/11 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 2</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 20/11 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 3</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 04/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 4</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 11/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 5</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 18/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="icon-folder-close"></span>L&apos;Analyse stylistique et grammaticale en fran&ccedil;ais</a>
+                </div>
+        
+                <div id="collapseTwo" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <table class="events table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Lecture title</th>
+                                    <th>Location</th>
+                                    <th>Time</th>
+                                    <th>Lecturer</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 1</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 13/11 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 2</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 20/11 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 3</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 04/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 4</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 11/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">An introduction to the language of 16th century texts: lecture 5</td>
+                                    <td contenteditable="true">Sigdwick Av.</td>
+                                    <td contenteditable="true">Tuesday 18/12 10:05</td>
+                                    <td contenteditable="true">Dr. W. Bennett</td>
+                                    <td contenteditable="true">Lecture</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
 <a href="#" class="btn btn-success pull-right">Add module</a>
 {% endblock admin_content %}
