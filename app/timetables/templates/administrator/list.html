@@ -1,808 +1,846 @@
 {% extends "administrator/base.html" %}
 
 {% block admin_content %}
-<h3>Timetables for MML - French IA</h3>
+<div id="adminListView">
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#">List</a>
-  </li>
-  <li><a href="#">Week</a></li>
-</ul>
+	<h3>Timetables for MML - French IA</h3>
 
-<a href="#" class="btn addModule"><span class="icon-plus"></span>Add module</a>
-<ul class="modulesList">
-	<li class="module">
-		<div class="moduleHeading clearfix">
-			<h4 class="pull-left">Module name</h4>
-			<ul class="buttons pull-left">
-				<li class="pull-left">
-					<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
+	<ul class="nav nav-tabs">
+	  <li class="active">
+	    <a href="#">List</a>
+	  </li>
+	  <li>
+	  	<a href="#">Week</a>
+	  </li>
+	</ul>
+
+	<a href="#" class="btn addModule"><span class="icon-plus"></span>Add module</a>
+	<ul class="modulesList">
+		<li class="module">
+			<div class="moduleHeading clearfix">
+				<h4 class="pull-left">Module name</h4>
+				<ul class="buttons pull-left">
+					<li class="pull-left">
+						<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+					</li>
+				</ul>
+			</div>
+
+			<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
+
+			<ul class="seriesList">
+				<li class="series">
+					<div class="seriesHeading collapsed clearfix">
+						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
+						<ul class="buttons pull-left">
+							<li class="pull-left">
+								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="events clearfix dontDisplayMe">
+						<table class="table table-striped">
+							<tbody>
+								<tr class="event">
+									<td class="eventTitle">Event title 1<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 2<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 3<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 4<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 5<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 6<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 7<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 8<span class="icon-pencil"></span></td>
+									<td class="eventType" class="eventTitle" class="eventTitle">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
+						<ul class="seriesEditActions pull-right">
+							<li class="pull-left">
+								<a href="#" class="cancel">cancel</a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="save btn btn-success" title="save event series">Save</a>
+							</li>
+						</ul>
+					</div>
 				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
+				<li class="series">
+					<div class="seriesHeading collapsed clearfix">
+						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
+						<ul class="buttons pull-left">
+							<li class="pull-left">
+								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="events clearfix dontDisplayMe">
+						<table class="table table-striped">
+							<tbody>
+								<tr class="event">
+									<td class="eventTitle">Event title 1<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 2<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 3<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 4<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 5<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 6<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 7<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 8<span class="icon-pencil"></span></td>
+									<td class="eventType" class="eventTitle" class="eventTitle">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
+						<ul class="seriesEditActions pull-right">
+							<li class="pull-left">
+								<a href="#" class="cancel">cancel</a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="save btn btn-success" title="save event series">Save</a>
+							</li>
+						</ul>
+					</div>
 				</li>
 			</ul>
-		</div>
+		</li>
+		<li class="module">
+			<div class="moduleHeading clearfix">
+				<h4 class="pull-left">Module name</h4>
+				<ul class="buttons pull-left">
+					<li class="pull-left">
+						<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+					</li>
+					<li class="pull-left">
+						<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+					</li>
+				</ul>
+			</div>
 
-		<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
+			<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
 
-		<ul class="seriesList">
-			<li class="series">
-				<div class="seriesHeading collapsed clearfix">
-					<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
-					<ul class="buttons pull-left">
-						<li class="pull-left">
-							<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="events dontDisplayMe">
-					<table class="table table-striped">
-						<tbody>
-							<tr>
-								<td>Event title 1<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 2<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 3<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 4<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 5<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 6<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 7<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 8<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<a href="#" class="addEvent"><span class="icon-plus"></span>Add event</a>
-				</div>
-			</li>
-			<li class="series">
-				<div class="seriesHeading collapsed clearfix">
-					<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
-					<ul class="buttons pull-left">
-						<li class="pull-left">
-							<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="events dontDisplayMe">
-					<table class="table table-striped">
-						<tbody>
-							<tr>
-								<td>Event title 1<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 2<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 3<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 4<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 5<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 6<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 7<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 8<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<a href="#" class="addEvent"><span class="icon-plus"></span>Add event</a>
-				</div>
-			</li>
-		</ul>
-	</li>
-	<li class="module">
-		<div class="moduleHeading clearfix">
-			<h4 class="pull-left">Module name</h4>
-			<ul class="buttons pull-left">
-				<li class="pull-left">
-					<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
+			<ul class="seriesList">
+				<li class="series">
+					<div class="seriesHeading collapsed clearfix">
+						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
+						<ul class="buttons pull-left">
+							<li class="pull-left">
+								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="events clearfix dontDisplayMe">
+						<table class="table table-striped">
+							<tbody>
+								<tr class="event">
+									<td class="eventTitle">Event title 1<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 2<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 3<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 4<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 5<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 6<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 7<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 8<span class="icon-pencil"></span></td>
+									<td class="eventType" class="eventTitle" class="eventTitle">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
+						<ul class="seriesEditActions pull-right">
+							<li class="pull-left">
+								<a href="#" class="cancel">cancel</a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="save btn btn-success" title="save event series">Save</a>
+							</li>
+						</ul>
+					</div>
 				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-				</li>
-				<li class="pull-left">
-					<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
+				<li class="series">
+					<div class="seriesHeading collapsed clearfix">
+						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
+						<ul class="buttons pull-left">
+							<li class="pull-left">
+								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="events clearfix dontDisplayMe">
+						<table class="table table-striped">
+							<tbody>
+								<tr class="event">
+									<td class="eventTitle">Event title 1<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event" class="event">
+									<td class="eventTitle">Event title 2<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 3<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 4<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 5<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 6<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 7<span class="icon-pencil"></span></td>
+									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr class="event">
+									<td class="eventTitle">Event title 8<span class="icon-pencil"></span></td>
+									<td class="eventType" class="eventTitle" class="eventTitle">Lecture<span class="icon-pencil"></span></td>
+									<td class="eventLocation" class="eventTitle">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventDateTime">Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventActions">
+										<ul class="clearfix buttons">
+											<li class="pull-left">
+												<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+											</li>
+											<li class="pull-left">
+												<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
+						<ul class="seriesEditActions pull-right">
+							<li class="pull-left">
+								<a href="#" class="cancel">cancel</a>
+							</li>
+							<li class="pull-left">
+								<a href="#" class="save btn btn-success" title="save event series">Save</a>
+							</li>
+						</ul>
+					</div>
 				</li>
 			</ul>
-		</div>
+		</li>
+	</ul>
 
-		<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
-
-		<ul class="seriesList">
-			<li class="series">
-				<div class="seriesHeading collapsed clearfix">
-					<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
-					<ul class="buttons pull-left">
-						<li class="pull-left">
-							<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="events dontDisplayMe">
-					<table class="table table-striped">
-						<tbody>
-							<tr>
-								<td>Event title 1<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 2<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 3<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 4<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 5<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 6<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 7<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 8<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<a href="#" class="addEvent"><span class="icon-plus"></span>Add event</a>
-				</div>
-			</li>
-			<li class="series">
-				<div class="seriesHeading collapsed clearfix">
-					<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>Series title</a></h5>
-					<ul class="buttons pull-left">
-						<li class="pull-left">
-							<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-plus-sign"><span class="hideMe">attach</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-						</li>
-						<li class="pull-left">
-							<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="events dontDisplayMe">
-					<table class="table table-striped">
-						<tbody>
-							<tr>
-								<td>Event title 1<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 2<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 3<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 4<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 5<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 6<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 7<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td>Event title 8<span class="icon-pencil"></span></td>
-								<td>Lecture<span class="icon-pencil"></span></td>
-								<td>Sigdwick Av.<span class="icon-pencil"></span></td>
-								<td>Tuesday 13/11 10:05<span class="icon-pencil"></span></td>
-								<td>Dr. W. Bennett<span class="icon-pencil"></span></td>
-								<td class="lectureActions">
-									<ul class="clearfix buttons">
-										<li class="pull-left">
-											<a href="#" class="icon-pencil"><span class="hideMe">edit</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-file"><span class="hideMe">duplicate</span></a>
-										</li>
-										<li class="pull-left">
-											<a href="#" class="icon-trash"><span class="hideMe">remove</span></a>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<a href="#" class="addEvent"><span class="icon-plus"></span>Add event</a>
-				</div>
-			</li>
-		</ul>
-	</li>
-</ul>
+</div>
 {% endblock admin_content %}
