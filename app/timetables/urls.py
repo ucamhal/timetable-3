@@ -16,8 +16,12 @@ from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
 from timetables.views.account import LogoutView, LoginView
 from timetables.views.eventeditform import EventEditFormView
 from timetables.views.serieseditformview import SeriesEditFormView
+from timetables.views import administrator
 from timetables.views.editthing import EditThingView
 
+
+FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
+TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
 
 admin.autodiscover()
 
@@ -29,8 +33,8 @@ urlpatterns = patterns('',
     url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
     # Django admin interface (NOT timetables administrators)
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^django-admin/', include(admin.site.urls)),
+    url(r'^django-admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^account/login',
             LoginView.as_view(),
@@ -40,6 +44,15 @@ urlpatterns = patterns('',
             LogoutView.as_view(),
             name="logout url"),
 
+
+    # Timetables administrators
+    url(r'^(?P<thing>.*?)\.home\.admin\.html$', administrator.timetable_view, name="admin timetable"),
+    url(r'^(?P<thing>.*?)\.list\.admin\.html$', administrator.list_view, name="admin list"),
+    url(r'^(?P<thing>.*?)\calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
+#    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/list/$', administrator.list_view, name="admin list"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
 
 
     # This has to be csrf exempt. Look at the view to see what it does.

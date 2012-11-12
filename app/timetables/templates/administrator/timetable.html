@@ -1,0 +1,26 @@
+{% extends "administrator/base.html" %}
+{% load url from future %}
+
+{% block admin_content %}
+<div id="timetablesOverview">
+	<h3>Timetables in {{ thing.fullname }}</h3>
+
+	<ul class="clearfix">
+		<li class="btn btn-addTimetable pull-left"><a href="#">New timetable</a></li>
+    {% for timetable in timetables %}
+        <li class="btn pull-left"><a href="{% url "admin list" thing=timetable.fullpath %}">
+        {% comment %}
+        For part-only timetables we use the name of the faculty followed by the
+        part. For real subjects we use the subject followed by part. #}
+        {% endcomment %}
+        
+        {% if timetable.type == "part" %}
+            {{ thing.fullname }} {{ timetable.fullname }}
+        {% else %}
+            {{ timetable.fullname }} {{ timetable.parent.fullname }}
+        {% endif %}
+        </a></li>
+    {% endfor %}
+	</ul>
+</div>
+{% endblock admin_content %}
