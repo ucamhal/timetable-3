@@ -64,6 +64,115 @@ def generate(source, title, location, date_time_pattern, group_template, start_y
             events.append(event)
     return events
 
+def expand_patterns(patterns, year, template_pattern=None,
+        local_timezone=None):
+    """
+    Expands a date time pattern string into a series of occurrences.
+
+    Args:
+        patterns: A sequence of strings, each containing a datetime pattern.
+        year: An integer starting year of the academic year the pattern is
+            relative to.
+        template_pattern: An additional single pattern (no ;) to use when
+            expanding patterns containing MULT expressions (e.g. x3, x5 etc).
+        local_timezone
+    """
+    # Don't allow GroupTemplate instances or other pre-parsed pattern objects
+    # as they hold state. expand_patterns() needs to be referentially
+    # transparent to avoid obscure bugs related to holding and reusing stateful
+    # objects.
+    if (template_pattern is not None and
+            not isinstance(template_pattern, basestring)):
+        raise ValueError("template_pattern must be a string.")
+
+    if not all(isinstance(p, basestring) for p in patterns):
+        raise ValueError("patterns should be a sequence of strings, got: %s" %
+                patterns)
+
+    if template_pattern is None:
+        group_template = None
+    else:
+        group_template = GroupTemplate(template_pattern)
+
+    year = _get_academic_year(year)
+    results = []
+
+    for pattern in patterns:
+        # pattern is a string consisting of 1 or more ; separated patterns
+        parsed = FullPattern(patterns=pattern, group=group_template)
+
+        # Get a list of absolute (start, end) datetimes.
+        periods = year.atoms_to_isos(parsed.patterns(), as_datetime=True)
+        results.append(periods)
+
+    if local_timezone is not None:
+        return _make_aware(results)
+    return results
+
+def _make_aware(all_periods, timezone):
+    """
+    Localises all (start, end) datetimes into the provided timezone.
+
+    Args:
+        all_periods: A list of lists of (start, end) datetime pairs, e.g.:
+            [
+                [(start, end), (start, end)],
+                [(start, end)]
+            ]
+        timezone: A pytz timezone instance to localise the naive datetime
+            instances into.
+
+    Raises:
+        pytz.InvalidTimeError: When the datetime specified by a start or end
+            period does not exist or is ambiguous (occurs more than once) in the
+            provided timezone.
+    """
+    all_periods_aware = []
+    for periods in all_periods:
+        periods_aware = []
+        all_periods_aware.append(periods_aware)
+
+        for (start, end) in periods:
+            start_aware = timezone.localize(start)
+            end_aware = timezone.localize(end)
+            periods_aware.append((start_aware, end_aware))
+
+    return all_periods_aware
+
+def expand_pattern(pattern, year, template_pattern=None, local_timezone=None):
+    """
+    Expands a date time pattern string into a series of occurrences.
+
+    Args:
+        pattern: A string containing a datetime pattern.
+        year: A Year instance or integer starting year of the academic year the
+            pattern is relative to.
+        group_template: An additional single pattern (no ;) to use when
+            expanding patterns containing
+    """
+    return expand_patterns([pattern], year, template_pattern=template_pattern,
+            local_timezone=local_timezone)[0]
+
+def _get_academic_year(year):
+    """
+    Gets a year.Year instance for the academic year starting in year.
+
+    Args:
+        year: The year the academic year starts in, e.g. 2012.
+
+    Returns:
+        A Year object representing the specified academic year.
+
+    Raises:
+        NoSuchYearException: No term dates are available for the provided
+            year.
+    """
+
+    dates = TERM_STARTS.get(year)
+    if dates is None:
+        raise NoSuchYearException("No term dates available for year: %d" % year)
+    return Year(dates)
 
 
-
+class NoSuchYearException(ValueError):
+    pass
