@@ -16,8 +16,8 @@ from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
 from timetables.views.account import LogoutView, LoginView
 from timetables.views.eventeditform import EventEditFormView
 from timetables.views.serieseditformview import SeriesEditFormView
-from timetables.views.moduleeditform import ModuleEditFormView
 from timetables.views import administrator
+from timetables.views.editthing import EditThingView
 
 
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
@@ -46,11 +46,13 @@ urlpatterns = patterns('',
 
 
     # Timetables administrators
-    url(r'^admin/$', administrator.admin_home, name="admin home"),
-    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
-    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
-    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/list/$', administrator.list_view, name="admin list"),
-    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
+    url(r'^(?P<thing>.*?)\.home\.admin\.html$', administrator.timetable_view, name="admin timetable"),
+    url(r'^(?P<thing>.*?)\.list\.admin\.html$', administrator.list_view, name="admin list"),
+    url(r'^(?P<thing>.*?)\calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
+#    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/list/$', administrator.list_view, name="admin list"),
+#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
 
 
     # This has to be csrf exempt. Look at the view to see what it does.
@@ -58,9 +60,8 @@ urlpatterns = patterns('',
     
     url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
     url(r'^series/(?P<series_id>\d+)', SeriesEditFormView.as_view(), name="series form"),
-    url(r'^module/(?P<module_id>\d+)', ModuleEditFormView.as_view(), name="module form"),
 
-
+    url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
     # This pattern is only really used for reverse, should never be matched forwards
     url(r'(.*?)/(.*)\.events\.ics$', ExportEvents.as_view(), name="export named ics"),
@@ -75,11 +76,13 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*?)\.callist\.html', EventListView.as_view(), name="thing calendar list"),
 
 
-    # Generate an Html view of things
-    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing depth view"),
     
     # Update service end points
     url(r'(?P<thing>.*)\.link$', LinkThing.as_view(), name="thing link"),
+    # Edit a thing
+    url(r'(?P<thing>.*)\.edit\.html$', EditThingView.as_view(), name="thing edit"),
+    # Generate an Html view of things
+    url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$', ViewThing.as_view(), name="thing depth view"),
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     

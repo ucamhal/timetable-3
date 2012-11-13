@@ -7,6 +7,9 @@ import logging
 from timetables.models import HierachicalModel, Event, Thing, EventSource,\
     ThingTag
 from django.db import models
+from django.core.signing import base64_hmac
+from django.utils.timezone import now
+from django.conf import settings
 
 log = logging.getLogger(__name__)
 
@@ -48,11 +51,12 @@ class BaseAuthorizationHandler(object):
 
 class HierachicalSubject(object):
     
-    def __init__(self, thing=None, fullpath=None, depth=None, fulldepth=False):
+    def __init__(self, thing=None, fullpath=None, depth=None, fulldepth=False, hmac=None):
         self.depth = depth
         self.fulldepth = fulldepth
         self._thing = thing
         self.fullpath = fullpath
+        self.hmac = hmac
     
     @property
     def path(self):
@@ -60,13 +64,52 @@ class HierachicalSubject(object):
 
     @property
     def thing(self):
+        return self._get_thing()
+
+    def _get_thing(self):
         if self._thing is None:
-            return Thing.objects.get(pathid=Thing.hash(self.fullpath))
+            self._thing = Thing.objects.get(pathid=Thing.hash(self.fullpath))
         return self._thing
+
+    def is_user(self):
+        return self._get_thing().fullpath[:5] == "user/"
+
+    def is_hmac_valid(self):
+        '''
+        Returns True if the hmac is valid for the Thing.
+        '''
+        t = self._get_thing()
+        if t is None:
+            return False
+        if 'salt' not in t.metadata:
+            return False
+        # This depends on setting.SECRET_KEY which should be configured for the instance
+        # Changing that will invalidate all hmacs. Deleting the salt will invalidate
+        # just hmacs for this thing.
+        testmac = base64_hmac(t.metadata['salt'], t.fullpath, settings.SECRET_KEY)
+        if self.hmac == testmac:
+            return True
+        return False
+
+    def create_hmac(self):
+        '''
+        Creates a hmac for the Thing
+        '''
+        t = self._get_thing()
+        if t is None:
+            return None
+        metadata = t.metadata
+        if 'salt' not in metadata:
+            metadata['salt'] = Thing.hash(now().isoformat())
+            t.save()
+        # This depends on setting.SECRET_KEY which should be configured for the instance
+        # Changing that will invalidate all hmacs. Deleting the salt will invalidate
+        # just hmacs for this thing.
+        return base64_hmac(t.metadata['salt'], t.fullpath, settings.SECRET_KEY)
 
         
     def __unicode__(self):
-        return "%s  at %" % (self.thing, self.fullpath)
+        return "%s  at %" % (self._get_thing(), self.fullpath)
 
 class HierachicalAuthorizationHandler(BaseAuthorizationHandler):
     
@@ -78,6 +121,12 @@ class HierachicalAuthorizationHandler(BaseAuthorizationHandler):
     
                 
     def _get_subject_perms(self, user_obj, obj):
+        if obj.hmac is not None:
+            # A hmac can only ever grant read
+            if obj.is_hmac_valid():
+                return self.JUST_READ
+            return set()
+
         if "user/%s" % user_obj.username == obj.path:
             return self.ALL
 
@@ -93,6 +142,9 @@ class HierachicalAuthorizationHandler(BaseAuthorizationHandler):
             # One or more of the things we were looking for doesn't exist, therefore therefore there is only read.
             pass
 
+        # If we got this far, and this is a user Thing then read should be denied
+        if obj.is_user():
+            return set()
         # could do something more sophisticated here, but just at the moment there is no need.
         return self.JUST_READ
             
@@ -101,7 +153,7 @@ class HierachicalAuthorizationHandler(BaseAuthorizationHandler):
 class ThingSubject(HierachicalSubject):
     pass
 
-class ThingAuthorizationHandler(BaseAuthorizationHandler):
+class ThingAuthorizationHandler(HierachicalAuthorizationHandler):
     ALL = frozenset((Thing.PERM_LINK, Thing.PERM_READ, Thing.PERM_WRITE,))
     JUST_READ = frozenset((Thing.PERM_READ,))
     SUBJECT = ThingSubject
@@ -140,7 +192,7 @@ class EventAuthorizationHandler(BaseAuthorizationHandler):
             e = obj.event
             if e is not None:
                 Event.objects.filter(id=e.id).get(models.Q(eventtag__thing=userthing,eventtag__annotation="admin")|
-                              models.Q(source__eventsourcetag__thing=userthing,source_eventsourcetag__annotation="admin"))
+                              models.Q(source__eventsourcetag__thing=userthing,source__eventsourcetag__annotation="admin"))
                 return self.ALL
         except Thing.DoesNotExist:
             pass

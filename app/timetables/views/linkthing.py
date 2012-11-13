@@ -42,10 +42,7 @@ class LinkThing(View):
             except Thing.DoesNotExist:
                 path = "user/%s" % request.user.username
                 if thing == path:
-                    thing = Thing.create_path(path, {
-                            "type" : "user",
-                            "fullname" : "A Users Calendar"
-                        });
+                    thing = Thing.get_or_create_user_thing(request.user)
             
             # Delete associations first
             elist = self._expand(request.POST.getlist("esd"))

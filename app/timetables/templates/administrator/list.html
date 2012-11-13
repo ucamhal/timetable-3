@@ -2,8 +2,13 @@
 
 {% block admin_content %}
 <div id="adminListView">
-
-	<h3>Timetables for MML - French IA</h3>
+	<h3>Timetables for
+	    {% if tripos.type == "part" %}
+	        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+	    {% else %}
+	        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+	    {% endif %}
+	</h3>
 
 	<ul class="nav nav-tabs">
 	  <li class="active">

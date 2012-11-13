@@ -13,7 +13,8 @@ from django.utils import timezone
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
-from django.utils.timezone import now, pytz
+from django.utils.timezone import now
+import pytz
 log = logging.getLogger(__name__)
 
 # Length of a hash required to identify items.
@@ -308,6 +309,18 @@ class Thing(SchemalessModel, HierachicalModel):
         HierachicalModel._prepare_save(sender,**kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
         log.debug("Done Calling Super on Pre-save")
+
+    @classmethod
+    def get_or_create_user_thing(cls, user ):
+        path = "user/%s" % user.username
+        try:
+            return cls.objects.get(pathid=cls.hash(user.username))
+        except Thing.DoesNotExist:
+            return cls.create_path(path, {
+                    "type" : "user",
+                    "fullname" : "A Users Calendar"
+                });
+
 
 
 pre_save.connect(Thing._pre_save, sender=Thing)

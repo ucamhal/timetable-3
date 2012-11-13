@@ -333,6 +333,11 @@ EVENT_IMPORTERS = {
     "ics" : "timetables.utils.formats.ical.ICalImporter",
     "pattern" : "timetables.utils.formats.datepattern.DatePatternImporter"
 }
+
+# Forms to edit thing types keyed by thing.type
+THING_FORMS = {
+    "module" : "timetables.forms.ModuleForm"
+}
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
 try:
@@ -352,7 +357,7 @@ try:
 
     DISABLE_QUERYSET_CACHE = False
 except ImportError:
-    log.error("Query Level Cache is disabled, please install johnny cache")
+    log.info("Query Level Cache is disabled, please install johnny cache")
 
 try:
     from local_settings import *
