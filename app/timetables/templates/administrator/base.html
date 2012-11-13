@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block javascript_module %}adminIndex{% endblock javascript_module %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/admin.css" %}" />
+{% endblock head %}
+
+{% block bodyid %}admin{% endblock bodyid %}
+
+{% block top_bar %}
+<div id="inputArea">
+	<div class="clearfix">
+		<label for="facultyInput" class="pull-left">Faculty:</label>
+		<select id="facultyInput" class="pull-left">
+			<option value="MML">MML</option>
+			<option value="Economics">Economics</option>
+		</select>
+	</div>
+</div>
+{% endblock top_bar %}
+
+{% block content %}
+	{% block admin_content %}
+	{% endblock admin_content %}
+{% endblock content %}
