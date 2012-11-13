@@ -13,8 +13,8 @@ define([
 	"use strict";
 
 	var AdminApplication = function () {
+		this.baseInitialize();
 		this.initialize();
-		//this.baseInitialize();
 	}
 
 	_.extend(AdminApplication.prototype, BaseApplication.prototype)
@@ -36,32 +36,54 @@ define([
 				})
 			});*/
 
-			$("div.events table td > .icon-pencil").css("visibility", "hidden");
-			$("div.events table td:not(.lectureActions)").hover(function () {
-				$(this).find(".icon-pencil").css("visibility", "visible");
-			}, function () {
-				$(this).find(".icon-pencil").css("visibility", "hidden");
+			_.defaults(this, {
+				calendar: new AdminCalendar({
+					selector: "#adminContent"
+				})
 			});
 
-			$(".seriesHeading h5 a").toggle(function (event) {
-				$(this).parents(".module").find(".moduleHeading").addClass("hasOpenSeries");
-				$(this).parents(".seriesHeading").removeClass("collapsed");
-				$(this).parents(".series").find(".events").slideDown();
-				$(this).parent().find("span").removeClass("icon-chevron-right").addClass("icon-chevron-down");
-			}, function (event) {
-				$(this).parents(".seriesHeading").addClass("collapsed");
-				$(this).parents(".series").find(".events").slideUp();
-				$(this).parent().find("span").removeClass("icon-chevron-down").addClass("icon-chevron-right");
-				if ($(this).parents(".seriesList").find(".collapsed").length === $(this).parents(".seriesList").find(".seriesHeading").length) {
-					$(this).parents(".module").find(".moduleHeading").removeClass("hasOpenSeries")
-				}
+			/*
+
+			var makeCellsEditable = function makeCellsEditable ($tr) {
+				$tr.find("td").each(function (index, item) {
+
+					if ($(this).hasClass("eventActions") === false) {
+						var text = $(this).text();
+						$(this).text("");
+
+						$(this).append('<input type="text" />');
+						$(this).find("input").val(text);
+					}
+
+				});
+			};
+
+			$("div.events table td:not(.eventActions)").click(function (event) {
+				$(this).parent().addClass("editEnabled").find("td").unbind("hover").find(".icon-pencil").css("visibility", "visible");
+				$(this).parent().find(".eventActions a").unbind("hover");
 			});
+
+			$("div.events table td.eventActions a").click(function (event) {
+				switch ($(this).find("span").text()) {
+				case "edit":
+					$(this).unbind("hover").parent().parent().parent().parent().addClass("editEnabled").find("td").unbind("hover").find(".icon-pencil").css("visibility", "visible");
+					makeCellsEditable($(this).parent().parent().parent().parent());
+					break;
+				case "duplicate":
+					break;
+				case "remove":
+					break;
+				}
+				event.preventDefault();
+			});
+
+			
 
 			$("div.events table td ul.buttons .icon-pencil").hover(function () {
 				$(this).parent().parent().parent().parent().find("td > .icon-pencil").css("visibility", "visible");
 			}, function () {
 				$(this).parent().parent().parent().parent().find("td > .icon-pencil").css("visibility", "hidden");
-			});
+			});*/
 		}
 
 	});

@@ -29,9 +29,10 @@ require.config({
     }
 });
 
-require(
-        ["jquery", "domReady"],
-        function($) {
+require([
+  "jquery",
+  "domReady"
+], function($) {
    "use strict";
 
    // work out what module was asked for and get require to load it.
