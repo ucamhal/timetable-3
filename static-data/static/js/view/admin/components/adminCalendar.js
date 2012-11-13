@@ -22,7 +22,7 @@ define([
 					parent: this
 				}),
 				heading: new AdminCalendarHeading({
-					selector: this.headingSelector,
+					selector: "#calendarHeading",
 					parent: this
 				}),
 				selector: "body",
