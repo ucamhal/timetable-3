@@ -9,11 +9,11 @@ from django.core.management.base import BaseCommand, CommandError
 import os
 
 import logging
-from timetables.utils.v1 import generate
 from timetables.models import EventSource, Event, Thing,\
     EventSourceTag, MAX_NAME_LENGTH, MAX_URL_LENGTH
 from optparse import make_option
 import urllib2
+from timetables.utils.v1.generators import generate
 log = logging.getLogger(__name__)
 
 

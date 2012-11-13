@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from icalendar.cal import Calendar, Alarm
 from timetables.models import Event
 import datetime
-from django.utils.timezone import pytz
 from timetables.utils.date import DateConverter
+import pytz
 
 
 class ICalExporter(object):

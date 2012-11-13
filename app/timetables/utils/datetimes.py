@@ -1,10 +1,8 @@
 import re, pytz, logging
 
 from timetables.utils.compat import Counter
-from timetables.utils.v1.year import Year
-from timetables.utils.v1.fullpattern import FullPattern
 
-from django.utils.datetime_safe import datetime, date
+from django.utils.datetime_safe import datetime
 
 from django.conf import settings
 
