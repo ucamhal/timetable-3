@@ -1,6 +1,4 @@
-
 from django import shortcuts
-from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
@@ -9,8 +7,10 @@ from timetables import forms, models
 from timetables.utils.xact import xact
 
 
-
 class SeriesEditFormView(View):
+    """
+    A view presenting a form for editing pattern based event series.
+    """
 
     def get(self, request, series_id):
         series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
