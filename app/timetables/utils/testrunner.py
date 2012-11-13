@@ -24,6 +24,7 @@ from django.test.simple import DjangoTestSuiteRunner, reorder_suite
 from django.utils.importlib import import_module
 from django.utils.unittest.loader import TestLoader
 import re
+import logging
 
 
 
@@ -59,6 +60,11 @@ class CustomTestLoader(TestLoader):
 
     def _match_path(self, path, full_path, pattern):
         # override this method to use alternative matching strategy
-        return re.compile(".*?tests.*\.py").match(full_path)
+        if re.compile(".*?tests.*\.py").match(full_path):
+            logging.info("Accepted %s " % full_path)
+            return True
+        else:
+            logging.info("Rejected %s " % full_path)
+            return False
     
         

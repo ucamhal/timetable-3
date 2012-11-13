@@ -13,7 +13,8 @@ from django.utils import timezone
 import logging
 from timetables.managers import EventManager
 from django.contrib.auth.models import User
-from django.utils.timezone import now, pytz
+from django.utils.timezone import now
+import pytz
 log = logging.getLogger(__name__)
 
 # Length of a hash required to identify items.
