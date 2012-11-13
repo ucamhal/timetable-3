@@ -1,10 +1,11 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.forms.models import modelformset_factory
 from django.utils import datetime_safe as datetime
 from django.utils import timezone
 
 from timetables import models
 from timetables.utils.v1 import fullpattern
-from django.core.exceptions import ValidationError
 
 
 class CommaSeparatedCharField(forms.CharField):
@@ -85,12 +86,12 @@ class EventForm(forms.ModelForm):
     def _set_initial_values(self):
         if self.instance is None:
             return
-        self.initial["date"] = datetime.strftime(
-                self.instance.start_local(), self.DATE_FORMAT)
-        self.initial["start"] = datetime.strftime(
-                self.instance.start_local(), self.TIME_FORMAT)
-        self.initial["end"] = datetime.strftime(
-                self.instance.end_local(), self.TIME_FORMAT)
+        self.initial["date"] = self._format_datetime(
+                self.instance.start_local())
+        self.initial["start"] = self._format_datetime(
+                self.instance.start_local())
+        self.initial["end"] = self._format_datetime(
+                self.instance.end_local())
         
         event_type = self.instance.metadata.get("type", "")
         if not event_type in EVENT_TYPE_CHOICES:
@@ -101,6 +102,11 @@ class EventForm(forms.ModelForm):
                 self.instance.metadata.get("people", []))
         
         self.initial["cancel"] = self.instance.status == models.Event.STATUS_CANCELLED
+    
+    def _format_datetime(self, dt):
+        if dt is None:
+            return ""
+        return datetime.strftime(dt, self.DATE_FORMAT)
     
     # Override save() in order to save our custom form fields as well as the
     # default model form fields.
@@ -191,8 +197,17 @@ class SeriesForm(forms.ModelForm):
         
         if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
             series.metadata["type"] =  self.cleaned_data["event_type"]
-            
-            
+
+
+ListPageEventFormSet = modelformset_factory(models.Event, form=EventForm)
+
+
+class ListPageSeriesForm(forms.ModelForm):
+
+    class Meta:
+        model = models.EventSource
+        fields = ("title",)
+
 class ModuleForm(forms.ModelForm):
     
     class Meta:

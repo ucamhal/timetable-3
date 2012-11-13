@@ -13,7 +13,7 @@ app-data/*
 # Eclipse files
 .project
 .pydevproject
-.settings/*
+.settings
 
 # Django project marker for dj (could add this really...)
 .djangoproject

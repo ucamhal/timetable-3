@@ -57,48 +57,11 @@ define([
 				getTwelveHourTimeFromDate: function (date) {
 					return $.fullCalendar.formatDate(date, "h(':'mm)tt");
 				}
-			})
-
-			_.defaults(this, {
-
-				hashController: new HashController({
-					resultsView: this.results,
-					calendarView: this.calendar,
-					inputAreaView: this.inputArea
-				})
-
-			});
-
-			_.addEventListener(this.results.$el, "timetableChanged", function (event) {
-				self.calendar.content.refresh();
 			});
 
 			$("a[href=\"#\"]").live("click", function (event) {
 				event.preventDefault();
 			});
-
-			$(window).resize(function (e) {
-				var maxWidth = $(window).width() - 200;
-
-				if(maxWidth < 960) {
-					maxWidth = 960;
-				} else if (maxWidth > 1400) {
-					maxWidth = 1400;
-				}
-
-				$("#inputArea > div").width(maxWidth);
-				$("#uniLogo").width(maxWidth);
-				$("#content").width(maxWidth);
-				$("#actionsContainer").width(maxWidth);
-
-				self.results.resize();
-				self.calendar.resize({
-					height: self.results.$el.height(),
-					width: maxWidth - self.results.$el.outerWidth() - 50
-				});
-
-			});
-			$(window).trigger("resize").trigger("hashchange");
 		}
 	});
 
