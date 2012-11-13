@@ -26,8 +26,8 @@ define([
 					to.bind(eventName, callback);
 				},
 
-				dispatchEvent: function (from, eventName) {
-					from.trigger(eventName);
+				dispatchEvent: function (from, eventName, extraParameters) {
+					from.trigger(eventName, extraParameters);
 				},
 
 				getDayFromDate: function (date) {

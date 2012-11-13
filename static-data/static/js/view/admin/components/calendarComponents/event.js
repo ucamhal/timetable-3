@@ -21,12 +21,20 @@ define([
 				fields: []
 			});
 
-			$("td:not(.eventActions)").each(function () {
+			$("td:not(.eventActions)", this.$el).each(function () {
 				var field = new EventField({
 					$el: $(this)
 				});
 
 				self.fields.push(field);
+			});
+
+			$(".eventActions a.edit", self.$el).parent().mouseover(function (event) {
+				self.togglePencilHoverState(true);
+			});
+
+			$(".eventActions a.edit", self.$el).parent().mouseout(function (event) {
+				self.togglePencilHoverState(false);
 			});
 
 			$(".eventActions a", this.$el).click(function (event) {
@@ -36,6 +44,8 @@ define([
 					self.toggleEditEnabledState();
 					break;
 				case "duplicate":
+					//different user story:
+					_.dispatchEvent(self.$el, "duplicate");
 					break;
 				case "remove":
 					break;
@@ -49,21 +59,57 @@ define([
 			});
 		},
 
-		toggleEditEnabledState: function (editEnabled, updateUI) {
+		togglePencilHoverState: function (pencilHover) {
+			var self = this;
+
+			var addClass = (function () {
+				if (self.editEnabled === true) {
+					return false;
+				}
+
+				return typeof pencilHover === "undefined" ? !self.$el.hasClass("pencilHover") : pencilHover;
+			}());
+
+			this.$el.toggleClass("pencilHover", addClass);
+		},
+
+		toggleEditEnabledState: function (editEnabled, updateUI, revertData) {
 			this.editEnabled = typeof editEnabled === "undefined" ? !this.editEnabled : editEnabled;
+			revertData = typeof revertData === "undefined" ? !this.editEnabled : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
 
 			_.each(this.fields, function (item) {
-				//item.toggleEditEnabledState(editEnabled, updateUI);
+				item.toggleEditEnabledState(editEnabled, updateUI, revertData);
 			});
 
 			if (updateUI === true) {
 				this.setEditEnabledState(this.editEnabled);
 			}
+
+			_.dispatchEvent(this.$el, "editStateChanged");
 		},
 
 		setEditEnabledState: function (editEnabled) {
+			this.togglePencilHoverState(editEnabled);
 			this.$el.toggleClass("editEnabled", editEnabled);
+		},
+
+		cancelEdit: function () {
+			if (this.editEnabled === true) {
+				this.toggleEditEnabledState();
+			}
+		},
+
+		saveEdits: function () {
+			if (this.editEnabled === true && this.dataChanged() === true) {
+				//post the form back
+			}
+		},
+
+		dataChanged: function () {
+			return _.any(this.fields, function (item) {
+				return item.dataChanged();
+			});
 		}
 	});
 
