@@ -93,6 +93,38 @@ a.addModule {
 	opacity: .3;
 }
 
+.event .eventTitle .dataInput,
+.event .eventType .dataInput,
+.event .eventLocation .dataInput,
+.event .eventDateTime .dataInput,
+.event .eventLecturers .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataInput,
+.event.editEnabled .eventType .dataInput,
+.event.editEnabled .eventLocation .dataInput,
+.event.editEnabled .eventDateTime .dataInput,
+.event.editEnabled .eventLecturers .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle > span,
+.event.editEnabled .eventType > span,
+.event.editEnabled .eventLocation > span,
+.event.editEnabled .eventDateTime > span,
+.event.editEnabled .eventLecturers > span {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataValue,
+.event.editEnabled .eventType .dataValue,
+.event.editEnabled .eventLocation .dataValue,
+.event.editEnabled .eventDateTime .dataValue,
+.event.editEnabled .eventLecturers .dataValue {
+	display: none;
+}
+
 .event .eventTitle:hover > .icon-pencil,
 .event .eventType:hover > .icon-pencil,
 .event .eventLocation:hover > .icon-pencil,
