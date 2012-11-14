@@ -8,7 +8,6 @@
 }
 */
 
-
 body ul {
 	list-style-type: none;
 	margin-left: 0;
@@ -138,26 +137,40 @@ a.addModule {
 	visibility: visible;
 }
 
-.event.editEnabled input,
-.event.editEnabled select {
+.event.editEnabled .dataInput > input {
 	padding: 8px;
-	background: transparent;
 	border-style: dashed;
-	
-	border-radius: 0;
-	margin: 0;
-	display: block;
 	box-shadow: none;
+	background: transparent;
+	height: 21px;
+}
+
+.event.editEnabled,
+.event.editEnabled td,
+.event.editEnabled .dataInput,
+.event.editEnabled .dataInput > * {
+	height: 37px;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled .dataInput > * {
+	height: 35px!important;
+}
+
+.event.editEnabled .dataInput {
+	margin: 0;
+	padding: 0;
 }
 
 .event.editEnabled td {
 	padding: 0;
+	margin: 0;
 }
 
-
-.event select {
-	width: 100%;
-	height: inherit;
+.event.editEnabled .eventActions {
+	padding: 8px;
 }
 
 .event .eventDateTime {
@@ -188,11 +201,11 @@ a.addModule {
 }
 
 .moduleHeading {
-	margin-bottom: 10px;
 	border-bottom-style: solid;
 	border-bottom-color: rgba(0, 0, 0, .4);
 	border-bottom-width: 3px;
 	padding: 10px 0;
+	margin-bottom: 10px;
 }
 
 .moduleHeading .buttons {

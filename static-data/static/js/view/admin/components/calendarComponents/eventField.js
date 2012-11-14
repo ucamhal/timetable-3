@@ -18,11 +18,8 @@ define([
 				value: $(".dataValue", this.$el).text(),
 				type: this.$el.attr("class"),
 				editable: false,
-				changed: false,
-				initialWidth: this.$el.width()
+				changed: false
 			});
-
-			$(".dataInput", this.$el).width(this.initialWidth);
 		},
 
 		dataChanged: function () {
@@ -60,6 +57,8 @@ define([
 		},
 
 		toggleEditEnabledState: function (editEnabled, updateUI, revertData) {
+			var self = this;
+
 			this.editEnabled = typeof editEnabled === "undefined" ? !this.editEnabled : editEnabled;
 			revertData = typeof revertData === "undefined" ? false : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
