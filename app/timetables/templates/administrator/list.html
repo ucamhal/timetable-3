@@ -46,8 +46,15 @@
 			<ul class="seriesList">
 			{% for series_editor in module_editor.series_editors %}
 				<li class="series">
+					<form class="" action="DEV NULL" method="POST">
+						{% csrf_token %}
 					<div class="seriesHeading collapsed clearfix">
-						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>{{ series_editor.get_form.title.value }}</a></h5>
+						<h5 class="pull-left">
+							<a href="#"><span class="icon-chevron-right"></span>
+							{{ series_editor.get_form.title.value }}
+							<input style="display: none;" type="text" name="{{ series_editor.get_form.title.html_name }}" value="{{ series_editor.get_form.title.value }}" />
+							</a>
+						</h5>
 						<ul class="buttons pull-left">
 							<li class="pull-left">
 								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
@@ -71,24 +78,24 @@
 									<td class="eventTitle clearfix">
 										<div class="dataValue pull-left">{{ event_form.title.value }}</div>
 										<div class="dataInput pull-left">
-											<input type="text" name="eventTitle" value="{{ event_form.title.value }}" />
+											<input type="text" name="{{ event_form.title.html_name }}" value="{{ event_form.title.value }}" />
+											{{ event_form.title.errors }}
 										</div>
 										<span class="icon-pencil pull-left"></span>
 									</td>
 									<td class="eventType clearfix">
 										<div class="dataValue pull-left">{{ event_form.event_type.value }}</div>
 										<div class="dataInput pull-left">
-											<select>
-												<option value="lecture">Lecture</option>
-												<option value="seminar">Seminar</option>
-											</select>
+											{{ event_form.event_type }}
+											{{ event_form.event_type.errors }}
 										</div>
 										<span class="icon-pencil pull-left"></span>
 									</td>
 									<td class="eventLocation clearfix">
 										<div class="dataValue pull-left">{{ event_form.location.value }}</div>
 										<div class="dataInput pull-left">
-											<input type="text" name="eventLocation" value="Sidgwick Av." />
+											<input type="text" name="{{ event_form.location.html_name }}" value="{{ event_form.location.value }}" />
+											{{ event_form.location.errors }}
 										</div>
 										<span class="icon-pencil pull-left"></span>
 									</td>
@@ -149,7 +156,8 @@
 									<td class="eventLecturers clearfix">
 										<div class="dataValue pull-left">{{ event_form.people.value }}</div>
 										<div class="dataInput pull-left">
-											<input type="text" name="lecturers" value="" />
+											<input type="text" name="{{ event_form.people.html_name }}" value="{{ event_form.people.value }}" />
+											{{ event_form.people.errors }}
 										</div>
 										<span class="icon-pencil pull-left"></span>
 									</td>
@@ -180,6 +188,7 @@
 							</li>
 						</ul>
 					</div>
+					</form>
 				</li>
 			{% endfor %}
 			</ul>
