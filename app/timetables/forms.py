@@ -199,7 +199,8 @@ class SeriesForm(forms.ModelForm):
             series.metadata["type"] =  self.cleaned_data["event_type"]
 
 
-ListPageEventFormSet = modelformset_factory(models.Event, form=EventForm)
+ListPageEventFormSet = modelformset_factory(models.Event, form=EventForm,
+        extra=0)
 
 
 class ListPageSeriesForm(forms.ModelForm):
