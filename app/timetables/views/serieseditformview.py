@@ -25,9 +25,11 @@ class SeriesEditFormView(View):
     @method_decorator(xact)
     def post(self, request, series_id):
         series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
-        form = forms.SeriesForm(request.POST, instance=series)
+        form = forms.ListPageSeriesForm(request.POST, instance = series)
         if form.is_valid():
-            series = form.save()
-            models.Event.objects.unpack_sources((series,))
-            return shortcuts.redirect("/")
-        return shortcuts.render(request, "series/series_form.html", {"form": form})
+            series = form.save() # will save series title
+            
+            #models.Event.objects.unpack_sources((series,)) #  I think this should work, but at present the form contains incorrect date data
+            
+            return shortcuts.redirect("/") # todo - show list view with some sort of confirmation
+        return shortcuts.render(request, "series/series_form.html", {"form": form}) # TODO - create series_form_fragment.html; to be used in admin list view
