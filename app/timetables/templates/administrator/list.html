@@ -48,6 +48,7 @@
 				<li class="series">
 					<form class="" action="DEV NULL" method="POST">
 						{% csrf_token %}
+						<input type="hidden" value="{{ series_editor.get_series.id }}" name="series_id" />
 					<div class="seriesHeading collapsed clearfix">
 						<h5 class="pull-left">
 							<a href="#"><span class="icon-chevron-right"></span>
