@@ -38,3 +38,10 @@ class EventManager(QuerySetManager):
             except:
                 raise
         return sources, imported
+
+    def just_active(self):
+        """
+        Filters the set of events to just those which are current versions
+        and have status live.
+        """
+        return self.all().just_active()
