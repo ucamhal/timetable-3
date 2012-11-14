@@ -32,9 +32,8 @@ urlpatterns = patterns('',
     url(r"^editor$", AdminView.as_view(), name="admin"),
     url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
-    # Django admin interface (NOT timetables administrators)
-    url(r'^django-admin/', include(admin.site.urls)),
-    url(r'^django-admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^account/login',
             LoginView.as_view(),
