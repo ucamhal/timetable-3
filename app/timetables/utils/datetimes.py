@@ -1,6 +1,7 @@
 import re, pytz, logging
 
 from timetables.utils.compat import Counter
+from timetables.utils.v1.generators import TERM_STARTS
 
 from django.utils.datetime_safe import datetime
 
@@ -206,6 +207,30 @@ def server_datetime_now():
     """
     return datetime.now(server_timezone())
 
+TERMS = {
+    0: 0,
+    1: 1,
+    2: 2,
+    "michaelmas": 0,
+    "lent": 1,
+    "easter": 2
+}
 
+DAYS = dict(
+    [(n, n) for n in xrange(7)] + 
+    [(name, n) for n, name in enumerate([
+            "mon", "tue", "wed", "thu", "fri", "sat", "sun"])]
+)
 
-
+def termweek_to_abs(year, term, week, day):
+    if not year in TERM_STARTS:
+        raise ValueError("Unknown year: %s" % year)
+    
+    if not term in TERMS:
+        raise ValueError("Unknown term: %s. Expected one of: %s" % (
+                term, TERMS.keys()))
+    
+    if day not in DAYS:
+        raise ValueError("Unknown day: %s. Expected one of: %s" % (
+                day, DAYS.keys()))
+    
