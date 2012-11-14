@@ -14522,11 +14522,11 @@
   },
   {
     "fields": {
-      "name": "anonymous",
+      "name": "public",
       "parent": "100001",
       "data": "",
-      "pathid": "TBC7RHmFKPKnhjC5zbARnps7z4w=",
-      "fullpath": "user/anonymous",
+      "pathid": "TD4BrspzjHPgftKlD1t2zE3mPss=",
+      "fullpath": "user/public",
       "type": "user",
       "fullname": "A User"
     },
