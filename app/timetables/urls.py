@@ -32,9 +32,8 @@ urlpatterns = patterns('',
     url(r"^editor$", AdminView.as_view(), name="admin"),
     url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
-    # Django admin interface (NOT timetables administrators)
-    url(r'^django-admin/', include(admin.site.urls)),
-    url(r'^django-admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^account/login',
             LoginView.as_view(),
@@ -48,7 +47,7 @@ urlpatterns = patterns('',
     # Timetables administrators
     url(r'^(?P<thing>.*?)\.home\.admin\.html$', administrator.timetable_view, name="admin timetable"),
     url(r'^(?P<thing>.*?)\.list\.admin\.html$', administrator.list_view, name="admin list"),
-    url(r'^(?P<thing>.*?)\calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
+    url(r'^(?P<thing>.*?)\.calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
 #    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
 #    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
 #    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/list/$', administrator.list_view, name="admin list"),

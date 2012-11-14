@@ -25,8 +25,6 @@ define([
 					$el: $(this)
 				}));
 			});
-
-			console.log(this.modules);
 		}
 	});
 
