@@ -69,10 +69,12 @@
 							{% for event_form in series_editor.get_event_formset %}
 								<tr class="event">
 									<td class="eventTitle">{{ event_form.title.value }}<span class="icon-pencil"></span></td>
-									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
-									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
+									<td class="eventType">{{ event_form.event_type.value }}<span class="icon-pencil"></span></td>
+									<td class="eventLocation">{{ event_form.location.value }}<span class="icon-pencil"></span></td>
 									<td class="eventDateTime">
-										Tuesday 13/11 10:05<span class="icon-pencil"></span>
+										{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
+										{{ event_form.instance.start|date:"D j M" }}
+										{# Tuesday 13/11 10:05 #}<span class="icon-pencil"></span>
 										<!--
 										<div class="dateTimeEditor alert alert-block clearfix">
 											<div class="arrow"></div>
@@ -119,7 +121,7 @@
 										    </div>
 										</div>-->
 									</td>
-									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
+									<td class="eventLecturers">{{ event_form.people.value }}<span class="icon-pencil"></span></td>
 									<td class="eventActions">
 										<ul class="clearfix buttons">
 											<li class="pull-left">
