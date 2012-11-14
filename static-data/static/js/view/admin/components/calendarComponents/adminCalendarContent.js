@@ -17,7 +17,7 @@ define([
 	_.extend(AdminCalendarContent.prototype, {
 		initialize: function () {
 			_.defaults(this, {
-				CalendarPopup: AdminCalendarPopup
+				//CalendarPopup: AdminCalendarPopup
 			});
 		}
 	});
