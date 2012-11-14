@@ -3,7 +3,7 @@
 {% block admin_content %}
 <div id="adminListView">
 	<h3>Timetables for
-	    {% if tripos.type == "part" %}
+	    {% if thing.type == "part" %}
 	        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
 	    {% else %}
 	        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
