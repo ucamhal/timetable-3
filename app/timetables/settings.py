@@ -357,7 +357,7 @@ try:
 
     DISABLE_QUERYSET_CACHE = False
 except ImportError:
-    log.error("Query Level Cache is disabled, please install johnny cache")
+    log.info("Query Level Cache is disabled, please install johnny cache")
 
 try:
     from local_settings import *

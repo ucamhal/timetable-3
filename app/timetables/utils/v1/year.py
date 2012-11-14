@@ -5,6 +5,7 @@ import copy
 import re
 from timetables.utils.v1.grouptemplate import GroupTemplate
 from timetables.utils.v1 import util
+import pytz
 
 term_names = ['Michaelmas','Lent','Easter']
 
@@ -62,23 +63,29 @@ class Year:
         out = multispace_re.sub(' ',out)
         return out
 
-    def _to_iso(self,date,time,as_datetime):
-        dt = datetime.datetime.combine(date,time)
-        dt -= datetime.timedelta(microseconds = dt.microsecond) # round to nearest second
-        if as_datetime:
-            return dt
-        return dt.isoformat()+"Z"
 
-    def atoms_to_isos(self,atoms,as_datetime = False):
+    def atoms_to_dt(self, atoms, timezone):
+        '''
+        Convert atoms to date time.
+        :param atoms: the atoms
+        :param as_datetime: set to False if iso dates
+        :param timezone:
+        '''
         out = []
+        tzinfo = pytz.timezone(timezone)
         for atom in atoms:
             for frag in atom.blast():
                 for (term,week) in frag.getTermWeeks().each():
                     for dt in frag.getDayTimesRaw():
+                        # This makes the assumption everything happens on the same day.
                         date = self._date(term,week,dt.day)
-                        start = datetime.time(dt.start[0],dt.start[1])
-                        end = datetime.time(dt.end[0],dt.end[1])
-                        out.append((self._to_iso(date,start,as_datetime),self._to_iso(date,end,as_datetime)))
+                        start = tzinfo.localize(datetime.datetime(year=date.year, month=date.month, day=date.day,
+                                                  hour=dt.start[0], minute=dt.start[1], second=0,
+                                                  microsecond=0))
+                        end = tzinfo.localize(datetime.datetime(year=date.year, month=date.month, day=date.day,
+                                            hour=dt.end[0], minute=dt.end[1], second=0,
+                                            microsecond=0))
+                        out.append((start,end,))
         return out
 
     def to_templated_secular_display(self,fp,group,type= 'lecture'):

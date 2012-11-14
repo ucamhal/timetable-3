@@ -77,7 +77,7 @@ define([
     				textToChange = "Found " + resultsLength + " modules";
         		}
 
-        		$("> h3", self.$el).text(textToChange);
+        		$("div > h3", self.$el).text(textToChange);
         	});
 		},
 

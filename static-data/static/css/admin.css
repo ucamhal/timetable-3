@@ -1,0 +1,209 @@
+.accordion-toggle span {
+	margin-right: 10px;
+}
+
+/*
+.accordion-toggle.collapsed span.icon-folder-open {
+	background-position: -384px -120px;
+}
+*/
+
+
+body ul {
+	list-style-type: none;
+	margin-left: 0;
+}
+
+ul.buttons li a {
+	opacity: .6;
+}
+
+ul.buttons li:hover a {
+	opacity: 1;
+}
+
+a.addModule {
+	margin-bottom: 30px;
+}
+
+#adminListView .btn {
+	border-radius: 200px
+}
+
+.modulesList .module a.addSeries {
+	margin-bottom: 9px;
+}
+
+.btn span.icon-plus {
+	margin-right: 10px;
+}
+
+.addEvent span.icon-plus {
+	margin-right: 7px;
+}
+
+.addEvent {
+	color: #ce7400;
+}
+
+.addEvent {
+	margin-left: 8px;
+	padding-bottom: 10px;
+}
+
+.buttons li {
+	margin-right: 5px;
+}
+
+.events {
+	padding-bottom: 16px;
+}
+
+.events table {
+	margin-bottom: 5px;
+}
+
+.events table tr.editEnabled td {
+	background-color: #fff6e2;
+}
+
+.events td {
+	cursor: pointer;
+}
+
+.events td > .icon-pencil {
+	margin-left: 10px;
+}
+
+.event .eventTitle > .icon-pencil,
+.event .eventType > .icon-pencil,
+.event .eventLocation > .icon-pencil,
+.event .eventDateTime > .icon-pencil,
+.event .eventLecturers > .icon-pencil,
+.event.editEnabled .eventTitle:hover > .icon-pencil,
+.event.editEnabled .eventType:hover > .icon-pencil,
+.event.editEnabled .eventLocation:hover > .icon-pencil,
+.event.editEnabled .eventDateTime:hover > .icon-pencil,
+.event.editEnabled .eventLecturers:hover > .icon-pencil {
+	visibility: hidden;
+}
+
+.event.editEnabled .eventActions .icon-pencil,
+.event.editEnabled .eventActions .icon-pencil:hover {
+	opacity: .3;
+}
+
+.event .eventTitle:hover > .icon-pencil,
+.event .eventType:hover > .icon-pencil,
+.event .eventLocation:hover > .icon-pencil,
+.event .eventDateTime:hover > .icon-pencil,
+.event .eventLecturers:hover > .icon-pencil,
+.event.pencilHover .eventTitle > .icon-pencil,
+.event.pencilHover .eventType > .icon-pencil,
+.event.pencilHover .eventLocation > .icon-pencil,
+.event.pencilHover .eventDateTime > .icon-pencil,
+.event.pencilHover .eventLecturers > .icon-pencil {
+	visibility: visible;
+}
+
+.event .eventDateTime {
+	position: relative;
+}
+
+.event .eventDateTime .dateTimeEditor {
+	position: absolute;
+	z-index: 2;
+}
+
+.seriesHeading.collapsed ul.buttons {
+	visibility: hidden;
+}
+
+.seriesHeading.collapsed:hover ul.buttons {
+	visibility: visible;
+}
+
+.modulesList > li {
+	margin-bottom: 30px;
+}
+
+.modulesList h3, .modulesList h4, .modulesList h5 {
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+}
+
+.moduleHeading {
+	margin-bottom: 10px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba(0, 0, 0, .4);
+	border-bottom-width: 3px;
+	padding: 10px 0;
+}
+
+.moduleHeading .buttons {
+	visibility: hidden;
+}
+
+.moduleHeading:hover .buttons {
+	visibility: visible;
+}
+
+.moduleHeading.hasOpenSeries .buttons {
+	visibility: visible;
+}
+
+.seriesList,
+.module > a.btn {
+	margin-left: 20px;
+}
+
+.module > a.btn {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.seriesHeading {
+	padding: 10px 0;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .2);
+}
+
+.seriesHeading h5 span {
+	margin-right: 8px;
+}
+
+.moduleHeading .buttons,
+.seriesHeading .buttons {
+	margin-left: 15px;
+}
+
+.seriesEditActions {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+
+.seriesEditActions .cancel {
+	margin-right: 16px;
+	margin-top: 4px;
+	display: block;
+}
+
+.event select {
+	width: 100%;
+	height: inherit;
+}
+
+.event input[type="text"] {
+	background: transparent;
+	border-style: dashed;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	padding: 0;
+	margin: 0;
+	display: block;
+	box-shadow: none;
+	float: left;
+}

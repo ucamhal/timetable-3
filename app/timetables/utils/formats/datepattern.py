@@ -1,7 +1,7 @@
 from timetables.utils.datetimes import server_datetime_now
-from timetables.utils.v1 import generate
 from timetables.models import Event
 import logging
+from timetables.utils.v1.generators import generate
 
 log = logging.getLogger(__name__)
 
