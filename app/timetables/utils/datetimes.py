@@ -228,6 +228,9 @@ def _error_unknown(type, value, options):
             type, value, options))
 
 def termweek_to_abs(year, term, week, day, week_start="thu"):
+    """
+    Converts 
+    """
     if not year in TERM_STARTS:
         _error_unknown("year", year, TERM_STARTS.keys())
     
@@ -243,13 +246,8 @@ def termweek_to_abs(year, term, week, day, week_start="thu"):
     # Create a Term object from the provided year and term name/index
     term = Term.from_static_data(year, TERMS[term], DAYS[week_start])
     
-    # Convert the week number & day of week to an absolute date 
-    return TermWeekDate(term, week, DAYS[day]).as_date()
-
-def first_day_on_or_after(date, day):
-    "Returns: The first date on or after date whose day is day."
-    offset = (day - date.weekday()) % 7
-    return date + timedelta(days=offset)
+    # Convert the week number & day of week to an absolute date
+    return term.make_absolute(WeekDate(week, DAYS[day]))
 
 class Term(object):
     def __init__(self, start_date, start_day):
@@ -265,22 +263,45 @@ class Term(object):
         start_date = TERM_STARTS[year][term_index]
         return Term(start_date, start_day)
     
+    @staticmethod
+    def first_day_on_or_after(date, day):
+        """
+        Returns: The first date on or after date whose day is day.
+        """
+        offset = (day - date.weekday()) % 7
+        return date + timedelta(days=offset)
+    
     def first_day_of_term(self):
-        return first_day_on_or_after(self.start_date, self.start_day)
+        return self.first_day_on_or_after(self.start_date, self.start_day)
+
+    def make_absolute(self, week_date):
+        # the first week of term is 0 weeks from the start of term. The 0th week
+        # of term is 1 week before the start of term.
+        week_offset_from_term_start = week_date.week - 1
+        
+        week_start_date = (self.first_day_of_term() +
+                timedelta(weeks=week_offset_from_term_start))
+        
+        return self.first_day_on_or_after(week_start_date, week_date.day)
 
 
-class TermWeekDate(object):
+class WeekDate(object):
+    def __init__(self, week, day):
+        self.week = week
+        self.day = day
+    
+    def with_term(self, term):
+        return TermWeekDate(term, self.week, self.day)
+    
+    def as_date(self):
+        raise NotImplementedError("Can't resolve to a date without a term. "
+                "Call with_term(some_term).as_date() instead.")
+
+class TermWeekDate(WeekDate):
     def __init__(self, term, week, day):
         self.term = term
         self.week = week
         self.day = day
     
     def as_date(self):
-        # the first week of term is 0 weeks from the start of term. The 0th week
-        # of term is 1 week before the start of term.
-        week_offset_from_term_start = self.week - 1
-        
-        week_start_date = (self.term.first_day_of_term() +
-                timedelta(weeks=week_offset_from_term_start))
-        
-        return first_day_on_or_after(week_start_date, self.day)
+        return self.term.make_absolute(self)
