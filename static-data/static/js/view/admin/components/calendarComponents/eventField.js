@@ -18,8 +18,11 @@ define([
 				value: $(".dataValue", this.$el).text(),
 				type: this.$el.attr("class"),
 				editable: false,
-				changed: false
+				changed: false,
+				initialWidth: this.$el.width()
 			});
+
+			$(".dataInput", this.$el).width(this.initialWidth);
 		},
 
 		dataChanged: function () {
