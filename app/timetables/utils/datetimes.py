@@ -1,4 +1,4 @@
-import re, pytz, logging
+import re, pytz, logging, operator
 from datetime import timedelta
 
 from timetables.utils.compat import Counter
@@ -208,20 +208,20 @@ def server_datetime_now():
     """
     return datetime.now(server_timezone())
 
-TERMS = {
-    0: 0,
-    1: 1,
-    2: 2,
-    "michaelmas": 0,
-    "lent": 1,
-    "easter": 2
-}
 
-DAYS = dict(
-    [(n, n) for n in xrange(7)] + 
-    [(name, n) for n, name in enumerate([
-            "mon", "tue", "wed", "thu", "fri", "sat", "sun"])]
-)
+TERM_MICHAELMAS, TERM_LENT, TERM_EASTER = "michaelmas", "lent", "easter"
+TERMS = {
+    TERM_MICHAELMAS: 0,
+    TERM_LENT: 1,
+    TERM_EASTER: 2
+}
+TERMS_REVERSE = dict((v,k) for k,v in TERMS.items())
+
+DAY_MON, DAY_TUE, DAY_WED, DAY_THU, DAY_FRI, DAY_SAT, DAY_SUN = (
+        "mon", "tue", "wed", "thu", "fri", "sat", "sun")
+DAYS = {DAY_MON: 0, DAY_TUE: 1, DAY_WED: 2, DAY_THU: 3, DAY_FRI: 4, DAY_SAT: 5,
+        DAY_SUN: 6}
+DAYS_REVERSE = dict((v,k) for k,v in DAYS.items())
 
 def _error_unknown(type, value, options):
     raise ValueError("Unknown %s: %s. Expected one of: %s" % (
@@ -247,21 +247,69 @@ def termweek_to_abs(year, term, week, day, week_start="thu"):
     term = Term.from_static_data(year, TERMS[term], DAYS[week_start])
     
     # Convert the week number & day of week to an absolute date
-    return term.make_absolute(WeekDate(week, DAYS[day]))
+    return WeekDate(term, week, DAYS[day]).as_date()
 
-class Term(object):
+def date_to_termweek(date, year=None, term=None):
+    """
+    Converts a date into a week offset from the start of a term.
+    
+    This performs the opposite of termweek_to_abs().
+    
+    Args:
+        date: The datetime.date instance to make relative.
+        year: (Optional) the year of the term to make the date relative to.
+        term: (Optional, but required if year is provided) the name of the
+            term to make the date relative to.
+    
+    Returns:
+        A tuple of (year, term, week, day) where:
+          - year is the integer year in which the term's academic year starts
+                (e.g. 2012)
+          - term is the name of the term. One of: "michaelmas", "lent", "easter"
+          - week is the 1 based index of the week in the term. 1 is the first
+              week of term, 0 is the week before the start of term.
+    """
+    if bool(year) ^ bool(term):
+        raise ValueError("Both year and term or neither must be provided, not "
+                "one or the other.")
+
+    if year is not None:
+        if not year in TERM_STARTS:
+            _error_unknown("year", year, TERM_STARTS.keys())
+
+        if not term in TERMS:
+            _error_unknown("term", term, TERMS.keys())
+
+        term = Term.from_static_data(year, TERMS[term])
+    else:
+        # No term is specified, so choose the most appropriate term
+        # automatically.
+        term = TERM_IDENTIFIER.term_for_date(date)
+    
+    relative = term.make_relative(date)
+    
+    return (term.academic_year_start_year, TERMS_REVERSE[term.name],
+            relative.week, DAYS_REVERSE[relative.day])
+
+
+class TimeBlock(object):
+    """
+    Represents a point in time from which offsets can be calculated. It differs
+    from an explicit date in that the block starts on a specific day of the
+    week.
+    """
     def __init__(self, start_date, start_day):
+        """
+        Args:
+            start_date: The earliest date that can be considered for inclusion
+                in the block.
+            start_day: The day of the week on which the block starts.
+        """
         if not start_day in range(7):
             raise ValueError("start_day out of range: %s" % start_day)
         
         self.start_date = start_date
         self.start_day = start_day
-    
-    @staticmethod
-    def from_static_data(year, term_index, start_day=DAYS["thu"]):
-        # Find start date in our hardcoded data
-        start_date = TERM_STARTS[year][term_index]
-        return Term(start_date, start_day)
     
     @staticmethod
     def first_day_on_or_after(date, day):
@@ -271,37 +319,142 @@ class Term(object):
         offset = (day - date.weekday()) % 7
         return date + timedelta(days=offset)
     
-    def first_day_of_term(self):
+    def first_day(self):
+        """
+        Gets the actual datetime.date on which this block starts. This is the
+        first occurrence of start_day on or after start_date.
+        """
         return self.first_day_on_or_after(self.start_date, self.start_day)
 
     def make_absolute(self, week_date):
+        """
+        Make a WeekDate object absolute by considering it to be relative to
+        this block's first day.
+        """
         # the first week of term is 0 weeks from the start of term. The 0th week
         # of term is 1 week before the start of term.
         week_offset_from_term_start = week_date.week - 1
         
-        week_start_date = (self.first_day_of_term() +
+        week_start_date = (self.first_day() +
                 timedelta(weeks=week_offset_from_term_start))
         
         return self.first_day_on_or_after(week_start_date, week_date.day)
 
+    def make_relative(self, date):
+        """
+        Convert an absolute date to a WeekDate object relative to this block's
+        first day.
+        """
+        total_delta = date - self.first_day()
+        
+        week = (total_delta.days / 7) + 1
+        return WeekDate(self, week, date.weekday())
+
+
+class Term(TimeBlock):
+    """
+    Represents a term in an academic year.
+    
+    This is a specialisation of TimeBlock which stores the year the term's
+    academic year starts in and the name of the term. 
+    """
+    def __init__(self, academic_year_start_year, name, start_date, start_day):
+        super(Term, self).__init__(start_date, start_day)
+        self.academic_year_start_year = academic_year_start_year
+        self.name = name
+    
+    @staticmethod
+    def from_static_data(year, term_index, start_day=DAY_THU):
+        """
+        Instantiate and return a Term from data in the TERM_STARTS table.
+        """
+        # Find start date in our hardcoded data
+        start_date = TERM_STARTS[year][term_index]
+        return Term(year, term_index, start_date, start_day)
+
 
 class WeekDate(object):
-    def __init__(self, week, day):
+    """
+    Represents a date relative to a point in time. The date is specified in
+    terms of a week offset with a day. This allows dates such as
+    "Michaelmas, Week 3, Tuesday" to be represented.
+    """
+    def __init__(self, timeblock, week, day):
+        self.timeblock = timeblock
         self.week = week
         self.day = day
     
-    def with_term(self, term):
-        return TermWeekDate(term, self.week, self.day)
-    
     def as_date(self):
-        raise NotImplementedError("Can't resolve to a date without a term. "
-                "Call with_term(some_term).as_date() instead.")
+        """
+        Converts the relative date into an absolute date using this date's
+        timeblock.
+        
+        Returns: A datetime.date object.
+        """
+        return self.timeblock.make_absolute(self)
 
-class TermWeekDate(WeekDate):
-    def __init__(self, term, week, day):
-        self.term = term
-        self.week = week
-        self.day = day
+
+class TermIdentificationStrategy(object):
+    """
+    Represents the strategy used for automatically identifying the term to use
+    when converting an absolute date into a relative date.
     
-    def as_date(self):
-        return self.term.make_absolute(self)
+    This implementation assumes the following strategy (and assumes terms don't
+    overlap).
+    
+      - If a date falls within a term then that term is used
+      - If the term does not fall within a term, the term with the start/end
+        date nearest the date is used.  
+    """
+    def __init__(self, terms, term_length):
+        """
+        Args:
+            terms: A sequence of Term objects.
+            term_length: A datetime.timedelta object representing the length of
+                each term.
+        """
+        durations = []
+        for term in terms:
+            duration = (term.first_day(), term.first_day() + term_length, term)
+            durations.append(duration)
+        self.durations = durations
+    
+    def _closest_duration(self, date):
+        """
+        Finds the term closest to date.
+        """
+        # This assumes that there are no overlapping durations
+        closest = None
+        for start, end, term in self.durations:
+            if date >= start and date <= end:
+                return term
+            distance = min(
+                abs(start - date),
+                abs(end - date))
+            if closest is None or distance < closest[0]:
+                closest = (distance, term)
+        return closest[1]
+    
+    def term_for_date(self, date):
+        """
+        Args:
+            date: A datetime.date object.
+        Returns: The most suitable term to use for the date provided.
+        """
+        return self._closest_duration(date)
+
+
+def _all_terms():
+    """
+    Enumerates all of the terms specified in TERM_STARTS as Term objects.
+    """
+    for year, terms in TERM_STARTS.items():
+        for index, term_start in enumerate(terms):
+            yield Term(year, index, term_start, DAYS["thu"]) 
+
+# An object implementing the term identification strategy we're using to get
+# the appropriate term for a date.
+TERM_IDENTIFIER = TermIdentificationStrategy(
+        _all_terms(),
+        # Consider terms to be 8 weeks long
+        timedelta(days=8*7))

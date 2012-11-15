@@ -61,3 +61,22 @@ class TestTermWeekToAbsoluteDate(TestCase):
             
             self.assertEqual(expected, actual,"expected: %s, actual: %s, "
                     "args: %s" % (expected, actual, args))
+
+
+class TestDateToTermWeek(TestCase):
+    def test_expected_values(self):
+        expectations = [
+            ((datetime.date(2012, 10,  4),), (2012, "michaelmas", 1, "thu")),
+            ((datetime.date(2012, 10,  5),), (2012, "michaelmas", 1, "fri")),
+            ((datetime.date(2012,  9, 27),), (2012, "michaelmas", 0, "thu")),
+            ((datetime.date(2012, 10,  3),), (2012, "michaelmas", 0, "wed")),
+            ((datetime.date(2012,  9, 26),), (2012, "michaelmas", -1, "wed")),
+            ((datetime.date(2012,  9, 19),), (2012, "michaelmas", -2, "wed")),
+            ((datetime.date(2012,  9, 18),), (2012, "michaelmas", -2, "tue")),
+            ((datetime.date(2012,  9, 20),), (2012, "michaelmas", -1, "thu")),
+        ]
+        for args, expected in expectations:
+            actual = datetimes.date_to_termweek(*args) 
+            
+            self.assertEqual(expected, actual,"expected: %s, actual: %s, "
+                    "args: %s" % (expected, actual, args))
