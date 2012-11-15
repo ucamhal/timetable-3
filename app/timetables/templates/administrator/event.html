@@ -27,6 +27,14 @@
 		<div class="dataValue pull-left">
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
 			{{ event_form.instance.start|date:"D j M" }}
+			
+			<input type="hidden" value="{{ event_form.instance.start }}" name="{{ event_form.start.html_name }}" />
+			{# {{ event_form.instance.start.hour }}:{{ event_form.instance.start.minute }} #}
+			<input type="hidden" value="{{ event_form.instance.end }}" name="{{ event_form.end.html_name }}" />
+			{# <input type="date" value="{{ event_form.instance.date }}" name="{{ event_form_date_html_name }}" /> #}
+			<input type="hidden" value="" name="week" />
+			<input type="hidden" value="" name="term" />
+			
 		</div>
 		<div class="dataInput">
 			<input type="text" value="{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},{{ event_form.instance.start|date:"D j M" }}" />

@@ -65,6 +65,9 @@ class SeriesEditor(object):
     
     def get_event_formset(self):
         return self._event_formset
+    
+    def get_series(self):
+        return self._series
 
 def list_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
