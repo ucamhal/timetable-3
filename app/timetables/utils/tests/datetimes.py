@@ -12,35 +12,35 @@ class TestTermWeekToAbsoluteDate(TestCase):
     
     def test_unknown_year_raises_value_error(self):
         try:
-            datetimes.termweek_to_abs(1066, "michaelmas", 1, "mon")
+            datetimes.termweek_to_date(1066, "michaelmas", 1, "mon")
             self.fail("1066 should not exist as a year")
         except ValueError:
             pass
     
     def test_unknown_month_raises_value_error(self):
         try:
-            datetimes.termweek_to_abs(2012, "blah", 1, "mon")
+            datetimes.termweek_to_date(2012, "blah", 1, "mon")
             self.fail("\"blah\" is not a term")
         except ValueError:
             pass
     
     def test_unknown_day_raises_value_error(self):
         try:
-            datetimes.termweek_to_abs(2012, "michaelmas", 1, "acksdfs")
+            datetimes.termweek_to_date(2012, "michaelmas", 1, "acksdfs")
             self.fail("\"acksdfs\" is not a day")
         except ValueError:
             pass
     
     def test_unknown_week_start_day_raises_value_error(self):
         try:
-            datetimes.termweek_to_abs(2012, "michaelmas", 1, "thu",
+            datetimes.termweek_to_date(2012, "michaelmas", 1, "thu",
                     week_start="fsd")
             self.fail("\"fsd\" is not a day")
         except ValueError:
             pass
     
     def test_default_week_start_is_thursday(self):
-        actual = datetimes.termweek_to_abs(2012, "michaelmas", 1, "thu")
+        actual = datetimes.termweek_to_date(2012, "michaelmas", 1, "thu")
         
         self.assertTrue(actual.weekday() == 3,
                 "The first day of term should be Thursday.")
@@ -57,7 +57,7 @@ class TestTermWeekToAbsoluteDate(TestCase):
         ]
         
         for args, expected in expectations:
-            actual =  datetimes.termweek_to_abs(*args)
+            actual =  datetimes.termweek_to_date(*args)
             
             self.assertEqual(expected, actual,"expected: %s, actual: %s, "
                     "args: %s" % (expected, actual, args))

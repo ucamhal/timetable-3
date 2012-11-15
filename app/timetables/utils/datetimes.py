@@ -227,9 +227,26 @@ def _error_unknown(type, value, options):
     raise ValueError("Unknown %s: %s. Expected one of: %s" % (
             type, value, options))
 
-def termweek_to_abs(year, term, week, day, week_start="thu"):
+def termweek_to_date(year, term, week, day, week_start="thu"):
     """
-    Converts 
+    Converts a week offset from the start of a term into a date.
+    
+    The year and term arguments specify the term to use as the fixed point to
+    make the week absolute against. 
+    
+    This performs the opposite of date_to_termweek().
+    
+    Args:
+        year: The integer starting year of the academic year which the term
+            should be taken from.
+        term: The name of the term in the academic year to use.
+            One of the TERM_* constants.
+        week: The 1 based week in the term the date is in. 1 is the first week
+            of term, 0 is the week before the first.
+        day: The day of the week the date is on.
+    
+    Returns:
+        A datetime.date object at the date represented by the term, week & day.
     """
     if not year in TERM_STARTS:
         _error_unknown("year", year, TERM_STARTS.keys())
@@ -253,13 +270,13 @@ def date_to_termweek(date, year=None, term=None):
     """
     Converts a date into a week offset from the start of a term.
     
-    This performs the opposite of termweek_to_abs().
+    This performs the opposite of termweek_to_date().
     
     Args:
         date: The datetime.date instance to make relative.
         year: (Optional) the year of the term to make the date relative to.
         term: (Optional, but required if year is provided) the name of the
-            term to make the date relative to.
+            term to make the date relative to. One of the TERM_* constants.
     
     Returns:
         A tuple of (year, term, week, day) where:
