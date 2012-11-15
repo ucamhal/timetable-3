@@ -30,3 +30,10 @@ class EventQuerySet(query.QuerySet):
     
     def include_series_length(self):
         return self.annotate(Count("owning_series__event"))
+
+    def just_active(self):
+        """
+        Filters the set of events to just those which are current versions
+        and have status live.
+        """
+        return self.filter(current=True, status=self.model.STATUS_LIVE)

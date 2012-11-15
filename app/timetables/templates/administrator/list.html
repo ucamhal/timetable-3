@@ -3,7 +3,7 @@
 {% block admin_content %}
 <div id="adminListView">
 	<h3>Timetables for
-	    {% if tripos.type == "part" %}
+	    {% if thing.type == "part" %}
 	        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
 	    {% else %}
 	        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
@@ -22,135 +22,7 @@
 	<a href="#" class="btn addModule"><span class="icon-plus"></span>Add module</a>
 	<ul class="modulesList">
 	{% for module_editor in module_editors %}
-		<li class="module">
-			<div class="moduleHeading clearfix">
-				<h4 class="pull-left">{{ module_editor.get_form.fullname.value }}</h4>
-				<ul class="buttons pull-left">
-					<li class="pull-left">
-						<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
-					</li>
-					<li class="pull-left">
-						<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
-					</li>
-					<li class="pull-left">
-						<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
-					</li>
-					<li class="pull-left">
-						<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
-					</li>
-				</ul>
-			</div>
-
-			<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
-
-			<ul class="seriesList">
-			{% for series_editor in module_editor.series_editors %}
-				<li class="series">
-					<div class="seriesHeading collapsed clearfix">
-						<h5 class="pull-left"><a href="#"><span class="icon-chevron-right"></span>{{ series_editor.get_form.title.value }}</a></h5>
-						<ul class="buttons pull-left">
-							<li class="pull-left">
-								<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
-							</li>
-							<li class="pull-left">
-								<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
-							</li>
-							<li class="pull-left">
-								<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
-							</li>
-							<li class="pull-left">
-								<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
-							</li>
-						</ul>
-					</div>
-					<div class="events clearfix dontDisplayMe">
-						<table class="table table-striped">
-							<tbody>
-							{% for event_form in series_editor.get_event_formset %}
-								<tr class="event">
-									<td class="eventTitle">{{ event_form.title.value }}<span class="icon-pencil"></span></td>
-									<td class="eventType">Lecture<span class="icon-pencil"></span></td>
-									<td class="eventLocation">Sigdwick Av.<span class="icon-pencil"></span></td>
-									<td class="eventDateTime">
-										Tuesday 13/11 10:05<span class="icon-pencil"></span>
-										<!--
-										<div class="dateTimeEditor alert alert-block clearfix">
-											<div class="arrow"></div>
-											<button type="button" class="close" data-dismiss="alert">x</button>
-
-											<h5>When does this event take place?</h5>
-
-											<label for="eventDateTimeWeek">Week</label>
-											<input type="number" name="eventDateTimeWeek" id="eventDateTimeWeek" min="1" max="9" />
-
-											<label for="eventDateTimeTerm">in</label>
-											<select id="eventDateTimeTerm">
-												<option value="michaelmas">Michaelmas</option>
-												<option value="lent">Lent</option>
-												<option value="easter">Easter</option>
-											</select>
-
-											<label for="eventDateTimeDay">on</label>
-											<select id="eventDateTimeDay">
-												<option value="monday">Monday</option>
-												<option value="tuesday">Tuesday</option>
-												<option value="wednesday">Wednesday</option>
-												<option value="thursday">Thursday</option>
-												<option value="friday">Friday</option>
-												<option value="saturday">Saturday</option>
-											</select>
-
-											<label for="eventDateTimeFrom">From</label>
-										    <div class="input-append bootstrap-timepicker-component">
-										        <input type="text" id="eventDateTimeFrom" name="eventDateTimeFrom"
-										               class="timepicker-default input-small">
-										        <span class="add-on">
-										            <i class="icon-time"></i>
-										        </span>
-										    </div>
-
-										    <label for="eventDateTimeTo">From</label>
-										    <div class="input-append bootstrap-timepicker-component">
-										        <input type="text" id="eventDateTimeTo" name="eventDateTimeTo"
-										               class="timepicker-default input-small">
-										        <span class="add-on">
-										            <i class="icon-time"></i>
-										        </span>
-										    </div>
-										</div>-->
-									</td>
-									<td class="eventLecturers">Dr. W. Bennett<span class="icon-pencil"></span></td>
-									<td class="eventActions">
-										<ul class="clearfix buttons">
-											<li class="pull-left">
-												<a href="#" class="icon-pencil edit" title="edit"><span class="hideMe">edit</span></a>
-											</li>
-											<li class="pull-left">
-												<a href="#" class="icon-file duplicate" title="duplicate"><span class="hideMe">duplicate</span></a>
-											</li>
-											<li class="pull-left">
-												<a href="#" class="icon-trash remove" title="remove"><span class="hideMe">remove</span></a>
-											</li>
-										</ul>
-									</td>
-								</tr>
-							{% endfor %}
-							</tbody>
-						</table>
-						<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
-						<ul class="seriesEditActions pull-right dontDisplayMe">
-							<li class="pull-left">
-								<a href="#" class="cancel">cancel</a>
-							</li>
-							<li class="pull-left">
-								<a href="#" class="save btn btn-success" title="save event series">Save</a>
-							</li>
-						</ul>
-					</div>
-				</li>
-			{% endfor %}
-			</ul>
-		</li>
+		{% include "administrator/module.html" %}
 	{% endfor %}
 	</ul>
 </div>

@@ -14,8 +14,8 @@ define([
 			_.defaults(this, {
 				selector: "body",
 				$el: $(this.selector),
-				initialValue: this.$el.text(),
-				value: this.$el.text(),
+				initialValue: $(".dataValue", this.$el).text(),
+				value: $(".dataValue", this.$el).text(),
 				type: this.$el.attr("class"),
 				editable: false,
 				changed: false
@@ -41,14 +41,27 @@ define([
 			return false;
 		},
 
+		setValue: function (value) {
+			switch (this.type) {
+			case "eventTitle":
+			case "eventLocation":
+			case "eventLecturers":
+				$("input", this.$el).val(value);
+			case "eventType":
+				$("select", this.$el).val(value);
+			case "eventDateTime":
+				break;
+			}
+
+			$(".dataValue", this.$el).text(value);
+		},
+
 		toggleEditEnabledState: function (editEnabled, updateUI, revertData) {
+			var self = this;
+
 			this.editEnabled = typeof editEnabled === "undefined" ? !this.editEnabled : editEnabled;
 			revertData = typeof revertData === "undefined" ? false : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
-
-			if (updateUI === true) {
-				this.setEditEnabledState(this.editEnabled);
-			}
 
 			if (revertData === true) {
 				this.revertData();
@@ -56,24 +69,7 @@ define([
 		},
 
 		revertData: function () {
-			this.$el.html("");
-			this.$el.text(this.initialValue);
-			this.$el.append('<span class="icon-pencil"></span>');
-		},
-
-		setEditEnabledState: function (editEnabled) {
-			switch (this.type) {
-			case "eventTitle":
-			case "eventLocation":
-			case "eventLecturers":
-				this.$el.html('<input type="text" value="' + this.value + '" />');
-				break;
-			case "eventType":
-				this.$el.html('<select><option>Lecture</option></select>');
-				break;
-			case "eventDateTime":
-				break;
-			}
+			this.setValue(this.initialValue);
 		}
 	});
 

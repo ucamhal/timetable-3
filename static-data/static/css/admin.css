@@ -8,7 +8,6 @@
 }
 */
 
-
 body ul {
 	list-style-type: none;
 	margin-left: 0;
@@ -93,6 +92,38 @@ a.addModule {
 	opacity: .3;
 }
 
+.event .eventTitle .dataInput,
+.event .eventType .dataInput,
+.event .eventLocation .dataInput,
+.event .eventDateTime .dataInput,
+.event .eventLecturers .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataInput,
+.event.editEnabled .eventType .dataInput,
+.event.editEnabled .eventLocation .dataInput,
+.event.editEnabled .eventDateTime .dataInput,
+.event.editEnabled .eventLecturers .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle > span,
+.event.editEnabled .eventType > span,
+.event.editEnabled .eventLocation > span,
+.event.editEnabled .eventDateTime > span,
+.event.editEnabled .eventLecturers > span {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataValue,
+.event.editEnabled .eventType .dataValue,
+.event.editEnabled .eventLocation .dataValue,
+.event.editEnabled .eventDateTime .dataValue,
+.event.editEnabled .eventLecturers .dataValue {
+	display: none;
+}
+
 .event .eventTitle:hover > .icon-pencil,
 .event .eventType:hover > .icon-pencil,
 .event .eventLocation:hover > .icon-pencil,
@@ -104,6 +135,42 @@ a.addModule {
 .event.pencilHover .eventDateTime > .icon-pencil,
 .event.pencilHover .eventLecturers > .icon-pencil {
 	visibility: visible;
+}
+
+.event.editEnabled .dataInput > input {
+	padding: 8px;
+	border-style: dashed;
+	box-shadow: none;
+	background: transparent;
+	height: 21px;
+}
+
+.event.editEnabled,
+.event.editEnabled td,
+.event.editEnabled .dataInput,
+.event.editEnabled .dataInput > * {
+	height: 37px;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled .dataInput > * {
+	height: 35px!important;
+}
+
+.event.editEnabled .dataInput {
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled td {
+	padding: 0;
+	margin: 0;
+}
+
+.event.editEnabled .eventActions {
+	padding: 8px;
 }
 
 .event .eventDateTime {
@@ -134,11 +201,11 @@ a.addModule {
 }
 
 .moduleHeading {
-	margin-bottom: 10px;
 	border-bottom-style: solid;
 	border-bottom-color: rgba(0, 0, 0, .4);
 	border-bottom-width: 3px;
 	padding: 10px 0;
+	margin-bottom: 10px;
 }
 
 .moduleHeading .buttons {
@@ -188,22 +255,4 @@ a.addModule {
 	margin-right: 16px;
 	margin-top: 4px;
 	display: block;
-}
-
-.event select {
-	width: 100%;
-	height: inherit;
-}
-
-.event input[type="text"] {
-	background: transparent;
-	border-style: dashed;
-	width: 100%;
-	height: 100%;
-	border-radius: 0;
-	padding: 0;
-	margin: 0;
-	display: block;
-	box-shadow: none;
-	float: left;
 }
