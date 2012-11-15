@@ -57,6 +57,8 @@ define([
 		},
 
 		toggleEditEnabledState: function (editEnabled, updateUI, revertData) {
+			var self = this;
+
 			this.editEnabled = typeof editEnabled === "undefined" ? !this.editEnabled : editEnabled;
 			revertData = typeof revertData === "undefined" ? false : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
