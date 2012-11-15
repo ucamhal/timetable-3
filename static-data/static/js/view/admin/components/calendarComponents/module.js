@@ -34,6 +34,12 @@ define([
 			});
 		},
 
+		hasOpenChanges: function () {
+			return _.any(this.series, function (item) {
+				return item.openChangesState;
+			});
+		},
+
 		hasOpenSeries: function () {
 			return _.any(this.series, function (item) {
 				return item.collapsed === false;

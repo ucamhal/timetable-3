@@ -25,6 +25,18 @@ define([
 					$el: $(this)
 				}));
 			});
+
+			window.onbeforeunload = function (event) {
+				if (self.checkForOpenChanges() === true) {
+					return "You have unsaved changes";
+				}
+			}
+		},
+
+		checkForOpenChanges: function () {
+			return _.any(this.modules, function (item) {
+				return item.hasOpenChanges();
+			});
 		}
 	});
 
