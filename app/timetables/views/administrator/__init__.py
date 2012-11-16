@@ -1,6 +1,7 @@
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
+from django.views.decorators.http import require_POST
 
 from timetables import models
 from timetables import forms
@@ -84,6 +85,23 @@ def list_view(request, thing=None):
 
     return shortcuts.render(request, "administrator/list.html", 
             {"thing": thing, "module_editors": module_editors})
+
+def edit_series_view(request, series_id):
+    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
+
+    if request.method == "POST":
+        editor = SeriesEditor(series, post_data=request.POST)
+
+        series_form = editor.get_form()
+        events_formset = editor.get_event_formset()
+
+        if series_form.is_valid() and events_formset.is_valid():
+            # TODO: save
+            raise NotImplementedError
+    else:
+        editor = SeriesEditor(series)
+    return shortcuts.render(request, "administrator/series.html",
+            {"series_editor": editor})
 
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
