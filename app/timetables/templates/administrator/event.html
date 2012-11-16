@@ -25,9 +25,9 @@
 	</td>
 	<td class="eventDateTime clearfix">
 		<div class="dataValue pull-left">
-			<span title="{{ event_form.instance.start|date:"l jS F Y" }}">
-				W-{{ event_form.term_week.value }} in {{ event_form.term_name.value }},
-				on {{ event_form.day_of_week.value }}
+			<span title="{{ event_form.instance.start|date:"l jS F " }}">
+				W {{ event_form.term_week.value }} in {{ event_form.term_name.value|capfirst }},
+				on {{ event_form.day_of_week.value|capfirst }}
 			</span>
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
 		</div>
