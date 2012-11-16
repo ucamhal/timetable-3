@@ -21,7 +21,8 @@ define([
 				events: [],
 				collapsed: true,
 				editEnabled: false,
-				openChangesState: false
+				openChangesState: false,
+				$notificationsPopup: $(".changesNotificationPopup")
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
@@ -97,7 +98,27 @@ define([
 				item.saveEdits();
 			});
 
-			$(".changesNotificationPopup").modal();
+			this.handleNotifications();
+		},
+
+		handleNotifications: function () {
+			var self = this;
+
+			this.$notificationsPopup.modal().find("a").click(function (event) {
+				
+				if ($(this).hasClass("dontSendNotification")) {
+					self.$notificationsPopup.modal("hide");
+				} else if ($(this).hasClass("sendNotifcation")) {
+					self.$notificationsPopup.modal("hide");
+					self.sendNotifications();
+				}
+
+				event.preventDefault();
+			});
+		},
+
+		sendNotifications: function () {
+
 		},
 
 		setCollapsedState: function (collapsed, animationCallback) {

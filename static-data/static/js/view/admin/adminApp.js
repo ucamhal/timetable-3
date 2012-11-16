@@ -8,7 +8,8 @@ define([
 	"view/admin/components/adminResults",
 	"bootstrap",
 	"bootstrapTimePicker",
-	"bootstrapDatePicker"
+	"bootstrapDatePicker",
+	"bootstrapSpinner"
 ], function ($, _, BaseApplication, page, AdminInputArea, AdminCalendar, AdminResults) {
 	"use strict";
 
