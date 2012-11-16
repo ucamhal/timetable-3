@@ -44,6 +44,14 @@
 			</li>
 		</ul>
 	</div>
+
+	{% comment %}
+	The event forms each need an ID to record which event each form represents. They're here rather than in the event.html as they don't really fit into the <table>.
+	{% endcomment %}
+	{% for event_form in series_editor.get_event_formset %}
+		{{ event_form.id }}
+	{% endfor %}
+
     {% if not request.is_ajax %}
         <input type="submit" value="Save">
     {% endif %}
