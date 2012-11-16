@@ -56,7 +56,7 @@ class SeriesEditor(object):
         self._form = forms.ListPageSeriesForm(data=post_data, instance=series)
         
         self._event_formset = forms.ListPageEventFormSet(data=post_data,
-                queryset=self._get_events(series))
+                instance=series, queryset=self._get_events(series))
 
     def _get_events(self, series):
         return series.event_set.just_active()

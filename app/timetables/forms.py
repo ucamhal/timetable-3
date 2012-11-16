@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms.models import modelformset_factory, BaseModelFormSet
+from django.forms.models import modelformset_factory, BaseModelFormSet,\
+    inlineformset_factory
 from django.utils import datetime_safe as datetime
 from django.utils import timezone
 
@@ -110,16 +111,17 @@ class EventForm(forms.ModelForm):
         if self.instance is None:
             return
         
-        _, term, week, day = datetimes.date_to_termweek(
-                self.instance.start.date())
-        self.initial["day_of_week"] = day
-        self.initial["term_week"] = week
-        self.initial["term_name"] = term
-        
-        self.initial["start"] = self._format_time(
-                self.instance.start_local())
-        self.initial["end"] = self._format_time(
-                self.instance.end_local())
+        if self.instance.start is not None:
+            _, term, week, day = datetimes.date_to_termweek(
+                    self.instance.start.date())
+            self.initial["day_of_week"] = day
+            self.initial["term_week"] = week
+            self.initial["term_name"] = term
+            
+            self.initial["start"] = self._format_time(
+                    self.instance.start_local())
+            self.initial["end"] = self._format_time(
+                    self.instance.end_local())
         
         event_type = self.instance.metadata.get("type", "")
         if not event_type in EVENT_TYPE_CHOICES:
@@ -139,7 +141,6 @@ class EventForm(forms.ModelForm):
     # Override save() in order to save our custom form fields as well as the
     # default model form fields.
     def save(self, commit=True):
-        assert commit, "Not committing is not supported due to versioning"
         
         event = super(EventForm, self).save(commit=False)
         
@@ -147,6 +148,8 @@ class EventForm(forms.ModelForm):
         
         # Save a new version of the event rather than updating the up the
         # current one.
+        # NOTE: we always save here, even if commit is false, but it's OK as
+        # we're making a new version...
         new_event = models.Event(from_instance=event)
         
         # We must have the save here because we need an ID before we can change
@@ -244,13 +247,8 @@ class SeriesForm(forms.ModelForm):
             series.metadata["type"] =  self.cleaned_data["event_type"]
 
 
-class BaseEventsFormSet(BaseModelFormSet):
-    def save(self, commit=True):
-        return BaseModelFormSet.save(self, commit=commit)
-
-
-ListPageEventFormSet = modelformset_factory(models.Event, form=EventForm,
-        extra=0, can_delete=False, formset=BaseEventsFormSet)
+ListPageEventFormSet = inlineformset_factory(models.EventSource, models.Event,
+        form=EventForm, extra=0, can_delete=False)
 
 
 class ListPageSeriesForm(forms.ModelForm):
