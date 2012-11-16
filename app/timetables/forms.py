@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from timetables import models
 from timetables.utils.v1 import fullpattern
+from timetables.utils import datetimes
 
 
 class CommaSeparatedCharField(forms.CharField):
@@ -56,6 +57,22 @@ EVENT_TYPE_CHOICES = dict((
     (TYPE_UNKNOWN, "----")
 ))
 
+TERMS = (
+    (datetimes.TERM_MICHAELMAS, "Michaelmas term"),
+    (datetimes.TERM_LENT, "Lent term"),
+    (datetimes.TERM_EASTER, "Easter term")
+)
+
+DAYS = (
+    (datetimes.DAY_MON, "Monday"),
+    (datetimes.DAY_TUE, "Tuesday"),
+    (datetimes.DAY_WED, "Wednesday"),
+    (datetimes.DAY_THU, "Thursday"),
+    (datetimes.DAY_FRI, "Friday"),
+    (datetimes.DAY_SAT, "Saturday"),
+    (datetimes.DAY_SUN, "Sunday")
+)
+
 event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items())
 
 
@@ -72,7 +89,13 @@ class EventForm(forms.ModelForm):
         fields = ("title", "location")
     
     # Custom fields not provided by ModelForm for Event
-    date = forms.DateField(input_formats=[DATE_FORMAT])
+    
+    # Fields for term-relative dates
+    term_week = forms.IntegerField()
+    term_name = forms.ChoiceField(choices=TERMS,
+            initial=datetimes.TERM_MICHAELMAS)
+    day_of_week = forms.ChoiceField(choices=DAYS, initial=datetimes.DAY_MON)    
+    
     start = forms.TimeField(input_formats=[TIME_FORMAT])
     end = forms.TimeField(input_formats=[TIME_FORMAT])
     people = CommaSeparatedCharField(required=True)
@@ -86,11 +109,16 @@ class EventForm(forms.ModelForm):
     def _set_initial_values(self):
         if self.instance is None:
             return
-        self.initial["date"] = self._format_datetime(
+        
+        _, term, week, day = datetimes.date_to_termweek(
+                self.instance.start.date())
+        self.initial["day_of_week"] = day
+        self.initial["term_week"] = week
+        self.initial["term_name"] = term
+        
+        self.initial["start"] = self._format_time(
                 self.instance.start_local())
-        self.initial["start"] = self._format_datetime(
-                self.instance.start_local())
-        self.initial["end"] = self._format_datetime(
+        self.initial["end"] = self._format_time(
                 self.instance.end_local())
         
         event_type = self.instance.metadata.get("type", "")
@@ -103,10 +131,10 @@ class EventForm(forms.ModelForm):
         
         self.initial["cancel"] = self.instance.status == models.Event.STATUS_CANCELLED
     
-    def _format_datetime(self, dt):
+    def _format_time(self, dt):
         if dt is None:
             return ""
-        return datetime.strftime(dt, self.DATE_FORMAT)
+        return datetime.strftime(dt, self.TIME_FORMAT)
     
     # Override save() in order to save our custom form fields as well as the
     # default model form fields.
