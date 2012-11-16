@@ -21,10 +21,14 @@ define([
 				fields: []
 			});
 
+			_.bindAll(this, "dataChangedHandler");
+
 			$("td:not(.eventActions)", this.$el).each(function () {
 				var field = new EventField({
 					$el: $(this)
 				});
+
+				_.addEventListener(field.$el, "dataChanged", self.dataChangedHandler);
 
 				self.fields.push(field);
 			});
@@ -57,6 +61,10 @@ define([
 					self.toggleEditEnabledState(true);
 				}
 			});
+		},
+
+		dataChangedHandler: function () {
+			_.dispatchEvent(this.$el, "dataChanged");
 		},
 
 		togglePencilHoverState: function (pencilHover) {

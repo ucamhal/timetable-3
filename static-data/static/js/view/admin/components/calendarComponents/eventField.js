@@ -11,23 +11,46 @@ define([
 
 	_.extend(EventField.prototype, {
 		initialize: function () {
+			var self = this;
+
 			_.defaults(this, {
 				selector: "body",
 				$el: $(this.selector),
 				initialValue: $(".dataValue", this.$el).text(),
 				value: $(".dataValue", this.$el).text(),
-				type: this.$el.attr("class"),
 				editable: false,
 				changed: false
+			});
+
+			if (this.$el.hasClass("secondStepped") === true) {
+				this.$el.focusin(function () {
+					$(this).toggleClass("focus", true);
+				});
+
+				if (this.$el.hasClass("secondSteppedOut") === true) {
+					this.$el.focusout(function () {
+						$(this).toggleClass("focus", false);
+					});
+				}
+			}
+
+			$("input, select", this.$el).change(function (event) {
+				_.dispatchEvent(self.$el, "dataChanged");
+			});
+
+			$("input", this.$el).keyup(function (event) {
+				if (self.dataChanged() === true) {
+					_.dispatchEvent(self.$el, "dataChanged");
+				}
 			});
 		},
 
 		dataChanged: function () {
-			return this.getValue().toLowerCase() === this.initialValue.toLowerCase();
+			return this.getValue().toLowerCase() !== this.initialValue.toLowerCase();
 		},
 
 		getValue: function () {
-			switch (this.type) {
+			switch (this.getType()) {
 			case "eventTitle":
 			case "eventLocation":
 			case "eventLecturers":
@@ -38,11 +61,30 @@ define([
 				break;
 			}
 
-			return false;
+			return "";
+		},
+
+		getType: function () {
+			var self = this;
+			return this.type || (function () {
+				var possibleTypes = [
+					"eventTitle",
+					"eventLocation",
+					"eventLecturers",
+					"eventType",
+					"eventDateTime"
+				];
+
+				self.type = _.find(possibleTypes, function (item) {
+					return self.$el.hasClass(item);
+				});
+
+				return self.type;
+			}());
 		},
 
 		setValue: function (value) {
-			switch (this.type) {
+			switch (this.getType()) {
 			case "eventTitle":
 			case "eventLocation":
 			case "eventLecturers":
@@ -62,6 +104,10 @@ define([
 			this.editEnabled = typeof editEnabled === "undefined" ? !this.editEnabled : editEnabled;
 			revertData = typeof revertData === "undefined" ? false : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
+
+			if (this.editEnabled === false) {
+				this.$el.toggleClass("focus", false);
+			}
 
 			if (revertData === true) {
 				this.revertData();

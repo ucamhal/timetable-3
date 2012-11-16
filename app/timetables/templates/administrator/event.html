@@ -1,5 +1,5 @@
 <tr class="event">
-	<td class="eventTitle clearfix">
+	<td class="eventTitle clearfix" tabindex="1">
 		<div class="dataValue pull-left">{{ event_form.title.value }}</div>
 		<div class="dataInput">
 			<input type="text" name="{{ event_form.title.html_name }}" value="{{ event_form.title.value }}" />
@@ -7,7 +7,7 @@
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
-	<td class="eventType clearfix">
+	<td class="eventType clearfix secondStepped" tabindex="2">
 		<div class="dataValue pull-left">{{ event_form.event_type.value }}</div>
 		<div class="dataInput">
 			{{ event_form.event_type }}
@@ -15,7 +15,7 @@
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
-	<td class="eventLocation clearfix">
+	<td class="eventLocation clearfix" tabindex="3">
 		<div class="dataValue pull-left">{{ event_form.location.value }}</div>
 		<div class="dataInput">
 			<input type="text" name="{{ event_form.location.html_name }}" value="{{ event_form.location.value }}" />
@@ -23,17 +23,18 @@
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
-	<td class="eventDateTime clearfix">
+	<td class="eventDateTime clearfix secondStepped secondSteppedOut" tabindex="4">
 		<div class="dataValue pull-left">
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
 			{{ event_form.instance.start|date:"D j M" }}
 		</div>
 		<div class="dataInput">
-			<input type="text" value="{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},{{ event_form.instance.start|date:"D j M" }}" />
-			<!--
+			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
+			{{ event_form.instance.start|date:"D j M" }}
+			
 			<div class="dateTimeEditor alert alert-block clearfix">
 				<div class="arrow"></div>
-				<button type="button" class="close" data-dismiss="alert">x</button>
+				<button type="button" class="close">x</button>
 
 				<h5>When does this event take place?</h5>
 
@@ -74,11 +75,11 @@
 			            <i class="icon-time"></i>
 			        </span>
 			    </div>
-			</div>-->
+			</div>
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
-	<td class="eventLecturers clearfix">
+	<td class="eventLecturers clearfix" tabindex="4">
 		<div class="dataValue pull-left">{{ event_form.people.value }}</div>
 		<div class="dataInput">
 			<input type="text" name="{{ event_form.people.html_name }}" value="{{ event_form.people.value }}" />
@@ -86,7 +87,7 @@
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
-	<td class="eventActions">
+	<td class="eventActions" tabindex="5">
 		<ul class="clearfix buttons">
 			<li class="pull-left">
 				<a href="#" class="icon-pencil edit" title="edit"><span class="hideMe">edit</span></a>
