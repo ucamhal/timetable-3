@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, BaseModelFormSet
 from django.utils import datetime_safe as datetime
 from django.utils import timezone
 
@@ -139,19 +139,36 @@ class EventForm(forms.ModelForm):
     # Override save() in order to save our custom form fields as well as the
     # default model form fields.
     def save(self, commit=True):
+        assert commit, "Not committing is not supported due to versioning"
+        
         event = super(EventForm, self).save(commit=False)
         
         self._save_extra_fields(event)
         
-        if commit is True:
-            event.save()
-        return event
+        # Save a new version of the event rather than updating the up the
+        # current one.
+        new_event = models.Event(from_instance=event)
+        
+        # We must have the save here because we need an ID before we can change
+        # all the links between objects.
+        new_event.save()
+        new_event.makecurrent()
+            
+        return new_event
     
     def _save_extra_fields(self, event):
         """
         Saves our custom form fields in the event.
         """
-        date = self.cleaned_data["date"]
+        
+        term = self.cleaned_data["term_name"]
+        week = self.cleaned_data["term_week"]
+        day = self.cleaned_data["day_of_week"]
+        
+        # FIXME: Year needs to be made dynamic at some point.
+        year = 2012
+        date = datetimes.termweek_to_date(year, term, week, day)
+        
         start = self.cleaned_data["start"]
         end = self.cleaned_data["end"]
         
@@ -227,8 +244,13 @@ class SeriesForm(forms.ModelForm):
             series.metadata["type"] =  self.cleaned_data["event_type"]
 
 
+class BaseEventsFormSet(BaseModelFormSet):
+    def save(self, commit=True):
+        return BaseModelFormSet.save(self, commit=commit)
+
+
 ListPageEventFormSet = modelformset_factory(models.Event, form=EventForm,
-        extra=0)
+        extra=0, can_delete=False, formset=BaseEventsFormSet)
 
 
 class ListPageSeriesForm(forms.ModelForm):

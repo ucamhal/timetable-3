@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 
 from timetables import models
 from timetables import forms
-from django.views.generic.base import View
+from timetables.utils.xact import xact
 
 
 def get_timetables(thing):
@@ -83,7 +83,7 @@ def list_view(request, thing=None):
         for module in thing.thing_set.filter(type="module")
     ]
 
-    return shortcuts.render(request, "administrator/list.html", 
+    return shortcuts.render(request, "administrator/list.html",
             {"thing": thing, "module_editors": module_editors})
 
 def edit_series_view(request, series_id):
@@ -96,8 +96,11 @@ def edit_series_view(request, series_id):
         events_formset = editor.get_event_formset()
 
         if series_form.is_valid() and events_formset.is_valid():
-            # TODO: save
-            raise NotImplementedError
+            @xact
+            def save():
+                series_form.save()
+                events_formset.save()
+            save()
     else:
         editor = SeriesEditor(series)
     return shortcuts.render(request, "administrator/series.html",
