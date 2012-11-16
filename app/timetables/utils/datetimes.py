@@ -1,8 +1,10 @@
 import re, pytz, logging
+from datetime import timedelta
 
 from timetables.utils.compat import Counter
+from timetables.utils.v1.generators import TERM_STARTS
 
-from django.utils.datetime_safe import datetime
+from django.utils.datetime_safe import datetime, date
 
 from django.conf import settings
 
@@ -206,6 +208,100 @@ def server_datetime_now():
     """
     return datetime.now(server_timezone())
 
+TERMS = {
+    0: 0,
+    1: 1,
+    2: 2,
+    "michaelmas": 0,
+    "lent": 1,
+    "easter": 2
+}
+
+DAYS = dict(
+    [(n, n) for n in xrange(7)] + 
+    [(name, n) for n, name in enumerate([
+            "mon", "tue", "wed", "thu", "fri", "sat", "sun"])]
+)
+
+def _error_unknown(type, value, options):
+    raise ValueError("Unknown %s: %s. Expected one of: %s" % (
+            type, value, options))
+
+def termweek_to_abs(year, term, week, day, week_start="thu"):
+    """
+    Converts 
+    """
+    if not year in TERM_STARTS:
+        _error_unknown("year", year, TERM_STARTS.keys())
+    
+    if not term in TERMS:
+        _error_unknown("term", term, TERMS.keys())
+    
+    if day not in DAYS:
+        _error_unknown("day", day, DAYS.keys())
+    
+    if week_start not in DAYS:
+        _error_unknown("day", week_start, DAYS.keys())
+    
+    # Create a Term object from the provided year and term name/index
+    term = Term.from_static_data(year, TERMS[term], DAYS[week_start])
+    
+    # Convert the week number & day of week to an absolute date
+    return term.make_absolute(WeekDate(week, DAYS[day]))
+
+class Term(object):
+    def __init__(self, start_date, start_day):
+        if not start_day in range(7):
+            raise ValueError("start_day out of range: %s" % start_day)
+        
+        self.start_date = start_date
+        self.start_day = start_day
+    
+    @staticmethod
+    def from_static_data(year, term_index, start_day=DAYS["thu"]):
+        # Find start date in our hardcoded data
+        start_date = TERM_STARTS[year][term_index]
+        return Term(start_date, start_day)
+    
+    @staticmethod
+    def first_day_on_or_after(date, day):
+        """
+        Returns: The first date on or after date whose day is day.
+        """
+        offset = (day - date.weekday()) % 7
+        return date + timedelta(days=offset)
+    
+    def first_day_of_term(self):
+        return self.first_day_on_or_after(self.start_date, self.start_day)
+
+    def make_absolute(self, week_date):
+        # the first week of term is 0 weeks from the start of term. The 0th week
+        # of term is 1 week before the start of term.
+        week_offset_from_term_start = week_date.week - 1
+        
+        week_start_date = (self.first_day_of_term() +
+                timedelta(weeks=week_offset_from_term_start))
+        
+        return self.first_day_on_or_after(week_start_date, week_date.day)
 
 
+class WeekDate(object):
+    def __init__(self, week, day):
+        self.week = week
+        self.day = day
+    
+    def with_term(self, term):
+        return TermWeekDate(term, self.week, self.day)
+    
+    def as_date(self):
+        raise NotImplementedError("Can't resolve to a date without a term. "
+                "Call with_term(some_term).as_date() instead.")
 
+class TermWeekDate(WeekDate):
+    def __init__(self, term, week, day):
+        self.term = term
+        self.week = week
+        self.day = day
+    
+    def as_date(self):
+        return self.term.make_absolute(self)
