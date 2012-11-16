@@ -7,7 +7,9 @@
 		<h5 class="pull-left">
 			<a href="#"><span class="icon-chevron-right"></span>
 			{{ series_editor.get_form.title.value }}
-			<input style="display: none;" type="text" name="{{ series_editor.get_form.title.html_name }}" value="{{ series_editor.get_form.title.value }}" />
+			<input type="{% if request.is_ajax %}hidden{% else %}text{% endif %}"
+					name="{{ series_editor.get_form.title.html_name }}"
+					value="{{ series_editor.get_form.title.value }}"/>
 			</a>
 		</h5>
 		<ul class="buttons pull-left">
