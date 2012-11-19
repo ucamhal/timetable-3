@@ -15,7 +15,6 @@ from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     EventListView
 from timetables.views.account import LogoutView, LoginView
 from timetables.views.eventeditform import EventEditFormView
-from timetables.views.serieseditformview import SeriesEditFormView
 from timetables.views import administrator
 from timetables.views.editthing import EditThingView
 
@@ -57,8 +56,8 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
-    url(r'^event/(?P<event_id>\d+)', EventEditFormView.as_view(), name="event form"),
-    url(r'^series/(?P<series_id>\d+)', SeriesEditFormView.as_view(), name="series form"),
+    url(r'^event/(?P<event_id>\d+)$', EventEditFormView.as_view(), name="event form"),
+    url(r'^series/(?P<series_id>\d+)/edit$', administrator.edit_series_view, name="edit series"),
 
     url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),

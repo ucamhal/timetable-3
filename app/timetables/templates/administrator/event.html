@@ -25,12 +25,27 @@
 	</td>
 	<td class="eventDateTime clearfix secondStepped secondSteppedOut" tabindex="4">
 		<div class="dataValue pull-left">
-			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
-			{{ event_form.instance.start|date:"D j M" }}
+			<span title="{{ event_form.instance.start|date:"l jS F " }}">
+				W {{ event_form.term_week.value }} in {{ event_form.term_name.value|capfirst }},
+				on {{ event_form.day_of_week.value|capfirst }}
+			</span>
+			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
 		</div>
 		<div class="dataInput">
-			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }},
-			{{ event_form.instance.start|date:"D j M" }}
+			{{ event_form.term_week }}
+			{{ event_form.term_week.errors }}
+
+			{{ event_form.term_name }}
+			{{ event_form.term_name.errors }}
+
+			{{ event_form.day_of_week }}
+			{{ event_form.day_of_week.errors }}
+			
+			{{ event_form.start }}
+			{{ event_form.start.errors }}
+			{{ event_form.end }}
+			{{ event_form.end.errors }}
+
 			<div class="popover fade bottom in">
 				<div class="arrow"></div>
 				<div class="popover-inner">
