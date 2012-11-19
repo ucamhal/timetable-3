@@ -25,6 +25,10 @@ a.addModule {
 	margin-bottom: 30px;
 }
 
+td:focus {
+	outline: none;
+}
+
 #adminListView .btn {
 	border-radius: 200px
 }
@@ -62,7 +66,11 @@ a.addModule {
 	margin-bottom: 5px;
 }
 
-.events table tr.editEnabled td {
+.events table tr.editEnabled td.eventTitle,
+.events table tr.editEnabled td.eventType,
+.events table tr.editEnabled td.eventLocation,
+.events table tr.editEnabled td.eventDateTime,
+.events table tr.editEnabled td.eventLecturers {
 	background-color: #fff6e2;
 }
 
@@ -108,6 +116,39 @@ a.addModule {
 	display: block;
 }
 
+
+.event.editEnabled .eventTitle.secondStepped .dataInput,
+.event.editEnabled .eventType.secondStepped .dataInput,
+.event.editEnabled .eventLocation.secondStepped .dataInput,
+.event.editEnabled .eventDateTime.secondStepped .dataInput,
+.event.editEnabled .eventLecturers.secondStepped .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped .dataValue,
+.event.editEnabled .eventType.secondStepped .dataValue,
+.event.editEnabled .eventLocation.secondStepped .dataValue,
+.event.editEnabled .eventDateTime.secondStepped .dataValue,
+.event.editEnabled .eventLecturers.secondStepped .dataValue {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.focus .dataInput,
+.event.editEnabled .eventType.secondStepped.focus .dataInput,
+.event.editEnabled .eventLocation.secondStepped.focus .dataInput,
+.event.editEnabled .eventDateTime.secondStepped.focus .dataInput,
+.event.editEnabled .eventLecturers.secondStepped.focus .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.focus .dataValue,
+.event.editEnabled .eventType.secondStepped.focus .dataValue,
+.event.editEnabled .eventLocation.secondStepped.focus .dataValue,
+.event.editEnabled .eventDateTime.secondStepped.focus .dataValue,
+.event.editEnabled .eventLecturers.secondStepped.focus .dataValue {
+	display: none;
+}
+
 .event.editEnabled .eventTitle > span,
 .event.editEnabled .eventType > span,
 .event.editEnabled .eventLocation > span,
@@ -138,39 +179,27 @@ a.addModule {
 }
 
 .event.editEnabled .dataInput > input {
-	padding: 8px;
-	border-style: dashed;
+	border-style: none;
 	box-shadow: none;
 	background: transparent;
+	width: inherit;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled .dataInput > select {
+	width: inherit;
+	display: block;
+	margin: 0;
+	padding: 0;
 	height: 21px;
 }
 
-.event.editEnabled,
-.event.editEnabled td,
-.event.editEnabled .dataInput,
-.event.editEnabled .dataInput > * {
-	height: 37px;
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-}
-
-.event.editEnabled .dataInput > * {
-	height: 35px!important;
-}
-
-.event.editEnabled .dataInput {
-	margin: 0;
-	padding: 0;
-}
-
 .event.editEnabled td {
-	padding: 0;
-	margin: 0;
-}
-
-.event.editEnabled .eventActions {
-	padding: 8px;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
 }
 
 .event .eventDateTime {
