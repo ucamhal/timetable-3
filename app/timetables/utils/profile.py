@@ -1,7 +1,5 @@
 '''
-Created on Jul 23, 2012
-
-@author: ieb
+@profile decorator from: https://code.djangoproject.com/wiki/ProfilingDjango
 '''
 
 import hotshot
