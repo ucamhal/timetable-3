@@ -80,7 +80,9 @@ class VersionableModel(models.Model):
         if hasattr(self, "master"):
             if self.master is None:
                 self.master = self
-            self.__class__.objects.filter(master=self.master,current=True).update(current=False)
+            self.__class__.objects.filter(
+                    models.Q(master=self.master) | models.Q(id=self.master.id),
+                    current=True).update(current=False)
         self.current = True
         self.save()
 
