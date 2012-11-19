@@ -22,15 +22,14 @@ define([
 				changed: false
 			});
 
+			_.bindAll(this, "focusInHandler");
+			_.bindAll(this, "focusOutHandler");
+
 			if (this.$el.hasClass("secondStepped") === true) {
-				this.$el.focusin(function () {
-					$(this).toggleClass("focus", true);
-				});
+				this.$el.focusin(this.focusInHandler);
 
 				if (this.$el.hasClass("secondSteppedOut") === true) {
-					this.$el.focusout(function () {
-						$(this).toggleClass("focus", false);
-					});
+					this.$el.focusout(this.focusOutHandler);
 				}
 			}
 
@@ -43,6 +42,18 @@ define([
 					_.dispatchEvent(self.$el, "dataChanged");
 				}
 			});
+
+			$(".spinner", this.$el).spinner({
+				
+			});
+		},
+
+		focusInHandler: function (event) {
+			this.$el.toggleClass("focus", true);
+		},
+
+		focusOutHandler: function (event) {
+			this.$el.toggleClass("focus", false);
 		},
 
 		dataChanged: function () {
@@ -108,6 +119,12 @@ define([
 			if (this.editEnabled === false) {
 				this.$el.toggleClass("focus", false);
 			}
+
+			if (typeof this.initialWidth === "undefined") {
+				this.initialWidth = this.$el.innerWidth();
+			}
+
+			//$(".dataInput", this.$el).width(this.initialWidth);
 
 			if (revertData === true) {
 				this.revertData();
