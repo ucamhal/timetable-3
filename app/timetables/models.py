@@ -229,6 +229,10 @@ class SchemalessModel(models.Model):
                     #self._data = dict()
         return self._data
     
+    @metadata.setter
+    def metadata(self, value):
+        self._data = value
+
     def update_fields(self):
         '''
         Override this if there are fields that need to be updated from the metadata
@@ -248,7 +252,7 @@ class SchemalessModel(models.Model):
             instance.data = ""
         
     def copycreate(self, instance):
-        self.data = instance.data
+        self.metadata = instance.metadata
 
 
 class Thing(SchemalessModel, HierachicalModel):
