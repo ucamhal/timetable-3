@@ -68,10 +68,7 @@ define([
 
 		editStateChangedHandler: function () {
 			var newEditEnabled = this.checkEditEnabled();
-			console.log("editStateChangedHandler eventSeries");
-
 			if (this.editEnabled !== newEditEnabled) {
-				console.log("inside if");
 				this.editEnabled = newEditEnabled;
 
 				if (this.editEnabled === false) {
@@ -79,7 +76,6 @@ define([
 					this.openChangesState = false;
 				}
 			}
-
 		},
 
 		checkEditEnabled: function () {
@@ -98,12 +94,6 @@ define([
 		saveAllEdits: function () {
 			var self = this;
 			this.openChangesState = false;
-
-			/*
-			_.each(this.events, function (item) {
-				item.saveEdits();
-			});
-			*/
 			
 			$.post($("> form", this.$el).attr("action"), $("> form", this.$el).serialize(), function (data) {
 				$(".events", self.$el).empty().append($(".events", $(data)).html());
@@ -140,8 +130,10 @@ define([
 
 			if (collapsed === false) {
 				if (this.eventsInitialized === false) {
+					var currentTime = new Date();
 					this.eventsInitialized = true;
 					this.buildEvents();
+					console.log("Single EventSeries build time: " + (new Date() - currentTime) + "ms");
 				}
 				$(".events", this.$el).slideDown(animationCallback);
 			} else {

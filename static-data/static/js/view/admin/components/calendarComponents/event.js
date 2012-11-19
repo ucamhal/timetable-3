@@ -72,7 +72,6 @@ define([
 				if (self.editEnabled === true) {
 					return false;
 				}
-
 				return typeof pencilHover === "undefined" ? !self.$el.hasClass("pencilHover") : pencilHover;
 			}());
 

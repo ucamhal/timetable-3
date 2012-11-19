@@ -181,10 +181,10 @@ define([
 			}
 
 			if (typeof this.initialWidth === "undefined") {
-				this.initialWidth = this.$el.innerWidth();
+				this.initialWidth = this.$el.width();
 			}
 
-			//$(".dataInput", this.$el).width(this.initialWidth);
+			$(".dataInput", this.$el).width(this.initialWidth);
 
 			if (revertData === true) {
 				this.revertData();
