@@ -20,10 +20,13 @@ define([
 				hashController: {},
 				events: [],
 				collapsed: true,
-				editEnabled: false
+				editEnabled: false,
+				openChangesState: false,
+				$notificationsPopup: $(".changesNotificationPopup")
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
+			_.bindAll(this, "dataChangedHandler");
 
 			$(".event", this.$el).each(function () {
 				var singleEvent = new Event({
@@ -31,6 +34,7 @@ define([
 				});
 				
 				_.addEventListener(singleEvent.$el, "editStateChanged", self.editStateChangedHandler);
+				_.addEventListener(singleEvent.$el, "dataChanged", self.dataChangedHandler);
 
 				self.events.push(singleEvent);
 			});
@@ -52,16 +56,24 @@ define([
 			});
 		},
 
+		dataChangedHandler: function () {
+			if (this.openChangesState === false) {
+				this.openChangesState = true;
+				$(".seriesEditActions", this.$el).slideDown();
+			}			
+		},
+
 		editStateChangedHandler: function () {
 			var newEditEnabled = this.checkEditEnabled();
+			console.log("editStateChangedHandler eventSeries");
 
 			if (this.editEnabled !== newEditEnabled) {
+				console.log("inside if");
 				this.editEnabled = newEditEnabled;
 
-				if (this.editEnabled === true) {
-					$(".seriesEditActions", this.$el).slideDown();
-				} else {
+				if (this.editEnabled === false) {
 					$(".seriesEditActions", this.$el).slideUp();
+					this.openChangesState = false;
 				}
 			}
 
@@ -74,15 +86,39 @@ define([
 		},
 
 		cancelAllEdits: function () {
+			this.openChangesState = false;
 			_.each(this.events, function (item) {
 				item.cancelEdit();
 			});
 		},
 
 		saveAllEdits: function () {
+			this.openChangesState = false;
 			_.each(this.events, function (item) {
 				item.saveEdits();
 			});
+
+			this.handleNotifications();
+		},
+
+		handleNotifications: function () {
+			var self = this;
+
+			this.$notificationsPopup.modal().find("a").click(function (event) {
+				
+				if ($(this).hasClass("dontSendNotification")) {
+					self.$notificationsPopup.modal("hide");
+				} else if ($(this).hasClass("sendNotifcation")) {
+					self.$notificationsPopup.modal("hide");
+					self.sendNotifications();
+				}
+
+				event.preventDefault();
+			});
+		},
+
+		sendNotifications: function () {
+
 		},
 
 		setCollapsedState: function (collapsed, animationCallback) {

@@ -1,10 +1,11 @@
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
+from django.views.decorators.http import require_POST
 
 from timetables import models
 from timetables import forms
-from django.views.generic.base import View
+from timetables.utils.xact import xact
 
 
 def get_timetables(thing):
@@ -55,13 +56,19 @@ class SeriesEditor(object):
         self._form = forms.ListPageSeriesForm(data=post_data, instance=series)
         
         self._event_formset = forms.ListPageEventFormSet(data=post_data,
-                queryset=series.event_set.all())
+                instance=series, queryset=self._get_events(series))
+
+    def _get_events(self, series):
+        return series.event_set.just_active()
     
     def get_form(self):
         return self._form
     
     def get_event_formset(self):
         return self._event_formset
+    
+    def get_series(self):
+        return self._series
 
 def list_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
@@ -76,8 +83,28 @@ def list_view(request, thing=None):
         for module in thing.thing_set.filter(type="module")
     ]
 
-    return shortcuts.render(request, "administrator/list.html", 
+    return shortcuts.render(request, "administrator/list.html",
             {"thing": thing, "module_editors": module_editors})
+
+def edit_series_view(request, series_id):
+    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
+
+    if request.method == "POST":
+        editor = SeriesEditor(series, post_data=request.POST)
+
+        series_form = editor.get_form()
+        events_formset = editor.get_event_formset()
+
+        if series_form.is_valid() and events_formset.is_valid():
+            @xact
+            def save():
+                series_form.save()
+                events_formset.save()
+            save()
+    else:
+        editor = SeriesEditor(series)
+    return shortcuts.render(request, "administrator/series.html",
+            {"series_editor": editor})
 
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,

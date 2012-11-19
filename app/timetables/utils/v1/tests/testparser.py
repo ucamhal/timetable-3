@@ -32,12 +32,12 @@ class Test(TestCase):
 
 
     def test_basic_operation(self):
-        log.info("Testing basic")
+        log.debug("Testing basic")
         g = GroupTemplate("TuThSa12")
         p = pparser.fullparse("Mi1 Tu12 x4",g)
         g.add_patterns(p)
-        log.info(p.format(group = g))
-        log.info(g.get_patterns())
+        log.debug(p.format(group = g))
+        log.debug(g.get_patterns())
         
     def test_generate_events(self):
         g = GroupTemplate("TuThSa12")
@@ -45,7 +45,7 @@ class Test(TestCase):
         year = Year([datetime.date(2012,10,2),datetime.date(2013,1,15),datetime.date(2013,4,23)])
         # perform the test in a known timezone
         for start, end in year.atoms_to_dt(p.patterns(), "Europe/London"):
-            log.info("Start: %s, End: %s " % (start, end))
+            log.debug("Start: %s, End: %s " % (start, end))
 
 
     def test_weeks_events(self):
@@ -56,7 +56,7 @@ class Test(TestCase):
         # perform the test in a known timezone
         for start, end in year.atoms_to_dt(p.patterns(), "Europe/London"):
             n += 1
-            log.info("Start: %s, End: %s " % (start, end))
+            log.debug("Start: %s, End: %s " % (start, end))
         # check there is only 1 event produces, if this fails then the week selector is not working
         self.assertEqual(n, 1, "Should have only generated a single event, check weeks is being noticed")
 
@@ -70,9 +70,9 @@ class Test(TestCase):
             if dt.year == 2012:
                 bstend = utctimezone.localize(dt)
                 break
-        log.info("BST ends %s " % (bstend))
+        log.debug("BST ends %s " % (bstend))
         test = londontz.localize(datetime.datetime(2012,7,1,10,23))
-        log.info("Test: %s,  %s DST:%s %s " % (test, test.tzinfo, test.dst(), test.tzinfo.dst(test)))
+        log.debug("Test: %s,  %s DST:%s %s " % (test, test.tzinfo, test.dst(), test.tzinfo.dst(test)))
         # perform the test in a known timezone
         n = 0
         check_bst = False
@@ -88,14 +88,14 @@ class Test(TestCase):
             
             
             if start < bstend:
-                log.info("BST: %s, End: %s  %s %s %s " % (start, end, start.tzinfo, start.dst(), start.tzinfo.dst(start)))
+                log.debug("BST: %s, End: %s  %s %s %s " % (start, end, start.tzinfo, start.dst(), start.tzinfo.dst(start)))
                 self.assertEqual(datetime.timedelta(0, 3600), start.dst(), "Start should have been in DST")
                 self.assertEqual(datetime.timedelta(0, 3600), end.dst(), "End should have been in DST")
                 self.assertEqual(11, utctimezone.normalize(start.astimezone(utctimezone)).hour, "Expected start to be 11UT before DST ended 11GMT+1 == 12BST")
                 self.assertEqual(12, utctimezone.normalize(end.astimezone(utctimezone)).hour, "Expected start to be 13UT before DST ended 11GMT+1 == 12BST")
                 check_bst = True
             else:
-                log.info("GMT: %s, End: %s  %s %s %s " % (start, end, start.tzinfo,  start.dst(), start.tzinfo.dst(start)))
+                log.debug("GMT: %s, End: %s  %s %s %s " % (start, end, start.tzinfo,  start.dst(), start.tzinfo.dst(start)))
                 self.assertEqual(datetime.timedelta(0, 0), start.dst(), "Start should have been in GMT")
                 self.assertEqual(datetime.timedelta(0, 0), end.dst(), "End should have been in GMT")
                 self.assertEqual(12, utctimezone.normalize(start.astimezone(utctimezone)).hour, "Expected start to be 12UT after DST ended")

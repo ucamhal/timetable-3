@@ -8,7 +8,6 @@
 }
 */
 
-
 body ul {
 	list-style-type: none;
 	margin-left: 0;
@@ -26,9 +25,16 @@ a.addModule {
 	margin-bottom: 30px;
 }
 
+td:focus,
+div:focus {
+	outline: none;
+}
+
+/*
 #adminListView .btn {
 	border-radius: 200px
 }
+*/
 
 .modulesList .module a.addSeries {
 	margin-bottom: 9px;
@@ -63,7 +69,15 @@ a.addModule {
 	margin-bottom: 5px;
 }
 
-.events table tr.editEnabled td {
+.series form {
+	margin: 0;
+}
+
+.events table tr.editEnabled td.eventTitle,
+.events table tr.editEnabled td.eventType,
+.events table tr.editEnabled td.eventLocation,
+.events table tr.editEnabled td.eventDateTime,
+.events table tr.editEnabled td.eventLecturers {
 	background-color: #fff6e2;
 }
 
@@ -93,6 +107,71 @@ a.addModule {
 	opacity: .3;
 }
 
+.event .eventTitle .dataInput,
+.event .eventType .dataInput,
+.event .eventLocation .dataInput,
+.event .eventDateTime .dataInput,
+.event .eventLecturers .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataInput,
+.event.editEnabled .eventType .dataInput,
+.event.editEnabled .eventLocation .dataInput,
+.event.editEnabled .eventDateTime .dataInput,
+.event.editEnabled .eventLecturers .dataInput {
+	display: block;
+}
+
+
+.event.editEnabled .eventTitle.secondStepped .dataInput,
+.event.editEnabled .eventType.secondStepped .dataInput,
+.event.editEnabled .eventLocation.secondStepped .dataInput,
+.event.editEnabled .eventDateTime.secondStepped .dataInput,
+.event.editEnabled .eventLecturers.secondStepped .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped .dataValue,
+.event.editEnabled .eventType.secondStepped .dataValue,
+.event.editEnabled .eventLocation.secondStepped .dataValue,
+.event.editEnabled .eventDateTime.secondStepped .dataValue,
+.event.editEnabled .eventLecturers.secondStepped .dataValue {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.focus .dataInput,
+.event.editEnabled .eventType.secondStepped.focus .dataInput,
+.event.editEnabled .eventLocation.secondStepped.focus .dataInput,
+.event.editEnabled .eventDateTime.secondStepped.focus .dataInput,
+.event.editEnabled .eventLecturers.secondStepped.focus .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.focus .dataValue,
+.event.editEnabled .eventType.secondStepped.focus .dataValue,
+.event.editEnabled .eventLocation.secondStepped.focus .dataValue,
+.event.editEnabled .eventDateTime.secondStepped.focus .dataValue,
+.event.editEnabled .eventLecturers.secondStepped.focus .dataValue {
+	display: none;
+}
+
+.event.editEnabled .eventTitle > span,
+.event.editEnabled .eventType > span,
+.event.editEnabled .eventLocation > span,
+.event.editEnabled .eventDateTime > span,
+.event.editEnabled .eventLecturers > span {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataValue,
+.event.editEnabled .eventType .dataValue,
+.event.editEnabled .eventLocation .dataValue,
+.event.editEnabled .eventDateTime .dataValue,
+.event.editEnabled .eventLecturers .dataValue {
+	display: none;
+}
+
 .event .eventTitle:hover > .icon-pencil,
 .event .eventType:hover > .icon-pencil,
 .event .eventLocation:hover > .icon-pencil,
@@ -106,13 +185,38 @@ a.addModule {
 	visibility: visible;
 }
 
+.event.editEnabled .dataInput > input {
+	border-style: none;
+	box-shadow: none;
+	background: transparent;
+	width: inherit;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled .dataInput > select {
+	width: inherit;
+	display: block;
+	margin: 0;
+	padding: 0;
+	height: 21px;
+}
+
+.event.editEnabled td {
+	border-style: dashed;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
+}
+
 .event .eventDateTime {
 	position: relative;
 }
 
-.event .eventDateTime .dateTimeEditor {
+.event .eventDateTime .popover {
+	display: block;
 	position: absolute;
-	z-index: 2;
+	top: 37px;
 }
 
 .seriesHeading.collapsed ul.buttons {
@@ -134,11 +238,11 @@ a.addModule {
 }
 
 .moduleHeading {
-	margin-bottom: 10px;
 	border-bottom-style: solid;
 	border-bottom-color: rgba(0, 0, 0, .4);
 	border-bottom-width: 3px;
 	padding: 10px 0;
+	margin-bottom: 10px;
 }
 
 .moduleHeading .buttons {
@@ -188,22 +292,4 @@ a.addModule {
 	margin-right: 16px;
 	margin-top: 4px;
 	display: block;
-}
-
-.event select {
-	width: 100%;
-	height: inherit;
-}
-
-.event input[type="text"] {
-	background: transparent;
-	border-style: dashed;
-	width: 100%;
-	height: 100%;
-	border-radius: 0;
-	padding: 0;
-	margin: 0;
-	display: block;
-	box-shadow: none;
-	float: left;
 }

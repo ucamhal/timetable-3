@@ -1,0 +1,61 @@
+{% load url from future %}
+
+<li class="series">
+	<form class="" action="{% url "edit series" series_editor.get_form.instance.id %}" method="POST">
+		{% csrf_token %}
+	<div class="seriesHeading collapsed clearfix">
+		<h5 class="pull-left">
+			<a href="#"><span class="icon-chevron-right"></span>
+			{{ series_editor.get_form.title.value }}
+			<input type="{% if request.is_ajax %}hidden{% else %}text{% endif %}"
+					name="{{ series_editor.get_form.title.html_name }}"
+					value="{{ series_editor.get_form.title.value }}"/>
+			</a>
+		</h5>
+		<ul class="buttons pull-left">
+			<li class="pull-left">
+				<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+			</li>
+			<li class="pull-left">
+				<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+			</li>
+			<li class="pull-left">
+				<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+			</li>
+			<li class="pull-left">
+				<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+			</li>
+		</ul>
+	</div>
+	<div class="events clearfix dontDisplayMe">
+		<table class="table table-striped">
+			<tbody>
+			{{ series_editor.get_event_formset.management_form }}
+			{% for event_form in series_editor.get_event_formset %}
+				{% include "administrator/event.html" %}
+			{% endfor %}
+			</tbody>
+		</table>
+		<a href="#" class="addEvent pull-left" title="add event"><span class="icon-plus"></span>Add event</a>
+		<ul class="seriesEditActions pull-right dontDisplayMe">
+			<li class="pull-left">
+				<a href="#" class="cancel">cancel</a>
+			</li>
+			<li class="pull-left">
+				<a href="#" class="save btn btn-success" title="save event series">Save</a>
+			</li>
+		</ul>
+	</div>
+
+	{% comment %}
+	The event forms each need an ID to record which event each form represents. They're here rather than in the event.html as they don't really fit into the <table>.
+	{% endcomment %}
+	{% for event_form in series_editor.get_event_formset %}
+		{{ event_form.id }}
+	{% endfor %}
+
+    {% if not request.is_ajax %}
+        <input type="submit" value="Save">
+    {% endif %}
+	</form>
+</li>
