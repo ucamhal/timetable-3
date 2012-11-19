@@ -2385,8 +2385,8 @@
     }, 
     "model": "timetables.eventsource", 
     "pk": "217"
-  },
-    {
+  }, 
+  {
     "fields": {
       "thing": "130", 
       "eventsource": "1"
@@ -4089,8 +4089,8 @@
     }, 
     "model": "timetables.eventsourcetag", 
     "pk": "213"
-  },
-    {
+  }, 
+  {
     "fields": {
       "name": "tripos", 
       "parent": null, 
@@ -6871,5 +6871,18 @@
     }, 
     "model": "timetables.thing", 
     "pk": "100006"
+  }, 
+  {
+    "fields": {
+      "name": "gcm23", 
+      "parent": "100001", 
+      "data": "", 
+      "pathid": "0w72RjWCozSW_qo6zKGwi0ZVmIY=", 
+      "fullpath": "user/gcm23", 
+      "type": "user", 
+      "fullname": "A User"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "100007"
   }
 ]
