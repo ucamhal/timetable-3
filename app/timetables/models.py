@@ -80,7 +80,9 @@ class VersionableModel(models.Model):
         if hasattr(self, "master"):
             if self.master is None:
                 self.master = self
-            self.__class__.objects.filter(master=self.master,current=True).update(current=False)
+            self.__class__.objects.filter(
+                    models.Q(master=self.master) | models.Q(id=self.master.id),
+                    current=True).update(current=False)
         self.current = True
         self.save()
 
@@ -229,6 +231,10 @@ class SchemalessModel(models.Model):
                     #self._data = dict()
         return self._data
     
+    @metadata.setter
+    def metadata(self, value):
+        self._data = value
+
     def update_fields(self):
         '''
         Override this if there are fields that need to be updated from the metadata
@@ -248,7 +254,7 @@ class SchemalessModel(models.Model):
             instance.data = ""
         
     def copycreate(self, instance):
-        self.data = instance.data
+        self.metadata = instance.metadata
 
 
 class Thing(SchemalessModel, HierachicalModel):
