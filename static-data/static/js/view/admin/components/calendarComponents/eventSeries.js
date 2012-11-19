@@ -22,37 +22,40 @@ define([
 				collapsed: true,
 				editEnabled: false,
 				openChangesState: false,
-				$notificationsPopup: $(".changesNotificationPopup")
+				$notificationsPopup: $(".changesNotificationPopup"),
+				eventsInitialized: false
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
 			_.bindAll(this, "dataChangedHandler");
 
-			$(".event", this.$el).each(function () {
-				var singleEvent = new Event({
-					$el: $(this)
-				});
-				
-				_.addEventListener(singleEvent.$el, "editStateChanged", self.editStateChangedHandler);
-				_.addEventListener(singleEvent.$el, "dataChanged", self.dataChangedHandler);
+			this.$el.on("editStateChanged", ".event", self.editStateChangedHandler);
+			this.$el.on("dataChanged", ".event", self.dataChangedHandler);
 
-				self.events.push(singleEvent);
-			});
-
-			$(".seriesHeading h5 a", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesHeading h5 a", function (event) {
 				self.collapsed = !self.collapsed;
 				_.dispatchEvent(self.$el, "seriesToggle");
 				self.setCollapsedState(self.collapsed);
 			});
 
-			$(".seriesEditActions .save", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesEditActions .save", function (event) {
 				self.saveAllEdits();
 				event.preventDefault();
 			});
 
-			$(".seriesEditActions .cancel", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesEditActions .cancel", function (event) {
 				self.cancelAllEdits();
 				event.preventDefault();
+			});
+		},
+
+		buildEvents: function () {
+			var self = this;
+
+			$(".event", this.$el).each(function () {
+				self.events.push(new Event({
+					$el: $(this)
+				}));
 			});
 		},
 
@@ -93,11 +96,21 @@ define([
 		},
 
 		saveAllEdits: function () {
+			var self = this;
 			this.openChangesState = false;
+
+			/*
 			_.each(this.events, function (item) {
 				item.saveEdits();
 			});
-
+			*/
+			
+			$.post($("> form", this.$el).attr("action"), $("> form", this.$el).serialize(), function (data) {
+				$(".events", self.$el).empty().append($(".events", $(data)).html());
+				self.events = [];
+				self.buildEvents();
+			});
+			
 			this.handleNotifications();
 		},
 
@@ -126,6 +139,10 @@ define([
 			$(".seriesHeading h5 span", this.$el).toggleClass("icon-chevron-down", !collapsed).toggleClass("icon-chevron-right", collapsed);
 
 			if (collapsed === false) {
+				if (this.eventsInitialized === false) {
+					this.eventsInitialized = true;
+					this.buildEvents();
+				}
 				$(".events", this.$el).slideDown(animationCallback);
 			} else {
 				$(".events", this.$el).slideUp(animationCallback);

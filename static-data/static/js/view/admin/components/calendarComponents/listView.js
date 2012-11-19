@@ -14,6 +14,8 @@ define([
 		initialize: function () {
 			var self = this;
 
+			var startTime = new Date();
+
 			_.defaults(this, {
 				selector: "body",
 				$el: $(this.selector),
@@ -31,6 +33,9 @@ define([
 					return "You have unsaved changes";
 				}
 			}
+
+			console.log("javascript finished");
+			console.log(new Date() - startTime);
 		},
 
 		checkForOpenChanges: function () {

@@ -56,6 +56,14 @@ define([
 
 				getTwelveHourTimeFromDate: function (date) {
 					return $.fullCalendar.formatDate(date, "h(':'mm)tt");
+				},
+
+				getTwentyFourHourFromDate: function (date) {
+					return $.fullCalendar.formatDate(date, "H");
+				},
+
+				getMinutesFromDate: function (date) {
+					return $.fullCalendar.formatDate(date, "mm");
 				}
 			});
 
