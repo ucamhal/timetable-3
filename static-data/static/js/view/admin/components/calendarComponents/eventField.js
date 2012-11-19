@@ -19,7 +19,7 @@ define([
 				initialValue: $(".dataValue", this.$el).text(),
 				value: $(".dataValue", this.$el).text(),
 				editable: false,
-				changed: false
+				changed: false,
 			});
 
 			_.bindAll(this, "focusInHandler");
@@ -43,9 +43,47 @@ define([
 				}
 			});
 
-			$(".spinner", this.$el).spinner({
-				
-			});
+			if (this.getType() === "eventDateTime") {
+
+				$(".eventDateTimeFromFields input, .eventDateTimeToFields input", this.$el).change(function () {
+
+					var $hourInput,
+						hourInputValue,
+						currentValue = $(this).val();
+
+					if (currentValue.length === 1) {
+						$(this).val("0" + currentValue);
+					}
+
+					if ($(this).hasClass("minutes")) {
+
+						$hourInput = $("input.hours", $(this).parent().parent());
+						hourInputValue = Number($hourInput.val());
+
+						if ($(this).val() === "60") {
+							if (hourInputValue === 23) {
+								hourInputValue = 0;
+							} else {
+								hourInputValue += 1;
+							}
+
+							$hourInput.val(hourInputValue);
+							$hourInput.trigger("change");
+							$(this).val("00");
+						} else if (Number($(this).val()) < 0) {
+							if (hourInputValue === 0) {
+								hourInputValue = 23;
+							} else {
+								hourInputValue -= 1;
+							}
+
+							$hourInput.val(hourInputValue);
+							$hourInput.trigger("change");
+							$(this).val("45");
+						}
+					}
+				});
+			}
 		},
 
 		focusInHandler: function (event) {
@@ -100,8 +138,10 @@ define([
 			case "eventLocation":
 			case "eventLecturers":
 				$("input", this.$el).val(value);
+				break;
 			case "eventType":
 				$("select", this.$el).val(value);
+				break;
 			case "eventDateTime":
 				break;
 			}
