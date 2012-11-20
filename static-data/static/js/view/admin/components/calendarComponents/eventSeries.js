@@ -21,37 +21,41 @@ define([
 				events: [],
 				collapsed: true,
 				editEnabled: false,
-				openChangesState: false
+				openChangesState: false,
+				$notificationsPopup: $(".changesNotificationPopup"),
+				eventsInitialized: false
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
 			_.bindAll(this, "dataChangedHandler");
 
-			$(".event", this.$el).each(function () {
-				var singleEvent = new Event({
-					$el: $(this)
-				});
-				
-				_.addEventListener(singleEvent.$el, "editStateChanged", self.editStateChangedHandler);
-				_.addEventListener(singleEvent.$el, "dataChanged", self.dataChangedHandler);
+			this.$el.on("editStateChanged", ".event", self.editStateChangedHandler);
+			this.$el.on("dataChanged", ".event", self.dataChangedHandler);
 
-				self.events.push(singleEvent);
-			});
-
-			$(".seriesHeading h5 a", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesHeading h5 a", function (event) {
 				self.collapsed = !self.collapsed;
 				_.dispatchEvent(self.$el, "seriesToggle");
 				self.setCollapsedState(self.collapsed);
 			});
 
-			$(".seriesEditActions .save", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesEditActions .save", function (event) {
 				self.saveAllEdits();
 				event.preventDefault();
 			});
 
-			$(".seriesEditActions .cancel", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesEditActions .cancel", function (event) {
 				self.cancelAllEdits();
 				event.preventDefault();
+			});
+		},
+
+		buildEvents: function () {
+			var self = this;
+
+			$(".event", this.$el).each(function () {
+				self.events.push(new Event({
+					$el: $(this)
+				}));
 			});
 		},
 
@@ -64,10 +68,7 @@ define([
 
 		editStateChangedHandler: function () {
 			var newEditEnabled = this.checkEditEnabled();
-			console.log("editStateChangedHandler eventSeries");
-
 			if (this.editEnabled !== newEditEnabled) {
-				console.log("inside if");
 				this.editEnabled = newEditEnabled;
 
 				if (this.editEnabled === false) {
@@ -75,7 +76,6 @@ define([
 					this.openChangesState = false;
 				}
 			}
-
 		},
 
 		checkEditEnabled: function () {
@@ -92,12 +92,36 @@ define([
 		},
 
 		saveAllEdits: function () {
+			var self = this;
 			this.openChangesState = false;
-			_.each(this.events, function (item) {
-				item.saveEdits();
+			
+			$.post($("> form", this.$el).attr("action"), $("> form", this.$el).serialize(), function (data) {
+				$(".events", self.$el).empty().append($(".events", $(data)).html());
+				self.events = [];
+				self.buildEvents();
 			});
+			
+			this.handleNotifications();
+		},
 
-			$(".changesNotificationPopup").modal();
+		handleNotifications: function () {
+			var self = this;
+
+			this.$notificationsPopup.modal().find("a").click(function (event) {
+				
+				if ($(this).hasClass("dontSendNotification")) {
+					self.$notificationsPopup.modal("hide");
+				} else if ($(this).hasClass("sendNotifcation")) {
+					self.$notificationsPopup.modal("hide");
+					self.sendNotifications();
+				}
+
+				event.preventDefault();
+			});
+		},
+
+		sendNotifications: function () {
+
 		},
 
 		setCollapsedState: function (collapsed, animationCallback) {
@@ -105,6 +129,12 @@ define([
 			$(".seriesHeading h5 span", this.$el).toggleClass("icon-chevron-down", !collapsed).toggleClass("icon-chevron-right", collapsed);
 
 			if (collapsed === false) {
+				if (this.eventsInitialized === false) {
+					var currentTime = new Date();
+					this.eventsInitialized = true;
+					this.buildEvents();
+					console.log("Single EventSeries build time: " + (new Date() - currentTime) + "ms");
+				}
 				$(".events", this.$el).slideDown(animationCallback);
 			} else {
 				$(".events", this.$el).slideUp(animationCallback);

@@ -11,6 +11,7 @@ require.config({
         bootstrap: "libs/bootstrap",
         bootstrapDatePicker: "libs/bootstrap-plugins/bootstrap-datepicker",
         bootstrapTimePicker: "libs/bootstrap-plugins/bootstrap-timepicker",
+        bootstrapSpinner: "libs/bootstrap-plugins/bootstrap-spinner",
         fullcalendar: "libs/fullcalendar"
     },
     shim: {

@@ -23,15 +23,12 @@ define([
 			_.bindAll(this, "seriesToggleHandler");
 
 			$(".series", this.$el).each(function () {
-
-				var series = new EventSeries({
+				self.series.push(new EventSeries({
 					$el: $(this)
-				});
-
-				_.addEventListener(series.$el, "seriesToggle", self.seriesToggleHandler);
-
-				self.series.push(series);
+				}));
 			});
+
+			this.$el.on("seriesToggle", ".series", this.seriesToggleHandler);
 		},
 
 		hasOpenChanges: function () {

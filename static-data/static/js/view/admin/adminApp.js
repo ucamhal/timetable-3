@@ -8,13 +8,16 @@ define([
 	"view/admin/components/adminResults",
 	"bootstrap",
 	"bootstrapTimePicker",
-	"bootstrapDatePicker"
+	"bootstrapDatePicker",
+	"bootstrapSpinner"
 ], function ($, _, BaseApplication, page, AdminInputArea, AdminCalendar, AdminResults) {
 	"use strict";
 
 	var AdminApplication = function () {
+		var currentTime = new Date();
 		this.baseInitialize();
 		this.initialize();
+		console.log("Application build time: " + (new Date() - currentTime) + "ms");
 	}
 
 	_.extend(AdminApplication.prototype, BaseApplication.prototype)

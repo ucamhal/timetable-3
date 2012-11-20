@@ -32,52 +32,69 @@
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
 		</div>
 		<div class="dataInput">
-			<div class="dateTimeEditor alert alert-block clearfix">
+			<div class="popover fade bottom in">
 				<div class="arrow"></div>
-				<button type="button" class="close">x</button>
+				<div class="popover-inner">
+					<h3 class="popover-title">When does this event take place?</h3>
+					<div class="popover-content">
 
-				<h5>When does this event take place?</h5>
+						<label for="id_{{ event_form.term_week.html_name }}">Week</label>
+						<input type="number"
+						       name="{{ event_form.term_week.html_name }}"
+						       id="id_{{ event_form.term_week.html_name }}"
+						       value="{{ event_form.term_week.value }}"
+						       class="input-mini"/>
+						{{ event_form.term_week.errors }}
 
-				<label for="id_{{ event_form.term_week.html_name }}">Week</label>
-				<input type="number"
-				       name="{{ event_form.term_week.html_name }}"
-				       id="id_{{ event_form.term_week.html_name }}"
-				       value="{{ event_form.term_week.value }}"/>
-				{{ event_form.term_week.errors }}
+						<label for="id_{{ event_form.term_name.html_name }}">in</label>
+						{{ event_form.term_name }}
+						{{ event_form.term_name.errors }}
 
-				<label for="id_{{ event_form.term_name.html_name }}">in</label>
-				{{ event_form.term_name }}
-				{{ event_form.term_name.errors }}
+						<label for="id_{{ event_form.day_of_week.html_name }}">on</label>
+						{{ event_form.day_of_week }}
+						{{ event_form.day_of_week.errors }}
 
-				<label for="id_{{ event_form.day_of_week.html_name }}">on</label>
-				{{ event_form.day_of_week }}
-				{{ event_form.day_of_week.errors }}
+						<label for="id_{{ event_form.start_hour.html_name }}">From</label>
+						<ul class="clearfix eventDateTimeFromFields">
+							<li class="pull-left">
+								<input type="number"
+								       class="input-mini hours"
+								       value="{{ event_form.start_hour.value }}"
+								       name="{{ event_form.start_hour.html_name }}"
+								       id="id_{{ event_form.start_hour.html_name }}"
+								       min="0" max="23">
+							</li>
+							<li class="pull-left">
+								<input type="number"
+								       class="input-mini minutes"
+								       value="{{ event_form.start_minute.value }}"
+								       name="{{ event_form.start_minute.html_name }}"
+								       id="id_{{ event_form.start_minute.html_name }}"
+								       min="0" max="60" step="15">
+							</li>
+						</ul>
 
-				<label for="id_{{ event_form.start.html_name }}">From</label>
-			    <div class="input-append bootstrap-timepicker-component">
-			        <input type="text"
-			               id="id_{{ event_form.start.html_name }}"
-			               name="{{ event_form.start.html_name }}"
-			               value="{{ event_form.start.value }}"
-			               class="timepicker-default input-small">
-			        <span class="add-on">
-			            <i class="icon-time"></i>
-			        </span>
-			        {{ event_form.start.errors }}
-			    </div>
-
-			    <label for="id_{{ event_form.end.html_name }}">From</label>
-			    <div class="input-append bootstrap-timepicker-component">
-			        <input type="text"
-			               id="id_{{ event_form.end.html_name }}"
-			               name="{{ event_form.end.html_name }}"
-			               value="{{ event_form.end.value }}"
-			               class="timepicker-default input-small">
-			        <span class="add-on">
-			            <i class="icon-time"></i>
-			        </span>
-			        {{ event_form.end.errors }}
-			    </div>
+						<label for="id_{{ event_form.end_hour.html_name }}">To</label>
+						<ul class="clearfix eventDateTimeToFields">
+							<li class="pull-left">
+								<input type="number"
+								       class="input-mini hours"
+								       value="{{ event_form.end_hour.value }}"
+								       name="{{ event_form.end_hour.html_name }}"
+								       id="id_{{ event_form.end_hour.html_name }}"
+								       min="0" max="23">
+							</li>
+							<li class="pull-left">
+								<input type="number"
+								       class="input-mini minutes"
+								       value="{{ event_form.end_minute.value }}"
+								       name="{{ event_form.end_minute.html_name }}"
+								       id="id_{{ event_form.end_minute.html_name }}"
+								       min="0" max="60" step="15">
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 		<span class="icon-pencil pull-left"></span>

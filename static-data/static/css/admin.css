@@ -25,13 +25,16 @@ a.addModule {
 	margin-bottom: 30px;
 }
 
-td:focus {
+td:focus,
+div:focus {
 	outline: none;
 }
 
+/*
 #adminListView .btn {
 	border-radius: 200px
 }
+*/
 
 .modulesList .module a.addSeries {
 	margin-bottom: 9px;
@@ -64,6 +67,10 @@ td:focus {
 
 .events table {
 	margin-bottom: 5px;
+}
+
+.series form {
+	margin: 0;
 }
 
 .events table tr.editEnabled td.eventTitle,
@@ -178,11 +185,20 @@ td:focus {
 	visibility: visible;
 }
 
+.event .dataInput {
+	margin: 0;
+}
+
+.event .eventDateTimeFromFields input,
+.event .eventDateTimeToFields input {
+	width: 34px;
+}
+
 .event.editEnabled .dataInput > input {
 	border-style: none;
 	box-shadow: none;
 	background: transparent;
-	width: inherit;
+	width: 100%;
 	display: block;
 	margin: 0;
 	padding: 0;
@@ -206,9 +222,10 @@ td:focus {
 	position: relative;
 }
 
-.event .eventDateTime .dateTimeEditor {
+.event .eventDateTime .popover {
+	display: block;
 	position: absolute;
-	z-index: 2;
+	top: 37px;
 }
 
 .seriesHeading.collapsed ul.buttons {
