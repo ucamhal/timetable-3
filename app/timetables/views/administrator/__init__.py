@@ -1,6 +1,7 @@
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
+from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
 from timetables import models
@@ -87,9 +88,11 @@ def list_view(request, thing=None):
             {"thing": thing, "module_editors": module_editors})
 
 def edit_series_view(request, series_id):
-    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
+    # Render debug stuff if the page is not requested by an AJAX
+    template_debug_elements = not request.is_ajax()
 
-    template_debug_elements = False
+    # Find the series for the form to be displayed
+    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
 
     if request.method == "POST":
         editor = SeriesEditor(series, post_data=request.POST)
@@ -103,11 +106,9 @@ def edit_series_view(request, series_id):
                 series_form.save()
                 events_formset.save()
             save()
+            return shortcuts.redirect("edit series", series_id=series_id)
     else:
         editor = SeriesEditor(series)
-        # The GET response is only for manual testing/debugging, so show a save
-        # button on the form to facilitate that.
-        template_debug_elements = True
 
     return shortcuts.render(request, "administrator/series.html", {
         "series_editor": editor,
