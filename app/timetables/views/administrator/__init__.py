@@ -59,7 +59,7 @@ class SeriesEditor(object):
                 instance=series, queryset=self._get_events(series))
 
     def _get_events(self, series):
-        return series.event_set.just_active()
+        return series.event_set.just_active().order_by("start", "end", "title")
     
     def get_form(self):
         return self._form
