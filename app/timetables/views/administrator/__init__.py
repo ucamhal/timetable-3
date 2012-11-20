@@ -89,6 +89,8 @@ def list_view(request, thing=None):
 def edit_series_view(request, series_id):
     series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
 
+    template_debug_elements = False
+
     if request.method == "POST":
         editor = SeriesEditor(series, post_data=request.POST)
 
@@ -103,8 +105,14 @@ def edit_series_view(request, series_id):
             save()
     else:
         editor = SeriesEditor(series)
-    return shortcuts.render(request, "administrator/series.html",
-            {"series_editor": editor})
+        # The GET response is only for manual testing/debugging, so show a save
+        # button on the form to facilitate that.
+        template_debug_elements = True
+
+    return shortcuts.render(request, "administrator/series.html", {
+        "series_editor": editor,
+        "edit_series_view_template_debug_elements": template_debug_elements
+    })
 
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
