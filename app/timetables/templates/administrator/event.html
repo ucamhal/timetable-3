@@ -63,6 +63,7 @@
 								       name="{{ event_form.start_hour.html_name }}"
 								       id="id_{{ event_form.start_hour.html_name }}"
 								       min="0" max="23">
+								{{ event_form.start_hour.errors }}
 							</li>
 							<li class="pull-left">
 								<input type="number"
@@ -71,6 +72,7 @@
 								       name="{{ event_form.start_minute.html_name }}"
 								       id="id_{{ event_form.start_minute.html_name }}"
 								       min="0" max="60" step="15">
+								{{ event_form.start_minute.errors }}
 							</li>
 						</ul>
 
@@ -83,6 +85,7 @@
 								       name="{{ event_form.end_hour.html_name }}"
 								       id="id_{{ event_form.end_hour.html_name }}"
 								       min="0" max="23">
+								{{ event_form.end_hour.errors }}
 							</li>
 							<li class="pull-left">
 								<input type="number"
@@ -91,6 +94,7 @@
 								       name="{{ event_form.end_minute.html_name }}"
 								       id="id_{{ event_form.end_minute.html_name }}"
 								       min="0" max="60" step="15">
+								{{ event_form.end_minute.errors }}
 							</li>
 						</ul>
 					</div>
