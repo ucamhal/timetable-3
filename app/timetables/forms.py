@@ -65,13 +65,13 @@ TERMS = (
 )
 
 DAYS = (
-    (datetimes.DAY_MON, "Monday"),
-    (datetimes.DAY_TUE, "Tuesday"),
-    (datetimes.DAY_WED, "Wednesday"),
     (datetimes.DAY_THU, "Thursday"),
     (datetimes.DAY_FRI, "Friday"),
     (datetimes.DAY_SAT, "Saturday"),
-    (datetimes.DAY_SUN, "Sunday")
+    (datetimes.DAY_SUN, "Sunday"),
+    (datetimes.DAY_MON, "Monday"),
+    (datetimes.DAY_TUE, "Tuesday"),
+    (datetimes.DAY_WED, "Wednesday")
 )
 
 event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items())
