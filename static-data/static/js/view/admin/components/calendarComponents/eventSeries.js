@@ -23,7 +23,10 @@ define([
 				editEnabled: false,
 				openChangesState: false,
 				$notificationsPopup: $(".changesNotificationPopup"),
-				eventsInitialized: false
+				$serverErrorPopup: $(".formServerErrorPopup"),
+				$validationErrorPopup: $(".formValidationErrorPopup"),
+				eventsInitialized: false,
+				savingState: false
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
@@ -39,22 +42,42 @@ define([
 			});
 
 			this.$el.on("click", ".seriesEditActions .save", function (event) {
-				self.saveAllEdits();
-				event.preventDefault();
-			});
+				if (self.savingState === false) {
+					self.saveAllEdits();
+					event.preventDefault();
+				}
+			}).button();
 
 			this.$el.on("click", ".seriesEditActions .cancel", function (event) {
-				self.cancelAllEdits();
-				event.preventDefault();
+				if (self.savingState === false) {
+					self.cancelAllEdits();
+					event.preventDefault();
+				}
 			});
 		},
 
-		buildEvents: function () {
-			var self = this;
+		setSavingState: function (state) {
+			this.savingState = state;
+			$(".seriesEditActions .save", this.$el).button((function () {
+				if (state === true) {
+					return "loading";
+				}
+				return "reset";
+			}()));
+			$(".seriesEditActions .cancel", this.$el).toggleClass("mute", state);
+			_.each(this.events, function (item) {
+				item.setDisabled(state);
+			});
+		},
+
+		buildEvents: function (checkForErrorsOnInit) {
+			var self = this,
+				checkForErrorsOnInit = typeof checkForErrorsOnInit === "undefined" ? false : checkForErrorsOnInit;
 
 			$(".event", this.$el).each(function () {
 				self.events.push(new Event({
-					$el: $(this)
+					$el: $(this),
+					checkForErrorsOnInit: checkForErrorsOnInit
 				}));
 			});
 		},
@@ -92,16 +115,40 @@ define([
 		},
 
 		saveAllEdits: function () {
-			var self = this;
+			var self = this,
+				data = $("> form", this.$el).serialize();
+
 			this.openChangesState = false;
+			this.setSavingState(true);
 			
-			$.post($("> form", this.$el).attr("action"), $("> form", this.$el).serialize(), function (data) {
-				$(".events", self.$el).empty().append($(".events", $(data)).html());
-				self.events = [];
-				self.buildEvents();
+			$.ajax({
+				type: "POST",
+				url: $("> form", this.$el).attr("action"),
+				data: data,
+				success: function (data) {
+					self.setSavingState(false);
+					$(".events", self.$el).empty().append($(".events", $(data)).html());
+					self.events = [];
+					self.buildEvents(true);
+					if ($(".events .error").length > 0) {
+						self.handleValidationErrors();
+					} else {
+						self.handleNotifications();
+					}
+				},
+				error: function () {
+					self.setSavingState(false);
+					self.handleServerErrors();
+				}
 			});
-			
-			this.handleNotifications();
+		},
+
+		handleValidationErrors: function () {
+			this.$validationErrorPopup.modal();
+		},
+
+		handleServerErrors: function () {
+			this.$serverErrorPopup.modal();
 		},
 
 		handleNotifications: function () {
