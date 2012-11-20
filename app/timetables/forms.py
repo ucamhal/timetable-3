@@ -8,6 +8,7 @@ from django.utils import timezone
 from timetables import models
 from timetables.utils.v1 import fullpattern
 from timetables.utils import datetimes
+from django.forms import widgets
 
 
 class CommaSeparatedCharField(forms.CharField):
@@ -91,8 +92,11 @@ class EventForm(forms.ModelForm):
     # Fields for term-relative dates
     term_week = forms.IntegerField()
     term_name = forms.ChoiceField(choices=TERMS,
-            initial=datetimes.TERM_MICHAELMAS)
-    day_of_week = forms.ChoiceField(choices=DAYS, initial=datetimes.DAY_MON)    
+            initial=datetimes.TERM_MICHAELMAS,
+            widget=widgets.Select(attrs={"class": "eventDateTimeTerm"}))
+
+    day_of_week = forms.ChoiceField(choices=DAYS, initial=datetimes.DAY_MON,
+            widget=widgets.Select(attrs={"class": "eventDateTimeDay"}))
     
     start_hour = forms.IntegerField(max_value=23, min_value=0)
     end_hour = forms.IntegerField(max_value=23, min_value=0)
@@ -100,7 +104,7 @@ class EventForm(forms.ModelForm):
     end_minute = forms.IntegerField(max_value=59, min_value=0)
 
     people = CommaSeparatedCharField(required=True)
-    event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items())
+    event_type = event_type
     cancel = forms.BooleanField(required=False)
     
     def __init__(self, *args, **kwargs):
