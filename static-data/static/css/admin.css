@@ -185,11 +185,20 @@ div:focus {
 	visibility: visible;
 }
 
+.event .dataInput {
+	margin: 0;
+}
+
+.event .eventDateTimeFromFields input,
+.event .eventDateTimeToFields input {
+	width: 34px;
+}
+
 .event.editEnabled .dataInput > input {
 	border-style: none;
 	box-shadow: none;
 	background: transparent;
-	width: inherit;
+	width: 100%;
 	display: block;
 	margin: 0;
 	padding: 0;

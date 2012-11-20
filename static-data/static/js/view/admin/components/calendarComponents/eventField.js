@@ -19,7 +19,7 @@ define([
 				initialValue: $(".dataValue", this.$el).text(),
 				value: $(".dataValue", this.$el).text(),
 				editable: false,
-				changed: false
+				changed: false,
 			});
 
 			_.bindAll(this, "focusInHandler");
@@ -43,9 +43,69 @@ define([
 				}
 			});
 
-			$(".spinner", this.$el).spinner({
-				
-			});
+			
+			if (this.getType() === "eventDateTime") {
+
+				this.fromTime = this.initialFromTime = new Date(2012, 1, 1, $(".eventDateTimeFromFields input.hours").val(), $(".eventDateTimeFromFields input.minutes").val()),
+				this.toTime = this.initialToTime = new Date(2012, 1, 1, $(".eventDateTimeToFields input.hours").val(), $(".eventDateTimeToFields input.minutes").val());
+				this.duration = this.initialDuration = this.initialToTime - this.initialFromTime;
+
+				$(".eventDateTimeFromFields input, .eventDateTimeToFields input", this.$el).change(function (event, original) {
+
+					var $hourInput,
+						hourInputValue,
+						currentValue = $(this).val(),
+						type = (function ($target) {
+							if ($target.parent().parent().hasClass("eventDateTimeFromFields")) {
+								return "from";
+							}
+							return "to";
+						}($(this))),
+						fromTime,
+						$ulParent = $(this).parent().parent();
+
+					if (currentValue.length === 1) {
+						$(this).val("0" + currentValue);
+					}
+
+					if ($(this).hasClass("minutes")) {
+						$hourInput = $("input.hours", $(this).parent().parent());
+						hourInputValue = Number($hourInput.val());
+
+						if ($(this).val() === "60") {
+							hourInputValue += 1;
+							$hourInput.val(hourInputValue);
+							$hourInput.trigger("change");
+							$(this).val("00");
+						} else if (Number($(this).val()) < 0) {
+							hourInputValue -= 1;
+							$hourInput.val(hourInputValue);
+							$hourInput.trigger("change");
+							$(this).val("45");
+						}
+					} else if ($(this).hasClass("hours")) {
+						hourInputValue = Number($(this).val());
+						if (hourInputValue > 23) {
+							$(this).val("00");
+						} else if (hourInputValue < 0) {
+							$(this).val("23");
+						}
+					}
+					
+					if (type === "from") {
+						self.fromTime.setMinutes($("input.minutes", $ulParent).val());
+						self.fromTime.setHours($("input.hours", $ulParent).val());
+						self.toTime = new Date(self.fromTime.valueOf() + self.duration);
+						
+						$(".eventDateTimeToFields input.hours", self.$el).val(self.toTime.getHours()).trigger("change", false);
+						$(".eventDateTimeToFields input.minutes", self.$el).val(self.toTime.getMinutes()).trigger("change", false);
+					} else if (original !== false) {
+						self.toTime.setMinutes($(".eventDateTimeToFields input.minutes", self.$el).val());
+						self.toTime.setHours($(".eventDateTimeToFields input.hours", self.$el).val());
+						self.duration = self.toTime - self.fromTime;
+					}
+				});
+			}
 		},
 
 		focusInHandler: function (event) {
@@ -71,7 +131,6 @@ define([
 			case "eventDateTime":
 				break;
 			}
-
 			return "";
 		},
 
@@ -89,7 +148,6 @@ define([
 				self.type = _.find(possibleTypes, function (item) {
 					return self.$el.hasClass(item);
 				});
-
 				return self.type;
 			}());
 		},
@@ -100,8 +158,10 @@ define([
 			case "eventLocation":
 			case "eventLecturers":
 				$("input", this.$el).val(value);
+				break;
 			case "eventType":
 				$("select", this.$el).val(value);
+				break;
 			case "eventDateTime":
 				break;
 			}
@@ -121,10 +181,10 @@ define([
 			}
 
 			if (typeof this.initialWidth === "undefined") {
-				this.initialWidth = this.$el.innerWidth();
+				this.initialWidth = this.$el.width();
 			}
 
-			//$(".dataInput", this.$el).width(this.initialWidth);
+			$(".dataInput", this.$el).width(this.initialWidth);
 
 			if (revertData === true) {
 				this.revertData();

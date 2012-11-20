@@ -24,14 +24,12 @@ define([
 			_.bindAll(this, "dataChangedHandler");
 
 			$("td:not(.eventActions)", this.$el).each(function () {
-				var field = new EventField({
+				self.fields.push(new EventField({
 					$el: $(this)
-				});
-
-				_.addEventListener(field.$el, "dataChanged", self.dataChangedHandler);
-
-				self.fields.push(field);
+				}));
 			});
+
+			this.$el.on("dataChanged", "td:not(.eventActions)", self.dataChangedHandler);
 
 			$(".eventActions a.edit", self.$el).parent().mouseover(function (event) {
 				self.togglePencilHoverState(true);
@@ -74,7 +72,6 @@ define([
 				if (self.editEnabled === true) {
 					return false;
 				}
-
 				return typeof pencilHover === "undefined" ? !self.$el.hasClass("pencilHover") : pencilHover;
 			}());
 

@@ -52,7 +52,7 @@
 					<h3 class="popover-title">When does this event take place?</h3>
 					<div class="popover-content">
 						<label for="eventDateTimeWeek">Week</label>
-						<input type="number" name="eventDateTimeWeek" id="eventDateTimeWeek" min="1" max="9">
+						<input type="number" class="input-mini" value="1" name="eventDateTimeWeek" />
 
 						<label for="eventDateTimeTerm">in</label>
 						<select id="eventDateTimeTerm">
@@ -71,71 +71,28 @@
 							<option value="saturday">Saturday</option>
 						</select>
 
-						<label for="eventDateTimeFrom">From</label>
-						<ul class="eventDateTimeFromFields clearfix">
-							<li class="pull-left from-time-spinner from-time-hours-spinner spinner">
-								<input type="text" class="input-mini spinner-input" />
-								<div class="spinner-buttons btn-group btn-group-vertical">
-									<a class="btn spinner-up" href="#">
-										<i class="icon-chevron-up"></i>
-									</a>
-									<a class="btn spinner-down" href="#">
-										<i class="icon-chevron-down"></i>
-									</a>
-								</div>
+						<label for="eventDateTimeFromHour">From</label>
+						<ul class="clearfix eventDateTimeFromFields">
+							<li class="pull-left">
+								<input type="number" value="09" class="input-mini hours" name="eventDateTimeFromHour" id="eventDateTimeFromHour" min="-1" max="24" />
 							</li>
-							<li class="pull-left from-time-spinner from-time-minutes-spinner spinner">
-								<input type="text" class="input-mini spinner-input" />
-								<div class="spinner-buttons btn-group btn-group-vertical">
-									<a class="btn spinner-up" href="#">
-										<i class="icon-chevron-up"></i>
-									</a>
-									<a class="btn spinner-down" href="#">
-										<i class="icon-chevron-down"></i>
-									</a>
-								</div>
+							<li class="pull-left">
+								<input type="number" value="30" class="input-mini minutes" name="eventDateTimeFromMinutes" id="eventDateTimeFromMinutes" min="-15" max="60" step="15" />
 							</li>
-						</ul>
+						</ul>						
 
-						<label for="eventDateTimeTo">To</label>
-						<ul class="eventDateTimeToFields clearfix">
-							<li class="pull-left to-time-spinner to-time-hours-spinner spinner">
-								<input type="text" class="input-mini spinner-input" />
-								<div class="from-time-spinner spinner">
-									<a class="btn spinner-up">
-										<i class="icon-chevron-up"></i>
-									</a>
-									<a class="btn spinner-down">
-										<i class="icon-chevron-down"></i>
-									</a>
-								</div>
+						<label for="eventDateTimeToHour">To</label>
+						<ul class="clearfix eventDateTimeToFields">
+							<li class="pull-left">
+								<input type="number" value="10" class="input-mini hours" name="eventDateTimeToHour" id="eventDateTimeToHour" min="-1" max="24" />
 							</li>
-							<li class="pull-left to-time-spinner to-time-minutes-spinner spinner">
-								<input type="text" class="input-mini spinner-input" />
-								<div class="spinner-buttons btn-group btn-group-vertical">
-									<a class="btn spinner-up">
-										<i class="icon-chevron-up"></i>
-									</a>
-									<a class="btn spinner-down">
-										<i class="icon-chevron-down"></i>
-									</a>
-								</div>
+							<li class="pull-left">
+								<input type="number" value="30" class="input-mini minutes" name="eventDateTimeToMinutes" id="eventDateTimeToMinutes" min="-15" max="60" step="15" />
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			
-			<!--
-			<div class="dateTimeEditor alert alert-block clearfix">
-				<div class="arrow"></div>
-				<button type="button" class="close">x</button>
-
-				<h5>When does this event take place?</h5>
-
-				
-			</div>
-			-->
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
