@@ -7,7 +7,7 @@
 		<h5 class="pull-left">
 			<a href="#"><span class="icon-chevron-right"></span>
 			{{ series_editor.get_form.title.value }}
-			<input type="{% if request.is_ajax %}hidden{% else %}text{% endif %}"
+			<input type="{% if edit_series_view_template_debug_elements %}text{% else %}hidden{% endif %}"
 					name="{{ series_editor.get_form.title.html_name }}"
 					value="{{ series_editor.get_form.title.value }}"/>
 			</a>
@@ -54,7 +54,7 @@
 		{{ event_form.id }}
 	{% endfor %}
 
-    {% if not request.is_ajax %}
+    {% if edit_series_view_template_debug_elements %}
         <input type="submit" value="Save">
     {% endif %}
 	</form>
