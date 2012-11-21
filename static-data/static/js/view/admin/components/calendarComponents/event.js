@@ -64,16 +64,6 @@ define([
 				}
 			});
 
-			/*
-			$("td:not(.eventActions)", this.$el).click(function (event) {
-				if (self.disabled === false) {
-					if (self.editEnabled === false) {
-						self.toggleEditEnabledState(true);
-					}
-				}
-			});
-			*/
-
 			if (this.checkForErrorsOnInit === true) {
 				this.checkForErrors();
 			}

@@ -14,10 +14,18 @@
 {% block top_bar %}
 <div id="inputArea">
 	<div class="clearfix">
-		<label for="facultyInput" class="pull-left">Faculty:</label>
-		<select id="facultyInput" class="pull-left">
-			<option value="MML">MML</option>
-			<option value="Economics">Economics</option>
+		<h3 class="pull-left">Timetables for
+		    {% if thing.type == "part" %}
+		        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+		    {% else %}
+		        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+		    {% endif %}
+		</h3>
+		<select class="pull-right">
+			<option value="12">2012 / 2013</option>
+			<option value="12">2013 / 2014</option>
+			<option value="12">2014 / 2015</option>
+			<option value="12">2015 / 2016</option>
 		</select>
 	</div>
 </div>
