@@ -20,10 +20,12 @@ define([
 				value: $(".dataValue", this.$el).text(),
 				editable: false,
 				changed: false,
+				disabled: false
 			});
 
 			_.bindAll(this, "focusInHandler");
 			_.bindAll(this, "focusOutHandler");
+			_.bindAll(this, "dateDataChangedHandler");
 
 			if (this.$el.hasClass("secondStepped") === true) {
 				this.$el.focusin(this.focusInHandler);
@@ -32,19 +34,10 @@ define([
 					this.$el.focusout(this.focusOutHandler);
 				}
 			}
-
-			$("input, select", this.$el).change(function (event) {
-				_.dispatchEvent(self.$el, "dataChanged");
-			});
-
-			$("input", this.$el).keyup(function (event) {
-				if (self.dataChanged() === true) {
-					_.dispatchEvent(self.$el, "dataChanged");
-				}
-			});
-
 			
 			if (this.getType() === "eventDateTime") {
+
+				_.addEventListener(this.$el, "dataChanged", this.dateDataChangedHandler);
 
 				this.fromTime = this.initialFromTime = new Date(2012, 1, 1, $(".eventDateTimeFromFields input.hours").val(), $(".eventDateTimeFromFields input.minutes").val()),
 				this.toTime = this.initialToTime = new Date(2012, 1, 1, $(".eventDateTimeToFields input.hours").val(), $(".eventDateTimeToFields input.minutes").val());
@@ -106,14 +99,50 @@ define([
 					}
 				});
 			}
+
+			$("input, select", this.$el).change(function (event) {
+				console.log("data changed handler");
+				_.dispatchEvent(self.$el, "dataChanged");
+				console.log(self.dataChanged());
+			});
+
+			$("input", this.$el).keyup(function (event) {
+				if (self.dataChanged() === true) {
+					_.dispatchEvent(self.$el, "dataChanged");
+				}
+			});
+		},
+
+		setDisabled: function (disabled) {
+			this.disabled = disabled;
+			$("input, select", this.$el).attr("disabled", disabled);
+		},
+
+		dateDataChangedHandler: function () {
+			//generate the new date string and replace the text of .dataInput with it.
+			console.log(this.generateDateStringFromDatePatternDialogValues());
+			$(".dataInput > p").html(this.generateDateStringFromDatePatternDialogValues());
+		},
+
+		generateDateStringFromDatePatternDialogValues: function () {
+			return "W " + $(".eventDateTimeWeek", this.$el).val() + " in " + _.capitalize($(".eventDateTimeTerm", this.$el).val()) + ", on " + _.capitalize($(".eventDateTimeDay", this.$el).val().substr(0, 3)) + " " + $(".eventDateTimeFromFields input.hours", this.$el).val() + ":" + $(".eventDateTimeFromFields input.minutes", this.$el).val() + "-" + $(".eventDateTimeToFields input.hours", this.$el).val() + ":" + $(".eventDateTimeToFields input.minutes", this.$el).val();
+		},
+
+		toggleInitialFocusClass: function (focus) {
+			var focus = typeof focus === "undefined" ? !this.hasClass("initialFocus") : focus;
+			this.$el.toggleClass("initialFocus", focus);
 		},
 
 		focusInHandler: function (event) {
-			this.$el.toggleClass("focus", true);
+			if (this.disabled === false) {
+				this.toggleInitialFocusClass(true);
+			}
 		},
 
 		focusOutHandler: function (event) {
-			this.$el.toggleClass("focus", false);
+			if (this.disabled === false) {
+				this.toggleInitialFocusClass(false);
+			}
 		},
 
 		dataChanged: function () {
@@ -129,6 +158,7 @@ define([
 			case "eventType":
 				return $("select", this.$el).val();
 			case "eventDateTime":
+				return this.generateDateStringFromDatePatternDialogValues();
 				break;
 			}
 			return "";
@@ -177,7 +207,7 @@ define([
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
 
 			if (this.editEnabled === false) {
-				this.$el.toggleClass("focus", false);
+				this.toggleInitialFocusClass(false);
 			}
 
 			if (typeof this.initialWidth === "undefined") {
