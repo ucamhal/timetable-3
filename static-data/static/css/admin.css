@@ -73,11 +73,11 @@ div:focus {
 	margin: 0;
 }
 
-.events table tr.editEnabled td.eventTitle,
-.events table tr.editEnabled td.eventType,
-.events table tr.editEnabled td.eventLocation,
-.events table tr.editEnabled td.eventDateTime,
-.events table tr.editEnabled td.eventLecturers {
+.events .editEnabled .eventTitle,
+.events .editEnabled .eventType,
+.events .editEnabled .eventLocation,
+.events .editEnabled .eventDateTime,
+.events .editEnabled .eventLecturers {
 	background-color: #fff6e2;
 }
 
@@ -140,19 +140,19 @@ div:focus {
 	display: block;
 }
 
-.event.editEnabled .eventTitle.secondStepped.focus .dataInput,
-.event.editEnabled .eventType.secondStepped.focus .dataInput,
-.event.editEnabled .eventLocation.secondStepped.focus .dataInput,
-.event.editEnabled .eventDateTime.secondStepped.focus .dataInput,
-.event.editEnabled .eventLecturers.secondStepped.focus .dataInput {
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput {
 	display: block;
 }
 
-.event.editEnabled .eventTitle.secondStepped.focus .dataValue,
-.event.editEnabled .eventType.secondStepped.focus .dataValue,
-.event.editEnabled .eventLocation.secondStepped.focus .dataValue,
-.event.editEnabled .eventDateTime.secondStepped.focus .dataValue,
-.event.editEnabled .eventLecturers.secondStepped.focus .dataValue {
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataValue {
 	display: none;
 }
 
@@ -183,6 +183,41 @@ div:focus {
 .event.pencilHover .eventDateTime > .icon-pencil,
 .event.pencilHover .eventLecturers > .icon-pencil {
 	visibility: visible;
+}
+
+.events .event.editEnabled td.error {
+	border-color: #ea8f7a;
+	background-color: #f8dbd4;
+}
+
+.events .event.editEnabled td.error .dataInput > input {
+	color: #e7846d;
+	font-weight: bold;
+	font-style: italic;
+}
+.events .event.editEnabled td.error .dataInput .datePatternDialog select.error {
+	border-width: 1px;
+	border-color: #B94A48;
+	border-style: solid;
+}
+
+.events .event.editEnabled td.error input.error::-webkit-input-placeholder {
+    color: #B94A48;
+}
+.events .event.editEnabled td.error input.error:-moz-placeholder {
+    color: #B94A48;
+}
+.events .event.editEnabled td.error input.error:-ms-input-placeholder {
+    color: #B94A48;
+}
+
+.events .event.editEnabled td.error input.error {
+	border-color: #B94A48;
+	color: #B94A48;
+}
+
+.event .errorlist li {
+	color: #B94A48;
 }
 
 .event .dataInput {
@@ -285,6 +320,10 @@ div:focus {
 
 .seriesHeading h5 span {
 	margin-right: 8px;
+}
+
+.seriesHeading > h5 a input {
+	display: none;
 }
 
 .moduleHeading .buttons,
