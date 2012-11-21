@@ -20,7 +20,8 @@ define([
 				value: $(".dataValue", this.$el).text(),
 				editable: false,
 				changed: false,
-				disabled: false
+				disabled: false,
+				editEnabled: false
 			});
 
 			_.bindAll(this, "focusInHandler");
@@ -110,6 +111,13 @@ define([
 				if (self.dataChanged() === true) {
 					_.dispatchEvent(self.$el, "dataChanged");
 				}
+			});
+
+			this.$el.click(function (event) {
+				if (self.$el.hasClass("secondStepped") === false && self.editEnabled === false) {
+					self.selectInput = true;
+				}
+				_.dispatchEvent(self.$el, "fieldClicked");
 			});
 		},
 
@@ -206,15 +214,14 @@ define([
 			revertData = typeof revertData === "undefined" ? false : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
 
+			if (this.selectInput === true) {
+				this.selectInput = false;
+				$("input, select", this.$el).focus().select();
+			}
+
 			if (this.editEnabled === false) {
 				this.toggleInitialFocusClass(false);
 			}
-
-			if (typeof this.initialWidth === "undefined") {
-				this.initialWidth = this.$el.width();
-			}
-
-			//$(".dataInput", this.$el).width(this.initialWidth);
 
 			if (revertData === true) {
 				this.revertData();
