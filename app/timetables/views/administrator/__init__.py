@@ -1,6 +1,7 @@
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
+from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
 from timetables import models
@@ -59,7 +60,7 @@ class SeriesEditor(object):
                 instance=series, queryset=self._get_events(series))
 
     def _get_events(self, series):
-        return series.event_set.just_active()
+        return series.event_set.just_active().order_by("start", "end", "title")
     
     def get_form(self):
         return self._form
@@ -87,6 +88,10 @@ def list_view(request, thing=None):
             {"thing": thing, "module_editors": module_editors})
 
 def edit_series_view(request, series_id):
+    # Render debug stuff if the page is not requested by an AJAX
+    template_debug_elements = not request.is_ajax()
+
+    # Find the series for the form to be displayed
     series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
 
     if request.method == "POST":
@@ -101,10 +106,14 @@ def edit_series_view(request, series_id):
                 series_form.save()
                 events_formset.save()
             save()
+            return shortcuts.redirect("edit series", series_id=series_id)
     else:
         editor = SeriesEditor(series)
-    return shortcuts.render(request, "administrator/series.html",
-            {"series_editor": editor})
+
+    return shortcuts.render(request, "administrator/series.html", {
+        "series_editor": editor,
+        "edit_series_view_template_debug_elements": template_debug_elements
+    })
 
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,

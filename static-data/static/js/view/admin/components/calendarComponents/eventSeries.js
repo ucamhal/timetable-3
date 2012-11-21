@@ -22,37 +22,63 @@ define([
 				collapsed: true,
 				editEnabled: false,
 				openChangesState: false,
-				$notificationsPopup: $(".changesNotificationPopup")
+				$notificationsPopup: $(".changesNotificationPopup"),
+				$serverErrorPopup: $(".formServerErrorPopup"),
+				$validationErrorPopup: $(".formValidationErrorPopup"),
+				eventsInitialized: false,
+				savingState: false
 			});
 
 			_.bindAll(this, "editStateChangedHandler");
 			_.bindAll(this, "dataChangedHandler");
 
-			$(".event", this.$el).each(function () {
-				var singleEvent = new Event({
-					$el: $(this)
-				});
-				
-				_.addEventListener(singleEvent.$el, "editStateChanged", self.editStateChangedHandler);
-				_.addEventListener(singleEvent.$el, "dataChanged", self.dataChangedHandler);
+			this.$el.on("editStateChanged", ".event", self.editStateChangedHandler);
+			this.$el.on("dataChanged", ".event", self.dataChangedHandler);
 
-				self.events.push(singleEvent);
-			});
-
-			$(".seriesHeading h5 a", this.$el).click(function (event) {
+			this.$el.on("click", ".seriesHeading h5 a", function (event) {
 				self.collapsed = !self.collapsed;
 				_.dispatchEvent(self.$el, "seriesToggle");
 				self.setCollapsedState(self.collapsed);
 			});
 
-			$(".seriesEditActions .save", this.$el).click(function (event) {
-				self.saveAllEdits();
-				event.preventDefault();
-			});
+			this.$el.on("click", ".seriesEditActions .save", function (event) {
+				if (self.savingState === false) {
+					self.saveAllEdits();
+					event.preventDefault();
+				}
+			}).button();
 
-			$(".seriesEditActions .cancel", this.$el).click(function (event) {
-				self.cancelAllEdits();
-				event.preventDefault();
+			this.$el.on("click", ".seriesEditActions .cancel", function (event) {
+				if (self.savingState === false) {
+					self.cancelAllEdits();
+					event.preventDefault();
+				}
+			});
+		},
+
+		setSavingState: function (state) {
+			this.savingState = state;
+			$(".seriesEditActions .save", this.$el).button((function () {
+				if (state === true) {
+					return "loading";
+				}
+				return "reset";
+			}()));
+			$(".seriesEditActions .cancel", this.$el).toggleClass("mute", state);
+			_.each(this.events, function (item) {
+				item.setDisabled(state);
+			});
+		},
+
+		buildEvents: function (checkForErrorsOnInit) {
+			var self = this,
+				checkForErrorsOnInit = typeof checkForErrorsOnInit === "undefined" ? false : checkForErrorsOnInit;
+
+			$(".event", this.$el).each(function () {
+				self.events.push(new Event({
+					$el: $(this),
+					checkForErrorsOnInit: checkForErrorsOnInit
+				}));
 			});
 		},
 
@@ -65,10 +91,7 @@ define([
 
 		editStateChangedHandler: function () {
 			var newEditEnabled = this.checkEditEnabled();
-			console.log("editStateChangedHandler eventSeries");
-
 			if (this.editEnabled !== newEditEnabled) {
-				console.log("inside if");
 				this.editEnabled = newEditEnabled;
 
 				if (this.editEnabled === false) {
@@ -76,7 +99,6 @@ define([
 					this.openChangesState = false;
 				}
 			}
-
 		},
 
 		checkEditEnabled: function () {
@@ -93,12 +115,40 @@ define([
 		},
 
 		saveAllEdits: function () {
-			this.openChangesState = false;
-			_.each(this.events, function (item) {
-				item.saveEdits();
-			});
+			var self = this,
+				data = $("> form", this.$el).serialize();
 
-			this.handleNotifications();
+			this.openChangesState = false;
+			this.setSavingState(true);
+			
+			$.ajax({
+				type: "POST",
+				url: $("> form", this.$el).attr("action"),
+				data: data,
+				success: function (data) {
+					self.setSavingState(false);
+					$(".events", self.$el).empty().append($(".events", $(data)).html());
+					self.events = [];
+					self.buildEvents(true);
+					if ($(".events .error").length > 0) {
+						self.handleValidationErrors();
+					} else {
+						self.handleNotifications();
+					}
+				},
+				error: function () {
+					self.setSavingState(false);
+					self.handleServerErrors();
+				}
+			});
+		},
+
+		handleValidationErrors: function () {
+			this.$validationErrorPopup.modal();
+		},
+
+		handleServerErrors: function () {
+			this.$serverErrorPopup.modal();
 		},
 
 		handleNotifications: function () {
@@ -126,6 +176,12 @@ define([
 			$(".seriesHeading h5 span", this.$el).toggleClass("icon-chevron-down", !collapsed).toggleClass("icon-chevron-right", collapsed);
 
 			if (collapsed === false) {
+				if (this.eventsInitialized === false) {
+					var currentTime = new Date();
+					this.eventsInitialized = true;
+					this.buildEvents();
+					console.log("Single EventSeries build time: " + (new Date() - currentTime) + "ms");
+				}
 				$(".events", this.$el).slideDown(animationCallback);
 			} else {
 				$(".events", this.$el).slideUp(animationCallback);

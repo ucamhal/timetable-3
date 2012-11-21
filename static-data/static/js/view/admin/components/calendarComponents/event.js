@@ -18,48 +18,77 @@ define([
 				selector: "body",
 				$el: $(this.selector),
 				editEnabled: false,
-				fields: []
+				disabled: false,
+				fields: [],
+				checkForErrorsOnInit: false
 			});
 
 			_.bindAll(this, "dataChangedHandler");
 
 			$("td:not(.eventActions)", this.$el).each(function () {
-				var field = new EventField({
+				self.fields.push(new EventField({
 					$el: $(this)
-				});
-
-				_.addEventListener(field.$el, "dataChanged", self.dataChangedHandler);
-
-				self.fields.push(field);
+				}));
 			});
 
+			this.$el.on("dataChanged", "td:not(.eventActions)", self.dataChangedHandler);
+
 			$(".eventActions a.edit", self.$el).parent().mouseover(function (event) {
-				self.togglePencilHoverState(true);
+				if (self.disabled === false) {
+					self.togglePencilHoverState(true);
+				}
 			});
 
 			$(".eventActions a.edit", self.$el).parent().mouseout(function (event) {
-				self.togglePencilHoverState(false);
+				if (self.disabled === false) {
+					self.togglePencilHoverState(false);
+				}
 			});
 
 			$(".eventActions a", this.$el).click(function (event) {
-				var action = $(this).text();
-				switch (action) {
-				case "edit":
-					self.toggleEditEnabledState();
-					break;
-				case "duplicate":
-					//different user story:
-					_.dispatchEvent(self.$el, "duplicate");
-					break;
-				case "remove":
-					break;
+				if (self.disabled === false) {
+					var action = $(this).text();
+					switch (action) {
+					case "edit":
+						self.toggleEditEnabledState();
+						break;
+					case "duplicate":
+						//different user story:
+						_.dispatchEvent(self.$el, "duplicate");
+						break;
+					case "remove":
+						break;
+					}
 				}
 			});
 
 			$("td:not(.eventActions)", this.$el).click(function (event) {
-				if (self.editEnabled === false) {
-					self.toggleEditEnabledState(true);
+				if (self.disabled === false) {
+					if (self.editEnabled === false) {
+						self.toggleEditEnabledState(true);
+					}
 				}
+			});
+
+			if (this.checkForErrorsOnInit === true) {
+				this.checkForErrors();
+			}
+		},
+
+		checkForErrors: function () {
+			var self = this;
+			if (_.any(this.fields, function (item) {
+					return item.$el.hasClass("error");
+				})) {
+				this.toggleEditEnabledState(true);
+				_.dispatchEvent(self.$el, "dataChanged");
+			}
+		},
+
+		setDisabled: function (disabled) {
+			this.disabled = disabled;
+			_.each(this.fields, function (item) {
+				item.setDisabled(disabled);
 			});
 		},
 
@@ -68,15 +97,13 @@ define([
 		},
 
 		togglePencilHoverState: function (pencilHover) {
-			var self = this;
-
-			var addClass = (function () {
-				if (self.editEnabled === true) {
-					return false;
-				}
-
-				return typeof pencilHover === "undefined" ? !self.$el.hasClass("pencilHover") : pencilHover;
-			}());
+			var self = this,
+				addClass = (function () {
+					if (self.editEnabled === true) {
+						return false;
+					}
+					return typeof pencilHover === "undefined" ? !self.$el.hasClass("pencilHover") : pencilHover;
+				}());
 
 			this.$el.toggleClass("pencilHover", addClass);
 		},
@@ -105,12 +132,6 @@ define([
 		cancelEdit: function () {
 			if (this.editEnabled === true) {
 				this.toggleEditEnabledState();
-			}
-		},
-
-		saveEdits: function () {
-			if (this.editEnabled === true && this.dataChanged() === true) {
-				//post the form back
 			}
 		},
 

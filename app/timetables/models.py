@@ -539,6 +539,12 @@ class Event(SchemalessModel, VersionableModel):
             tz = pytz.timezone("%s" % self.endtz)
             return self.end_local(tz)
 
+    def relative_term_date(self):
+        # Need to import datetimes here rather than globally to avoid an import
+        # loop.
+        from timetables.utils import datetimes
+        return datetimes.date_to_termweek(self.start.date())
+
 
 pre_save.connect(Event._pre_save, sender=Event)
     

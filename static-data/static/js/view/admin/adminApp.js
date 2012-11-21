@@ -14,8 +14,10 @@ define([
 	"use strict";
 
 	var AdminApplication = function () {
+		var currentTime = new Date();
 		this.baseInitialize();
 		this.initialize();
+		console.log("Application build time: " + (new Date() - currentTime) + "ms");
 	}
 
 	_.extend(AdminApplication.prototype, BaseApplication.prototype)
