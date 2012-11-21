@@ -39,7 +39,8 @@ class ModuleEditor(object):
         self._form = forms.ModuleForm(instance=module)
         
         self._series_editors = [
-            SeriesEditor(series) for series in module.sources.all()
+            SeriesEditor(series) for series in (module.sources.all()
+                    .order_by("title"))
         ]
     
     def get_form(self):
@@ -81,7 +82,7 @@ def list_view(request, thing=None):
 
     module_editors = [
         ModuleEditor(module)
-        for module in thing.thing_set.filter(type="module")
+        for module in thing.thing_set.filter(type="module").order_by("name")
     ]
 
     return shortcuts.render(request, "administrator/list.html",
