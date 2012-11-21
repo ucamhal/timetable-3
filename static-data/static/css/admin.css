@@ -341,3 +341,69 @@ div:focus {
 	margin-top: 4px;
 	display: block;
 }
+
+
+/*
+ *
+ * UI jumping quick fixes
+ *
+ */
+
+.event .eventActions ul li {
+	display: inline;
+}
+
+.event .eventActions ul {
+	min-width: 57px;
+}
+
+.event p {
+	margin: 0;
+}
+
+.event .eventTitle {
+	width: 200px;
+}
+
+.event .eventTitle .dataValue {
+	width: 176px;
+}
+
+.event .eventType {
+	width: 112px;	
+}
+
+.event .eventType .dataValue {
+	width: 88px;
+}
+
+.event .eventType select {
+	width: 110px!important;
+}
+
+.event .eventLocation {
+	width: 85px;
+}
+
+.event .eventLocation .dataValue {
+	width: 61px;
+}
+
+.event .eventDateTime {
+	width: 280px;
+}
+
+.event .eventDateTime .dataValue {
+	width: 256px;
+}
+
+.event .eventLecturers {
+	width: 100px;
+}
+
+.event .eventLecturers .dataValue {
+	width: 76px;
+}
+
+
+
