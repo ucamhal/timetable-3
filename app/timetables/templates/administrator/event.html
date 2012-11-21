@@ -10,7 +10,7 @@
 	</td>
 	<td class="eventType clearfix secondStepped{% if event_form.event_type.errors %} error{% endif %}" tabindex="2">
 		<div class="dataValue pull-left">
-			{{ event_form.instance.metadata.event_type|default:"&mdash;" }}
+			{{ event_form.instance.metadata.type|default:"&mdash;" }}
 		</div>
 		<div class="dataInput">
 			{{ event_form.event_type }}
