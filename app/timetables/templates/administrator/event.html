@@ -65,7 +65,7 @@
 							<li class="pull-left">
 								<input type="number"
 								       class="input-mini hours"
-								       value="{{ event_form.start_hour.value|stringformat:".2d" }}"
+								       value="{{ event_form.start_hour.value|add:"0"|stringformat:".2d" }}"
 								       name="{{ event_form.start_hour.html_name }}"
 								       id="id_{{ event_form.start_hour.html_name }}"
 								       min="0" max="23">
@@ -74,7 +74,7 @@
 							<li class="pull-left">
 								<input type="number"
 								       class="input-mini minutes"
-								       value="{{ event_form.start_minute.value|stringformat:".2d" }}"
+								       value="{{ event_form.start_minute.value|add:"0"|stringformat:".2d" }}"
 								       name="{{ event_form.start_minute.html_name }}"
 								       id="id_{{ event_form.start_minute.html_name }}"
 								       min="0" max="60" step="15">
@@ -87,7 +87,7 @@
 							<li class="pull-left">
 								<input type="number"
 								       class="input-mini hours"
-								       value="{{ event_form.end_hour.value|stringformat:".2d" }}"
+								       value="{{ event_form.end_hour.value|add:"0"|stringformat:".2d" }}"
 								       name="{{ event_form.end_hour.html_name }}"
 								       id="id_{{ event_form.end_hour.html_name }}"
 								       min="0" max="23">
@@ -96,7 +96,7 @@
 							<li class="pull-left">
 								<input type="number"
 								       class="input-mini minutes"
-								       value="{{ event_form.end_minute.value|stringformat:".2d" }}"
+								       value="{{ event_form.end_minute.value|add:"0"|stringformat:".2d" }}"
 								       name="{{ event_form.end_minute.html_name }}"
 								       id="id_{{ event_form.end_minute.html_name }}"
 								       min="0" max="60" step="15">
