@@ -121,7 +121,7 @@ define([
 		dateDataChangedHandler: function () {
 			//generate the new date string and replace the text of .dataInput with it.
 			console.log(this.generateDateStringFromDatePatternDialogValues());
-			$(".dataInput > p").html(this.generateDateStringFromDatePatternDialogValues());
+			$(".dataInput > span").html(this.generateDateStringFromDatePatternDialogValues());
 		},
 
 		generateDateStringFromDatePatternDialogValues: function () {
