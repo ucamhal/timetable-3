@@ -36,11 +36,11 @@
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
 		</div>
 		<div class="dataInput">
-			<p>
+			<span title="Save changes to see real date.">
 				W {{ event_form.term_week.value }} in {{ event_form.term_name.value|capfirst }},
 				on {{ event_form.day_of_week.value|capfirst }}
 				{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
-			</p>
+			</span>
 
 			<div class="datePatternDialog popover fade bottom in">
 				<div class="arrow"></div>
