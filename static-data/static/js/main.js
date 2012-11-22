@@ -35,6 +35,7 @@ require([
   "domReady"
 ], function($) {
    "use strict";
+   window.console = window.console || {log: function() {}};
 
    // work out what module was asked for and get require to load it.
    
@@ -52,6 +53,7 @@ require([
              // that should be enough to get it loaded.
           });
        },10);
+
 
 
 });
