@@ -24,6 +24,7 @@ define([
 			});
 
 			_.bindAll(this, "dataChangedHandler");
+			_.bindAll(this, "fieldClickHandler");
 
 			$("td:not(.eventActions)", this.$el).each(function () {
 				self.fields.push(new EventField({
@@ -32,6 +33,7 @@ define([
 			});
 
 			this.$el.on("dataChanged", "td:not(.eventActions)", self.dataChangedHandler);
+			this.$el.on("fieldClicked", "td:not(.eventActions)", self.fieldClickHandler);
 
 			$(".eventActions a.edit", self.$el).parent().mouseover(function (event) {
 				if (self.disabled === false) {
@@ -62,16 +64,14 @@ define([
 				}
 			});
 
-			$("td:not(.eventActions)", this.$el).click(function (event) {
-				if (self.disabled === false) {
-					if (self.editEnabled === false) {
-						self.toggleEditEnabledState(true);
-					}
-				}
-			});
-
 			if (this.checkForErrorsOnInit === true) {
 				this.checkForErrors();
+			}
+		},
+
+		fieldClickHandler: function () {
+			if (this.disabled === false && this.editEnabled === false) {
+				this.toggleEditEnabledState(true);
 			}
 		},
 
@@ -113,13 +113,13 @@ define([
 			revertData = typeof revertData === "undefined" ? !this.editEnabled : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
 
-			_.each(this.fields, function (item) {
-				item.toggleEditEnabledState(editEnabled, updateUI, revertData);
-			});
-
 			if (updateUI === true) {
 				this.setEditEnabledState(this.editEnabled);
 			}
+
+			_.each(this.fields, function (item) {
+				item.toggleEditEnabledState(editEnabled, updateUI, revertData);
+			});
 
 			_.dispatchEvent(this.$el, "editStateChanged");
 		},

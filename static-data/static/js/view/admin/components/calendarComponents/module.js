@@ -17,7 +17,8 @@ define([
 			_.defaults(this, {
 				selector: "body",
 				$el: $(this.selector),
-				series: []
+				series: [],
+				collapsed: false
 			});
 
 			_.bindAll(this, "seriesToggleHandler");
@@ -29,6 +30,17 @@ define([
 			});
 
 			this.$el.on("seriesToggle", ".series", this.seriesToggleHandler);
+			this.$el.on("click", ".moduleHeading h4 a", function (event) {
+				self.collapsed = !self.collapsed;
+
+				if (self.collapsed === true) {
+					$(".moduleHeading span.icon-chevron-down", self.$el).toggleClass("icon-chevron-down", false).toggleClass("icon-chevron-right", true);
+					$(".moduleContent", self.$el).slideUp();				
+				} else {
+					$(".moduleHeading span.icon-chevron-right", self.$el).toggleClass("icon-chevron-down", true).toggleClass("icon-chevron-right", false);
+					$(".moduleContent", self.$el).slideDown();
+				}
+			});
 		},
 
 		hasOpenChanges: function () {
