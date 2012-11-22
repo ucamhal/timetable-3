@@ -36,6 +36,35 @@ div:focus {
 }
 */
 
+#inputArea div {
+	margin: 0;
+}
+
+#inputArea h3 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+	padding-top: 4px;
+}
+
+#admin #inputArea select {
+	width: 114px;
+}
+
+#adminListActions {
+	padding-bottom: 30px;
+}
+
+#adminListActions .icon-chevron-left {
+	margin-right: 4px;
+}
+
+#adminListActions ul li {
+	margin-left: 15px;
+}
+
+
 .modulesList .module a.addSeries {
 	margin-bottom: 9px;
 }
@@ -58,7 +87,7 @@ div:focus {
 }
 
 .buttons li {
-	margin-right: 5px;
+	margin-right: 3px;
 }
 
 .events {
@@ -145,6 +174,22 @@ div:focus {
 .event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput,
 .event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput,
 .event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput .input {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus.focus .dataInput .input {
 	display: block;
 }
 
@@ -271,7 +316,7 @@ div:focus {
 	visibility: visible;
 }
 
-.modulesList > li {
+.modulesList .moduleContent {
 	margin-bottom: 30px;
 }
 
@@ -289,6 +334,15 @@ div:focus {
 	margin-bottom: 10px;
 }
 
+.moduleHeading h4 a {
+	color: #333;
+}
+
+.moduleHeading h4 span {
+	margin-top: 3px;
+	margin-right: 10px;
+}
+
 .moduleHeading .buttons {
 	visibility: hidden;
 }
@@ -302,7 +356,7 @@ div:focus {
 }
 
 .seriesList,
-.module > a.btn {
+.moduleContent > a.btn {
 	margin-left: 20px;
 }
 
@@ -341,3 +395,77 @@ div:focus {
 	margin-top: 4px;
 	display: block;
 }
+
+
+/*
+ *
+ * UI jumping quick fixes
+ *
+ */
+
+.event .eventActions ul li {
+	display: inline;
+}
+
+.eventActions .buttons li {
+	margin: 0;
+}
+
+.event .eventActions ul {
+	min-width: 70px;
+}
+
+.event p {
+	margin: 0;
+}
+
+.event .eventTitle {
+	width: 190px;
+}
+
+.event .eventTitle .dataValue {
+	max-width: 166px;
+}
+
+.event .eventType {
+	width: 112px;	
+}
+
+.event .eventType .dataValue {
+	max-width: 87px;
+}
+
+.event .eventType select {
+	width: 110px!important;
+}
+
+.event .eventLocation {
+	width: 85px;
+}
+
+.event .eventLocation .dataValue {
+	max-width: 61px;
+}
+
+.event .eventDateTime {
+	width: 290px;
+}
+
+.event .eventDateTime .dataValue {
+	max-width: 266px;
+}
+
+.event .eventLecturers {
+	width: 100px;
+}
+
+.event .eventLecturers .dataValue {
+	max-width: 76px;
+}
+
+.changesNotificationPopup .dontSendNotification {
+	margin-right: 15px;
+}
+
+
+
