@@ -253,7 +253,7 @@ div:focus {
 	border-color: rgba(0, 0, 0, .2);
 }
 
-.event .eventDateTime {
+.event .eventDateTime .dataInput {
 	position: relative;
 }
 
