@@ -20,7 +20,8 @@ define([
 				editEnabled: false,
 				disabled: false,
 				fields: [],
-				checkForErrorsOnInit: false
+				checkForErrorsOnInit: false,
+				active: false
 			});
 
 			_.bindAll(this, "dataChangedHandler");
@@ -53,6 +54,10 @@ define([
 					switch (action) {
 					case "edit":
 						self.toggleEditEnabledState();
+						if (self.editEnabled === true) {
+							self.toggleActiveState(true);
+						}
+						_.dispatchEvent(self.$el, "hasFocus", self);
 						break;
 					case "duplicate":
 						//different user story:
@@ -70,8 +75,23 @@ define([
 		},
 
 		fieldClickHandler: function () {
-			if (this.disabled === false && this.editEnabled === false) {
-				this.toggleEditEnabledState(true);
+			if (this.disabled === false) {
+				if (this.editEnabled === false) {
+					this.toggleEditEnabledState(true);
+				}
+
+				if (this.active === false) {
+					this.toggleActiveState(true);
+				}
+				_.dispatchEvent(this.$el, "hasFocus", this);
+			}
+		},
+
+		toggleActiveState: function (active) {
+			this.active = typeof active === "undefined" ? !this.active : active;
+			this.$el.toggleClass("active", this.active);
+			if (this.active === true) {
+				_.dispatchEvent(this.$el, "activeStateEnabled", this);
 			}
 		},
 
@@ -127,6 +147,9 @@ define([
 		setEditEnabledState: function (editEnabled) {
 			this.togglePencilHoverState(editEnabled);
 			this.$el.toggleClass("editEnabled", editEnabled);
+			if (editEnabled === false) {
+				this.toggleActiveState(false);
+			}
 		},
 
 		cancelEdit: function () {
