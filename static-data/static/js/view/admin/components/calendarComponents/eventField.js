@@ -138,7 +138,8 @@ define([
 		},
 
 		dateDataChangedHandler: function () {
-			$(".dataInput > p", this.$el).html(this.generateDateStringFromDatePatternDialogValues());
+			//generate the new date string and replace the text of .dataInput with it.
+			$(".dataInput > span", this.$el).html(this.generateDateStringFromDatePatternDialogValues());
 		},
 
 		generateDateStringFromDatePatternDialogValues: function () {
