@@ -110,6 +110,14 @@ div:focus {
 	background-color: #fff6e2;
 }
 
+.events .editEnabled.active .eventTitle,
+.events .editEnabled.active .eventType,
+.events .editEnabled.active .eventLocation,
+.events .editEnabled.active .eventDateTime,
+.events .editEnabled.active .eventLecturers {
+	background-color: #f5e7d0;
+}
+
 .events td {
 	cursor: pointer;
 }
@@ -247,13 +255,19 @@ div:focus {
 }
 
 .events .event.editEnabled td.error input.error::-webkit-input-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 .events .event.editEnabled td.error input.error:-moz-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 .events .event.editEnabled td.error input.error:-ms-input-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 
 .events .event.editEnabled td.error input.error {
@@ -269,10 +283,12 @@ div:focus {
 	margin: 0;
 }
 
+/*
 .event .eventDateTimeFromFields input,
 .event .eventDateTimeToFields input {
 	width: 34px;
 }
+*/
 
 .event.editEnabled .dataInput > input {
 	border-style: none;
@@ -298,14 +314,13 @@ div:focus {
 	border-color: rgba(0, 0, 0, .2);
 }
 
-.event .eventDateTime {
+.event .eventDateTime .dataInput {
 	position: relative;
 }
 
 .event .eventDateTime .popover {
 	display: block;
 	position: absolute;
-	top: 37px;
 }
 
 .seriesHeading.collapsed ul.buttons {
@@ -419,6 +434,12 @@ div:focus {
 	margin: 0;
 }
 
+.event .eventTitle .dataValue > p,
+.event .eventLocation .dataValue > p,
+.event .eventLecturers .dataValue > p {
+	word-wrap: break-word;
+}
+
 .event .eventTitle {
 	width: 190px;
 }
@@ -465,6 +486,95 @@ div:focus {
 
 .changesNotificationPopup .dontSendNotification {
 	margin-right: 15px;
+}
+
+.eventType .dataValue > span {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	float: left;
+	margin-right: 6px;
+	margin-top: 2px;
+}
+
+.eventType .dataValue > p {
+	width: 65px;
+}
+
+.eventType .dataValue span.lecture {
+	background-image: url(../img/typeLectureIcon.png);
+}
+
+.eventType .dataValue span.seminar {
+	background-image: url(../img/typeSeminarIcon.png);
+}
+
+.eventType .dataValue span.practical {
+	background-image: url(../img/typePracticalIcon.png);
+}
+
+.eventType .dataValue span.laboratory {
+	background-image: url(../img/typeLaboratoryIcon.png);
+}
+
+.eventType .dataValue span.language {
+	background-image: url(../img/typeLanguageClassIcon.png);
+}
+
+.datePatternDialog {
+	min-width: 420px;
+	top: 140%;
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px 0px;
+}
+
+.datePatternDialog h3 {
+	font-size: 1em;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 2px;
+}
+
+.datePatternDialog h3 a {
+	margin: 0;
+	padding: 0;
+}
+
+.datePatternDialog select {
+	width: 150px;
+}
+
+.datePatternDialog .popover-content {
+	padding: 20px;
+}
+
+.datePatternDialog .popover-content > ul {
+	padding: 5px 0;
+}
+
+.datePatternDialog .popover-content > div {
+	margin-bottom: 10px;
+}
+
+.datePatternDialog .popover-content > div > label {
+	line-height: 2em;
+}
+
+.datePatternDialog .popover-content > div > label:first-child {
+	min-width: 35px;
+	text-align: right;
+}
+
+.datePatternDialog .popover-content > div > * {
+	float: left;
+	margin-right: 15px;
+}
+
+.datePatternDialog .popover-content > div > *:last-child {
+	margin-right: 0;
+}
+
+.datePatternDialog input[type="number"] {
+	width: 40px;
 }
 
 

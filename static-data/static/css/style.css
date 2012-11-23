@@ -8,7 +8,11 @@ div#content {
 }
 
 .notImplemented {
-	opacity: .3;
+	opacity: .6;
+}
+
+.notImplemented:hover {
+	opacity: 1;
 }
 
 .hideMe {
@@ -840,12 +844,8 @@ li#advancedSearchSubmit input {
  *	Admin Specific CSS
  */
 
-div#timetablesOverview h3 {
-	border-bottom-style: solid;
-	border-bottom-color: rgba(0, 0, 0, .15);
-	border-bottom-width: 1px;
-	padding-bottom: 3px;
-	margin-bottom: 30px;
+div#timetablesOverview {
+	padding-top: 20px;
 }
 
 div#timetablesOverview ul {
@@ -853,24 +853,55 @@ div#timetablesOverview ul {
 	margin: 0;
 }
 
-div#timetablesOverview li {
-	margin-right: 20px;
-	margin-bottom: 20px;
-	height: 60px;
-	width: 60px;
+div#timetablesOverview ul li:nth-child(5n+5) {
+	margin-right: 0;
 }
 
-div#timetablesOverview li a {
-	display: block;
-	padding-top: 10px;
+div#timetablesOverview ul li {
+	width: 150px;
+	height: 150px;
+	position: relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #434343;
+	margin-right: 50px;
+	margin-bottom: 40px;
+	cursor: pointer;
+	
 }
 
-div#timetablesOverview li.btn-addTimetable {
+div#timetablesOverview ul li.createNewTimetable {
 	border-style: dashed;
-	border-width: 2px;
-	height: 58px;
-	background-image: none;
-	background-color: #ffffff;
+}
+
+div#timetablesOverview ul li:hover a {
+	text-decoration: underline;
+}
+
+div#timetablesOverview ul li .timetableTop {
+	width: 100%;
+	height: 100%;
+}
+
+div#timetablesOverview ul li.createNewTimetable .timetableTop {
+	background-image: url(../img/createNewTimetable.png);
+	background-repeat: no-repeat;
+	background-position: 50% 37%;
+}
+
+div#timetablesOverview ul li .timetableBottom {
+	position: absolute;
+	bottom: 0;
+	width: 140px;
+	text-align: center;
+	background-color: #434343;
+	margin: 1px;
+	padding: 4px;
+}
+
+div#timetablesOverview ul li .timetableBottom a {
+	color: white;
+	text-shadow: -1px -2px 2px rgba(0, 0, 0, .3);
 }
 
 

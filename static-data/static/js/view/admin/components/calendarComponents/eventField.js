@@ -16,7 +16,13 @@ define([
 			_.defaults(this, {
 				selector: "body",
 				$el: $(this.selector),
-				initialValue: this.getValue(),
+				initialValue: (function () {
+					if (self.$el.hasClass("error")) {
+						return self.getValueFromInitial();
+					}
+
+					return self.getValue();
+				}()),
 				value: this.initialValue,
 				editable: false,
 				changed: false,
@@ -32,6 +38,7 @@ define([
 				this.$el.focusin(this.focusInHandler);
 
 				if (this.$el.hasClass("secondSteppedOut") === true) {
+					this.$el.blur(this.focusOutHandler);
 					this.$el.focusout(this.focusOutHandler);
 				}
 			}
@@ -45,7 +52,7 @@ define([
 				this.duration = this.initialDuration = this.initialToTime - this.initialFromTime;
 
 				$(".datePatternDialog a.close", this.$el).click(function () {
-					self.$el.focusout();
+					self.$el.blur();
 				});
 
 				$(".eventDateTimeFromFields input, .eventDateTimeToFields input", this.$el).change(function (event, original) {
@@ -131,7 +138,8 @@ define([
 		},
 
 		dateDataChangedHandler: function () {
-			$(".dataInput > p", this.$el).html(this.generateDateStringFromDatePatternDialogValues());
+			//generate the new date string and replace the text of .dataInput with it.
+			$(".dataInput > span", this.$el).html(this.generateDateStringFromDatePatternDialogValues());
 		},
 
 		generateDateStringFromDatePatternDialogValues: function () {
@@ -162,7 +170,7 @@ define([
 		},
 
 		dataChanged: function () {
-			return this.getValue().toLowerCase() !== this.initialValue.toLowerCase();
+			return !_.isEqual(this.getValue(), this.initialValue);
 		},
 
 		getValue: function () {
@@ -188,6 +196,35 @@ define([
 					fromMinutes: $(".eventDateTimeFromFields .minutes", this.$el).val(),
 					toHour: $(".eventDateTimeToFields .hours", this.$el).val(),
 					toMinutes: $(".eventDateTimeToFields .minutes", this.$el).val()
+				};
+				break;
+			}
+			return {};
+		},
+
+		getValueFromInitial: function () {
+			switch (this.getType()) {
+			case "eventTitle":
+			case "eventLocation":
+			case "eventLecturers":
+				return {
+					inputValue: $("input", this.$el).data("initial")
+				};
+				break;
+			case "eventType":
+				return {
+					selectValue: $("select", this.$el).data("initial")
+				};
+				break;
+			case "eventDateTime":
+				return {
+					week: $(".eventDateTimeWeek", this.$el).data("initial"),
+					term: $(".eventDateTimeTerm", this.$el).data("initial"),
+					day: $(".eventDateTimeDay", this.$el).data("initial"),
+					fromHour: $(".eventDateTimeFromFields .hours", this.$el).data("initial"),
+					fromMinutes: $(".eventDateTimeFromFields .minutes", this.$el).data("initial"),
+					toHour: $(".eventDateTimeToFields .hours", this.$el).data("initial"),
+					toMinutes: $(".eventDateTimeToFields .minutes", this.$el).data("initial")
 				};
 				break;
 			}
@@ -262,6 +299,9 @@ define([
 
 		revertData: function () {
 			this.setValue(this.initialValue);
+			this.$el.removeClass("error");
+			$("input, select", this.$el).removeClass("error");
+			$(".errorlist", this.$el).remove();
 
 			if (this.getType() === "eventDateTime") {
 				$(".dataInput > p", this.$el).html(this.generateDateStringFromDatePatternDialogValues());

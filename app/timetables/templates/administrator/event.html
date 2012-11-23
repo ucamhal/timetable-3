@@ -1,16 +1,17 @@
 <tr class="event">
 	<td class="eventTitle clearfix{% if event_form.title.errors %} error{% endif %}" tabindex="1">
 		<div class="dataValue pull-left">
-			{{ event_form.instance.title|default:"&mdash;" }}
+			<p>{{ event_form.instance.title|default:"&mdash;" }}</p>
 		</div>
 		<div class="dataInput">
-			<input type="text" name="{{ event_form.title.html_name }}" value="{{ event_form.title.value }}" placeholder="{{ event_form.title.errors|join:" " }}" {% if event_form.title.errors %}class="error"{% endif %} />
+			<input type="text" data-initial="{{ event_form.initial.title }}" name="{{ event_form.title.html_name }}" value="{{ event_form.title.value }}" placeholder="{{ event_form.title.errors|join:" " }}" {% if event_form.title.errors %}class="error"{% endif %} />
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
 	<td class="eventType clearfix secondStepped{% if event_form.event_type.errors %} error{% endif %}" tabindex="2">
 		<div class="dataValue pull-left">
-			{{ event_form.instance.metadata.type|default:"&mdash;" }}
+			{% if event_form.instance.metadata.type %}<span class="{{ event_form.instance.metadata.type|lower }} clearfix"></span>{% endif %}
+			<p class="pull-right">{{ event_form.instance.metadata.type|default:"&mdash;" }}</p>
 		</div>
 		<div class="dataInput">
 			{{ event_form.event_type }}
@@ -21,7 +22,7 @@
 	<td class="eventDateTime clearfix secondStepped secondSteppedOut{% if event_form.term_week.errors or event_form.term_name.errors or event_form.day_of_week.errors or event_form.start_hour.errors or event_form.start_minute.errors or event_form.end_hour.errors or event_form.end_minute.errors %} error{% endif %}" tabindex="4">
 		<div class="dataValue pull-left">
 			<span title="{{ event_form.instance.start|date:"l jS F " }}">
-				{% with rel_date=event_form.instance.relative_term_date  %}
+				{% with rel_date=event_form.instance.relative_term_date %}
 				W {{ rel_date.2 }} in {{ rel_date.1|capfirst }},
 				on {{ rel_date.3|capfirst }}
 				{% endwith %}
@@ -29,76 +30,90 @@
 			{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
 		</div>
 		<div class="dataInput">
-			<p>
+			<span title="Save changes to see real date.">
 				W {{ event_form.term_week.value }} in {{ event_form.term_name.value|capfirst }},
 				on {{ event_form.day_of_week.value|capfirst }}
 				{{ event_form.instance.start|date:"H:i" }}&ndash;{{ event_form.instance.end|date:"H:i" }}
-			</p>
+			</span>
 
 			<div class="datePatternDialog popover fade bottom in input">
 				<div class="arrow"></div>
 				<div class="popover-inner">
-					<h3 class="popover-title">When does this event take place?<a href="#" class="close">&times;</a></h3>
+					<div class="popover-title clearfix">
+						<h3 class="pull-left">When does this event take place?</h3>
+						<a href="#" class="close">&times;</a>
+					</div>
 					<div class="popover-content">
-						<label for="id_{{ event_form.term_week.html_name }}">Week</label>
 						{{ event_form.term_week.errors }}
-						<input type="number"
-						       name="{{ event_form.term_week.html_name }}"
-						       id="id_{{ event_form.term_week.html_name }}"
-						       value="{{ event_form.term_week.value }}"
-						       class="input-mini eventDateTimeWeek{% if event_form.term_week.errors %} error{% endif %}"/>
-
-						<label for="id_{{ event_form.term_name.html_name }}">in</label>
 						{{ event_form.term_name.errors }}
-						{{ event_form.term_name }}
+						<div class="clearfix">
+							<label for="id_{{ event_form.term_week.html_name }}">Week</label>
+							<input type="number"
+							       data-initial="{{ event_form.initial.term_week }}"
+							       name="{{ event_form.term_week.html_name }}"
+							       id="id_{{ event_form.term_week.html_name }}"
+							       value="{{ event_form.term_week.value }}"
+							       class="input-mini eventDateTimeWeek{% if event_form.term_week.errors %} error{% endif %}"/>
 
-						<label for="id_{{ event_form.day_of_week.html_name }}">on</label>
+							<label for="id_{{ event_form.term_name.html_name }}">in</label>
+							{{ event_form.term_name }}
+						</div>
 						{{ event_form.day_of_week.errors }}
-						{{ event_form.day_of_week }}
+						<div class="clearfix">
+							<label for="id_{{ event_form.day_of_week.html_name }}">on</label>
+							{{ event_form.day_of_week }}
+						</div>
 
-						<label for="id_{{ event_form.start_hour.html_name }}">From</label>
 						{{ event_form.start_hour.errors }}
 						{{ event_form.start_minute.errors }}
-						<ul class="clearfix eventDateTimeFromFields">
-							<li class="pull-left">
-								<input type="number"
-								       value="{{ event_form.start_hour.value|add:"0"|stringformat:".2d" }}"
-								       class="input-mini hours{% if event_form.start_hour.errors %} error{% endif %}"
-								       name="{{ event_form.start_hour.html_name }}"
-								       id="id_{{ event_form.start_hour.html_name }}"
-								       min="-1" max="24">
-							</li>
-							<li class="pull-left">
-								<input type="number"
-								       value="{{ event_form.start_minute.value|add:"0"|stringformat:".2d" }}"
-								       class="input-mini minutes{% if event_form.start_minute.errors %} error{% endif %}"
-								       name="{{ event_form.start_minute.html_name }}"
-								       id="id_{{ event_form.start_minute.html_name }}"
-								       min="-15" max="60" step="15">
-							</li>
-						</ul>
-
-						<label for="id_{{ event_form.end_hour.html_name }}">To</label>
 						{{ event_form.end_hour.errors }}
 						{{ event_form.end_minute.errors }}
-						<ul class="clearfix eventDateTimeToFields">
-							<li class="pull-left">
-								<input type="number"
-								       value="{{ event_form.end_hour.value|add:"0"|stringformat:".2d" }}"
-								       class="input-mini hours{% if event_form.end_hour.errors %} error{% endif %}"
-								       name="{{ event_form.end_hour.html_name }}"
-								       id="id_{{ event_form.end_hour.html_name }}"
-								       min="-1" max="24">
-							</li>
-							<li class="pull-left">
-								<input type="number"
-								       value="{{ event_form.end_minute.value|add:"0"|stringformat:".2d" }}"
-								       class="input-mini minutes{% if event_form.end_minute.errors %} error{% endif %}"
-								       name="{{ event_form.end_minute.html_name }}"
-								       id="id_{{ event_form.end_minute.html_name }}"
-								       min="-15" max="60" step="15">
-							</li>
-						</ul>
+
+						<div class="clearfix">
+							<label for="id_{{ event_form.start_hour.html_name }}">From</label>
+							<ul class="clearfix eventDateTimeFromFields">
+								<li class="pull-left">
+									<input type="number"
+									       data-initial="{{ event_form.initial.start_hour|add:"0"|stringformat:".2d" }}"
+									       value="{{ event_form.start_hour.value|add:"0"|stringformat:".2d" }}"
+									       class="input-mini hours{% if event_form.start_hour.errors %} error{% endif %}"
+									       name="{{ event_form.start_hour.html_name }}"
+									       id="id_{{ event_form.start_hour.html_name }}"
+									       min="-1" max="24">
+								</li>
+								<li class="pull-left">
+									<input type="number"
+									       data-initial="{{ event_form.initial.start_minute|add:"0"|stringformat:".2d" }}"
+									       value="{{ event_form.start_minute.value|add:"0"|stringformat:".2d" }}"
+									       class="input-mini minutes{% if event_form.start_minute.errors %} error{% endif %}"
+									       name="{{ event_form.start_minute.html_name }}"
+									       id="id_{{ event_form.start_minute.html_name }}"
+									       min="-15" max="60" step="15">
+								</li>
+							</ul>
+
+							<label for="id_{{ event_form.end_hour.html_name }}">To</label>
+							<ul class="clearfix eventDateTimeToFields">
+								<li class="pull-left">
+									<input type="number"
+									       data-initial="{{ event_form.initial.end_hour|add:"0"|stringformat:".2d" }}"
+									       value="{{ event_form.end_hour.value|add:"0"|stringformat:".2d" }}"
+									       class="input-mini hours{% if event_form.end_hour.errors %} error{% endif %}"
+									       name="{{ event_form.end_hour.html_name }}"
+									       id="id_{{ event_form.end_hour.html_name }}"
+									       min="-1" max="24">
+								</li>
+								<li class="pull-left">
+									<input type="number"
+									       data-initial="{{ event_form.initial.end_minute|add:"0"|stringformat:".2d" }}"
+									       value="{{ event_form.end_minute.value|add:"0"|stringformat:".2d" }}"
+									       class="input-mini minutes{% if event_form.end_minute.errors %} error{% endif %}"
+									       name="{{ event_form.end_minute.html_name }}"
+									       id="id_{{ event_form.end_minute.html_name }}"
+									       min="-15" max="60" step="15">
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -106,16 +121,20 @@
 		<span class="icon-pencil pull-left"></span>
 	</td>
 	<td class="eventLocation clearfix{% if event_form.location.errors %} error{% endif %}" tabindex="3">
-		<div class="dataValue pull-left">{{ event_form.instance.location|default:"&mdash;" }}</div>
+		<div class="dataValue pull-left">
+			<p>{{ event_form.instance.location|default:"&mdash;" }}</p>
+		</div>
 		<div class="dataInput">
-			<input type="text" name="{{ event_form.location.html_name }}" value="{{ event_form.location.value }}" placeholder="{{ event_form.location.errors|join:" " }}" {% if event_form.location.errors %}class="error"{% endif %} />
+			<input type="text" data-initial="{{ event_form.initial.location }}" name="{{ event_form.location.html_name }}" value="{{ event_form.location.value }}" placeholder="{{ event_form.location.errors|join:" " }}" {% if event_form.location.errors %}class="error"{% endif %} />
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
 	<td class="eventLecturers clearfix{% if event_form.people.errors %} error{% endif %}" tabindex="4">
-		<div class="dataValue pull-left">{{ event_form.instance.metadata.people|join:", "|default:"&mdash;" }}</div>
+		<div class="dataValue pull-left">
+			<p>{{ event_form.instance.metadata.people|join:", "|default:"&mdash;" }}</p>
+		</div>
 		<div class="dataInput">
-			<input type="text" name="{{ event_form.people.html_name }}" value="{{ event_form.people.value }}" placeholder="{{ event_form.people.errors|join:" " }}" {% if event_form.people.errors %}class="error"{% endif %} />
+			<input type="text" data-initial="{{ event_form.initial.people }}" name="{{ event_form.people.html_name }}" value="{{ event_form.people.value }}" placeholder="{{ event_form.people.errors|join:" " }}" {% if event_form.people.errors %}class="error"{% endif %} />
 		</div>
 		<span class="icon-pencil pull-left"></span>
 	</td>
@@ -125,13 +144,13 @@
 				<a href="#" class="icon-pencil edit" title="edit"><span class="hideMe">edit</span></a>
 			</li>
 			<li>
-				<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+				<a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
 			</li>
 			<li>
-				<a href="#" class="icon-file duplicate" title="duplicate"><span class="hideMe">duplicate</span></a>
+				<a href="#" class="icon-file duplicate notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
 			</li>
 			<li>
-				<a href="#" class="icon-trash remove" title="remove"><span class="hideMe">remove</span></a>
+				<a href="#" class="icon-trash remove notImplemented" title="remove"><span class="hideMe">remove</span></a>
 			</li>
 		</ul>
 	</td>
