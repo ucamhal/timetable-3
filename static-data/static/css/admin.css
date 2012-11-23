@@ -36,6 +36,35 @@ div:focus {
 }
 */
 
+#inputArea div {
+	margin: 0;
+}
+
+#inputArea h3 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+	padding-top: 4px;
+}
+
+#admin #inputArea select {
+	width: 114px;
+}
+
+#adminListActions {
+	padding-bottom: 30px;
+}
+
+#adminListActions .icon-chevron-left {
+	margin-right: 4px;
+}
+
+#adminListActions ul li {
+	margin-left: 15px;
+}
+
+
 .modulesList .module a.addSeries {
 	margin-bottom: 9px;
 }
@@ -58,7 +87,7 @@ div:focus {
 }
 
 .buttons li {
-	margin-right: 5px;
+	margin-right: 3px;
 }
 
 .events {
@@ -79,6 +108,14 @@ div:focus {
 .events .editEnabled .eventDateTime,
 .events .editEnabled .eventLecturers {
 	background-color: #fff6e2;
+}
+
+.events .editEnabled.active .eventTitle,
+.events .editEnabled.active .eventType,
+.events .editEnabled.active .eventLocation,
+.events .editEnabled.active .eventDateTime,
+.events .editEnabled.active .eventLecturers {
+	background-color: #f5e7d0;
 }
 
 .events td {
@@ -148,6 +185,22 @@ div:focus {
 	display: block;
 }
 
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput .input {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus.focus .dataInput .input {
+	display: block;
+}
+
 .event.editEnabled .eventTitle.secondStepped.initialFocus .dataValue,
 .event.editEnabled .eventType.secondStepped.initialFocus .dataValue,
 .event.editEnabled .eventLocation.secondStepped.initialFocus .dataValue,
@@ -202,13 +255,19 @@ div:focus {
 }
 
 .events .event.editEnabled td.error input.error::-webkit-input-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 .events .event.editEnabled td.error input.error:-moz-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 .events .event.editEnabled td.error input.error:-ms-input-placeholder {
-    color: #B94A48;
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
 }
 
 .events .event.editEnabled td.error input.error {
@@ -224,10 +283,12 @@ div:focus {
 	margin: 0;
 }
 
+/*
 .event .eventDateTimeFromFields input,
 .event .eventDateTimeToFields input {
 	width: 34px;
 }
+*/
 
 .event.editEnabled .dataInput > input {
 	border-style: none;
@@ -271,7 +332,7 @@ div:focus {
 	visibility: visible;
 }
 
-.modulesList > li {
+.modulesList .moduleContent {
 	margin-bottom: 30px;
 }
 
@@ -289,6 +350,15 @@ div:focus {
 	margin-bottom: 10px;
 }
 
+.moduleHeading h4 a {
+	color: #333;
+}
+
+.moduleHeading h4 span {
+	margin-top: 3px;
+	margin-right: 10px;
+}
+
 .moduleHeading .buttons {
 	visibility: hidden;
 }
@@ -302,7 +372,7 @@ div:focus {
 }
 
 .seriesList,
-.module > a.btn {
+.moduleContent > a.btn {
 	margin-left: 20px;
 }
 
@@ -340,4 +410,123 @@ div:focus {
 	margin-right: 16px;
 	margin-top: 4px;
 	display: block;
+}
+
+
+/*
+ *
+ * UI jumping quick fixes
+ *
+ */
+
+.event .eventActions ul li {
+	display: inline;
+}
+
+.eventActions .buttons li {
+	margin: 0;
+}
+
+.event .eventActions ul {
+	min-width: 70px;
+}
+
+.event p {
+	margin: 0;
+}
+
+.event .eventTitle .dataValue > p,
+.event .eventLocation .dataValue > p,
+.event .eventLecturers .dataValue > p {
+	word-wrap: break-word;
+}
+
+.event .eventTitle {
+	width: 190px;
+}
+
+.event .eventTitle .dataValue {
+	max-width: 166px;
+}
+
+.event .eventType {
+	width: 112px;	
+}
+
+.event .eventType .dataValue {
+	max-width: 87px;
+}
+
+.event .eventType select {
+	width: 110px!important;
+}
+
+.event .eventLocation {
+	width: 85px;
+}
+
+.event .eventLocation .dataValue {
+	max-width: 61px;
+}
+
+.event .eventDateTime {
+	width: 290px;
+}
+
+.event .eventDateTime .dataValue {
+	max-width: 266px;
+}
+
+.event .eventLecturers {
+	width: 100px;
+}
+
+.event .eventLecturers .dataValue {
+	max-width: 76px;
+}
+
+.changesNotificationPopup .dontSendNotification {
+	margin-right: 15px;
+}
+
+.eventType .dataValue > span {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	float: left;
+	margin-right: 6px;
+	margin-top: 2px;
+}
+
+.eventType .dataValue > p {
+	width: 65px;
+}
+
+.eventType .dataValue span.lecture {
+	background-image: url(../img/typeLectureIcon.png);
+}
+
+.eventType .dataValue span.seminar {
+	background-image: url(../img/typeSeminarIcon.png);
+}
+
+.eventType .dataValue span.practical {
+	background-image: url(../img/typePracticalIcon.png);
+}
+
+.eventType .dataValue span.laboratory {
+	background-image: url(../img/typeLaboratoryIcon.png);
+}
+
+.eventType .dataValue span.language {
+	background-image: url(../img/typeLanguageClassIcon.png);
+}
+
+.datePatternDialog {
+	width: 380px;
+}
+
+.datePatternDialog h3 {
+	font-weight: bold;
+	padding: 5px;
 }

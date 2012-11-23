@@ -31,9 +31,13 @@ define([
 
 			_.bindAll(this, "editStateChangedHandler");
 			_.bindAll(this, "dataChangedHandler");
+			_.bindAll(this, "eventFocusHandler");
+			_.bindAll(this, "activeEventChangedHandler");
 
 			this.$el.on("editStateChanged", ".event", self.editStateChangedHandler);
 			this.$el.on("dataChanged", ".event", self.dataChangedHandler);
+			this.$el.on("hasFocus", ".event", self.eventFocusHandler);
+			this.$el.on("activeStateEnabled", ".event", self.activeEventChangedHandler);
 
 			this.$el.on("click", ".seriesHeading h5 a", function (event) {
 				self.collapsed = !self.collapsed;
@@ -52,6 +56,30 @@ define([
 				if (self.savingState === false) {
 					self.cancelAllEdits();
 					event.preventDefault();
+				}
+			});
+		},
+
+		activeEventChangedHandler: function (event, singleEvent) {
+			this.unsetEventsActiveState([singleEvent]);
+		},
+
+		unsetEventsActiveState: function (exclude) {
+			var exclude = typeof exclude === "undefined" ? [] : exclude;
+			_.each(_.difference(this.events, exclude), function (item) {
+				item.toggleActiveState(false);
+			});
+		},
+
+		eventFocusHandler: function (event, singleEvent) {
+			this.unsetEditEnabledStateForUnchangedEvents([singleEvent]);
+		},
+
+		unsetEditEnabledStateForUnchangedEvents: function (exclude) {
+			var exclude = typeof exclude === "undefined" ? [] : exclude;
+			_.each(_.difference(this.events, exclude), function (item) {
+				if (item.editEnabled === true && item.dataChanged() === false) {
+					item.toggleEditEnabledState();
 				}
 			});
 		},
@@ -83,10 +111,7 @@ define([
 		},
 
 		dataChangedHandler: function () {
-			if (this.openChangesState === false) {
-				this.openChangesState = true;
-				$(".seriesEditActions", this.$el).slideDown();
-			}			
+			this.toggleOpenChangesState(true);
 		},
 
 		editStateChangedHandler: function () {
@@ -95,9 +120,17 @@ define([
 				this.editEnabled = newEditEnabled;
 
 				if (this.editEnabled === false) {
-					$(".seriesEditActions", this.$el).slideUp();
-					this.openChangesState = false;
+					this.toggleOpenChangesState(false);
 				}
+			}
+		},
+
+		toggleOpenChangesState: function (openChanges) {
+			this.openChangesState = typeof openChanges === "undefined" ? !this.openChangesState : openChanges;
+			if (this.openChangesState === true) {
+				$(".seriesEditActions", this.$el).slideDown();
+			} else {
+				$(".seriesEditActions", this.$el).slideUp();
 			}
 		},
 
@@ -108,7 +141,7 @@ define([
 		},
 
 		cancelAllEdits: function () {
-			this.openChangesState = false;
+			this.toggleOpenChangesState(false);
 			_.each(this.events, function (item) {
 				item.cancelEdit();
 			});
@@ -118,7 +151,7 @@ define([
 			var self = this,
 				data = $("> form", this.$el).serialize();
 
-			this.openChangesState = false;
+			this.toggleOpenChangesState(false);
 			this.setSavingState(true);
 			
 			$.ajax({
@@ -130,6 +163,7 @@ define([
 					$(".events", self.$el).empty().append($(".events", $(data)).html());
 					self.events = [];
 					self.buildEvents(true);
+					//TODO check form rather than .event
 					if ($(".events .error").length > 0) {
 						self.handleValidationErrors();
 					} else {

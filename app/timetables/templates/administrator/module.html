@@ -1,27 +1,30 @@
 <li class="module">
 	<div class="moduleHeading clearfix">
-		<h4 class="pull-left">{{ module_editor.get_form.fullname.value }}</h4>
+		<h4 class="pull-left">
+			<a href="#"><span class="icon-chevron-down"></span>{{ module_editor.get_form.fullname.value }}</a>
+		</h4>
 		<ul class="buttons pull-left">
 			<li class="pull-left">
-				<a href="#" class="icon-pencil" title="edit"><span class="hideMe">edit</span></a>
+				<a href="#" class="icon-pencil notImplemented" title="edit"><span class="hideMe">edit</span></a>
 			</li>
 			<li class="pull-left">
-				<a href="#" class="icon-plus-sign" title="attach"><span class="hideMe">attach</span></a>
+				<a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
 			</li>
 			<li class="pull-left">
-				<a href="#" class="icon-file" title="duplicate"><span class="hideMe">duplicate</span></a>
+				<a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
 			</li>
 			<li class="pull-left">
-				<a href="#" class="icon-trash" title="remove"><span class="hideMe">remove</span></a>
+				<a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
 			</li>
 		</ul>
 	</div>
+	<div class="moduleContent">
+		<a href="#" class="btn addSeries notImplemented"><span class="icon-plus"></span>Add series</a>
 
-	<a href="#" class="btn addSeries"><span class="icon-plus"></span>Add series</a>
-
-	<ul class="seriesList">
-	{% for series_editor in module_editor.series_editors %}
-		{% include "administrator/series.html" %}
-	{% endfor %}
-	</ul>
+		<ul class="seriesList">
+		{% for series_editor in module_editor.series_editors %}
+			{% include "administrator/series.html" %}
+		{% endfor %}
+		</ul>
+	</div>
 </li>

@@ -31,6 +31,10 @@ define([
 					return "You have unsaved changes";
 				}
 			}
+
+			$(".notImplemented").attr("title", "").tooltip({
+				title: "Not yet implemented."
+			});
 		},
 
 		checkForOpenChanges: function () {

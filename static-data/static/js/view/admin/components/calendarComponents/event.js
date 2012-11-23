@@ -20,10 +20,12 @@ define([
 				editEnabled: false,
 				disabled: false,
 				fields: [],
-				checkForErrorsOnInit: false
+				checkForErrorsOnInit: false,
+				active: false
 			});
 
 			_.bindAll(this, "dataChangedHandler");
+			_.bindAll(this, "fieldClickHandler");
 
 			$("td:not(.eventActions)", this.$el).each(function () {
 				self.fields.push(new EventField({
@@ -32,6 +34,7 @@ define([
 			});
 
 			this.$el.on("dataChanged", "td:not(.eventActions)", self.dataChangedHandler);
+			this.$el.on("fieldClicked", "td:not(.eventActions)", self.fieldClickHandler);
 
 			$(".eventActions a.edit", self.$el).parent().mouseover(function (event) {
 				if (self.disabled === false) {
@@ -51,6 +54,10 @@ define([
 					switch (action) {
 					case "edit":
 						self.toggleEditEnabledState();
+						if (self.editEnabled === true) {
+							self.toggleActiveState(true);
+						}
+						_.dispatchEvent(self.$el, "hasFocus", self);
 						break;
 					case "duplicate":
 						//different user story:
@@ -62,16 +69,29 @@ define([
 				}
 			});
 
-			$("td:not(.eventActions)", this.$el).click(function (event) {
-				if (self.disabled === false) {
-					if (self.editEnabled === false) {
-						self.toggleEditEnabledState(true);
-					}
-				}
-			});
-
 			if (this.checkForErrorsOnInit === true) {
 				this.checkForErrors();
+			}
+		},
+
+		fieldClickHandler: function () {
+			if (this.disabled === false) {
+				if (this.editEnabled === false) {
+					this.toggleEditEnabledState(true);
+				}
+
+				if (this.active === false) {
+					this.toggleActiveState(true);
+				}
+				_.dispatchEvent(this.$el, "hasFocus", this);
+			}
+		},
+
+		toggleActiveState: function (active) {
+			this.active = typeof active === "undefined" ? !this.active : active;
+			this.$el.toggleClass("active", this.active);
+			if (this.active === true) {
+				_.dispatchEvent(this.$el, "activeStateEnabled", this);
 			}
 		},
 
@@ -113,13 +133,13 @@ define([
 			revertData = typeof revertData === "undefined" ? !this.editEnabled : revertData;
 			updateUI = typeof updateUI === "undefined" ? true : updateUI;
 
-			_.each(this.fields, function (item) {
-				item.toggleEditEnabledState(editEnabled, updateUI, revertData);
-			});
-
 			if (updateUI === true) {
 				this.setEditEnabledState(this.editEnabled);
 			}
+
+			_.each(this.fields, function (item) {
+				item.toggleEditEnabledState(editEnabled, updateUI, revertData);
+			});
 
 			_.dispatchEvent(this.$el, "editStateChanged");
 		},
@@ -127,6 +147,9 @@ define([
 		setEditEnabledState: function (editEnabled) {
 			this.togglePencilHoverState(editEnabled);
 			this.$el.toggleClass("editEnabled", editEnabled);
+			if (editEnabled === false) {
+				this.toggleActiveState(false);
+			}
 		},
 
 		cancelEdit: function () {
