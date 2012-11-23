@@ -321,7 +321,6 @@ div:focus {
 .event .eventDateTime .popover {
 	display: block;
 	position: absolute;
-	top: 37px;
 }
 
 .seriesHeading.collapsed ul.buttons {
@@ -523,10 +522,60 @@ div:focus {
 }
 
 .datePatternDialog {
-	width: 380px;
+	min-width: 420px;
+	top: 140%;
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px 0px;
 }
 
 .datePatternDialog h3 {
+	font-size: 1em;
 	font-weight: bold;
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 2px;
 }
+
+.datePatternDialog h3 a {
+	margin: 0;
+	padding: 0;
+}
+
+.datePatternDialog select {
+	width: 150px;
+}
+
+.datePatternDialog .popover-content {
+	padding: 20px;
+}
+
+.datePatternDialog .popover-content > ul {
+	padding: 5px 0;
+}
+
+.datePatternDialog .popover-content > div {
+	margin-bottom: 10px;
+}
+
+.datePatternDialog .popover-content > div > label {
+	line-height: 2em;
+}
+
+.datePatternDialog .popover-content > div > label:first-child {
+	min-width: 35px;
+	text-align: right;
+}
+
+.datePatternDialog .popover-content > div > * {
+	float: left;
+	margin-right: 15px;
+}
+
+.datePatternDialog .popover-content > div > *:last-child {
+	margin-right: 0;
+}
+
+.datePatternDialog input[type="number"] {
+	width: 40px;
+}
+
+
+
