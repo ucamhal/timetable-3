@@ -80,13 +80,23 @@ def list_view(request, thing=None):
         return http.HttpResponseBadRequest(
                 "Can't edit thing of type %s as a list." % thing)
 
+    # Get parent timetable
+    if thing.type == "part":
+        timetable_thing = thing.parent
+    else:
+        timetable_thing = thing.parent.parent
+    assert timetable_thing.type == "tripos"
+
     module_editors = [
         ModuleEditor(module)
         for module in thing.thing_set.filter(type="module").order_by("name")
     ]
 
-    return shortcuts.render(request, "administrator/list.html",
-            {"thing": thing, "module_editors": module_editors})
+    return shortcuts.render(request, "administrator/list.html", {
+        "thing": thing,
+        "module_editors": module_editors,
+        "timetable_thing": timetable_thing
+    })
 
 def edit_series_view(request, series_id):
     # Render debug stuff if the page is not requested by an AJAX
