@@ -45,6 +45,11 @@ define([
 				})
 			});
 
+			//Go to the selected timetable when there is a click on the li element
+			$("#timetablesOverview ul li:not(.createNewTimetable)").click(function () {
+				window.location = $("a", this).attr("href");
+			});
+
 			/*
 
 			var makeCellsEditable = function makeCellsEditable ($tr) {

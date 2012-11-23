@@ -14,12 +14,15 @@
 {% block top_bar %}
 <div id="inputArea">
 	<div class="clearfix">
-		<h3 class="pull-left">Timetables for
+		<h3 class="pull-left">
+			{% block top_title %}
+			Timetables for
 		    {% if thing.type == "part" %}
 		        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
 		    {% else %}
 		        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
 		    {% endif %}
+		    {% endblock top_title %}
 		</h3>
 		<select class="pull-right notImplemented">
 			<option value="12">2012 / 2013</option>
