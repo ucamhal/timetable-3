@@ -41,6 +41,9 @@ urlpatterns = patterns('',
     # Timetables administrators
     url(r'^(?P<thing>.*?)\.home\.admin\.html$', administrator.timetable_view, name="admin timetable"),
     url(r'^(?P<thing>.*?)\.list\.admin\.html$', administrator.list_view, name="admin list"),
+    url(r'^(?P<thing>.*?)\.list-read\.admin\.html$',
+            administrator.TimetableListRead.as_view(),
+            name="admin list read"),
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
 
 
