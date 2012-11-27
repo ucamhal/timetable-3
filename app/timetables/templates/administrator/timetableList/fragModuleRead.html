@@ -1,0 +1,18 @@
+<div class="module">
+  <div class="moduleHeading clearfix">
+    <h4 class="pull-left">
+      <a href="javascript:;" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
+        <span class="icon-chevron-down"></span>{{ module.name }}
+      </a>
+    </h4>
+  </div>
+  <div class="moduleContent collapse in" id="module-{{ module.unique_id }}-content">
+    <div class="seriesList">
+    {% for series in module.series %}
+      {% include "administrator/timetableList/fragSeriesRead.html" %}
+    {% empty %}
+      <p>This module contains no series.</p>
+    {% endfor %}
+    </div>
+  </div>
+</div>

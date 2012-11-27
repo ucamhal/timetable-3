@@ -109,7 +109,8 @@ class TimetableListRead(django.views.generic.View):
         for event_source in module_thing.sources.all():
             series = {
                 "id": event_source.id,
-                "name": event_source.title
+                "name": event_source.title,
+                "unique_id": event_source.id
             }
             series_list.append(series)
 
@@ -124,8 +125,9 @@ class TimetableListRead(django.views.generic.View):
             series = self.module_series(module_thing)
 
             module = {
-                "name": module_thing.name,
-                "series": series
+                "name": module_thing.fullname,
+                "series": series,
+                "unique_id": module_thing.id
             }
             modules.append(module)
 
