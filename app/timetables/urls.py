@@ -42,10 +42,6 @@ urlpatterns = patterns('',
     url(r'^(?P<thing>.*?)\.home\.admin\.html$', administrator.timetable_view, name="admin timetable"),
     url(r'^(?P<thing>.*?)\.list\.admin\.html$', administrator.list_view, name="admin list"),
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
-#    url(r'^admin/'+FACULTY+'/$', administrator.timetable_view, name="admin timetable"),
-#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/$', administrator.list_view, name="admin list"),
-#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/list/$', administrator.list_view, name="admin list"),
-#    url(r'^admin/'+FACULTY+'/'+TIMETABLE+'/calendar/$', administrator.calendar_view, name="admin calendar"),
 
 
     # This has to be csrf exempt. Look at the view to see what it does.
