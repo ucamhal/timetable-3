@@ -10,11 +10,9 @@ from timetables.views.linkthing import LinkThing
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.viewevents import ViewEvents
 from timetables.views.indexview import IndexView
-from timetables.views.adminview import AdminView
 from timetables.views.calendarview import CalendarView, CalendarHtmlView,\
     EventListView
 from timetables.views.account import LogoutView, LoginView
-from timetables.views.eventeditform import EventEditFormView
 from timetables.views import administrator
 from timetables.views.editthing import EditThingView
 
@@ -27,9 +25,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r"^$", IndexView.as_view(), name="home"),
-
-    url(r"^editor$", AdminView.as_view(), name="admin"),
-    url(r"^editor/index\.html$", AdminView.as_view(), name="admin"),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -56,7 +51,6 @@ urlpatterns = patterns('',
     # This has to be csrf exempt. Look at the view to see what it does.
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
-    url(r'^event/(?P<event_id>\d+)$', EventEditFormView.as_view(), name="event form"),
     url(r'^series/(?P<series_id>\d+)/edit$', administrator.edit_series_view, name="edit series"),
 
     url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
