@@ -16,20 +16,11 @@
 	<div class="clearfix">
 		<h3 class="pull-left">
 			{% block top_title %}
-			Timetables for
-		    {% if thing.type == "part" %}
-		        {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
-		    {% else %}
-		        {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
-		    {% endif %}
-		    {% endblock top_title %}
+			{% endblock top_title %}
 		</h3>
-		<select class="pull-right notImplemented">
-			<option value="12">2012 / 2013</option>
-			<option value="12">2013 / 2014</option>
-			<option value="12">2014 / 2015</option>
-			<option value="12">2015 / 2016</option>
-		</select>
+
+		{% block top_title_right %}
+		{% endblock top_title_right %}
 	</div>
 </div>
 {% endblock top_bar %}

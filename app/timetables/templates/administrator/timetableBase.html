@@ -1,6 +1,17 @@
 {% extends "administrator/base.html" %}
 {% load url from future %}
 
+
+{% block top_title %}
+  Timetables for
+  {% if thing.type == "part" %}
+    {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+  {% else %}
+    {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+  {% endif %}
+{% endblock top_title %}
+
+
 {% block admin_content %}
 <div id="adminListActions" class="clearfix">
   <a href="{% url "admin timetable" timetable_thing.fullpath %}"
