@@ -29,7 +29,7 @@ def timetable_view(request, thing=None):
     
     timetables = get_timetables(thing)
     
-    return shortcuts.render(request, "administrator/timetable.html",
+    return shortcuts.render(request, "administrator/overview.html",
             {"thing": thing, "timetables": timetables})
 
 
@@ -92,7 +92,7 @@ def list_view(request, thing=None):
         for module in thing.thing_set.filter(type="module").order_by("name")
     ]
 
-    return shortcuts.render(request, "administrator/list.html", {
+    return shortcuts.render(request, "administrator/timetableList/write.html", {
         "thing": thing,
         "module_editors": module_editors,
         "timetable_thing": timetable_thing
@@ -121,7 +121,7 @@ def edit_series_view(request, series_id):
     else:
         editor = SeriesEditor(series)
 
-    return shortcuts.render(request, "administrator/series.html", {
+    return shortcuts.render(request, "administrator/timetableList/fragSeriesWrite.html", {
         "series_editor": editor,
         "edit_series_view_template_debug_elements": template_debug_elements
     })
@@ -134,5 +134,5 @@ def calendar_view(request, thing=None):
         return http.HttpResponseBadRequest(
                 "Can't edit thing of type %s as a list." % thing)
     
-    return shortcuts.render(request, "administrator/week_calendar.html",
+    return shortcuts.render(request, "administrator/timetableCalendar.html",
             {"thing": thing})
