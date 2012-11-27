@@ -1,33 +1,37 @@
 {% extends "base.html" %}
-
 {% load static from staticfiles %}
 
+
 {% block javascript_module %}adminIndex{% endblock javascript_module %}
+
 
 {% block head %}
 <link rel="stylesheet" href="{% static "css/libs/bootstrap/fuelux.min.css" %}" />
 <link rel="stylesheet" href="{% static "css/admin.css" %}" />
 {% endblock head %}
 
+
 {% block bodyid %}admin{% endblock bodyid %}
+
 
 {% block top_bar %}
 <div id="inputArea">
-	<div class="clearfix">
-		<h3 class="pull-left">
-			{% block top_title %}
-			{% endblock top_title %}
-		</h3>
+  <div class="clearfix">
+    <h3 class="pull-left">
+      {% block top_title %}
+      {% endblock top_title %}
+    </h3>
 
-		{% block top_title_right %}
-		{% endblock top_title_right %}
-	</div>
+    {% block top_title_right %}
+    {% endblock top_title_right %}
+  </div>
 </div>
 {% endblock top_bar %}
 
+
 {% block content %}
-	<div id="adminContent">
-		{% block admin_content %}
-		{% endblock admin_content %}
-	</div>
+  <div id="adminContent">
+    {% block admin_content %}
+    {% endblock admin_content %}
+  </div>
 {% endblock content %}
