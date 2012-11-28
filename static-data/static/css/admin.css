@@ -90,8 +90,17 @@ div:focus {
 	margin-right: 3px;
 }
 
+.loading-indicator {
+	width: 30%;
+	margin: 40px auto;
+}
+
+.loading-indicator-content {
+	min-height: 40px;
+}
+
 .events {
-	padding-bottom: 16px;
+	/*padding-bottom: 16px;*/
 }
 
 .events table {

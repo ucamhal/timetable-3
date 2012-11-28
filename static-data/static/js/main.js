@@ -8,6 +8,7 @@ require.config({
         "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min",
         "jquery-bbq": "libs/jquery.bbq",
         underscore: "libs/underscore",
+        backbone: "libs/backbone",
         bootstrap: "libs/bootstrap",
         bootstrapDatePicker: "libs/bootstrap-plugins/bootstrap-datepicker",
         bootstrapTimePicker: "libs/bootstrap-plugins/bootstrap-timepicker",
@@ -20,6 +21,10 @@ require.config({
         },
         "underscore": {
             exports: "_"
+        },
+        "backbone": {
+          exports: "Backbone",
+          deps: ["jquery", "underscore"]
         },
         "bootstrap": {
             deps: ["jquery"]

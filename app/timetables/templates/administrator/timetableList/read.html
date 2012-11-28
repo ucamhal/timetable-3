@@ -51,4 +51,26 @@
     <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
   </div>
 </div>
+
+{# Shows a progress bar when loading, or an error msg when failed #}
+<div class="js-loading-indicator-prototype js-loading-indicator loading-indicator" style="display: none;">
+  <div class="loading" style="display: none;">
+
+    <strong>Loading events...</strong>
+    <div class="loading-indicator-content">
+      <div class="progress progress-striped active">
+        <div class="bar" style="width: 40%;"></div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="error">
+    <strong>Events could not be loaded</strong>
+    <div class="loading-indicator-content">
+      <button class="js-retry-btn btn">
+        Try again
+      </button>
+    </div>
+  </div>
+</div>
 {% endblock timetable_content %}

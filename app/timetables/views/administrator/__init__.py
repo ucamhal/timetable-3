@@ -150,6 +150,25 @@ class TimetableListRead(django.views.generic.View):
         return shortcuts.render(request,
                 "administrator/timetableList/read.html", context)
 
+def list_view_events(request, series_id):
+    """
+    Creates a fragment of HTML containing the events under a series for the
+    admin list page.
+    """
+    
+    events = (models.Event.objects.just_active()
+            .filter(source_id=series_id)
+            .order_by("start"))
+    
+    context = {
+        "series": {
+            "events": events
+        }
+    }
+    
+    return shortcuts.render(request,
+            "administrator/timetableList/fragEventsRead.html", context)
+
 
 def edit_series_view(request, series_id):
     # Render debug stuff if the page is not requested by an AJAX
