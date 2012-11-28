@@ -141,10 +141,19 @@ class TimetableListRead(django.views.generic.View):
             return http.HttpResponseBadRequest(
                     "Can't view thing of type %s as a list." % thing)
 
+        # Get parent timetable
+        if thing.type == "part":
+            timetable_thing = thing.parent
+        else:
+            timetable_thing = thing.parent.parent
+        assert timetable_thing.type == "tripos"
+
         modules = self.page_modules(thing)
 
         context = {
-            "modules": modules
+            "modules": modules,
+            "thing": thing,
+            "timetable_thing": timetable_thing
         }
 
         return shortcuts.render(request,
