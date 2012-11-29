@@ -27,13 +27,18 @@ def get_timetables(thing):
     return models.Thing.objects.filter(type="part", parent__pathid=thing.pathid)
 
 def timetable_view(request, thing=None):
+    triposes = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullname","fullpath")
+    if thing == None:
+        thing = triposes[0][1]
+    
     thing = shortcuts.get_object_or_404(models.Thing, type="tripos",
         pathid=models.Thing.hash(thing))
 
+    # list of timetables to display
     timetables = get_timetables(thing)
 
     return shortcuts.render(request, "administrator/overview.html",
-            {"thing": thing, "timetables": timetables})
+            {"thing": thing, "timetables": timetables, "triposes": triposes})
 
 
 class ModuleEditor(object):
@@ -222,13 +227,6 @@ def calendar_view(request, thing=None):
 def default_view(request):
     """
     This is a convenience method to allow easy navigation into the administrator panel.
-    Default administration view. Gets list of tripos (ordered alphabetically)
-    and redirects user to the first of these for which they have editing permissions.
-    If user is admin but has no editing permissions, redirects to first tripos in list.
+    Redirects to timetable_view.
     """
-    
-    # for now, just return the first tripos found
-    # TODO - use check permissions to get first editable tripos
-    tripos = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullpath", flat=True)[0]
-    
-    return timetable_view( request, tripos )
+    return timetable_view( request )
