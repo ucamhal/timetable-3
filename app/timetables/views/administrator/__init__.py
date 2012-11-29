@@ -36,9 +36,15 @@ def timetable_view(request, thing=None):
 
     # list of timetables to display
     timetables = get_timetables(thing)
+    
+    # get the current user so we know which timetables they have access to
+    user = "user/"+request.user.username
+    user = models.Thing.objects.get(pathid=models.Thing.hash(user))
+    # which things may this user administrate?
+    editable = models.Thing.objects.filter(relatedthing__thing=user, relatedthing__annotation="admin").values_list("id", flat=True)
 
     return shortcuts.render(request, "administrator/overview.html",
-            {"thing": thing, "timetables": timetables, "triposes": triposes})
+            {"thing": thing, "timetables": timetables, "triposes": triposes, "editable": editable})
 
 
 class ModuleEditor(object):
