@@ -217,3 +217,18 @@ def calendar_view(request, thing=None):
 
     return shortcuts.render(request, "administrator/timetableCalendar.html",
             {"thing": thing})
+
+
+def default_view(request):
+    """
+    This is a convenience method to allow easy navigation into the administrator panel.
+    Default administration view. Gets list of tripos (ordered alphabetically)
+    and redirects user to the first of these for which they have editing permissions.
+    If user is admin but has no editing permissions, redirects to first tripos in list.
+    """
+    
+    # for now, just return the first tripos found
+    # TODO - use check permissions to get first editable tripos
+    tripos = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullpath", flat=True)[0]
+    
+    return timetable_view( request, tripos )
