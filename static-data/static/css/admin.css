@@ -36,6 +36,12 @@ div:focus {
 }
 */
 
+/* Timetable page navigation */
+.nav-label {
+	margin: 8px;
+}
+
+
 #inputArea div {
 	margin: 0;
 }
@@ -450,7 +456,7 @@ div:focus {
 }
 
 .event .eventTitle {
-	width: 190px;
+	/*width: 190px;*/
 }
 
 .event .eventTitle .dataValue {
@@ -458,7 +464,7 @@ div:focus {
 }
 
 .event .eventType {
-	width: 112px;	
+	/*width: 112px;	*/
 }
 
 .event .eventType .dataValue {
@@ -470,7 +476,7 @@ div:focus {
 }
 
 .event .eventLocation {
-	width: 85px;
+/*	width: 85px;*/
 }
 
 .event .eventLocation .dataValue {
@@ -478,7 +484,7 @@ div:focus {
 }
 
 .event .eventDateTime {
-	width: 290px;
+/*	width: 290px;*/
 }
 
 .event .eventDateTime .dataValue {
@@ -486,7 +492,7 @@ div:focus {
 }
 
 .event .eventLecturers {
-	width: 100px;
+/*	width: 100px;*/
 }
 
 .event .eventLecturers .dataValue {
@@ -497,36 +503,33 @@ div:focus {
 	margin-right: 15px;
 }
 
-.eventType .dataValue > span {
-	width: 16px;
-	height: 16px;
-	background-repeat: no-repeat;
-	float: left;
-	margin-right: 6px;
-	margin-top: 2px;
-}
-
 .eventType .dataValue > p {
 	width: 65px;
 }
 
-.eventType .dataValue span.lecture {
+.event .eventType {
+	background-repeat: no-repeat;
+	background-position: 0 50%;
+	padding-left: 24px;
+}
+
+.event-type-lecture {
 	background-image: url(../img/typeLectureIcon.png);
 }
 
-.eventType .dataValue span.seminar {
+.event-type-seminar {
 	background-image: url(../img/typeSeminarIcon.png);
 }
 
-.eventType .dataValue span.practical {
+.event-type-practical {
 	background-image: url(../img/typePracticalIcon.png);
 }
 
-.eventType .dataValue span.laboratory {
+.event-type-laboratory {
 	background-image: url(../img/typeLaboratoryIcon.png);
 }
 
-.eventType .dataValue span.language {
+.event-type-language {
 	background-image: url(../img/typeLanguageClassIcon.png);
 }
 
