@@ -27,13 +27,18 @@ def get_timetables(thing):
     return models.Thing.objects.filter(type="part", parent__pathid=thing.pathid)
 
 def timetable_view(request, thing=None):
+    triposes = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullname","fullpath")
+    if thing == None:
+        thing = triposes[0][1]
+    
     thing = shortcuts.get_object_or_404(models.Thing, type="tripos",
         pathid=models.Thing.hash(thing))
 
+    # list of timetables to display
     timetables = get_timetables(thing)
 
     return shortcuts.render(request, "administrator/overview.html",
-            {"thing": thing, "timetables": timetables})
+            {"thing": thing, "timetables": timetables, "triposes": triposes})
 
 
 class ModuleEditor(object):
@@ -217,3 +222,11 @@ def calendar_view(request, thing=None):
 
     return shortcuts.render(request, "administrator/timetableCalendar.html",
             {"thing": thing})
+
+
+def default_view(request):
+    """
+    This is a convenience method to allow easy navigation into the administrator panel.
+    Redirects to timetable_view.
+    """
+    return timetable_view( request )
