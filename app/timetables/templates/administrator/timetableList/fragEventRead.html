@@ -1,0 +1,23 @@
+<tr class="event">
+  <td class="eventTitle" tabindex="1" contenteditable=true>
+    {{ event.title|default:"&mdash;" }}
+  </td>
+  <td class="eventType" tabindex="2" data-value="{{ event.type }}">
+    {{ event.metadata.type|default:"&mdash;" }}
+  </td>
+  <td class="eventDateTime" tabindex="4">
+      <span title="{{ event.start|date:"l jS F " }}">
+        {% with rel_date=event.relative_term_date %}
+        W {{ rel_date.2 }} in {{ rel_date.1|capfirst }},
+        on {{ rel_date.3|capfirst }}
+        {% endwith %}
+      </span>
+      {{ event.start|date:"H:i" }}&ndash;{{ event.end|date:"H:i" }}
+  </td>
+  <td class="eventLocation" tabindex="3">
+    {{ event.location|default:"&mdash;" }}
+  </td>
+  <td class="eventLecturers" tabindex="4">
+    {{ event.metadata.people|join:", "|default:"&mdash;" }}
+  </td>
+</tr>

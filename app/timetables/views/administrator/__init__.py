@@ -1,8 +1,11 @@
+import operator
+
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
+import django.views.generic
 
 from timetables import models
 from timetables import forms
@@ -11,25 +14,25 @@ from timetables.utils.xact import xact
 
 def get_timetables(thing):
     assert thing.type == "tripos"
-    
+
     # If the tripos has subjects under levels then return those
     subjects = list(models.Thing.objects.filter(
             type__in=["subject", "experimental", "option"],
             parent__parent__pathid=thing.pathid).order_by("fullname", "parent__fullname"))
-    
+
     if subjects:
         return subjects
-    
+
     # Otherwise return the levels under the tripos
     return models.Thing.objects.filter(type="part", parent__pathid=thing.pathid)
 
 def timetable_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing, type="tripos",
         pathid=models.Thing.hash(thing))
-    
+
     timetables = get_timetables(thing)
-    
-    return shortcuts.render(request, "administrator/timetable.html",
+
+    return shortcuts.render(request, "administrator/overview.html",
             {"thing": thing, "timetables": timetables})
 
 
@@ -37,15 +40,15 @@ class ModuleEditor(object):
     def __init__(self, module):
         self._module = module
         self._form = forms.ModuleForm(instance=module)
-        
+
         self._series_editors = [
             SeriesEditor(series) for series in (module.sources.all()
                     .order_by("title"))
         ]
-    
+
     def get_form(self):
         return self._form
-    
+
     def series_editors(self):
         return self._series_editors
 
@@ -53,29 +56,29 @@ class ModuleEditor(object):
 class SeriesEditor(object):
     def __init__(self, series, post_data=None):
         self._series = series
-        
+
         # Create a form for the series title and a formset for individual events
         self._form = forms.ListPageSeriesForm(data=post_data, instance=series)
-        
+
         self._event_formset = forms.ListPageEventFormSet(data=post_data,
                 instance=series, queryset=self._get_events(series))
 
     def _get_events(self, series):
         return series.event_set.just_active().order_by("start", "end", "title")
-    
+
     def get_form(self):
         return self._form
-    
+
     def get_event_formset(self):
         return self._event_formset
-    
+
     def get_series(self):
         return self._series
 
 def list_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
             pathid=models.Thing.hash(thing))
-    
+
     if thing.type not in ["part", "subject", "experimental", "option"]:
         return http.HttpResponseBadRequest(
                 "Can't edit thing of type %s as a list." % thing)
@@ -92,11 +95,89 @@ def list_view(request, thing=None):
         for module in thing.thing_set.filter(type="module").order_by("name")
     ]
 
-    return shortcuts.render(request, "administrator/list.html", {
+    return shortcuts.render(request, "administrator/timetableList/write.html", {
         "thing": thing,
         "module_editors": module_editors,
         "timetable_thing": timetable_thing
     })
+
+class TimetableListRead(django.views.generic.View):
+
+    def module_series(self, module_thing):
+        series_list = []
+
+        for event_source in module_thing.sources.all():
+            series = {
+                "id": event_source.id,
+                "name": event_source.title,
+                "unique_id": event_source.id
+            }
+            series_list.append(series)
+
+        return sorted(series_list, key=operator.itemgetter("name"))
+
+    def page_modules(self, timetable):
+        modules = []
+
+        for module_thing in (timetable.thing_set.filter(type="module")
+                .order_by("name").prefetch_related("sources")):
+
+            series = self.module_series(module_thing)
+
+            module = {
+                "name": module_thing.fullname,
+                "series": series,
+                "unique_id": module_thing.id
+            }
+            modules.append(module)
+
+        return modules
+
+    def get(self, request, thing=None):
+        thing = shortcuts.get_object_or_404(models.Thing,
+                pathid=models.Thing.hash(thing))
+
+        if thing.type not in ["part", "subject", "experimental", "option"]:
+            return http.HttpResponseBadRequest(
+                    "Can't view thing of type %s as a list." % thing)
+
+        # Get parent timetable
+        if thing.type == "part":
+            timetable_thing = thing.parent
+        else:
+            timetable_thing = thing.parent.parent
+        assert timetable_thing.type == "tripos"
+
+        modules = self.page_modules(thing)
+
+        context = {
+            "modules": modules,
+            "thing": thing,
+            "timetable_thing": timetable_thing
+        }
+
+        return shortcuts.render(request,
+                "administrator/timetableList/read.html", context)
+
+def list_view_events(request, series_id):
+    """
+    Creates a fragment of HTML containing the events under a series for the
+    admin list page.
+    """
+    
+    events = (models.Event.objects.just_active()
+            .filter(source_id=series_id)
+            .order_by("start"))
+    
+    context = {
+        "series": {
+            "events": events
+        }
+    }
+    
+    return shortcuts.render(request,
+            "administrator/timetableList/fragEventsRead.html", context)
+
 
 def edit_series_view(request, series_id):
     # Render debug stuff if the page is not requested by an AJAX
@@ -121,7 +202,7 @@ def edit_series_view(request, series_id):
     else:
         editor = SeriesEditor(series)
 
-    return shortcuts.render(request, "administrator/series.html", {
+    return shortcuts.render(request, "administrator/timetableList/fragSeriesWrite.html", {
         "series_editor": editor,
         "edit_series_view_template_debug_elements": template_debug_elements
     })
@@ -129,10 +210,10 @@ def edit_series_view(request, series_id):
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
             pathid=models.Thing.hash(thing))
-    
+
     if thing.type not in ["part", "subject", "experimental", "option"]:
         return http.HttpResponseBadRequest(
                 "Can't edit thing of type %s as a list." % thing)
-    
-    return shortcuts.render(request, "administrator/week_calendar.html",
+
+    return shortcuts.render(request, "administrator/timetableCalendar.html",
             {"thing": thing})
