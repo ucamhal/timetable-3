@@ -105,10 +105,7 @@ class CalendarHtmlView(View):
                        "thing" : Thing.objects.get(pathid=hashid) ,
                        "ics_feed_url" : ics_feed_url
                        }
-            if request.user.has_perm(Thing.PERM_WRITE, thingsubject):
-                return  render(request, "calendar-admin.html",  context)
-            else:
-                return  render(request, "calendar.html", context)
+            return render(request, "calendar.html", context)
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 

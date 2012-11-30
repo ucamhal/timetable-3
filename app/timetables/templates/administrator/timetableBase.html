@@ -1,0 +1,58 @@
+{% extends "administrator/base.html" %}
+{% load url from future %}
+
+
+{% block top_title %}
+  Timetables for
+  {% if thing.type == "part" %}
+    {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+  {% else %}
+    {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+  {% endif %}
+{% endblock top_title %}
+
+
+{% block admin_content %}
+<div id="adminListActions" class="clearfix">
+  <a href="{% url "admin timetable" timetable_thing.fullpath %}"
+     class="pull-left">
+    <span class="icon-chevron-left"></span>Back to Timetables
+  </a>
+
+  <ul class="pull-right">
+    <li class="pull-left notImplemented">
+      <a href="#" class="btn">Export to calendar app</a>
+    </li>
+    <li class="pull-left notImplemented">
+      <a href="#" class="btn">Print</a>
+    </li>
+  </ul>
+</div>
+
+<!--
+<div id="termHolder">
+  <a class="pull-left badge badge-info" href="#">&lt;</a>
+  <h4 class="pull-left">Week 2</h4>
+  <a class="pull-left badge badge-info" href="#">&gt;</a>
+</div>
+-->
+
+<div id="adminListView">
+
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="">List</a>
+    </li>
+    <li>
+      <a href="{% url "thing calendar" thing %}">Week</a>
+    </li>
+    <li class="nav-label">
+      <span class="icon-lock"></span>
+      <em>View only</em>
+    </li>
+  </ul>
+
+  {% block timetable_content %}
+  {% endblock timetable_content %}
+</div>
+{% endblock admin_content %}
