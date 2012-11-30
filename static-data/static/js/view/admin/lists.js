@@ -82,12 +82,16 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.startEventsRequest();
 		},
 
+		getEventsRequestOptions:  function() {
+			return {};
+		},
+
 		startEventsRequest: function() {
 			this.loadingIndicator.showLoadingState();
 
 			// make the ajax request to fetch the events
 			$.ajax("/series/" + encodeURIComponent(this.getSeriesId()) 
-				+ "/list-events", {})
+				+ "/list-events", this.getEventsRequestOptions())
 				.done(this.onEventsFetched)
 				.fail(this.onEventsFetchFailed);
 		},
@@ -96,7 +100,8 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			console.log("got events", arguments);
 			
 			delete this.loadingIndicator;
-			this.$(".js-events").empty().append(response);
+			this.$(".js-loading-indicator").remove();
+			this.$(".js-events").prepend(response);
 		},
 
 		onEventsFetchFailed: function() {
@@ -119,6 +124,21 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
+		}
+	});
+
+	var WritableSeriesView = SeriesView.extend({
+		constructor: function WritableSeriesView() {
+			WritableSeriesView.__super__.constructor.apply(this, arguments);
+		},
+
+		getEventsRequestOptions: function() {
+			var baseOptions = WritableSeriesView.__super__
+				.getEventsRequestOptions();
+
+			return _.extend(baseOptions, {
+				data: {writeable: true}
+			});
 		}
 	});
 
@@ -158,6 +178,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 	return {
 		ModuleView: ModuleView,
-		SeriesView: SeriesView
+		SeriesView: SeriesView,
+		WritableSeriesView: WritableSeriesView
 	};
 });

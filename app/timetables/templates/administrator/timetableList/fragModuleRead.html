@@ -5,11 +5,17 @@
         <span class="icon-chevron-down js-expansion-indicator"></span>{{ module.name }}
       </a>
     </h4>
+    {% block module_title_right %}
+    {% endblock module_title_right %}
   </div>
   <div class="moduleContent js-module-content collapse in" id="module-{{ module.unique_id }}-content">
+    {% block before_series %}
+    {% endblock before_series %}
     <div class="seriesList">
     {% for series in module.series %}
+      {% block series %}
       {% include "administrator/timetableList/fragSeriesRead.html" %}
+      {% endblock series %}
     {% empty %}
       <p>This module contains no series.</p>
     {% endfor %}

@@ -1,67 +1,19 @@
-{% load url from future %}
+{% extends "administrator/timetableList/fragSeriesRead.html" %}
 
-<li class="series">
-	<form class="" action="{% url "edit series" series_editor.get_form.instance.id %}" method="POST"
-		{% if series_editor.get_form.is_bound %}
-			data-state="unsaved"
-		{% else %}
-			data-state="saved"
-		{% endif %}
-		>
-		{% csrf_token %}
-	<div class="seriesHeading collapsed clearfix">
-		<h5 class="pull-left">
-			<a href="#"><span class="icon-chevron-right"></span>
-			{{ series_editor.get_form.title.value }}
-			<input type="{% if edit_series_view_template_debug_elements %}text{% else %}hidden{% endif %}"
-					name="{{ series_editor.get_form.title.html_name }}"
-					value="{{ series_editor.get_form.title.value }}"/>
-			</a>
-		</h5>
-		<ul class="buttons pull-left">
-			<li class="pull-left">
-				<a href="#" class="icon-pencil notImplemented" title="edit"><span class="hideMe">edit</span></a>
-			</li>
-			<li class="pull-left">
-				<a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
-			</li>
-			<li class="pull-left">
-				<a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
-			</li>
-			<li class="pull-left">
-				<a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
-			</li>
-		</ul>
-	</div>
-	<div class="events clearfix dontDisplayMe">
-		<table class="table table-striped">
-			<tbody>
-			{{ series_editor.get_event_formset.management_form }}
-			{% for event_form in series_editor.get_event_formset %}
-				{% include "administrator/timetableList/fragEventWrite.html" %}
-			{% endfor %}
-			</tbody>
-		</table>
-		<a href="#" class="addEvent pull-left notImplemented" title="add event"><span class="icon-plus"></span>Add event</a>
-		<ul class="seriesEditActions pull-right dontDisplayMe">
-			<li class="pull-left">
-				<a href="#" class="cancel">cancel</a>
-			</li>
-			<li class="pull-left">
-				<a href="#" class="save btn btn-success" title="save event series" data-loading-text="Saving...">Save</a>
-			</li>
-		</ul>
-	</div>
 
-	{% comment %}
-	The event forms each need an ID to record which event each form represents. They're here rather than in the fragEventWrite.html as they don't really fit into the <table>.
-	{% endcomment %}
-	{% for event_form in series_editor.get_event_formset %}
-		{{ event_form.id }}
-	{% endfor %}
-
-    {% if edit_series_view_template_debug_elements %}
-        <input type="submit" value="Save">
-    {% endif %}
-	</form>
-</li>
+{% block series_title_right %}
+<ul class="buttons pull-left">
+	<li class="pull-left">
+		<a href="#" class="icon-pencil notImplemented" title="edit"><span class="hideMe">edit</span></a>
+	</li>
+	<li class="pull-left">
+		<a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
+	</li>
+	<li class="pull-left">
+		<a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
+	</li>
+	<li class="pull-left">
+		<a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
+	</li>
+</ul>
+{% endblock series_title_right %}

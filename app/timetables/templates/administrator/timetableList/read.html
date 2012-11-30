@@ -4,10 +4,20 @@
 {% block javascript_module %}timetable-list-read{% endblock javascript_module %}
 
 
+{% block additional_navigation %}
+<li class="nav-label" title="You have permission to view, but not edit the items in this page.">
+  <span class="icon-lock"></span>
+  <em>View only</em>
+</li>
+{% endblock additional_navigation %}
+
+
 {% block timetable_content %}
 <div class="modulesList">
 {% for module in modules %}
+  {% block timetable_module %}
   {% include "administrator/timetableList/fragModuleRead.html" %}
+  {% endblock timetable_module %}
 {% endfor %}
 </div>
 

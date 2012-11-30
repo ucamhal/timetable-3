@@ -1,51 +1,13 @@
-{% extends "administrator/timetableBase.html" %}
+{% extends "administrator/timetableList/read.html" %}
 
-{% block timetable_content %}
-<a href="#" class="btn addModule notImplemented"><span class="icon-plus"></span>Add module</a>
-<ul class="modulesList">
-{% for module_editor in module_editors %}
-  {% include "administrator/timetableList/fragModuleWrite.html" %}
-{% endfor %}
-</ul>
 
-<div class="modal changesNotificationPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close dontSendNotification">&times;</a>
-    <h3>Send email notification</h3>
-  </div>
-  <div class="modal-body">
-    <p>Your changes have been saved successfully.</p>
-    <p>Do you want to send an email notification to people affected by the change?</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="dontSendNotification">Don't send notification</a>
-    <a href="#" class="btn btn-primary sendNotifcation notImplemented">Send notification</a>
-  </div>
-</div>
+{% block javascript_module %}timetable-list-write{% endblock javascript_module %}
 
-<div class="modal formServerErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>Apparently something went wrong whilst saving.</br>Please try again later.</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
 
-<div class="modal formValidationErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>It looks like you missed some fields.<br/>Please fill out any missing fields and hit save again</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-{% endblock timetable_content %}
+{% block additional_navigation %}
+{% endblock additional_navigation %}
+
+
+{% block timetable_module %}
+{% include "administrator/timetableList/fragModuleWrite.html" %}
+{% endblock timetable_module %}

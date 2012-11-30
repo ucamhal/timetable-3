@@ -1,7 +1,12 @@
 <table class="table table-striped">
   <tbody>
   {% for event in series.events %}
+    {% block event %}
     {% include "administrator/timetableList/fragEventRead.html" %}
+    {% endblock event %}
   {% endfor %}
   </tbody>
 </table>
+
+{% block after_events %}
+{% endblock after_events %}
