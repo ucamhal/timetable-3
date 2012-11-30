@@ -6,6 +6,7 @@ define([
 	"view/admin/components/adminInputArea",
 	"view/admin/components/adminCalendar",
 	"view/admin/components/adminResults",
+	"view/admin/select",
 	"bootstrap",
 	"bootstrapTimePicker",
 	"bootstrapDatePicker",

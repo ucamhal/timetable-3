@@ -1,0 +1,22 @@
+{% extends "administrator/timetableBase.html" %}
+
+
+{% block admin_content %}
+<div id="calendarHeading">
+  <div id="calendarData">
+    <div class="agendaWeek">
+      <a href="#" class="btn pull-left notImplemented">Undo changes</a>
+      <div class="calendarNavigation pull-left">
+        <ul class="clearfix">
+          <li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
+          <li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
+          <li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+        </ul>
+      </div>
+      <h4 class="pull-right">Michaelmas Term</h4>
+    </div>
+  </div>
+</div>
+
+<div id="calendar"></div>
+{% endblock admin_content %}
