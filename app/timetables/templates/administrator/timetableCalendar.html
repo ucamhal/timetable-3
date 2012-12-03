@@ -1,22 +1,33 @@
 {% extends "administrator/timetableBase.html" %}
 
+{% block javascript_module %}timetable-calendar{% endblock javascript_module %}
 
-{% block admin_content %}
+{% block timetable_content %}
 <div id="calendarHeading">
   <div id="calendarData">
     <div class="agendaWeek">
+
       <a href="#" class="btn pull-left notImplemented">Undo changes</a>
+
       <div class="calendarNavigation pull-left">
-        <ul class="clearfix">
-          <li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-          <li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
-          <li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
+        <ul class="clearfix js-date-spinner js-week">
+          <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+          <li class="pull-left"><h4 class="js-value">Week 2</h4></li>
+          <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
         </ul>
       </div>
-      <h4 class="pull-right">Michaelmas Term</h4>
+
+      <div class="calendarNavigation pull-right">
+        <ul class="clearfix js-date-spinner js-term">
+          <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+          <li class="pull-left"><h4 class="js-value">Michaelmas Term</h4></li>
+          <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>
 
-<div id="calendar"></div>
-{% endblock admin_content %}
+<div class="js-calendar"></div>
+{% endblock timetable_content %}
