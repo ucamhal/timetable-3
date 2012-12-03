@@ -34,10 +34,11 @@
     </li>
 
     {% for timetable in timetables %}
-    <li class="pull-left">
+      {% if timetable.id in editable %}
+      <li class="pull-left editable">
       <div class="timetableTop"></div>
       <div class="timetableBottom">
-        <a href="{% url "admin list" thing=timetable.fullpath %}">
+          <a href="{% url "admin list" thing=timetable.fullpath %}">
           {% comment %}
           For part-only timetables we use the name of the faculty followed by the
           part. For real subjects we use the subject followed by part. #}
@@ -50,7 +51,29 @@
           </a>
       </div>
     </li>
+      {% endif %}
     {% endfor %}
+    {% for timetable in timetables %}
+      {% if timetable.id not in editable %}
+      <li class="pull-left">
+      <div class="timetableTop"></div>
+      <div class="timetableBottom">
+          <a href="{% url "admin list read" thing=timetable.fullpath %}">
+          {% comment %}
+          For part-only timetables we use the name of the faculty followed by the
+          part. For real subjects we use the subject followed by part. #}
+          {% endcomment %}
+          {% if timetable.type == "part" %}
+            {{ thing.fullname }} {{ timetable.fullname }}
+          {% else %}
+            {{ timetable.fullname }} {{ timetable.parent.fullname }}
+          {% endif %}
+          </a>
+      </div>
+    </li>
+      {% endif %}
+    {% endfor %}
+    
   </ul>
 </div>
 {% endblock admin_content %}

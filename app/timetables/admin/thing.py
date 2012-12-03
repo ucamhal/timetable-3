@@ -3,7 +3,7 @@ Created on Oct 17, 2012
 
 @author: ieb
 '''
-from timetables.models import Thing
+from timetables.models import Thing, ThingTag
 from timetables.admin.widgets import TextWidget
 from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
 
@@ -78,6 +78,13 @@ class ThingAdminForm(forms.ModelForm):
             cleaned_data['fullpath'] = "%s/%s" % (parent.fullpath, cleaned_data['name'])
         return cleaned_data
         
+
+class ThingTagInline(admin.TabularInline):
+    model = ThingTag
+    #extra = 1
+    fk_name = "thing"
+    raw_id_fields = ("targetthing",)
+
             
 class ThingAdmin(admin.ModelAdmin):
     form = ThingAdminForm
@@ -87,5 +94,6 @@ class ThingAdmin(admin.ModelAdmin):
     list_editable = ("type",)
     inlines = [
         EventSourceTagInline,
-        EventTagInline
+        EventTagInline,
+        ThingTagInline
     ]

@@ -3,6 +3,7 @@ import operator
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 import django.views.generic
@@ -28,7 +29,7 @@ def get_timetables(thing):
 
 def timetable_view(request, thing=None):
     triposes = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullname","fullpath")
-    if thing == None:
+    if thing == None: # default to first tripos in available list
         thing = triposes[0][1]
     
     thing = shortcuts.get_object_or_404(models.Thing, type="tripos",
@@ -36,9 +37,12 @@ def timetable_view(request, thing=None):
 
     # list of timetables to display
     timetables = get_timetables(thing)
+    
+    # get list of Things the current user may edit
+    editable = get_user_editable(request)
 
     return shortcuts.render(request, "administrator/overview.html",
-            {"thing": thing, "timetables": timetables, "triposes": triposes})
+            {"thing": thing, "timetables": timetables, "triposes": triposes, "editable": editable})
 
 
 class ModuleEditor(object):
@@ -244,4 +248,25 @@ def default_view(request):
     This is a convenience method to allow easy navigation into the administrator panel.
     Redirects to timetable_view.
     """
-    return timetable_view( request )
+    
+    # get list of Things the current user may edit
+    editable = get_user_editable(request)
+    
+    # get the Triposes corresponding to these editable items
+    first_editable = ''
+    try:
+        first_editable = models.Thing.objects.filter( Q(type="tripos"), Q(thing__id__in=editable) | Q(thing__thing__id__in=editable) ).order_by("fullname").values_list("fullpath", flat=True)[0]
+    except IndexError: # this means the user has no permissions to edit timetables - allow view only, default to first tripos from alphabetised list
+        first_editable = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullpath", flat=True)[0]
+    
+    return shortcuts.redirect("admin timetable", thing=first_editable)
+
+
+def get_user_editable(request):
+    """
+    Returns a list of IDs of the Things which the current user may edit.
+    """
+    user = "user/"+request.user.username
+    user = models.Thing.objects.get(pathid=models.Thing.hash(user))
+    # which things may this user administrate?
+    return models.Thing.objects.filter(relatedthing__thing=user, relatedthing__annotation="admin").values_list("id", flat=True)
