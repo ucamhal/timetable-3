@@ -867,7 +867,10 @@ div#timetablesOverview ul li {
 	margin-right: 50px;
 	margin-bottom: 40px;
 	cursor: pointer;
-	
+}
+div#timetablesOverview ul li.editable {
+	border-color: #986abf;
+	background: url( '../img/editable.png' ) scroll no-repeat center center transparent;
 }
 
 div#timetablesOverview ul li.createNewTimetable {
