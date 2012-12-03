@@ -413,16 +413,30 @@ define([
 		 * Moves the calendar to the next term
 		 */
 		goToNextTerm: function () {
-			var nextTerm = this.getRelativeTerm("next");
-			this.calendar.goToDate(new Date(nextTerm.year, nextTerm.start.month - 1, nextTerm.start.day));
+			var nextTerm = this.getRelativeTerm("next"),
+				dateToMoveTo = new Date(nextTerm.year, nextTerm.start.month - 1, nextTerm.start.day),
+				activeWeekInCurrentTerm = this.getActiveWeekInCurrentTerm();
+
+			if (typeof activeWeekInCurrentTerm !== "undefined" && activeWeekInCurrentTerm > 1) {
+				dateToMoveTo = new Date(dateToMoveTo.valueOf() + (1000 * 60 * 60 * 24 * 7 * (activeWeekInCurrentTerm - 1)));
+			}
+
+			this.calendar.goToDate(dateToMoveTo);
 		},
 
 		/**
 		 * Moves the calendar to the previous term
 		 */
 		goToPreviousTerm: function () {
-			var previousTerm = this.getRelativeTerm("previous");
-			this.calendar.goToDate(new Date(previousTerm.year, previousTerm.start.month - 1, previousTerm.start.day));
+			var previousTerm = this.getRelativeTerm("previous"),
+				dateToMoveTo = new Date(previousTerm.year, previousTerm.start.month - 1, previousTerm.start.day),
+				activeWeekInCurrentTerm = this.getActiveWeekInCurrentTerm();
+
+			if (typeof activeWeekInCurrentTerm !== "undefined" && activeWeekInCurrentTerm > 1) {
+				dateToMoveTo = new Date(dateToMoveTo.valueOf() + (1000 * 60 * 60 * 24 * 7 * (activeWeekInCurrentTerm - 1)));
+			}
+
+			this.calendar.goToDate(dateToMoveTo);
 		},
 
 		/**
