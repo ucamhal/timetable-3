@@ -2,7 +2,9 @@
   <tbody>
   {% for event in series.events %}
     {% block event %}
-    {% include "administrator/timetableList/fragEventRead.html" %}
+    	{% with event_classes="" editable="false" %}
+    		{% include "administrator/timetableList/fragEventRead.html" %}
+    	{% endwith %}
     {% endblock event %}
   {% endfor %}
   </tbody>

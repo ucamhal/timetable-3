@@ -1,13 +1,17 @@
-<tr class="event">
-  <td title="Title" class="eventTitle" tabindex="1" contenteditable="true"
+<tr class="event {{ event_classes }}">
+  <td title="Title" class="event-field eventTitle" tabindex="1" contenteditable="{{ editable }}"
       data-value="{{ event.title }}">
     {{ event.title|default:"&mdash;" }}
   </td>
-  <td title="Event Type" class="eventType event-type-{{ event.metadata.type|default:"none"|lower }}" 
+  <td title="Event Type" class="event-field eventType" 
       tabindex="2" data-value="{{ event.type }}">
-    {{ event.metadata.type|default:"&mdash;" }}
+    <div>
+      <span class="event-type event-type-{{ event.metadata.type|default:"none"|lower }}">
+        {{ event.metadata.type|default:"&mdash;" }}
+      </span>
+  </div>
   </td>
-  <td class="eventDateTime" tabindex="4" data-value=>
+  <td class="event-field eventDateTime" tabindex="4" data-value=>
       <span title="{{ event.start|date:"l jS F " }}">
         {% with rel_date=event.relative_term_date %}
         W
@@ -26,12 +30,14 @@
       </span>
       {{ event.start|date:"H:i" }}&ndash;{{ event.end|date:"H:i" }}
   </td>
-  <td title="Location" class="eventLocation" tabindex="3"
-      data-value="{{ event.location }}">
+  <td title="Location" class="event-field eventLocation" tabindex="3"
+      data-value="{{ event.location }}"
+      contenteditable="{{ editable }}">
     {{ event.location|default:"&mdash;" }}
   </td>
-  <td title="Lecturer/host/etc" class="eventLecturers" tabindex="4"
-      data-value="{{ event.metadata.people|join:", " }}">
+  <td title="Lecturer/host/etc" class="event-field eventLecturers" tabindex="4"
+      data-value="{{ event.metadata.people|join:", " }}"
+      contenteditable="{{ editable }}">
     {{ event.metadata.people|join:", "|default:"&mdash;" }}
   </td>
   {% block event_right %}

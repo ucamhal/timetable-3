@@ -2,7 +2,9 @@
 
 
 {% block event %}
-{% include "administrator/timetableList/fragEventWrite.html" %}
+{% with event_classes="event-editable" editable="true" %}
+	{% include "administrator/timetableList/fragEventWrite.html" %}
+{% endwith %}
 {% endblock event %}
 
 
