@@ -275,10 +275,16 @@ class Thing(SchemalessModel, HierachicalModel):
     to find the aggregate table of a bunch of things
     Event.objects.filter(models.Q(source__eventsourcetag__thing__in=bunchofthings)|models.Q(eventtag__thing__in=bunchofthings)).order_by(start)
 
-
     If we want to apply permissions, they should be applied to Things.
     Probably in a separate Hierarchical model, where the permission is resolved hierarchically.
     '''
+    
+    # global Django permission to allow an individual user to be given admin permissions
+    class Meta:
+        permissions = (
+            ("is_admin", "Is a university administrator."), #. Allows user to view admin backend but does not provide write permissions. These are applied through annotations on Thing entries.
+        )
+    
     type = models.CharField("Type",
             max_length=THING_TYPE_LENGTH, blank=True, db_index=True, default="", help_text="The type of the thing used to control its behaviour")
 

@@ -8,6 +8,10 @@ from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 import django.views.generic
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+
 from timetables import models
 from timetables import forms
 from timetables.utils.xact import xact
@@ -27,6 +31,9 @@ def get_timetables(thing):
     # Otherwise return the levels under the tripos
     return models.Thing.objects.filter(type="part", parent__pathid=thing.pathid)
 
+
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def timetable_view(request, thing=None):
     triposes = models.Thing.objects.filter(type="tripos").order_by("fullname").values_list("fullname","fullpath")
     if thing == None: # default to first tripos in available list
@@ -84,6 +91,9 @@ class SeriesEditor(object):
     def get_series(self):
         return self._series
 
+
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def list_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
             pathid=models.Thing.hash(thing))
@@ -110,7 +120,13 @@ def list_view(request, thing=None):
         "timetable_thing": timetable_thing
     })
 
+
 class TimetableListRead(django.views.generic.View):
+
+    @method_decorator(login_required)
+    @method_decorator(permission_required('timetables.is_admin', login_url='/administration/no-permission/'))
+    def dispatch(self, *args, **kwargs):
+        return super(TimetableListRead, self).dispatch(*args, **kwargs)
 
     def module_series(self, module_thing):
         series_list = []
@@ -168,6 +184,9 @@ class TimetableListRead(django.views.generic.View):
         return shortcuts.render(request,
                 "administrator/timetableList/read.html", context)
 
+
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def list_view_events(request, series_id):
     """
     Creates a fragment of HTML containing the events under a series for the
@@ -188,6 +207,8 @@ def list_view_events(request, series_id):
             "administrator/timetableList/fragEventsRead.html", context)
 
 
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def edit_series_view(request, series_id):
     # Render debug stuff if the page is not requested by an AJAX
     template_debug_elements = not request.is_ajax()
@@ -216,6 +237,9 @@ def edit_series_view(request, series_id):
         "edit_series_view_template_debug_elements": template_debug_elements
     })
 
+
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def calendar_view(request, thing=None):
     thing = shortcuts.get_object_or_404(models.Thing,
             pathid=models.Thing.hash(thing))
@@ -228,6 +252,8 @@ def calendar_view(request, thing=None):
             {"thing": thing})
 
 
+@login_required
+@permission_required('timetables.is_admin', login_url="/administration/no-permission/")
 def default_view(request):
     """
     This is a convenience method to allow easy navigation into the administrator panel.
@@ -255,3 +281,7 @@ def get_user_editable(request):
     user = models.Thing.objects.get(pathid=models.Thing.hash(user))
     # which things may this user administrate?
     return models.Thing.objects.filter(relatedthing__thing=user, relatedthing__annotation="admin").values_list("id", flat=True)
+
+
+def warning_view(request):
+    return shortcuts.render(request, "administrator/no-permissions.html")
