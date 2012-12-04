@@ -11,3 +11,89 @@
 {% block timetable_module %}
 {% include "administrator/timetableList/fragModuleWrite.html" %}
 {% endblock timetable_module %}
+
+
+{% block additional_modals %}
+<div class="js-date-time-dialog date-time-dialog datePatternDialog popover bottom"
+    style="display: none;">
+  <div class="arrow"></div>
+  <div class="popover-inner">
+    <div class="popover-title clearfix">
+      <h3 class="pull-left">When does this event take place?</h3>
+      <a href="#" class="close" tabIndex="-1">&times;</a>
+    </div>
+    <div class="popover-content">
+      {{ event_form.term_week.errors }}
+      {{ event_form.term_name.errors }}
+      <div class="clearfix">
+        <label for="id_{{ event_form.term_week.html_name }}">Week</label>
+        <input type="number"
+           data-initial="{{ event_form.initial.term_week }}"
+           name="{{ event_form.term_week.html_name }}"
+           id="id_{{ event_form.term_week.html_name }}"
+           value="{{ event_form.term_week.value }}"
+           class="js-week input-mini eventDateTimeWeek{% if event_form.term_week.errors %} error{% endif %}"/>
+
+        <label for="id_{{ event_form.term_name.html_name }}">in</label>
+        {{ event_form.term_name }}
+      </div>
+      {{ event_form.day_of_week.errors }}
+      <div class="clearfix">
+        <label for="id_{{ event_form.day_of_week.html_name }}">on</label>
+        {{ event_form.day_of_week }}
+      </div>
+
+      {{ event_form.start_hour.errors }}
+      {{ event_form.start_minute.errors }}
+      {{ event_form.end_hour.errors }}
+      {{ event_form.end_minute.errors }}
+
+      <div class="clearfix">
+        <label for="id_{{ event_form.start_hour.html_name }}">From</label>
+        <ul class="clearfix eventDateTimeFromFields">
+          <li class="pull-left">
+            <input type="number"
+                data-initial="{{ event_form.initial.start_hour|add:"0"|stringformat:".2d" }}"
+                value="{{ event_form.start_hour.value|add:"0"|stringformat:".2d" }}"
+                class="input-mini hours{% if event_form.start_hour.errors %} error{% endif %}"
+                name="{{ event_form.start_hour.html_name }}"
+                id="id_{{ event_form.start_hour.html_name }}"
+                min="-1" max="24">
+          </li>
+          <li class="pull-left">
+            <input type="number"
+                data-initial="{{ event_form.initial.start_minute|add:"0"|stringformat:".2d" }}"
+                value="{{ event_form.start_minute.value|add:"0"|stringformat:".2d" }}"
+                class="input-mini minutes{% if event_form.start_minute.errors %} error{% endif %}"
+                name="{{ event_form.start_minute.html_name }}"
+                id="id_{{ event_form.start_minute.html_name }}"
+                min="-15" max="60" step="15">
+          </li>
+        </ul>
+
+        <label for="id_{{ event_form.end_hour.html_name }}">To</label>
+        <ul class="clearfix eventDateTimeToFields">
+          <li class="pull-left">
+            <input type="number"
+                data-initial="{{ event_form.initial.end_hour|add:"0"|stringformat:".2d" }}"
+                value="{{ event_form.end_hour.value|add:"0"|stringformat:".2d" }}"
+                class="input-mini hours{% if event_form.end_hour.errors %} error{% endif %}"
+                name="{{ event_form.end_hour.html_name }}"
+                id="id_{{ event_form.end_hour.html_name }}"
+                min="-1" max="24">
+          </li>
+          <li class="pull-left">
+            <input type="number"
+                data-initial="{{ event_form.initial.end_minute|add:"0"|stringformat:".2d" }}"
+                value="{{ event_form.end_minute.value|add:"0"|stringformat:".2d" }}"
+                class="js-end-minute input-mini minutes{% if event_form.end_minute.errors %} error{% endif %}"
+                name="{{ event_form.end_minute.html_name }}"
+                id="id_{{ event_form.end_minute.html_name }}"
+                min="-15" max="60" step="15">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock additional_modals %}

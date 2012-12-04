@@ -1,10 +1,22 @@
 {% extends "administrator/timetableList/fragEventRead.html" %}
 
+
+{% block date_time_start %}
+<span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
+{% endblock date_time_start %}
+
+
+{% block date_time_end %}
+<div class="dialog-holder js-dialog-holder"></div>
+<span class="js-focus-catcher js-focus-catcher-after" tabindex="0"></span>
+{% endblock date_time_end %}
+
+
 {% block event_right %}
   <td class="eventActions" tabindex="5">
     <ul class="buttons">
       <li>
-        <a href="#" class="icon-pencil edit" title="edit"><span class="hideMe">edit</span></a>
+        <a href="javascript:;" class="icon-pencil edit js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
       </li>
       <li>
         <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>

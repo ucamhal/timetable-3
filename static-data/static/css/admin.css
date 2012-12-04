@@ -131,6 +131,26 @@ div:focus {
  	background-position: 100% 50%;
  }
 
+/* id selector used to boost priority over Bootstrap */
+#adminListView .event-editable.unsaved > td {
+	background-color: #fff6e2;
+}
+
+#adminListView .event-editable.being-edited > td {
+	background-color: #f5e7d0;
+}
+
+.dialog-holder {
+	position: relative;
+}
+
+.date-time-dialog {
+	position: absolute;
+	background: white;
+}
+
+
+
 .events .editEnabled .eventTitle,
 .events .editEnabled .eventType,
 .events .editEnabled .eventLocation,
