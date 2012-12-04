@@ -1,4 +1,5 @@
 {% extends "administrator/timetableBase.html" %}
+{% load url from future %}
 
 {% block javascript_module %}timetable-calendar{% endblock javascript_module %}
 
@@ -24,5 +25,5 @@
   </div>
 </div>
 
-<div class="js-calendar"></div>
+<div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}"></div>
 {% endblock timetable_content %}

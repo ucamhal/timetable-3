@@ -64,20 +64,20 @@ define([
 		 * @param {object} date The date the calendar has to move to.
 		 */
 		goToDate: function (date) {
-			if (date) {
-				this.$el.fullCalendar("gotoDate", date);
-			}
-
-			//set the calendar active date to the start of the week (Thursday)
-			while (this.getActiveDate().getDay() !== 4) {
-				this.$el.fullCalendar("gotoDate", new Date(this.getActiveDate().valueOf() - (1000 * 60 * 60 * 24)));
-			}
-
+			this.$el.fullCalendar("gotoDate", date);
 			return this.getActiveDate();
 		}
 	});
 
+
+
 	var DateSpinner = Backbone.View.extend({
+
+		events: {
+			"click .js-prev" : "onPrevious",
+			"click .js-next" : "onNext"
+		},
+
 		initialize: function (opts) {
 			this.type = opts.type || "week";
 
@@ -97,6 +97,21 @@ define([
 		},
 
 		/**
+		 * Renders the dateSpinner to expose the correct active values
+		 */
+		render: function () {
+			this.updateActiveTermData();
+			this.$(".js-value").text(_.capitalize(this.getValue()));
+		},
+
+		/**
+		 * Updates the activeTermData object with new values based on the active calendar date
+		 */
+		updateActiveTermData: function () {
+			this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
+		},
+
+		/**
 		 * Returns the value of the datespinner
 		 * @return {string} The current value of the dateSpinner (dependant on the type)
 		 */
@@ -104,7 +119,7 @@ define([
 			var value = "";
 			switch (this.type) {
 			case "week":
-				value = this.getActiveWeekInCurrentTermString();
+				value = this.getActiveWeekString();
 				break;
 			case "term":
 				value = this.getActiveTermString();
@@ -114,100 +129,15 @@ define([
 		},
 
 		/**
-		 * Returns an object with start and end dates for the given term
-		 * @param {string} termName The name of the term
-		 * @param {number} year The year you want the dates from
-		 * @retun {object} Returns an object with start and end date objects.
-		 */
-		getDatesFromTermInYear: function (termName, year) {
-			return {
-				start: new Date(year, this.terms[termName][year].start.month, this.terms[termName][year].start.day),
-				end: new Date(year, this.terms[termName][year].end.month, this.terms[termName][year].end.day)
-			};
-		},
-
-		/*
-		 * Checks wether the given date falls within the given term
-		 * @param {object} date The date to check.
-		 * @param {object} termObject An object containing years and start and end dates per year for the term.
-		 * @return {boolean} Returns true when the date falls withing the given term, false if not.
-		 */
-		dateWithinTerm: function (date, termObject) {
-
-			var dateDay = Number(_.getDayFromDate(date)),
-				dateMonth = Number(_.getMonthFromDate(date)),
-				dateYear = Number(_.getYearFromDate(date)),
-				withinPeriod = false,
-				term = termObject[dateYear];
-
-			if (term && dateMonth >= term.start.month && dateMonth <= term.end.month) {
-				if (!((dateMonth === term.start.month && dateDay < term.start.day) || (dateMonth === term.end.month && dateDay > term.end.day))) {
-					withinPeriod = true;
-				}
-			}
-
-			return withinPeriod;
-		},
-
-		/**
 		 * Returns the currently active week withing the currently active term in a nice string format e.g. Week 3
 		 * @return {string} A string representing the currently active week within the active term
 		 */
-		getActiveWeekInCurrentTermString: function () {
-			var week = this.getActiveWeekInCurrentTerm();
-			return week ? "Week " + week : "Outside term";
-		},
-
-		/**
-		 * Returns the active week number within the currently active term
-		 * @return {number} The active week number withing the term
-		 */
-		getActiveWeekInCurrentTerm: function () {
-			var activeWeek,
-
-				activeDateObject = new Date(this.calendar.getActiveDate().getFullYear(), this.calendar.getActiveDate().getMonth(), this.calendar.getActiveDate().getDate()),
-
-				singleDay = 1000 * 60 * 60 * 24,
-				singleWeek = singleDay * 7,
-
-				activeTerm = this.getActiveTerm(),
-
-				activeTermData,
-				termStartDateObject,
-				dayOffset;
-
-			if (activeTerm) {
-				activeTermData = this.terms[activeTerm][activeDateObject.getFullYear()];
-				termStartDateObject = new Date(activeDateObject.getFullYear(), activeTermData.start.month - 1, activeTermData.start.day);
-
-				switch (_.getShortDayFromDate(termStartDateObject)) {
-				case "Mon":
-					dayOffset = singleDay * 4;
-					break;
-				case "Tue":
-					dayOffset = singleDay * 5;
-					break;
-				case "Wed":
-					dayOffset = singleDay * 6;
-					break;
-				case "Thu":
-					dayOffset = 0;
-					break;
-				case "Fri":
-					dayOffset = singleDay;
-					break;
-				case "Sat":
-					dayOffset = singleDay * 2;
-					break;
-				case "Sun":
-					dayOffset = singleDay * 3;
-					break;
-				}
-
-				activeWeek = Math.round(((activeDateObject.valueOf() - (termStartDateObject.valueOf() - dayOffset)) / singleWeek)) + 1;
+		getActiveWeekString: function () {
+			var	activeWeekString = "Outside term";
+			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "week")) {
+				activeWeekString = "Week " + this.activeTermData.week;
 			}
-
-			return activeWeek;
+			return activeWeekString;
 		},
 
 		/**
@@ -215,148 +145,11 @@ define([
 		 * @return {string} The currently active term
 		 */
 		getActiveTermString: function () {
-			var term = this.getActiveTerm();
-			return term || "No active term";
-		},
-
-		/**
-		 * Returns the currently active term
-		 * @return {string} the currently active term, e.g. "michaelmas", undefined if active day in calendar falls outside terms.
-		 */
-		getActiveTerm: function () {
-			var view = this.calendar.getView(),
-				index,
-				activeTerm,
-				selectedTerm;
-
-			for (index in this.terms) {
-				if (this.terms.hasOwnProperty(index) && !activeTerm) {
-					selectedTerm = this.terms[index];
-
-					if (this.dateWithinTerm(view.start, selectedTerm) || this.dateWithinTerm(view.end, selectedTerm)) {
-						activeTerm = index;
-					}
-				}
+			var	activeTermString = "No active term";
+			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
+				activeTermString = this.activeTermData.term;
 			}
-
-			return activeTerm;
-		},
-
-		/**
-		 * Calculates and returns the active term for a given date
-		 * @return {string} the currently active term, e.g. "michaelmas", undefined if the given date falls outside terms.
-		 */
-		getActiveTermForDate: function (date) {
-			var index,
-				activeTerm,
-				selectedTerm;
-
-			for (index in this.terms) {
-				if (this.terms.hasOwnProperty(index) && !activeTerm) {
-					selectedTerm = this.terms[index];
-
-					if (this.dateWithinTerm(date, selectedTerm)) {
-						activeTerm = index;
-					}
-				}
-			}
-
-			return activeTerm;
-		},
-
-		events: {
-			"click .js-prev" : "onPrevious",
-			"click .js-next" : "onNext"
-		},
-
-		/**
-		 * Returns either the next or the previous term in line based on the active date in the calendar.
-		 * @param {string} rel Either "previous" or "next", determines wether to look forwards or backwards in time
-		 * @return {object} An object that contains all necessary term data: the term name, year, start and end dates.
-		 */
-		getRelativeTerm: function (rel) {
-			var calculateTerm = rel === "previous" ? this.getPreviousTerm : this.getNextTerm;
-			return calculateTerm.call(this, rel);
-		},
-
-		/**
-		 * Returns the previous term based on the currently active date in the calendar
-		 * @return {object} An object that contains all necessary term data: the term name, year, start and end dates.
-		 */
-		getPreviousTerm: function () {
-			var currentTerm = this.getActiveTerm(),
-				previousTerm = {
-					year: Number(_.getYearFromDate(this.calendar.getActiveDate()))
-				};
-
-			switch (currentTerm) {
-			case "michaelmas":
-				previousTerm.term = "easter";
-				break;
-			case "lent":
-				previousTerm.term = "michaelmas";
-				previousTerm.year -= 1;
-				break;
-			case "easter":
-				previousTerm.term = "lent";
-				break;
-			default:
-				previousTerm = this.getClosestRelativeTermFromDate(this.calendar.getActiveDate(), "previous");
-			}
-
-			_.extend(previousTerm, this.terms[previousTerm.term][previousTerm.year]);
-			return previousTerm;
-		},
-
-		/**
-		 * Returns the next term based on the currently active date in the calendar
-		 * @return {object} An object that contains all necessary term data: the term name, year, start and end dates.
-		 */
-		getNextTerm: function () {
-			var currentTerm = this.getActiveTerm(),
-				nextTerm = {
-					year: Number(_.getYearFromDate(this.calendar.getActiveDate()))
-				};
-
-			switch (currentTerm) {
-			case "michaelmas":
-				nextTerm.term = "lent";
-				nextTerm.year += 1;
-				break;
-			case "lent":
-				nextTerm.term = "easter";
-				break;
-			case "easter":
-				nextTerm.term = "michaelmas";
-				break;
-			default:
-				nextTerm = this.getClosestRelativeTermFromDate(this.calendar.getActiveDate(), "next");
-			}
-
-			_.extend(nextTerm, this.terms[nextTerm.term][nextTerm.year]);
-			return nextTerm;
-		},
-
-		/**
-		 * Returns the closest term for a given date
-		 * @param {object} date This is the date to search from
-		 * @param {string} rel This is either "next" or "previous". Look forwards or
-		 *		backwards from given date. Is "next" by default.
-		 * @return {object} This returns an object with inside the term and year.
-		 */
-		getClosestRelativeTermFromDate: function (date, rel) {
-			var activeTerm,
-				dateIterator = rel === "previous" ? -(1000 * 60 * 60 * 24 * 30) : (1000 * 60 * 60 * 24 * 30);
-
-			while (typeof activeTerm === "undefined") {
-				activeTerm = this.getActiveTermForDate(date);
-				date = new Date(date.valueOf() + dateIterator);
-			}
-
-			return {
-				term: activeTerm,
-				year: Number(_.getYearFromDate(date))
-			};
+			return activeTermString;
 		},
 
 		/**
@@ -375,6 +168,24 @@ define([
 			this.render();
 			this.trigger("change");
 			event.preventDefault();
+		},
+
+		/**
+		 * Moves the calendar to the previous week
+		 */
+		goToPreviousWeek: function () {
+			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
+		},
+
+		/**
+		 * Moves the calendar to the previous term
+		 */
+		goToPreviousTerm: function () {
+			if (typeof this.activeTermData !== "undefined") {
+				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards"));
+			} else {
+				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "backwards"));
+			}
 		},
 
 		/**
@@ -403,47 +214,128 @@ define([
 		},
 
 		/**
-		 * Moves the calendar to the previous week
-		 */
-		goToPreviousWeek: function () {
-			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
-		},
-
-		/**
 		 * Moves the calendar to the next term
 		 */
 		goToNextTerm: function () {
-			var nextTerm = this.getRelativeTerm("next"),
-				dateToMoveTo = new Date(nextTerm.year, nextTerm.start.month - 1, nextTerm.start.day),
-				activeWeekInCurrentTerm = this.getActiveWeekInCurrentTerm();
-
-			if (typeof activeWeekInCurrentTerm !== "undefined" && activeWeekInCurrentTerm > 1) {
-				dateToMoveTo = new Date(dateToMoveTo.valueOf() + (1000 * 60 * 60 * 24 * 7 * (activeWeekInCurrentTerm - 1)));
+			if (typeof this.activeTermData !== "undefined") {
+				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards"));
+			} else {
+				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "forwards"));
 			}
-
-			this.calendar.goToDate(dateToMoveTo);
 		},
 
 		/**
-		 * Moves the calendar to the previous term
+		 * Returns term data for the week the date is in.
+		 * @param {object} date This is the date that will be used to find the correct term data.
+		 * @param {string} rel Look forwards or backwards from date if date is not a Thursday. (if date is not a thursday it moves to the closest Thursday using the direction defined here)
+		 * @return {object} Object containing term data of the term the date falls in.
 		 */
-		goToPreviousTerm: function () {
-			var previousTerm = this.getRelativeTerm("previous"),
-				dateToMoveTo = new Date(previousTerm.year, previousTerm.start.month - 1, previousTerm.start.day),
-				activeWeekInCurrentTerm = this.getActiveWeekInCurrentTerm();
+		getTermDataForDate: function (date, rel) {
+			var terms = this.getTermsForDateYear(date),
+				direction = rel || "backwards",
+				activeTermData,
+				activeDate = this.getClosestThursdayFromDate(date, direction),
+				activeDateString = activeDate.getFullYear() + "-" + (String(activeDate.getMonth() + 1).length === 1 ? "0" + (activeDate.getMonth() + 1) : activeDate.getMonth() + 1) + "-" + (String(activeDate.getDate()).length === 1 ? "0" + activeDate.getDate() : activeDate.getDate());
 
-			if (typeof activeWeekInCurrentTerm !== "undefined" && activeWeekInCurrentTerm > 1) {
-				dateToMoveTo = new Date(dateToMoveTo.valueOf() + (1000 * 60 * 60 * 24 * 7 * (activeWeekInCurrentTerm - 1)));
+			_.each(terms, function (termData, termName) {
+				if (typeof activeTermData === "undefined") {
+					_.each(termData, function (weekStartDate, weekNr) {
+						if (weekStartDate === activeDateString) {
+							activeTermData = {
+								week: weekNr,
+								date: new Date(weekStartDate),
+								term: termName
+							}
+						}
+					});
+				}
+			});
+
+			return activeTermData;
+		},
+
+		/*
+		 * Finds first possible next or previous date that falls inside a term. Starts searching from the given date.
+		 * @param {object} data The date to start searching from.
+		 * @param {string} rel The direction to look, forwards by default.
+		 * @return {object} The closest date relative to the provided date that falls inside a term.
+		 */
+		getRelativeTermDateFromDate: function (date, rel) {
+			var direction = rel || "forwards",
+				termData,
+				termDate = date,
+				dateIterator = direction === "forwards" ? (1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
+				i = 0;
+
+			while (typeof termData === "undefined" && i < 52) {
+				termData = this.getTermDataForDate(termDate, direction);
+				termDate = new Date(termDate.valueOf() + dateIterator);
+				i += 1;
 			}
 
-			this.calendar.goToDate(dateToMoveTo);
+			return new Date(termData.date);
+		},
+
+		/*
+		 * Gets the date for the next or previous term based on the currently active term. Remembers the currently active week.
+		 * @param {string} rel The direction to go, either forwards of backwards, forwards by default.
+		 * @return {object} Date object that falls within next or previous term.
+		 */
+		getRelativeTermDateFromActiveTerm: function (rel) {
+			var activeYear = this.getAcademicStartYearFromDate(this.activeTermData.date),
+				termDate = this.calendar.getActiveDate(),
+				direction = rel || "forwards";
+
+			switch (this.activeTermData.term) {
+			case "michaelmas":
+				termDate = direction === "forwards" ? this.terms[activeYear]["lent"][this.activeTermData.week] : this.terms[activeYear - 1]["easter"][this.activeTermData.week];
+				break;
+			case "lent":
+				termDate = direction === "forwards" ? this.terms[activeYear]["easter"][this.activeTermData.week] : this.terms[activeYear]["michaelmas"][this.activeTermData.week];
+				break;
+			case "easter":
+				termDate = direction === "forwards" ? this.terms[activeYear + 1]["michaelmas"][this.activeTermData.week] : this.terms[activeYear]["lent"][this.activeTermData.week];
+				break;
+			}
+
+			return new Date(termDate);
 		},
 
 		/**
-		 * Renders the dateSpinner to expose the correct active values
+		 * Returns the closest thursday from a given date
+		 * @param {object} date This is the date to search from.
+		 * @param {string} rel "next" or "previous", "previous" by default. Determines whether to look forwards or backwards from given date
+		 * @return {object} A date object representing the closest Thursday
 		 */
-		render: function () {
-			this.$(".js-value").text(_.capitalize(this.getValue()));
+		getClosestThursdayFromDate: function (date, rel) {
+			var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24) : (1000 * 60 * 60 * 24);
+			while (date.getDay() !== 4) {
+				date = new Date(date.valueOf() + iteration);
+			}
+			return date;
+		},
+
+		/*
+		 * Returns all possible terms for the year the given date falls in.
+		 * @param {object} The date/year to fetch the terms from.
+		 * @return {object} All terms for the provided year.
+		 */
+		getTermsForDateYear: function (date) {
+			var terms = false,
+				activeYear = this.getAcademicStartYearFromDate(date);
+			if (_.has(this.terms, activeYear)) {
+				terms = this.terms[activeYear];
+			}
+			return terms;
+		},
+
+		/**
+		 * Gets the academic year from a date object.
+		 * @param {object} date The date to get the academic year from.
+		 * @return {number} The academic year for the provided date.
+		 */
+		getAcademicStartYearFromDate: function (date) {
+			return date.getMonth() < 9 ? date.getFullYear() - 1 : date.getFullYear()
 		}
 	});
 
