@@ -43,7 +43,12 @@ define([
 		 * eventData property
 		 */
 		render: function () {
-			this.$(".js-course-title").text(this.eventData.title || "");
+			this.$(".js-course-title").text(this.eventData.title || "")
+				.removeClass()
+				.addClass("js-course-title")
+				.addClass(typeof this.eventData.type !== "undefined" ?
+						"event-type-" + this.eventData.type
+						: "");
 			this.$(".js-course-date-pattern").text(
 				this.eventData.datePattern || ""
 			);
@@ -61,7 +66,8 @@ define([
 				datePattern: _.getFullDayFromDate(calEvent._start) + " "
 					+ _.getTwelveHourTimeFromDate(calEvent._start),
 				location: calEvent.location,
-				lecturers: calEvent.lecturer.toString()
+				lecturers: calEvent.lecturer.toString(),
+				type: calEvent.type
 			};
 		},
 
