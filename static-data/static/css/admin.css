@@ -118,6 +118,18 @@ div:focus {
 }
 
 /*
+ * List page date time dialog
+ */
+
+.date-time-form-row {
+	margin-bottom: 15px;
+}
+.date-time-form-row > label:first-child {
+	min-width: 40px;
+	text-align: right;
+}
+
+/*
  * List page modules
  */
 
@@ -626,36 +638,3 @@ div:focus {
 .datePatternDialog .popover-content {
 	padding: 20px;
 }
-
-.datePatternDialog .popover-content > ul {
-	padding: 5px 0;
-}
-
-.datePatternDialog .popover-content > div {
-	margin-bottom: 10px;
-}
-
-.datePatternDialog .popover-content > div > label {
-	line-height: 2em;
-}
-
-.datePatternDialog .popover-content > div > label:first-child {
-	min-width: 35px;
-	text-align: right;
-}
-
-.datePatternDialog .popover-content > div > * {
-	float: left;
-	margin-right: 15px;
-}
-
-.datePatternDialog .popover-content > div > *:last-child {
-	margin-right: 0;
-}
-
-.datePatternDialog input[type="number"] {
-	width: 40px;
-}
-
-
-

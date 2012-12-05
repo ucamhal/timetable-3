@@ -22,76 +22,61 @@
       <h3 class="pull-left">When does this event take place?</h3>
       <a href="#" class="close js-close-btn" tabIndex="-1">&times;</a>
     </div>
-    <div class="popover-content">
-      {{ event_form.term_week.errors }}
-      {{ event_form.term_name.errors }}
-      <div class="clearfix">
-        <label for="id_{{ event_form.term_week.html_name }}">Week</label>
+    <div class="popover-content form-inline">
+      <div class="date-time-form-row">
+        <label for="date-time-week">Week</label>
+        <input type="number" name="date-time-week" id="date-time-week"
+           value="1"
+           class="js-week input-mini eventDateTimeWeek"/>
+
+        <label for="date-time-term">in</label>
+        <select id="date-time-term" name="date-time-term">
+          <option name="michaelmas">Michaelmas</option>
+          <option name="lent">Lent</option>
+          <option name="easter">Easter</option>
+        </select>
+      </div>
+      <div class="date-time-form-row">
+        <label for="date-time-days">on</label>
+        <select id="date-time-days" name="date-time-days">
+          <option name="thu">Thursday</option>
+          <option name="fri">Friday</option>
+          <option name="sat">Satarday</option>
+          <option name="sun">Sunday</option>
+          <option name="mon">Monday</option>
+          <option name="tue">Tuesday</option>
+          <option name="wed">Wednesday</option>
+        </select>
+      </div>
+
+      <div class="date-time-form-row">
+        <label for="date-time-from-hour">From</label>
         <input type="number"
-           data-initial="{{ event_form.initial.term_week }}"
-           name="{{ event_form.term_week.html_name }}"
-           id="id_{{ event_form.term_week.html_name }}"
-           value="{{ event_form.term_week.value }}"
-           class="js-week input-mini eventDateTimeWeek{% if event_form.term_week.errors %} error{% endif %}"/>
+            value="09"
+            class="input-mini hours"
+            name="date-time-from-hour"
+            id="date-time-from-hour"
+            min="-1" max="24">
+        <input type="number"
+              value="00"
+              class="input-mini minutes"
+              name="date-time-from-minute"
+              id="date-time-from-minute"
+              min="-15" max="60" step="15">
 
-        <label for="id_{{ event_form.term_name.html_name }}">in</label>
-        {{ event_form.term_name }}
-      </div>
-      {{ event_form.day_of_week.errors }}
-      <div class="clearfix">
-        <label for="id_{{ event_form.day_of_week.html_name }}">on</label>
-        {{ event_form.day_of_week }}
-      </div>
-
-      {{ event_form.start_hour.errors }}
-      {{ event_form.start_minute.errors }}
-      {{ event_form.end_hour.errors }}
-      {{ event_form.end_minute.errors }}
-
-      <div class="clearfix">
-        <label for="id_{{ event_form.start_hour.html_name }}">From</label>
-        <ul class="clearfix eventDateTimeFromFields">
-          <li class="pull-left">
-            <input type="number"
-                data-initial="{{ event_form.initial.start_hour|add:"0"|stringformat:".2d" }}"
-                value="{{ event_form.start_hour.value|add:"0"|stringformat:".2d" }}"
-                class="input-mini hours{% if event_form.start_hour.errors %} error{% endif %}"
-                name="{{ event_form.start_hour.html_name }}"
-                id="id_{{ event_form.start_hour.html_name }}"
-                min="-1" max="24">
-          </li>
-          <li class="pull-left">
-            <input type="number"
-                data-initial="{{ event_form.initial.start_minute|add:"0"|stringformat:".2d" }}"
-                value="{{ event_form.start_minute.value|add:"0"|stringformat:".2d" }}"
-                class="input-mini minutes{% if event_form.start_minute.errors %} error{% endif %}"
-                name="{{ event_form.start_minute.html_name }}"
-                id="id_{{ event_form.start_minute.html_name }}"
-                min="-15" max="60" step="15">
-          </li>
-        </ul>
-
-        <label for="id_{{ event_form.end_hour.html_name }}">To</label>
-        <ul class="clearfix eventDateTimeToFields">
-          <li class="pull-left">
-            <input type="number"
-                data-initial="{{ event_form.initial.end_hour|add:"0"|stringformat:".2d" }}"
-                value="{{ event_form.end_hour.value|add:"0"|stringformat:".2d" }}"
-                class="input-mini hours{% if event_form.end_hour.errors %} error{% endif %}"
-                name="{{ event_form.end_hour.html_name }}"
-                id="id_{{ event_form.end_hour.html_name }}"
-                min="-1" max="24">
-          </li>
-          <li class="pull-left">
-            <input type="number"
-                data-initial="{{ event_form.initial.end_minute|add:"0"|stringformat:".2d" }}"
-                value="{{ event_form.end_minute.value|add:"0"|stringformat:".2d" }}"
-                class="js-end-minute input-mini minutes{% if event_form.end_minute.errors %} error{% endif %}"
-                name="{{ event_form.end_minute.html_name }}"
-                id="id_{{ event_form.end_minute.html_name }}"
-                min="-15" max="60" step="15">
-          </li>
-        </ul>
+        <label for="date-time-to-hour">To</label>
+        <input type="number"
+            value="10"
+            class="input-mini hours"
+            name="date-time-to-hour"
+            id="date-time-to-hour"
+            min="-1" max="24">
+        <input type="number"
+            value="00"
+            class="js-end-minute input-mini minutes"
+            name="date-time-to-minute"
+            id="date-time-to-minute"
+            min="-15" max="60" step="15">
       </div>
     </div>
   </div>
