@@ -6,8 +6,113 @@ define([
 ], function ($, _, Backbone) {
 	"use strict";
 
-	var FullCalendarView = Backbone.View.extend({
+	var CalendarEventPopup = Backbone.View.extend({
+
+		events: {
+			"click .js-close" : "onClose"
+		},
+
+		positionMutators: {
+			leftOffset: 10,
+			topOffset: 0,
+			contentWidth: 960
+		},
+
 		initialize: function (opts) {
+			this.positionMutators.leftOffset = opts.leftOffset || this.positionMutators.leftOffset;
+			this.positionMutators.topOffset = opts.topOffset || this.positionMutators.topOffset;
+			this.positionMutators.contentWidth = opts.contentWidth || this.positionMutators.contentWidth;
+
+			this.$el.appendTo("body");
+		},
+
+		/**
+		 * Event handler when a close button has been clicked. Hides the popup element.
+		 */
+		onClose: function (event) {
+			this.hide();
+			event.preventDefault();
+		},
+
+		/**
+		 * Updates the element markup to display the current values in the eventData property
+		 */
+		render: function () {
+			this.$(".js-course-title").text(this.eventData.title || "");
+			this.$(".js-course-date-pattern").text(this.eventData.datePattern || "");
+			this.$(".js-course-location").text(this.eventData.location || "");
+			this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
+		},
+
+		/**
+		 * Updates the eventData property from a fullCalendar CalEvent
+		 * @param {object} calEvent The fullCalendar calEvent object.
+		 */
+		setEventDataFromCalEvent: function (calEvent) {
+			this.eventData = {
+				title: calEvent.title,
+				datePattern: _.getFullDayFromDate(calEvent._start) + " " + _.getTwelveHourTimeFromDate(calEvent._start),
+				location: calEvent.location,
+				lecturers: calEvent.lecturer.toString()
+			}
+		},
+
+		/**
+		 * This updates the position of the popup element
+		 */
+		updatePosition: function () {
+			if (typeof this.$context !== "undefined") {
+				var position = {
+						top: this.$context.offset().top - (this.$el.outerHeight() / 2 - this.$context.outerHeight() / 2) + this.positionMutators.topOffset,
+						left: this.$context.offset().left + this.$context.outerWidth() + this.positionMutators.leftOffset
+					},
+					contentBoundary = this.positionMutators.contentWidth + Math.max(($(window).width() - this.positionMutators.contentWidth) / 2, 0),
+					isOutsideBoundary = position.left + this.$el.outerWidth() >= contentBoundary;
+
+				if (isOutsideBoundary === true) {
+					position.left = (this.$context.offset().left - this.$el.outerWidth()) - this.positionMutators.leftOffset
+				}
+
+				this.$el.toggleClass("js-positioned-left", isOutsideBoundary);
+				this.$el.css(position);
+			}
+		},
+
+		/**
+		 * Function that makes the popup element visible
+		 * @param {object} $context The element the popup need to be relatively positioned to
+		 * @param {boolean} animated Set to true of popup has to be made visible using an animation (fade). Defaults to false.
+		 * @param {number} duration The duration of the animation in milliseconds. Defaults to 200ms.
+		 */
+		show: function ($context, animated, duration) {
+			this.$context = $context;
+			this.updatePosition();
+
+			animated = animated === true ? true : false;
+			duration = duration || 200;
+
+			animated === true ? this.$el.fadeIn(duration) : this.$el.show();
+		},
+
+		/**
+		 * Function that hides the popup element
+		 * @param {boolean} animated Set to true of popup has to be hidden using an animation (fade). Defaults to false.
+		 * @param {number} duration The duration of the animation in milliseconds. Defaults to 200ms.
+		 */
+		hide: function (animated, duration) {
+			animated = animated === true ? true : false;
+			duration = duration || 200;
+
+			animated === true ? this.$el.fadeOut(duration) : this.$el.hide();
+			this.$context = undefined;
+		}
+	});
+
+	var FullCalendarView = Backbone.View.extend({
+
+		initialize: function (opts) {
+			var self = this;
+
 			this.$el.fullCalendar({
 				defaultView: this.options.defaultView || "month",
 				events: this.options.eventsFeed,
@@ -18,21 +123,44 @@ define([
 				firstDay: this.options.firstDay || 1,
 				columnFormat: {
 					week: "ddd dd/M"
+				},
+				eventClick: function (calEvent, jsEvent, view) {
+					self.$el.trigger("eventClick", [calEvent, jsEvent, view, this]);
 				}
 			});
-
-			this.goToDate();
 		},
 
 		events: {
 			"eventClick": "onEventClick"
 		},
 
+		eventPopup: new CalendarEventPopup({
+			el: ".js-calendar-popup"
+		}),
+
 		/**
 		 * Eventhandler that is triggered when an event on the calendar has been clicked
 		 */
-		onEventClick: function () {
-			console.log("event has been clicked");
+		onEventClick: function (event, calEvent, jsEvent, view, target) {
+			this.resetZIndexForAllEvents();
+			$(target).css("zIndex", 9);
+			this.eventPopup.setEventDataFromCalEvent(calEvent);
+			this.eventPopup.render();
+			this.eventPopup.show($(target));
+		},
+
+		/**
+		 * Resets the z-index css property for each event to 8 (fullCalendar default)
+		 */
+		resetZIndexForAllEvents: function () {
+			this.$(".fc-event").css("zIndex", 8);
+		},
+
+		/**
+		 * Hides the event popup and clears its context
+		 */
+		resetEventPopup: function () {
+			this.eventPopup.hide();
 		},
 
 		/**
@@ -48,6 +176,7 @@ define([
 		 * @param {string} view The view that has to be activated.
 		 */
 		setView: function (view) {
+			this.resetEventPopup();
 			this.$el.fullCalendar("changeView", view);
 		},
 
@@ -64,8 +193,8 @@ define([
 		 * @param {object} date The date the calendar has to move to.
 		 */
 		goToDate: function (date) {
+			this.resetEventPopup();
 			this.$el.fullCalendar("gotoDate", date);
-			return this.getActiveDate();
 		}
 	});
 

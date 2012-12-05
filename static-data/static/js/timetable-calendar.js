@@ -691,5 +691,9 @@ define(["jquery", "underscore", "view/admin/calendar", "bootstrap", "fullcalenda
 		weekSpinner.render();
 	});
 
+	$(window).resize(function () {
+		calendar.eventPopup.updatePosition();
+	});
+
     return undefined;
 });

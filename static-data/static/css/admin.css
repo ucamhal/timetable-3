@@ -607,6 +607,18 @@ div:focus {
 	margin: 0;
 }
 
+.calendarEventInfo .actions {
+	margin-top: 18px;
+}
+
+.calendarEventInfo .actions a {
+	margin-top: 5px;
+	display: block;
+}
+
+.calendarEventInfo .actions a.btn {
+	margin: 0;
+}
 
 
 
