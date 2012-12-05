@@ -589,5 +589,24 @@ div:focus {
 	width: 40px;
 }
 
+#calendarHeading {
+	margin-bottom: 15px;
+}
+
+#calendarHeading h4 {
+	line-height: 1em;
+	padding: 2px 15px;
+	margin: 0;
+}
+
+#calendarHeading .calendarNavigation {
+	margin-left: 230px;
+}
+
+#calendarHeading .calendarNavigation:last-child {
+	margin: 0;
+}
+
+
 
 
