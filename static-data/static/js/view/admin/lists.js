@@ -207,6 +207,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$type = this.$(".js-field-type");
 			this.$people = this.$(".js-field-people");
 			this.$week = this.$(".js-field-week");
+			this.$term = this.$(".js-field-term");
 			this.$day = this.$(".js-field-day");
 			this.$startHour = this.$(".js-field-start-hour");
 			this.$startMinute = this.$(".js-field-start-minute");
@@ -218,6 +219,20 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.updateModel();
 			// Tell the model that it's current state is the initial one
 			this.model.storeInitialState();
+
+			this.model.on("change", this.render);
+		},
+
+		render: function() {
+			// We only need to update the date/time fields, the rest are kept
+			// automatically as they're contenteditable=true
+			this.$week.text(this.model.get("week"));
+			this.$term.text(this.model.getPrettyTerm());
+			this.$day.text(this.model.getPrettyDay());
+			this.$startHour.text(this.model.get("startHour"));
+			this.$startMinute.text(this.model.get("startMinute"));
+			this.$endHour.text(this.model.get("endHour"));
+			this.$endMinute.text(this.model.get("endMinute"));
 		},
 
 		updateModel: function() {
@@ -228,6 +243,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 				type: this.$type.text(),
 				people: this.$people.text(),
 				week: this.$week.text(),
+				term: this.$term.text(),
 				day: this.$day.text(),
 				startHour: this.$startHour.text(),
 				startMinute: this.$startMinute.text(),
@@ -247,7 +263,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$el.removeClass("being-edited");
 
 			// Mark the event as changed if it's been modified
-			this.markAsChanged(this.model.hasChangedFromOrigional());
+			this.markAsChanged(this.model.hasChangedFromOriginal());
 		},
 
 		markAsChanged: function(isChanged) {
@@ -302,11 +318,13 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			else {
 				console.log("opening dialog", event);
 				this.dateTimeDialog = new DateTimeDialogView({
-					el: $(".js-date-time-dialog").clone()
+					el: $(".js-date-time-dialog").clone(),
+					model: this.model
 				});
 				// dialog:close is fired by the dialog when a click is made
 				// outside its area, or the close icon is clicked.
-				this.dateTimeDialog.on("dialog:close", this.closeDateTimeDialog);
+				this.dateTimeDialog.on(
+					"dialog:close", this.closeDateTimeDialog);
 
 				this.$(".js-date-time-cell .js-dialog-holder")
 					.append(this.dateTimeDialog.$el);
@@ -343,12 +361,33 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		},
 
 		initialize: function() {
+
 			this.hasInitialState = false;
 		},
 
+		titleCase: function(str) {
+			if(str.length > 0)
+				return str[0].toUpperCase() + str.slice(1);
+			return str;
+		},
+
+		getPrettyTerm: function() {
+			var term = this.get("term");
+			if(term)
+				return this.titleCase(term);
+			return term;
+		},
+
+		getPrettyDay: function() {
+			var day = this.get("day");
+			if(day)
+				return this.titleCase(day);
+			return day;
+		},
+
 		/**
-		 * Mark the event's current state as being the origional. After calling
-		 * this, hasChangedFromOrigional() may be called.
+		 * Mark the event's current state as being the original. After calling
+		 * this, hasChangedFromOriginal() may be called.
 		 */
 		storeInitialState: function() {
 			if(!this.hasInitialState === false) {
@@ -356,18 +395,36 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			}
 
 			this.hasInitialState = true;
-			this.origionalAttributes = this.toJSON();
+			this.originalAttributes = this.toJSON();
+		},
+
+		validate: function(attrs) {
+			return;
+
+			var errors = {};
+
+			if(!attrs.title || attrs.title.trim() == "")
+				errors.title = ["This field is required."];
+
+			if(!attrs.type || attrs.type == "")
+				errors.type = ["This field is required."];
+
+			if(!attrs.location || attrs.location.trim() == "")
+				errors.location = ["This field is required."];
+
+			if(!attrs.people || attrs.people.trim() == "")
+				errors.people = ["This field is required."];
 		},
 
 		/** 
 		 * Returns true if the current attribute values differ from the initial
 		 * values.
 		 */
-		hasChangedFromOrigional: function() {
+		hasChangedFromOriginal: function() {
 			if(!this.hasInitialState === true) {
 				throw new Error("No initial state set.");
 			}
-			return !_.isEqual(this.origionalAttributes, this.toJSON());
+			return !_.isEqual(this.originalAttributes, this.toJSON());
 		},
 	});
 
@@ -378,7 +435,9 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		events: function() {
 			return {
-				"click .js-close-btn": this.requestDialogClose
+				"click .js-close-btn": this.requestDialogClose,
+				"change input": this.onFieldUpdated,
+				"change select": this.onFieldUpdated,
 			};
 		},
 
@@ -389,12 +448,104 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.backdrop.$el.addClass("dialog-backdrop-date-time");
 			$("body").append(this.backdrop.el);
 			this.backdrop.on("clicked", this.requestDialogClose);
+
+			this.$week = this.$("#date-time-week");
+			this.$term = this.$("#date-time-term");
+			this.$day = this.$("#date-time-day");
+			this.$startHour = this.$("#date-time-start-hour");
+			this.$startMinute = this.$("#date-time-start-minute");
+			this.$endHour = this.$("#date-time-end-hour");
+			this.$endMinute = this.$("#date-time-end-minute");
+
+			// Initialise the inputs
+			this.render();
 		},
 
+		/** Update the state of hte DOM with the model's state. */
+		render: function() {
+			this.$week.val(this.model.get("week"));
+			this.$term.val(this.model.get("term"));
+			this.$day.val(this.model.get("day"));
+			this.$startHour.val(this.model.get("startHour"));
+			this.$startMinute.val(this.model.get("startMinute"));
+			this.$endHour.val(this.model.get("endHour"));
+			this.$endMinute.val(this.model.get("endMinute"));
+		},
+
+		follow: function follow(start, finish, updated, isStart) {
+			if(isStart) {
+				if(updated > start)
+					return [updated, finish + (updated - start)];
+				return [updated, finish];
+			}
+			else {
+				if(updated < finish)
+					return [start + (updated - finish), updated];
+				return [start, updated];
+			}
+		},
+
+		onFieldUpdated: function(event) {
+			var $target = $(event.target);
+
+			// Has a time changed?
+			if($target.parents(".date-time-form-row").length > 0) {
+
+				var isStart = $target.hasClass("js-start");
+				var isHour = $target.hasClass("js-hour");
+
+				// Prevent invalid numbers creaping in
+				var num = Number($target.val());
+				if(isNaN(num)) {
+					var attr = (isStart? "start" : "end")
+						+ (isHour ? "Hour" : "Minute");
+					num = this.model.get(attr);
+					$target.val(num);
+				}
+				
+				// FIXME: we should do this on total minutes rather than
+				// individually...
+				if(isHour) {
+					var start = Number(this.model.get("startHour"));
+					var end = Number(this.model.get("endHour"));
+					var updated = Number($target.val());
+					var hours = this.follow(start, end, updated, isStart);
+
+					this.$startHour.val(Math.max(0, Math.min(24, hours[0])));
+					this.$endHour.val(Math.max(0, Math.min(24, hours[1])));
+				}
+				else {
+					var start = Number(this.model.get("startMinute"));
+					var end = Number(this.model.get("endMinute"));
+					var updated = Number($target.val());
+					var minutes = this.follow(start, end, updated, isStart);
+
+					this.$startMinute.val(Math.max(0, Math.min(59, minutes[0])));
+					this.$endMinute.val(Math.max(0, Math.min(59, minutes[1])));
+				}
+			}
+			this.syncToModel();
+		},
+
+		/** Update the state of the model with the DOM's state. */
+		syncToModel: function() {
+			this.model.set({
+				week: this.$week.val(),
+				term: this.$term.val(),
+				day: this.$day.val(),
+				startHour: this.$startHour.val(),
+				startMinute: this.$startMinute.val(),
+				endHour: this.$endHour.val(),
+				endMinute: this.$endMinute.val()
+			});
+		},
+
+		/** Focus the first form element. */
 		focusStart: function() {
 			this.$(".js-week").focus();
 		},
 
+		/** Focus the last form element. */
 		focusEnd: function() {
 			this.$(".js-end-minute").focus();
 		},

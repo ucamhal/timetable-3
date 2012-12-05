@@ -24,59 +24,75 @@
     </div>
     <div class="popover-content form-inline">
       <div class="date-time-form-row">
-        <label for="date-time-week">Week</label>
-        <input type="number" name="date-time-week" id="date-time-week"
-           value="1"
-           class="js-week input-mini eventDateTimeWeek"/>
+        <span class="control-group">
+          <label class="first-label" for="date-time-week">Week</label>
+          <input type="text" name="date-time-week" id="date-time-week"
+             value="1"
+             class="js-week input-mini eventDateTimeWeek"/>
+        </span>
 
-        <label for="date-time-term">in</label>
-        <select id="date-time-term" name="date-time-term">
-          <option name="michaelmas">Michaelmas</option>
-          <option name="lent">Lent</option>
-          <option name="easter">Easter</option>
-        </select>
+        <span class="control-group">
+          <label for="date-time-term">in</label>
+          <select id="date-time-term" name="date-time-term">
+            <option value="michaelmas">Michaelmas</option>
+            <option value="lent">Lent</option>
+            <option value="easter">Easter</option>
+          </select>
+        </span>
       </div>
       <div class="date-time-form-row">
-        <label for="date-time-days">on</label>
-        <select id="date-time-days" name="date-time-days">
-          <option name="thu">Thursday</option>
-          <option name="fri">Friday</option>
-          <option name="sat">Satarday</option>
-          <option name="sun">Sunday</option>
-          <option name="mon">Monday</option>
-          <option name="tue">Tuesday</option>
-          <option name="wed">Wednesday</option>
-        </select>
+        <span class="control-group">
+          <label class="first-label" for="date-time-day">on</label>
+          <select id="date-time-day" name="date-time-day">
+            <option value="thu">Thursday</option>
+            <option value="fri">Friday</option>
+            <option value="sat">Satarday</option>
+            <option value="sun">Sunday</option>
+            <option value="mon">Monday</option>
+            <option value="tue">Tuesday</option>
+            <option value="wed">Wednesday</option>
+          </select>
+        </span>
       </div>
 
       <div class="date-time-form-row">
-        <label for="date-time-from-hour">From</label>
-        <input type="number"
-            value="09"
-            class="input-mini hours"
-            name="date-time-from-hour"
-            id="date-time-from-hour"
-            min="-1" max="24">
-        <input type="number"
+        <span class="control-group">
+          <label class="first-label" for="date-time-start-hour">From</label>
+          <input type="text"
+              value="09"
+              class="js-hour js-start input-mini hours"
+              name="date-time-start-hour"
+              id="date-time-start-hour"
+              min="-1" max="24">
+        </span>
+
+        <span class="control-group">
+          <input type="text"
+                value="00"
+                class="js-minute js-start input-mini minutes"
+                name="date-time-start-minute"
+                id="date-time-start-minute"
+                min="-15" max="60" step="15">
+        </span>
+
+        <span class="control-group">
+          <label for="date-time-end-hour">To</label>
+          <input type="text"
+              value="10"
+              class="js-hour js-end input-mini hours"
+              name="date-time-end-hour"
+              id="date-time-end-hour"
+              min="-1" max="24">
+        </span>
+
+        <span class="control-group">
+          <input type="text"
               value="00"
-              class="input-mini minutes"
-              name="date-time-from-minute"
-              id="date-time-from-minute"
+              class="js-minute js-end input-mini minutes"
+              name="date-time-end-minute"
+              id="date-time-end-minute"
               min="-15" max="60" step="15">
-
-        <label for="date-time-to-hour">To</label>
-        <input type="number"
-            value="10"
-            class="input-mini hours"
-            name="date-time-to-hour"
-            id="date-time-to-hour"
-            min="-1" max="24">
-        <input type="number"
-            value="00"
-            class="js-end-minute input-mini minutes"
-            name="date-time-to-minute"
-            id="date-time-to-minute"
-            min="-15" max="60" step="15">
+        </span>
       </div>
     </div>
   </div>

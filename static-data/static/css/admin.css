@@ -124,7 +124,7 @@ div:focus {
 .date-time-form-row {
 	margin-bottom: 15px;
 }
-.date-time-form-row > label:first-child {
+.date-time-form-row .first-label {
 	min-width: 40px;
 	text-align: right;
 }
@@ -148,13 +148,13 @@ div:focus {
 
 /* A modal dialog element. */
 .dialog {
-	z-index: 1050;
+	z-index: 950;
 	position: absolute;
 }
 
 /* An element which covers the entire window behind a dialog. */
 .dialog-backdrop {
-	z-index: 1040;
+	z-index: 900;
 	background-color: black;
 	position: fixed;
 	top: 0;
@@ -210,10 +210,6 @@ div:focus {
 .events .editEnabled.active .eventDateTime,
 .events .editEnabled.active .eventLecturers {
 	background-color: #f5e7d0;
-}
-
-.events td {
-	cursor: pointer;
 }
 
 .events td > .icon-pencil {
