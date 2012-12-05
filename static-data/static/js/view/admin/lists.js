@@ -436,8 +436,9 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		events: function() {
 			return {
 				"click .js-close-btn": this.requestDialogClose,
-				"change input": this.onFieldUpdated,
-				"change select": this.onFieldUpdated,
+				"change #date-time-week": this.onWeekChanged,
+				"change select": this.syncToModel,
+				"change .js-hour, .js-minute": this.onTimeInputChanged,
 			};
 		},
 
@@ -472,58 +473,98 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$endMinute.val(this.model.get("endMinute"));
 		},
 
-		follow: function follow(start, finish, updated, isStart) {
-			if(isStart) {
-				if(updated > start)
-					return [updated, finish + (updated - start)];
-				return [updated, finish];
-			}
-			else {
-				if(updated < finish)
-					return [start + (updated - finish), updated];
-				return [start, updated];
-			}
+		minutesFromTime: function(hours, minutes) {
+			return (hours * 60) + minutes;
 		},
 
-		onFieldUpdated: function(event) {
+		timeFromMinutes: function(minutes) {
+			return [Math.floor(minutes / 60), minutes % 60];
+		},
+
+		/**
+		 * Clamp a minute figure to a 24 hour period. Note that 0:00-24:00
+		 * inclusive is permitted to allow times like 23:00-24:00.
+		 */
+		clampTime: function(minutes) {
+			return Math.max(0, Math.min(this.minutesFromTime(24, 0), minutes));
+		},
+
+		/**
+		 * Convert number into a string, padding it to be minWidth wide by
+		 * prefixing it with zeros.
+		 */
+		zeroPad: function(number, minWidth) {
+			minWidth = minWidth || 2;
+			var width;
+			if(number == 0)
+				width = 1;
+			else
+				width = Math.floor(Math.log(Math.abs(number)) / Math.LN10) + 1;
+
+			return (number < 0 ? "-" : "")
+					+ new Array(Math.max(0, minWidth - width) + 1).join("0")
+					+ Math.abs(number);
+		},
+
+		onWeekChanged: function() {
+			// Reset week to the last good value if it's not an int
+			if(isNaN(parseInt(this.$week.val())))
+				this.$week.val(this.model.get("week"));
+
+			this.syncToModel();
+		},
+
+		onTimeInputChanged: function(event) {
 			var $target = $(event.target);
 
-			// Has a time changed?
-			if($target.parents(".date-time-form-row").length > 0) {
+			var isStart = $target.hasClass("js-start");
+			var isHour = $target.hasClass("js-hour");
 
-				var isStart = $target.hasClass("js-start");
-				var isHour = $target.hasClass("js-hour");
+			// Prevent invalid numbers creaping in
+			if(isNaN(parseInt($target.val()))) {
+				var attr = (isStart? "start" : "end")
+					+ (isHour ? "Hour" : "Minute");
 
-				// Prevent invalid numbers creaping in
-				var num = Number($target.val());
-				if(isNaN(num)) {
-					var attr = (isStart? "start" : "end")
-						+ (isHour ? "Hour" : "Minute");
-					num = this.model.get(attr);
-					$target.val(num);
-				}
-				
-				// FIXME: we should do this on total minutes rather than
-				// individually...
-				if(isHour) {
-					var start = Number(this.model.get("startHour"));
-					var end = Number(this.model.get("endHour"));
-					var updated = Number($target.val());
-					var hours = this.follow(start, end, updated, isStart);
+				$target.val(this.model.get(attr));
+			}
+			
+			var from = this.minutesFromTime(
+					parseInt(this.$startHour.val()),
+					parseInt(this.$startMinute.val()));
 
-					this.$startHour.val(Math.max(0, Math.min(24, hours[0])));
-					this.$endHour.val(Math.max(0, Math.min(24, hours[1])));
-				}
-				else {
-					var start = Number(this.model.get("startMinute"));
-					var end = Number(this.model.get("endMinute"));
-					var updated = Number($target.val());
-					var minutes = this.follow(start, end, updated, isStart);
+			var oldFrom = this.minutesFromTime(
+					parseInt(this.model.get("startHour")),
+					parseInt(this.model.get("startMinute")));
 
-					this.$startMinute.val(Math.max(0, Math.min(59, minutes[0])));
-					this.$endMinute.val(Math.max(0, Math.min(59, minutes[1])));
+			var to = this.minutesFromTime(
+					parseInt(this.$endHour.val()),
+					parseInt(this.$endMinute.val()));
+
+			// Make to move with from when from changes
+			// (+= 0 when to changed)
+			to += from - oldFrom;
+
+			// Don't allow values outside the range of valid times
+			from = this.clampTime(from);
+			to = this.clampTime(to);
+
+			// Prevent end being <= start
+			if(to <= from) {
+				from = to - 1;
+				if(from < 0) {
+					from = 0;
+					to = 1;
 				}
 			}
+
+			var fromTime = this.timeFromMinutes(from);
+			var toTime = this.timeFromMinutes(to);
+
+			this.$startHour.val(this.zeroPad(fromTime[0], 2));
+			this.$startMinute.val(this.zeroPad(fromTime[1], 2));
+			this.$endHour.val(this.zeroPad(toTime[0], 2));
+			this.$endMinute.val(this.zeroPad(toTime[1], 0));
+
 			this.syncToModel();
 		},
 
@@ -547,7 +588,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		/** Focus the last form element. */
 		focusEnd: function() {
-			this.$(".js-end-minute").focus();
+			this.$(".js-minute.js-end").focus();
 		},
 
 		remove: function() {
@@ -614,12 +655,6 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			$(".error").show();
 		}
 	});
-
-	function bindContentEditableChangeTrigger(targetEl) {
-		_.each($("[contenteditable!=false]", targetEl), function(editableEl) {
-
-		});
-	}
 
 	return {
 		ModuleView: ModuleView,
