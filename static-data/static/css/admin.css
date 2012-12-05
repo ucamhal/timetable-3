@@ -118,6 +118,14 @@ div:focus {
 }
 
 /*
+ * List page modules
+ */
+
+.module-content.shown {
+	overflow: visible;
+}
+
+/*
  * List page events
  */
 
@@ -169,7 +177,11 @@ div:focus {
 }
 
 .dialog-backdrop-date-time {
-	opacity: 0.1;
+	opacity: 0.1;	
+}
+
+.events.shown {
+	overflow: visible;
 }
 
 .events .editEnabled .eventTitle,

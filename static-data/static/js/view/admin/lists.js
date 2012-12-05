@@ -13,8 +13,9 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		events: function() {
 			return {
-				"show .js-module-content": "onExpand",
-				"hide .js-module-content": "onCollapse",
+				"show .js-module-content": this.onExpand,
+				"hide .js-module-content": this.onCollapse,
+				"shown .js-module-content": this.onShown
 			};
 		},
 
@@ -32,6 +33,11 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
+			this.$(".js-module-content").removeClass("shown");
+		},
+
+		onShown: function() {
+			this.$(".js-module-content").addClass("shown");
 		}
 	});
 	
@@ -42,8 +48,9 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		events: function() {
 			return {
-				"show .js-events": "onExpand",
-				"hide .js-events": "onCollapse",
+				"show .js-events": this.onExpand,
+				"shown .js-events": this.onShown,
+				"hide .js-events": this.onCollapse,
 			};
 		},
 
@@ -122,6 +129,11 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
+			this.$(".js-events").removeClass("shown");
+		},
+
+		onShown: function() {
+			this.$(".js-events").addClass("shown");
 		}
 	});
 
