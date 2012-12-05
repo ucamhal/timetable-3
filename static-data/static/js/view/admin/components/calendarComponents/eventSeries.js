@@ -151,7 +151,6 @@ define([
 			var self = this,
 				data = $("> form", this.$el).serialize();
 
-			this.toggleOpenChangesState(false);
 			this.setSavingState(true);
 			
 			$.ajax({
@@ -160,6 +159,7 @@ define([
 				data: data,
 				success: function (data) {
 					self.setSavingState(false);
+					self.toggleOpenChangesState(false);
 					$(".events", self.$el).empty().append($(".events", $(data)).html());
 					self.events = [];
 					self.buildEvents(true);
