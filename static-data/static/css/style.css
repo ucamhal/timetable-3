@@ -877,7 +877,9 @@ div#timetablesOverview ul li.createNewTimetable {
 	border-style: dashed;
 }
 
-div#timetablesOverview ul li:hover a {
+div#timetablesOverview ul li:hover a,
+div#timetablesOverview ul li a:active,
+div#timetablesOverview ul li a:focus {
 	text-decoration: underline;
 }
 
