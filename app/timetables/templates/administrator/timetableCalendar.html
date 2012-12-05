@@ -47,7 +47,7 @@
   <span class="js-course-lecturer">Dr R. Harle</span>
   <ul class="clearfix actions">
     <li class="pull-left"><a href="#" class="js-close">Close</a></li>
-    {% if hasPermissions %}
+    {% if may_edit %}
       <li class="pull-right"><a href="#" class="btn js-edit">View in edit mode</a></li>
     {% else %}
       <li class="pull-right"><a href="#" class="js-edit">See in list view</a></li>

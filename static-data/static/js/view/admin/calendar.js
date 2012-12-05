@@ -19,15 +19,19 @@ define([
 		},
 
 		initialize: function (opts) {
-			this.positionMutators.leftOffset = opts.leftOffset || this.positionMutators.leftOffset;
-			this.positionMutators.topOffset = opts.topOffset || this.positionMutators.topOffset;
-			this.positionMutators.contentWidth = opts.contentWidth || this.positionMutators.contentWidth;
+			this.positionMutators.leftOffset = opts.leftOffset ||
+				this.positionMutators.leftOffset;
+			this.positionMutators.topOffset = opts.topOffset ||
+				this.positionMutators.topOffset;
+			this.positionMutators.contentWidth = opts.contentWidth ||
+				this.positionMutators.contentWidth;
 
 			this.$el.appendTo("body");
 		},
 
 		/**
-		 * Event handler when a close button has been clicked. Hides the popup element.
+		 * Event handler when a close button has been clicked. Hides the popup 
+		 * element.
 		 */
 		onClose: function (event) {
 			this.hide();
@@ -35,11 +39,14 @@ define([
 		},
 
 		/**
-		 * Updates the element markup to display the current values in the eventData property
+		 * Updates the element markup to display the current values in the 
+		 * eventData property
 		 */
 		render: function () {
 			this.$(".js-course-title").text(this.eventData.title || "");
-			this.$(".js-course-date-pattern").text(this.eventData.datePattern || "");
+			this.$(".js-course-date-pattern").text(
+				this.eventData.datePattern || ""
+			);
 			this.$(".js-course-location").text(this.eventData.location || "");
 			this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
 		},
@@ -51,10 +58,11 @@ define([
 		setEventDataFromCalEvent: function (calEvent) {
 			this.eventData = {
 				title: calEvent.title,
-				datePattern: _.getFullDayFromDate(calEvent._start) + " " + _.getTwelveHourTimeFromDate(calEvent._start),
+				datePattern: _.getFullDayFromDate(calEvent._start) + " "
+					+ _.getTwelveHourTimeFromDate(calEvent._start),
 				location: calEvent.location,
 				lecturers: calEvent.lecturer.toString()
-			}
+			};
 		},
 
 		/**
@@ -63,14 +71,24 @@ define([
 		updatePosition: function () {
 			if (typeof this.$context !== "undefined") {
 				var position = {
-						top: this.$context.offset().top - (this.$el.outerHeight() / 2 - this.$context.outerHeight() / 2) + this.positionMutators.topOffset,
-						left: this.$context.offset().left + this.$context.outerWidth() + this.positionMutators.leftOffset
+						top: this.$context.offset().top
+							- (this.$el.outerHeight() / 2
+							- this.$context.outerHeight() / 2)
+							+ this.positionMutators.topOffset,
+						left: this.$context.offset().left
+							+ this.$context.outerWidth()
+							+ this.positionMutators.leftOffset
 					},
-					contentBoundary = this.positionMutators.contentWidth + Math.max(($(window).width() - this.positionMutators.contentWidth) / 2, 0),
-					isOutsideBoundary = position.left + this.$el.outerWidth() >= contentBoundary;
+					contentBoundary = this.positionMutators.contentWidth
+						+ Math.max(($(window).width()
+						- this.positionMutators.contentWidth) / 2, 0),
+					isOutsideBoundary = position.left + this.$el.outerWidth()
+						>= contentBoundary;
 
 				if (isOutsideBoundary === true) {
-					position.left = (this.$context.offset().left - this.$el.outerWidth()) - this.positionMutators.leftOffset
+					position.left = (this.$context.offset().left
+						- this.$el.outerWidth())
+						- this.positionMutators.leftOffset;
 				}
 
 				this.$el.toggleClass("js-positioned-left", isOutsideBoundary);
@@ -80,9 +98,12 @@ define([
 
 		/**
 		 * Function that makes the popup element visible
-		 * @param {object} $context The element the popup need to be relatively positioned to
-		 * @param {boolean} animated Set to true of popup has to be made visible using an animation (fade). Defaults to false.
-		 * @param {number} duration The duration of the animation in milliseconds. Defaults to 200ms.
+		 * @param {object} $context The element the popup need to be relatively
+		 *		positioned to
+		 * @param {boolean} animated Set to true of popup has to be made visible
+		 *		using an animation (fade). Defaults to false.
+		 * @param {number} duration The duration of the animation in
+		 *		milliseconds. Defaults to 200ms.
 		 */
 		show: function ($context, animated, duration) {
 			this.$context = $context;
@@ -91,19 +112,30 @@ define([
 			animated = animated === true ? true : false;
 			duration = duration || 200;
 
-			animated === true ? this.$el.fadeIn(duration) : this.$el.show();
+			if (animated === true) {
+				this.$el.fadeIn(duration);
+			} else {
+				this.$el.show();
+			}
 		},
 
 		/**
 		 * Function that hides the popup element
-		 * @param {boolean} animated Set to true of popup has to be hidden using an animation (fade). Defaults to false.
-		 * @param {number} duration The duration of the animation in milliseconds. Defaults to 200ms.
+		 * @param {boolean} animated Set to true of popup has to be hidden using
+		 *		an animation (fade). Defaults to false.
+		 * @param {number} duration The duration of the animation in
+		 *		milliseconds. Defaults to 200ms.
 		 */
 		hide: function (animated, duration) {
 			animated = animated === true ? true : false;
 			duration = duration || 200;
 
-			animated === true ? this.$el.fadeOut(duration) : this.$el.hide();
+			if (animated === true) {
+				this.$el.fadeOut(duration);
+			} else {
+				this.$el.hide();
+			}
+
 			this.$context = undefined;
 		}
 	});
@@ -125,7 +157,8 @@ define([
 					week: "ddd dd/M"
 				},
 				eventClick: function (calEvent, jsEvent, view) {
-					self.$el.trigger("eventClick", [calEvent, jsEvent, view, this]);
+					self.$el.trigger("eventClick",
+						[calEvent, jsEvent, view, this]);
 				}
 			});
 		},
@@ -139,7 +172,8 @@ define([
 		}),
 
 		/**
-		 * Eventhandler that is triggered when an event on the calendar has been clicked
+		 * Eventhandler that is triggered when an event on the calendar
+		 *		has been clicked
 		 */
 		onEventClick: function (event, calEvent, jsEvent, view, target) {
 			this.resetZIndexForAllEvents();
@@ -150,7 +184,8 @@ define([
 		},
 
 		/**
-		 * Resets the z-index css property for each event to 8 (fullCalendar default)
+		 * Resets the z-index css property for each event to 8
+		 *		(fullCalendar default)
 		 */
 		resetZIndexForAllEvents: function () {
 			this.$(".fc-event").css("zIndex", 8);
@@ -181,7 +216,8 @@ define([
 		},
 
 		/**
-		 * Gets the active view object from fullCalendar (http://arshaw.com/fullcalendar/docs/views/getView/)
+		 * Gets the active view object from fullCalendar
+		 *		(http://arshaw.com/fullcalendar/docs/views/getView/)
 		 * @return {object} Returns a fullCalendar View object.
 		 */
 		getView: function () {
@@ -189,7 +225,8 @@ define([
 		},
 
 		/**
-		 * Moves the calendar to the specified date. Will manipulate the date to always go to the start of the week (Thursday)
+		 * Moves the calendar to the specified date. Will manipulate the date to
+		 *		always go to the start of the week (Thursday)
 		 * @param {object} date The date the calendar has to move to.
 		 */
 		goToDate: function (date) {
@@ -210,10 +247,12 @@ define([
 		initialize: function (opts) {
 			this.type = opts.type || "week";
 
-			if (typeof opts.calendar !== "undefined" || !(calendar instanceof FullCalendarView)) {
+			if (typeof opts.calendar !== "undefined" ||
+					!(calendar instanceof FullCalendarView)) {
 				this.calendar = opts.calendar;
 			} else {
-				console.error("DateSpinners need an instance of FullCalendarView to operate");
+				console.error("DateSpinners need an instance of " +
+					"FullCalendarView to operate");
 			}
 
 			if (typeof opts.terms !== "undefined") {
@@ -234,15 +273,19 @@ define([
 		},
 
 		/**
-		 * Updates the activeTermData object with new values based on the active calendar date
+		 * Updates the activeTermData object with new values based on the active
+		 *		calendar date
 		 */
 		updateActiveTermData: function () {
-			this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
+			this.activeTermData = this.getTermDataForDate(
+				this.calendar.getActiveDate()
+			);
 		},
 
 		/**
 		 * Returns the value of the datespinner
-		 * @return {string} The current value of the dateSpinner (dependant on the type)
+		 * @return {string} The current value of the dateSpinner
+		 *		(dependant on the type)
 		 */
 		getValue: function () {
 			var value = "";
@@ -258,12 +301,15 @@ define([
 		},
 
 		/**
-		 * Returns the currently active week withing the currently active term in a nice string format e.g. Week 3
-		 * @return {string} A string representing the currently active week within the active term
+		 * Returns the currently active week withing the currently active term
+		 *		in a nice string format e.g. Week 3
+		 * @return {string} A string representing the currently active week
+		 *		within the active term
 		 */
 		getActiveWeekString: function () {
 			var	activeWeekString = "Outside term";
-			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "week")) {
+			if (typeof this.activeTermData !== "undefined" &&
+					_.has(this.activeTermData, "week")) {
 				activeWeekString = "Week " + this.activeTermData.week;
 			}
 			return activeWeekString;
@@ -275,7 +321,8 @@ define([
 		 */
 		getActiveTermString: function () {
 			var	activeTermString = "No active term";
-			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
+			if (typeof this.activeTermData !== "undefined"
+					&& _.has(this.activeTermData, "term")) {
 				activeTermString = this.activeTermData.term;
 			}
 			return activeTermString;
@@ -303,7 +350,10 @@ define([
 		 * Moves the calendar to the previous week
 		 */
 		goToPreviousWeek: function () {
-			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
+			this.calendar.goToDate(new Date(
+				this.calendar.getActiveDate().valueOf()
+					- (1000 * 60 * 60 * 24 * 7)
+			));
 		},
 
 		/**
@@ -311,9 +361,16 @@ define([
 		 */
 		goToPreviousTerm: function () {
 			if (typeof this.activeTermData !== "undefined") {
-				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards"));
+				this.calendar.goToDate(
+					this.getRelativeTermDateFromActiveTerm("backwards")
+				);
 			} else {
-				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "backwards"));
+				this.calendar.goToDate(
+					this.getRelativeTermDateFromDate(
+						this.calendar.getActiveDate(),
+						"backwards"
+					)
+				);
 			}
 		},
 
@@ -339,7 +396,10 @@ define([
 		 * Moves the calendar to the next week
 		 */
 		goToNextWeek: function () {
-			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() + (1000 * 60 * 60 * 24 * 7)));
+			this.calendar.goToDate(new Date(
+				this.calendar.getActiveDate().valueOf()
+					+ (1000 * 60 * 60 * 24 * 7)
+			));
 		},
 
 		/**
@@ -347,24 +407,43 @@ define([
 		 */
 		goToNextTerm: function () {
 			if (typeof this.activeTermData !== "undefined") {
-				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards"));
+				this.calendar.goToDate(
+					this.getRelativeTermDateFromActiveTerm("forwards")
+				);
 			} else {
-				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "forwards"));
+				this.calendar.goToDate(this.getRelativeTermDateFromDate(
+					this.calendar.getActiveDate(),
+					"forwards"
+				));
 			}
 		},
 
 		/**
 		 * Returns term data for the week the date is in.
-		 * @param {object} date This is the date that will be used to find the correct term data.
-		 * @param {string} rel Look forwards or backwards from date if date is not a Thursday. (if date is not a thursday it moves to the closest Thursday using the direction defined here)
-		 * @return {object} Object containing term data of the term the date falls in.
+		 * @param {object} date This is the date that will be used to find the
+		 *		correct term data.
+		 * @param {string} rel Look forwards or backwards from date if date is
+		 *		not a Thursday. (if date is not a thursday it moves to the
+		 *		closest Thursday using the direction defined here)
+		 * @return {object} Object containing term data of the term the date
+		 *		falls in.
 		 */
 		getTermDataForDate: function (date, rel) {
 			var terms = this.getTermsForDateYear(date),
 				direction = rel || "backwards",
 				activeTermData,
 				activeDate = this.getClosestThursdayFromDate(date, direction),
-				activeDateString = activeDate.getFullYear() + "-" + (String(activeDate.getMonth() + 1).length === 1 ? "0" + (activeDate.getMonth() + 1) : activeDate.getMonth() + 1) + "-" + (String(activeDate.getDate()).length === 1 ? "0" + activeDate.getDate() : activeDate.getDate());
+
+				activeYear = activeDate.getFullYear(),
+				activeMonth = (String(activeDate.getMonth() + 1).length === 1
+					? "0" + (activeDate.getMonth() + 1)
+					: activeDate.getMonth() + 1),
+				activeDay = (String(activeDate.getDate()).length === 1
+					? "0" + activeDate.getDate()
+					: activeDate.getDate()),
+
+				activeDateString = activeYear + "-" + activeMonth + "-"
+					+ activeDay;
 
 			_.each(terms, function (termData, termName) {
 				if (typeof activeTermData === "undefined") {
@@ -374,7 +453,7 @@ define([
 								week: weekNr,
 								date: new Date(weekStartDate),
 								term: termName
-							}
+							};
 						}
 					});
 				}
@@ -384,16 +463,19 @@ define([
 		},
 
 		/*
-		 * Finds first possible next or previous date that falls inside a term. Starts searching from the given date.
+		 * Finds first possible next or previous date that falls inside a term.
+		 *		Starts searching from the given date.
 		 * @param {object} data The date to start searching from.
 		 * @param {string} rel The direction to look, forwards by default.
-		 * @return {object} The closest date relative to the provided date that falls inside a term.
+		 * @return {object} The closest date relative to the provided date that
+		 *		falls inside a term.
 		 */
 		getRelativeTermDateFromDate: function (date, rel) {
 			var direction = rel || "forwards",
 				termData,
 				termDate = date,
-				dateIterator = direction === "forwards" ? (1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
+				dateIterator = direction === "forwards" ?
+						(1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
 				i = 0;
 
 			while (typeof termData === "undefined" && i < 52) {
@@ -406,24 +488,46 @@ define([
 		},
 
 		/*
-		 * Gets the date for the next or previous term based on the currently active term. Remembers the currently active week.
-		 * @param {string} rel The direction to go, either forwards of backwards, forwards by default.
+		 * Gets the date for the next or previous term based on the currently
+		 *		active term. Remembers the currently active week.
+		 * @param {string} rel The direction to go, either forwards of
+		 *		backwards, forwards by default.
 		 * @return {object} Date object that falls within next or previous term.
 		 */
 		getRelativeTermDateFromActiveTerm: function (rel) {
-			var activeYear = this.getAcademicStartYearFromDate(this.activeTermData.date),
+			var activeYear = this.getAcademicStartYearFromDate(
+					this.activeTermData.date
+				),
 				termDate = this.calendar.getActiveDate(),
 				direction = rel || "forwards";
 
 			switch (this.activeTermData.term) {
 			case "michaelmas":
-				termDate = direction === "forwards" ? this.terms[activeYear]["lent"][this.activeTermData.week] : this.terms[activeYear - 1]["easter"][this.activeTermData.week];
+				if (direction === "forwards") {
+					termDate = this.terms[activeYear]
+						.lent[this.activeTermData.week];
+				} else {
+					termDate = this.terms[activeYear - 1]
+						.easter[this.activeTermData.week];
+				}
 				break;
 			case "lent":
-				termDate = direction === "forwards" ? this.terms[activeYear]["easter"][this.activeTermData.week] : this.terms[activeYear]["michaelmas"][this.activeTermData.week];
+				if (direction === "forwards") {
+					termDate = this.terms[activeYear]
+						.easter[this.activeTermData.week];
+				} else {
+					termDate = this.terms[activeYear]
+						.michaelmas[this.activeTermData.week];
+				}
 				break;
 			case "easter":
-				termDate = direction === "forwards" ? this.terms[activeYear + 1]["michaelmas"][this.activeTermData.week] : this.terms[activeYear]["lent"][this.activeTermData.week];
+				if (direction === "forwards") {
+					termDate = this.terms[activeYear + 1]
+						.michaelmas[this.activeTermData.week];
+				} else {
+					termDate = this.terms[activeYear]
+						.lent[this.activeTermData.week];
+				}
 				break;
 			}
 
@@ -433,11 +537,13 @@ define([
 		/**
 		 * Returns the closest thursday from a given date
 		 * @param {object} date This is the date to search from.
-		 * @param {string} rel "next" or "previous", "previous" by default. Determines whether to look forwards or backwards from given date
+		 * @param {string} rel "next" or "previous", "previous" by default.
+		 *		Determines whether to look forwards or backwards from given date
 		 * @return {object} A date object representing the closest Thursday
 		 */
 		getClosestThursdayFromDate: function (date, rel) {
-			var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24) : (1000 * 60 * 60 * 24);
+			var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24)
+				: (1000 * 60 * 60 * 24);
 			while (date.getDay() !== 4) {
 				date = new Date(date.valueOf() + iteration);
 			}
@@ -464,7 +570,8 @@ define([
 		 * @return {number} The academic year for the provided date.
 		 */
 		getAcademicStartYearFromDate: function (date) {
-			return date.getMonth() < 9 ? date.getFullYear() - 1 : date.getFullYear()
+			return date.getMonth() < 9 ? date.getFullYear() - 1
+				: date.getFullYear();
 		}
 	});
 
