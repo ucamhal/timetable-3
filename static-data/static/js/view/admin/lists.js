@@ -260,6 +260,13 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			event.stopPropagation();
 		},
 
+		closeDateTimeDialog: function() {
+			if(this.dateTimeDialog) {
+				this.dateTimeDialog.remove();
+				delete this.dateTimeDialog;
+			}
+		},
+
 		toggleDateTimeDialog: function(event) {
 
 			var isFocus = event.type === "focus";
@@ -268,11 +275,12 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 			if(this.dateTimeDialog) {
 				console.log("closing dialog", event);
-				this.dateTimeDialog.remove();
-				delete this.dateTimeDialog;
+				this.closeDateTimeDialog();
 
+				// Move focus from this focus catcher to a real element if the
+				// dialog close was triggered by focusing a focus catching
+				// element before/after the dialog in the DOM.
 				if(isFocus) {
-					// Move focus from this focus catcher to a real element
 					if(isBeforeDialog)
 						this.$(".js-field-type").focus();
 					else
@@ -284,6 +292,9 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 				this.dateTimeDialog = new DateTimeDialogView({
 					el: $(".js-date-time-dialog").clone()
 				});
+				// dialog:close is fired by the dialog when a click is made
+				// outside its area, or the close icon is clicked.
+				this.dateTimeDialog.on("dialog:close", this.closeDateTimeDialog);
 
 				this.$(".js-date-time-cell .js-dialog-holder")
 					.append(this.dateTimeDialog.$el);
@@ -353,8 +364,19 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			DateTimeDialogView.__super__.constructor.apply(this, arguments);
 		},
 
-		initialize: function() {
+		events: function() {
+			return {
+				"click .js-close-btn": this.requestDialogClose
+			};
+		},
 
+		initialize: function() {
+			_.bindAll(this);
+
+			this.backdrop = new DialogBackdropView();
+			this.backdrop.$el.addClass("dialog-backdrop-date-time");
+			$("body").append(this.backdrop.el);
+			this.backdrop.on("clicked", this.requestDialogClose);
 		},
 
 		focusStart: function() {
@@ -363,9 +385,37 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		focusEnd: function() {
 			this.$(".js-end-minute").focus();
+		},
+
+		remove: function() {
+			// Remove our backdrop element when we're removed.
+			this.backdrop.remove();
+			// Call the superclass's remove()
+			DateTimeDialogView.__super__.remove.apply(this, arguments);
+		},
+
+		requestDialogClose: function() {
+			this.trigger("dialog:close");
 		}
+	});
 
+	var DialogBackdropView = Backbone.View.extend({
+		constructor: function DialogBackdropView() {
+			DialogBackdropView.__super__.constructor.apply(this, arguments);
+		},
 
+		tagName: "div",
+		className: "dialog-backdrop",
+
+		events: function() {
+			return {
+				"click": this.onClick
+			};
+		},
+
+		onClick: function() {
+			this.trigger("clicked");
+		}
 	});
 
 	/**

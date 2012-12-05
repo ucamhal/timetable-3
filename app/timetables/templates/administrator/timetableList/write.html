@@ -14,13 +14,13 @@
 
 
 {% block additional_modals %}
-<div class="js-date-time-dialog date-time-dialog datePatternDialog popover bottom"
+<div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"
     style="display: none;">
   <div class="arrow"></div>
   <div class="popover-inner">
     <div class="popover-title clearfix">
       <h3 class="pull-left">When does this event take place?</h3>
-      <a href="#" class="close" tabIndex="-1">&times;</a>
+      <a href="#" class="close js-close-btn" tabIndex="-1">&times;</a>
     </div>
     <div class="popover-content">
       {{ event_form.term_week.errors }}

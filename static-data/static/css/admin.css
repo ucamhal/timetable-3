@@ -121,6 +121,30 @@ div:focus {
  * List page events
  */
 
+/* The element which a dialog is a child of. */
+.dialog-holder {
+	position: relative;
+}
+
+/* A modal dialog element. */
+.dialog {
+	z-index: 1050;
+	position: absolute;
+}
+
+/* An element which covers the entire window behind a dialog. */
+.dialog-backdrop {
+	z-index: 1040;
+	background-color: black;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: 0.5;
+}
+
+
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
 	padding-right: 20px; /* To accommodate the pencil icon */
@@ -140,16 +164,13 @@ div:focus {
 	background-color: #f5e7d0;
 }
 
-.dialog-holder {
-	position: relative;
-}
-
-.date-time-dialog {
-	position: absolute;
+.dialog-date-time {
 	background: white;
 }
 
-
+.dialog-backdrop-date-time {
+	opacity: 0.1;
+}
 
 .events .editEnabled .eventTitle,
 .events .editEnabled .eventType,
