@@ -233,7 +233,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			this.saveDialogView = new SaveEventsDialogView();
 
 			// Show the dialog & kick off the form POST.
-			this.saveDialogView.postEventsForm("/fsdfs", formData)
+			this.saveDialogView.postEventsForm(this.getSavePath(), formData)
+		},
+
+		/** Gets the path to the endpoint the POST changes to when saving. */
+		getSavePath: function() {
+			return this.$el.data("save-path");
 		},
 
 		onAddEvent: function(event) {
@@ -733,7 +738,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 
 			$.ajax({
 				url: url,
-				type: "POST"
+				type: "POST",
+				data: eventsData
 			}).done(this.onPOSTDone).fail(this.onPOSTFail)
 		},
 
