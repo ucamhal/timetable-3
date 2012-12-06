@@ -1,0 +1,21 @@
+{% extends "administrator/timetableList/fragEventsRead.html" %}
+
+
+{% block event %}
+{% with event_classes="event-editable" editable="true" %}
+	{% include "administrator/timetableList/fragEventWrite.html" %}
+{% endwith %}
+{% endblock event %}
+
+
+{% block after_events %}
+<a href="#" class="addEvent pull-left notImplemented" title="add event"><span class="icon-plus"></span>Add event</a>
+<ul class="seriesEditActions pull-right dontDisplayMe">
+	<li class="pull-left">
+		<a href="#" class="cancel">cancel</a>
+	</li>
+	<li class="pull-left">
+		<a href="#" class="save btn btn-success" title="save event series" data-loading-text="Saving...">Save</a>
+	</li>
+</ul>
+{% endblock after_events %}

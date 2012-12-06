@@ -9,6 +9,8 @@
         {{ series.name }}
       </a>
     </h5>
+    {% block series_title_right %}
+    {% endblock series_title_right %}
   </div>
   <div class="events js-events clearfix collapse"
       id="series-{{ series.unique_id }}-events">
