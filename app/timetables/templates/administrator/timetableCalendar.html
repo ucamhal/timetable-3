@@ -4,26 +4,54 @@
 {% block javascript_module %}timetable-calendar{% endblock javascript_module %}
 
 {% block timetable_content %}
+<ul class="nav nav-tabs">
+  <li>
+    <a href="{% url "admin list" thing %}">List</a>
+  </li>
+  <li class="active">
+    <a href="">Week</a>
+  </li>
+</ul>
+
 <div id="calendarHeading" class="clearfix">
 
   <a href="#" class="btn pull-left notImplemented">Undo changes</a>
 
-  <div class="calendarNavigation pull-left">
+  <div class="calendarNavigation week-calendar-navigation pull-left">
     <ul class="clearfix js-date-spinner js-week">
       <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-      <li class="pull-left"><h4 class="js-value">Week 2</h4></li>
+      <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
       <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
     </ul>
   </div>
 
-  <div class="calendarNavigation pull-right">
+  <div class="calendarNavigation term-calendar-navigation pull-right">
     <ul class="clearfix js-date-spinner js-term">
       <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-      <li class="pull-left"><h4 class="js-value">Michaelmas Term</h4></li>
+      <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
       <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
     </ul>
   </div>
 </div>
 
 <div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}"></div>
+
+<div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
+  <div class="arrow"></div>
+  <button type="button" class="close js-close">x</button>
+  <h5 class="js-course-title">An introduction to the language of 16th century texts</h5>
+  <span class="js-course-date-pattern">Wednesday 1pm,</span>
+  <br/>
+  <span class="js-course-location">LT1 William Gates Bdg,</span>
+  <br/>
+  <span class="js-course-lecturer">Dr R. Harle</span>
+  <ul class="clearfix actions">
+    <li class="pull-left"><a href="#" class="js-close">Close</a></li>
+    {% if may_edit %}
+      <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list" thing %}" >View in edit mode</a></li>
+    {% else %}
+      <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list" thing %}" >See in list view</a></li>
+    {% endif %}
+  </ul>
+</div>
 {% endblock timetable_content %}
