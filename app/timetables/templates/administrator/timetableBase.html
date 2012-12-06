@@ -37,7 +37,19 @@
 </div>
 -->
 
+<div id="timetable-view">
+  {% block timetable_tab_nav %}
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="">List</a>
+    </li>
+    <li>
+      <a href="{% url "thing calendar" thing %}">Week</a>
+    </li>
+  </ul>
+  {% endblock timetable_tab_nav %}
+
   {% block timetable_content %}
   {% endblock timetable_content %}
-
+</div>
 {% endblock admin_content %}

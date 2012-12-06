@@ -1,18 +1,24 @@
 {% extends "administrator/timetableBase.html" %}
 {% load url from future %}
 
+
 {% block javascript_module %}timetable-calendar{% endblock javascript_module %}
 
-{% block timetable_content %}
+
+{% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li>
+    {# TODO: check permissions to know whether to link read or write version #}
     <a href="{% url "admin list" thing %}">List</a>
   </li>
   <li class="active">
     <a href="">Week</a>
   </li>
 </ul>
+{% endblock timetable_tab_nav %}
 
+
+{% block timetable_content %}
 <div id="calendarHeading" class="clearfix">
 
   <a href="#" class="btn pull-left notImplemented">Undo changes</a>

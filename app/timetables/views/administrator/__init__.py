@@ -181,8 +181,18 @@ class TimetableListRead(django.views.generic.View):
             "timetable_thing": timetable_thing
         }
 
+        return self.render(request, context)
+    
+    def render(self, request, context):
         return shortcuts.render(request,
                 "administrator/timetableList/read.html", context)
+
+
+class TimetableListWrite(TimetableListRead):
+    
+    def render(self, request, context):
+        return shortcuts.render(request,
+                "administrator/timetableList/write.html", context)
 
 
 @login_required
@@ -202,9 +212,15 @@ def list_view_events(request, series_id):
             "events": events
         }
     }
-    
-    return shortcuts.render(request,
-            "administrator/timetableList/fragEventsRead.html", context)
+
+    # if the request has ?writable=true then use the write rather than read
+    # template.
+    if request.GET.get("writeable") == "true":
+        template = "administrator/timetableList/fragEventsWrite.html"
+    else:
+        template = "administrator/timetableList/fragEventsRead.html"
+
+    return shortcuts.render(request, template, context)
 
 
 @login_required
