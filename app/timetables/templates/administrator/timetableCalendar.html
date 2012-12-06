@@ -48,9 +48,9 @@
   <ul class="clearfix actions">
     <li class="pull-left"><a href="#" class="js-close">Close</a></li>
     {% if may_edit %}
-      <li class="pull-right"><a href="#" class="btn js-edit">View in edit mode</a></li>
+      <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list" thing %}" >View in edit mode</a></li>
     {% else %}
-      <li class="pull-right"><a href="#" class="js-edit">See in list view</a></li>
+      <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list" thing %}" >See in list view</a></li>
     {% endif %}
   </ul>
 </div>

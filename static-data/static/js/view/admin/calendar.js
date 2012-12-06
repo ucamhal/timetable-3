@@ -54,6 +54,8 @@ define([
 			);
 			this.$(".js-course-location").text(this.eventData.location || "");
 			this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
+			this.$(".js-edit").attr("href", this.$(".js-edit").data("base-url")
+				+ "#event=" + this.eventData.id);
 		},
 
 		/**
@@ -62,6 +64,7 @@ define([
 		 */
 		setEventDataFromCalEvent: function (calEvent) {
 			this.eventData = {
+				id: calEvent.djid,
 				title: calEvent.title,
 				datePattern: _.getFullDayFromDate(calEvent._start) + " "
 					+ _.getTwelveHourTimeFromDate(calEvent._start),
