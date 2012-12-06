@@ -208,7 +208,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 		},
 
 		onCancel: function(event) {
-			// TODO: handle cancel
+			_.each(this.events, function(eventView) {
+				eventView.model.reset();
+
+				// This works, but is a bit hacky
+				eventView.unfocusForEditing();
+			});
 		},
 
 		onSave: function(event) {
@@ -312,8 +317,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 		},
 
 		render: function() {
-			// We only need to update the date/time fields, the rest are kept
-			// automatically as they're contenteditable=true
+			this.$title.text(this.model.get("title"));
+			this.$location.text(this.model.get("location"));
+			this.$type.text(this.model.get("type"));
+			this.$people.text(this.model.get("people"));
+
 			this.$week.text(this.model.get("week"));
 			this.$term.text(this.model.getPrettyTerm());
 			this.$day.text(this.model.getPrettyDay());
@@ -452,6 +460,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 		initialize: function() {
 
 			this.hasInitialState = false;
+		},
+
+		/** Reset the model's attributes to the initial values. */
+		reset: function() {
+			this.set(this.originalAttributes);
 		},
 
 		titleCase: function(str) {
