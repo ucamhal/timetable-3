@@ -142,6 +142,22 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			WritableSeriesView.__super__.constructor.apply(this, arguments);
 		},
 
+		events: function() {
+			var superEvents = WritableSeriesView.__super__.events.call(this);
+			
+			return _.extend(superEvents, {
+				"click .js-btn-cancel": this.onCancel,
+				"click .js-btn-save": this.onSave,
+				"click .js-btn-add-event": this.onAddEvent
+			});
+		},
+
+		initialize: function() {
+			WritableSeriesView.__super__.initialize.apply(this, arguments);
+
+			_.bindAll(this);
+		},
+
 		getEventsRequestOptions: function() {
 			var baseOptions = WritableSeriesView.__super__
 				.getEventsRequestOptions();
@@ -160,8 +176,46 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			// WritableEventView wrapping each event and store the list of these
 			// views in this.events
 			this.events = _.map(this.$(".js-event"), function(eventEl) {
-				return new WritableEventView({el: eventEl});
+				var eventView = new WritableEventView({el: eventEl});
+
+				// Watch for events being modified
+				eventView.on("event:savedStatusChanged",
+					this.onSavedStatusChanged);
+
+				return eventView;
+			}, this);
+
+			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+		},
+
+		onSavedStatusChanged: function() {
+			// Check for any events being changed and hide/show cancel/save
+			// button as needed.
+			var changesExist = _.any(this.events, function(event) {
+				return event.model.hasChangedFromOriginal();
 			});
+
+			// Make the cancel/save buttons visible/hidden as required
+
+			if(changesExist && !this.$cancelSaveBtns.is(":visible")) {
+				this.$cancelSaveBtns.slideDown();
+			}
+
+			if(!changesExist && this.$cancelSaveBtns.is(":visible")) {
+				this.$cancelSaveBtns.slideUp();	
+			}
+		},
+
+		onCancel: function(event) {
+			// TODO: handle cancel
+		},
+
+		onSave: function(event) {
+			// TODO handle save
+		},
+
+		onAddEvent: function(event) {
+			return false;
 		}
 	});
 
