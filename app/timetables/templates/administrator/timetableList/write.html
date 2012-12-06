@@ -1,51 +1,109 @@
-{% extends "administrator/timetableBase.html" %}
+{% extends "administrator/timetableList/read.html" %}
+{% load url from future %}
 
-{% block timetable_content %}
-<a href="#" class="btn addModule notImplemented"><span class="icon-plus"></span>Add module</a>
-<ul class="modulesList">
-{% for module_editor in module_editors %}
-  {% include "administrator/timetableList/fragModuleWrite.html" %}
-{% endfor %}
+
+{% block javascript_module %}timetable-list-write{% endblock javascript_module %}
+
+
+{% block timetable_tab_nav %}
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="">List</a>
+  </li>
+  <li>
+    <a href="{% url "thing calendar" thing %}">Week</a>
+  </li>
 </ul>
+{% endblock timetable_tab_nav %}
 
-<div class="modal changesNotificationPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close dontSendNotification">&times;</a>
-    <h3>Send email notification</h3>
-  </div>
-  <div class="modal-body">
-    <p>Your changes have been saved successfully.</p>
-    <p>Do you want to send an email notification to people affected by the change?</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="dontSendNotification">Don't send notification</a>
-    <a href="#" class="btn btn-primary sendNotifcation notImplemented">Send notification</a>
+
+{% block timetable_module %}
+{% include "administrator/timetableList/fragModuleWrite.html" %}
+{% endblock timetable_module %}
+
+
+{% block additional_modals %}
+<div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"
+    style="display: none;">
+  <div class="arrow"></div>
+  <div class="popover-inner">
+    <div class="popover-title clearfix">
+      <h3 class="pull-left">When does this event take place?</h3>
+      <a href="#" class="close js-close-btn" tabIndex="-1">&times;</a>
+    </div>
+    <div class="popover-content form-inline">
+      <div class="date-time-form-row">
+        <span class="control-group">
+          <label class="first-label" for="date-time-week">Week</label>
+          <input type="text" name="date-time-week" id="date-time-week"
+             value="1"
+             class="js-week input-mini eventDateTimeWeek"/>
+        </span>
+
+        <span class="control-group">
+          <label for="date-time-term">in</label>
+          <select id="date-time-term" name="date-time-term">
+            <option value="michaelmas">Michaelmas</option>
+            <option value="lent">Lent</option>
+            <option value="easter">Easter</option>
+          </select>
+        </span>
+      </div>
+      <div class="date-time-form-row">
+        <span class="control-group">
+          <label class="first-label" for="date-time-day">on</label>
+          <select id="date-time-day" name="date-time-day">
+            <option value="thu">Thursday</option>
+            <option value="fri">Friday</option>
+            <option value="sat">Satarday</option>
+            <option value="sun">Sunday</option>
+            <option value="mon">Monday</option>
+            <option value="tue">Tuesday</option>
+            <option value="wed">Wednesday</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="date-time-form-row">
+        <span class="control-group">
+          <label class="first-label" for="date-time-start-hour">From</label>
+          <input type="text"
+              value="09"
+              class="js-hour js-start input-mini hours"
+              name="date-time-start-hour"
+              id="date-time-start-hour"
+              min="-1" max="24">
+        </span>
+
+        <span class="control-group">
+          <input type="text"
+                value="00"
+                class="js-minute js-start input-mini minutes"
+                name="date-time-start-minute"
+                id="date-time-start-minute"
+                min="-15" max="60" step="15">
+        </span>
+
+        <span class="control-group">
+          <label for="date-time-end-hour">To</label>
+          <input type="text"
+              value="10"
+              class="js-hour js-end input-mini hours"
+              name="date-time-end-hour"
+              id="date-time-end-hour"
+              min="-1" max="24">
+        </span>
+
+        <span class="control-group">
+          <input type="text"
+              value="00"
+              class="js-minute js-end input-mini minutes"
+              name="date-time-end-minute"
+              id="date-time-end-minute"
+              min="-15" max="60" step="15">
+        </span>
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="modal formServerErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>Apparently something went wrong whilst saving.</br>Please try again later.</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-
-<div class="modal formValidationErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>It looks like you missed some fields.<br/>Please fill out any missing fields and hit save again</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-{% endblock timetable_content %}
+{% endblock additional_modals %}

@@ -540,6 +540,7 @@ div#results.empty p {
 	left: 10px;
 	z-index: 19;
 	max-width: 320px;
+	min-width: 220px;
 }
 
 .alert.calendarEventInfo .arrow {
@@ -550,10 +551,18 @@ div#results.empty p {
 	border-color: transparent;
 	border-style: solid;
 	top: 50%;
-	left: -12px;
+	left: -11px;
 	margin-top: -10px;
 	border-right-color: #454545;
 	border-width: 10px 10px 10px 0;
+}
+
+.alert.calendarEventInfo.js-positioned-left .arrow {
+	left: auto;
+	right: -11px;
+	border-width: 10px 0px 10px 10px;
+	border-right-color: transparent;
+	border-left-color: #454545;
 }
 
 .alert.calendarEventInfo label,

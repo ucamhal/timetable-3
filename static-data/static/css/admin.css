@@ -117,6 +117,85 @@ div:focus {
 	margin: 0;
 }
 
+/*
+ * List page date time dialog
+ */
+
+.date-time-form-row {
+	margin-bottom: 15px;
+}
+.date-time-form-row .first-label {
+	min-width: 40px;
+	text-align: right;
+}
+
+/*
+ * List page modules
+ */
+
+.module-content.shown {
+	overflow: visible;
+}
+
+/*
+ * List page events
+ */
+
+/* The element which a dialog is a child of. */
+.dialog-holder {
+	position: relative;
+}
+
+/* A modal dialog element. */
+.dialog {
+	z-index: 950;
+	position: absolute;
+}
+
+/* An element which covers the entire window behind a dialog. */
+.dialog-backdrop {
+	z-index: 900;
+	background-color: black;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: 0.5;
+}
+
+
+/* Event fields need a pencil icon when hovering over them */
+.event-editable .event-field {
+	padding-right: 20px; /* To accommodate the pencil icon */
+}
+ .event-editable .event-field:hover {
+ 	background-image: url("../img/pencil.png");
+ 	background-repeat: no-repeat;
+ 	background-position: 100% 50%;
+ }
+
+/* id selector used to boost priority over Bootstrap */
+#adminListView .event-editable.unsaved > td {
+	background-color: #fff6e2;
+}
+
+#adminListView .event-editable.being-edited > td {
+	background-color: #f5e7d0;
+}
+
+.dialog-date-time {
+	background: white;
+}
+
+.dialog-backdrop-date-time {
+	opacity: 0.1;	
+}
+
+.events.shown {
+	overflow: visible;
+}
+
 .events .editEnabled .eventTitle,
 .events .editEnabled .eventType,
 .events .editEnabled .eventLocation,
@@ -131,10 +210,6 @@ div:focus {
 .events .editEnabled.active .eventDateTime,
 .events .editEnabled.active .eventLecturers {
 	background-color: #f5e7d0;
-}
-
-.events td {
-	cursor: pointer;
 }
 
 .events td > .icon-pencil {
@@ -443,6 +518,7 @@ div:focus {
 
 .event .eventActions ul {
 	min-width: 70px;
+	margin: 0;
 }
 
 .event p {
@@ -507,7 +583,7 @@ div:focus {
 	width: 65px;
 }
 
-.event .eventType {
+.event-type {
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	padding-left: 24px;
@@ -559,35 +635,10 @@ div:focus {
 	padding: 20px;
 }
 
-.datePatternDialog .popover-content > ul {
-	padding: 5px 0;
-}
 
-.datePatternDialog .popover-content > div {
-	margin-bottom: 10px;
-}
-
-.datePatternDialog .popover-content > div > label {
-	line-height: 2em;
-}
-
-.datePatternDialog .popover-content > div > label:first-child {
-	min-width: 35px;
-	text-align: right;
-}
-
-.datePatternDialog .popover-content > div > * {
-	float: left;
-	margin-right: 15px;
-}
-
-.datePatternDialog .popover-content > div > *:last-child {
-	margin-right: 0;
-}
-
-.datePatternDialog input[type="number"] {
-	width: 40px;
-}
+/*
+ * Calendar Styles
+ */
 
 #calendarHeading {
 	margin-bottom: 15px;
@@ -607,6 +658,31 @@ div:focus {
 	margin: 0;
 }
 
+.calendarEventInfo h5 {
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: left 2px;
+}
 
+.calendarEventInfo .actions {
+	margin-top: 18px;
+}
 
+.calendarEventInfo .actions a {
+	margin-top: 5px;
+	display: block;
+}
 
+.calendarEventInfo .actions a.btn {
+	margin: 0;
+}
+
+.week-calendar-navigation .value {
+	min-width: 118px;
+	text-align: center;
+}
+
+.term-calendar-navigation .value {
+	min-width: 130px;
+	text-align: center;
+}

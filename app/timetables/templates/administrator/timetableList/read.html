@@ -1,13 +1,32 @@
 {% extends "administrator/timetableBase.html" %}
+{% load url from future %}
 
 
 {% block javascript_module %}timetable-list-read{% endblock javascript_module %}
 
 
+{% block timetable_tab_nav %}
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="">List</a>
+  </li>
+  <li>
+    <a href="{% url "thing calendar" thing %}">Week</a>
+  </li>
+  <li class="nav-label">
+    <span class="icon-lock" title="You have permission to view, but not edit the items in this page."></span>
+    <em>View only</em>
+  </li>
+</ul>
+{% endblock timetable_tab_nav %}
+
+
 {% block timetable_content %}
 <div class="modulesList">
 {% for module in modules %}
+  {% block timetable_module %}
   {% include "administrator/timetableList/fragModuleRead.html" %}
+  {% endblock timetable_module %}
 {% endfor %}
 </div>
 
@@ -73,4 +92,7 @@
     </div>
   </div>
 </div>
+
+{% block additional_modals %}
+{% endblock additional_modals %}
 {% endblock timetable_content %}

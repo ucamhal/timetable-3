@@ -37,8 +37,8 @@
 </div>
 -->
 
-<div id="adminListView">
-
+<div id="timetable-view">
+  {% block timetable_tab_nav %}
   <ul class="nav nav-tabs">
     <li class="active">
       <a href="">List</a>
@@ -46,11 +46,8 @@
     <li>
       <a href="{% url "thing calendar" thing %}">Week</a>
     </li>
-    <li class="nav-label">
-      <span class="icon-lock"></span>
-      <em>View only</em>
-    </li>
   </ul>
+  {% endblock timetable_tab_nav %}
 
   {% block timetable_content %}
   {% endblock timetable_content %}

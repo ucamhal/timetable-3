@@ -6,7 +6,7 @@ define(["view/admin/lists", "bootstrap"], function(Lists) {
     });
 
     $(".js-series").each(function() {
-        new Lists.SeriesView({el: this});
+        new Lists.WritableSeriesView({el: this});
     });
 
     return undefined;
