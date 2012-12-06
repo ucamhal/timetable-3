@@ -1,4 +1,5 @@
-define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
+define(["jquery", "underscore", "backbone", "util/django-forms"],
+		function($, _, Backbone, DjangoForms) {
 	"use strict";
 
 	/**
@@ -211,7 +212,28 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		},
 
 		onSave: function(event) {
-			// TODO handle save
+			// Build a JSON representation of the form. 
+
+			var forms = _.map(this.events, function(eventView) {
+				return eventView.model.asJSONDjangoForm();
+			});
+
+			var outerForm = {
+				"form": {
+					// can't add forms yet so this is OK
+					"initial": forms.length,
+					"forms": forms
+				}
+			};
+
+			var formData = DjangoForms.encodeJSONForm(outerForm);
+
+			// Create a modal dialog to prevent actions taking place while
+			// saving.
+			this.saveDialogView = new SaveEventsDialogView();
+
+			// Show the dialog & kick off the form POST.
+			this.saveDialogView.postEventsForm("/fsdfs", formData)
 		},
 
 		onAddEvent: function(event) {
@@ -480,6 +502,11 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			}
 			return !_.isEqual(this.originalAttributes, this.toJSON());
 		},
+
+		asJSONDjangoForm: function() {
+			// FIXME: ensure all keys match form keys
+			return this.toJSON();
+		}
 	});
 
 	var DateTimeDialogView = Backbone.View.extend({
@@ -673,6 +700,60 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		onClick: function() {
 			this.trigger("clicked");
+		}
+	});
+
+	var SaveEventsDialogView = Backbone.View.extend({
+		constructor: function() {
+			SaveEventsDialogView.__super__.constructor.apply(this, arguments);
+		},
+
+		events: function() {
+			return {
+				"click .btn": this.dismissDialog
+			};
+		},
+
+		initialize: function() {
+			_.bindAll(this);
+
+			this.setElement($("#templates .js-events-save-dialog")[0]);
+		},
+
+		showModal: function() {
+			this.$el.modal({
+				backdrop: "static",
+				keyboard: false,
+				show: true
+			});
+		},
+
+		postEventsForm: function(url, eventsData) {
+			this.showModal();
+
+			$.ajax({
+				url: url,
+				type: "POST"
+			}).done(this.onPOSTDone).fail(this.onPOSTFail)
+		},
+
+		onPOSTDone: function() {
+			this.$(".js-body").hide();
+			this.$(".js-body-success").show();
+		},
+
+		onPOSTFail: function() {
+			this.$(".js-body").hide();
+			this.$(".js-body-error").show();
+		},
+
+		showOKButton: function() {
+			this.$(".js-buttons-bar").slideDown();
+		},
+
+		dismissDialog: function() {
+			this.$el.modal("hide");
+			this.trigger("close");
 		}
 	});
 
