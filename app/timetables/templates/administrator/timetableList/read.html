@@ -1,15 +1,24 @@
 {% extends "administrator/timetableBase.html" %}
+{% load url from future %}
 
 
 {% block javascript_module %}timetable-list-read{% endblock javascript_module %}
 
 
-{% block additional_navigation %}
-<li class="nav-label" title="You have permission to view, but not edit the items in this page.">
-  <span class="icon-lock"></span>
-  <em>View only</em>
-</li>
-{% endblock additional_navigation %}
+{% block timetable_tab_nav %}
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="">List</a>
+  </li>
+  <li>
+    <a href="{% url "thing calendar" thing %}">Week</a>
+  </li>
+  <li class="nav-label">
+    <span class="icon-lock" title="You have permission to view, but not edit the items in this page."></span>
+    <em>View only</em>
+  </li>
+</ul>
+{% endblock timetable_tab_nav %}
 
 
 {% block timetable_content %}

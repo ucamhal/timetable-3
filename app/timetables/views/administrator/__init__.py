@@ -264,8 +264,21 @@ def calendar_view(request, thing=None):
         return http.HttpResponseBadRequest(
                 "Can't edit thing of type %s as a list." % thing)
 
+    # get a list of the things which the user may edit
+    editable = get_user_editable(request)
+    may_edit = False
+    if thing.id in editable:
+        may_edit = True
+
+    # Get parent timetable
+    if thing.type == "part":
+        timetable_thing = thing.parent
+    else:
+        timetable_thing = thing.parent.parent
+    assert timetable_thing.type == "tripos"
+
     return shortcuts.render(request, "administrator/timetableCalendar.html",
-            {"thing": thing})
+            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing})
 
 
 @login_required

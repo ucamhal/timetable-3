@@ -1,11 +1,20 @@
 {% extends "administrator/timetableList/read.html" %}
+{% load url from future %}
 
 
 {% block javascript_module %}timetable-list-write{% endblock javascript_module %}
 
 
-{% block additional_navigation %}
-{% endblock additional_navigation %}
+{% block timetable_tab_nav %}
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="">List</a>
+  </li>
+  <li>
+    <a href="{% url "thing calendar" thing %}">Week</a>
+  </li>
+</ul>
+{% endblock timetable_tab_nav %}
 
 
 {% block timetable_module %}

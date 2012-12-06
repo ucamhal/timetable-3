@@ -657,3 +657,32 @@ div:focus {
 #calendarHeading .calendarNavigation:last-child {
 	margin: 0;
 }
+
+.calendarEventInfo h5 {
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: left 2px;
+}
+
+.calendarEventInfo .actions {
+	margin-top: 18px;
+}
+
+.calendarEventInfo .actions a {
+	margin-top: 5px;
+	display: block;
+}
+
+.calendarEventInfo .actions a.btn {
+	margin: 0;
+}
+
+.week-calendar-navigation .value {
+	min-width: 118px;
+	text-align: center;
+}
+
+.term-calendar-navigation .value {
+	min-width: 130px;
+	text-align: center;
+}
