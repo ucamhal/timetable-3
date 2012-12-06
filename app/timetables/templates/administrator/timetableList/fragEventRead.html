@@ -30,13 +30,13 @@
         <span>&nbsp;</span>
         {% endwith %}
       </span>
-      <span class="js-field-start-hour">{{ event.start.hour|stringformat:".2d" }}</span>
+      <span class="js-field-start-hour">{{ event.start_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-start-minute">{{ event.start.minute|stringformat:".2d" }}</span>
+      <span class="js-field-start-minute">{{ event.start_local.minute|stringformat:".2d" }}</span>
       <span>&ndash;</span>
-      <span class="js-field-end-hour">{{ event.end.hour|stringformat:".2d" }}</span>
+      <span class="js-field-end-hour">{{ event.end_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-end-minute">{{ event.end.minute|stringformat:".2d" }}</span>
+      <span class="js-field-end-minute">{{ event.end_local.minute|stringformat:".2d" }}</span>
       {% endspaceless %}
       {% block date_time_end %}
       {% endblock date_time_end %}
