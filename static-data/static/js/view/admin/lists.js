@@ -231,9 +231,16 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			// Create a modal dialog to prevent actions taking place while
 			// saving.
 			this.saveDialogView = new SaveEventsDialogView();
+			this.saveDialogView.on("saved", this.onEventsSaved)
 
 			// Show the dialog & kick off the form POST.
 			this.saveDialogView.postEventsForm(this.getSavePath(), formData)
+		},
+
+		onEventsSaved: function(response) {
+			delete this.saveDialogView;
+			this.$(".js-events").empty();
+			this.onEventsFetched(response);
 		},
 
 		/** Gets the path to the endpoint the POST changes to when saving. */
@@ -400,7 +407,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			else {
 				console.log("opening dialog", event);
 				this.dateTimeDialog = new DateTimeDialogView({
-					el: $(".js-date-time-dialog").clone(),
+					el: $("#templates .js-date-time-dialog").clone(),
 					model: this.model
 				});
 				// dialog:close is fired by the dialog when a click is made
@@ -757,6 +764,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			_.bindAll(this);
 
 			this.setElement($("#templates .js-events-save-dialog")[0]);
+			this.$(".js-body").hide();
+			this.$(".js-body-saving").show();
 		},
 
 		showModal: function() {
@@ -777,9 +786,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			}).done(this.onPOSTDone).fail(this.onPOSTFail)
 		},
 
-		onPOSTDone: function() {
+		onPOSTDone: function(response) {
 			this.$(".js-body").hide();
 			this.$(".js-body-success").show();
+			this.trigger("saved", response);
 		},
 
 		onPOSTFail: function() {

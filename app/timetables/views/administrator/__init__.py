@@ -240,7 +240,9 @@ def edit_series_view(request, series_id):
         def save():
             events_formset.save()
         save()
-        return shortcuts.redirect("list events", series_id=series_id)
+        path = urlresolvers.reverse("list events",
+                kwargs={"series_id": series_id})
+        return shortcuts.redirect(path + "?writeable=true")
 
     return http.HttpResponseBadRequest("Events formset did not pass "
             "validation: %s" % events_formset.errors)
