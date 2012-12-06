@@ -180,8 +180,8 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 				"focusin [contenteditable]": this.onContenteditableFocus,
 				"focusout [contenteditable]": this.onContenteditableBlur,
 
-				"focusin .js-field": this.focusForEditing,
-				"focusout .js-field": this.unfocusForEditing,
+				"focusin .js-field, input, select": this.focusForEditing,
+				"focusout .js-field, input, select": this.unfocusForEditing,
 
 				// Watch for fields changing
 				"change .js-field": this.updateModel,
