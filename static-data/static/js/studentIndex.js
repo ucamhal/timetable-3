@@ -1,3 +1,4 @@
-define(["view/student/studentApp"], function(Application) {
+define(["view/student/studentApp", "not-implemented-tooltips"],
+		function(Application) {
 	var app = new Application();
 });
