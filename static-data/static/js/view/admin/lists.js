@@ -219,7 +219,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			});
 
 			var outerForm = {
-				"form": {
+				"event_set": {
 					// can't add forms yet so this is OK
 					"initial": forms.length,
 					"forms": forms
@@ -319,6 +319,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 		updateModel: function() {
 			// Update our model with the current state of the HTML
 			this.model.set({
+				id: parseInt(this.$el.data("id")),
 				title: this.$title.text(),
 				location: this.$location.text(),
 				type: this.$type.text(),
@@ -508,10 +509,43 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			return !_.isEqual(this.originalAttributes, this.toJSON());
 		},
 
+		/**
+		 * Get an object of model attributes matching the Django form fields
+		 * accepted by the series edit endpoint.
+		 */
 		asJSONDjangoForm: function() {
-			// FIXME: ensure all keys match form keys
-			return this.toJSON();
+			var attrs = this.attributes;
+
+			// Map our field names onto the server's Django form field names
+			return {
+				id: attrs.id,
+				title: attrs.title,
+				location: attrs.location,
+				event_type: this.normaliseEventType(attrs.type),
+				people: attrs.people,
+				term_week: attrs.week,
+				term_name: attrs.term,
+				day_of_week: attrs.day,
+				start_hour: attrs.startHour,
+				start_minute: attrs.startMinute,
+				end_hour: attrs.endHour,
+				end_minute: attrs.endMinute
+			};
+		},
+
+		normaliseEventType: function(type) {
+			// Ensure only valid event types are passed, otherwise use
+			// the unknown value which makes the server not change the type.
+			if(_.contains(EventModel.VALID_EVENT_TYPES, type))
+				return type;
+			return EventModel.TYPE_UNKNOWN;
 		}
+	},
+	// Static class properties
+	{
+			TYPE_UNKNOWN: "Unknown",
+			VALID_EVENT_TYPES: ["Laboratory", "Lecture", "Language Class",
+					"Practical", "Seminar"]
 	});
 
 	var DateTimeDialogView = Backbone.View.extend({
@@ -753,13 +787,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 			this.$(".js-body-error").show();
 		},
 
-		showOKButton: function() {
-			this.$(".js-buttons-bar").slideDown();
-		},
-
-		dismissDialog: function() {
+		dismissDialog: function(event) {
 			this.$el.modal("hide");
 			this.trigger("close");
+			event.preventDefault();
 		}
 	});
 

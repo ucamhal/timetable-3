@@ -50,7 +50,7 @@ urlpatterns = patterns('',
             administrator.TimetableListWrite.as_view(),
             name="admin list write"),
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$', administrator.calendar_view, name="thing calendar"),
-    url(r'^series/(?P<series_id>\d+)/list-events/$', administrator.list_view_events),
+    url(r'^series/(?P<series_id>\d+)/list-events/$', administrator.list_view_events, name="list events"),
 
 
     # This has to be csrf exempt. Look at the view to see what it does.
