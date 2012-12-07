@@ -4,7 +4,7 @@
       tabindex="0"
       contenteditable="{{ editable }}"
       data-value="{{ event.title }}"
-      >{{ event.title|default:"&mdash;" }}</td>
+      >{{ event.title|default:"" }}</td>
   <td title="Event Type"
       class="event-field eventType"
       data-value="{{ event.type }}">
@@ -12,7 +12,7 @@
       <span
           class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}"
           tabindex="0"
-          >{{ event.metadata.type|default:"&mdash;" }}</span>
+          >{{ event.metadata.type|default:"" }}</span>
     </div>
   </td>
   <td class="event-field js-date-time-cell eventDateTime">
@@ -44,11 +44,11 @@
   <td title="Location" class="event-field js-field js-field-location eventLocation" tabindex="0"
       data-value="{{ event.location }}"
       contenteditable="{{ editable }}"
-      >{{ event.location|default:"&mdash;" }}</td>
+      >{{ event.location|default:"" }}</td>
   <td title="Lecturer/host/etc" class="event-field js-field js-field-people eventLecturers" tabindex="0"
       data-value="{{ event.metadata.people|join:", " }}"
       contenteditable="{{ editable }}"
-      >{{ event.metadata.people|join:", "|default:"&mdash;" }}</td>
+      >{{ event.metadata.people|join:", "|default:"" }}</td>
   {% block event_right %}
   {% endblock event_right %}
 </tr>
