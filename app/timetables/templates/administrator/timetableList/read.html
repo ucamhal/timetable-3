@@ -5,6 +5,9 @@
 {% block javascript_module %}timetable-list-read{% endblock javascript_module %}
 
 
+{% block timetable_el_id %}adminListView{% endblock %}
+
+
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li class="active">
@@ -29,6 +32,8 @@
   {% endblock timetable_module %}
 {% endfor %}
 </div>
+
+<div id="templates">
 
 <div class="modal changesNotificationPopup hide fade">
   <div class="modal-header">
@@ -71,6 +76,45 @@
   </div>
 </div>
 
+{# Dialog used to show saving progress, errors and success msg. #}
+<div class="js-events-save-dialog modal hide fade">
+  <div class="modal-header">
+    <h3>Save events</h3>
+  </div>
+  <div class="js-body js-body-saving">
+    <div class="modal-body">
+      <h5>Saving events...</h5>
+      <div class="loading-indicator-content">
+        <div class="progress progress-striped active">
+          <div class="bar" style="width: 40%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="js-body js-body-error" style="display: none;">
+    <div class="modal-body">
+      <h5 class="">Sorry, Timetables wasn't able to save your changes</h5>
+      <p>Here are some suggestions:</p>
+      <ul class="yes-this-is-really-a-list">
+        <li>Close this dialog and try saving again.</li>
+        <li>Check that your internet connection is working.</li>
+        <li>If this persists, Timetables probably has a bug. You can contact <a href="mailto:timetables-support@caret.cam.ac.uk">timetables-support@caret.cam.ac.uk</a> for assistance.</li>
+      </ul>
+    </div>
+    <div class="modal-footer js-buttons-bar">
+      <a href="#" class="btn btn-danger">Close</a>
+    </div>
+  </div>
+  <div class="js-body js-body-success" style="display: none;">
+    <div class="modal-body">
+      <h5 class="text-success">Your changes have been saved.</h5>
+    </div>
+    <div class="modal-footer js-buttons-bar">
+      <a href="#" class="btn btn-success">Okay</a>
+    </div>
+  </div>
+</div>
+
 {# Shows a progress bar when loading, or an error msg when failed #}
 <div class="js-loading-indicator-prototype js-loading-indicator loading-indicator" style="display: none;">
   <div class="loading" style="display: none;">
@@ -95,4 +139,6 @@
 
 {% block additional_modals %}
 {% endblock additional_modals %}
+
+</div><!-- #templates end -->
 {% endblock timetable_content %}

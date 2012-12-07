@@ -1,4 +1,5 @@
-define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
+define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
+		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
 	/**
@@ -142,6 +143,22 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			WritableSeriesView.__super__.constructor.apply(this, arguments);
 		},
 
+		events: function() {
+			var superEvents = WritableSeriesView.__super__.events.call(this);
+			
+			return _.extend(superEvents, {
+				"click .js-btn-cancel": this.onCancel,
+				"click .js-btn-save": this.onSave,
+				"click .js-btn-add-event": this.onAddEvent
+			});
+		},
+
+		initialize: function() {
+			WritableSeriesView.__super__.initialize.apply(this, arguments);
+
+			_.bindAll(this);
+		},
+
 		getEventsRequestOptions: function() {
 			var baseOptions = WritableSeriesView.__super__
 				.getEventsRequestOptions();
@@ -160,8 +177,84 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			// WritableEventView wrapping each event and store the list of these
 			// views in this.events
 			this.events = _.map(this.$(".js-event"), function(eventEl) {
-				return new WritableEventView({el: eventEl});
+				var eventView = new WritableEventView({el: eventEl});
+
+				// Watch for events being modified
+				eventView.on("event:savedStatusChanged",
+					this.onSavedStatusChanged);
+
+				return eventView;
+			}, this);
+
+			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+		},
+
+		onSavedStatusChanged: function() {
+			// Check for any events being changed and hide/show cancel/save
+			// button as needed.
+			var changesExist = _.any(this.events, function(event) {
+				return event.model.hasChangedFromOriginal();
 			});
+
+			// Make the cancel/save buttons visible/hidden as required
+
+			if(changesExist && !this.$cancelSaveBtns.is(":visible")) {
+				this.$cancelSaveBtns.slideDown();
+			}
+
+			if(!changesExist && this.$cancelSaveBtns.is(":visible")) {
+				this.$cancelSaveBtns.slideUp();	
+			}
+		},
+
+		onCancel: function(event) {
+			_.each(this.events, function(eventView) {
+				eventView.model.reset();
+
+				// This works, but is a bit hacky
+				eventView.unfocusForEditing();
+			});
+		},
+
+		onSave: function(event) {
+			// Build a JSON representation of the form. 
+
+			var forms = _.map(this.events, function(eventView) {
+				return eventView.model.asJSONDjangoForm();
+			});
+
+			var outerForm = {
+				"event_set": {
+					// can't add forms yet so this is OK
+					"initial": forms.length,
+					"forms": forms
+				}
+			};
+
+			var formData = DjangoForms.encodeJSONForm(outerForm);
+
+			// Create a modal dialog to prevent actions taking place while
+			// saving.
+			this.saveDialogView = new SaveEventsDialogView();
+			this.saveDialogView.on("saved", this.onEventsSaved)
+
+			// Show the dialog & kick off the form POST.
+			this.saveDialogView.postEventsForm(this.getSavePath(), formData)
+		},
+
+		onEventsSaved: function(response) {
+			delete this.saveDialogView;
+			this.$(".js-events").empty();
+			this.onEventsFetched(response);
+		},
+
+		/** Gets the path to the endpoint the POST changes to when saving. */
+		getSavePath: function() {
+			return this.$el.data("save-path");
+		},
+
+		onAddEvent: function(event) {
+			return false;
 		}
 	});
 
@@ -180,8 +273,8 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 				"focusin [contenteditable]": this.onContenteditableFocus,
 				"focusout [contenteditable]": this.onContenteditableBlur,
 
-				"focusin .js-field": this.focusForEditing,
-				"focusout .js-field": this.unfocusForEditing,
+				"focusin .js-field, input, select": this.focusForEditing,
+				"focusout .js-field, input, select": this.unfocusForEditing,
 
 				// Watch for fields changing
 				"change .js-field": this.updateModel,
@@ -224,8 +317,11 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		},
 
 		render: function() {
-			// We only need to update the date/time fields, the rest are kept
-			// automatically as they're contenteditable=true
+			this.$title.text(this.model.get("title"));
+			this.$location.text(this.model.get("location"));
+			this.$type.text(this.model.get("type"));
+			this.$people.text(this.model.get("people"));
+
 			this.$week.text(this.model.get("week"));
 			this.$term.text(this.model.getPrettyTerm());
 			this.$day.text(this.model.getPrettyDay());
@@ -238,6 +334,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		updateModel: function() {
 			// Update our model with the current state of the HTML
 			this.model.set({
+				id: parseInt(this.$el.data("id")),
 				title: this.$title.text(),
 				location: this.$location.text(),
 				type: this.$type.text(),
@@ -318,7 +415,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			else {
 				console.log("opening dialog", event);
 				this.dateTimeDialog = new DateTimeDialogView({
-					el: $(".js-date-time-dialog").clone(),
+					el: $("#templates .js-date-time-dialog").clone(),
 					model: this.model
 				});
 				// dialog:close is fired by the dialog when a click is made
@@ -363,6 +460,11 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 		initialize: function() {
 
 			this.hasInitialState = false;
+		},
+
+		/** Reset the model's attributes to the initial values. */
+		reset: function() {
+			this.set(this.originalAttributes);
 		},
 
 		titleCase: function(str) {
@@ -426,6 +528,44 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 			}
 			return !_.isEqual(this.originalAttributes, this.toJSON());
 		},
+
+		/**
+		 * Get an object of model attributes matching the Django form fields
+		 * accepted by the series edit endpoint.
+		 */
+		asJSONDjangoForm: function() {
+			var attrs = this.attributes;
+
+			// Map our field names onto the server's Django form field names
+			return {
+				id: attrs.id,
+				title: attrs.title,
+				location: attrs.location,
+				event_type: this.normaliseEventType(attrs.type),
+				people: attrs.people,
+				term_week: attrs.week,
+				term_name: attrs.term,
+				day_of_week: attrs.day,
+				start_hour: attrs.startHour,
+				start_minute: attrs.startMinute,
+				end_hour: attrs.endHour,
+				end_minute: attrs.endMinute
+			};
+		},
+
+		normaliseEventType: function(type) {
+			// Ensure only valid event types are passed, otherwise use
+			// the unknown value which makes the server not change the type.
+			if(_.contains(EventModel.VALID_EVENT_TYPES, type))
+				return type;
+			return EventModel.TYPE_UNKNOWN;
+		}
+	},
+	// Static class properties
+	{
+			TYPE_UNKNOWN: "Unknown",
+			VALID_EVENT_TYPES: ["Laboratory", "Lecture", "Language Class",
+					"Practical", "Seminar"]
 	});
 
 	var DateTimeDialogView = Backbone.View.extend({
@@ -528,6 +668,13 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 				$target.val(this.model.get(attr));
 			}
 			
+			// Keep 'to' the same distance from 'from' when 'from' is updated.
+			// The principle here is to only update 'to' automatically  wherever
+			// possible. The only time this is broken is when 'from' is moved
+			// to 24:00 in which case 'from' must be moved back to avoid a 0
+			// length event.
+			// The other principle behind this is not to have to show users
+			// error messages.
 			var from = this.minutesFromTime(
 					parseInt(this.$startHour.val()),
 					parseInt(this.$startMinute.val()));
@@ -550,11 +697,13 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 			// Prevent end being <= start
 			if(to <= from) {
-				from = to - 1;
-				if(from < 0) {
-					from = 0;
-					to = 1;
-				}
+				to = this.clampTime(from + 60);
+			}
+
+			if(to == from) {
+				// This can only occur if from is moved to 24
+				assert(from == this.minutesFromTime(24, 0));
+				from = this.minutesFromTime(23, 0);
 			}
 
 			var fromTime = this.timeFromMinutes(from);
@@ -619,6 +768,61 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone) {
 
 		onClick: function() {
 			this.trigger("clicked");
+		}
+	});
+
+	var SaveEventsDialogView = Backbone.View.extend({
+		constructor: function() {
+			SaveEventsDialogView.__super__.constructor.apply(this, arguments);
+		},
+
+		events: function() {
+			return {
+				"click .btn": this.dismissDialog
+			};
+		},
+
+		initialize: function() {
+			_.bindAll(this);
+
+			this.setElement($("#templates .js-events-save-dialog")[0]);
+			this.$(".js-body").hide();
+			this.$(".js-body-saving").show();
+		},
+
+		showModal: function() {
+			this.$el.modal({
+				backdrop: "static",
+				keyboard: false,
+				show: true
+			});
+		},
+
+		postEventsForm: function(url, eventsData) {
+			this.showModal();
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: eventsData
+			}).done(this.onPOSTDone).fail(this.onPOSTFail)
+		},
+
+		onPOSTDone: function(response) {
+			this.$(".js-body").hide();
+			this.$(".js-body-success").show();
+			this.trigger("saved", response);
+		},
+
+		onPOSTFail: function() {
+			this.$(".js-body").hide();
+			this.$(".js-body-error").show();
+		},
+
+		dismissDialog: function(event) {
+			this.$el.modal("hide");
+			this.trigger("close");
+			event.preventDefault();
 		}
 	});
 

@@ -1,4 +1,10 @@
-define(["jquery", "underscore", "view/admin/calendar", "bootstrap", "fullcalendar"], function($, _, Calendar) {
+define(["jquery", 
+		"underscore", 
+		"view/admin/calendar", 
+		"bootstrap", 
+		"fullcalendar",
+		"not-implemented-tooltips"],
+		 function($, _, Calendar) {
     "use strict";
 
     _.mixin({

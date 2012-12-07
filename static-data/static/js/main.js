@@ -31,12 +31,16 @@ require.config({
         },
         "fullcalendar" : {
             deps: ["jquery"]
-        }
+        },
+        "libs/jquery-django-csrf": {
+            deps: ["jquery"]
+        },
     }
 });
 
 require([
   "jquery",
+  "libs/jquery-django-csrf",
   "domReady"
 ], function($) {
    "use strict";
