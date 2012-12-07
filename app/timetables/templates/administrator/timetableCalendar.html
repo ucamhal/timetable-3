@@ -8,8 +8,11 @@
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li>
-    {# TODO: check permissions to know whether to link read or write version #}
-    <a href="{% url "admin list" thing %}">List</a>
+  {% if may_edit %}
+    <a href="{% url "admin list write" thing %}">List</a>
+  {% else %}
+    <a href="{% url "admin list read" thing %}">List</a>
+  {% endif %}
   </li>
   <li class="active">
     <a href="">Week</a>
@@ -54,9 +57,9 @@
   <ul class="clearfix actions">
     <li class="pull-left"><a href="#" class="js-close">Close</a></li>
     {% if may_edit %}
-      <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list" thing %}" >View in edit mode</a></li>
+      <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list write" thing %}" >View in edit mode</a></li>
     {% else %}
-      <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list" thing %}" >See in list view</a></li>
+      <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list read" thing %}" >See in list view</a></li>
     {% endif %}
   </ul>
 </div>
