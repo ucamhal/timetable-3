@@ -464,7 +464,7 @@ class Event(SchemalessModel, VersionableModel):
             self.source = instance.source
             self.status = instance.status
             SchemalessModel.copycreate(self, instance)
-            VersionableModel.copycreate(self, instance)            
+            VersionableModel.copycreate(self, instance)
     
     def __unicode__(self):
         return "%s %s %s - %s  (%s)" % (self.title, self.location,
