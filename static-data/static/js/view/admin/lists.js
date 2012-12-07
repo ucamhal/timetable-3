@@ -22,16 +22,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		initialize: function() {
 			_.bindAll(this, "onExpand", "onCollapse");
+
+			this.$expansionIndicator = this.$(
+					".js-module-heading .js-expansion-indicator")
 		},
 
 		onExpand: function() {
-			this.$(".js-expansion-indicator")
+			this.$expansionIndicator
 				.removeClass("icon-chevron-right")
 				.addClass("icon-chevron-down");
 		},
 
 		onCollapse: function() {
-			this.$(".js-expansion-indicator")
+			this.$expansionIndicator
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
 			this.$(".js-module-content").removeClass("shown");
@@ -114,7 +117,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.loadingIndicator.showErrorState();
 		},
 
-		onExpand: function() {
+		onExpand: function(event) {
+			event.stopPropagation();
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-right")
 				.addClass("icon-chevron-down");
@@ -126,7 +130,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.loadEvents();
 		},
 
-		onCollapse: function() {
+		onCollapse: function(event) {
+			event.stopPropagation();
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
