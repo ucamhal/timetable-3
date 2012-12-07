@@ -2,6 +2,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
+	/** Strip leading zeros from an integer such as: 01, 05, 005 etc. */
+	function stripZeros(str) {
+		var groups = /0*(\d+)/.exec(str);
+		if(!groups)
+			return undefined;
+		return groups[1];
+	}
+
+	/** As parseInt() except handles strings with leading zeros correctly. */
+	function safeParseInt(str) {
+		return parseInt(stripZeros(str));
+	}
+
 	/**
 	 * Wraps a .js-module in the page to update the "> v" arrows when the
 	 * module's content is shown/hidden. The actual showing/hiding is done by
@@ -22,16 +35,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		initialize: function() {
 			_.bindAll(this, "onExpand", "onCollapse");
+
+			this.$expansionIndicator = this.$(
+					".js-module-heading .js-expansion-indicator")
 		},
 
 		onExpand: function() {
-			this.$(".js-expansion-indicator")
+			this.$expansionIndicator
 				.removeClass("icon-chevron-right")
 				.addClass("icon-chevron-down");
 		},
 
 		onCollapse: function() {
-			this.$(".js-expansion-indicator")
+			this.$expansionIndicator
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
 			this.$(".js-module-content").removeClass("shown");
@@ -114,7 +130,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.loadingIndicator.showErrorState();
 		},
 
-		onExpand: function() {
+		onExpand: function(event) {
+			event.stopPropagation();
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-right")
 				.addClass("icon-chevron-down");
@@ -126,7 +143,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.loadEvents();
 		},
 
-		onCollapse: function() {
+		onCollapse: function(event) {
+			event.stopPropagation();
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-down")
 				.addClass("icon-chevron-right");
@@ -334,7 +352,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		updateModel: function() {
 			// Update our model with the current state of the HTML
 			this.model.set({
-				id: parseInt(this.$el.data("id")),
+				id: safeParseInt(this.$el.data("id")),
 				title: this.$title.text(),
 				location: this.$location.text(),
 				type: this.$type.text(),
@@ -648,7 +666,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		onWeekChanged: function() {
 			// Reset week to the last good value if it's not an int
-			if(isNaN(parseInt(this.$week.val())))
+			if(isNaN(safeParseInt(this.$week.val())))
 				this.$week.val(this.model.get("week"));
 
 			this.syncToModel();
@@ -661,7 +679,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			var isHour = $target.hasClass("js-hour");
 
 			// Prevent invalid numbers creaping in
-			if(isNaN(parseInt($target.val()))) {
+			if(isNaN(safeParseInt($target.val()))) {
 				var attr = (isStart? "start" : "end")
 					+ (isHour ? "Hour" : "Minute");
 
@@ -676,16 +694,16 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			// The other principle behind this is not to have to show users
 			// error messages.
 			var from = this.minutesFromTime(
-					parseInt(this.$startHour.val()),
-					parseInt(this.$startMinute.val()));
+					safeParseInt(this.$startHour.val()),
+					safeParseInt(this.$startMinute.val()));
 
 			var oldFrom = this.minutesFromTime(
-					parseInt(this.model.get("startHour")),
-					parseInt(this.model.get("startMinute")));
+					safeParseInt(this.model.get("startHour")),
+					safeParseInt(this.model.get("startMinute")));
 
 			var to = this.minutesFromTime(
-					parseInt(this.$endHour.val()),
-					parseInt(this.$endMinute.val()));
+					safeParseInt(this.$endHour.val()),
+					safeParseInt(this.$endMinute.val()));
 
 			// Make to move with from when from changes
 			// (+= 0 when to changed)
