@@ -1,3 +1,4 @@
-define(["view/admin/adminApp"], function(Application) {
+define(["view/admin/adminApp", "not-implemented-tooltips"],
+		function(Application) {
 	var app = new Application();
 });

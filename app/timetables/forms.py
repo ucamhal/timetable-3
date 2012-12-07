@@ -109,6 +109,12 @@ class EventForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
+
+        # Override title field to allow empty strings
+        self.fields["title"].required = False
+        self.fields["location"].required = False
+        self.fields["people"].required = False
+
         self._set_initial_values() 
     
     def clean(self):

@@ -1,10 +1,10 @@
-<tr class="event js-event {{ event_classes }}">
+<tr class="event js-event {{ event_classes }}" data-id="{{ event.id }}">
   <td title="Title"
       class="event-field js-field js-field-title eventTitle"
       tabindex="0"
       contenteditable="{{ editable }}"
       data-value="{{ event.title }}"
-      >{{ event.title|default:"&mdash;" }}</td>
+      >{{ event.title|default:"" }}</td>
   <td title="Event Type"
       class="event-field eventType"
       data-value="{{ event.type }}">
@@ -12,7 +12,7 @@
       <span
           class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}"
           tabindex="0"
-          >{{ event.metadata.type|default:"&mdash;" }}</span>
+          >{{ event.metadata.type|default:"" }}</span>
     </div>
   </td>
   <td class="event-field js-date-time-cell eventDateTime">
@@ -30,13 +30,13 @@
         <span>&nbsp;</span>
         {% endwith %}
       </span>
-      <span class="js-field-start-hour">{{ event.start.hour|stringformat:".2d" }}</span>
+      <span class="js-field-start-hour">{{ event.start_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-start-minute">{{ event.start.minute|stringformat:".2d" }}</span>
+      <span class="js-field-start-minute">{{ event.start_local.minute|stringformat:".2d" }}</span>
       <span>&ndash;</span>
-      <span class="js-field-end-hour">{{ event.end.hour|stringformat:".2d" }}</span>
+      <span class="js-field-end-hour">{{ event.end_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-end-minute">{{ event.end.minute|stringformat:".2d" }}</span>
+      <span class="js-field-end-minute">{{ event.end_local.minute|stringformat:".2d" }}</span>
       {% endspaceless %}
       {% block date_time_end %}
       {% endblock date_time_end %}
@@ -44,11 +44,11 @@
   <td title="Location" class="event-field js-field js-field-location eventLocation" tabindex="0"
       data-value="{{ event.location }}"
       contenteditable="{{ editable }}"
-      >{{ event.location|default:"&mdash;" }}</td>
+      >{{ event.location|default:"" }}</td>
   <td title="Lecturer/host/etc" class="event-field js-field js-field-people eventLecturers" tabindex="0"
       data-value="{{ event.metadata.people|join:", " }}"
       contenteditable="{{ editable }}"
-      >{{ event.metadata.people|join:", "|default:"&mdash;" }}</td>
+      >{{ event.metadata.people|join:", "|default:"" }}</td>
   {% block event_right %}
   {% endblock event_right %}
 </tr>

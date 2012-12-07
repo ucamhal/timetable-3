@@ -13,6 +13,11 @@ body ul {
 	margin-left: 0;
 }
 
+ul.yes-this-is-really-a-list {
+	list-style-type: disc;
+	margin: 0 0 10px 25px;
+}
+
 ul.buttons li a {
 	opacity: .6;
 }

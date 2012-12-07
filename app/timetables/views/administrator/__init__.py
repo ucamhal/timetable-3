@@ -223,35 +223,29 @@ def list_view_events(request, series_id):
     return shortcuts.render(request, template, context)
 
 
+@require_POST
 @login_required
 @permission_required('timetables.is_admin', raise_exception=True)
 def edit_series_view(request, series_id):
-    # Render debug stuff if the page is not requested by an AJAX
-    template_debug_elements = not request.is_ajax()
 
     # Find the series for the form to be displayed
     series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
 
-    if request.method == "POST":
-        editor = SeriesEditor(series, post_data=request.POST)
+    editor = SeriesEditor(series, post_data=request.POST)
 
-        series_form = editor.get_form()
-        events_formset = editor.get_event_formset()
+    events_formset = editor.get_event_formset()
 
-        if series_form.is_valid() and events_formset.is_valid():
-            @xact
-            def save():
-                series_form.save()
-                events_formset.save()
-            save()
-            return shortcuts.redirect("edit series", series_id=series_id)
-    else:
-        editor = SeriesEditor(series)
+    if events_formset.is_valid():
+        @xact
+        def save():
+            events_formset.save()
+        save()
+        path = urlresolvers.reverse("list events",
+                kwargs={"series_id": series_id})
+        return shortcuts.redirect(path + "?writeable=true")
 
-    return shortcuts.render(request, "administrator/timetableList/fragSeriesWrite.html", {
-        "series_editor": editor,
-        "edit_series_view_template_debug_elements": template_debug_elements
-    })
+    return http.HttpResponseBadRequest("Events formset did not pass "
+            "validation: %s" % events_formset.errors)
 
 
 @login_required

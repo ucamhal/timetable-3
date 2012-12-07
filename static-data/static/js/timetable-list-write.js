@@ -1,4 +1,5 @@
-define(["view/admin/lists", "bootstrap"], function(Lists) {
+define(["view/admin/lists", "bootstrap", "not-implemented-tooltips"],
+		function(Lists) {
     "use strict";
 
     $(".js-module").each(function() {
