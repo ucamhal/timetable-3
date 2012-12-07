@@ -1,5 +1,5 @@
-define(["jquery", "underscore", "backbone", "util/django-forms"],
-		function($, _, Backbone, DjangoForms) {
+define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
+		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
 	/**
@@ -668,6 +668,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 				$target.val(this.model.get(attr));
 			}
 			
+			// Keep 'to' the same distance from 'from' when 'from' is updated.
+			// The principle here is to only update 'to' automatically  wherever
+			// possible. The only time this is broken is when 'from' is moved
+			// to 24:00 in which case 'from' must be moved back to avoid a 0
+			// length event.
+			// The other principle behind this is not to have to show users
+			// error messages.
 			var from = this.minutesFromTime(
 					parseInt(this.$startHour.val()),
 					parseInt(this.$startMinute.val()));
@@ -690,11 +697,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms"],
 
 			// Prevent end being <= start
 			if(to <= from) {
-				from = to - 1;
-				if(from < 0) {
-					from = 0;
-					to = 1;
-				}
+				to = this.clampTime(from + 60);
+			}
+
+			if(to == from) {
+				// This can only occur if from is moved to 24
+				assert(from == this.minutesFromTime(24, 0));
+				from = this.minutesFromTime(23, 0);
 			}
 
 			var fromTime = this.timeFromMinutes(from);
