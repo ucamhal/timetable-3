@@ -22,6 +22,11 @@
 {% endblock timetable_module %}
 
 
+{% block top_level_series__series %}
+{% include "administrator/timetableList/fragSeriesWrite.html" %}
+{% endblock top_level_series__series %}
+
+
 {% block additional_modals %}
 <div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"
     style="display: none;">
