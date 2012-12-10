@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}"></div>
+<div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}?depth={{ depth|urlencode }}"></div>
 
 <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
   <div class="arrow"></div>
