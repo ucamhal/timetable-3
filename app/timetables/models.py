@@ -17,6 +17,9 @@ from django.utils.timezone import now
 import pytz
 log = logging.getLogger(__name__)
 
+from itertools import chain
+
+
 # Length of a hash required to identify items.
 # The item can be retrieved by hashing an external identifier and selecting
 # based on the hash. This allows simple linking of data where we don't know the source.
@@ -301,9 +304,17 @@ class Thing(SchemalessModel, HierachicalModel):
     fullname = models.CharField("Full Name", max_length=MAX_LONG_NAME,help_text="Full name of the thing, to be displayed to end users.")
     
     
-    def get_events(self):
-        return Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
+    def get_events(self, depth=1):
+        events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
                                     models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
+        
+        # depth 2
+        if depth == 2:
+            events_2 = Event.objects.filter(models.Q(source__eventsourcetag__thing__parent=self,source__current=True)|
+                                    models.Q(eventtag__thing__parent=self), current=True, status=Event.STATUS_LIVE)
+            events = chain(events, events_2)
+            
+        return events
         
     @classmethod
     def get_all_events(cls, things):
