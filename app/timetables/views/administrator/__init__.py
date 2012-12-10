@@ -92,35 +92,6 @@ class SeriesEditor(object):
         return self._series
 
 
-@login_required
-@permission_required('timetables.is_admin', raise_exception=True)
-def list_view(request, thing=None):
-    thing = shortcuts.get_object_or_404(models.Thing,
-            pathid=models.Thing.hash(thing))
-
-    if thing.type not in ["part", "subject", "experimental", "option"]:
-        return http.HttpResponseBadRequest(
-                "Can't edit thing of type %s as a list." % thing)
-
-    # Get parent timetable
-    if thing.type == "part":
-        timetable_thing = thing.parent
-    else:
-        timetable_thing = thing.parent.parent
-    assert timetable_thing.type == "tripos"
-
-    module_editors = [
-        ModuleEditor(module)
-        for module in thing.thing_set.filter(type="module").order_by("name")
-    ]
-
-    return shortcuts.render(request, "administrator/timetableList/write.html", {
-        "thing": thing,
-        "module_editors": module_editors,
-        "timetable_thing": timetable_thing
-    })
-
-
 class TimetableListRead(django.views.generic.View):
 
     @method_decorator(login_required)

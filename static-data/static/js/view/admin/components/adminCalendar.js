@@ -1,10 +1,9 @@
 define([
 	"jquery",
 	"underscore",
-	"view/admin/components/calendarComponents/listView",
 	"view/admin/components/calendarComponents/adminCalendarContent",
 	"view/admin/components/calendarComponents/adminCalendarHeading"
-], function ($, _, ListView, CalendarContent, AdminCalendarHeading) {
+], function ($, _, CalendarContent, AdminCalendarHeading) {
 
 	var AdminCalendar = function (opt) {
 		_.extend(this, opt);
@@ -14,9 +13,6 @@ define([
 	_.extend(AdminCalendar.prototype, {
 		initialize: function () {
 			_.defaults(this, {
-				listView: new ListView({
-					selector: "#adminListView"
-				}),
 				content: new CalendarContent({
 					selector: "#calendar",
 					parent: this
