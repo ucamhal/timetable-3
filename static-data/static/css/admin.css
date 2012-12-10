@@ -197,7 +197,7 @@ div:focus {
 	margin-bottom: 30px;
 }
 
-.modulesList h3, .modulesList h4, .modulesList h5 {
+.moduleHeading h4, .seriesHeading h5 {
 	margin: 0;
 	padding: 0;
 	line-height: 1em;
