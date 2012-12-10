@@ -64,7 +64,13 @@ class CalendarView(View):
                 yield "[\n"
                 # TODO: Support ranges
                 pattern = "%s"
-                for e in thing.get_events():
+                
+                # get depth if present (?depth=x in URL)
+                depth = 1;
+                if request.GET.get('depth'):
+                    depth = int(request.GET['depth'])
+                
+                for e in thing.get_events( depth=depth ):
                     event_obj = self.to_fullcalendar(e)
                     event_obj["className"] = "thing_%s" % thing.type
                     yield pattern % json.dumps(event_obj, indent=JSON_INDENT)

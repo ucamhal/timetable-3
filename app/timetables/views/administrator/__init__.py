@@ -271,8 +271,13 @@ def calendar_view(request, thing=None):
         timetable_thing = thing.parent.parent
     assert timetable_thing.type == "tripos"
 
+    # get depth to retrieve events at, looks at ?depth=x parameter in URL (if present)
+    depth = 2; # default to 2 - assumes that all event details may be found in this item item or one level down
+    if request.GET.get('depth'):
+        depth = request.GET['depth']
+
     return shortcuts.render(request, "administrator/timetableCalendar.html",
-            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing})
+            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing, "depth": depth})
 
 
 @login_required
