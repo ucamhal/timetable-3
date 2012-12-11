@@ -9,11 +9,11 @@ from django.core.management.base import BaseCommand, CommandError
 import os
 
 import logging
+from timetables.utils.v1 import generate
 from timetables.models import EventSource, Event, Thing,\
     EventSourceTag, MAX_NAME_LENGTH, MAX_URL_LENGTH
 from optparse import make_option
 import urllib2
-from timetables.utils.v1.generators import generate
 log = logging.getLogger(__name__)
 
 
@@ -419,8 +419,6 @@ class Command(BaseCommand):
                                     source = self.loadEventSource(("%s %s" % (groupTitle, n))[:(MAX_NAME_LENGTH-1)], ("%s:%s" % (dfn,n))[:(MAX_URL_LENGTH-1)])
                                     EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
                                     sources = sources + 1
-                                term_name = g.get('term') or "Mi"
-                                term_name = term_name[:2]
                                 group_template = g.get('code') or ""
                                 for e in g['elements']:
                                     location = e.get('where') or g.get('location') or "Unknown"
@@ -430,13 +428,12 @@ class Command(BaseCommand):
                                         source = self.loadEventSource(("%s %s" % (groupTitle, title))[:(MAX_NAME_LENGTH-1)] , ("%s:%s:%s" % (dfn,n,title))[:(MAX_URL_LENGTH-1)])
                                         EventSourceTag.objects.get_or_create(thing=thing,eventsource=source)
                                         sources = sources + 1
-                                    events.extend(generate(source=source, 
-                                             title=title, 
-                                             location=location, 
-                                             date_time_pattern=date_time_pattern, 
-                                             group_template=group_template, 
-                                             start_year=start_year, 
-                                             term_name=term_name))
+                                    events.extend(generate(source,
+                                             title,
+                                             location,
+                                             date_time_pattern,
+                                             group_template,
+                                             start_year))
                             self.bulk_create(events)
                             total_events = total_events + len(events)
                             log.info("%s (%s) added %s events in %s series" % (thingpath, types[-1], len(events), sources))
