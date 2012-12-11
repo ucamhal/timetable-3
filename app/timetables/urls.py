@@ -56,6 +56,7 @@ urlpatterns = patterns('',
     url(r'repo/(?P<key>.*)', csrf_exempt(RepoView.as_view()), name="REPO"),
     
     url(r'^series/(?P<series_id>\d+)/edit$', administrator.edit_series_view, name="edit series"),
+    url(r'^series/(?P<series_id>\d+)/edit/title$', administrator.edit_series_title, name="edit series title"),
 
     url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$', ExportEvents.as_view(), name="export ics hmac"),
     url(r'(?P<thing>.*)\.events\.ics$', ExportEvents.as_view(), name="export ics"),
