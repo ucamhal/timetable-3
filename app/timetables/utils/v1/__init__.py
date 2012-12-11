@@ -110,7 +110,7 @@ def expand_patterns(patterns, year, template_pattern=None,
         results.append(periods)
 
     if local_timezone is not None:
-        return _make_aware(results)
+        return _make_aware(results, local_timezone)
     return results
 
 def _make_aware(all_periods, timezone):

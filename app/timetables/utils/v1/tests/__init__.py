@@ -1,7 +1,9 @@
 import operator
+import pytz
 
 from django.test import TestCase
 from django.utils import datetime_safe as datetime
+from django.utils import timezone
 
 from timetables.utils.v1 import expand_patterns, expand_pattern
 
@@ -89,3 +91,14 @@ class DatePatternTest(TestCase):
             self.fail("The preceding call should have failed.")
         except ValueError:
             pass
+
+    def test_timezone_specification_creates_aware_datetimes(self):
+        london_tz = pytz.timezone("Europe/London")
+        [[(start, stop)]] = expand_patterns(
+                ["Mi 1 F 3"], 2012, local_timezone=london_tz)
+
+        self.assertTrue(timezone.is_aware(start))
+        self.assertTrue(timezone.is_aware(stop))
+
+        self.assertEqual(start.tzinfo.zone, london_tz.zone)
+        self.assertEqual(stop.tzinfo.zone, london_tz.zone)
