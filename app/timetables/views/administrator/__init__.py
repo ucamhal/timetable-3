@@ -9,8 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.http import require_POST
 import django.views.generic
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 from timetables import models
@@ -51,23 +50,6 @@ def timetable_view(request, thing=None):
 
     return shortcuts.render(request, "administrator/overview.html",
             {"thing": thing, "timetables": timetables, "triposes": triposes, "editable": editable})
-
-
-class ModuleEditor(object):
-    def __init__(self, module):
-        self._module = module
-        self._form = forms.ModuleForm(instance=module)
-
-        self._series_editors = [
-            SeriesEditor(series) for series in (module.sources.all()
-                    .order_by("title"))
-        ]
-
-    def get_form(self):
-        return self._form
-
-    def series_editors(self):
-        return self._series_editors
 
 
 class SeriesEditor(object):
@@ -246,13 +228,11 @@ def edit_series_title(request, series_id):
     series_form = editor.get_form()
     
     if series_form.is_valid():
-        series_form.save()
+        @xact
+        def save():
+            series_form.save()
+        save()
         return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
-        
-        path = urlresolvers.reverse("list events",
-                kwargs={"series_id": series_id})
-        return shortcuts.redirect(path + "?writeable=true")
-        
 
     return http.HttpResponseBadRequest("Series form did not pass "
             "validation: %s" % editor.errors)
