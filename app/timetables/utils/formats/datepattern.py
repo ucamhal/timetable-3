@@ -20,21 +20,18 @@ class DatePatternImporter(object):
             start_year = server_datetime_now().year
         title = source.title
         location = metadata.get("location", '')
-        term_name = metadata.get('term') or "Mi"
-        term_name = term_name[:2]
         try:
-            events = generate(source=source,
-                                title=title,
-                                location=location,
-                                date_time_pattern=datePattern,
-                                group_template=group_template,
-                                start_year=start_year,
-                                term_name=term_name,
-                                data=metadata) # FIXME: Might want to filter the metadata or just use the source metadata in queries,
-            #                                    not sure that we should duplicate this 100s of times.
+            # FIXME: Might want to filter the metadata or just use the source
+            # metadata in queries, not sure that we should duplicate this 100s
+            # of times.
+            events = generate(source, title, location, datePattern,
+                    group_template, start_year, data=metadata)
+
             Event.objects.bulk_create(events)
             Event.after_bulk_operation()
 
             return len(events)
         except:
-            log.error("Failed to process date patter %s in eventsource %s  (%s)" % ( datePattern, source.title, source.id))
+            log.error("Failed to process date patter %s in eventsource %s  (%s)"
+                    % (datePattern, source.title, source.id))
+            raise

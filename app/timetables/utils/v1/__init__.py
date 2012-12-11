@@ -42,26 +42,44 @@ TERM_STARTS = {
 }
 
 
-def generate(source, title, location, date_time_pattern, group_template, start_year, term_name, data=None):
-    # log.info(" source [%s] title [%s] location [%s]  date_time_pattern [%s] group template [%s] terms  [%s] term_name [%s] " % (source, title, location, date_time_pattern, group_template, terms, term_name))
-    terms = TERM_STARTS[start_year]
-    year = Year(terms)
-    groupTemplate = GroupTemplate(group_template)
+def generate(source, title, location, date_time_pattern, group_template,
+        start_year, data=None, local_timezone=None):
+    """
+    Generate a set of event objects, but do not save them into the database.
+
+    This may be used to save with a bulk update or the event objects may be used
+    directly without saving. Please note as they are non saved objects the
+    events will not have IDs.
+
+    Args:
+        source: The event source, can be None if not saving.
+        title: The event title.
+        location: The event's location.
+        date_time_pattern: A date time pattern string.
+        group_template: A date time pattern string to be used as a template
+            where x5 type patterns are used.
+        start_year: The year in which the academic year starts
+        data: A dict of data to be added to each event as metadata.
+        local_timezone: A pytz compatible tzinfo object. This is the timezone in
+            which the events are to be generated. Defaults to the current active
+            timezone (as defined by django.utils.timezone) if none is specified.
+
+    Returns:
+        A list of Event instances.
+    """
+    if local_timezone is None:
+        local_timezone = timezone.get_current_timezone()
+
     events = []
-    for p in date_time_pattern.split(";"):
-        pattern = "%s %s" % ( term_name, p.strip() )
-        p = pparser.fullparse(pattern, groupTemplate)
-        dtField = models.DateTimeField()
-        for start, end in year.atoms_to_isos(p.patterns()):
-            event = Event(start=dtField.to_python(start), 
-                          end=dtField.to_python(end),
-                          source=source,
-                          title=title,
-                          location=location)
-            if data is not None:
-                event.metadata.update(data)
-            event.prepare_save()
-            events.append(event)
+    for start, end in expand_pattern(date_time_pattern, start_year,
+            group_template, local_timezone):
+        event = Event(start=start, end=end, source=source, title=title,
+                location=location)
+
+        if data is not None:
+            event.metadata.update(data)
+        event.prepare_save()
+        events.append(event)
     return events
 
 def expand_patterns(patterns, year, template_pattern=None,
