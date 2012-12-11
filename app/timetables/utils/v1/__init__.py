@@ -67,7 +67,7 @@ def generate(source, title, location, date_time_pattern, group_template, start_y
 def expand_patterns(patterns, year, template_pattern=None,
         local_timezone=None):
     """
-    Expands a date time pattern string into a series of occurrences.
+    Expands a series of date time pattern strings into occurrences.
 
     Args:
         patterns: A sequence of strings, each containing a datetime pattern.
@@ -75,7 +75,25 @@ def expand_patterns(patterns, year, template_pattern=None,
             relative to.
         template_pattern: An additional single pattern (no ;) to use when
             expanding patterns containing MULT expressions (e.g. x3, x5 etc).
-        local_timezone
+        local_timezone: (optional) a pytz tzinfo instance which will be used
+            as the timezone for the returned datetimes.
+
+    Returns:
+        For each pattern string in the patterns argument a list of (start, end)
+        tuples is returned. Each tuple represents the datetimes of the beginning
+        and end of each occurrence the corresponding pattern expands into.
+
+        For example, if 3 pattern strings are provided - [a, b c] - the return
+        value will be a list of the form:
+        [
+            [(start, end), (start, end), ...], # Periods from expanding pattern a
+            [(start, end), (start, end), ...], # Periods from expanding pattern b
+            [(start, end), (start, end), ...]  # Periods from expanding pattern c
+        ]
+
+    Raises:
+        NoSuchYearException: If no term date data is available for the specified
+            year.
     """
     if isinstance(patterns, basestring):
         raise ValueError("patterns was a string, expected a sequence of "
@@ -145,14 +163,10 @@ def _make_aware(all_periods, timezone):
 
 def expand_pattern(pattern, year, template_pattern=None, local_timezone=None):
     """
-    Expands a date time pattern string into a series of occurrences.
+    Expands a pattern string into occurrences.
 
-    Args:
-        pattern: A string containing a datetime pattern.
-        year: A Year instance or integer starting year of the academic year the
-            pattern is relative to.
-        group_template: An additional single pattern (no ;) to use when
-            expanding patterns containing
+    Arguments and return values are the same as for expand_patterns() except
+    a single pattern is provided, and a single list of intervals is returned.
     """
     return expand_patterns([pattern], year, template_pattern=template_pattern,
             local_timezone=local_timezone)[0]
