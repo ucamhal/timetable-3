@@ -77,6 +77,10 @@ def expand_patterns(patterns, year, template_pattern=None,
             expanding patterns containing MULT expressions (e.g. x3, x5 etc).
         local_timezone
     """
+    if isinstance(patterns, basestring):
+        raise ValueError("patterns was a string, expected a sequence of "
+                "strings: %s" % patterns)
+
     # Don't allow GroupTemplate instances or other pre-parsed pattern objects
     # as they hold state. expand_patterns() needs to be referentially
     # transparent to avoid obscure bugs related to holding and reusing stateful

@@ -61,3 +61,31 @@ class DatePatternTest(TestCase):
             (datetime.datetime(2012, 10, 17, 10),
              datetime.datetime(2012, 10, 17, 11)),
         ])
+
+    def test_multiple_pattern_expansion(self):
+        """
+        Test that expanding semicolon separated patterns works as expected.
+        """
+        periods, = expand_patterns(["Mi1 MWF 10 ; Mi2 F 10"], 2012)
+
+        self.assertListEqual(periods, [
+            (datetime.datetime(2012, 10, 5, 10),
+             datetime.datetime(2012, 10, 5, 11)),
+
+            (datetime.datetime(2012, 10, 8, 10),
+             datetime.datetime(2012, 10, 8, 11)),
+
+            (datetime.datetime(2012, 10, 10, 10),
+             datetime.datetime(2012, 10, 10, 11)),
+
+            (datetime.datetime(2012, 10, 12, 10),
+             datetime.datetime(2012, 10, 12, 11))])
+
+
+    def test_passing_string_to_patterns_raises_value_error(self):
+        try:
+            # Incorrectly pass a string instead of a list
+            expand_patterns("Mi 1 MWF 10", 2012)
+            self.fail("The preceding call should have failed.")
+        except ValueError:
+            pass
