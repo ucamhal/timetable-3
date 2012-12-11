@@ -102,3 +102,46 @@ class DatePatternTest(TestCase):
 
         self.assertEqual(start.tzinfo.zone, london_tz.zone)
         self.assertEqual(stop.tzinfo.zone, london_tz.zone)
+
+    def test_utc_offset_across_bst_boundry(self):
+        """
+        This test verifies that datetimes falling in BST are UTC+1 and datetimes
+        outside BST (in GMT) are UTC+0.
+
+        In 2012, BST was from 25 March to 28 October.
+        """
+        london_tz = pytz.timezone("Europe/London")
+        [[(bst_start, bst_stop), (gmt_start, gmt_stop)]] = expand_patterns(
+                ["Mi 4 MF 2"], 2012, local_timezone=london_tz)
+
+        # Week 4 Friday is 26th Oct, Monday is 29th Oct
+        self.assertEqual(bst_start.date(), datetime.date(2012, 10, 26))
+        self.assertEqual(bst_stop.date(), datetime.date(2012, 10, 26))
+
+        self.assertEqual(gmt_start.date(), datetime.date(2012, 10, 29))
+        self.assertEqual(gmt_stop.date(), datetime.date(2012, 10, 29))
+
+        # All the datetimes are aware & in the London zone
+        for dt in [bst_start, bst_stop, gmt_start, gmt_stop]:
+            self.assertTrue(timezone.is_aware(dt))
+            self.assertEqual(dt.tzinfo.zone, london_tz.zone)
+
+        # The start of the BST event in BST local time is 2:00PM (14:00)
+        self.assertEqual(bst_start.hour, 14)
+        # The start of the BST event in UTC local time is 1:00PM (13:00) (UTC+1 = BST)
+        self.assertEqual(bst_start.astimezone(pytz.utc).hour, 13)
+
+        # The end of the BST event in BST local time is 3:00PM (15:00)
+        self.assertEqual(bst_stop.hour, 15)
+        # The end of the BST event in UTC local time is 2:00PM (14:00) (UTC+1 = BST)
+        self.assertEqual(bst_stop.astimezone(pytz.utc).hour, 14)
+
+        # The start of the GMT event in GMT local time is 2:00PM (14:00)
+        self.assertEqual(gmt_start.hour, 14)
+        # The start of the GMT event in UTC local time is 2:00PM (14:00) (UTC+0 = GMT)
+        self.assertEqual(gmt_start.astimezone(pytz.utc).hour, 14)
+
+        # The end of the GMT event in GMT local time is 3:00PM (15:00)
+        self.assertEqual(gmt_stop.hour, 15)
+        # The end of the GMT event in UTC local time is 3:00PM (15:00) (UTC+0 = GMT)
+        self.assertEqual(gmt_stop.astimezone(pytz.utc).hour, 15)
