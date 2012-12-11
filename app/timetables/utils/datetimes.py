@@ -171,6 +171,24 @@ def parse_iso8601_date(datestr):
     return datetime(*map(int, match.groups()))
 
 
+def parse_iso_datetime(datestr):
+    """
+    Parse an ISO date and time string
+    """
+    # Why doesn't Python have a sensible way to parse common date formats
+    # in its std library is beyond me.
+    try:
+        # Only support UTC (Z prefix) dates, because it takes a ridiculous
+        # amount of effort to support offsets, and this is only used to
+        # debug...
+        dt = datetime.strptime(datestr, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        print ("Bad ISO datetime timestamp: %s" % datestr)
+        return None
+    dt.replace(tzinfo=pytz.utc)
+    return dt
+
+
 # Some predefined instances for module clients to use
 month_date_accessor = MonthDateComponentAccessor()
 weekday_date_accessor = WeekDayDateComponentAccessor()
