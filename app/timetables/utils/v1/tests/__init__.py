@@ -20,6 +20,8 @@ class DatePatternTest(TestCase):
         self.assertTrue(len(lent_periods), 1)
         self.assertTrue(len(easter_periods), 1)
 
+        self.assert_periods_naive(mich_periods + lent_periods + easter_periods)
+
         [(m_start, m_end),] = mich_periods
         self.assertEqual(m_start, datetime.datetime(2012, 10,  4, 10))
         self.assertEqual(m_end,   datetime.datetime(2012, 10,  4, 11))
@@ -43,6 +45,8 @@ class DatePatternTest(TestCase):
 
         periods = a + b + c
 
+        self.assert_periods_naive(periods)
+
         # Expected results of expansion:
         self.assertListEqual(periods, [
             (datetime.datetime(2012, 10, 5, 10),
@@ -63,6 +67,11 @@ class DatePatternTest(TestCase):
             (datetime.datetime(2012, 10, 17, 10),
              datetime.datetime(2012, 10, 17, 11)),
         ])
+
+    def assert_periods_naive(self, periods):
+        for start, stop in periods:
+            self.assertTrue(timezone.is_naive(start))
+            self.assertTrue(timezone.is_naive(stop))
 
     def test_multiple_pattern_expansion(self):
         """
