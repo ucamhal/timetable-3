@@ -185,11 +185,228 @@ div:focus {
 	overflow: visible;
 }
 
-.seriesHeading.collapsed ul.buttons {
+.events .editEnabled .eventTitle,
+.events .editEnabled .eventType,
+.events .editEnabled .eventLocation,
+.events .editEnabled .eventDateTime,
+.events .editEnabled .eventLecturers {
+	background-color: #fff6e2;
+}
+
+.events .editEnabled.active .eventTitle,
+.events .editEnabled.active .eventType,
+.events .editEnabled.active .eventLocation,
+.events .editEnabled.active .eventDateTime,
+.events .editEnabled.active .eventLecturers {
+	background-color: #f5e7d0;
+}
+
+.events td > .icon-pencil {
+	margin-left: 10px;
+}
+
+.event .eventTitle > .icon-pencil,
+.event .eventType > .icon-pencil,
+.event .eventLocation > .icon-pencil,
+.event .eventDateTime > .icon-pencil,
+.event .eventLecturers > .icon-pencil,
+.event.editEnabled .eventTitle:hover > .icon-pencil,
+.event.editEnabled .eventType:hover > .icon-pencil,
+.event.editEnabled .eventLocation:hover > .icon-pencil,
+.event.editEnabled .eventDateTime:hover > .icon-pencil,
+.event.editEnabled .eventLecturers:hover > .icon-pencil {
 	visibility: hidden;
 }
 
-.seriesHeading.collapsed:hover ul.buttons {
+.event.editEnabled .eventActions .icon-pencil,
+.event.editEnabled .eventActions .icon-pencil:hover {
+	opacity: .3;
+}
+
+.event .eventTitle .dataInput,
+.event .eventType .dataInput,
+.event .eventLocation .dataInput,
+.event .eventDateTime .dataInput,
+.event .eventLecturers .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataInput,
+.event.editEnabled .eventType .dataInput,
+.event.editEnabled .eventLocation .dataInput,
+.event.editEnabled .eventDateTime .dataInput,
+.event.editEnabled .eventLecturers .dataInput {
+	display: block;
+}
+
+
+.event.editEnabled .eventTitle.secondStepped .dataInput,
+.event.editEnabled .eventType.secondStepped .dataInput,
+.event.editEnabled .eventLocation.secondStepped .dataInput,
+.event.editEnabled .eventDateTime.secondStepped .dataInput,
+.event.editEnabled .eventLecturers.secondStepped .dataInput {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped .dataValue,
+.event.editEnabled .eventType.secondStepped .dataValue,
+.event.editEnabled .eventLocation.secondStepped .dataValue,
+.event.editEnabled .eventDateTime.secondStepped .dataValue,
+.event.editEnabled .eventLecturers.secondStepped .dataValue {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataInput .input {
+	display: none;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventType.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLocation.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus.focus .dataInput .input,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus.focus .dataInput .input {
+	display: block;
+}
+
+.event.editEnabled .eventTitle.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventType.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventLocation.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventDateTime.secondStepped.initialFocus .dataValue,
+.event.editEnabled .eventLecturers.secondStepped.initialFocus .dataValue {
+	display: none;
+}
+
+.event.editEnabled .eventTitle > span,
+.event.editEnabled .eventType > span,
+.event.editEnabled .eventLocation > span,
+.event.editEnabled .eventDateTime > span,
+.event.editEnabled .eventLecturers > span {
+	display: none;
+}
+
+.event.editEnabled .eventTitle .dataValue,
+.event.editEnabled .eventType .dataValue,
+.event.editEnabled .eventLocation .dataValue,
+.event.editEnabled .eventDateTime .dataValue,
+.event.editEnabled .eventLecturers .dataValue {
+	display: none;
+}
+
+.event .eventTitle:hover > .icon-pencil,
+.event .eventType:hover > .icon-pencil,
+.event .eventLocation:hover > .icon-pencil,
+.event .eventDateTime:hover > .icon-pencil,
+.event .eventLecturers:hover > .icon-pencil,
+.event.pencilHover .eventTitle > .icon-pencil,
+.event.pencilHover .eventType > .icon-pencil,
+.event.pencilHover .eventLocation > .icon-pencil,
+.event.pencilHover .eventDateTime > .icon-pencil,
+.event.pencilHover .eventLecturers > .icon-pencil {
+	visibility: visible;
+}
+
+.events .event.editEnabled td.error {
+	border-color: #ea8f7a;
+	background-color: #f8dbd4;
+}
+
+.events .event.editEnabled td.error .dataInput > input {
+	color: #e7846d;
+	font-weight: bold;
+	font-style: italic;
+}
+.events .event.editEnabled td.error .dataInput .datePatternDialog select.error {
+	border-width: 1px;
+	border-color: #B94A48;
+	border-style: solid;
+}
+
+.events .event.editEnabled td.error input.error::-webkit-input-placeholder {
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
+}
+.events .event.editEnabled td.error input.error:-moz-placeholder {
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
+}
+.events .event.editEnabled td.error input.error:-ms-input-placeholder {
+	font-style: normal;
+    color: #dea28a;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .4);
+}
+
+.events .event.editEnabled td.error input.error {
+	border-color: #B94A48;
+	color: #B94A48;
+}
+
+.event .errorlist li {
+	color: #B94A48;
+}
+
+.event .dataInput {
+	margin: 0;
+}
+
+/*
+.event .eventDateTimeFromFields input,
+.event .eventDateTimeToFields input {
+	width: 34px;
+}
+*/
+
+.event.editEnabled .dataInput > input {
+	border-style: none;
+	box-shadow: none;
+	background: transparent;
+	width: 100%;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.event.editEnabled .dataInput > select {
+	width: inherit;
+	display: block;
+	margin: 0;
+	padding: 0;
+	height: 21px;
+}
+
+.event.editEnabled td {
+	border-style: dashed;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
+}
+
+.event .eventDateTime .dataInput {
+	position: relative;
+}
+
+.event .eventDateTime .popover {
+	display: block;
+	position: absolute;
+}
+
+.series-title.collapsed ul.buttons {
+	visibility: hidden;
+}
+
+.series-title.collapsed:hover ul.buttons {
 	visibility: visible;
 }
 
@@ -197,38 +414,34 @@ div:focus {
 	margin-bottom: 30px;
 }
 
-.moduleHeading h4, .seriesHeading h5 {
+.module-title h4, .series-title h5 {
 	margin: 0;
 	padding: 0;
 	line-height: 1em;
 }
 
-.moduleHeading {
+.module-title {
 	border-bottom-style: solid;
 	border-bottom-color: rgba(0, 0, 0, .4);
-	border-bottom-width: 3px;
+	border-bottom-width: 2px;
 	padding: 10px 0;
 	margin-bottom: 10px;
 }
 
-.moduleHeading h4 a {
-	color: #333;
-}
-
-.moduleHeading h4 span {
-	margin-top: 3px;
+.module-title .chevron {
+	margin-top: 5px;
 	margin-right: 10px;
 }
 
-.moduleHeading .buttons {
+.module-title .buttons {
 	visibility: hidden;
 }
 
-.moduleHeading:hover .buttons {
+.module-title:hover .buttons {
 	visibility: visible;
 }
 
-.moduleHeading.hasOpenSeries .buttons {
+.module-title.hasOpenSeries .buttons {
 	visibility: visible;
 }
 
@@ -242,23 +455,24 @@ div:focus {
 	margin-bottom: 5px;
 }
 
-.seriesHeading {
+.series-title {
 	padding: 10px 0;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: rgba(0, 0, 0, .2);
 }
 
-.seriesHeading h5 span {
+.series-title h5 span {
 	margin-right: 8px;
 }
 
-.seriesHeading > h5 a input {
+.series-title > h5 a input {
 	display: none;
 }
 
-.moduleHeading .buttons,
-.seriesHeading .buttons {
+.module-title .buttons,
+.series-title .buttons {
+	margin-top: 5px;
 	margin-left: 15px;
 }
 
@@ -394,4 +608,49 @@ div:focus {
 .term-calendar-navigation .value {
 	min-width: 130px;
 	text-align: center;
+}
+
+.series-title h5 .title {
+	color: #08C;
+	cursor: pointer;
+}
+
+.module-title h4 .title {
+	cursor: pointer;
+}
+
+.series-title h5:hover .title,
+.module-title h4:hover .title {
+	text-decoration: underline;
+}
+
+.series-title h5:hover .title.editable,
+.module-title h4:hover .title.editable {
+	text-decoration: none;
+}
+
+.series-title .title.editable,
+.module-title .title.editable {
+	outline: none;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
+	cursor: inherit;
+	color: #000;
+}
+
+.series-title .title:focus,
+.module-title .title:focus {
+	outline: none;
+}
+
+.series-title .title,
+.module-title .title {
+	padding: 5px;
+	display: block;
+}
+
+.series-title .title.editable,
+.module-title .title.editable {
+	background-color: #FFF6E2;
 }

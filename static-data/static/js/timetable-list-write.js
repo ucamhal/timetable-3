@@ -3,7 +3,7 @@ define(["view/admin/lists", "bootstrap", "not-implemented-tooltips"],
     "use strict";
 
     $(".js-module").each(function() {
-        new Lists.ModuleView({el: this});
+        new Lists.WritableModuleView({el: this});
     });
 
     $(".js-series").each(function() {
