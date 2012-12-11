@@ -304,14 +304,20 @@ class Thing(SchemalessModel, HierachicalModel):
     fullname = models.CharField("Full Name", max_length=MAX_LONG_NAME,help_text="Full name of the thing, to be displayed to end users.")
     
     
-    def get_events(self, depth=1):
+    def get_events(self, depth=1, date_range=None):
         events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
                                     models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
-        
+        if date_range != None:
+            start = date_range[0]
+            end = date_range[1]
+            events = events.in_range(start, end)
+            
         # depth 2
         if depth == 2:
             events_2 = Event.objects.filter(models.Q(source__eventsourcetag__thing__parent=self,source__current=True)|
                                     models.Q(eventtag__thing__parent=self), current=True, status=Event.STATUS_LIVE)
+            if date_range != None:
+                events_2 = events_2.in_range(start, end)
             events = chain(events, events_2)
             
         return events
