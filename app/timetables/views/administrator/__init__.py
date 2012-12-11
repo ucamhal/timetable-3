@@ -92,35 +92,6 @@ class SeriesEditor(object):
         return self._series
 
 
-@login_required
-@permission_required('timetables.is_admin', raise_exception=True)
-def list_view(request, thing=None):
-    thing = shortcuts.get_object_or_404(models.Thing,
-            pathid=models.Thing.hash(thing))
-
-    if thing.type not in ["part", "subject", "experimental", "option"]:
-        return http.HttpResponseBadRequest(
-                "Can't edit thing of type %s as a list." % thing)
-
-    # Get parent timetable
-    if thing.type == "part":
-        timetable_thing = thing.parent
-    else:
-        timetable_thing = thing.parent.parent
-    assert timetable_thing.type == "tripos"
-
-    module_editors = [
-        ModuleEditor(module)
-        for module in thing.thing_set.filter(type="module").order_by("name")
-    ]
-
-    return shortcuts.render(request, "administrator/timetableList/write.html", {
-        "thing": thing,
-        "module_editors": module_editors,
-        "timetable_thing": timetable_thing
-    })
-
-
 class TimetableListRead(django.views.generic.View):
 
     @method_decorator(login_required)
@@ -174,9 +145,12 @@ class TimetableListRead(django.views.generic.View):
         assert timetable_thing.type == "tripos"
 
         modules = self.page_modules(thing)
+        # Top level series directly under the timetable
+        top_level_series = self.module_series(thing)
 
         context = {
             "modules": modules,
+            "top_level_series": top_level_series,
             "thing": thing,
             "timetable_thing": timetable_thing
         }
@@ -271,8 +245,13 @@ def calendar_view(request, thing=None):
         timetable_thing = thing.parent.parent
     assert timetable_thing.type == "tripos"
 
+    # get depth to retrieve events at, looks at ?depth=x parameter in URL (if present)
+    depth = 2; # default to 2 - assumes that all event details may be found in this item item or one level down
+    if request.GET.get('depth'):
+        depth = request.GET['depth']
+
     return shortcuts.render(request, "administrator/timetableCalendar.html",
-            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing})
+            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing, "depth": depth})
 
 
 @login_required
