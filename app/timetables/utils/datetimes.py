@@ -2,7 +2,7 @@ import re, pytz, logging, operator
 from datetime import timedelta
 
 from timetables.utils.compat import Counter
-from timetables.utils.v1.generators import TERM_STARTS
+from timetables.utils.v1 import TERM_STARTS
 
 from django.utils.datetime_safe import datetime, date
 
@@ -169,6 +169,24 @@ def parse_iso8601_date(datestr):
     if not match:
         raise ValueError("Expected ISO 8601 date string, got: %s" % datestr)
     return datetime(*map(int, match.groups()))
+
+
+def parse_iso_datetime(datestr):
+    """
+    Parse an ISO date and time string
+    """
+    # Why doesn't Python have a sensible way to parse common date formats
+    # in its std library is beyond me.
+    try:
+        # Only support UTC (Z prefix) dates, because it takes a ridiculous
+        # amount of effort to support offsets, and this is only used to
+        # debug...
+        dt = datetime.strptime(datestr, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        print ("Bad ISO datetime timestamp: %s" % datestr)
+        return None
+    dt.replace(tzinfo=pytz.utc)
+    return dt
 
 
 # Some predefined instances for module clients to use

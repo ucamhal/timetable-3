@@ -1,5 +1,6 @@
 import calendar
 import itertools
+import pytz
 
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
@@ -15,6 +16,9 @@ from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
 from timetables.backend import ThingSubject
 from django.core.urlresolvers import reverse
+
+from timetables.utils.ints import int_safe
+from timetables.utils.datetimes import parse_iso_datetime
 
 
 class CalendarView(View):
@@ -70,15 +74,15 @@ class CalendarView(View):
                 if request.GET.get('depth'):
                     depth = int(request.GET['depth'])
                 
-                for e in thing.get_events( depth=depth ):
+                # get time range to select for events in
+                date_range = get_request_range(request.GET)
+                
+                for e in thing.get_events( depth=depth, date_range=date_range ):
                     event_obj = self.to_fullcalendar(e)
                     event_obj["className"] = "thing_%s" % thing.type
                     yield pattern % json.dumps(event_obj, indent=JSON_INDENT)
                     pattern = ",\n%s"
                 yield "]\n"
-
-
-
 
             response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
             response.streaming = True
@@ -301,3 +305,51 @@ class MonthListCalendar(object):
             """
             return date(self.monthlistcal.year, self.monthlistcal.month,
                     self.day)
+
+
+def get_request_range(request_params):
+        """
+        Interprets the start=xxx&end=xxx params passed by fullcalendar to
+        specify the range of events requested.
+        
+        Args:
+            request_params: The request.GET querydict.
+        Returns:
+            A tuple of (start, end) where start and end are datetime.datetime
+            instances. None is returned if one or both of start and end are
+            missing/malformed.
+        """
+        start_val = request_params.get("start")
+        end_val = request_params.get("end")
+        
+        if not start_val and not end_val:
+            return None
+        
+        if bool(start_val) ^ bool(end_val):
+            raise ValueError("start & end cannot be used on their own, specify "
+                    "both or neither.")
+        
+        start = get_datetime(start_val) 
+        end = get_datetime(end_val)
+        
+        if bool(start) ^ bool(end):
+            raise ValueError("Invalid start/end date.")
+        
+        return (start, end)
+
+
+def get_datetime(timestamp_string):
+        
+        # Try to interpret as a unix timestamp
+        timestamp = int_safe(timestamp_string)
+        if timestamp is not None:
+            try:
+                dt = datetime.utcfromtimestamp(timestamp)
+                dt.replace(tzinfo=pytz.utc)
+                return dt
+            except ValueError:
+                print "Bad timestamp: %d" % timestamp
+                return None
+        
+        # Try to interpret as an ISO date
+        return parse_iso_datetime(timestamp_string)

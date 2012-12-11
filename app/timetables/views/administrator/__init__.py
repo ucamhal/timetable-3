@@ -1,15 +1,15 @@
 import operator
+import json
 
 from django import http
 from django import shortcuts
 from django.core import urlresolvers
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.http import require_POST
 import django.views.generic
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 from timetables import models
@@ -52,23 +52,6 @@ def timetable_view(request, thing=None):
             {"thing": thing, "timetables": timetables, "triposes": triposes, "editable": editable})
 
 
-class ModuleEditor(object):
-    def __init__(self, module):
-        self._module = module
-        self._form = forms.ModuleForm(instance=module)
-
-        self._series_editors = [
-            SeriesEditor(series) for series in (module.sources.all()
-                    .order_by("title"))
-        ]
-
-    def get_form(self):
-        return self._form
-
-    def series_editors(self):
-        return self._series_editors
-
-
 class SeriesEditor(object):
     def __init__(self, series, post_data=None):
         self._series = series
@@ -90,6 +73,16 @@ class SeriesEditor(object):
 
     def get_series(self):
         return self._series
+
+
+class SeriesTitleEditor(object):
+    def __init__(self, series, post_data=None):
+        self._series = series
+        
+        self._form = forms.ListPageSeriesForm(data=post_data, instance=series)
+        
+    def get_form(self):
+        return self._form
 
 
 class TimetableListRead(django.views.generic.View):
@@ -220,6 +213,29 @@ def edit_series_view(request, series_id):
 
     return http.HttpResponseBadRequest("Events formset did not pass "
             "validation: %s" % events_formset.errors)
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def edit_series_title(request, series_id):
+    
+    # Find the series for the form to be displayed
+    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
+    
+    editor = SeriesTitleEditor(series, post_data=request.POST)
+    
+    series_form = editor.get_form()
+    
+    if series_form.is_valid():
+        @xact
+        def save():
+            series_form.save()
+        save()
+        return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
+
+    return http.HttpResponseBadRequest("Series form did not pass "
+            "validation: %s" % editor.errors)
 
 
 @login_required

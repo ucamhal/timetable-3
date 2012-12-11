@@ -1,4 +1,6 @@
-from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
+import json
+
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponseForbidden
 
 from django.views.generic.base import View
@@ -6,7 +8,10 @@ from django.views.generic.base import View
 from django import shortcuts
 
 from timetables.models import Thing
+
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
+
 from timetables.utils.xact import xact
 from timetables.backend import ThingSubject
 from timetables.utils.reflection import newinstance
@@ -25,6 +30,12 @@ class EditThingView(View):
     The template is of the form things/<thing_type>_form.html
 
     '''
+    
+    @method_decorator(login_required)
+    @method_decorator(permission_required('timetables.is_admin', raise_exception=True))
+    def dispatch(self, *args, **kwargs):
+        return super(EditThingView, self).dispatch(*args, **kwargs)
+    
 
     def _render_form(self, request, thing, form):
         return shortcuts.render(request, "things/%s_form.html" % thing.type, {"form": form})
@@ -53,8 +64,10 @@ class EditThingView(View):
     def post(self, request, thing):
         if thing is None:
             return HttpResponseBadRequest("Creating modules not yet supported.")
+        """ # we don't currently handle permission at module level - this needs to be made more robust
         if not request.user.has_perm(Thing.PERM_WRITE,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden()
+        """
 
         try:
             fullpath = thing
@@ -68,7 +81,8 @@ class EditThingView(View):
                         # is this the right thing to indicate to the UI that the response was saved Ok.
                         # the reason we redirect is to get the new form for the thing, just in case
                         # its type was changed.
-                        return self.get(request, fullpath)
+                        #return self.get(request, fullpath)
+                        return HttpResponse(json.dumps(form.data), mimetype="application/json")
                     # If there were errors, re-render the form without changing its type.
                     return self._render_form(request, thing, form)
                 return HttpResponseBadRequest("Sorry, No form configured for Thing of type %s , can't load class %s " % (thing.type, formclass_class) )
