@@ -2,7 +2,7 @@ import re, pytz, logging, operator
 from datetime import timedelta
 
 from timetables.utils.compat import Counter
-from timetables.utils.v1.generators import TERM_STARTS
+from timetables.utils.v1 import TERM_STARTS
 
 from django.utils.datetime_safe import datetime, date
 
