@@ -337,7 +337,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		render: function() {
 			this.$title.text(this.model.get("title"));
 			this.$location.text(this.model.get("location"));
-			this.$type.text(this.model.get("type"));
+			this.$type.val(this.model.get("type"));
 			this.$people.text(this.model.get("people"));
 
 			this.$week.text(this.model.get("week"));
@@ -355,7 +355,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				id: safeParseInt(this.$el.data("id")),
 				title: this.$title.text(),
 				location: this.$location.text(),
-				type: this.$type.text(),
+				type: this.$type.val(),
 				people: this.$people.text(),
 				week: this.$week.text(),
 				term: this.$term.text().toLowerCase(),
@@ -559,7 +559,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				id: attrs.id,
 				title: attrs.title,
 				location: attrs.location,
-				event_type: this.normaliseEventType(attrs.type),
+				event_type: attrs.type,
 				people: attrs.people,
 				term_week: attrs.week,
 				term_name: attrs.term,
@@ -569,21 +569,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				end_hour: attrs.endHour,
 				end_minute: attrs.endMinute
 			};
-		},
-
-		normaliseEventType: function(type) {
-			// Ensure only valid event types are passed, otherwise use
-			// the unknown value which makes the server not change the type.
-			if(_.contains(EventModel.VALID_EVENT_TYPES, type))
-				return type;
-			return EventModel.TYPE_UNKNOWN;
 		}
-	},
-	// Static class properties
-	{
-			TYPE_UNKNOWN: "Unknown",
-			VALID_EVENT_TYPES: ["Laboratory", "Lecture", "Language Class",
-					"Practical", "Seminar"]
 	});
 
 	var DateTimeDialogView = Backbone.View.extend({
