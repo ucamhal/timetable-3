@@ -8,12 +8,13 @@
   <td title="Event Type"
       class="event-field eventType"
       data-value="{{ event.type }}">
+    {% block event_type %}
     <div>
       <span
           class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}"
-          tabindex="0"
           >{{ event.metadata.type|default:"" }}</span>
     </div>
+    {% endblock event_type %}
   </td>
   <td class="event-field js-date-time-cell eventDateTime">
       {% block date_time_start %}
