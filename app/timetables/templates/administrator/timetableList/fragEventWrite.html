@@ -1,5 +1,17 @@
 {% extends "administrator/timetableList/fragEventRead.html" %}
 
+{% block event_type %}
+<select class="input-medium event-type js-field js-field-type">
+  <!-- <option value="">&mdash;</option> -->
+  {% for key, display_val in type_choices.items %}
+    <option
+        value="{{ key }}"
+        {% if event.metadata.type == key %}selected{% endif %}
+        >{{ display_val }}</option>
+  {% endfor %}
+</select>
+{% endblock event_type %}
+
 
 {% block date_time_start %}
 <span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
