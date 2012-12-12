@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.models import modelformset_factory, BaseModelFormSet,\
@@ -44,19 +46,19 @@ class DatePatternField(forms.CharField):
             pass
         raise ValidationError(self.error_messages["unparsable"]) 
 
-TYPE_UNKNOWN = "Unknown"
+TYPE_UNKNOWN = ""
 TYPE_LAB = "Laboratory"
 TYPE_LECTURE = "Lecture"
 TYPE_LANG_CLASS = "Language Class"
 TYPE_PRACTICAL = "Practical"
 TYPE_SEMINAR = "Seminar"
 EVENT_TYPE_CHOICES = dict((
+    (TYPE_UNKNOWN, "—"),
     (TYPE_LAB, TYPE_LAB),
     (TYPE_LECTURE, TYPE_LECTURE),
     (TYPE_LANG_CLASS, TYPE_LANG_CLASS),
     (TYPE_PRACTICAL, TYPE_PRACTICAL),
-    (TYPE_SEMINAR, TYPE_SEMINAR),
-    (TYPE_UNKNOWN, "----")
+    (TYPE_SEMINAR, TYPE_SEMINAR)
 ))
 
 TERMS = (
@@ -75,7 +77,7 @@ DAYS = (
     (datetimes.DAY_WED, "Wednesday")
 )
 
-event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items())
+event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items(), required=False)
 
 
 class EventForm(forms.ModelForm):
@@ -231,8 +233,7 @@ class EventForm(forms.ModelForm):
         event.end = tz.localize(end_naive)
 
         event.metadata["people"] = self.cleaned_data["people"]
-        if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
-            event.metadata["type"] =  self.cleaned_data["event_type"]
+        event.metadata["type"] =  self.cleaned_data["event_type"]
 
         if self.cleaned_data["cancel"] is True:
             event.status = models.Event.STATUS_CANCELLED

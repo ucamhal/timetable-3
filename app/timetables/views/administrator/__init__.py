@@ -177,7 +177,8 @@ def list_view_events(request, series_id):
     context = {
         "series": {
             "events": events
-        }
+        },
+        "type_choices": forms.EVENT_TYPE_CHOICES
     }
 
     # if the request has ?writable=true then use the write rather than read
