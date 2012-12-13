@@ -55,7 +55,8 @@ define([
 			this.$(".js-course-location").text(this.eventData.location || "");
 			this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
 			this.$(".js-edit").attr("href", this.$(".js-edit").data("base-url")
-				+ "#event=" + this.eventData.id);
+				+ "#expand=" + this.eventData.seriesId
+				+ "&highlight=" + this.eventData.id);
 		},
 
 		/**
@@ -70,7 +71,8 @@ define([
 					+ _.getTwelveHourTimeFromDate(calEvent._start),
 				location: calEvent.location,
 				lecturers: calEvent.lecturer.toString(),
-				type: calEvent.type
+				type: parseInt(calEvent.type),
+				seriesId: parseInt(calEvent.eventSourceId)
 			};
 		},
 

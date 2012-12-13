@@ -40,7 +40,8 @@ class CalendarView(View):
                 "start" : DateConverter.from_datetime(event.start_local(), True).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : eventtype
+                "type" : eventtype,
+                "eventSourceId": event.source_id
             }
         else:
             return {
@@ -55,7 +56,8 @@ class CalendarView(View):
                 "endtz" : event.endtz,
                 "location" : event.location,
                 "lecturer" : lecturer,
-                "type" : eventtype
+                "type" : eventtype,
+                "eventSourceId": event.source_id
             }
     
     def get(self, request, thing):
