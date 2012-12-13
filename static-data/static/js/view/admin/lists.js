@@ -3,6 +3,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
+	var listEvents = _.extend({}, Backbone.Events);
+
 	/** Strip leading zeros from an integer such as: 01, 05, 005 etc. */
 	function stripZeros(str) {
 		var groups = /0*(\d+)/.exec(str);
@@ -78,6 +80,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			// Store this view instance against the series element to
 			// access it from hashchanges below.q
 			this.$el.data("view", this)
+
+			listEvents.on("expand-series", this.onExpandSeries);
 		},
 
 		isLoaded: function() {
@@ -171,6 +175,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		onShown: function() {
 			this.$(".js-events").addClass("shown");
+			listEvents.trigger("new-events-visible");
 		},
 
 		/**
@@ -179,6 +184,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		 */
 		expand: function() {
 			this.$(".js-events").collapse("show");
+		},
+
+		onExpandSeries: function(id) {
+			if(this.getSeriesId() == id)
+				this.expand();
 		}
 	});
 
@@ -305,10 +315,22 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		initialize: function() {
 			_.bindAll(this);
+
+			listEvents.on("highlight-event", this.onHighlight);
+		},
+
+		getId: function() {
+			return this.$el.data("id");
+		},
+
+		onHighlight: function(id) {
+			if(this.getId() == id)
+				this.highlight();
 		},
 
 		highlight: function() {
-			console.log("Highlighting");
+			this.$el.addClass("highlighted");
+			scrollTo(this.$el.offset().top - 100, 200);
 		}
 	});
 
@@ -900,11 +922,36 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		}
 	});
 
+	/**
+	 * Scroll the window so that the top is at the specified vertical
+	 * position on the page.
+	 */
+	function scrollTo(position, duration, onComplete) {
+		duration = duration || 0;
+		$('html, body').animate({
+			scrollTop: $(".js-event").offset().top - 100
+		}, duration, "swing", onComplete);
+	}
+
 	/** Return value wrapped in an array if it's not an array. */
 	function asArray(value) {
 		if(_.isArray(value))
 			return value;
 		return [value];
+	}
+
+	function highlightEventsInHash() {
+		var highlight = asArray($.bbq.getState("highlight"));
+		_.each(highlight, function(id) {
+			id = parseInt(id);
+			if(isNaN(id))
+				return;
+			highlightEvent(id);
+		})
+	}
+
+	function highlightEvent(id) {
+		listEvents.trigger("highlight-event", id);
 	}
 
 	/**
@@ -928,11 +975,16 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				if(isNaN(id))
 					return;
 
-				$(".js-series[data-id=" + id + "]")
-					.first().data("view").expand();
+				// Fire the expand-series event
+				listEvents.trigger("expand-series", id);
 			});
+
+			highlightEventsInHash();
 		});
 	}
+
+	// This is fired when new events are added to the page.
+	listEvents.on("new-events-visible", highlightEventsInHash)
 
 	return {
 		ModuleView: ModuleView,

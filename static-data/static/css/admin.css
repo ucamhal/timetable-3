@@ -63,7 +63,6 @@ div:focus {
 	margin-left: 15px;
 }
 
-
 .modulesList .module a.addSeries {
 	margin-bottom: 9px;
 }
@@ -153,16 +152,20 @@ div:focus {
 	opacity: 0.5;
 }
 
-
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
 	padding-right: 20px; /* To accommodate the pencil icon */
 }
- .event-editable .event-field:hover {
+
+.event-editable .event-field:hover {
  	background-image: url("../img/pencil.png");
  	background-repeat: no-repeat;
  	background-position: 100% 50%;
- }
+}
+
+#adminListView .event.highlighted > td {
+	background-color: #D3FFD5;
+}
 
 /* id selector used to boost priority over Bootstrap */
 #adminListView .event-editable.unsaved > td {
