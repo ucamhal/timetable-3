@@ -6,7 +6,7 @@
   {% for key, display_val in type_choices.items %}
     <option
         value="{{ key }}"
-        {% if event.metadata.type == key %}selected{% endif %}
+        {% if event.metadata.type.lower == key.lower %}selected{% endif %}
         >{{ display_val }}</option>
   {% endfor %}
 </select>

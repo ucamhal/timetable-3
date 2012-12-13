@@ -1,6 +1,6 @@
 {% load url from future %}
 
-<div class="series js-series" data-series-id="{{ series.unique_id }}"
+<div class="series js-series" data-id="{{ series.unique_id }}"
     data-save-path="{% url "edit series" series.unique_id %}">
   <div class="series-title collapsed clearfix js-series-title">
     <h5 class="pull-left js-collapse" data-toggle="collapse" data-target="#series-{{ series.unique_id }}-events">
