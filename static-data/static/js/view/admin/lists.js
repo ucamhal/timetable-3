@@ -57,13 +57,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.$(".js-module-content").addClass("shown");
 		}
 	});
-
-	var WritableModuleView = ModuleView.extend({
-		initialize: function () {
-			//apply initialization of superclass
-			WritableModuleView.__super__.initialize.apply(this, arguments);
-		}
-	});
 	
 	var SeriesView = Backbone.View.extend({
 		constructor: function SeriesView() {
@@ -162,7 +155,366 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.$(".js-events").addClass("shown");
 		}
 	});
+	
+	var WritableModuleView = ModuleView.extend({
+		initialize: function () {
+			//apply initialization of superclass
+			WritableModuleView.__super__.initialize.apply(this, arguments);
+			
+			this.editableTitle = new EditableTitleView({
+				el: this.$(".js-module-title h4"),
+				$toggleButton: this.$(".js-module-buttons .js-edit-icon")
+			});
+		}
+	});
 
+	var WritableSeriesView = SeriesView.extend({
+		constructor: function WritableSeriesView() {
+			WritableSeriesView.__super__.constructor.apply(this, arguments);
+		},
+
+		events: function() {
+			var superEvents = WritableSeriesView.__super__.events.call(this);
+			
+			return _.extend(superEvents, {
+				"click .js-btn-cancel": this.onCancel,
+				"click .js-btn-save": this.onSave,
+				"click .js-btn-add-event": this.onAddEvent
+			});
+		},
+
+		initialize: function() {
+			WritableSeriesView.__super__.initialize.apply(this, arguments);
+			this.editableTitle = new EditableTitleView({
+				el: this.$(".js-series-title h5"),
+				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
+			});
+			
+			_.bindAll(this);
+		},
+
+		getEventsRequestOptions: function() {
+			var baseOptions = WritableSeriesView.__super__
+				.getEventsRequestOptions();
+
+			return _.extend(baseOptions, {
+				data: {writeable: true}
+			});
+		},
+
+		onEventsFetched: function() {
+			// Call through to the superclass implementation in order to insert
+			// the event elements into the page's DOM tree.
+			WritableSeriesView.__super__.onEventsFetched.apply(this, arguments);
+
+			// At this point the events exist in the page. Instanciate a 
+			// WritableEventView wrapping each event and store the list of these
+			// views in this.events
+			this.events = _.map(this.$(".js-event"), function(eventEl) {
+				var eventView = new WritableEventView({el: eventEl});
+
+				// Watch for events being modified
+				eventView.on("event:savedStatusChanged",
+					this.onSavedStatusChanged);
+
+				return eventView;
+			}, this);
+
+			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+		},
+
+		onSavedStatusChanged: function() {
+			// Check for any events being changed and hide/show cancel/save
+			// button as needed.
+			var changesExist = _.any(this.events, function(event) {
+				return event.model.hasChangedFromOriginal();
+			});
+
+			// Make the cancel/save buttons visible/hidden as required
+			
+			if (changesExist !== this.currentChangesState) {
+				if (changesExist === true) {
+					this.$cancelSaveBtns.stop().hide().slideDown(200);
+				} else {
+					this.$cancelSaveBtns.stop().show().slideUp(200);
+				}
+				
+				this.currentChangesState = changesExist;	
+			}
+		},
+
+		onCancel: function(event) {
+			_.each(this.events, function(eventView) {
+				eventView.model.reset();
+
+				// This works, but is a bit hacky
+				eventView.unfocusForEditing();
+			});
+		},
+
+		onSave: function(event) {
+			// Build a JSON representation of the form. 
+
+			var forms = _.map(this.events, function(eventView) {
+				return eventView.model.asJSONDjangoForm();
+			});
+
+			var outerForm = {
+				"event_set": {
+					// can't add forms yet so this is OK
+					"initial": forms.length,
+					"forms": forms
+				}
+			};
+
+			var formData = DjangoForms.encodeJSONForm(outerForm);
+
+			// Create a modal dialog to prevent actions taking place while
+			// saving.
+			this.saveDialogView = new SaveEventsDialogView();
+			this.saveDialogView.on("saved", this.onEventsSaved)
+
+			// Show the dialog & kick off the form POST.
+			this.saveDialogView.postEventsForm(this.getSavePath(), formData)
+		},
+
+		onEventsSaved: function(response) {
+			delete this.saveDialogView;
+			this.$(".js-events").empty();
+			this.onEventsFetched(response);
+		},
+
+		/** Gets the path to the endpoint the POST changes to when saving. */
+		getSavePath: function() {
+			return this.$el.data("save-path");
+		},
+
+		onAddEvent: function(event) {
+			return false;
+		}
+	});
+
+
+	var WritableEventView = Backbone.View.extend({
+		constructor: function WritableEventView() {
+			WritableEventView.__super__.constructor.apply(this, arguments);
+		},
+
+		events: function() {
+			return {
+				// The following 2 events enable firing of "change" events from
+				// contenteditable elements on blur.
+				"focusin [contenteditable]": this.onContenteditableFocus,
+				"focusout [contenteditable]": this.onContenteditableBlur,
+
+				"focusin .js-field, input, select": this.focusForEditing,
+				"focusout .js-field, input, select": this.unfocusForEditing,
+
+				// Watch for fields changing
+				"change .js-field": this.updateModel,
+				
+				// Start editing when the pencil edit icon is clicked
+				"click .js-edit-icon": this.startEditing,
+				"click .js-remove-icon" : this.onCancelClick,
+
+				"click .js-date-time-cell": this.toggleDateTimeDialog,
+				"click .js-date-time-dialog": this.onDateTimeDialogClicked
+			};
+		},
+
+		initialize: function() {
+			_.bindAll(this);
+
+			// focus/blur events have to be bound manually, otherwise the
+			// delegated focusin/focusout verisons are used.
+			this.$(".js-date-time-cell .js-focus-catcher")
+				.on("focus", this.toggleDateTimeDialog);
+
+			this.$title = this.$(".js-field-title");
+			this.$location = this.$(".js-field-location");
+			this.$type = this.$(".js-field-type");
+			this.$people = this.$(".js-field-people");
+			this.$week = this.$(".js-field-week");
+			this.$term = this.$(".js-field-term");
+			this.$day = this.$(".js-field-day");
+			this.$startHour = this.$(".js-field-start-hour");
+			this.$startMinute = this.$(".js-field-start-minute");
+			this.$endHour = this.$(".js-field-end-hour");
+			this.$endMinute = this.$(".js-field-end-minute");
+
+			this.model = new EventModel();
+			// Push the state of the HTML into the model
+			this.updateModel();
+			// Tell the model that it's current state is the initial one
+			this.model.storeInitialState();
+
+			this.model.on("change", this.render);
+		},
+
+		render: function() {
+			var isCancelled = this.isCancelled();
+			
+			this.$title.text(this.model.get("title")).attr("contenteditable", !isCancelled);
+			this.$location.text(this.model.get("location")).attr("contenteditable", !isCancelled);
+			this.$type.val(this.model.get("type")).attr("disabled", isCancelled === true ? "disabled" : false);
+			this.$people.text(this.model.get("people")).attr("contenteditable", !isCancelled);
+
+			this.$week.text(this.model.get("week"));
+			this.$term.text(this.model.getPrettyTerm());
+			this.$day.text(this.model.getPrettyDay());
+			this.$startHour.text(this.model.get("startHour"));
+			this.$startMinute.text(this.model.get("startMinute"));
+			this.$endHour.text(this.model.get("endHour"));
+			this.$endMinute.text(this.model.get("endMinute"));
+			
+			this.$el.toggleClass("event-cancelled", isCancelled);
+		},
+		
+		isCancelled: function () {
+			return this.model.get("cancel");
+		},
+
+		updateModel: function() {
+			// Update our model with the current state of the HTML
+			this.model.set({
+				id: safeParseInt(this.$el.data("id")),
+				title: this.$title.text(),
+				location: this.$location.text(),
+				type: this.$type.val(),
+				people: this.$people.text(),
+				week: this.$week.text(),
+				term: this.$term.text().toLowerCase(),
+				day: this.$day.text().toLowerCase(),
+				startHour: this.$startHour.text(),
+				startMinute: this.$startMinute.text(),
+				endHour: this.$endHour.text(),
+				endMinute: this.$endMinute.text(),
+				cancel: this.$el.hasClass("event-cancelled")
+			});
+		},
+
+		focusForEditing: function() {
+			if (this.isCancelled() === false) {
+				this.$el.addClass("being-edited");	
+			}
+		},
+		
+		onCancelClick: function (event) {
+			this.toggleCancelledState();
+			event.preventDefault();
+		},
+		
+		toggleCancelledState: function (isCancelled) {
+			isCancelled = typeof isCancelled !== "undefined" ? isCancelled : !this.isCancelled();
+			
+			if (isCancelled !== this.isCancelled()) {
+				this.model.set("cancel", isCancelled);
+				this.markAsChanged(this.model.hasChangedFromOriginal());
+				this.$('[contenteditable="true"]').blur();
+			}
+		},
+
+		/** S */
+		unfocusForEditing: function(event) {
+			console.log("unfocusForEditing", "event:", event, "focused:", $(":focus"));
+			this.$el.removeClass("being-edited");
+
+			// Mark the event as changed if it's been modified
+			this.markAsChanged(this.model.hasChangedFromOriginal());
+		},
+
+		markAsChanged: function(isChanged) {
+			isChanged = Boolean(isChanged);
+			this.isUnsaved = isChanged;
+			this.trigger("event:savedStatusChanged")
+			
+			if(isChanged)
+				this.$el.addClass("unsaved");
+			else
+				this.$el.removeClass("unsaved");
+		},
+
+		/** Starts editing this event by focusing the title element. */
+		startEditing: function() {
+			this.$title.focus();
+		},
+
+		onDateTimeDialogClicked: function(event) {
+			// Prevent click events on the date/time dialog reaching the 
+			// toggleDateTimeDialog() handler, which would close the dialog.
+			event.stopPropagation();
+		},
+
+		closeDateTimeDialog: function() {
+			if(this.dateTimeDialog) {
+				this.dateTimeDialog.remove();
+				delete this.dateTimeDialog;
+			}
+		},
+
+		toggleDateTimeDialog: function(event) {
+			if (this.isCancelled() === true) {
+				return false;
+			}
+			
+			var isFocus = event.type === "focus";
+			var isBeforeDialog = $(event.currentTarget)
+				.hasClass("js-focus-catcher-before");
+
+			if(this.dateTimeDialog) {
+				console.log("closing dialog", event);
+				this.closeDateTimeDialog();
+
+				// Move focus from this focus catcher to a real element if the
+				// dialog close was triggered by focusing a focus catching
+				// element before/after the dialog in the DOM.
+				if(isFocus) {
+					if(isBeforeDialog)
+						this.$(".js-field-type").focus();
+					else
+						this.$(".js-field-location").focus();
+				}
+			}
+			else {
+				console.log("opening dialog", event);
+				this.dateTimeDialog = new DateTimeDialogView({
+					el: $("#templates .js-date-time-dialog").clone(),
+					model: this.model
+				});
+				// dialog:close is fired by the dialog when a click is made
+				// outside its area, or the close icon is clicked.
+				this.dateTimeDialog.on(
+					"dialog:close", this.closeDateTimeDialog);
+
+				this.$(".js-date-time-cell .js-dialog-holder")
+					.append(this.dateTimeDialog.$el);
+				this.dateTimeDialog.$el.show();
+
+				if(!isFocus || isBeforeDialog)
+					this.dateTimeDialog.focusStart();
+				else
+					this.dateTimeDialog.focusEnd();
+			}
+		},
+
+		onContenteditableFocus: function(event) {
+			// Stash the element's value in a data property before it's edited
+			// so that we can fire a change event if it's modified.
+			var $el = $(event.target);
+			$el.data("__contenteditablePrevValue", $el.html());
+		},
+
+		onContenteditableBlur: function(event) {
+			var $el = $(event.target);
+			var html = $el.html();
+			if($el.data("__contenteditablePrevValue") !== html) {
+				// Delete the remembered HTML text
+				$el.data("__contenteditablePrevValue", undefined);
+				$el.trigger("change");
+			}
+		}
+	});
+	
 	var EditableTitleView = Backbone.View.extend({
 		initialize: function (opts) {
 			_.bindAll(this, "onToggleClick");
@@ -295,322 +647,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		}
 	});
 
-	var WritableSeriesView = SeriesView.extend({
-		constructor: function WritableSeriesView() {
-			WritableSeriesView.__super__.constructor.apply(this, arguments);
-		},
-
-		events: function() {
-			var superEvents = WritableSeriesView.__super__.events.call(this);
-			
-			return _.extend(superEvents, {
-				"click .js-btn-cancel": this.onCancel,
-				"click .js-btn-save": this.onSave,
-				"click .js-btn-add-event": this.onAddEvent
-			});
-		},
-
-		initialize: function() {
-			WritableSeriesView.__super__.initialize.apply(this, arguments);
-			this.editableTitle = new EditableTitleView({
-				el: this.$(".js-series-title h5"),
-				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
-			});
-			
-			_.bindAll(this);
-		},
-
-		getEventsRequestOptions: function() {
-			var baseOptions = WritableSeriesView.__super__
-				.getEventsRequestOptions();
-
-			return _.extend(baseOptions, {
-				data: {writeable: true}
-			});
-		},
-
-		onEventsFetched: function() {
-			// Call through to the superclass implementation in order to insert
-			// the event elements into the page's DOM tree.
-			WritableSeriesView.__super__.onEventsFetched.apply(this, arguments);
-
-			// At this point the events exist in the page. Instanciate a 
-			// WritableEventView wrapping each event and store the list of these
-			// views in this.events
-			this.events = _.map(this.$(".js-event"), function(eventEl) {
-				var eventView = new WritableEventView({el: eventEl});
-
-				// Watch for events being modified
-				eventView.on("event:savedStatusChanged",
-					this.onSavedStatusChanged);
-
-				return eventView;
-			}, this);
-
-			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
-		},
-
-		onSavedStatusChanged: function() {
-			// Check for any events being changed and hide/show cancel/save
-			// button as needed.
-			var changesExist = _.any(this.events, function(event) {
-				return event.model.hasChangedFromOriginal();
-			});
-
-			// Make the cancel/save buttons visible/hidden as required
-
-			if(changesExist && !this.$cancelSaveBtns.is(":visible")) {
-				this.$cancelSaveBtns.slideDown();
-			}
-
-			if(!changesExist && this.$cancelSaveBtns.is(":visible")) {
-				this.$cancelSaveBtns.slideUp();	
-			}
-		},
-
-		onCancel: function(event) {
-			_.each(this.events, function(eventView) {
-				eventView.model.reset();
-
-				// This works, but is a bit hacky
-				eventView.unfocusForEditing();
-			});
-		},
-
-		onSave: function(event) {
-			// Build a JSON representation of the form. 
-
-			var forms = _.map(this.events, function(eventView) {
-				return eventView.model.asJSONDjangoForm();
-			});
-
-			var outerForm = {
-				"event_set": {
-					// can't add forms yet so this is OK
-					"initial": forms.length,
-					"forms": forms
-				}
-			};
-
-			var formData = DjangoForms.encodeJSONForm(outerForm);
-
-			// Create a modal dialog to prevent actions taking place while
-			// saving.
-			this.saveDialogView = new SaveEventsDialogView();
-			this.saveDialogView.on("saved", this.onEventsSaved)
-
-			// Show the dialog & kick off the form POST.
-			this.saveDialogView.postEventsForm(this.getSavePath(), formData)
-		},
-
-		onEventsSaved: function(response) {
-			delete this.saveDialogView;
-			this.$(".js-events").empty();
-			this.onEventsFetched(response);
-		},
-
-		/** Gets the path to the endpoint the POST changes to when saving. */
-		getSavePath: function() {
-			return this.$el.data("save-path");
-		},
-
-		onAddEvent: function(event) {
-			return false;
-		}
-	});
-
-
-	var WritableEventView = Backbone.View.extend({
-		constructor: function WritableEventView() {
-			WritableEventView.__super__.constructor.apply(this, arguments);
-		},
-
-		events: function() {
-			return {
-				// The following 2 events enable firing of "change" events from
-				// contenteditable elements on blur.
-				"focusin [contenteditable]": this.onContenteditableFocus,
-				"focusout [contenteditable]": this.onContenteditableBlur,
-
-				"focusin .js-field, input, select": this.focusForEditing,
-				"focusout .js-field, input, select": this.unfocusForEditing,
-
-				// Watch for fields changing
-				"change .js-field": this.updateModel,
-				
-				// Start editing when the pencil edit icon is clicked
-				"click .js-edit-icon": this.startEditing,
-
-				"click .js-date-time-cell": this.toggleDateTimeDialog,
-				"click .js-date-time-dialog": this.onDateTimeDialogClicked
-			};
-		},
-
-		initialize: function() {
-			_.bindAll(this);
-
-			// focus/blur events have to be bound manually, otherwise the
-			// delegated focusin/focusout verisons are used.
-			this.$(".js-date-time-cell .js-focus-catcher")
-				.on("focus", this.toggleDateTimeDialog);
-
-			this.$title = this.$(".js-field-title");
-			this.$location = this.$(".js-field-location");
-			this.$type = this.$(".js-field-type");
-			this.$people = this.$(".js-field-people");
-			this.$week = this.$(".js-field-week");
-			this.$term = this.$(".js-field-term");
-			this.$day = this.$(".js-field-day");
-			this.$startHour = this.$(".js-field-start-hour");
-			this.$startMinute = this.$(".js-field-start-minute");
-			this.$endHour = this.$(".js-field-end-hour");
-			this.$endMinute = this.$(".js-field-end-minute");
-
-			this.model = new EventModel();
-			// Push the state of the HTML into the model
-			this.updateModel();
-			// Tell the model that it's current state is the initial one
-			this.model.storeInitialState();
-
-			this.model.on("change", this.render);
-		},
-
-		render: function() {
-			this.$title.text(this.model.get("title"));
-			this.$location.text(this.model.get("location"));
-			this.$type.val(this.model.get("type"));
-			this.$people.text(this.model.get("people"));
-
-			this.$week.text(this.model.get("week"));
-			this.$term.text(this.model.getPrettyTerm());
-			this.$day.text(this.model.getPrettyDay());
-			this.$startHour.text(this.model.get("startHour"));
-			this.$startMinute.text(this.model.get("startMinute"));
-			this.$endHour.text(this.model.get("endHour"));
-			this.$endMinute.text(this.model.get("endMinute"));
-		},
-
-		updateModel: function() {
-			// Update our model with the current state of the HTML
-			this.model.set({
-				id: safeParseInt(this.$el.data("id")),
-				title: this.$title.text(),
-				location: this.$location.text(),
-				type: this.$type.val(),
-				people: this.$people.text(),
-				week: this.$week.text(),
-				term: this.$term.text().toLowerCase(),
-				day: this.$day.text().toLowerCase(),
-				startHour: this.$startHour.text(),
-				startMinute: this.$startMinute.text(),
-				endHour: this.$endHour.text(),
-				endMinute: this.$endMinute.text()
-			});
-		},
-
-		focusForEditing: function() {
-			console.log("focusForEditing", arguments);
-			this.$el.addClass("being-edited");
-		},
-
-		/** S */
-		unfocusForEditing: function(event) {
-			console.log("unfocusForEditing", "event:", event, "focused:", $(":focus"));
-			this.$el.removeClass("being-edited");
-
-			// Mark the event as changed if it's been modified
-			this.markAsChanged(this.model.hasChangedFromOriginal());
-		},
-
-		markAsChanged: function(isChanged) {
-			isChanged = Boolean(isChanged);
-			this.isUnsaved = isChanged;
-			this.trigger("event:savedStatusChanged")
-			
-			if(isChanged)
-				this.$el.addClass("unsaved");
-			else
-				this.$el.removeClass("unsaved");
-		},
-
-		/** Starts editing this event by focusing the title element. */
-		startEditing: function() {
-			this.$title.focus();
-		},
-
-		onDateTimeDialogClicked: function(event) {
-			// Prevent click events on the date/time dialog reaching the 
-			// toggleDateTimeDialog() handler, which would close the dialog.
-			event.stopPropagation();
-		},
-
-		closeDateTimeDialog: function() {
-			if(this.dateTimeDialog) {
-				this.dateTimeDialog.remove();
-				delete this.dateTimeDialog;
-			}
-		},
-
-		toggleDateTimeDialog: function(event) {
-
-			var isFocus = event.type === "focus";
-			var isBeforeDialog = $(event.currentTarget)
-				.hasClass("js-focus-catcher-before");
-
-			if(this.dateTimeDialog) {
-				console.log("closing dialog", event);
-				this.closeDateTimeDialog();
-
-				// Move focus from this focus catcher to a real element if the
-				// dialog close was triggered by focusing a focus catching
-				// element before/after the dialog in the DOM.
-				if(isFocus) {
-					if(isBeforeDialog)
-						this.$(".js-field-type").focus();
-					else
-						this.$(".js-field-location").focus();
-				}
-			}
-			else {
-				console.log("opening dialog", event);
-				this.dateTimeDialog = new DateTimeDialogView({
-					el: $("#templates .js-date-time-dialog").clone(),
-					model: this.model
-				});
-				// dialog:close is fired by the dialog when a click is made
-				// outside its area, or the close icon is clicked.
-				this.dateTimeDialog.on(
-					"dialog:close", this.closeDateTimeDialog);
-
-				this.$(".js-date-time-cell .js-dialog-holder")
-					.append(this.dateTimeDialog.$el);
-				this.dateTimeDialog.$el.show();
-
-				if(!isFocus || isBeforeDialog)
-					this.dateTimeDialog.focusStart();
-				else
-					this.dateTimeDialog.focusEnd();
-			}
-		},
-
-		onContenteditableFocus: function(event) {
-			// Stash the element's value in a data property before it's edited
-			// so that we can fire a change event if it's modified.
-			var $el = $(event.target);
-			$el.data("__contenteditablePrevValue", $el.html());
-		},
-
-		onContenteditableBlur: function(event) {
-			var $el = $(event.target);
-			var html = $el.html();
-			if($el.data("__contenteditablePrevValue") !== html) {
-				// Delete the remembered HTML text
-				$el.data("__contenteditablePrevValue", undefined);
-				$el.trigger("change");
-			}
-		}
-	});
-
 
 	var BaseModel = Backbone.Model.extend({
 		initialize: function () {
@@ -713,7 +749,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				start_hour: attrs.startHour,
 				start_minute: attrs.startMinute,
 				end_hour: attrs.endHour,
-				end_minute: attrs.endMinute
+				end_minute: attrs.endMinute,
+				cancel: attrs.cancel
 			};
 		}
 	});

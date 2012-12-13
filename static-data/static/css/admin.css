@@ -163,9 +163,18 @@ div:focus {
  	background-repeat: no-repeat;
  	background-position: 100% 50%;
  }
+
+.event.event-cancelled .buttons a {
+	opacity: .2;
+}
+
+.event.event-cancelled .buttons a.remove {
+	opacity: .6;
+}
  
 .event.event-cancelled .event-field {
 	text-decoration: line-through;
+	background-image: none;
 }
 
 /* id selector used to boost priority over Bootstrap */

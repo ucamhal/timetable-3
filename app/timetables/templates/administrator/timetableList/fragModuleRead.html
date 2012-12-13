@@ -1,8 +1,11 @@
+{% load url from future %}
+
 <div class="module js-module">
   <div class="js-module-title module-title clearfix">
     <h4 class="pull-left js-collapse" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
         <span class="chevron icon-chevron-down js-expansion-indicator pull-left"></span>
-        <span class="pull-left title js-value">{{ module.name }}</span>
+        <span class="pull-left title js-value" data-save-path="{% url "thing edit" module.fullpath %}">{{ module.name }}</span>
+        <span class="js-error-message error-message pull-left dontDisplayMe">Saving failed, please try again later.</span>
     </h4>
     {% block module_title_right %}
     {% endblock module_title_right %}
