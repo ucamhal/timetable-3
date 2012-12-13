@@ -55,7 +55,8 @@ define([
 			this.$(".js-course-location").text(this.eventData.location || "");
 			this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
 			this.$(".js-edit").attr("href", this.$(".js-edit").data("base-url")
-				+ "#event=" + this.eventData.id);
+				+ "#expand=" + this.eventData.seriesId
+				+ "&highlight=" + this.eventData.id);
 		},
 
 		/**
@@ -70,7 +71,8 @@ define([
 					+ _.getTwelveHourTimeFromDate(calEvent._start),
 				location: calEvent.location,
 				lecturers: calEvent.lecturer.toString(),
-				type: calEvent.type
+				type: parseInt(calEvent.type),
+				seriesId: parseInt(calEvent.eventSourceId)
 			};
 		},
 
@@ -493,7 +495,7 @@ define([
 				i += 1;
 			}
 
-			return new Date(termData.date);
+			return termData ? new Date(termData.date) : this.calendar.getActiveDate();
 		},
 
 		/*
@@ -512,28 +514,30 @@ define([
 
 			switch (this.activeTermData.term) {
 			case "michaelmas":
-				if (direction === "forwards") {
+				if (direction === "forwards" && this.terms[activeYear]) {
 					termDate = this.terms[activeYear]
 						.lent[this.activeTermData.week];
-				} else {
+				} else if (this.terms[activeYear - 1]) {
 					termDate = this.terms[activeYear - 1]
 						.easter[this.activeTermData.week];
 				}
 				break;
 			case "lent":
-				if (direction === "forwards") {
-					termDate = this.terms[activeYear]
-						.easter[this.activeTermData.week];
-				} else {
-					termDate = this.terms[activeYear]
-						.michaelmas[this.activeTermData.week];
+				if (this.terms[activeYear]) {
+					if (direction === "forwards") {
+						termDate = this.terms[activeYear]
+							.easter[this.activeTermData.week];
+					} else {
+						termDate = this.terms[activeYear]
+							.michaelmas[this.activeTermData.week];
+					}
 				}
 				break;
 			case "easter":
-				if (direction === "forwards") {
+				if (direction === "forwards" && this.terms[activeYear + 1]) {
 					termDate = this.terms[activeYear + 1]
 						.michaelmas[this.activeTermData.week];
-				} else {
+				} else if(this.terms[activeYear]) {
 					termDate = this.terms[activeYear]
 						.lent[this.activeTermData.week];
 				}
