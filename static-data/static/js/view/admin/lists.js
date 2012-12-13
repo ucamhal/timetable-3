@@ -619,13 +619,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				location: attrs.location,
 				event_type: attrs.type,
 				people: attrs.people,
-				term_week: attrs.week,
+				term_week: safeParseInt(attrs.week),
 				term_name: attrs.term,
 				day_of_week: attrs.day,
-				start_hour: attrs.startHour,
-				start_minute: attrs.startMinute,
-				end_hour: attrs.endHour,
-				end_minute: attrs.endMinute
+				start_hour: safeParseInt(attrs.startHour),
+				start_minute: safeParseInt(attrs.startMinute),
+				end_hour: safeParseInt(attrs.endHour),
+				end_minute: safeParseInt(attrs.endMinute)
 			};
 		}
 	});
