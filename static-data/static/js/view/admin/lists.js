@@ -84,7 +84,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		},
 
 		getSeriesId: function() {
-			return this.$el.data("series-id");
+			return this.$el.data("id");
 		},
 
 		/**
