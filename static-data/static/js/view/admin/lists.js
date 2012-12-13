@@ -37,7 +37,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			_.bindAll(this, "onExpand", "onCollapse");
 
 			this.$expansionIndicator = this.$(
-					".js-module-heading .js-expansion-indicator")
+					".js-module-title .js-expansion-indicator");
 		},
 
 		onExpand: function() {
@@ -155,6 +155,18 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.$(".js-events").addClass("shown");
 		}
 	});
+	
+	var WritableModuleView = ModuleView.extend({
+		initialize: function () {
+			//apply initialization of superclass
+			WritableModuleView.__super__.initialize.apply(this, arguments);
+			
+			this.editableTitle = new EditableTitleView({
+				el: this.$(".js-module-title h4"),
+				$toggleButton: this.$(".js-module-buttons .js-edit-icon")
+			});
+		}
+	});
 
 	var WritableSeriesView = SeriesView.extend({
 		constructor: function WritableSeriesView() {
@@ -173,7 +185,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		initialize: function() {
 			WritableSeriesView.__super__.initialize.apply(this, arguments);
-
+			this.editableTitle = new EditableTitleView({
+				el: this.$(".js-series-title h5"),
+				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
+			});
+			this.currentChangesState = false;
 			_.bindAll(this);
 		},
 
@@ -215,13 +231,15 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			});
 
 			// Make the cancel/save buttons visible/hidden as required
-
-			if(changesExist && !this.$cancelSaveBtns.is(":visible")) {
-				this.$cancelSaveBtns.slideDown();
-			}
-
-			if(!changesExist && this.$cancelSaveBtns.is(":visible")) {
-				this.$cancelSaveBtns.slideUp();	
+			
+			if (changesExist !== this.currentChangesState) {
+				if (changesExist === true) {
+					this.$cancelSaveBtns.stop().hide().slideDown(200);
+				} else {
+					this.$cancelSaveBtns.stop().show().slideUp(200);
+				}
+				
+				this.currentChangesState = changesExist;	
 			}
 		},
 
@@ -276,9 +294,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		}
 	});
 
-	/**
-	 * 
-	 */
+
 	var WritableEventView = Backbone.View.extend({
 		constructor: function WritableEventView() {
 			WritableEventView.__super__.constructor.apply(this, arguments);
@@ -299,6 +315,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				
 				// Start editing when the pencil edit icon is clicked
 				"click .js-edit-icon": this.startEditing,
+				"click .js-remove-icon" : this.onCancelClick,
 
 				"click .js-date-time-cell": this.toggleDateTimeDialog,
 				"click .js-date-time-dialog": this.onDateTimeDialogClicked
@@ -335,10 +352,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		},
 
 		render: function() {
-			this.$title.text(this.model.get("title"));
-			this.$location.text(this.model.get("location"));
-			this.$type.val(this.model.get("type"));
-			this.$people.text(this.model.get("people"));
+			var isCancelled = this.isCancelled();
+			
+			this.$title.text(this.model.get("title")).attr("contenteditable", !isCancelled);
+			this.$location.text(this.model.get("location")).attr("contenteditable", !isCancelled);
+			this.$type.val(this.model.get("type")).attr("disabled", isCancelled === true ? "disabled" : false);
+			this.$people.text(this.model.get("people")).attr("contenteditable", !isCancelled);
 
 			this.$week.text(this.model.get("week"));
 			this.$term.text(this.model.getPrettyTerm());
@@ -347,6 +366,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			this.$startMinute.text(this.model.get("startMinute"));
 			this.$endHour.text(this.model.get("endHour"));
 			this.$endMinute.text(this.model.get("endMinute"));
+			
+			this.$el.toggleClass("event-cancelled", isCancelled);
+		},
+		
+		isCancelled: function () {
+			return this.model.get("cancel");
 		},
 
 		updateModel: function() {
@@ -363,13 +388,30 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				startHour: this.$startHour.text(),
 				startMinute: this.$startMinute.text(),
 				endHour: this.$endHour.text(),
-				endMinute: this.$endMinute.text()
+				endMinute: this.$endMinute.text(),
+				cancel: this.$el.hasClass("event-cancelled")
 			});
 		},
 
 		focusForEditing: function() {
-			console.log("focusForEditing", arguments);
-			this.$el.addClass("being-edited");
+			if (this.isCancelled() === false) {
+				this.$el.addClass("being-edited");	
+			}
+		},
+		
+		onCancelClick: function (event) {
+			this.toggleCancelledState();
+			event.preventDefault();
+		},
+		
+		toggleCancelledState: function (isCancelled) {
+			isCancelled = typeof isCancelled !== "undefined" ? isCancelled : !this.isCancelled();
+			
+			if (isCancelled !== this.isCancelled()) {
+				this.model.set("cancel", isCancelled);
+				this.markAsChanged(this.model.hasChangedFromOriginal());
+				this.$('[contenteditable="true"]').blur();
+			}
 		},
 
 		/** S */
@@ -411,7 +453,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		},
 
 		toggleDateTimeDialog: function(event) {
-
+			if (this.isCancelled() === true) {
+				return false;
+			}
+			
 			var isFocus = event.type === "focus";
 			var isBeforeDialog = $(event.currentTarget)
 				.hasClass("js-focus-catcher-before");
@@ -469,20 +514,181 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			}
 		}
 	});
+	
+	var EditableTitleView = Backbone.View.extend({
+		initialize: function (opts) {
+			_.bindAll(this, "onToggleClick");
 
-	var EventModel = Backbone.Model.extend({
-		constructor: function EventModel() {
-			EventModel.__super__.constructor.apply(this, arguments);
+			this.$toggleButton = opts.$toggleButton;
+
+			this.$value = this.$(".js-value");
+			this.model = new TitleModel();
+			this.isEditable = false;
+			this.isSaving = false;
+			this.isError = false;
+			this.updateModel();
+			this.model.storeInitialState();
+
+			this.$toggleButton.on("click", this.onToggleClick);
 		},
 
-		initialize: function() {
+		onToggleClick: function (event) {
+			if (this.isSaving === false && this.isEditable === false) {
+				this.toggleEditableState();
+			}
 
+			event.preventDefault();
+		},
+
+		render: function () {
+			this.$value.text(this.model.get("title"));
+			this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
+			this.$(".js-error-message").toggle(this.isError);
+		},
+
+		events: {
+			"click" : "onClick",
+			"keydown .js-value" : "onKeyDown",
+			"focusout .js-value" : "onFocusOut"
+		},
+
+		onKeyDown: function (event) {
+			if (event.keyCode === 13 && this.isEditable === true) {
+				this.saveAndClose();
+				event.preventDefault();
+			}
+		},
+
+		onFocusOut: function (event) {
+			if (this.isEditable === true) {
+				this.saveAndClose();
+			}
+		},
+
+		saveAndClose: function () {
+			this.updateModel();
+			this.toggleEditableState(false);
+
+			if (this.model.hasChangedFromOriginal()) {
+				this.saveData();
+			}
+		},
+
+		saveData: function () {
+			var self = this,
+				beforeSavingTime = new Date(),
+				timeDifference,
+				timer;
+			
+			this.toggleSavingState(true);
+			
+			$.ajax({
+				type: "POST",
+				url: this.$value.data("save-path"),
+				data: DjangoForms.encodeJSONForm(this.model.asJSONDjangoForm()),
+				success: function (data) {
+					timeDifference = new Date() - beforeSavingTime;
+					timer = setTimeout(function () {
+						self.toggleSavingState(false);
+						self.toggleErrorState(false);
+						self.$value.text(data.title);
+						self.updateModel();
+						self.model.storeInitialState(true);
+					}, Math.max(200 - timeDifference, 0));
+				},
+				error: function () {
+					timeDifference = new Date() - beforeSavingTime;
+					timer = setTimeout(function () {
+						self.model.reset();
+						self.toggleSavingState(false);
+						self.toggleErrorState(true);
+					}, Math.max(200 - timeDifference, 0));
+				}
+			});
+		},
+
+		onClick: function (event) {
+			if (this.isEditable === true) {
+				event.stopPropagation();
+			}
+		},
+
+		updateModel: function () {
+			this.model.set({
+				title: this.$value.text()
+			});
+		},
+		
+		toggleErrorState: function (isError) {
+			isError = typeof isError !== "undefined" ? isError : !this.isError;
+			
+			if (isError !== this.isError) {
+				this.isError = isError;
+				this.render();
+			}
+		},
+
+		toggleEditableState: function (isEditable) {
+			isEditable = typeof isEditable !== "undefined" ? isEditable : !this.isEditable;
+
+			if (isEditable !== this.isEditable) {
+				this.isEditable = isEditable;
+				this.render();
+			}
+		},
+		
+		toggleSavingState: function (isSaving) {
+			isSaving = typeof isSaving !== "undefined" ? isSaving : !this.isSaving;
+
+			if (isSaving !== this.isSaving) {
+				this.isSaving = isSaving;
+				this.render();
+			}
+		}
+	});
+
+
+	var BaseModel = Backbone.Model.extend({
+		initialize: function () {
 			this.hasInitialState = false;
 		},
 
-		/** Reset the model's attributes to the initial values. */
-		reset: function() {
+		/** 
+		 * Resets the model's attributes to the initial values.
+		 */
+		reset: function () {
 			this.set(this.originalAttributes);
+		},
+
+		/**
+		 * Mark the event's current state as being the original. After calling
+		 * this, hasChangedFromOriginal() may be called.
+		 */
+		storeInitialState: function (force) {
+			if (this.hasInitialState === true && force !== true) {
+				throw new Error("Initial state already set.");
+			}
+
+			this.hasInitialState = true;
+			this.originalAttributes = this.toJSON();
+		},
+
+		/** 
+		 * Returns true if the current attribute values differ from the initial
+		 * values.
+		 */
+		hasChangedFromOriginal: function () {
+			if (this.hasInitialState === false) {
+				throw new Error("No initial state set.");;
+			}
+
+			return !_.isEqual(this.originalAttributes, this.toJSON());
+		}
+	});
+
+	var EventModel = BaseModel.extend({
+		constructor: function EventModel() {
+			EventModel.__super__.constructor.apply(this, arguments);
 		},
 
 		titleCase: function(str) {
@@ -505,19 +711,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			return day;
 		},
 
-		/**
-		 * Mark the event's current state as being the original. After calling
-		 * this, hasChangedFromOriginal() may be called.
-		 */
-		storeInitialState: function() {
-			if(!this.hasInitialState === false) {
-				throw new Error("Initial state already set.");
-			}
-
-			this.hasInitialState = true;
-			this.originalAttributes = this.toJSON();
-		},
-
 		validate: function(attrs) {
 			return;
 
@@ -534,17 +727,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 			if(!attrs.people || attrs.people.trim() == "")
 				errors.people = ["This field is required."];
-		},
-
-		/** 
-		 * Returns true if the current attribute values differ from the initial
-		 * values.
-		 */
-		hasChangedFromOriginal: function() {
-			if(!this.hasInitialState === true) {
-				throw new Error("No initial state set.");
-			}
-			return !_.isEqual(this.originalAttributes, this.toJSON());
 		},
 
 		/**
@@ -567,7 +749,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				start_hour: attrs.startHour,
 				start_minute: attrs.startMinute,
 				end_hour: attrs.endHour,
-				end_minute: attrs.endMinute
+				end_minute: attrs.endMinute,
+				cancel: attrs.cancel
 			};
 		}
 	});
@@ -579,13 +762,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		events: function() {
 			return {
-				"click .js-close-btn": this.requestDialogClose,
+				"click .js-close-btn": this.onCloseClick,
 				"change #date-time-week": this.onWeekChanged,
 				"change select": this.syncToModel,
 				"change .js-hour, .js-minute": this.onTimeInputChanged,
 			};
 		},
-
+ 
 		initialize: function() {
 			_.bindAll(this);
 
@@ -648,6 +831,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			return (number < 0 ? "-" : "")
 					+ new Array(Math.max(0, minWidth - width) + 1).join("0")
 					+ Math.abs(number);
+		},
+		
+		onCloseClick: function (event) {
+			this.requestDialogClose();
+			event.preventDefault();
 		},
 
 		onWeekChanged: function() {
@@ -864,9 +1052,24 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		}
 	});
 
+	var TitleModel = BaseModel.extend({
+		initialize: function () {
+			//console.log("title model initialization");
+		},
+
+		asJSONDjangoForm: function () {
+			var attrs = this.attributes;
+
+			return {
+				title: attrs.title
+			};
+		}
+	});
+
 	return {
 		ModuleView: ModuleView,
 		SeriesView: SeriesView,
-		WritableSeriesView: WritableSeriesView
+		WritableSeriesView: WritableSeriesView,
+		WritableModuleView: WritableModuleView
 	};
 });
