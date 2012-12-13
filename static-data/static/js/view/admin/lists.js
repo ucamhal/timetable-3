@@ -1,6 +1,9 @@
-define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
+define(["jquery", "underscore", "backbone", "util/django-forms",
+			"util/assert", "jquery-bbq"],
 		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
+
+	var listEvents = _.extend({}, Backbone.Events);
 
 	/** Strip leading zeros from an integer such as: 01, 05, 005 etc. */
 	function stripZeros(str) {
@@ -73,6 +76,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		initialize: function() {
 			_.bindAll(this);
+
+			// Store this view instance against the series element to
+			// access it from hashchanges below.q
+			this.$el.data("view", this)
+
+			listEvents.on("expand-series", this.onExpandSeries);
 		},
 
 		isLoaded: function() {
@@ -124,6 +133,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			delete this.loadingIndicator;
 			this.$(".js-loading-indicator").remove();
 			this.$(".js-events").prepend(response);
+			this.buildEventViews();
+			listEvents.trigger("new-events-visible");
+		},
+
+		buildEventViews: function() {
+			// At this point the events exist in the page. Instanciate a 
+			// EventView wrapping each event and store the list of these
+			// views in this.eventsd
+			this.events = _.map(this.$(".js-event"), function(eventEl) {
+				var eventView = new EventView({el: eventEl});
+
+				return eventView;
+			}, this);
 		},
 
 		onEventsFetchFailed: function() {
@@ -132,6 +154,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		onExpand: function(event) {
 			event.stopPropagation();
+
 			this.$(".js-expansion-indicator")
 				.removeClass("icon-chevron-right")
 				.addClass("icon-chevron-down");
@@ -153,6 +176,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		onShown: function() {
 			this.$(".js-events").addClass("shown");
+		},
+
+		/**
+		 * Show the series, expanding the events list and triggering
+		 * a fetch of events of events if required.
+		 */
+		expand: function() {
+			this.$(".js-events").collapse("show");
+		},
+
+		onExpandSeries: function(id) {
+			if(this.getSeriesId() == id)
+				this.expand();
 		}
 	});
 
@@ -186,14 +222,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			});
 		},
 
-		onEventsFetched: function() {
-			// Call through to the superclass implementation in order to insert
-			// the event elements into the page's DOM tree.
-			WritableSeriesView.__super__.onEventsFetched.apply(this, arguments);
-
+		buildEventViews: function() {
 			// At this point the events exist in the page. Instanciate a 
-			// WritableEventView wrapping each event and store the list of these
-			// views in this.events
+			// WritableEventView wrapping each event and store the list
+			// of these views in this.events
 			this.events = _.map(this.$(".js-event"), function(eventEl) {
 				var eventView = new WritableEventView({el: eventEl});
 
@@ -276,10 +308,36 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		}
 	});
 
+	var EventView = Backbone.View.extend({
+		constructor: function EventView() {
+			EventView.__super__.constructor.apply(this, arguments);
+		},
+
+		initialize: function() {
+			_.bindAll(this);
+
+			listEvents.on("highlight-event", this.onHighlight);
+		},
+
+		getId: function() {
+			return this.$el.data("id");
+		},
+
+		onHighlight: function(id) {
+			if(this.getId() == id)
+				this.highlight();
+		},
+
+		highlight: function() {
+			this.$el.addClass("highlighted");
+			scrollTo(this.$el.offset().top - 100, 200);
+		}
+	});
+
 	/**
 	 * 
 	 */
-	var WritableEventView = Backbone.View.extend({
+	var WritableEventView = EventView.extend({
 		constructor: function WritableEventView() {
 			WritableEventView.__super__.constructor.apply(this, arguments);
 		},
@@ -306,7 +364,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		},
 
 		initialize: function() {
-			_.bindAll(this);
+			WritableEventView.__super__.initialize.apply(this, arguments);
 
 			// focus/blur events have to be bound manually, otherwise the
 			// delegated focusin/focusout verisons are used.
@@ -561,13 +619,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				location: attrs.location,
 				event_type: attrs.type,
 				people: attrs.people,
-				term_week: attrs.week,
+				term_week: safeParseInt(attrs.week),
 				term_name: attrs.term,
 				day_of_week: attrs.day,
-				start_hour: attrs.startHour,
-				start_minute: attrs.startMinute,
-				end_hour: attrs.endHour,
-				end_minute: attrs.endMinute
+				start_hour: safeParseInt(attrs.startHour),
+				start_minute: safeParseInt(attrs.startMinute),
+				end_hour: safeParseInt(attrs.endHour),
+				end_minute: safeParseInt(attrs.endMinute)
 			};
 		}
 	});
@@ -864,9 +922,74 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 		}
 	});
 
+	/**
+	 * Scroll the window so that the top is at the specified vertical
+	 * position on the page.
+	 */
+	function scrollTo(position, duration, onComplete) {
+		duration = duration || 0;
+		$('html, body').animate({
+			scrollTop: $(".js-event").offset().top - 100
+		}, duration, "swing", onComplete);
+	}
+
+	/** Return value wrapped in an array if it's not an array. */
+	function asArray(value) {
+		if(_.isArray(value))
+			return value;
+		return [value];
+	}
+
+	function highlightEventsInHash() {
+		var highlight = asArray($.bbq.getState("highlight"));
+		_.each(highlight, function(id) {
+			id = parseInt(id);
+			if(isNaN(id))
+				return;
+			highlightEvent(id);
+		})
+	}
+
+	function highlightEvent(id) {
+		listEvents.trigger("highlight-event", id);
+	}
+
+	/**
+	 * Use jQuery bbq to watch for hashchange events & take appropreate
+	 * actions. We support the following hash params:
+	 *
+	 * - expand=SERIES_ID
+	 * - highlight=EVENT_ID
+	 *
+	 * Together these can be used to expand a series automatically and
+	 * scroll to the specified event.
+	 */
+	function bindUrlHashWatcher() {
+		$(window).bind("hashchange", function(e) {
+			var state = $.bbq.getState();
+
+			var expand = asArray($.bbq.getState("expand"));
+			_.each(expand, function(seriesId) {
+				// Sanitise ID
+				var id = parseInt(seriesId)
+				if(isNaN(id))
+					return;
+
+				// Fire the expand-series event
+				listEvents.trigger("expand-series", id);
+			});
+
+			highlightEventsInHash();
+		});
+	}
+
+	// This is fired when new events are added to the page.
+	listEvents.on("new-events-visible", highlightEventsInHash)
+
 	return {
 		ModuleView: ModuleView,
 		SeriesView: SeriesView,
-		WritableSeriesView: WritableSeriesView
+		WritableSeriesView: WritableSeriesView,
+		bindUrlHashWatcher: bindUrlHashWatcher
 	};
 });
