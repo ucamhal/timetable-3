@@ -134,6 +134,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$(".js-loading-indicator").remove();
 			this.$(".js-events").prepend(response);
 			this.buildEventViews();
+			listEvents.trigger("new-events-visible");
 		},
 
 		buildEventViews: function() {
@@ -175,7 +176,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		onShown: function() {
 			this.$(".js-events").addClass("shown");
-			listEvents.trigger("new-events-visible");
 		},
 
 		/**
