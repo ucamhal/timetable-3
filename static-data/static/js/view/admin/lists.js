@@ -189,7 +189,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 				el: this.$(".js-series-title h5"),
 				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
 			});
-			
+			this.currentChangesState = false;
 			_.bindAll(this);
 		},
 
@@ -762,13 +762,13 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 
 		events: function() {
 			return {
-				"click .js-close-btn": this.requestDialogClose,
+				"click .js-close-btn": this.onCloseClick,
 				"change #date-time-week": this.onWeekChanged,
 				"change select": this.syncToModel,
 				"change .js-hour, .js-minute": this.onTimeInputChanged,
 			};
 		},
-
+ 
 		initialize: function() {
 			_.bindAll(this);
 
@@ -831,6 +831,11 @@ define(["jquery", "underscore", "backbone", "util/django-forms", "util/assert"],
 			return (number < 0 ? "-" : "")
 					+ new Array(Math.max(0, minWidth - width) + 1).join("0")
 					+ Math.abs(number);
+		},
+		
+		onCloseClick: function (event) {
+			this.requestDialogClose();
+			event.preventDefault();
 		},
 
 		onWeekChanged: function() {
