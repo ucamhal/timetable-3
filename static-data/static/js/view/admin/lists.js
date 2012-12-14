@@ -271,7 +271,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					this.$cancelSaveBtns.stop().show().slideUp(200);
 				}
 				
-				this.currentChangesState = changesExist;	
+				this.currentChangesState = changesExist;
 			}
 		},
 
@@ -604,7 +604,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		events: {
-			"click" : "onClick",
+			"click a" : "onClick",
 			"keydown .js-value" : "onKeyDown",
 			"focusout .js-value" : "onFocusOut"
 		},
@@ -668,6 +668,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			if (this.isEditable === true) {
 				event.stopPropagation();
 			}
+			
+			event.preventDefault();
 		},
 
 		updateModel: function () {
