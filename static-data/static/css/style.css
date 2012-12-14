@@ -862,7 +862,7 @@ div#timetablesOverview ul {
 	margin: 0;
 }
 
-div#timetablesOverview ul li:nth-child(5n+5) {
+div#timetablesOverview ul li.rowBreak {
 	margin-right: 0;
 }
 

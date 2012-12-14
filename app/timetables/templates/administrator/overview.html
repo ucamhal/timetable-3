@@ -35,7 +35,7 @@
 
     {% for timetable in timetables %}
       {% if timetable.id in editable %}
-      <li class="pull-left editable">
+      <li class="pull-left editable{% if forloop.counter|add:"1"|divisibleby:"5" %} rowBreak{% endif %}">
       <div class="timetableTop"></div>
       <div class="timetableBottom">
           <a href="{% url "admin list write" thing=timetable.fullpath %}">
@@ -55,7 +55,7 @@
     {% endfor %}
     {% for timetable in timetables %}
       {% if timetable.id not in editable %}
-      <li class="pull-left">
+      <li class="pull-left{% if forloop.counter|add:"1"|divisibleby:"5" %} rowBreak{% endif %}">
       <div class="timetableTop"></div>
       <div class="timetableBottom">
           <a href="{% url "admin list read" thing=timetable.fullpath %}">
