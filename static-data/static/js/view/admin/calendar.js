@@ -19,12 +19,9 @@ define([
 		},
 
 		initialize: function (opts) {
-			this.positionMutators.leftOffset = opts.leftOffset ||
-				this.positionMutators.leftOffset;
-			this.positionMutators.topOffset = opts.topOffset ||
-				this.positionMutators.topOffset;
-			this.positionMutators.contentWidth = opts.contentWidth ||
-				this.positionMutators.contentWidth;
+			this.positionMutators.leftOffset = opts.leftOffset || this.positionMutators.leftOffset;
+			this.positionMutators.topOffset = opts.topOffset || this.positionMutators.topOffset;
+			this.positionMutators.contentWidth = opts.contentWidth || this.positionMutators.contentWidth;
 
 			this.$el.appendTo("body");
 		},
@@ -167,15 +164,26 @@ define([
 				columnFormat: {
 					week: "ddd dd/M"
 				},
-				eventClick: function (calEvent, jsEvent, view) {
-					self.$el.trigger("eventClick",
-						[calEvent, jsEvent, view, this]);
+				eventRender: function (calEvent, $el, view) {
+					self.$el.trigger("eventRender", [calEvent, $el, view]);
+				},
+				select: function () {
+					console.log("event select");
 				}
 			});
 		},
 
 		events: {
-			"eventClick": "onEventClick"
+			"eventRender": "onEventRender"
+		},
+		
+		onEventRender: function (event, calEvent, $el, view) {
+			var self = this;
+			
+			$el.attr("tabindex", this.$(".fc-event").index($el));
+			$el.on("focusin", function () {
+				self.onEventFocus(calEvent, $el, view, this);
+			});
 		},
 
 		eventPopup: new CalendarEventPopup({
@@ -184,9 +192,9 @@ define([
 
 		/**
 		 * Eventhandler that is triggered when an event on the calendar
-		 *		has been clicked
+		 *		has been focussed
 		 */
-		onEventClick: function (event, calEvent, jsEvent, view, target) {
+		onEventFocus: function (calEvent, jsEvent, view, target) {
 			this.resetZIndexForAllEvents();
 			$(target).css("zIndex", 9);
 			this.eventPopup.setEventDataFromCalEvent(calEvent);
