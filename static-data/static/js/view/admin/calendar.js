@@ -477,7 +477,7 @@ define([
 			return termData ? termData.date : this.calendar.getActiveDate();
 		},
 		
-		/*
+		/**
 		 * Converts a date string to a js Date object. Expects string format to be yyyy-mm-dd
 		 * @param {string} dateString The date string to be converted.
 		 * @return {object} The string as a Date object.
@@ -487,7 +487,7 @@ define([
 			return new Date(parts[0], parts[1] - 1, parts[2]);
 		},
 
-		/*
+		/**
 		 * Gets the date for the next or previous term based on the currently
 		 *		active term. Remembers the currently active week.
 		 * @param {string} rel The direction to go, either forwards of

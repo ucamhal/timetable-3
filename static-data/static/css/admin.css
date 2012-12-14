@@ -152,6 +152,24 @@ div:focus {
 	opacity: 0.5;
 }
 
+.event select.event-type {
+	display: none;
+}
+
+select.event-type {
+	width: 100px;
+}
+
+.event.event-editable.being-edited span.event-type,
+.event.event-editable.unsaved span.event-type {
+	display: none;
+}
+
+.event.event-editable.being-edited select.event-type,
+.event.event-editable.unsaved select.event-type {
+	display: block;
+}
+
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
 	padding-right: 20px; /* To accommodate the pencil icon */

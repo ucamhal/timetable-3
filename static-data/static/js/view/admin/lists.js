@@ -366,6 +366,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				"focusin .js-field, input, select": this.focusForEditing,
 				"focusout .js-field, input, select": this.unfocusForEditing,
+				"change select" : this.onValueChange,
+				
+				"click span.js-field-type" : this.focusTypeSelectForEditing,
 
 				// Watch for fields changing
 				"change .js-field": this.updateModel,
@@ -378,6 +381,16 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				"click .js-date-time-dialog": this.onDateTimeDialogClicked
 			};
 		},
+		
+		onValueChange: function () {
+			this.updateModel();
+			this.markAsChanged(this.model.hasChangedFromOriginal());
+		},
+		
+		focusTypeSelectForEditing: function (event) {
+			this.focusForEditing();
+			this.$("select.js-field-type").focus();
+		},
 
 		initialize: function() {
 			WritableEventView.__super__.initialize.apply(this, arguments);
@@ -389,7 +402,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 			this.$title = this.$(".js-field-title");
 			this.$location = this.$(".js-field-location");
-			this.$type = this.$(".js-field-type");
+			this.$type = this.$("select.js-field-type");
 			this.$people = this.$(".js-field-people");
 			this.$week = this.$(".js-field-week");
 			this.$term = this.$(".js-field-term");
