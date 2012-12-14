@@ -266,12 +266,10 @@ define([
 		initialize: function (opts) {
 			this.type = opts.type || "week";
 
-			if (typeof opts.calendar !== "undefined" ||
-					!(calendar instanceof FullCalendarView)) {
+			if (typeof opts.calendar !== "undefined" || !(calendar instanceof FullCalendarView)) {
 				this.calendar = opts.calendar;
 			} else {
-				console.error("DateSpinners need an instance of " +
-					"FullCalendarView to operate");
+				console.error("DateSpinners need an instance of FullCalendarView to operate");
 			}
 
 			if (typeof opts.terms !== "undefined") {
@@ -296,9 +294,7 @@ define([
 		 *		calendar date
 		 */
 		updateActiveTermData: function () {
-			this.activeTermData = this.getTermDataForDate(
-				this.calendar.getActiveDate()
-			);
+			this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
 		},
 
 		/**
@@ -327,8 +323,7 @@ define([
 		 */
 		getActiveWeekString: function () {
 			var	activeWeekString = "Outside term";
-			if (typeof this.activeTermData !== "undefined" &&
-					_.has(this.activeTermData, "week")) {
+			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "week")) {
 				activeWeekString = "Week " + this.activeTermData.week;
 			}
 			return activeWeekString;
@@ -340,8 +335,7 @@ define([
 		 */
 		getActiveTermString: function () {
 			var	activeTermString = "No active term";
-			if (typeof this.activeTermData !== "undefined"
-					&& _.has(this.activeTermData, "term")) {
+			if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
 				activeTermString = this.activeTermData.term;
 			}
 			return activeTermString;
@@ -369,10 +363,7 @@ define([
 		 * Moves the calendar to the previous week
 		 */
 		goToPreviousWeek: function () {
-			this.calendar.goToDate(new Date(
-				this.calendar.getActiveDate().valueOf()
-					- (1000 * 60 * 60 * 24 * 7)
-			));
+			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
 		},
 
 		/**
@@ -380,16 +371,9 @@ define([
 		 */
 		goToPreviousTerm: function () {
 			if (typeof this.activeTermData !== "undefined") {
-				this.calendar.goToDate(
-					this.getRelativeTermDateFromActiveTerm("backwards")
-				);
+				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards"));
 			} else {
-				this.calendar.goToDate(
-					this.getRelativeTermDateFromDate(
-						this.calendar.getActiveDate(),
-						"backwards"
-					)
-				);
+				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "backwards"));
 			}
 		},
 
@@ -415,10 +399,7 @@ define([
 		 * Moves the calendar to the next week
 		 */
 		goToNextWeek: function () {
-			this.calendar.goToDate(new Date(
-				this.calendar.getActiveDate().valueOf()
-					+ (1000 * 60 * 60 * 24 * 7)
-			));
+			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() + (1000 * 60 * 60 * 24 * 7)));
 		},
 
 		/**
@@ -426,14 +407,9 @@ define([
 		 */
 		goToNextTerm: function () {
 			if (typeof this.activeTermData !== "undefined") {
-				this.calendar.goToDate(
-					this.getRelativeTermDateFromActiveTerm("forwards")
-				);
+				this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards"));
 			} else {
-				this.calendar.goToDate(this.getRelativeTermDateFromDate(
-					this.calendar.getActiveDate(),
-					"forwards"
-				));
+				this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "forwards"));
 			}
 		},
 
@@ -448,21 +424,17 @@ define([
 		 *		falls in.
 		 */
 		getTermDataForDate: function (date, rel) {
-			var terms = this.getTermsForDateYear(date),
+			var self = this,
+				terms = this.getTermsForDateYear(date),
 				direction = rel || "backwards",
 				activeTermData,
 				activeDate = this.getClosestThursdayFromDate(date, direction),
 
 				activeYear = activeDate.getFullYear(),
-				activeMonth = (String(activeDate.getMonth() + 1).length === 1
-					? "0" + (activeDate.getMonth() + 1)
-					: activeDate.getMonth() + 1),
-				activeDay = (String(activeDate.getDate()).length === 1
-					? "0" + activeDate.getDate()
-					: activeDate.getDate()),
+				activeMonth = (String(activeDate.getMonth() + 1).length === 1 ? "0" + (activeDate.getMonth() + 1) : activeDate.getMonth() + 1),
+				activeDay = (String(activeDate.getDate()).length === 1 ? "0" + activeDate.getDate() : activeDate.getDate()),
 
-				activeDateString = activeYear + "-" + activeMonth + "-"
-					+ activeDay;
+				activeDateString = activeYear + "-" + activeMonth + "-" + activeDay;
 
 			_.each(terms, function (termData, termName) {
 				if (typeof activeTermData === "undefined") {
@@ -470,7 +442,7 @@ define([
 						if (weekStartDate === activeDateString) {
 							activeTermData = {
 								week: weekNr,
-								date: new Date(weekStartDate),
+								date: self.parseDate(weekStartDate),
 								term: termName
 							};
 						}
@@ -493,8 +465,7 @@ define([
 			var direction = rel || "forwards",
 				termData,
 				termDate = date,
-				dateIterator = direction === "forwards" ?
-						(1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
+				dateIterator = direction === "forwards" ? (1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
 				i = 0;
 
 			while (typeof termData === "undefined" && i < 52) {
@@ -503,7 +474,17 @@ define([
 				i += 1;
 			}
 
-			return termData ? new Date(termData.date) : this.calendar.getActiveDate();
+			return termData ? termData.date : this.calendar.getActiveDate();
+		},
+		
+		/*
+		 * Converts a date string to a js Date object. Expects string format to be yyyy-mm-dd
+		 * @param {string} dateString The date string to be converted.
+		 * @return {object} The string as a Date object.
+		 */
+		parseDate: function (dateString) {
+			var parts = dateString.match(/(\d+)/g);
+			return new Date(parts[0], parts[1] - 1, parts[2]);
 		},
 
 		/*
@@ -514,45 +495,37 @@ define([
 		 * @return {object} Date object that falls within next or previous term.
 		 */
 		getRelativeTermDateFromActiveTerm: function (rel) {
-			var activeYear = this.getAcademicStartYearFromDate(
-					this.activeTermData.date
-				),
-				termDate = this.calendar.getActiveDate(),
+			var activeYear = this.getAcademicStartYearFromDate(this.activeTermData.date),
+				termDate,
 				direction = rel || "forwards";
 
 			switch (this.activeTermData.term) {
 			case "michaelmas":
 				if (direction === "forwards" && this.terms[activeYear]) {
-					termDate = this.terms[activeYear]
-						.lent[this.activeTermData.week];
+					termDate = this.terms[activeYear].lent[this.activeTermData.week];
 				} else if (this.terms[activeYear - 1]) {
-					termDate = this.terms[activeYear - 1]
-						.easter[this.activeTermData.week];
+					termDate = this.terms[activeYear - 1].easter[this.activeTermData.week];
 				}
 				break;
 			case "lent":
 				if (this.terms[activeYear]) {
 					if (direction === "forwards") {
-						termDate = this.terms[activeYear]
-							.easter[this.activeTermData.week];
+						termDate = this.terms[activeYear].easter[this.activeTermData.week];
 					} else {
-						termDate = this.terms[activeYear]
-							.michaelmas[this.activeTermData.week];
+						termDate = this.terms[activeYear].michaelmas[this.activeTermData.week];
 					}
 				}
 				break;
 			case "easter":
 				if (direction === "forwards" && this.terms[activeYear + 1]) {
-					termDate = this.terms[activeYear + 1]
-						.michaelmas[this.activeTermData.week];
+					termDate = this.terms[activeYear + 1].michaelmas[this.activeTermData.week];
 				} else if(this.terms[activeYear]) {
-					termDate = this.terms[activeYear]
-						.lent[this.activeTermData.week];
+					termDate = this.terms[activeYear].lent[this.activeTermData.week];
 				}
 				break;
 			}
 
-			return new Date(termDate);
+			return termDate ? this.parseDate(termDate) : this.calendar.getActiveDate();
 		},
 
 		/**
@@ -563,8 +536,7 @@ define([
 		 * @return {object} A date object representing the closest Thursday
 		 */
 		getClosestThursdayFromDate: function (date, rel) {
-			var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24)
-				: (1000 * 60 * 60 * 24);
+			var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24) : (1000 * 60 * 60 * 24);
 			while (date.getDay() !== 4) {
 				date = new Date(date.valueOf() + iteration);
 			}
@@ -591,8 +563,7 @@ define([
 		 * @return {number} The academic year for the provided date.
 		 */
 		getAcademicStartYearFromDate: function (date) {
-			return date.getMonth() < 9 ? date.getFullYear() - 1
-				: date.getFullYear();
+			return date.getMonth() < 9 ? date.getFullYear() - 1 : date.getFullYear();
 		}
 	});
 
