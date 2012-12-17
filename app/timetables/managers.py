@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from timetables.utils.reflection import newinstance
-from timetables.querysets import EventQuerySet
+from timetables import querysets
 
 
 class QuerySetManager(models.Manager):
@@ -17,7 +17,7 @@ class QuerySetManager(models.Manager):
 
 class EventManager(QuerySetManager):
     
-    querySet = EventQuerySet
+    querySet = querysets.EventQuerySet
     
     def unpack_sources(self, queryset):
         # Prevent a cycle.
@@ -45,3 +45,10 @@ class EventManager(QuerySetManager):
         and have status live.
         """
         return self.all().just_active()
+
+
+class ThingLockManager(QuerySetManager):
+    querySet = querysets.ThingLockQuerySet
+
+    def just_active(self, **kwargs):
+        return self.all().just_active(**kwargs)

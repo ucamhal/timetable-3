@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.core import exceptions
 
-from timetables.managers import EventManager
+from timetables import managers
 
 
 log = logging.getLogger(__name__)
@@ -446,7 +446,7 @@ class Event(SchemalessModel, VersionableModel):
     PERM_READ = "event.read"
 
 
-    objects = EventManager()
+    objects = managers.EventManager()
 
     # Basic Metadata that we need to operate on this event
     start = models.DateTimeField(help_text="Start of the Event in local time")
@@ -621,6 +621,9 @@ class ThingLock(models.Model):
     """
     Maintains the users who have exclusive access to a Thing.
     """
+
+    objects = managers.ThingLockManager()
+
     thing = models.ForeignKey(Thing, related_name="locks",
             help_text="The Thing being locked.")
 
