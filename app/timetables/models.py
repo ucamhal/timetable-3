@@ -4,20 +4,24 @@ import hashlib
 import base64
 import os
 import time
+import pytz
+import logging
+from itertools import chain
 
 from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils import timezone
-import logging
-from timetables.managers import EventManager
 from django.contrib.auth.models import User
 from django.utils.timezone import now
-import pytz
+from django.core import exceptions
+
+from timetables.managers import EventManager
+
+
 log = logging.getLogger(__name__)
 
-from itertools import chain
 
 
 # Length of a hash required to identify items.
@@ -626,3 +630,15 @@ class ThingLock(models.Model):
     expires = models.DateTimeField("When the lock expires.")
 
     name = models.CharField(max_length=MAX_NAME_LENGTH, db_index=True)
+
+    def clean(self):
+        if self.owner.type != "user":
+            raise exceptions.ValidationError(
+                    "The owner of a lock must be a 'user' Thing")
+    
+    @classmethod
+    def _pre_save(cls, sender, instance=None, **kwargs):
+        # Automatically call clean() before saving
+        instance.clean()
+
+pre_save.connect(ThingLock._pre_save, sender=ThingLock)
