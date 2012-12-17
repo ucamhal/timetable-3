@@ -3,10 +3,12 @@
 <div class="series js-series" data-id="{{ series.unique_id }}"
     data-save-path="{% url "edit series" series.unique_id %}">
   <div class="series-title collapsed clearfix js-series-title">
-    <h5 class="pull-left js-collapse" data-toggle="collapse" data-target="#series-{{ series.unique_id }}-events">
-        <span class="chevron icon-chevron-right js-expansion-indicator pull-left"></span>
-        <span class="js-value title pull-left" data-save-path="{% url "edit series title" series.unique_id %}">{{ series.name }}</span>
-        <span class="js-error-message error-message pull-left dontDisplayMe">Saving failed, please try again later.</span>
+    <h5 class="pull-left">
+    	<a href="javascript:;" class="js-collapse" data-toggle="collapse" data-target="#series-{{ series.unique_id }}-events">
+			<span class="chevron icon-chevron-right js-expansion-indicator"></span>
+	        <span class="js-value title" data-save-path="{% url "edit series title" series.unique_id %}">{{ series.name }}</span>
+	        <span class="js-error-message error-message dontDisplayMe">Saving failed, please try again later.</span>
+    	</a>
     </h5>
     {% block series_title_right %}
     {% endblock series_title_right %}
