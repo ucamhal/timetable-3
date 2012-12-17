@@ -645,3 +645,29 @@ class ThingLock(models.Model):
         instance.clean()
 
 pre_save.connect(ThingLock._pre_save, sender=ThingLock)
+
+#class Time(object):
+#    def __init__(self, time):
+#        self.time = time
+#
+#    def now(self):
+#        return self.time
+#
+#    def set_time(self, time):
+#        self.time = time
+#
+#time = Time(1234)
+#ls = LockStrategy(now=time.now)
+#ls.foo()
+#time.set_time(12344534)
+#ls.bar()
+class LockStrategy(object):
+
+    def __init__(self, now=timezone.now):
+        self._now = now
+
+    def get_status(self, things):
+        raise NotImplementedError()
+
+    def refresh_lock(self, thing):
+        raise NotImplementedError()
