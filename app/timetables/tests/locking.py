@@ -52,22 +52,19 @@ class TestThingLock(TestCase):
         lock.save()
 
         # The lock now exists
-        self.assertTrue(thing.locks.just_active(now=time.now)
-                .exists())
+        self.assert_lock_exists(thing, owner, time.now)
 
         # Advance time by 1 minute
         time.tick(datetime.timedelta(minutes=1))
 
         # The lock still exists
-        self.assertTrue(thing.locks.just_active(now=time.now)
-                .exists())
+        self.assert_lock_exists(thing, owner, time.now)
 
         # Advance time by another minute
         time.tick(datetime.timedelta(minutes=1))
 
         # The lock still exists
-        self.assertTrue(thing.locks.just_active(now=time.now)
-                .exists())
+        self.assert_lock_exists(thing, owner, time.now)
 
         # Advance time by 1 second
         time.tick(datetime.timedelta(seconds=1))
@@ -75,6 +72,13 @@ class TestThingLock(TestCase):
         # The lock is now expired and does not exist
         self.assertFalse(thing.locks.just_active(now=time.now)
                 .exists())
+
+    def assert_lock_exists(self, thing, owner, now_func):
+        lock = (thing.locks.just_active(now=now_func)
+                .order_by("expires")[:1].get())
+
+        self.assertEqual(lock.owner, owner)
+        self.assertEqual(lock.thing, thing)
 
 
 class Time(object):
