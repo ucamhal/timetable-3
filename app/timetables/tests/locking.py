@@ -38,7 +38,7 @@ class TestThingLock(TestCase):
     def test_lock_expiration(self):
         time = Time()
         owner = models.Thing.objects.get(fullpath="user/hal")
-        thing = models.Thing.objects.get(fullpath="tripos/asnc/I") 
+        thing = models.Thing.objects.get(fullpath="tripos/asnc/I")
 
         # No locks exist
         self.assertFalse(
@@ -86,7 +86,7 @@ class Time(object):
         if time is None:
             time = timezone.now()
 
-        self._time = time 
+        self._time = time
 
     def now(self):
         return self._time
