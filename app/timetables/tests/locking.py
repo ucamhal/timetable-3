@@ -1,3 +1,5 @@
+import datetime
+
 from django.test import TestCase
 from django.core import exceptions
 from django.utils import timezone
@@ -32,3 +34,65 @@ class TestThingLock(TestCase):
         self.assertTrue(hal in asncp1.locked_by.all())
         self.assertTrue(lock in hal.owned_locks.all())
         self.assertTrue(lock in asncp1.locks.all())
+
+    def test_lock_expiration(self):
+        time = Time()
+        owner = models.Thing.objects.get(fullpath="user/hal")
+        thing = models.Thing.objects.get(fullpath="tripos/asnc/I") 
+
+        # No locks exist
+        self.assertFalse(
+                thing.locks.just_active(now=time.now).exists())
+
+        # The lock will be active for 2 minutes
+        expiry = time.now() + datetime.timedelta(minutes=2)
+
+        lock = models.ThingLock.objects.create(thing=thing, owner=owner,
+                    expires=expiry, name="short")
+        lock.save()
+
+        # The lock now exists
+        self.assertTrue(thing.locks.just_active(now=time.now)
+                .exists())
+
+        # Advance time by 1 minute
+        time.tick(datetime.timedelta(minutes=1))
+
+        # The lock still exists
+        self.assertTrue(thing.locks.just_active(now=time.now)
+                .exists())
+
+        # Advance time by another minute
+        time.tick(datetime.timedelta(minutes=1))
+
+        # The lock still exists
+        self.assertTrue(thing.locks.just_active(now=time.now)
+                .exists())
+
+        # Advance time by 1 second
+        time.tick(datetime.timedelta(seconds=1))
+
+        # The lock is now expired and does not exist
+        self.assertFalse(thing.locks.just_active(now=time.now)
+                .exists())
+
+
+class Time(object):
+    """
+    Provides an adjustable definition of the current time for testing purposes.
+    """
+
+    def __init__(self, time=None):
+        if time is None:
+            time = timezone.now()
+
+        self._time = time 
+
+    def now(self):
+        return self._time
+
+    def tick(self, delta):
+        if delta < datetime.timedelta():
+            raise ValueError("delta was negative")
+
+        self._time = self._time + delta
