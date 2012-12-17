@@ -81,6 +81,23 @@ class TestThingLock(TestCase):
         self.assertEqual(lock.thing, thing)
 
 
+class TestLockStrategy(TestCase):
+    
+    def setUp(self):
+        # FIXME: create some test users...
+        #self.person_a = Thing.objects.create()
+        pass
+
+    def test_basic_workflow(self):
+        time = Time()
+        thing = models.Thing.objects.get(fullpath="tripos/asnc/I") 
+
+        self.assertFalse(
+                thing.locks.just_active(now=time.now).exists())
+
+        
+
+
 class Time(object):
     """
     Provides an adjustable definition of the current time for testing purposes.
