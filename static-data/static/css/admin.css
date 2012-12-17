@@ -51,10 +51,6 @@ div:focus {
 	width: 114px;
 }
 
-#adminListActions {
-	padding-bottom: 30px;
-}
-
 #adminListActions .icon-chevron-left {
 	margin-right: 4px;
 }
@@ -497,4 +493,10 @@ select.event-type {
 .term-calendar-navigation .value {
 	min-width: 130px;
 	text-align: center;
+}
+
+.being-edited-alert {
+	position: static;
+	box-shadow: none;
+	margin-bottom: 30px;
 }

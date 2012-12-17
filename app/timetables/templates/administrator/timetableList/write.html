@@ -28,6 +28,31 @@
 
 
 {% block additional_modals %}
+<div class="js-locked-modal modal dontDisplayMe">
+	<div class="modal-header">
+		<h3>Page locked</h3>
+	</div>
+	<div class="modal-body">
+		<p>It seems like someone else is currently editing the requested timetable.</p>
+	</div>
+	<div class="modal-footer">
+		<a href="{% url "admin list read" thing %}" class="btn btn-primary">Go to view-only page</a>
+	</div>
+</div>
+
+<div class="js-timedout-modal modal dontDisplayMe">
+	<div class="modal-header">
+		<h3>Your session has timed out</h3>
+	</div>
+	<div class="modal-body">
+		<p>Your session has timed out to enable other admins with edit rights to edit this timetable.</p>
+		<p>Any unsaved changes have been lost.</p>
+	</div>
+	<div class="modal-footer">
+		<a href="{% url "admin list write" thing %}" class="btn btn-primary">Refresh the page</a>
+	</div>
+</div>
+
 <div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"
     style="display: none;">
   <div class="arrow"></div>

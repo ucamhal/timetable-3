@@ -17,6 +17,132 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	function safeParseInt(str) {
 		return parseInt(stripZeros(str));
 	}
+	
+	
+	var Locker = Backbone.View.extend({
+		initialize: function (opts) {
+			this.preventTimeoutTime = opts.preventTimeoutTime || 5000;
+			this.pingTime = opts.pingTime || 5000;
+			this.$lockedModal = opts.$lockedModal;
+			this.$timedOutModal = opts.$timedOutModal;
+			
+			this.setLockedState(typeof opts.locked !== "undefined" ? opts.locked : false);
+			this.setTimedOutState(false);
+			
+			this.pingTimer = setInterval(this.ping, this.pingTime);
+			this.preventTimeout = _.throttle(this.preventTimeout, this.preventTimeoutTime);
+			
+			this.ping();
+			this.preventTimeout();
+		},
+		
+		isLocked: function () {
+			if (this.locked === true || this.timedOut === true) {
+				return true;
+			}
+			
+			return false;
+		},
+		
+		/**
+		 * Function that sets the timeout state of the lock and triggers a popup if true.
+		 * @param {boolean} timedOut The timed out state. Inverts current state by default.
+		 */
+		setTimedOutState: function (timedOut) {
+			typeof timedOut !== "undefined" ? Boolean(timedOut) : !this.timedOut;
+			
+			if (timedOut !== this.timedOut) {
+				this.timedOut = timedOut;
+				
+				if (this.timedOut === true) {
+					this.triggerTimedOutModal();
+				}
+			}
+		},
+		
+		/**
+		 * Function that sets the locked state of the lock and triggers a popup if true.
+		 * @param {boolean} locked The locked state. Inverts current state by default.
+		 */
+		setLockedState: function (locked) {
+			locked = typeof locked !== "undefined" ? Boolean(locked) : !this.locked;
+			
+			if (locked !== this.locked) {
+				if (locked === true) {
+					this.triggerLockedModal();
+				}
+				this.locked = locked;
+			}
+		},
+		
+		/**
+		 * Triggers the timed out popup
+		 */
+		triggerTimedOutModal: function () {
+			this.$timedOutModal.modal({
+				backdrop: "static",
+				show: true,
+				keyboard: false
+			});
+		},
+		
+		/**
+		 * Triggers the locked popup
+		 */
+		triggerLockedModal: function () {
+			this.$lockedModal.modal({
+				backdrop: "static",
+				show: true,
+				keyboard: false
+			});
+		},
+		
+		/**
+		 * Pings to the server (browser window still open)
+		 */
+		ping: function () {
+			if (this.locked === true || this.timedOut === true) {
+				return false;
+			}
+			
+			$.ajax({
+				url: "",
+				success: function (response) {
+					console.log("ping success");
+				},
+				error: function () {
+					console.error("Could not ping to server");
+				}
+			});
+		},
+		
+		/**
+		 * Sends a still active request to the server to prevent being timed out
+		 */
+		preventTimeout: function () {
+			if (this.locked === true || this.timedOut === true) {
+				return false;
+			}
+			
+			$.ajax({
+				url: "",
+				success: function (response) {
+					console.log("preventTimeout success");
+				},
+				error: function () {
+					console.log("preventTimeout failure");
+				}
+			});
+		}
+	});
+	
+	var locker = new Locker({
+    	preventTimeoutTime: 30000,
+    	pingTime: 10000,
+    	locked: $("body").hasClass("locked"),
+    	$lockedModal: $(".js-locked-modal"),
+    	$timedOutModal: $(".js-timedout-modal")
+    });
 
 	/**
 	 * Wraps a .js-module in the page to update the "> v" arrows when the
@@ -199,7 +325,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			
 			this.editableTitle = new EditableTitleView({
 				el: this.$(".js-module-title h4"),
-				$toggleButton: this.$(".js-module-buttons .js-edit-icon")
+				$toggleButton: this.$(".js-module-buttons .js-edit-icon"),
+				titleFieldName: "fullname"
 			});
 		}
 	});
@@ -223,7 +350,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			WritableSeriesView.__super__.initialize.apply(this, arguments);
 			this.editableTitle = new EditableTitleView({
 				el: this.$(".js-series-title h5"),
-				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
+				$toggleButton: this.$(".js-series-buttons .js-edit-icon"),
+				titleFieldName: "title"
 			});
 			this.currentChangesState = false;
 			_.bindAll(this);
@@ -285,6 +413,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		onSave: function(event) {
+			if (locker.isLocked() === true) {
+				return false;
+			}
+			
 			// Build a JSON representation of the form. 
 
 			var forms = _.map(this.events, function(eventView) {
@@ -590,9 +722,14 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			_.bindAll(this, "onToggleClick");
 
 			this.$toggleButton = opts.$toggleButton;
+			this.titleFieldName = opts.titleFieldName || "title";
 
 			this.$value = this.$(".js-value");
-			this.model = new TitleModel();
+			
+			this.model = new TitleModel({
+				titleFieldName: opts.titleFieldName
+			});
+			
 			this.isEditable = false;
 			this.isSaving = false;
 			this.isError = false;
@@ -611,7 +748,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		render: function () {
-			this.$value.text(this.model.get("title"));
+			this.$value.text(this.model.get(this.titleFieldName));
 			this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
 			this.$(".js-error-message").toggle(this.isError);
 		},
@@ -661,7 +798,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					timer = setTimeout(function () {
 						self.toggleSavingState(false);
 						self.toggleErrorState(false);
-						self.$value.text(data.title);
+						self.$value.text(data[self.titleFieldName]);
 						self.updateModel();
 						self.model.storeInitialState(true);
 					}, Math.max(200 - timeDifference, 0));
@@ -686,9 +823,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		updateModel: function () {
-			this.model.set({
-				title: this.$value.text()
-			});
+			this.model.set(this.titleFieldName, this.$value.text());
 		},
 		
 		toggleErrorState: function (isError) {
@@ -723,6 +858,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	var BaseModel = Backbone.Model.extend({
 		initialize: function () {
 			this.hasInitialState = false;
+			this.on("change", this.onChange);
+		},
+		
+		onChange: function () {
+			console.log("trigger page-edited");
+			listEvents.trigger("page-edited");
 		},
 
 		/** 
@@ -1123,18 +1264,26 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			$(".error").show();
 		}
 	});
+	
 
 	var TitleModel = BaseModel.extend({
-		initialize: function () {
-			//console.log("title model initialization");
+		
+		constructor: function EventModel() {
+			TitleModel.__super__.constructor.apply(this, arguments);
+		},
+		
+		initialize: function (opts) {
+			console.log(opts);
+			this.titleFieldName = opts.titleFieldName || "title";
 		},
 
 		asJSONDjangoForm: function () {
-			var attrs = this.attributes;
+			var attrs = this.attributes,
+				returnObj = {};
+			
+			returnObj[this.titleFieldName] = attrs[this.titleFieldName];
 
-			return {
-				title: attrs.title
-			};
+			return returnObj;
 		}
 	});
 
@@ -1200,7 +1349,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	}
 
 	// This is fired when new events are added to the page.
-	listEvents.on("new-events-visible", highlightEventsInHash)
+	listEvents.on("new-events-visible", highlightEventsInHash);
+	listEvents.on("page-edited", locker.preventTimeout);
 
 	return {
 		ModuleView: ModuleView,
@@ -1210,3 +1360,4 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		bindUrlHashWatcher: bindUrlHashWatcher
 	};
 });
+
