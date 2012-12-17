@@ -303,7 +303,13 @@ class Thing(SchemalessModel, HierachicalModel):
     # Full name of this thing.
     fullname = models.CharField("Full Name", max_length=MAX_LONG_NAME,help_text="Full name of the thing, to be displayed to end users.")
     
-    
+
+    # The user Things which hold a lock on this thing. The reverse,
+    # locked_things is the set of things on which a lock is held by the current
+    # thing.
+    locked_by = models.ManyToManyField("self", through="ThingLock",
+            symmetrical=False, related_name="locked_things")
+
     def get_events(self, depth=1, date_range=None):
         events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
                                     models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
@@ -605,3 +611,18 @@ class ThingTag(AnnotationModel):
     '''
     thing = models.ForeignKey(Thing, help_text="The source end of this relationship")
     targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")
+
+
+class ThingLock(models.Model):
+    """
+    Maintains the users who have exclusive access to a Thing.
+    """
+    thing = models.ForeignKey(Thing, related_name="locks",
+            help_text="The Thing being locked.")
+
+    owner = models.ForeignKey(Thing, related_name="owned_locks",
+            help_text="The Thing (e.g. user Thing) which holds/owns the lock.")
+
+    expires = models.DateTimeField("When the lock expires.")
+
+    name = models.CharField(max_length=MAX_NAME_LENGTH, db_index=True)
