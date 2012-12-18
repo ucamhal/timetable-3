@@ -9,7 +9,7 @@ import pytz
 import logging
 from itertools import chain
 
-from django.db import models
+from django.db import models, connection
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
@@ -685,27 +685,34 @@ class LockStrategy(object):
         """
         things should be list of thing fullpaths
         Returns dictionary containing lock data for specified things;
-        dictionary is in form { thing_fullpath: user }, where user is user thing which has the lock or None
+        dictionary is in form { thing_fullpath: user }, where user is user
+        thing which has the lock or None
         """
 
         # initialise locks_status to ensure that a value is returned for all of the specified things
         locks_status = {}
         for thing_fullpath in things:
-            locks_status[thing_fullpath] = None
-
+            locks_status[thing_fullpath] = False
+        
         # get all of the locks for the specified things
-        locks = ThingLock.objects.filter(thing__fullpath__in=things).just_active(now=self._now)
-
+        locks = (ThingLock.objects.filter(thing__fullpath__in=things)
+                 .just_active(now=self._now)
+                 .order_by("-expires") # descending order to ensure most recent is first
+                 .prefetch_related("thing")
+                 .prefetch_related("owner"))
+        # note that prefetch_related calls mean we only ever make three database queries; otherwise it is arbitrary depending on the number of different things and found owners
+        
         # process locks to check both short and long are set
         things_locks = {}
         for lock in locks: # pair up all the locks
             thing_fullpath = lock.thing.fullpath
             if thing_fullpath not in things_locks:
                 things_locks[thing_fullpath] = {}
-            things_locks[thing_fullpath][lock.name] = lock.owner
+            if lock.name not in things_locks[thing_fullpath]: # ensure we only use the most recent
+                things_locks[thing_fullpath][lock.name] = lock.owner
 
         for thing_fullpath, thing_locks in things_locks.items(): # for each thing_id, check that both locks are set (and are the same person)
-            owner = None
+            owner = False
             if self.TIMEOUT_LOCK_NAME in thing_locks and self.EDIT_LOCK_NAME in thing_locks:
                 if thing_locks[self.TIMEOUT_LOCK_NAME] == thing_locks[self.EDIT_LOCK_NAME]:
                     owner_thing = thing_locks[self.TIMEOUT_LOCK_NAME]

@@ -83,5 +83,7 @@ urlpatterns = patterns('',
     # View of the thing
     url(r'(?P<thing>.*)\.html$', ViewThing.as_view(), name="thing view"),
     
-    
+
+    # locking
+    url(r'locks/status$', administrator.locks_status_view, name="locks status"),
 )
