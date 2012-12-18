@@ -668,7 +668,7 @@ class LockStrategy(object):
 
     # The name of the short-term lock which is 
     TIMEOUT_LOCK_NAME = "short"
-    EDIT_LOCK_NAME = "short"
+    EDIT_LOCK_NAME = "long"
     
     TIMEOUT_LOCK_TIMEOUT = datetime.timedelta(minutes=3)
     EDIT_LOCK_TIMEOUT = datetime.timedelta(hours=2)
@@ -682,13 +682,44 @@ class LockStrategy(object):
         self._edit_timeout = edit_lock_timeout
 
     def get_status(self, things):
-        raise NotImplementedError()
+        """
+        things should be list of thing IDs
+        Returns dictionary containing lock data for specified things;
+        dictionary is in form { thing_id: user }, where user is user thing which has the lock or None
+        """
+
+        # initialise locks_status to ensure that a value is returned for all of the specified Thing IDs
+        locks_status = {}
+        for thing_id in things: # ensure that a value is returned for all of the specified Thing IDs
+            locks_status[thing_id] = None
+
+        # get all of the locks for the specified things
+        locks = ThingLock.objects.filter(thing__in=things).just_active(now=self._now).order_by("expires")
+
+        # process locks to check both short and long are set
+        things_locks = {}
+        for lock in locks: # pair up all the locks
+            thing_id = lock.thing.id
+            if thing_id not in things_locks:
+                things_locks[thing_id] = {}
+            things_locks[thing_id][lock.name] = lock.owner
+
+        for thing_id, thing_locks in things_locks.items(): # for each thing_id, check that both locks are set (and are the same person)
+            owner = None
+            if self.TIMEOUT_LOCK_NAME in thing_locks and self.EDIT_LOCK_NAME in thing_locks:
+                if thing_locks[self.TIMEOUT_LOCK_NAME] == thing_locks[self.EDIT_LOCK_NAME]:
+                    owner = thing_locks[self.TIMEOUT_LOCK_NAME]
+            locks_status[thing_id] = owner
+
+        # return locks to caller
+        return locks_status
+        
 
     def _get_lock(self, thing, name):
         locks = (thing.locks.filter(name=name)
                 # Use our own 'now' implementation to allow the current time
                 # to be altered for testing purposes
-                .just_active(now=self.now)
+                .just_active(now=self._now)
                 .order_by("expires")[:1])
         if len(locks) == 0:
             return None
