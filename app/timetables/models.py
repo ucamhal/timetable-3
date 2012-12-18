@@ -668,7 +668,7 @@ class LockStrategy(object):
 
     # The name of the short-term lock which is 
     TIMEOUT_LOCK_NAME = "short"
-    EDIT_LOCK_NAME = "short"
+    EDIT_LOCK_NAME = "long"
     
     TIMEOUT_LOCK_TIMEOUT = datetime.timedelta(minutes=3)
     EDIT_LOCK_TIMEOUT = datetime.timedelta(hours=2)
@@ -688,7 +688,7 @@ class LockStrategy(object):
         locks = (thing.locks.filter(name=name)
                 # Use our own 'now' implementation to allow the current time
                 # to be altered for testing purposes
-                .just_active(now=self.now)
+                .just_active(now=self._now)
                 .order_by("expires")[:1])
         if len(locks) == 0:
             return None
@@ -709,10 +709,22 @@ class LockStrategy(object):
     def _next_edit_expiry(self):
         return self._now() + self._edit_timeout
 
+    def get_holder(self, thing):
+        """
+        Gets the holder of the current lock on thing.
+
+        Returns: A Thing of type "user" if a lock is held, or None if no lock
+            is held.
+        """
+        locks = self._get_locks(thing)
+        if locks:
+            return locks[0].owner
+        return None
+
     @decorators.method_decorator(xact.xact)
     def refresh_lock(self, thing, owner, is_editing):
         """
-        Attempts to refresh a previously aquired lock on thing for owner.
+        Attempts to refresh a previously acquired lock on thing for owner.
         
         Args:
             thing: A Thing object to refresh the lock of.
@@ -727,7 +739,7 @@ class LockStrategy(object):
 
         if locks is None:
             raise LockException("Thing is not locked by anyone. Call "
-                    "aquire_lock() to aquire the lock before attempting to "
+                    "acquire_lock() to acquire the lock before attempting to "
                     "refresh it.")
 
         timeout_lock, edit_lock = locks
@@ -736,7 +748,7 @@ class LockStrategy(object):
 
         if existing_owner != owner:
             raise LockException("Thing is already locked by another "
-                    "user. Thing: %s, user: %s" % thing, existing_owner)
+                    "user. Thing: %s, user: %s" % (thing, existing_owner))
 
         # We must already hold the lock, so refresh the requested lock.
         timeout_lock.expires = self._next_timeout_expiry()
@@ -746,9 +758,9 @@ class LockStrategy(object):
             edit_lock.expires = self._next_edit_expiry()
             edit_lock.save()
 
-    def aquire_lock(self, thing, owner):
+    def acquire_lock(self, thing, owner):
         """
-        Attempts to aquire a lock on thing for owner.
+        Attempts to acquire a lock on thing for owner.
         
         Args:
             thing: A Thing object to lock.
