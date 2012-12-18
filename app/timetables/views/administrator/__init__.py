@@ -123,6 +123,15 @@ class TimetableListRead(django.views.generic.View):
 
         return modules
 
+    def get_permissions(self, username, thing):
+        can_edit = thing.can_be_edited_by(username)
+        if not can_edit:
+            lock_holder = None
+        else:
+            lock_holder = models.LockStrategy().get_holder(thing)
+        
+        return (can_edit, lock_holder)
+
     def get(self, request, thing=None):
         thing = shortcuts.get_object_or_404(models.Thing,
                 pathid=models.Thing.hash(thing))
@@ -142,11 +151,16 @@ class TimetableListRead(django.views.generic.View):
         # Top level series directly under the timetable
         top_level_series = self.module_series(thing)
 
+        can_edit, lock_holder = self.get_permissions(
+                request.user.username, thing)
+
         context = {
             "modules": modules,
             "top_level_series": top_level_series,
             "thing": thing,
-            "timetable_thing": timetable_thing
+            "timetable_thing": timetable_thing,
+            "can_edit": can_edit,
+            "lock_holder": lock_holder
         }
 
         return self.render(request, context)

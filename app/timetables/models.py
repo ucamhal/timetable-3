@@ -363,7 +363,11 @@ class Thing(SchemalessModel, HierachicalModel):
                     "fullname" : "A Users Calendar"
                 });
 
-
+    def can_be_edited_by(self, username):
+        user_id = self.hash("user/" + username)
+        
+        return ThingTag.objects.filter(thing__pathid=user_id,
+                targetthing=self, annotation="admin").exists()
 
 pre_save.connect(Thing._pre_save, sender=Thing)
 
