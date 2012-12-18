@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from django.utils import simplejson as json
+import json
 import sys
 import csv
 import hashlib
