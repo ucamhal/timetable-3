@@ -683,33 +683,34 @@ class LockStrategy(object):
 
     def get_status(self, things):
         """
-        things should be list of thing IDs
+        things should be list of thing fullpaths
         Returns dictionary containing lock data for specified things;
-        dictionary is in form { thing_id: user }, where user is user thing which has the lock or None
+        dictionary is in form { thing_fullpath: user }, where user is user thing which has the lock or None
         """
 
-        # initialise locks_status to ensure that a value is returned for all of the specified Thing IDs
+        # initialise locks_status to ensure that a value is returned for all of the specified things
         locks_status = {}
-        for thing_id in things: # ensure that a value is returned for all of the specified Thing IDs
-            locks_status[thing_id] = None
+        for thing_fullpath in things:
+            locks_status[thing_fullpath] = None
 
         # get all of the locks for the specified things
-        locks = ThingLock.objects.filter(thing__in=things).just_active(now=self._now).order_by("expires")
+        locks = ThingLock.objects.filter(thing__fullpath__in=things).just_active(now=self._now)
 
         # process locks to check both short and long are set
         things_locks = {}
         for lock in locks: # pair up all the locks
-            thing_id = lock.thing.id
-            if thing_id not in things_locks:
-                things_locks[thing_id] = {}
-            things_locks[thing_id][lock.name] = lock.owner
+            thing_fullpath = lock.thing.fullpath
+            if thing_fullpath not in things_locks:
+                things_locks[thing_fullpath] = {}
+            things_locks[thing_fullpath][lock.name] = lock.owner
 
-        for thing_id, thing_locks in things_locks.items(): # for each thing_id, check that both locks are set (and are the same person)
+        for thing_fullpath, thing_locks in things_locks.items(): # for each thing_id, check that both locks are set (and are the same person)
             owner = None
             if self.TIMEOUT_LOCK_NAME in thing_locks and self.EDIT_LOCK_NAME in thing_locks:
                 if thing_locks[self.TIMEOUT_LOCK_NAME] == thing_locks[self.EDIT_LOCK_NAME]:
-                    owner = thing_locks[self.TIMEOUT_LOCK_NAME]
-            locks_status[thing_id] = owner
+                    owner_thing = thing_locks[self.TIMEOUT_LOCK_NAME]
+                    owner = {"name": owner_thing.name} # may be expanded as required
+            locks_status[thing_fullpath] = owner
 
         # return locks to caller
         return locks_status
