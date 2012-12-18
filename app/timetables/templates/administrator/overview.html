@@ -56,7 +56,7 @@
     {% for timetable in timetables %}
       {% if timetable.id not in editable %}
       <li class="pull-left">
-	      <div class="timetableTop"></div>
+	      <div class="timetableTop"><p class="edit-message js-edit-message">Being edited by <strong>Rachel Deadman</strong></p></div>
 	      <div class="timetableBottom">
 	          <a href="{% url "admin list read" thing=timetable.fullpath %}">
 	          {% comment %}

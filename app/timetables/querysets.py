@@ -1,11 +1,7 @@
-'''
-Created on Oct 25, 2012
-
-@author: ieb
-'''
 from django.db import models
 from django.db.models.aggregates import Count
 from django.db.models import query
+from django.utils import timezone
 
 class EventQuerySet(query.QuerySet):
     
@@ -37,3 +33,13 @@ class EventQuerySet(query.QuerySet):
         and have status live.
         """
         return self.filter(current=True, status=self.model.STATUS_LIVE)
+
+
+class ThingLockQuerySet(query.QuerySet):
+
+    def just_active(self, now=timezone.now):
+        """
+        Filters the queryset to contain only locks which are not expired.
+        """
+        current_time = now()
+        return self.filter(expires__gte=current_time)

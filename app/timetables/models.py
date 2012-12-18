@@ -4,20 +4,24 @@ import hashlib
 import base64
 import os
 import time
+import pytz
+import logging
+from itertools import chain
 
 from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils import timezone
-import logging
-from timetables.managers import EventManager
 from django.contrib.auth.models import User
 from django.utils.timezone import now
-import pytz
+from django.core import exceptions
+
+from timetables import managers
+
+
 log = logging.getLogger(__name__)
 
-from itertools import chain
 
 
 # Length of a hash required to identify items.
@@ -303,7 +307,13 @@ class Thing(SchemalessModel, HierachicalModel):
     # Full name of this thing.
     fullname = models.CharField("Full Name", max_length=MAX_LONG_NAME,help_text="Full name of the thing, to be displayed to end users.")
     
-    
+
+    # The user Things which hold a lock on this thing. The reverse,
+    # locked_things is the set of things on which a lock is held by the current
+    # thing.
+    locked_by = models.ManyToManyField("self", through="ThingLock",
+            symmetrical=False, related_name="locked_things")
+
     def get_events(self, depth=1, date_range=None):
         events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
                                     models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
@@ -436,7 +446,7 @@ class Event(SchemalessModel, VersionableModel):
     PERM_READ = "event.read"
 
 
-    objects = EventManager()
+    objects = managers.EventManager()
 
     # Basic Metadata that we need to operate on this event
     start = models.DateTimeField(help_text="Start of the Event in local time")
@@ -605,3 +615,59 @@ class ThingTag(AnnotationModel):
     '''
     thing = models.ForeignKey(Thing, help_text="The source end of this relationship")
     targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")
+
+
+class ThingLock(models.Model):
+    """
+    Maintains the users who have exclusive access to a Thing.
+    """
+
+    objects = managers.ThingLockManager()
+
+    thing = models.ForeignKey(Thing, related_name="locks",
+            help_text="The Thing being locked.")
+
+    owner = models.ForeignKey(Thing, related_name="owned_locks",
+            help_text="The Thing (e.g. user Thing) which holds/owns the lock.")
+
+    expires = models.DateTimeField("When the lock expires.")
+
+    name = models.CharField(max_length=MAX_NAME_LENGTH, db_index=True)
+
+    def clean(self):
+        if self.owner.type != "user":
+            raise exceptions.ValidationError(
+                    "The owner of a lock must be a 'user' Thing")
+    
+    @classmethod
+    def _pre_save(cls, sender, instance=None, **kwargs):
+        # Automatically call clean() before saving
+        instance.clean()
+
+pre_save.connect(ThingLock._pre_save, sender=ThingLock)
+
+#class Time(object):
+#    def __init__(self, time):
+#        self.time = time
+#
+#    def now(self):
+#        return self.time
+#
+#    def set_time(self, time):
+#        self.time = time
+#
+#time = Time(1234)
+#ls = LockStrategy(now=time.now)
+#ls.foo()
+#time.set_time(12344534)
+#ls.bar()
+class LockStrategy(object):
+
+    def __init__(self, now=timezone.now):
+        self._now = now
+
+    def get_status(self, things):
+        raise NotImplementedError()
+
+    def refresh_lock(self, thing):
+        raise NotImplementedError()
