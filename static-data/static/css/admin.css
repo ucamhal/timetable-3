@@ -500,3 +500,7 @@ select.event-type {
 	box-shadow: none;
 	margin-bottom: 30px;
 }
+
+.being-edited-alert a {
+	color: #B94A48;
+}
