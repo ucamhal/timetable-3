@@ -1,6 +1,9 @@
 {% extends "administrator/timetableList/fragEventRead.html" %}
 
 {% block event_type %}
+<span
+          class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}"
+          >{{ event.metadata.type|default:"" }}</span>
 <select class="input-medium event-type js-field js-field-type">
   <!-- <option value="">&mdash;</option> -->
   {% for key, display_val in type_choices.items %}

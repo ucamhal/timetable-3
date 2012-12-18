@@ -2388,7 +2388,7 @@
   }, 
   {
     "fields": {
-      "thing": "130", 
+      "thing": "119", 
       "eventsource": "1"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2396,7 +2396,7 @@
   }, 
   {
     "fields": {
-      "thing": "182", 
+      "thing": "171", 
       "eventsource": "2"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2404,7 +2404,7 @@
   }, 
   {
     "fields": {
-      "thing": "182", 
+      "thing": "171", 
       "eventsource": "3"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2412,7 +2412,7 @@
   }, 
   {
     "fields": {
-      "thing": "182", 
+      "thing": "171", 
       "eventsource": "4"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2420,7 +2420,7 @@
   }, 
   {
     "fields": {
-      "thing": "183", 
+      "thing": "172", 
       "eventsource": "5"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2444,7 +2444,7 @@
   }, 
   {
     "fields": {
-      "thing": "194", 
+      "thing": "183", 
       "eventsource": "8"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2452,7 +2452,7 @@
   }, 
   {
     "fields": {
-      "thing": "194", 
+      "thing": "183", 
       "eventsource": "9"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2460,7 +2460,7 @@
   }, 
   {
     "fields": {
-      "thing": "194", 
+      "thing": "183", 
       "eventsource": "10"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2468,7 +2468,7 @@
   }, 
   {
     "fields": {
-      "thing": "195", 
+      "thing": "184", 
       "eventsource": "11"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2476,7 +2476,7 @@
   }, 
   {
     "fields": {
-      "thing": "195", 
+      "thing": "184", 
       "eventsource": "12"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2484,7 +2484,7 @@
   }, 
   {
     "fields": {
-      "thing": "195", 
+      "thing": "184", 
       "eventsource": "13"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2492,7 +2492,7 @@
   }, 
   {
     "fields": {
-      "thing": "196", 
+      "thing": "185", 
       "eventsource": "14"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2500,7 +2500,7 @@
   }, 
   {
     "fields": {
-      "thing": "196", 
+      "thing": "185", 
       "eventsource": "15"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2508,7 +2508,7 @@
   }, 
   {
     "fields": {
-      "thing": "196", 
+      "thing": "185", 
       "eventsource": "16"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2516,7 +2516,7 @@
   }, 
   {
     "fields": {
-      "thing": "197", 
+      "thing": "186", 
       "eventsource": "17"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2524,7 +2524,7 @@
   }, 
   {
     "fields": {
-      "thing": "197", 
+      "thing": "186", 
       "eventsource": "18"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2532,7 +2532,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "19"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2540,7 +2540,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "20"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2548,7 +2548,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "21"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2556,7 +2556,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "22"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2564,7 +2564,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "23"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2572,7 +2572,7 @@
   }, 
   {
     "fields": {
-      "thing": "198", 
+      "thing": "187", 
       "eventsource": "24"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2732,7 +2732,7 @@
   }, 
   {
     "fields": {
-      "thing": "199", 
+      "thing": "188", 
       "eventsource": "44"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2740,7 +2740,7 @@
   }, 
   {
     "fields": {
-      "thing": "199", 
+      "thing": "188", 
       "eventsource": "47"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2748,7 +2748,7 @@
   }, 
   {
     "fields": {
-      "thing": "199", 
+      "thing": "188", 
       "eventsource": "50"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2756,7 +2756,7 @@
   }, 
   {
     "fields": {
-      "thing": "199", 
+      "thing": "188", 
       "eventsource": "51"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2764,7 +2764,7 @@
   }, 
   {
     "fields": {
-      "thing": "200", 
+      "thing": "189", 
       "eventsource": "52"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2772,7 +2772,7 @@
   }, 
   {
     "fields": {
-      "thing": "200", 
+      "thing": "189", 
       "eventsource": "57"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2780,7 +2780,7 @@
   }, 
   {
     "fields": {
-      "thing": "200", 
+      "thing": "189", 
       "eventsource": "60"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2788,7 +2788,7 @@
   }, 
   {
     "fields": {
-      "thing": "201", 
+      "thing": "190", 
       "eventsource": "62"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2804,7 +2804,7 @@
   }, 
   {
     "fields": {
-      "thing": "209", 
+      "thing": "198", 
       "eventsource": "66"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2812,7 +2812,7 @@
   }, 
   {
     "fields": {
-      "thing": "209", 
+      "thing": "198", 
       "eventsource": "67"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2820,7 +2820,7 @@
   }, 
   {
     "fields": {
-      "thing": "209", 
+      "thing": "198", 
       "eventsource": "68"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2860,7 +2860,7 @@
   }, 
   {
     "fields": {
-      "thing": "210", 
+      "thing": "199", 
       "eventsource": "74"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2868,7 +2868,7 @@
   }, 
   {
     "fields": {
-      "thing": "210", 
+      "thing": "199", 
       "eventsource": "75"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2876,7 +2876,7 @@
   }, 
   {
     "fields": {
-      "thing": "210", 
+      "thing": "199", 
       "eventsource": "76"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2924,7 +2924,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "82"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2932,7 +2932,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "83"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2940,7 +2940,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "84"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2948,7 +2948,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "85"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2956,7 +2956,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "86"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2964,7 +2964,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "87"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2972,7 +2972,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "88"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2980,7 +2980,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "89"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2988,7 +2988,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "90"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -2996,7 +2996,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "91"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3004,7 +3004,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "92"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3012,7 +3012,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "93"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3020,7 +3020,7 @@
   }, 
   {
     "fields": {
-      "thing": "207", 
+      "thing": "196", 
       "eventsource": "95"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3028,7 +3028,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "96"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3036,7 +3036,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "97"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3044,7 +3044,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "98"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3052,7 +3052,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "99"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3060,7 +3060,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "100"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3068,7 +3068,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "101"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3076,7 +3076,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "102"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3084,7 +3084,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "103"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3092,7 +3092,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "104"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -3100,7 +3100,7 @@
   }, 
   {
     "fields": {
-      "thing": "208", 
+      "thing": "197", 
       "eventsource": "105"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4028,7 +4028,7 @@
   }, 
   {
     "fields": {
-      "thing": "129", 
+      "thing": "118", 
       "eventsource": "210"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4036,7 +4036,7 @@
   }, 
   {
     "fields": {
-      "thing": "211", 
+      "thing": "200", 
       "eventsource": "211"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4044,7 +4044,7 @@
   }, 
   {
     "fields": {
-      "thing": "211", 
+      "thing": "200", 
       "eventsource": "212"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4052,7 +4052,7 @@
   }, 
   {
     "fields": {
-      "thing": "211", 
+      "thing": "200", 
       "eventsource": "213"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4060,7 +4060,7 @@
   }, 
   {
     "fields": {
-      "thing": "211", 
+      "thing": "200", 
       "eventsource": "214"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4068,7 +4068,7 @@
   }, 
   {
     "fields": {
-      "thing": "129", 
+      "thing": "118", 
       "eventsource": "215"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4076,7 +4076,7 @@
   }, 
   {
     "fields": {
-      "thing": "129", 
+      "thing": "118", 
       "eventsource": "216"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -4084,7 +4084,7 @@
   }, 
   {
     "fields": {
-      "thing": "129", 
+      "thing": "118", 
       "eventsource": "217"
     }, 
     "model": "timetables.eventsourcetag", 
@@ -5561,149 +5561,6 @@
   }, 
   {
     "fields": {
-      "name": "opta_modern", 
-      "parent": "114", 
-      "data": "", 
-      "pathid": "5BrwPrYURPfTIIpiKwd6s4wZ8uY=", 
-      "fullpath": "tripos/mml/IA/opta_modern", 
-      "type": "option", 
-      "fullname": "Option A Modern Language"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "117"
-  }, 
-  {
-    "fields": {
-      "name": "opta_classical", 
-      "parent": "114", 
-      "data": "", 
-      "pathid": "LnuzXIRsRK2NhZMnxvjuFv1tbvI=", 
-      "fullpath": "tripos/mml/IA/opta_classical", 
-      "type": "option", 
-      "fullname": "Option A Classical Language (Ancient Greek only)"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "118"
-  }, 
-  {
-    "fields": {
-      "name": "optb_modern", 
-      "parent": "114", 
-      "data": "", 
-      "pathid": "zV5qxiTCoSh1cWK58twZWyzlnYI=", 
-      "fullpath": "tripos/mml/IA/optb_modern", 
-      "type": "option", 
-      "fullname": "Option B Modern Language"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "119"
-  }, 
-  {
-    "fields": {
-      "name": "optb_classical", 
-      "parent": "114", 
-      "data": "", 
-      "pathid": "1tTMPQJzmNw4o5cPyzL8mZFgh2A=", 
-      "fullpath": "tripos/mml/IA/optb_classical", 
-      "type": "option", 
-      "fullname": "Option B Classical Language"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "120"
-  }, 
-  {
-    "fields": {
-      "name": "post_ab", 
-      "parent": "115", 
-      "data": "", 
-      "pathid": "UbKg3bo_fY9dbtUbn8t9YqVfLL8=", 
-      "fullpath": "tripos/mml/IB/post_ab", 
-      "type": "option", 
-      "fullname": "Post- Option A + Option B:"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "121"
-  }, 
-  {
-    "fields": {
-      "name": "post_bb", 
-      "parent": "115", 
-      "data": "", 
-      "pathid": "VGjDrZ2SuNtS2AZVvHETdldoCL8=", 
-      "fullpath": "tripos/mml/IB/post_bb", 
-      "type": "option", 
-      "fullname": "Post- Option B + Option B:"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "122"
-  }, 
-  {
-    "fields": {
-      "name": "post_ab_classical", 
-      "parent": "115", 
-      "data": "", 
-      "pathid": "MMgl9XOzB0yv6VfnOYu6lIuok6o=", 
-      "fullpath": "tripos/mml/IB/post_ab_classical", 
-      "type": "option", 
-      "fullname": "Post- Option A Modern Language + Option B Classical Language:"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "123"
-  }, 
-  {
-    "fields": {
-      "name": "post_ba_classical", 
-      "parent": "115", 
-      "data": "", 
-      "pathid": "aVae5SUcdSVZd2Lh-WmWf6XAV1w=", 
-      "fullpath": "tripos/mml/IB/post_ba_classical", 
-      "type": "option", 
-      "fullname": "Post- Option B Modern Language + Option A Classical Language:"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "124"
-  }, 
-  {
-    "fields": {
-      "name": "post_bb_classical", 
-      "parent": "115", 
-      "data": "", 
-      "pathid": "1mbcs9qeUvZp9OYa01_Sg-kbvmU=", 
-      "fullpath": "tripos/mml/IB/post_bb_classical", 
-      "type": "option", 
-      "fullname": "Post- Option B Modern Language + Option B Classical Language"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "125"
-  }, 
-  {
-    "fields": {
-      "name": "year_away", 
-      "parent": "116", 
-      "data": "", 
-      "pathid": "vW-Off4Ny9NEE-0aR9Z-li4TxAE=", 
-      "fullpath": "tripos/mml/II/year_away", 
-      "type": "option", 
-      "fullname": "The Year Abroad"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "126"
-  }, 
-  {
-    "fields": {
-      "name": "year_home", 
-      "parent": "116", 
-      "data": "", 
-      "pathid": "Cep6itl4U_AmoCeY21s40i5ScNY=", 
-      "fullpath": "tripos/mml/II/year_home", 
-      "type": "option", 
-      "fullname": "The Year in Cambridge"
-    }, 
-    "model": "timetables.thing", 
-    "pk": "127"
-  }, 
-  {
-    "fields": {
       "name": "biol", 
       "parent": "106", 
       "data": "", 
@@ -5713,7 +5570,7 @@
       "fullname": "Biology of Cells"
     }, 
     "model": "timetables.thing", 
-    "pk": "128"
+    "pk": "117"
   }, 
   {
     "fields": {
@@ -5726,7 +5583,7 @@
       "fullname": "Chemistry"
     }, 
     "model": "timetables.thing", 
-    "pk": "129"
+    "pk": "118"
   }, 
   {
     "fields": {
@@ -5739,7 +5596,7 @@
       "fullname": "Computer Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "130"
+    "pk": "119"
   }, 
   {
     "fields": {
@@ -5752,7 +5609,7 @@
       "fullname": "Earth Sciences"
     }, 
     "model": "timetables.thing", 
-    "pk": "131"
+    "pk": "120"
   }, 
   {
     "fields": {
@@ -5765,7 +5622,7 @@
       "fullname": "Evolution and Behaviour"
     }, 
     "model": "timetables.thing", 
-    "pk": "132"
+    "pk": "121"
   }, 
   {
     "fields": {
@@ -5778,7 +5635,7 @@
       "fullname": "Materials Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "133"
+    "pk": "122"
   }, 
   {
     "fields": {
@@ -5791,7 +5648,7 @@
       "fullname": "Physics"
     }, 
     "model": "timetables.thing", 
-    "pk": "134"
+    "pk": "123"
   }, 
   {
     "fields": {
@@ -5804,7 +5661,7 @@
       "fullname": "Physiology of Organisms"
     }, 
     "model": "timetables.thing", 
-    "pk": "135"
+    "pk": "124"
   }, 
   {
     "fields": {
@@ -5817,7 +5674,7 @@
       "fullname": "Elementary Mathematics for Biologists"
     }, 
     "model": "timetables.thing", 
-    "pk": "136"
+    "pk": "125"
   }, 
   {
     "fields": {
@@ -5830,7 +5687,7 @@
       "fullname": "Mathematics"
     }, 
     "model": "timetables.thing", 
-    "pk": "137"
+    "pk": "126"
   }, 
   {
     "fields": {
@@ -5843,7 +5700,7 @@
       "fullname": "Mathematical Biology"
     }, 
     "model": "timetables.thing", 
-    "pk": "138"
+    "pk": "127"
   }, 
   {
     "fields": {
@@ -5856,7 +5713,7 @@
       "fullname": "Animal Biology"
     }, 
     "model": "timetables.thing", 
-    "pk": "139"
+    "pk": "128"
   }, 
   {
     "fields": {
@@ -5869,7 +5726,7 @@
       "fullname": "Biochemistry and Molecular Biology"
     }, 
     "model": "timetables.thing", 
-    "pk": "140"
+    "pk": "129"
   }, 
   {
     "fields": {
@@ -5882,7 +5739,7 @@
       "fullname": "Cell and Developmental Biology"
     }, 
     "model": "timetables.thing", 
-    "pk": "141"
+    "pk": "130"
   }, 
   {
     "fields": {
@@ -5895,7 +5752,7 @@
       "fullname": "Chemistry A"
     }, 
     "model": "timetables.thing", 
-    "pk": "142"
+    "pk": "131"
   }, 
   {
     "fields": {
@@ -5908,7 +5765,7 @@
       "fullname": "Chemistry B"
     }, 
     "model": "timetables.thing", 
-    "pk": "143"
+    "pk": "132"
   }, 
   {
     "fields": {
@@ -5921,7 +5778,7 @@
       "fullname": "Ecology"
     }, 
     "model": "timetables.thing", 
-    "pk": "144"
+    "pk": "133"
   }, 
   {
     "fields": {
@@ -5934,7 +5791,7 @@
       "fullname": "Experimental Psychology"
     }, 
     "model": "timetables.thing", 
-    "pk": "145"
+    "pk": "134"
   }, 
   {
     "fields": {
@@ -5947,7 +5804,7 @@
       "fullname": "Geological Sciences A"
     }, 
     "model": "timetables.thing", 
-    "pk": "146"
+    "pk": "135"
   }, 
   {
     "fields": {
@@ -5960,7 +5817,7 @@
       "fullname": "Geological Sciences B"
     }, 
     "model": "timetables.thing", 
-    "pk": "147"
+    "pk": "136"
   }, 
   {
     "fields": {
@@ -5973,7 +5830,7 @@
       "fullname": "History and Philosophy of Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "148"
+    "pk": "137"
   }, 
   {
     "fields": {
@@ -5986,7 +5843,7 @@
       "fullname": "Materials Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "149"
+    "pk": "138"
   }, 
   {
     "fields": {
@@ -5999,7 +5856,7 @@
       "fullname": "Mathematics"
     }, 
     "model": "timetables.thing", 
-    "pk": "150"
+    "pk": "139"
   }, 
   {
     "fields": {
@@ -6012,7 +5869,7 @@
       "fullname": "Neurobiology"
     }, 
     "model": "timetables.thing", 
-    "pk": "151"
+    "pk": "140"
   }, 
   {
     "fields": {
@@ -6025,7 +5882,7 @@
       "fullname": "Pathology"
     }, 
     "model": "timetables.thing", 
-    "pk": "152"
+    "pk": "141"
   }, 
   {
     "fields": {
@@ -6038,7 +5895,7 @@
       "fullname": "Pharmacology"
     }, 
     "model": "timetables.thing", 
-    "pk": "153"
+    "pk": "142"
   }, 
   {
     "fields": {
@@ -6051,7 +5908,7 @@
       "fullname": "Physics A"
     }, 
     "model": "timetables.thing", 
-    "pk": "154"
+    "pk": "143"
   }, 
   {
     "fields": {
@@ -6064,7 +5921,7 @@
       "fullname": "Physics B"
     }, 
     "model": "timetables.thing", 
-    "pk": "155"
+    "pk": "144"
   }, 
   {
     "fields": {
@@ -6077,7 +5934,7 @@
       "fullname": "Physiology"
     }, 
     "model": "timetables.thing", 
-    "pk": "156"
+    "pk": "145"
   }, 
   {
     "fields": {
@@ -6090,7 +5947,7 @@
       "fullname": "Plant and Microbial Sciences"
     }, 
     "model": "timetables.thing", 
-    "pk": "157"
+    "pk": "146"
   }, 
   {
     "fields": {
@@ -6103,7 +5960,7 @@
       "fullname": "Astrophysics"
     }, 
     "model": "timetables.thing", 
-    "pk": "158"
+    "pk": "147"
   }, 
   {
     "fields": {
@@ -6116,7 +5973,7 @@
       "fullname": "Biochemistry"
     }, 
     "model": "timetables.thing", 
-    "pk": "159"
+    "pk": "148"
   }, 
   {
     "fields": {
@@ -6129,7 +5986,7 @@
       "fullname": "Chemistry"
     }, 
     "model": "timetables.thing", 
-    "pk": "160"
+    "pk": "149"
   }, 
   {
     "fields": {
@@ -6142,7 +5999,7 @@
       "fullname": "Experimental and Theoretical Physics"
     }, 
     "model": "timetables.thing", 
-    "pk": "161"
+    "pk": "150"
   }, 
   {
     "fields": {
@@ -6155,7 +6012,7 @@
       "fullname": "Genetics"
     }, 
     "model": "timetables.thing", 
-    "pk": "162"
+    "pk": "151"
   }, 
   {
     "fields": {
@@ -6168,7 +6025,7 @@
       "fullname": "Geological Sciences"
     }, 
     "model": "timetables.thing", 
-    "pk": "163"
+    "pk": "152"
   }, 
   {
     "fields": {
@@ -6181,7 +6038,7 @@
       "fullname": "History and Philosophy of Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "164"
+    "pk": "153"
   }, 
   {
     "fields": {
@@ -6194,7 +6051,7 @@
       "fullname": "Materials Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "165"
+    "pk": "154"
   }, 
   {
     "fields": {
@@ -6207,7 +6064,7 @@
       "fullname": "Neuroscience"
     }, 
     "model": "timetables.thing", 
-    "pk": "166"
+    "pk": "155"
   }, 
   {
     "fields": {
@@ -6220,7 +6077,7 @@
       "fullname": "Pathology"
     }, 
     "model": "timetables.thing", 
-    "pk": "167"
+    "pk": "156"
   }, 
   {
     "fields": {
@@ -6233,7 +6090,7 @@
       "fullname": "Pharmacology"
     }, 
     "model": "timetables.thing", 
-    "pk": "168"
+    "pk": "157"
   }, 
   {
     "fields": {
@@ -6246,7 +6103,7 @@
       "fullname": "Physiology, Development, & Neuroscience"
     }, 
     "model": "timetables.thing", 
-    "pk": "169"
+    "pk": "158"
   }, 
   {
     "fields": {
@@ -6259,7 +6116,7 @@
       "fullname": "Physiology & Psychology"
     }, 
     "model": "timetables.thing", 
-    "pk": "170"
+    "pk": "159"
   }, 
   {
     "fields": {
@@ -6272,7 +6129,7 @@
       "fullname": "Plant Sciences"
     }, 
     "model": "timetables.thing", 
-    "pk": "171"
+    "pk": "160"
   }, 
   {
     "fields": {
@@ -6285,7 +6142,7 @@
       "fullname": "Psychology"
     }, 
     "model": "timetables.thing", 
-    "pk": "172"
+    "pk": "161"
   }, 
   {
     "fields": {
@@ -6298,7 +6155,7 @@
       "fullname": "Zoology"
     }, 
     "model": "timetables.thing", 
-    "pk": "173"
+    "pk": "162"
   }, 
   {
     "fields": {
@@ -6311,7 +6168,7 @@
       "fullname": "Astrophysics"
     }, 
     "model": "timetables.thing", 
-    "pk": "174"
+    "pk": "163"
   }, 
   {
     "fields": {
@@ -6324,7 +6181,7 @@
       "fullname": "Biochemistry"
     }, 
     "model": "timetables.thing", 
-    "pk": "175"
+    "pk": "164"
   }, 
   {
     "fields": {
@@ -6337,7 +6194,7 @@
       "fullname": "Chemistry"
     }, 
     "model": "timetables.thing", 
-    "pk": "176"
+    "pk": "165"
   }, 
   {
     "fields": {
@@ -6350,7 +6207,7 @@
       "fullname": "Experimental and Theoretical Physics"
     }, 
     "model": "timetables.thing", 
-    "pk": "177"
+    "pk": "166"
   }, 
   {
     "fields": {
@@ -6363,7 +6220,7 @@
       "fullname": "Geological Sciences"
     }, 
     "model": "timetables.thing", 
-    "pk": "178"
+    "pk": "167"
   }, 
   {
     "fields": {
@@ -6376,7 +6233,7 @@
       "fullname": "History and Philosophy of Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "179"
+    "pk": "168"
   }, 
   {
     "fields": {
@@ -6389,7 +6246,7 @@
       "fullname": "Materials Science"
     }, 
     "model": "timetables.thing", 
-    "pk": "180"
+    "pk": "169"
   }, 
   {
     "fields": {
@@ -6402,12 +6259,12 @@
       "fullname": "Systems Biology"
     }, 
     "model": "timetables.thing", 
-    "pk": "181"
+    "pk": "170"
   }, 
   {
     "fields": {
       "name": "lectures", 
-      "parent": "130", 
+      "parent": "119", 
       "data": "", 
       "pathid": "bKoOH_e6T-QVdvm1_hzQF8G8-TE=", 
       "fullpath": "tripos/nst/IA/compsci/lectures", 
@@ -6415,12 +6272,12 @@
       "fullname": "Lectures"
     }, 
     "model": "timetables.thing", 
-    "pk": "182"
+    "pk": "171"
   }, 
   {
     "fields": {
       "name": "practicals", 
-      "parent": "130", 
+      "parent": "119", 
       "data": "", 
       "pathid": "Ho4RwH4xse-p58ZSW6bg69_clWY=", 
       "fullpath": "tripos/nst/IA/compsci/practicals", 
@@ -6428,7 +6285,7 @@
       "fullname": "Practicals"
     }, 
     "model": "timetables.thing", 
-    "pk": "183"
+    "pk": "172"
   }, 
   {
     "fields": {
@@ -6441,7 +6298,7 @@
       "fullname": "Chinese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "184"
+    "pk": "173"
   }, 
   {
     "fields": {
@@ -6454,7 +6311,7 @@
       "fullname": "Japanese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "185"
+    "pk": "174"
   }, 
   {
     "fields": {
@@ -6467,7 +6324,7 @@
       "fullname": "Middle Eastern Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "186"
+    "pk": "175"
   }, 
   {
     "fields": {
@@ -6480,7 +6337,7 @@
       "fullname": "Chinese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "187"
+    "pk": "176"
   }, 
   {
     "fields": {
@@ -6493,7 +6350,7 @@
       "fullname": "Japanese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "188"
+    "pk": "177"
   }, 
   {
     "fields": {
@@ -6506,7 +6363,7 @@
       "fullname": "Middle Eastern Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "189"
+    "pk": "178"
   }, 
   {
     "fields": {
@@ -6519,7 +6376,7 @@
       "fullname": "Chinese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "190"
+    "pk": "179"
   }, 
   {
     "fields": {
@@ -6532,7 +6389,7 @@
       "fullname": "Japanese Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "191"
+    "pk": "180"
   }, 
   {
     "fields": {
@@ -6545,7 +6402,7 @@
       "fullname": "Middle Eastern Studies"
     }, 
     "model": "timetables.thing", 
-    "pk": "192"
+    "pk": "181"
   }, 
   {
     "fields": {
@@ -6558,7 +6415,7 @@
       "fullname": "Anglo-Saxon History (Paper 1)"
     }, 
     "model": "timetables.thing", 
-    "pk": "193"
+    "pk": "182"
   }, 
   {
     "fields": {
@@ -6571,7 +6428,7 @@
       "fullname": "Old English (Paper 5)"
     }, 
     "model": "timetables.thing", 
-    "pk": "194"
+    "pk": "183"
   }, 
   {
     "fields": {
@@ -6584,7 +6441,7 @@
       "fullname": "Scandinavian History (Paper 2)"
     }, 
     "model": "timetables.thing", 
-    "pk": "195"
+    "pk": "184"
   }, 
   {
     "fields": {
@@ -6597,7 +6454,7 @@
       "fullname": "The Brittonic-speaking peoples (Paper 3)"
     }, 
     "model": "timetables.thing", 
-    "pk": "196"
+    "pk": "185"
   }, 
   {
     "fields": {
@@ -6610,7 +6467,7 @@
       "fullname": "The Gaelic-speaking peoples"
     }, 
     "model": "timetables.thing", 
-    "pk": "197"
+    "pk": "186"
   }, 
   {
     "fields": {
@@ -6623,7 +6480,7 @@
       "fullname": "Old Norse (Paper 6)"
     }, 
     "model": "timetables.thing", 
-    "pk": "198"
+    "pk": "187"
   }, 
   {
     "fields": {
@@ -6636,7 +6493,7 @@
       "fullname": "Medieval Welsh (Paper 7)"
     }, 
     "model": "timetables.thing", 
-    "pk": "199"
+    "pk": "188"
   }, 
   {
     "fields": {
@@ -6649,7 +6506,7 @@
       "fullname": "Medieval Irish (Paper 8)"
     }, 
     "model": "timetables.thing", 
-    "pk": "200"
+    "pk": "189"
   }, 
   {
     "fields": {
@@ -6662,7 +6519,7 @@
       "fullname": "Insular Latin (Paper 9)"
     }, 
     "model": "timetables.thing", 
-    "pk": "201"
+    "pk": "190"
   }, 
   {
     "fields": {
@@ -6675,7 +6532,7 @@
       "fullname": "Palaeography and Codicology (Paper 10)"
     }, 
     "model": "timetables.thing", 
-    "pk": "202"
+    "pk": "191"
   }, 
   {
     "fields": {
@@ -6688,7 +6545,7 @@
       "fullname": "Early Medieval Literature and its Background (Paper 11)"
     }, 
     "model": "timetables.thing", 
-    "pk": "203"
+    "pk": "192"
   }, 
   {
     "fields": {
@@ -6701,7 +6558,7 @@
       "fullname": "Love, Violence and Power in France 1100-1500 (Paper 12)"
     }, 
     "model": "timetables.thing", 
-    "pk": "204"
+    "pk": "193"
   }, 
   {
     "fields": {
@@ -6714,7 +6571,7 @@
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (1) (Paper 14)"
     }, 
     "model": "timetables.thing", 
-    "pk": "205"
+    "pk": "194"
   }, 
   {
     "fields": {
@@ -6727,7 +6584,7 @@
       "fullname": "The Archaeology of Europe: Europe in the first millennium AD (2) (Paper 15)"
     }, 
     "model": "timetables.thing", 
-    "pk": "206"
+    "pk": "195"
   }, 
   {
     "fields": {
@@ -6740,7 +6597,7 @@
       "fullname": "Themes and Sources (Paper 1)"
     }, 
     "model": "timetables.thing", 
-    "pk": "207"
+    "pk": "196"
   }, 
   {
     "fields": {
@@ -6753,7 +6610,7 @@
       "fullname": "British Political and Constitutional History 1485-1750 (Paper 4)"
     }, 
     "model": "timetables.thing", 
-    "pk": "208"
+    "pk": "197"
   }, 
   {
     "fields": {
@@ -6766,7 +6623,7 @@
       "fullname": "Seeley Library Introduction (first year students)"
     }, 
     "model": "timetables.thing", 
-    "pk": "209"
+    "pk": "198"
   }, 
   {
     "fields": {
@@ -6779,12 +6636,12 @@
       "fullname": "Historical Argument and Practice"
     }, 
     "model": "timetables.thing", 
-    "pk": "210"
+    "pk": "199"
   }, 
   {
     "fields": {
       "name": "practicals", 
-      "parent": "129", 
+      "parent": "118", 
       "data": "", 
       "pathid": "e2arh6WQESV2_1G94rX3jTjlQkc=", 
       "fullpath": "tripos/nst/IA/chem/practicals", 
@@ -6792,7 +6649,85 @@
       "fullname": "Practicals"
     }, 
     "model": "timetables.thing", 
-    "pk": "211"
+    "pk": "200"
+  }, 
+  {
+    "fields": {
+      "name": "mphil", 
+      "parent": "6", 
+      "data": "", 
+      "pathid": "Jey1NgY7Cuf-17eRRna77JZHjVQ=", 
+      "fullpath": "tripos/classics/mphil", 
+      "type": "mphil", 
+      "fullname": "MPhil in Classics"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "201"
+  }, 
+  {
+    "fields": {
+      "name": "mphil", 
+      "parent": "8", 
+      "data": "", 
+      "pathid": "TO_UMMRmUwIYgYvqIrOhPuyiVdg=", 
+      "fullpath": "tripos/philosophy/mphil", 
+      "type": "mphil", 
+      "fullname": "MPhil in Philosophy"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "202"
+  }, 
+  {
+    "fields": {
+      "name": "mphil", 
+      "parent": "9", 
+      "data": "", 
+      "pathid": "_EIdWDzF9C2Jmi0mwfSzbjtW63o=", 
+      "fullpath": "tripos/economics/mphil", 
+      "type": "mphil", 
+      "fullname": "MPhil in Economics"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "203"
+  }, 
+  {
+    "fields": {
+      "name": "economic-res", 
+      "parent": "3", 
+      "data": "", 
+      "pathid": "9TghYtVdbph36YuAn8Cn8XNLhBc=", 
+      "fullpath": "tripos/economic-res", 
+      "type": "tripos", 
+      "fullname": "Economic Research MPhil"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "204"
+  }, 
+  {
+    "fields": {
+      "name": "mphil", 
+      "parent": "205", 
+      "data": "", 
+      "pathid": "1GNg7eFwI3TvFTR_Gi7F4MPigD4=", 
+      "fullpath": "tripos/economic-res/mphil", 
+      "type": "mphil", 
+      "fullname": "MPhil in Economic Research"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "205"
+  }, 
+  {
+    "fields": {
+      "name": "advan-comp-sci", 
+      "parent": "3", 
+      "data": "", 
+      "pathid": "olLcZs7kU6TcLwppSyuLyX0GFOg=", 
+      "fullpath": "tripos/advan-comp-sci", 
+      "type": "tripos", 
+      "fullname": "Advanced Computer Science"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "206"
   }, 
   {
     "fields": {

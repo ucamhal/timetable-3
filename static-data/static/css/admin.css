@@ -12,11 +12,11 @@ ul.yes-this-is-really-a-list {
 	margin: 0 0 10px 25px;
 }
 
-ul.buttons li a {
+.buttons a {
 	opacity: .6;
 }
 
-ul.buttons li:hover a {
+.buttons a:hover {
 	opacity: 1;
 }
 
@@ -84,7 +84,7 @@ div:focus {
 	padding-bottom: 10px;
 }
 
-.buttons li {
+.buttons > a {
 	margin-right: 3px;
 }
 
@@ -152,6 +152,24 @@ div:focus {
 	opacity: 0.5;
 }
 
+.event select.event-type {
+	display: none;
+}
+
+select.event-type {
+	width: 100px;
+}
+
+.event.event-editable.being-edited span.event-type,
+.event.event-editable.unsaved span.event-type {
+	display: none;
+}
+
+.event.event-editable.being-edited select.event-type,
+.event.event-editable.unsaved select.event-type {
+	display: block;
+}
+
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
 	padding-right: 20px; /* To accommodate the pencil icon */
@@ -201,11 +219,11 @@ div:focus {
 	overflow: visible;
 }
 
-.series-title.collapsed ul.buttons {
+.series-title.collapsed .buttons {
 	visibility: hidden;
 }
 
-.series-title.collapsed:hover ul.buttons {
+.series-title.collapsed:hover .buttons {
 	visibility: visible;
 }
 
@@ -225,6 +243,10 @@ div:focus {
 	border-bottom-width: 2px;
 	padding: 10px 0;
 	margin-bottom: 10px;
+}
+
+.module-title a {
+	color: black;
 }
 
 .module-title .chevron {
@@ -271,8 +293,16 @@ div:focus {
 
 .module-title .buttons,
 .series-title .buttons {
-	margin-top: 5px;
-	margin-left: 15px;
+	display: inline;
+	padding-left: 20px;
+}
+
+.series-title .buttons a {
+	margin-top: 4px;
+}
+
+.module-title .buttons a {
+	margin-top: 6px;
 }
 
 .seriesEditActions {
@@ -286,6 +316,66 @@ div:focus {
 	display: block;
 }
 
+.series-title h5 .title {
+	color: #08C;
+	cursor: pointer;
+}
+
+.module-title h4 .title {
+	cursor: pointer;
+}
+
+.series-title a:hover,
+.module-title a:hover {
+	text-decoration: none;
+}
+
+.series-title a:hover .title,
+.module-title a:hover .title {
+	text-decoration: underline;
+}
+
+.series-title a:hover .title.editable,
+.module-title a:hover .title.editable {
+	text-decoration: none;
+}
+
+.series-title .title.editable,
+.module-title .title.editable {
+	outline: none;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
+	cursor: inherit;
+	color: #000;
+}
+
+.series-title .title.saving,
+.module-title .title.saving {
+	opacity: .4;
+}
+
+.series-title .title:focus,
+.module-title .title:focus {
+	outline: none;
+}
+
+.series-title .title,
+.module-title .title {
+	padding: 5px;
+	display: inline-block;
+}
+
+.series-title .title.editable,
+.module-title .title.editable {
+	background-color: #FFF6E2;
+}
+
+.series-title .error-message,
+.module-title .error-message {
+	color: red;
+}
+
 
 /*
  *
@@ -296,7 +386,7 @@ div:focus {
 	display: inline;
 }
 
-.eventActions .buttons li {
+.eventActions .buttons {
 	margin: 0;
 }
 
@@ -407,59 +497,4 @@ div:focus {
 .term-calendar-navigation .value {
 	min-width: 130px;
 	text-align: center;
-}
-
-.series-title h5 .title {
-	color: #08C;
-	cursor: pointer;
-}
-
-.module-title h4 .title {
-	cursor: pointer;
-}
-
-.series-title h5:hover .title,
-.module-title h4:hover .title {
-	text-decoration: underline;
-}
-
-.series-title h5:hover .title.editable,
-.module-title h4:hover .title.editable {
-	text-decoration: none;
-}
-
-.series-title .title.editable,
-.module-title .title.editable {
-	outline: none;
-	border-style: dashed;
-	border-width: 1px;
-	border-color: rgba(0, 0, 0, .2);
-	cursor: inherit;
-	color: #000;
-}
-
-.series-title .title.saving,
-.module-title .title.saving {
-	opacity: .4;
-}
-
-.series-title .title:focus,
-.module-title .title:focus {
-	outline: none;
-}
-
-.series-title .title,
-.module-title .title {
-	padding: 5px;
-	display: block;
-}
-
-.series-title .title.editable,
-.module-title .title.editable {
-	background-color: #FFF6E2;
-}
-
-.series-title .error-message,
-.module-title .error-message {
-	color: red;
 }

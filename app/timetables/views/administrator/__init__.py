@@ -116,7 +116,8 @@ class TimetableListRead(django.views.generic.View):
             module = {
                 "name": module_thing.fullname,
                 "series": series,
-                "unique_id": module_thing.id
+                "unique_id": module_thing.id,
+                "fullpath": module_thing.fullpath
             }
             modules.append(module)
 

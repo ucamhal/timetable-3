@@ -45,7 +45,11 @@ require([
 ], function($) {
    "use strict";
    //Define console.log to be an empty function in case it doesn't exist
-   window.console = window.console || {log: function() {}};
+   if (typeof window.console === "undefined") {
+		window.console = {
+			log: function () {}
+		};
+   }
 
    // work out what module was asked for and get require to load it.
    
