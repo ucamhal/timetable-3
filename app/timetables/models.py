@@ -691,11 +691,13 @@ class LockStrategy(object):
 
         # initialise locks_status to ensure that a value is returned for all of the specified things
         locks_status = {}
+        things_hashed = []
         for thing_fullpath in things:
             locks_status[thing_fullpath] = False
+            things_hashed.append(Thing.hash(thing_fullpath)) # hash for indexed filtering
         
         # get all of the locks for the specified things
-        locks = (ThingLock.objects.filter(thing__fullpath__in=things)
+        locks = (ThingLock.objects.filter(thing__pathid__in=things_hashed)
                  .just_active(now=self._now)
                  .order_by("-expires") # descending order to ensure most recent is first
                  .prefetch_related("thing")
