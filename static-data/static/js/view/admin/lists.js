@@ -26,26 +26,29 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			
 			this.preventTimeoutTime = opts.preventTimeoutTime || 5000;
 			this.pingTime = opts.pingTime || 5000;
-			this.$lockedModal = opts.$lockedModal;
 			this.$timedOutModal = opts.$timedOutModal;
+			this.refreshUrl = opts.refreshUrl || "";
 			
-			this.onLockCallback = opts.onLock;
-			this.setLockedState(typeof opts.locked !== "undefined" ? opts.locked : false);
+			this.onTimeoutCallback = opts.onTimeout;
 			this.setTimedOutState(false);
 			
-			this.pingTimer = setInterval(this.ping, this.pingTime);
+			this.pingInterval = setInterval(this.ping, this.pingTime);
 			this.preventTimeout = _.throttle(this.preventTimeout, this.preventTimeoutTime);
 			
 			this.ping();
-			this.preventTimeout();
+		},
+
+		postponePing: function () {
+			clearInterval(this.pingInterval);
+			this.pingInterval = setInterval(this.ping, this.pingTime);
 		},
 		
 		/**
-		 * Function that returns true if the page is locked
-		 * @return {boolean} Returns true if page is locked.
+		 * Function that returns true if the lock has timed out
+		 * @return {boolean} Returns true if the lock has timed out
 		 */
-		isLocked: function () {
-			return (this.locked === true || this.timedOut === true);
+		isTimedOut: function () {
+			return this.timedOut;
 		},
 		
 		/**
@@ -60,24 +63,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				
 				if (this.timedOut === true) {
 					this.triggerTimedOutModal();
-					this.onLock();
+					this.onTimeout();
 				}
-			}
-		},
-		
-		/**
-		 * Function that sets the locked state of the lock and triggers a popup if true.
-		 * @param {boolean} locked The locked state. Inverts current state by default.
-		 */
-		setLockedState: function (locked) {
-			locked = typeof locked !== "undefined" ? Boolean(locked) : !this.locked;
-			
-			if (locked !== this.locked) {
-				if (locked === true) {
-					this.triggerLockedModal();
-					this.onLock();
-				}
-				this.locked = locked;
 			}
 		},
 		
@@ -92,20 +79,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			});
 		},
 		
-		/**
-		 * Triggers the locked popup
-		 */
-		triggerLockedModal: function () {
-			this.$lockedModal.modal({
-				backdrop: "static",
-				show: true,
-				keyboard: false
-			});
-		},
-		
-		onLock: function () {
-			if (typeof this.onLockCallback === "function") {
-				this.onLockCallback.call();
+		onTimeout: function () {
+			if (typeof this.onTimeoutCallback === "function") {
+				this.onTimeoutCallback.call();
 			}
 		},
 		
@@ -120,52 +96,48 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				}
 			})
 		},
+
+		refreshLockRequest: function (editing) {
+			var self = this;
+
+			$.ajax({
+				url: self.refreshUrl,
+				type: "POST",
+				data: {
+					editing: Boolean(editing)
+				},
+				success: function (response) {
+					console.log("success");
+					console.log(response);
+					self.setTimedOutState(!response.refreshed);
+				},
+				error: function () {
+					console.log(arguments);
+				}
+			});
+		},
 		
 		/**
 		 * Pings to the server (browser window still open)
 		 */
 		ping: function () {
-			var self = this;
-			
-			if (this.isLocked() === true) {
+			if (this.isTimedOut()) {
 				return false;
 			}
 			
-			$.ajax({
-				url: "",
-				data: {
-					
-				},
-				success: function (response) {
-					console.log("ping success");
-					self.setTimedOutState(Boolean(response.locked));
-				},
-				error: function () {
-					console.log("Could not ping to server");
-				}
-			});
+			this.refreshLockRequest();
 		},
 		
 		/**
 		 * Sends a still active request to the server to prevent being timed out
 		 */
 		preventTimeout: function () {
-			if (this.isLocked() === true) {
+			if (this.isTimedOut()) {
 				return false;
 			}
 			
-			$.ajax({
-				url: "",
-				data: {
-					
-				},
-				success: function (response) {
-					console.log("preventTimeout success");
-				},
-				error: function () {
-					console.log("preventTimeout failure");
-				}
-			});
+			this.refreshLockRequest(true);
+			this.postponePing();
 		}
 	});
 

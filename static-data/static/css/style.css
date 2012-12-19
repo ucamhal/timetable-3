@@ -1,6 +1,22 @@
+html,
+body {
+	height: 100%;
+}
+
+#container {
+	position: relative;
+	min-height: 100%;
+	overflow: hidden;
+}
+
 div#content {
 	width: 960px;
 	margin: 0 auto;
+	padding-bottom: 114px;
+}
+
+#student div#content {
+	padding-bottom: 50px;
 }
 
 .dontDisplayMe {
@@ -100,7 +116,7 @@ div#inputArea {
 	color: #ffffff;
 	border-bottom-style: solid;
 	border-bottom-color: #c7aad1;
-	border-bottom-width: 10px;
+	border-bottom-width: 6px;
 }
 
 div#uniLogo h1 {
@@ -930,3 +946,77 @@ div#timetablesOverview ul li .timetableBottom a {
 	color: white;
 	text-shadow: -1px -2px 2px rgba(0, 0, 0, .3);
 }
+
+.footer-wrap {
+	background-color: #333;
+	border-top-style: solid;
+	border-top-width: 4px;
+	border-top-color: #C7AAD1;
+
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 110px;
+}
+
+.footer {
+	width: 960px;
+	margin: 0 auto;
+	color: #ededed;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, .9);
+	padding: 15px 0;
+	border-radius: 5px 5px 0 0;
+}
+
+.footer .links {
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: rgba(255, 255, 255, .2);
+	margin-top: 5px;
+	padding-top: 10px;
+}
+
+.footer li {
+	display: inline;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-right-color: #81728e;
+	padding: 0 15px;
+}
+
+.footer li:last-child {
+	padding-right: 0;
+	border-style: none;
+}
+
+.footer .copyright-message {
+	color: #a4a4a4;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
+}
+
+.footer div {
+	text-align: right;
+}
+
+.footer a {
+	color: #bfaad1;
+}
+
+.footer a span {
+	margin-right: 9px;
+}
+
+.student-footer-wrap {
+	font-size: .8em;
+	height: 50px;
+}
+
+.student-footer-wrap ul {
+	font-size: 1.2em;
+}
+
+.student-footer-wrap ul li {
+	padding-right: 0;
+	border-style: none;
+}
+
