@@ -49,7 +49,7 @@ define([
 
 		resize: function () {
 			var topOffset = this.$el.offset().top;
-			var heightToSet = $(window).height() - 30 - topOffset;
+			var heightToSet = $(window).height() - $(".footer-wrap").outerHeight() - 30 - topOffset;
 			this.$el.height(heightToSet);
 		},
 
