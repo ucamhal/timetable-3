@@ -363,3 +363,20 @@ def refresh_lock(request, thing=None):
 
     return http.HttpResponse(json.dumps(response),
             content_type="application/json")
+
+
+def locks_status_view(request):
+    """
+    Returns JSON feed containing the lock status of the specified things. Things
+    should be timetables (others may be passed in but this makes no sense).
+    Things whose status are required are contained in the POST data.
+    """
+    
+    # get the timetables data
+    timetables = request.POST.getlist("timetables[]")
+    
+    # pass through models.LockStrategy.get_status()
+    lockstrategy = models.LockStrategy()
+    locks_status = lockstrategy.get_status(timetables)
+    
+    return HttpResponse(json.dumps(locks_status), content_type="application/json")
