@@ -19,11 +19,10 @@ define(["jquery", "underscore", "view/admin/lists", "bootstrap", "not-implemente
     
     var locker = new Lists.Locker({
     	preventTimeoutTime: 30000,
-    	pingTime: 10000,
-    	locked: $("body").hasClass("locked"),
-    	$lockedModal: $(".js-locked-modal"),
+    	pingTime: 180000,
     	$timedOutModal: $(".js-timedout-modal"),
-    	onLock: function () {
+        refreshUrl: $(".js-module-list").data("lock-refresh-path"),
+    	onTimeout: function () {
     		_.invoke(seriesViews, "lock");
     		_.invoke(moduleViews, "lock");
     	}

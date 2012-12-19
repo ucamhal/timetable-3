@@ -4,6 +4,8 @@
 
 {% block javascript_module %}timetable-list-write{% endblock javascript_module %}
 
+{% block locked_alert %}
+{% endblock locked_alert %}
 
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
@@ -28,18 +30,6 @@
 
 
 {% block additional_modals %}
-<div class="js-locked-modal modal dontDisplayMe">
-	<div class="modal-header">
-		<h3>Page locked</h3>
-	</div>
-	<div class="modal-body">
-		<p>It seems like someone else is currently editing the requested timetable.</p>
-	</div>
-	<div class="modal-footer">
-		<a href="{% url "admin list read" thing %}" class="btn btn-primary">Go to view-only page</a>
-	</div>
-</div>
-
 <div class="js-timedout-modal modal dontDisplayMe">
 	<div class="modal-header">
 		<h3>Your session has timed out</h3>

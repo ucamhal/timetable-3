@@ -40,11 +40,13 @@ div:focus {
 }
 
 #inputArea h3 {
-	font-size: 1.5em;
+	font-size: 1.4em;
 	margin: 0 0 10px 0;
 	padding: 0;
 	line-height: 1em;
 	padding-top: 4px;
+	color: #f5f5f5;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
 }
 
 #admin #inputArea select {
