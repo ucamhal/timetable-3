@@ -41,5 +41,7 @@ class ThingLockQuerySet(query.QuerySet):
         """
         Filters the queryset to contain only locks which are not expired.
         """
-        current_time = now()
+        # Get the current time & convert to UTC for comparison with UTC values
+        # in the db.
+        current_time = now().astimezone(timezone.utc)
         return self.filter(expires__gte=current_time)

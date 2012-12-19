@@ -1,5 +1,6 @@
 # This is the holder for the model.
 
+import datetime
 import hashlib
 import base64
 import os
@@ -16,8 +17,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.core import exceptions
+from django.utils import decorators
 
 from timetables import managers
+from timetables.utils import xact
 
 
 log = logging.getLogger(__name__)
@@ -360,7 +363,11 @@ class Thing(SchemalessModel, HierachicalModel):
                     "fullname" : "A Users Calendar"
                 });
 
-
+    def can_be_edited_by(self, username):
+        user_id = self.hash("user/" + username)
+        
+        return ThingTag.objects.filter(thing__pathid=user_id,
+                targetthing=self, annotation="admin").exists()
 
 pre_save.connect(Thing._pre_save, sender=Thing)
 
@@ -646,28 +653,164 @@ class ThingLock(models.Model):
 
 pre_save.connect(ThingLock._pre_save, sender=ThingLock)
 
-#class Time(object):
-#    def __init__(self, time):
-#        self.time = time
-#
-#    def now(self):
-#        return self.time
-#
-#    def set_time(self, time):
-#        self.time = time
-#
-#time = Time(1234)
-#ls = LockStrategy(now=time.now)
-#ls.foo()
-#time.set_time(12344534)
-#ls.bar()
+
 class LockStrategy(object):
 
-    def __init__(self, now=timezone.now):
+    # The name of the short-term lock which is 
+    TIMEOUT_LOCK_NAME = "short"
+    EDIT_LOCK_NAME = "long"
+    
+    TIMEOUT_LOCK_TIMEOUT = datetime.timedelta(minutes=3)
+    EDIT_LOCK_TIMEOUT = datetime.timedelta(hours=2)
+
+    def __init__(self, now=timezone.now,
+            timeout_lock_timeout=TIMEOUT_LOCK_TIMEOUT,
+            edit_lock_timeout=EDIT_LOCK_TIMEOUT):
+
         self._now = now
+        self._timeout_timeout = timeout_lock_timeout
+        self._edit_timeout = edit_lock_timeout
 
     def get_status(self, things):
-        raise NotImplementedError()
+        """
+        things should be list of thing fullpaths
+        Returns dictionary containing lock data for specified things;
+        dictionary is in form { thing_fullpath: user }, where user is user thing which has the lock or None
+        """
 
-    def refresh_lock(self, thing):
-        raise NotImplementedError()
+        # initialise locks_status to ensure that a value is returned for all of the specified things
+        locks_status = {}
+        for thing_fullpath in things:
+            locks_status[thing_fullpath] = None
+
+        # get all of the locks for the specified things
+        locks = ThingLock.objects.filter(thing__fullpath__in=things).just_active(now=self._now)
+
+        # process locks to check both short and long are set
+        things_locks = {}
+        for lock in locks: # pair up all the locks
+            thing_fullpath = lock.thing.fullpath
+            if thing_fullpath not in things_locks:
+                things_locks[thing_fullpath] = {}
+            things_locks[thing_fullpath][lock.name] = lock.owner
+
+        for thing_fullpath, thing_locks in things_locks.items(): # for each thing_id, check that both locks are set (and are the same person)
+            owner = None
+            if self.TIMEOUT_LOCK_NAME in thing_locks and self.EDIT_LOCK_NAME in thing_locks:
+                if thing_locks[self.TIMEOUT_LOCK_NAME] == thing_locks[self.EDIT_LOCK_NAME]:
+                    owner_thing = thing_locks[self.TIMEOUT_LOCK_NAME]
+                    owner = {"name": owner_thing.name} # may be expanded as required
+            locks_status[thing_fullpath] = owner
+
+        # return locks to caller
+        return locks_status
+
+    def _get_lock(self, thing, name):
+        locks = (thing.locks.filter(name=name)
+                # Use our own 'now' implementation to allow the current time
+                # to be altered for testing purposes
+                .just_active(now=self._now)
+                .order_by("expires")[:1])
+        if len(locks) == 0:
+            return None
+        
+        return locks[0]
+
+    def _get_locks(self, thing):
+        timeout_lock = self._get_lock(thing, self.TIMEOUT_LOCK_NAME)
+        edit_lock = self._get_lock(thing, self.EDIT_LOCK_NAME)
+        
+        if timeout_lock and edit_lock and timeout_lock.owner == edit_lock.owner:
+            return (timeout_lock, edit_lock)
+        return None
+
+    def _next_timeout_expiry(self):
+        return self._now() + self._timeout_timeout
+
+    def _next_edit_expiry(self):
+        return self._now() + self._edit_timeout
+
+    def get_holder(self, thing):
+        """
+        Gets the holder of the current lock on thing.
+
+        Returns: A Thing of type "user" if a lock is held, or None if no lock
+            is held.
+        """
+        locks = self._get_locks(thing)
+        if locks:
+            return locks[0].owner
+        return None
+
+    @decorators.method_decorator(xact.xact)
+    def refresh_lock(self, thing, owner, is_editing):
+        """
+        Attempts to refresh a previously acquired lock on thing for owner.
+        
+        Args:
+            thing: A Thing object to refresh the lock of.
+            owner: A Thing of type "user" to own the lock.
+            is_editing: True if this refresh was triggered by an edit action,
+                pass False otherwise.
+        Raises:
+            LockException: If the thing was already locked by another owner
+        """
+        # Check if the thing is already locked by someone else
+        locks = self._get_locks(thing)
+
+        if locks is None:
+            raise LockException("Thing is not locked by anyone. Call "
+                    "acquire_lock() to acquire the lock before attempting to "
+                    "refresh it.")
+
+        timeout_lock, edit_lock = locks
+        assert timeout_lock.owner == edit_lock.owner
+        existing_owner = timeout_lock.owner
+
+        if existing_owner != owner:
+            raise LockException("Thing is already locked by another "
+                    "user. Thing: %s, user: %s" % (thing, existing_owner))
+
+        # We must already hold the lock, so refresh the requested lock.
+        timeout_lock.expires = self._next_timeout_expiry()
+        timeout_lock.save()
+
+        if is_editing:
+            edit_lock.expires = self._next_edit_expiry()
+            edit_lock.save()
+
+    def acquire_lock(self, thing, owner):
+        """
+        Attempts to acquire a lock on thing for owner.
+        
+        Args:
+            thing: A Thing object to lock.
+            owner: A Thing of type "user" to own the lock.
+        Raises:
+            LockException: If the thing was already locked by another owner.
+        """
+        # Check if the thing is already locked by someone else
+        locks = self._get_locks(thing)
+
+        # Refuse to create a lock if it's already locked by SOMEONE ELSE.
+        # Note that we'll re-create the lock if we already hold it.
+        if locks is not None and locks[0].owner != owner:
+            raise LockException("Thing is already locked by someone. "
+                    "thing: %s, current owner: %s" % (thing, locks[0].owner))
+        
+        # Remove old locks before creating a new one
+        (thing.locks.filter(
+                name__in=[self.TIMEOUT_LOCK_NAME, self.EDIT_LOCK_NAME])
+                .delete())
+
+        ThingLock.objects.create(thing=thing, owner=owner,
+                expires=self._next_timeout_expiry(),
+                name=self.TIMEOUT_LOCK_NAME)
+
+        ThingLock.objects.create(thing=thing, owner=owner,
+                expires=self._next_edit_expiry(),
+                name=self.EDIT_LOCK_NAME)
+
+
+class LockException(Exception):
+    pass

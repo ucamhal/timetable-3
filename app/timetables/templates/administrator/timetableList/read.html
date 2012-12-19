@@ -16,8 +16,14 @@
   <li>
     <a href="{% url "thing calendar" thing %}">Week</a>
   </li>
-  <li class="nav-label">
-    <span class="icon-lock" title="You have permission to view, but not edit the items in this page."></span>
+  <li class="nav-label"
+    {% if can_edit %}
+      title="You have permission to edit, but you're on the view only page."
+    {% else %}
+      title="You have permission to view, but not edit the items in this page."
+    {% endif %}
+  >
+    <span class="icon-lock"></span>
     <em>View only</em>
   </li>
 </ul>
@@ -25,8 +31,8 @@
 
 
 {% block timetable_content %}
-
-<div class="modulesList">
+<div class="modulesList js-module-list"
+    data-lock-refresh-path={% url "admin refresh lock" thing %}>
   
   {# Include top-level series #}
   <h4 title="These series are not part of any module.">
