@@ -347,7 +347,7 @@ def refresh_lock(request, thing=None):
 
     user = models.Thing.get_or_create_user_thing(request.user)
 
-    is_editing = request.GET.get("editing", "").lower() == "true"
+    is_editing = request.POST.get("editing", "").lower() == "true"
 
     try:
         models.LockStrategy().refresh_lock(thing, user, is_editing)
