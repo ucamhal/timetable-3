@@ -55,6 +55,8 @@ urlpatterns = patterns('',
         administrator.timetable_view,
         name="admin timetable"),
 
+
+    # Admin module/series/event list pages
     url(r'^(?P<thing>.*?)\.list-read\.admin\.html$',
         administrator.TimetableListRead.as_view(),
         name="admin list read"),
@@ -62,6 +64,11 @@ urlpatterns = patterns('',
     url(r'^(?P<thing>.*?)\.list-write\.admin\.html$',
         administrator.TimetableListWrite.as_view(),
         name="admin list write"),
+
+    url(r'(?P<thing>.*?)\.refresh-lock$',
+        administrator.refresh_lock,
+        name="admin refresh lock"),
+
 
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$',
         administrator.calendar_view,

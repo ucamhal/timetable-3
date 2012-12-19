@@ -171,8 +171,25 @@ class TimetableListRead(django.views.generic.View):
 
 
 class TimetableListWrite(TimetableListRead):
-    
+
     def render(self, request, context):
+
+        redirect = False
+        # Redirect users to the read only version if they've got no write
+        # permission.
+        if not context["can_edit"]:
+            redirect = True
+        else:
+            # Try to acquire a write lock
+            try:
+                models.LockStrategy().acquire_lock(context["thing"],
+                        models.Thing.get_or_create_user_thing(request.user))
+            except models.LockException:
+                redirect = True
+
+        if redirect:
+            return shortcuts.redirect("admin list read", context["thing"])
+
         return shortcuts.render(request,
                 "administrator/timetableList/write.html", context)
 
@@ -319,3 +336,30 @@ def get_user_editable(request):
 
 def warning_view(request):
     return shortcuts.render(request, "administrator/no-permissions.html")
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def refresh_lock(request, thing=None):
+    thing = shortcuts.get_object_or_404(
+            models.Thing, pathid=models.Thing.hash(thing))
+
+    user = models.Thing.get_or_create_user_thing(request.user)
+
+    is_editing = request.GET.get("editing", "").lower() == "true"
+
+    try:
+        models.LockStrategy().refresh_lock(thing, user, is_editing)
+        response = {
+            "refreshed": True,
+            "message": None
+        }
+    except models.LockException as e:
+        response = {
+            "refreshed": False,
+            "message": e.message
+        }
+
+    return http.HttpResponse(json.dumps(response),
+            content_type="application/json")
