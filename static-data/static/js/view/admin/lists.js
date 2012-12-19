@@ -17,6 +17,157 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	function safeParseInt(str) {
 		return parseInt(stripZeros(str));
 	}
+	
+	
+	var Locker = Backbone.View.extend({
+		initialize: function (opts) {
+			_.bindAll(this, "ping");
+			_.bindAll(this, "preventTimeout");
+			
+			this.preventTimeoutTime = opts.preventTimeoutTime || 5000;
+			this.pingTime = opts.pingTime || 5000;
+			this.$lockedModal = opts.$lockedModal;
+			this.$timedOutModal = opts.$timedOutModal;
+			
+			this.onLockCallback = opts.onLock;
+			this.setLockedState(typeof opts.locked !== "undefined" ? opts.locked : false);
+			this.setTimedOutState(false);
+			
+			this.pingTimer = setInterval(this.ping, this.pingTime);
+			this.preventTimeout = _.throttle(this.preventTimeout, this.preventTimeoutTime);
+			
+			this.ping();
+			this.preventTimeout();
+		},
+		
+		/**
+		 * Function that returns true if the page is locked
+		 * @return {boolean} Returns true if page is locked.
+		 */
+		isLocked: function () {
+			return (this.locked === true || this.timedOut === true);
+		},
+		
+		/**
+		 * Function that sets the timeout state of the lock and triggers a popup if true.
+		 * @param {boolean} timedOut The timed out state. Inverts current state by default.
+		 */
+		setTimedOutState: function (timedOut) {
+			typeof timedOut !== "undefined" ? Boolean(timedOut) : !this.timedOut;
+			
+			if (timedOut !== this.timedOut) {
+				this.timedOut = timedOut;
+				
+				if (this.timedOut === true) {
+					this.triggerTimedOutModal();
+					this.onLock();
+				}
+			}
+		},
+		
+		/**
+		 * Function that sets the locked state of the lock and triggers a popup if true.
+		 * @param {boolean} locked The locked state. Inverts current state by default.
+		 */
+		setLockedState: function (locked) {
+			locked = typeof locked !== "undefined" ? Boolean(locked) : !this.locked;
+			
+			if (locked !== this.locked) {
+				if (locked === true) {
+					this.triggerLockedModal();
+					this.onLock();
+				}
+				this.locked = locked;
+			}
+		},
+		
+		/**
+		 * Triggers the timed out popup
+		 */
+		triggerTimedOutModal: function () {
+			this.$timedOutModal.modal({
+				backdrop: "static",
+				show: true,
+				keyboard: false
+			});
+		},
+		
+		/**
+		 * Triggers the locked popup
+		 */
+		triggerLockedModal: function () {
+			this.$lockedModal.modal({
+				backdrop: "static",
+				show: true,
+				keyboard: false
+			});
+		},
+		
+		onLock: function () {
+			if (typeof this.onLockCallback === "function") {
+				this.onLockCallback.call();
+			}
+		},
+		
+		unlock: function () {
+			$.ajax({
+				url: "",
+				success: function (response) {
+					
+				},
+				error: function () {
+					
+				}
+			})
+		},
+		
+		/**
+		 * Pings to the server (browser window still open)
+		 */
+		ping: function () {
+			var self = this;
+			
+			if (this.isLocked() === true) {
+				return false;
+			}
+			
+			$.ajax({
+				url: "",
+				data: {
+					
+				},
+				success: function (response) {
+					console.log("ping success");
+					self.setTimedOutState(Boolean(response.locked));
+				},
+				error: function () {
+					console.log("Could not ping to server");
+				}
+			});
+		},
+		
+		/**
+		 * Sends a still active request to the server to prevent being timed out
+		 */
+		preventTimeout: function () {
+			if (this.isLocked() === true) {
+				return false;
+			}
+			
+			$.ajax({
+				url: "",
+				data: {
+					
+				},
+				success: function (response) {
+					console.log("preventTimeout success");
+				},
+				error: function () {
+					console.log("preventTimeout failure");
+				}
+			});
+		}
+	});
 
 	/**
 	 * Wraps a .js-module in the page to update the "> v" arrows when the
@@ -193,14 +344,24 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	});
 	
 	var WritableModuleView = ModuleView.extend({
+		constructor: function WritableModuleView () {
+			WritableModuleView.__super__.constructor.apply(this, arguments);
+		},
+		
 		initialize: function () {
 			//apply initialization of superclass
 			WritableModuleView.__super__.initialize.apply(this, arguments);
 			
 			this.editableTitle = new EditableTitleView({
 				el: this.$(".js-module-title h4"),
-				$toggleButton: this.$(".js-module-buttons .js-edit-icon")
+				$toggleButton: this.$(".js-module-buttons .js-edit-icon"),
+				titleFieldName: "fullname"
 			});
+		},
+		
+		lock: function () {
+			this.locked = true;
+			this.editableTitle.lock();
 		}
 	});
 
@@ -218,12 +379,18 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				"click .js-btn-add-event": this.onAddEvent
 			});
 		},
+		
+		lock: function () {
+			this.locked = true;
+			this.editableTitle.lock();
+		},
 
 		initialize: function() {
 			WritableSeriesView.__super__.initialize.apply(this, arguments);
 			this.editableTitle = new EditableTitleView({
 				el: this.$(".js-series-title h5"),
-				$toggleButton: this.$(".js-series-buttons .js-edit-icon")
+				$toggleButton: this.$(".js-series-buttons .js-edit-icon"),
+				titleFieldName: "title"
 			});
 			this.currentChangesState = false;
 			_.bindAll(this);
@@ -263,7 +430,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			});
 
 			// Make the cancel/save buttons visible/hidden as required
-			
 			if (changesExist !== this.currentChangesState) {
 				if (changesExist === true) {
 					this.$cancelSaveBtns.stop().hide().slideDown(200);
@@ -285,6 +451,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		onSave: function(event) {
+			if (this.locked === true) {
+				return false;
+			}
 			// Build a JSON representation of the form. 
 
 			var forms = _.map(this.events, function(eventView) {
@@ -312,6 +481,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		onEventsSaved: function(response) {
 			delete this.saveDialogView;
+			this.currentChangesState = false;
 			this.$(".js-events").empty();
 			this.onEventsFetched(response);
 		},
@@ -486,7 +656,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		/** S */
 		unfocusForEditing: function(event) {
-			console.log("unfocusForEditing", "event:", event, "focused:", $(":focus"));
 			this.$el.removeClass("being-edited");
 
 			// Mark the event as changed if it's been modified
@@ -496,7 +665,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		markAsChanged: function(isChanged) {
 			isChanged = Boolean(isChanged);
 			this.isUnsaved = isChanged;
-			this.trigger("event:savedStatusChanged")
+			this.trigger("event:savedStatusChanged");
 			
 			if(isChanged)
 				this.$el.addClass("unsaved");
@@ -532,7 +701,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				.hasClass("js-focus-catcher-before");
 
 			if(this.dateTimeDialog) {
-				console.log("closing dialog", event);
 				this.closeDateTimeDialog();
 
 				// Move focus from this focus catcher to a real element if the
@@ -590,9 +758,14 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			_.bindAll(this, "onToggleClick");
 
 			this.$toggleButton = opts.$toggleButton;
+			this.titleFieldName = opts.titleFieldName || "title";
 
 			this.$value = this.$(".js-value");
-			this.model = new TitleModel();
+			
+			this.model = new TitleModel({
+				titleFieldName: opts.titleFieldName
+			});
+			
 			this.isEditable = false;
 			this.isSaving = false;
 			this.isError = false;
@@ -600,6 +773,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.model.storeInitialState();
 
 			this.$toggleButton.on("click", this.onToggleClick);
+		},
+		
+		lock: function () {
+			this.locked = true;
 		},
 
 		onToggleClick: function (event) {
@@ -611,7 +788,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		render: function () {
-			this.$value.text(this.model.get("title"));
+			this.$value.text(this.model.get(this.titleFieldName));
 			this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
 			this.$(".js-error-message").toggle(this.isError);
 		},
@@ -636,6 +813,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		saveAndClose: function () {
+			if (this.locked === true) {
+				return false;
+			}
+			
 			this.updateModel();
 			this.toggleEditableState(false);
 
@@ -661,7 +842,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					timer = setTimeout(function () {
 						self.toggleSavingState(false);
 						self.toggleErrorState(false);
-						self.$value.text(data.title);
+						self.$value.text(data[self.titleFieldName]);
 						self.updateModel();
 						self.model.storeInitialState(true);
 					}, Math.max(200 - timeDifference, 0));
@@ -686,9 +867,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		updateModel: function () {
-			this.model.set({
-				title: this.$value.text()
-			});
+			this.model.set(this.titleFieldName, this.$value.text());
 		},
 		
 		toggleErrorState: function (isError) {
@@ -716,114 +895,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				this.isSaving = isSaving;
 				this.render();
 			}
-		}
-	});
-
-
-	var BaseModel = Backbone.Model.extend({
-		initialize: function () {
-			this.hasInitialState = false;
-		},
-
-		/** 
-		 * Resets the model's attributes to the initial values.
-		 */
-		reset: function () {
-			this.set(this.originalAttributes);
-		},
-
-		/**
-		 * Mark the event's current state as being the original. After calling
-		 * this, hasChangedFromOriginal() may be called.
-		 */
-		storeInitialState: function (force) {
-			if (this.hasInitialState === true && force !== true) {
-				throw new Error("Initial state already set.");
-			}
-
-			this.hasInitialState = true;
-			this.originalAttributes = this.toJSON();
-		},
-
-		/** 
-		 * Returns true if the current attribute values differ from the initial
-		 * values.
-		 */
-		hasChangedFromOriginal: function () {
-			if (this.hasInitialState === false) {
-				throw new Error("No initial state set.");;
-			}
-
-			return !_.isEqual(this.originalAttributes, this.toJSON());
-		}
-	});
-
-	var EventModel = BaseModel.extend({
-		constructor: function EventModel() {
-			EventModel.__super__.constructor.apply(this, arguments);
-		},
-
-		titleCase: function(str) {
-			if(str.length > 0)
-				return str[0].toUpperCase() + str.slice(1);
-			return str;
-		},
-
-		getPrettyTerm: function() {
-			var term = this.get("term");
-			if(term)
-				return this.titleCase(term);
-			return term;
-		},
-
-		getPrettyDay: function() {
-			var day = this.get("day");
-			if(day)
-				return this.titleCase(day);
-			return day;
-		},
-
-		validate: function(attrs) {
-			return;
-
-			var errors = {};
-
-			if(!attrs.title || attrs.title.trim() == "")
-				errors.title = ["This field is required."];
-
-			if(!attrs.type || attrs.type == "")
-				errors.type = ["This field is required."];
-
-			if(!attrs.location || attrs.location.trim() == "")
-				errors.location = ["This field is required."];
-
-			if(!attrs.people || attrs.people.trim() == "")
-				errors.people = ["This field is required."];
-		},
-
-		/**
-		 * Get an object of model attributes matching the Django form fields
-		 * accepted by the series edit endpoint.
-		 */
-		asJSONDjangoForm: function() {
-			var attrs = this.attributes;
-
-			// Map our field names onto the server's Django form field names
-			return {
-				id: attrs.id,
-				title: attrs.title,
-				location: attrs.location,
-				event_type: attrs.type,
-				people: attrs.people,
-				term_week: safeParseInt(attrs.week),
-				term_name: attrs.term,
-				day_of_week: attrs.day,
-				start_hour: safeParseInt(attrs.startHour),
-				start_minute: safeParseInt(attrs.startMinute),
-				end_hour: safeParseInt(attrs.endHour),
-				end_minute: safeParseInt(attrs.endMinute),
-				cancel: attrs.cancel
-			};
 		}
 	});
 
@@ -1124,16 +1195,133 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		}
 	});
 
-	var TitleModel = BaseModel.extend({
+	var BaseModel = Backbone.Model.extend({
 		initialize: function () {
-			//console.log("title model initialization");
+			this.hasInitialState = false;
+			this.on("change", this.onChange);			
+		},
+		
+		onChange: function () {
+			listEvents.trigger("page-edited");
+		},
+
+		/** 
+		 * Resets the model's attributes to the initial values.
+		 */
+		reset: function () {
+			this.set(this.originalAttributes);
+		},
+
+		/**
+		 * Mark the event's current state as being the original. After calling
+		 * this, hasChangedFromOriginal() may be called.
+		 */
+		storeInitialState: function (force) {
+			if (this.hasInitialState === true && force !== true) {
+				throw new Error("Initial state already set.");
+			}
+
+			this.hasInitialState = true;
+			this.originalAttributes = this.toJSON();
+		},
+
+		/** 
+		 * Returns true if the current attribute values differ from the initial
+		 * values.
+		 */
+		hasChangedFromOriginal: function () {
+			if (this.hasInitialState === false) {
+				throw new Error("No initial state set.");;
+			}
+
+			return !_.isEqual(this.originalAttributes, this.toJSON());
+		}
+	});
+
+	var TitleModel = BaseModel.extend({
+		constructor: function TitleModel() {
+			TitleModel.__super__.constructor.apply(this, arguments);
+		},
+		
+		initialize: function (opts) {
+			TitleModel.__super__.initialize.apply(this, arguments);
+			this.titleFieldName = opts.titleFieldName || "title";
 		},
 
 		asJSONDjangoForm: function () {
+			var attrs = this.attributes,
+				returnObj = {};
+			
+			returnObj[this.titleFieldName] = attrs[this.titleFieldName];
+			return returnObj;
+		}
+	});
+
+	var EventModel = BaseModel.extend({
+		constructor: function EventModel() {
+			EventModel.__super__.constructor.apply(this, arguments);
+		},
+
+		titleCase: function(str) {
+			if(str.length > 0)
+				return str[0].toUpperCase() + str.slice(1);
+			return str;
+		},
+
+		getPrettyTerm: function() {
+			var term = this.get("term");
+			if(term)
+				return this.titleCase(term);
+			return term;
+		},
+
+		getPrettyDay: function() {
+			var day = this.get("day");
+			if(day)
+				return this.titleCase(day);
+			return day;
+		},
+
+		validate: function(attrs) {
+			return;
+
+			var errors = {};
+
+			if(!attrs.title || attrs.title.trim() == "")
+				errors.title = ["This field is required."];
+
+			if(!attrs.type || attrs.type == "")
+				errors.type = ["This field is required."];
+
+			if(!attrs.location || attrs.location.trim() == "")
+				errors.location = ["This field is required."];
+
+			if(!attrs.people || attrs.people.trim() == "")
+				errors.people = ["This field is required."];
+		},
+
+		/**
+		 * Get an object of model attributes matching the Django form fields
+		 * accepted by the series edit endpoint.
+		 */
+		asJSONDjangoForm: function() {
 			var attrs = this.attributes;
 
+			// Map our field names onto the server's Django form field names
 			return {
-				title: attrs.title
+				id: attrs.id,
+				title: attrs.title,
+				location: attrs.location,
+				event_type: attrs.type,
+				people: attrs.people,
+				term_week: safeParseInt(attrs.week),
+				term_name: attrs.term,
+				day_of_week: attrs.day,
+				start_hour: safeParseInt(attrs.startHour),
+				start_minute: safeParseInt(attrs.startMinute),
+				end_hour: safeParseInt(attrs.endHour),
+				end_minute: safeParseInt(attrs.endMinute),
+				cancel: attrs.cancel
 			};
 		}
 	});
@@ -1200,13 +1388,17 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 	}
 
 	// This is fired when new events are added to the page.
-	listEvents.on("new-events-visible", highlightEventsInHash)
+	listEvents.on("new-events-visible", highlightEventsInHash);
+	//listEvents.on("page-edited", locker.preventTimeout);
 
 	return {
 		ModuleView: ModuleView,
 		SeriesView: SeriesView,
 		WritableSeriesView: WritableSeriesView,
 		WritableModuleView: WritableModuleView,
-		bindUrlHashWatcher: bindUrlHashWatcher
+		bindUrlHashWatcher: bindUrlHashWatcher,
+		Locker: Locker,
+		listEvents: listEvents
 	};
 });
+
