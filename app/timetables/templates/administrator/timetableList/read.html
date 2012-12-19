@@ -31,7 +31,8 @@
 
 
 {% block timetable_content %}
-<div class="modulesList">
+<div class="modulesList js-module-list"
+    data-lock-refresh-path={% url "admin refresh lock" thing %}>
   
   {# Include top-level series #}
   <h4 title="These series are not part of any module.">
