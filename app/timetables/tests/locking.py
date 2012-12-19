@@ -35,6 +35,30 @@ class TestThingLock(SimpleLockingTestCase):
         except exceptions.ValidationError:
             pass
 
+    def test_get_status(self):
+        time = Time(START_TIME)
+        hal = models.Thing.objects.get(fullpath="user/hal")
+        asncp1 = models.Thing.objects.get(fullpath="tripos/asnc/I")
+        expiry_short = time.now() + datetime.timedelta(minutes=2)
+        expiry_long = time.now() + datetime.timedelta(hours=2)
+        lockstrategy = models.LockStrategy(now=time.now)
+
+        # set short lock only
+        lock = models.ThingLock.objects.create(thing=asncp1, owner=hal,
+                    expires=expiry_short, name="short")
+        lock.save()
+        status = lockstrategy.get_status(["tripos/asnc/I"])
+
+        self.assertTrue(status["tripos/asnc/I"] == False) # no full lock from only setting short lock
+        
+        # set long lock
+        lock = models.ThingLock.objects.create(thing=asncp1, owner=hal,
+                    expires=expiry_long, name="long")
+        lock.save()
+        status = lockstrategy.get_status(["tripos/asnc/I"])
+
+        self.assertDictEqual(status["tripos/asnc/I"], {"name":"hal"}) # both locks set so should get details of user
+
     def test_lock_creation(self):
         hal = models.Thing.objects.get(fullpath="user/hal")
         asncp1 = models.Thing.objects.get(fullpath="tripos/asnc/I")
