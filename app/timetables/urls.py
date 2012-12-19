@@ -126,15 +126,15 @@ urlpatterns = patterns('',
         ChildrenView.as_view(),
         name="thing childen view"),
 
-    url(r'(?P<thing>.*?)\.cal\.json',
+    url(r'(?P<thing>.*?)\.cal\.json$',
         CalendarView.as_view(),
         name="thing calendar view"),
 
-    url(r'(?P<thing>.*?)\.cal\.html',
+    url(r'(?P<thing>.*?)\.cal\.html$',
         CalendarHtmlView.as_view(),
         name="thing calendar htmlview"),
 
-    url(r'(?P<thing>.*?)\.callist\.html',
+    url(r'(?P<thing>.*?)\.callist\.html$',
         EventListView.as_view(),
         name="thing calendar list"),
 
