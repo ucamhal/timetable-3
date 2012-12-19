@@ -33,12 +33,16 @@
       </div>
     </li>
 
-    {% for timetable in timetables %}
-      {% if timetable.id in editable %}
-      <li class="pull-left editable">
-      <div class="timetableTop"></div>
+  {% for timetable in timetables %}
+    <li class="js-timetable pull-left {% if timetable.id in editable %}editable js-timetable-editable{% endif %}"
+        data-fullpath="{{ timetable }}">
+      <div class="timetableTop">
+        <p class="edit-message js-edit-message" style="display: none;">
+          Being edited by <strong class="js-editor"></strong>
+        </p>
+      </div>
       <div class="timetableBottom">
-          <a href="{% url "admin list write" thing=timetable.fullpath %}">
+        <a href="{% url "admin list write" thing=timetable.fullpath %}">
           {% comment %}
           For part-only timetables we use the name of the faculty followed by the
           part. For real subjects we use the subject followed by part. #}
@@ -48,32 +52,10 @@
           {% else %}
             {{ timetable.fullname }} {{ timetable.parent.fullname }}
           {% endif %}
-          </a>
+        </a>
       </div>
     </li>
-      {% endif %}
-    {% endfor %}
-    {% for timetable in timetables %}
-      {% if timetable.id not in editable %}
-      <li class="pull-left">
-	      <div class="timetableTop"></div>
-	      <div class="timetableBottom">
-	          <a href="{% url "admin list read" thing=timetable.fullpath %}">
-	          {% comment %}
-	          For part-only timetables we use the name of the faculty followed by the
-	          part. For real subjects we use the subject followed by part. #}
-	          {% endcomment %}
-	          {% if timetable.type == "part" %}
-	            {{ thing.fullname }} {{ timetable.fullname }}
-	          {% else %}
-	            {{ timetable.fullname }} {{ timetable.parent.fullname }}
-	          {% endif %}
-	          </a>
-	      </div>
-	    </li>
-      {% endif %}
-    {% endfor %}
-    
+  {% endfor %}
   </ul>
 </div>
 {% endblock admin_content %}

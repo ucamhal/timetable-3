@@ -123,6 +123,15 @@ class TimetableListRead(django.views.generic.View):
 
         return modules
 
+    def get_permissions(self, username, thing):
+        can_edit = thing.can_be_edited_by(username)
+        if not can_edit:
+            lock_holder = None
+        else:
+            lock_holder = models.LockStrategy().get_holder(thing)
+        
+        return (can_edit, lock_holder)
+
     def get(self, request, thing=None):
         thing = shortcuts.get_object_or_404(models.Thing,
                 pathid=models.Thing.hash(thing))
@@ -142,11 +151,16 @@ class TimetableListRead(django.views.generic.View):
         # Top level series directly under the timetable
         top_level_series = self.module_series(thing)
 
+        can_edit, lock_holder = self.get_permissions(
+                request.user.username, thing)
+
         context = {
             "modules": modules,
             "top_level_series": top_level_series,
             "thing": thing,
-            "timetable_thing": timetable_thing
+            "timetable_thing": timetable_thing,
+            "can_edit": can_edit,
+            "lock_holder": lock_holder
         }
 
         return self.render(request, context)
@@ -157,8 +171,25 @@ class TimetableListRead(django.views.generic.View):
 
 
 class TimetableListWrite(TimetableListRead):
-    
+
     def render(self, request, context):
+
+        redirect = False
+        # Redirect users to the read only version if they've got no write
+        # permission.
+        if not context["can_edit"]:
+            redirect = True
+        else:
+            # Try to acquire a write lock
+            try:
+                models.LockStrategy().acquire_lock(context["thing"],
+                        models.Thing.get_or_create_user_thing(request.user))
+            except models.LockException:
+                redirect = True
+
+        if redirect:
+            return shortcuts.redirect("admin list read", context["thing"])
+
         return shortcuts.render(request,
                 "administrator/timetableList/write.html", context)
 
@@ -305,3 +336,47 @@ def get_user_editable(request):
 
 def warning_view(request):
     return shortcuts.render(request, "administrator/no-permissions.html")
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def refresh_lock(request, thing=None):
+    thing = shortcuts.get_object_or_404(
+            models.Thing, pathid=models.Thing.hash(thing))
+
+    user = models.Thing.get_or_create_user_thing(request.user)
+
+    is_editing = request.POST.get("editing", "").lower() == "true"
+
+    try:
+        models.LockStrategy().refresh_lock(thing, user, is_editing)
+        response = {
+            "refreshed": True,
+            "message": None
+        }
+    except models.LockException as e:
+        response = {
+            "refreshed": False,
+            "message": e.message
+        }
+
+    return http.HttpResponse(json.dumps(response),
+            content_type="application/json")
+
+
+def locks_status_view(request):
+    """
+    Returns JSON feed containing the lock status of the specified things. Things
+    should be timetables (others may be passed in but this makes no sense).
+    Things whose status are required are contained in the POST data.
+    """
+    
+    # get the timetables data
+    timetables = request.POST.getlist("timetables[]")
+    
+    # pass through models.LockStrategy.get_status()
+    lockstrategy = models.LockStrategy()
+    locks_status = lockstrategy.get_status(timetables)
+    
+    return HttpResponse(json.dumps(locks_status), content_type="application/json")
