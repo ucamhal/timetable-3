@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "backbone"], function ($, _, Backbone) {
+define(["jquery", "underscore", "backbone", "view/cookieHandler"], function ($, _, Backbone, CookieHandler) {
 
 	// The number of milliseconds between timetable status updates.
 	UPDATE_FREQUENCY = 1000 * 10;
@@ -69,9 +69,14 @@ define(["jquery", "underscore", "backbone"], function ($, _, Backbone) {
 			console.log("timetables update lock status failure");
 		});
 	}
+
+	var cookieHandler = new CookieHandler({
+		el: ".js-cookie-alert"
+	});
 	
 	// Update the lock status straight away
 	updateTimetablesLockStatus();
 	var updateTimetablesLockStatusInterval = setInterval(
 		updateTimetablesLockStatus, UPDATE_FREQUENCY);
+
 });

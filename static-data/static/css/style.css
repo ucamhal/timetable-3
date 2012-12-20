@@ -12,7 +12,7 @@ body {
 div#content {
 	width: 960px;
 	margin: 0 auto;
-	padding-bottom: 114px;
+	padding-bottom: 135px;
 }
 
 #student div#content {
@@ -637,7 +637,7 @@ div#calendarData div.calendarNavigation {
 div#calendarData div.calendarNavigation ul {
 	list-style-type: none;
 	position: relative;
-	left: -65%;
+	left: -15%;
 }
 
 div#calendarData ul.calendarNavigation li {
@@ -1020,3 +1020,43 @@ div#timetablesOverview ul li .timetableBottom a {
 	border-style: none;
 }
 
+
+.cookie-alert {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 260px;
+	z-index: 10;
+	border-radius: 0;
+	font-size: .9em;
+
+	background-color: #333;
+	color: #C2C2C2;
+	border-width: 5px 5px 0 0;
+	border-style: solid;
+	border-color: #C7AAD1;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
+}
+
+.cookie-alert p a {
+	color: #BFAAD1;
+}
+
+.cookie-alert button.close {
+	color: white;
+	opacity: .7;
+	text-shadow: none;
+}
+
+.cookie-alert.alert .btn {
+	font-size: 1em;
+	margin: 0;
+}
+
+.cookie-alert div {
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #B3C7D1;
+	padding-top: 5px;
+	margin-top: 3px;
+}

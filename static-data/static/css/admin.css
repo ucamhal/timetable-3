@@ -49,8 +49,16 @@ div:focus {
 	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
 }
 
+#inputArea h3 span {
+	padding-top: 5px;
+}
+
 #admin #inputArea select {
 	width: 114px;
+}
+
+#adminListActions {
+	min-height: 40px;
 }
 
 #adminListActions .icon-chevron-left {
@@ -194,6 +202,14 @@ select.event-type {
 .event.event-cancelled .event-field {
 	text-decoration: line-through;
 	background-image: none;
+}
+
+.event.event-cancelled .event-field.eventType {
+	text-decoration: none;
+}
+
+.event.event-cancelled .event-field.eventType select {
+	opacity: .4;
 }
 
 /* id selector used to boost priority over Bootstrap */
@@ -392,7 +408,6 @@ select.event-type {
 	min-width: 70px;
 	margin: 0;
 }
-
 
 .event-type {
 	background-repeat: no-repeat;

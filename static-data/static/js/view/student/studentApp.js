@@ -7,10 +7,11 @@ define([
 	"view/student/components/studentCalendar",
 	"control/hashController",
 	"util/page",
+	"view/cookieHandler",
 	"bootstrap",
 	"bootstrapTimePicker",
 	"bootstrapDatePicker"
-], function ($, _, BaseApplication, StudentInputArea, StudentResults, StudentCalendar, HashController, page) {
+], function ($, _, BaseApplication, StudentInputArea, StudentResults, StudentCalendar, HashController, page, CookieHandler) {
 	"use strict";
 
 	var StudentApplication = function () {
@@ -46,6 +47,10 @@ define([
 
 			_.addEventListener(this.results.$el, "timetableChanged", function (event) {
 				self.calendar.content.refresh();
+			});
+
+			var cookieHandler = new CookieHandler({
+				el: ".js-cookie-alert"
 			});
 
 			$(window).resize(function (e) {
