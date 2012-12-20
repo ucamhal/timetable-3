@@ -15,9 +15,9 @@
 {% block admin_content %}
 
 {% block locked_alert %}
-{% if can_edit and lock_holder %}
+{% if can_edit and lock_holder and request.user.username !=  lock_holder.name %}
 <div class="alert alert-error being-edited-alert fade in">
-	You can&apos;t edit this timetable because <strong>{{ lock_holder }}</strong> is editing it.
+	You can&apos;t edit this timetable because <strong>{{ lock_holder.name }}</strong> is editing it.
 </div>
 {% endif %}
 {% endblock locked_alert %}
