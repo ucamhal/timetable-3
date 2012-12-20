@@ -14,7 +14,15 @@
         {% endblock head %}
         
     	<script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}studentIndex{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
-        
+        <style>
+        	.notImplemented {
+        		display: none;
+        	}
+
+        	#calendarHeading .calendarNavigation.week-calendar-navigation {
+        		margin-left: 350px!important;
+        	}
+        </style>
 	</head>
 	<body id="{% block bodyid %}student{% endblock %}">
 
@@ -29,6 +37,20 @@
 		{% endblock %}
 
 		<div id="container">
+
+
+			<div class="alert alert-info cookie-alert js-cookie-alert dontDisplayMe">
+
+			  <button type="button" class="js-close close">&times;</button>
+			  <strong>Cookie policy</strong>
+			  <div class="clearfix">
+			  	<p>We use cookies to ensure that we give you the best experience on our website.<br/>
+			  		You can find out more in our <a href="https://timetables.caret.cam.ac.uk/live/cookies.html" target="_blank">Cookie policy.</a></p>
+			  		<a href="#" class="btn pull-right js-accept-cookies">Accept cookies</a>
+			  </div>
+			</div>
+
+
 			<header id="mainHeader">
 				<div id="uniLogo">
 					<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>	
