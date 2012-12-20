@@ -19,7 +19,7 @@ define(["jquery", "underscore", "view/admin/lists", "view/cookieHandler", "boots
     
     var locker = new Lists.Locker({
         // Minimum time between edit lock refreshes
-        preventTimeoutTime: 1000 * 30,
+        preventTimeoutTime: 1000 * 60 * 2,
         // Time between short term lock refreshes
         pingTime: 1000 * 10,
         $timedOutModal: $(".js-timedout-modal"),

@@ -661,7 +661,7 @@ class LockStrategy(object):
     EDIT_LOCK_NAME = "long"
     
     TIMEOUT_LOCK_TIMEOUT = datetime.timedelta(seconds=30)
-    EDIT_LOCK_TIMEOUT = datetime.timedelta(minutes=1)
+    EDIT_LOCK_TIMEOUT = datetime.timedelta(hours=2)
 
     def __init__(self, now=timezone.now,
             timeout_lock_timeout=TIMEOUT_LOCK_TIMEOUT,
