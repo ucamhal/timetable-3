@@ -1,10 +1,11 @@
 define(["jquery", 
 		"underscore", 
 		"view/admin/calendar", 
+		"view/cookieHandler",
 		"bootstrap", 
 		"fullcalendar",
 		"not-implemented-tooltips"],
-		 function($, _, Calendar) {
+		 function($, _, Calendar, CookieHandler) {
     "use strict";
 
     _.mixin({
@@ -695,6 +696,10 @@ define(["jquery",
 
 	termSpinner.on("change", function () {
 		weekSpinner.render();
+	});
+
+	var cookieHandler = new CookieHandler({
+		el: ".js-cookie-alert"
 	});
 
 	$(window).resize(function () {

@@ -68,9 +68,11 @@ define([
 					+ _.getTwelveHourTimeFromDate(calEvent._start),
 				location: calEvent.location,
 				lecturers: calEvent.lecturer.toString(),
-				type: parseInt(calEvent.type),
+				type: calEvent.type,
 				seriesId: parseInt(calEvent.eventSourceId)
 			};
+
+			console.log("bla");
 		},
 
 		/**

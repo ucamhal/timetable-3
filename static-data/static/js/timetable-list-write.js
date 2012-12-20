@@ -1,5 +1,5 @@
-define(["jquery", "underscore", "view/admin/lists", "bootstrap", "not-implemented-tooltips"],
-		function($, _, Lists) {
+define(["jquery", "underscore", "view/admin/lists", "view/cookieHandler", "bootstrap", "not-implemented-tooltips"],
+		function($, _, Lists, CookieHandler) {
     "use strict";
     
     var moduleViews = [],
@@ -37,6 +37,10 @@ define(["jquery", "underscore", "view/admin/lists", "bootstrap", "not-implemente
     
     
     Lists.listEvents.on("page-edited", locker.preventTimeout);
+
+    var cookieHandler = new CookieHandler({
+        el: ".js-cookie-alert"
+    });
 	
     return undefined;
 });
