@@ -69,6 +69,10 @@ urlpatterns = patterns('',
         administrator.refresh_lock,
         name="admin refresh lock"),
 
+    url(r'users/(\w+)/timetable-perms$',
+        administrator.admin_timetable_permissions,
+        name="admin user timetable perms"),
+
 
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$',
         administrator.calendar_view,

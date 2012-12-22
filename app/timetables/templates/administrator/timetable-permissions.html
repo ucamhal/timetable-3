@@ -1,0 +1,31 @@
+{% load url from future %}
+<!doctype html>
+<title>{{ user.name }}'s Timetable Permissions</title>
+
+<h1>{{ user.name }}'s Timetable Permissions</h1>
+<form method=POST action="{% url "admin user timetable perms" user.name %}">
+
+	{% csrf_token %}
+	{% for subject in subjects %}
+	<fieldset>
+		<legend>
+			{{ subject.subject_name }}
+			{% if subject.tripos_name %}({{ subject.tripos_name }}){% endif %}:
+		</legend>
+		{% for timetable in subject.fullpaths_by_level %}
+		<p>
+		<label>
+			<input type="checkbox" 
+				name="{{ timetable.fullpath }}"
+				{% if timetable.can_edit %}checked{% endif %}>
+			{{ timetable.level_name }}
+		</label>
+		<p>
+		{% endfor %}
+	</fieldset>
+	{% endfor %}
+
+	<p>
+		<input type="submit" value="Save">
+	<p>
+</form>
