@@ -11,10 +11,12 @@ import django.views.generic
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
 
 from timetables import models
 from timetables import forms
 from timetables.utils.xact import xact
+from timetables.views import indexview
 
 
 def get_timetables(thing):
@@ -380,3 +382,66 @@ def locks_status_view(request):
     locks_status = lockstrategy.get_status(timetables)
     
     return HttpResponse(json.dumps(locks_status), content_type="application/json")
+
+
+def _all_timetables(subjects):
+    timetables = []
+    
+    for subject in subjects:
+        for timetable in subject["fullpaths_by_level"]:
+            timetables.append(timetable["fullpath"])
+    return timetables
+
+def admin_timetable_permissions(request, username):
+    """
+    Allows granting/revoking write permissions to timetables for a user. 
+    """
+    user = models.Thing.get_or_create_user_thing(
+            shortcuts.get_object_or_404(User, username=username))
+
+    subjects = indexview.IndexView()._all_subjects()
+
+    writable_timetables = dict((t, False) for t in _all_timetables(subjects))
+
+    hashed_paths = [models.Thing.hash(path)
+            for path in writable_timetables.keys()]
+
+    for tag in models.ThingTag.objects.filter(annotation="admin",
+            thing=user, targetthing__pathid__in=hashed_paths):
+        writable_timetables[tag.targetthing.fullpath] = True
+
+    # Add (True/False) can_edit attr to each timetable
+    for subj in subjects:
+        for timetable in subj["fullpaths_by_level"]:
+            path = timetable["fullpath"]
+            timetable["can_edit"] = writable_timetables[path]
+
+    if request.method == "POST":
+        to_create = []
+        to_remove = []
+        for path in writable_timetables.keys():
+            has_access = request.POST.get(path) == "on"
+
+            if has_access == writable_timetables[path]:
+                continue
+
+            if has_access:
+                target = models.Thing.objects.get(pathid=models.Thing.hash(path))
+                to_create.append(models.ThingTag(annotation="admin",
+                        thing=user, targetthing=target))
+            else:
+                to_remove.append(models.Thing.hash(path))
+
+        if to_create:
+            models.ThingTag.objects.bulk_create(to_create)
+        if to_remove:
+            models.ThingTag.objects.filter(annotation="admin", thing=user,
+                    targetthing__pathid__in=to_remove).delete()
+
+        return shortcuts.redirect("admin user timetable perms", username)
+
+    return shortcuts.render(request,
+            "administrator/timetable-permissions.html", {
+                "subjects": subjects,
+                "user": user
+            })
