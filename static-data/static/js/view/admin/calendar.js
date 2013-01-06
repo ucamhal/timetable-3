@@ -352,6 +352,9 @@ define([
 			case "week":
 				this.goToPreviousWeek();
 				break;
+            case "month":
+                this.goToPreviousMonth();
+                break;
 			case "term":
 				this.goToPreviousTerm();
 				break;
@@ -367,6 +370,14 @@ define([
 		goToPreviousWeek: function () {
 			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
 		},
+
+        /**
+         * Moves the calendar back one month
+         */
+        goToPreviousMonth: function () {
+            var activeDate = this.calendar.getActiveDate();
+            this.calendar.goToDate(new Date(activeDate.getFullYear(), activeDate.getMonth() - 1, 1));
+        },
 
 		/**
 		 * Moves the calendar to the previous term
@@ -388,6 +399,9 @@ define([
 			case "week":
 				this.goToNextWeek();
 				break;
+            case "month":
+                this.goToNextMonth();
+                break;
 			case "term":
 				this.goToNextTerm();
 				break;
@@ -403,6 +417,14 @@ define([
 		goToNextWeek: function () {
 			this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() + (1000 * 60 * 60 * 24 * 7)));
 		},
+
+		/**
+		 * Moves the calendar forwards on month
+		 */
+        goToNextMonth: function () {
+            var activeDate = this.calendar.getActiveDate();
+            this.calendar.goToDate(new Date(activeDate.getFullYear(), activeDate.getMonth() + 1, 1));
+        },
 
 		/**
 		 * Moves the calendar to the next term
