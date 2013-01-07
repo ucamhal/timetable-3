@@ -39,6 +39,10 @@ div#content {
 	height: 1px;
 }
 
+.fc-event {
+	cursor: pointer;
+}
+
 div#uniLogo, div#inputArea > div,
 header#mainHeader div#actionsContainer {
 	width: 960px;
