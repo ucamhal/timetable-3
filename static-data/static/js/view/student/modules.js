@@ -17,6 +17,50 @@ define([
             "click a.js-btn-remove" : "removeClickHandler"
         },
 
+        updateSingleButtonState: function ($btn, add) {
+            if (add === true) {
+                $btn.removeClass("js-btn-remove btn-danger").addClass("js-btn-add btn-success").text("Add");
+            } else {
+                $btn.removeClass("js-btn-add btn-success").addClass("js-btn-remove btn-danger").text("Remove");
+            }
+        },
+
+        updateButtonStates: function ($btn, add, onModuleLevel) {
+            var $courseMoreInfo;
+            if (onModuleLevel) {
+                this.updateSingleButtonState($btn.parent().parent().find("a.btn"), !add);
+            } else {
+                this.updateSingleButtonState($btn, !add);
+                if ($btn.parent().parent().is(".courseMoreInfo")) {
+                    $courseMoreInfo = $btn.parent().parent();
+
+                    if ($(".js-btn-add", $courseMoreInfo).length <= 0) {
+                        this.updateSingleButtonState($(".js-btn-add.js-btn-module-level", $courseMoreInfo.parent()), false)
+                    } else {
+                        this.updateSingleButtonState($(".js-btn-remove.js-btn-module-level", $courseMoreInfo.parent()), true);
+                    }
+                }
+            }
+        },
+
+        addClickHandler: function (event) {
+            var $target = $(event.target),
+                $source = $target,
+                onModuleLevel = $source.hasClass("js-btn-module-level");
+
+            if (onModuleLevel) {
+                $source = $target.parent().parent().find("a.btn");
+            }
+
+            this.updatePersonalTimetable({
+                t: $source.data("fullpath"),
+                es: $source.data("eventsourceid"),
+                e: $source.data("eventid")
+            }, _.bind(this.updateButtonStates, this, $target, true, onModuleLevel));
+
+            event.preventDefault();
+        },
+
         removeClickHandler: function (event) {
             var $target = $(event.target),
                 $source = $target,
@@ -35,32 +79,8 @@ define([
             event.preventDefault();
         },
 
-        updateButtonStates: function () {
-
-        },
-
-        addClickHandler: function (event) {
-            var $target = $(event.target),
-                $source = $target
-                onModuleLevel = $source.hasClass("js-btn-module-level");
-
-            if (onModuleLevel) {
-                $source = $target.parent().parent().find("a.btn");
-            }
-
-            this.updatePersonalTimetable({
-                t: $source.data("fullpath"),
-                es: $source.data("eventsourceid"),
-                e: $source.data("eventid")
-            }, _.bind(this.updateButtonStates, this, $source, true, onModuleLevel));
-
-            event.preventDefault();
-        },
-
         updatePersonalTimetable: function (postData, callback) {
-            //implement callback
             var self = this;
-            console.log("postData", postData);
             postData.crsfmiddlewatetoken = this.getCrsfToken();
 
             $.ajax({
@@ -113,13 +133,25 @@ define([
                 url: "/" + fullpath + ".children.html?t=" + encodeURIComponent(self.getThingPath()),
                 type: "GET",
                 success: function (data) {
-                    self.$("ul").empty().append(data);
+                    var modulesFound = self.$(".js-modules-list").empty().append(data).find("> li").length,
+                        modulesFoundText = "Found " + modulesFound + " modules";
+
+                    if (modulesFound === 1) {
+                        modulesFoundText = "Found 1 module";
+                    }
+
+                    self.updateModulesFoundText(modulesFoundText);
                 },
                 error: function () {
+                    //TODO handle errors in the modules panel
                     console.log(arguments);
-                    self.$("ul").empty();
+                    self.$(".js-modules-list").empty();
                 }
             });
+        },
+
+        updateModulesFoundText: function (to) {
+            this.$(".js-modules-found h3").text(to);
         },
 
         getCrsfToken: function () {
