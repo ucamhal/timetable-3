@@ -9,6 +9,103 @@ define([
             _.bindAll(this, "updateList");
         },
 
+        events: {
+            "click a.js-more" : "moreClickHandler",
+            "click a.js-less" : "lessClickHandler",
+
+            "click a.js-btn-add" : "addClickHandler",
+            "click a.js-btn-remove" : "removeClickHandler"
+        },
+
+        removeClickHandler: function (event) {
+            var $target = $(event.target),
+                $source = $target,
+                onModuleLevel = $source.hasClass("js-btn-module-level");
+
+            if (onModuleLevel) {
+                $source = $target.parent().parent().find("a.btn");
+            }
+
+            this.updatePersonalTimetable({
+                td: $source.data("fullpath"),
+                esd: $source.data("eventsourceid"),
+                ed: $source.data("eventid")
+            }, _.bind(this.updateButtonStates, this, $source, false, onModuleLevel));
+
+            event.preventDefault();
+        },
+
+        updateButtonStates: function () {
+
+        },
+
+        addClickHandler: function (event) {
+            var $target = $(event.target),
+                $source = $target
+                onModuleLevel = $source.hasClass("js-btn-module-level");
+
+            if (onModuleLevel) {
+                $source = $target.parent().parent().find("a.btn");
+            }
+
+            this.updatePersonalTimetable({
+                t: $source.data("fullpath"),
+                es: $source.data("eventsourceid"),
+                e: $source.data("eventid")
+            }, _.bind(this.updateButtonStates, this, $source, true, onModuleLevel));
+
+            event.preventDefault();
+        },
+
+        updatePersonalTimetable: function (postData, callback) {
+            //implement callback
+            var self = this;
+            console.log("postData", postData);
+            postData.crsfmiddlewatetoken = this.getCrsfToken();
+
+            $.ajax({
+                type: "POST",
+                data: postData,
+                url: self.getThingPath() + ".link",
+                success: function () {
+                    if (typeof callback === "function") {
+                        callback.call();
+                    }
+
+                    console.log("Timetable update success:", arguments);
+                },
+                error: function () {
+                    if (typeof callback === "function") {
+                        callback.call();
+                    }
+
+                    console.log("Timetable update error:", arguments);
+                }
+            });
+        },
+
+        lessClickHandler: function (event) {
+            var $target = $(event.currentTarget);
+
+            $target.removeClass("js-less").addClass("js-more");
+            $target.text("more");
+
+            $(".courseMoreInfo", $target.parent().parent()).stop().slideUp("fast");
+
+            event.preventDefault();
+        },
+
+        moreClickHandler: function (event) {
+            var $target = $(event.currentTarget);
+            
+            $target.removeClass("js-more").addClass("js-less");
+            $target.text("show less");
+
+            $(".courseMoreInfo", $target.parent().parent()).stop().hide().slideDown("fast");
+
+            event.preventDefault();
+        },
+
         updateList: function (fullpath) {
             var self = this;
 
@@ -23,6 +120,18 @@ define([
                     self.$("ul").empty();
                 }
             });
+        },
+
+        getCrsfToken: function () {
+            if (!this.crsfToken) {
+                if ($("#userinfo").length === 1) {
+                    this.crsfToken = $("#userinfo").find("[name=crsfmiddlewatetoken]").val();
+                } else if ($("#thinginfo").length === 1) {
+                    this.crsfToken = $("#thinginfo").find("[name=crsfmiddlewatetoken]").val();
+                }
+            }
+
+            return this.crsfToken;
         },
 
         getThingPath: function () {
