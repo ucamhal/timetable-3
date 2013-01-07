@@ -5,7 +5,22 @@ define([
 ], function ($, _, Backbone) {
 
     var ModulesList = Backbone.View.extend({
-        initialize: function () {
+        initialize: function (opts) {
+
+            console.log("ModulesList init");
+
+            if (opts.thingPath) {
+                this.thingPath = opts.thingPath;
+            } else {
+                throw new Error("Please provide a thingpath for the modules list to work.");
+            }
+
+            if (opts.crsfToken) {
+                this.crsfToken = opts.crsfToken;
+            } else {
+                throw new Error("Please provide a crsfToken for modules list to work.")
+            }
+
             _.bindAll(this, "updateList");
         },
 
@@ -58,7 +73,7 @@ define([
                 e: $source.data("eventid")
             }, _.bind(this.updateButtonStates, this, $target, true, onModuleLevel));
 
-            event.preventDefault();
+            return false;
         },
 
         removeClickHandler: function (event) {
@@ -76,17 +91,17 @@ define([
                 ed: $source.data("eventid")
             }, _.bind(this.updateButtonStates, this, $source, false, onModuleLevel));
 
-            event.preventDefault();
+            return false;
         },
 
         updatePersonalTimetable: function (postData, callback) {
             var self = this;
-            postData.crsfmiddlewatetoken = this.getCrsfToken();
+            postData.crsfmiddlewatetoken = this.crsfToken;
 
             $.ajax({
                 type: "POST",
                 data: postData,
-                url: self.getThingPath() + ".link",
+                url: self.thingPath + ".link",
                 success: function () {
                     if (typeof callback === "function") {
                         callback.call();
@@ -102,6 +117,8 @@ define([
                     console.log("Timetable update error:", arguments);
                 }
             });
+
+            this.trigger("timetableUpdated");
         },
 
         lessClickHandler: function (event) {
@@ -110,9 +127,10 @@ define([
             $target.removeClass("js-less").addClass("js-more");
             $target.text("more");
 
-            $(".courseMoreInfo", $target.parent().parent()).stop().slideUp("fast");
+            //$(".courseMoreInfo", $target.parent().parent()).stop().slideUp("fast");
+            $(".courseMoreInfo", $target.parent().parent()).slideUp("fast");
 
-            event.preventDefault();
+            return false;
         },
 
         moreClickHandler: function (event) {
@@ -121,16 +139,17 @@ define([
             $target.removeClass("js-more").addClass("js-less");
             $target.text("show less");
 
-            $(".courseMoreInfo", $target.parent().parent()).stop().hide().slideDown("fast");
+            //$(".courseMoreInfo", $target.parent().parent()).stop().hide().slideDown("fast");
+            $(".courseMoreInfo", $target.parent().parent()).slideDown("fast");
 
-            event.preventDefault();
+            return false;
         },
 
         updateList: function (fullpath) {
             var self = this;
 
             $.ajax({
-                url: "/" + fullpath + ".children.html?t=" + encodeURIComponent(self.getThingPath()),
+                url: "/" + fullpath + ".children.html?t=" + encodeURIComponent(self.thingPath),
                 type: "GET",
                 success: function (data) {
                     var modulesFound = self.$(".js-modules-list").empty().append(data).find("> li").length,
@@ -152,30 +171,6 @@ define([
 
         updateModulesFoundText: function (to) {
             this.$(".js-modules-found h3").text(to);
-        },
-
-        getCrsfToken: function () {
-            if (!this.crsfToken) {
-                if ($("#userinfo").length === 1) {
-                    this.crsfToken = $("#userinfo").find("[name=crsfmiddlewatetoken]").val();
-                } else if ($("#thinginfo").length === 1) {
-                    this.crsfToken = $("#thinginfo").find("[name=crsfmiddlewatetoken]").val();
-                }
-            }
-
-            return this.crsfToken;
-        },
-
-        getThingPath: function () {
-            if (!this.thingPath) {
-                if ($("#userinfo").length === 1) {
-                    this.thingPath = "user/" + $("#userinfo").attr("userid");
-                } else if ($("#thinginfo").length === 1) {
-                    this.thingPath = $("#thinginfo").attr("fullpath");
-                }
-            }
-
-            return this.thingPath;
         }
     });
 

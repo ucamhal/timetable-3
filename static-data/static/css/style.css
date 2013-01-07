@@ -620,6 +620,10 @@ div#calendarData {
 	padding-bottom: 20px;
 }
 
+#calendarData ul {
+	list-style-type: none;
+}
+
 div#calendarData h3, div#calendarData h4 {
 	margin: 0;
 	padding: 0;

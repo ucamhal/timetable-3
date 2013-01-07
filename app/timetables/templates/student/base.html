@@ -255,12 +255,32 @@
 
 <div id="calendarHolder" class="pull-right">
     <div id="calendarHeading">
-        <ul class="nav nav-tabs">
-            <li class="active agendaWeek"><a href="#">Week</a></li>
-            <li class="month"><a href="#">Month</a></li>
-            <li class="list"><a href="#">List</a></li>
+        <ul class="nav nav-tabs js-calendar-view-navigation">
+            <li class="active agendaWeek js-week"><a href="#">Week</a></li>
+            <li class="month js-month"><a href="#">Month</a></li>
+            <li class="list js-list"><a href="#">List</a></li>
         </ul>
 
+        <div id="calendarData" class="js-calendar-navigation">
+            <ul class="clearfix js-date-spinner js-agendaWeek">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+
+            <ul class="clearfix js-date-spinner js-month dontDisplayMe">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">January</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+
+            <ul class="clearfix js-date-spinner js-term">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+        </div>
+<!--
         <div id="calendarData" class="clearfix">
             <div class="agendaWeek">
                 <a href="#" class="btn pull-left notImplemented">Undo changes</a>
@@ -297,10 +317,8 @@
             </div>
         </div>
     </div>
-
-    <div id="calendar">
-        <div id="listView" class="clearfix">
-        </div>
+-->
+    <div id="calendar" class="js-calendar">
     </div>
 </div>
 {% endblock content %}
