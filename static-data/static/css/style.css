@@ -608,7 +608,7 @@ div#calendarHolder div#calendar {
 
  
 div.fullWidthCalendar {
-	width: 100% ! important;
+	width: 100%!important;
 }
 
 
@@ -622,17 +622,14 @@ div#calendarData {
 
 #calendarData ul {
 	list-style-type: none;
-}
-
-div#calendarData h3, div#calendarData h4 {
 	margin: 0;
-	padding: 0;
-	line-height: 1.6em;
 }
 
-div#calendarData h4 {
-	min-width: 114px;
+.calendar-navigation h4, .calendarNavigation h4 {
 	text-align: center;
+	padding: 2px 15px;
+	margin: 0;
+	line-height: 1em;
 }
 
 div#calendarData div.calendarNavigation {
@@ -666,211 +663,68 @@ div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
 	min-width: 130px;
 }
 
-div#calendar div#listViewCalendar {
-	position: fixed;
-}
-div#calendar div#listViewCalendar table {
-	width: 280px;
+.list-view {
+	overflow-y: scroll;
 }
 
-div#calendar div#listViewCalendar table td.occupied {
+.list-view #listViewCalendar {
+	position: fixed;
+}
+.list-view table {
+	width: 230px;
+}
+
+.list-view table td.occupied {
 	background-color: #fbf9e3;
 }
 
-div#calendar div#listViewCalendar table td.available {
+.list-view table td.available {
 	background-color: #e4f0d8;
 }
 
-div#calendar div#listViewCalendar table td,
-div#calendar div#listViewCalendar table th {
+.list-view table td,
+.list-view table th {
 	text-align: center;
 	vertical-align: middle;
-	padding: 10px 0;
+	padding: 4px 0;
 	text-shadow: 1px -1px 1px rgba(255, 255, 255, 1);
 }
 
-div#calendar div#listViewCalendar table th {
+.list-view table th {
 	text-shadow: none;
 	padding: 5px 0;
 }
 
-div#calendar div#listViewList h4 {
-	width: 200px;
+.list-view h4 {
 	text-align: right;
 	margin: 0 auto;
 }
 
-div#calendar div#listViewList h4, div#calendar div#listViewList h5 {
+.list-view div#listViewList {
+	text-align: right;
+	width: 100%;
+}
+
+.list-view div#listViewList h4, .list-view div#listViewList h5 {
 	margin: 0;
 	
 }
 
-div#calendar div#listViewList ul {
+.list-view div#listViewList ul {
 	margin: 0;
 	list-style-type: none;
 }
 
-div#calendar div#listViewList ul ul {
+.list-view div#listViewList ul ul {
 	width: 250px;
 	margin-left: 30px;
 	margin-bottom: 20px;
 }
 
-div#calendar div#listViewList ul ul li {
+.list-view div#listViewList ul ul li {
 	padding-bottom: 20px;
 	line-height: 1.3em;
 	margin-right: 0;
-}
-
-div#advancedSearch {
-	position: absolute;
-	right: 0;
-	background-color: #fcfcfc;
-	width: 960px;
-	z-index: 30;
-	color: black;
-
-	display: none;
-
-	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
-}
-
-div#advancedSearch label {
-	line-height: 1em;
-}
-
-div#advancedSearch label.btn-inverse {	
-	padding: 9px 0 8px 15px;
-	margin-bottom: 0;
-	background-color: #eeeff7;
-	background-image: none;
-	color: #383838;
-	text-shadow: 0px -1px 0px rgba(255, 255, 255, .24);
-	border-bottom-style: dashed;
-	border-bottom-color: rgba(0, 0, 0, .2);
-	border-bottom-width: 1px;
-}
-
-div#advancedSearch h3 {
-	padding: 10px;
-	line-height: 1em;
-	background-color: #828495;
-	background-image: none;
-	margin: 0;
-	font-size: 1.5em;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: rgba(255, 255, 255, .1);
-}
-
-div#advancedSearch input {
-	width: inherit;
-	margin: 0;
-}
-
-div#advancedSearch ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
-div#advancedSearch .column1,
-div#advancedSearch .column2,
-div#advancedSearch .column3 {
-	height: 550px;
-	overflow-y: scroll;
-	overflow-x: hidden; 
-}
-
-div#advancedSearch .column1,
-div#advancedSearch .column2 {
-	border-right-style: solid;
-	border-right-width: 1px;
-	border-right-color: rgba(0, 0, 0, .1);
-}
-
-div#advancedSearch .column1 {
-	width: 284px;
-}
-
-div#advancedSearch .column2 {
-	width: 390px;
-}
-
-div#advancedSearch .column3 {
-	width: 284px;
-}
-
-div#advancedSearch .column2 > ul > li {
-	width: 185px;
-	overflow: hidden;
-}
-
-li#advancedSearchKeyword input {
-	margin: 15px 0 17px 12px;
-	width: 240px;
-}
-
-li#advancedSearchType ul {
-	margin-left: 24px;
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-
-li#advancedSearchType ul li {
-	margin-top: 10px;
-}
-
-li#advancedSearchType ul input,
-li#advancedSearchTerm input,
-li#advancedSearchDay input,
-li#advancedSearchTripos input,
-li#advancedSearchPart input {
-	margin-top: 7px;
-}
-
-li#advancedSearchType ul label {
-	margin-left: 8px;
-	margin-right: 40px;
-	line-height: inherit;
-}
-
-li#advancedSearchTerm ul label,
-li#advancedSearchDay ul label,
-li#advancedSearchTripos ul label,
-li#advancedSearchPart ul label {
-	margin-left: 6px;
-	margin-right: 19px;
-	margin-bottom: 15px;
-}
-
-li#advancedSearchTripos ul label {
-	margin-right: 0;
-}
-
-li#advancedSearchTerm ul,
-li#advancedSearchDay ul,
-li#advancedSearchPart ul,
-li#advancedSearchTripos > ul,
-li#advancedSearchLecturer div {
-	margin: 10px;
-}
-
-li#advancedSearchLecturer div select {
-	margin: 0;
-	width: 260px;
-}
-
-li#advancedSearchTripos ul label {
-	width: 140px;
-}
-
-li#advancedSearchSubmit input {
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	margin-right: 10px;
-	height: 50px;
 }
 
 /*
@@ -963,6 +817,7 @@ div#timetablesOverview ul li .timetableBottom a {
 
 	position: absolute;
 	bottom: 0;
+	left: 0;
 	width: 100%;
 	height: 110px;
 }
@@ -1067,4 +922,14 @@ div#timetablesOverview ul li .timetableBottom a {
 	border-top-color: #B3C7D1;
 	padding-top: 5px;
 	margin-top: 3px;
+}
+
+.week-calendar-navigation .value {
+	min-width: 118px;
+	text-align: center;
+}
+
+.term-calendar-navigation .value {
+	min-width: 130px;
+	text-align: center;
 }

@@ -176,7 +176,12 @@ define([
         },
 
         events: {
-            "eventRender": "onEventRender"
+            "eventRender" : "onEventRender",
+            "mousewheel" : "onScroll"
+        },
+
+        onScroll: function () {
+            console.log("scroll");
         },
 
         refresh: function () {
@@ -190,6 +195,15 @@ define([
             $el.on("focusin", function () {
                 self.onEventFocus(calEvent, $el, view, this);
             });
+        },
+
+        hide: function () {
+            this.$el.hide();
+        },
+
+        show: function () {
+            this.$el.show();
+            this.$el.fullCalendar("render");
         },
 
         eventPopup: new CalendarEventPopup({
@@ -249,6 +263,10 @@ define([
             return this.$el.fullCalendar("getView");
         },
 
+        getViewName: function () {
+            return this.getView().name;
+        },
+
         /**
          * Moves the calendar to the specified date. Will manipulate the date to
          *        always go to the start of the week (Thursday)
@@ -257,6 +275,15 @@ define([
         goToDate: function (date) {
             this.resetEventPopup();
             this.$el.fullCalendar("gotoDate", date);
+        },
+
+        setHeight: function (height) {
+            this.$el.fullCalendar("option", "height", height);
+            this.$el.height(height);
+        },
+
+        setWidth: function (width) {
+            this.$el.width(width);
         }
     });
 
@@ -300,7 +327,11 @@ define([
          *        calendar date
          */
         updateActiveTermData: function () {
-            this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
+            if (this.type === "term" && this.calendar.getViewName() === "month") {
+                this.activeTermData = this.getTermDataForMonth(this.calendar.getActiveDate());
+            } else {
+                this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
+            }
         },
 
         /**
@@ -317,8 +348,18 @@ define([
             case "term":
                 value = this.getActiveTermString();
                 break;
+            case "month":
+                value = this.getActiveMonthString();
             }
             return value;
+        },
+
+        /**
+         * Returns the currently active month e.g. January
+         * @return {string} The currently active month
+         */
+        getActiveMonthString: function () {
+            return $.fullCalendar.formatDate(this.calendar.getActiveDate(), "MMMM yyyy");
         },
 
         /**
@@ -328,7 +369,7 @@ define([
          *        within the active term
          */
         getActiveWeekString: function () {
-            var    activeWeekString = "Outside term";
+            var activeWeekString = "Outside term";
             if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "week")) {
                 activeWeekString = "Week " + this.activeTermData.week;
             }
@@ -340,7 +381,8 @@ define([
          * @return {string} The currently active term
          */
         getActiveTermString: function () {
-            var    activeTermString = "No active term";
+            var activeTermString = "No active term",
+                termData;
             if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
                 activeTermString = this.activeTermData.term;
             }
@@ -388,7 +430,7 @@ define([
          */
         goToPreviousTerm: function () {
             if (typeof this.activeTermData !== "undefined") {
-                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards"));
+                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards", this.calendar.getViewName() === "month"));
             } else {
                 this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "backwards"));
             }
@@ -435,10 +477,35 @@ define([
          */
         goToNextTerm: function () {
             if (typeof this.activeTermData !== "undefined") {
-                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards"));
+                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards", this.calendar.getViewName() === "month"));
             } else {
                 this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "forwards"));
             }
+        },
+
+        getTermDataForMonth: function (date) {
+            var month = date.getMonth(),
+                terms = this.getTermsForDateYear(date),
+                activeTermData,
+                selectedMonth,
+                self = this;
+
+            _.each(terms, function (termData, termName) {
+                if (typeof activeTermData === "undefined") {
+                    _.each(termData, function (weekStartDate, weekNr) {
+                        selectedMonth = self.parseDate(weekStartDate).getMonth();
+                        if (selectedMonth === month) {
+                            activeTermData = {
+                                week: weekNr,
+                                date: self.parseDate(weekStartDate),
+                                term: termName
+                            }
+                        }
+                    });
+                }
+            });
+
+            return activeTermData;
         },
 
         /**
@@ -522,33 +589,34 @@ define([
          *        backwards, forwards by default.
          * @return {object} Date object that falls within next or previous term.
          */
-        getRelativeTermDateFromActiveTerm: function (rel) {
+        getRelativeTermDateFromActiveTerm: function (rel, forceFirstWeek) {
             var activeYear = this.getAcademicStartYearFromDate(this.activeTermData.date),
                 termDate,
-                direction = rel || "forwards";
+                direction = rel || "forwards",
+                weekNr = forceFirstWeek ? 1 : this.activeTermData.week;
 
             switch (this.activeTermData.term) {
             case "michaelmas":
                 if (direction === "forwards" && this.terms[activeYear]) {
-                    termDate = this.terms[activeYear].lent[this.activeTermData.week];
+                    termDate = this.terms[activeYear].lent[weekNr];
                 } else if (this.terms[activeYear - 1]) {
-                    termDate = this.terms[activeYear - 1].easter[this.activeTermData.week];
+                    termDate = this.terms[activeYear - 1].easter[weekNr];
                 }
                 break;
             case "lent":
                 if (this.terms[activeYear]) {
                     if (direction === "forwards") {
-                        termDate = this.terms[activeYear].easter[this.activeTermData.week];
+                        termDate = this.terms[activeYear].easter[weekNr];
                     } else {
-                        termDate = this.terms[activeYear].michaelmas[this.activeTermData.week];
+                        termDate = this.terms[activeYear].michaelmas[weekNr];
                     }
                 }
                 break;
             case "easter":
                 if (direction === "forwards" && this.terms[activeYear + 1]) {
-                    termDate = this.terms[activeYear + 1].michaelmas[this.activeTermData.week];
+                    termDate = this.terms[activeYear + 1].michaelmas[weekNr];
                 } else if(this.terms[activeYear]) {
-                    termDate = this.terms[activeYear].lent[this.activeTermData.week];
+                    termDate = this.terms[activeYear].lent[weekNr];
                 }
                 break;
             }

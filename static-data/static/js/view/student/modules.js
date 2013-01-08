@@ -27,69 +27,68 @@ define([
         events: {
             "click a.js-more" : "moreClickHandler",
             "click a.js-less" : "lessClickHandler",
-
-            "click a.js-btn-add" : "addClickHandler",
-            "click a.js-btn-remove" : "removeClickHandler"
+            "click a.js-btn-add, a.js-btn-remove" : "moduleButtonClickHandler"
         },
 
-        updateSingleButtonState: function ($btn, add) {
-            if (add === true) {
-                $btn.removeClass("js-btn-remove btn-danger").addClass("js-btn-add btn-success").text("Add");
+        associate: function ($source, add, parentButton) {
+            var self = this;
+            var sourcepath = this.thingPath;
+            var crsf = this.crsfToken;
+            var postdata = {};
+            if ( add ) {
+                postdata['t'] = $source.attr("data-fullpath");
+                postdata['es'] = $source.attr("data-eventsourceid");
+                postdata['e'] = $source.attr("data-eventid");
             } else {
-                $btn.removeClass("js-btn-add btn-success").addClass("js-btn-remove btn-danger").text("Remove");
+                postdata['td'] = $source.attr("data-fullpath");
+                postdata['esd'] = $source.attr("data-eventsourceid");
+                postdata['ed'] = $source.attr("data-eventid");
             }
+            postdata['csrfmiddlewaretoken'] = crsf;
+            $.post(sourcepath+".link", postdata, function() {
+                self.updateButtonStates($source);
+                _.dispatchEvent(self, "timetableUpdated");
+            }).error(function(response, status, error) {
+                console.log("Status code is "+response.status+" error:"+error);
+                if ( response.status === 403 ) {
+                    $('#signinModal').modal('show');                    
+                } else {
+                    $('#errorModal').modal('show');
+                }
+            });
         },
 
-        updateButtonStates: function ($btn, add, onModuleLevel) {
-            var $courseMoreInfo;
-            if (onModuleLevel) {
-                this.updateSingleButtonState($btn.parent().parent().find("a.btn"), !add);
+        updateButtonStates: function ($source) {
+            if ($source.is('.js-btn-module-level')) {
+                this.toggleButtonState($source.parent().parent().find("a.btn"), $source.is(".js-btn-add"));
             } else {
-                this.updateSingleButtonState($btn, !add);
-                if ($btn.parent().parent().is(".courseMoreInfo")) {
-                    $courseMoreInfo = $btn.parent().parent();
-
-                    if ($(".js-btn-add", $courseMoreInfo).length <= 0) {
-                        this.updateSingleButtonState($(".js-btn-add.js-btn-module-level", $courseMoreInfo.parent()), false)
+                this.toggleButtonState($source, $source.is(".js-btn-add"));
+                if ($source.parent().parent().is(".courseMoreInfo")) {
+                    if ($source.parent().parent().find(".js-btn-add").length <= 0) {
+                        this.toggleButtonState($source.parent().parent().parent().find(".js-btn-add.js-btn-module-level"), true);
                     } else {
-                        this.updateSingleButtonState($(".js-btn-remove.js-btn-module-level", $courseMoreInfo.parent()), true);
+                        this.toggleButtonState($source.parent().parent().parent().find(".js-btn-remove.js-btn-module-level"), false);
                     }
                 }
             }
         },
 
-        addClickHandler: function (event) {
-            var $target = $(event.target),
-                $source = $target,
-                onModuleLevel = $source.hasClass("js-btn-module-level");
-
-            if (onModuleLevel) {
-                $source = $target.parent().parent().find("a.btn");
+        toggleButtonState: function ($btn, fromAdd) {
+            if (fromAdd === true) {
+                $btn.removeClass("js-btn-add btn-success").addClass("js-btn-remove btn-danger").text("Remove");
+            } else {
+                $btn.removeClass("js-btn-remove btn-danger").addClass("js-btn-add btn-success").text("Add");
             }
-
-            this.updatePersonalTimetable({
-                t: $source.data("fullpath"),
-                es: $source.data("eventsourceid"),
-                e: $source.data("eventid")
-            }, _.bind(this.updateButtonStates, this, $target, true, onModuleLevel));
-
-            return false;
         },
 
-        removeClickHandler: function (event) {
-            var $target = $(event.target),
-                $source = $target,
-                onModuleLevel = $source.hasClass("js-btn-module-level");
+        moduleButtonClickHandler: function (event) {
+            var $target = $(event.currentTarget);
 
-            if (onModuleLevel) {
-                $source = $target.parent().parent().find("a.btn");
+            if ($target.is(".js-btn-module-level")) {
+                this.associate($target.parent().parent().find("a.btn"), $target.is(".js-btn-add"));
+            } else {
+                this.associate($target, $target.is(".js-btn-add"));
             }
-
-            this.updatePersonalTimetable({
-                td: $source.data("fullpath"),
-                esd: $source.data("eventsourceid"),
-                ed: $source.data("eventid")
-            }, _.bind(this.updateButtonStates, this, $source, false, onModuleLevel));
 
             return false;
         },
@@ -171,6 +170,10 @@ define([
 
         updateModulesFoundText: function (to) {
             this.$(".js-modules-found h3").text(to);
+        },
+
+        setHeight: function (height) {
+            this.$el.height(height);
         }
     });
 
@@ -231,9 +234,55 @@ define([
         }
     });
 
+    var ListView = Backbone.View.extend({
+        initialize: function (opts) {
+            if (!opts.thingPath) {
+                throw new Error("ListView needs a thingpath to work correctly");
+            } else {
+                this.thingPath = opts.thingPath;
+            }
+        },
+
+        setActiveDate: function (activeDate) {
+            if (this.activeDate !== activeDate) {
+                this.activeDate = activeDate;
+                this.render();
+            }
+        },
+
+        show: function () {
+            this.$el.show();
+        },
+
+        hide: function () {
+            this.$el.hide();
+        },
+
+        render: function () {
+            var self = this;
+
+            $.ajax({
+                url: self.thingPath + ".callist.html",
+                type: "GET",
+                data: {
+                    "y": self.activeDate.getFullYear(),
+                    "m" : self.activeDate.getMonth() + 1
+                },
+                success: function (response) {
+                    self.$el.empty().append(response);
+                },
+                error: function () {
+                    console.log("list view data not fetched");
+                    console.log(arguments);
+                }
+            });
+        }
+    });
+
     return {
         ModulesList: ModulesList,
-        ModulesSelector: ModulesSelector
+        ModulesSelector: ModulesSelector,
+        ListView: ListView
     };
 
 });

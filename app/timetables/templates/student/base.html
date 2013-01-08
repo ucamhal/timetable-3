@@ -14,203 +14,6 @@
         <select id="courseSelect" name="course" class="pull-left js-part-select">
             <option value="" disabled="disabled" selected="selected">&dash;&dash;&dash;</option>
         </select>
-        <!-- ## Advanced search (currently not implemented)
-        <div class="pull-right">
-            <a id="advancedOptions" class="btn" href="#">More search options <span class="caret"></span></a>
-
-            <div id="advancedSearch">
-                <h3 class="btn-inverse">More search options <a href="#" class="close">x</a></h3>
-                <ul class="clearfix">
-                    <li class="pull-left column1">
-                        <ul>
-                            <li id="advancedSearchKeyword">
-                                <label for="advancedKeywordInput" class="btn-inverse">Search by keyword</label>
-                                <input type="text" name="keyword" id="advancedKeywordInput" placeholder="keyword" />
-                            </li>
-                            <li id="advancedSearchType">
-                                <label class="btn-inverse">Filter by type</label>
-                                <ul class="clearfix">
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeC" class="pull-left" /><label for="typeC" class="badge pull-left">C</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeL" class="pull-left" /><label for="typeL" class="badge pull-left">L</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeP" class="pull-left" /><label for="typeP" class="badge pull-left">P</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeE" class="pull-left" /><label for="typeE" class="badge pull-left">E</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeF" class="pull-left" /><label for="typeF" class="badge pull-left">F</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="typeM" class="pull-left" /><label for="typeM" class="badge pull-left">M</label>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li id="advancedSearchTerm">
-                                <label class="btn-inverse">Filter by term</label>
-                                <ul class="clearfix">
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="termMichaelmas" class="pull-left" /><label for="termMichaelmas" class="pull-left">Michaelmas</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="termEaster"  class="pull-left"/><label for="termEaster" class="pull-left">Easter</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="termLent"  class="pull-left"/><label for="termLent" class="pull-left">Lent</label>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li id="advancedSearchDay">
-                                <label class="btn-inverse">Filter by day</label>
-                                <ul class="clearfix">
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="dayMo"  class="pull-left"/><label for="dayMo" class="pull-left">Mo.</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="dayTu"  class="pull-left"/><label for="dayTu" class="pull-left">Tu.</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="dayWe"  class="pull-left"/><label for="dayWe" class="pull-left">We.</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="dayTh"  class="pull-left"/><label for="dayTh" class="pull-left">Th.</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="dayFr"  class="pull-left"/><label for="dayFr" class="pull-left">Fr.</label>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="pull-left column2" id="advancedSearchTripos">
-                        <label class="btn-inverse">Filter by tripos</label>
-                        <ul class="clearfix">
-                            <li class="pull-left">
-                                <ul>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="pull-left">
-                                <ul>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposAfricanStudies" class="pull-left" /><label for="triposAfricanStudies" class="pull-left">African Studies</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposASNAC" class="pull-left" /><label for="triposASNAC" class="pull-left">ASNAC</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArcheologyAnthropology" class="pull-left" /><label for="triposArcheologyAnthropology" class="pull-left">Archeology &amp; Anthropology</label>
-                                    </li>
-                                    <li class="clearfix">
-                                        <input type="checkbox" id="triposArchitetureHistoryOfArt" class="pull-left" /><label for="triposArchitetureHistoryOfArt" class="pull-left">Architecture &amp; History of Art</label>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="pull-left column3">
-                        <ul>
-                            <li id="advancedSearchPart">
-                                <label class="btn-inverse">Filter by part</label>
-                                <ul class="clearfix">
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="partIA" class="pull-left" /><label for="partIA" class="pull-left">IA</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="partIB" class="pull-left" /><label for="partIB" class="pull-left">IB</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="partII" class="pull-left" /><label for="partII" class="pull-left">II</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="partIII" class="pull-left" /><label for="partIII" class="pull-left">III</label>
-                                    </li>
-                                    <li class="pull-left">
-                                        <input type="checkbox" id="partMphil" class="pull-left" /><label for="partMphil" class="pull-left">MPhil</label>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li id="advancedSearchLecturer">
-                                <label for="lecturerSelect" class="btn-inverse">Filter by lecturer</label>
-                                <div>
-                                    <select id="lecturerSelect">
-                                        <option>Marcel Vandam (mvd23)</option>
-                                    </select>
-                                </div>
-                            </li>
-                            <li id="advancedSearchSubmit">
-                                <input type="submit" value="Search [not implemented]" class="btn btn-primary btn-large notImplemented" />
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>-->
     </div>
 </div>
 
@@ -246,14 +49,14 @@
 
 <div id="results" class="pull-left js-modules-list">
     <div id="resultsHead" class="js-modules-found">
-        <h3>Found 13 modules</h3>
+        <h3>Found 0 modules</h3>
     </div>
 
     <ul id="resultsList" class="js-modules-list">
     </ul>
 </div>
 
-<div id="calendarHolder" class="pull-right">
+<div id="calendarHolder" class="pull-right js-calendar-holder">
     <div id="calendarHeading">
         <ul class="nav nav-tabs js-calendar-view-navigation">
             <li class="active agendaWeek js-week"><a href="#">Week</a></li>
@@ -261,64 +64,44 @@
             <li class="list js-list"><a href="#">List</a></li>
         </ul>
 
-        <div id="calendarData" class="js-calendar-navigation">
-            <ul class="clearfix js-date-spinner js-agendaWeek">
+        <div id="calendarData" class="js-calendar-navigation calendar-navigation clearfix">
+            <ul class="clearfix js-date-spinner js-agendaWeek week-calendar-navigation pull-left">
               <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
               <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
               <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
             </ul>
 
-            <ul class="clearfix js-date-spinner js-month dontDisplayMe">
+            <ul class="clearfix js-date-spinner js-month month-calendar-navigation dontDisplayMe pull-left">
               <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
               <li class="pull-left"><h4 class="js-value value">January</h4></li>
               <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
             </ul>
 
-            <ul class="clearfix js-date-spinner js-term">
+            <ul class="clearfix js-date-spinner js-term term-calendar-navigation pull-right">
               <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
               <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
               <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
             </ul>
         </div>
-<!--
-        <div id="calendarData" class="clearfix">
-            <div class="agendaWeek">
-                <a href="#" class="btn pull-left notImplemented">Undo changes</a>
-                <div class="calendarNavigation pull-left">
-                    <ul class="clearfix">
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-                        <li class="pull-left"><h4 class="pull-left">Week 2</h4></li>
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-                    </ul>
-                </div>
-                <h4 class="pull-right">Michaelmas Term</h4>
-            </div>
-            <div class="month dontDisplayMe">
-                <a href="#" class="btn pull-left notImplemented">Undo changes</a>
-                <div class="calendarNavigation pull-left">
-                    <ul class="clearfix">
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-                        <li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-                    </ul>
-                </div>
-                <h4 class="pull-right">Michaelmas Term</h4>
-            </div>
-            <div class="list dontDisplayMe">
-                <a href="#" class="btn pull-left notImplemented">Undo changes</a>
-                <div class="calendarNavigation pull-left">
-                    <ul class="clearfix">
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&lt;</a></li>
-                        <li class="pull-left"><h4 class="pull-left">October 2012</h4></li>
-                        <li class="pull-left"><a class="pull-left badge badge-info" href="#">&gt;</a></li>
-                    </ul>
-                </div>
-                <h4 class="pull-right">Michaelmas Term</h4>
-            </div>
-        </div>
     </div>
--->
+
     <div id="calendar" class="js-calendar">
+    </div>
+
+    <div class="js-list-view list-view"></div>
+
+    <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
+      <div class="arrow"></div>
+      <button type="button" class="close js-close">x</button>
+      <h5 class="js-course-title">An introduction to the language of 16th century texts</h5>
+      <span class="js-course-date-pattern">Wednesday 1pm,</span>
+      <br/>
+      <span class="js-course-location">LT1 William Gates Bdg,</span>
+      <br/>
+      <span class="js-course-lecturer">Dr R. Harle</span>
+      <div>
+        <a href="#" class="js-remove-from-timetable btn btn-danger">Remove from timetable</a>
+      </div>
     </div>
 </div>
 {% endblock content %}
