@@ -7,10 +7,15 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 	/** Strip leading zeros from an integer such as: 01, 05, 005 etc. */
 	function stripZeros(str) {
-		var groups = /0*(\d+)/.exec(str);
+		var groups = /(-*)0*(\d+)/.exec(str);
 		if(!groups)
 			return undefined;
-		return groups[1];
+
+		var integer = groups[2];
+		if( groups[1] == '-' ) { // handle negative values
+			integer = -integer
+		}
+		return integer;
 	}
 
 	/** As parseInt() except handles strings with leading zeros correctly. */
