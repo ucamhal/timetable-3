@@ -513,6 +513,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				"focusin .js-field, input, select": this.focusForEditing,
 				"focusout .js-field, input, select": this.unfocusForEditing,
+				"keyup .js-field, input" : this.onValueChange,
 				"change select" : this.onValueChange,
 				
 				"click span.js-field-type" : this.focusTypeSelectForEditing,
@@ -570,21 +571,31 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		render: function() {
 			var isCancelled = this.isCancelled();
-			
-			this.$title.text(this.model.get("title")).attr("contenteditable", !isCancelled);
-			this.$location.text(this.model.get("location")).attr("contenteditable", !isCancelled);
-			this.$type.val(this.model.get("type")).attr("disabled", isCancelled === true ? "disabled" : false);
-			this.$people.text(this.model.get("people")).attr("contenteditable", !isCancelled);
 
-			this.$week.text(this.model.get("week"));
-			this.$term.text(this.model.getPrettyTerm());
-			this.$day.text(this.model.getPrettyDay());
-			this.$startHour.text(this.model.get("startHour"));
-			this.$startMinute.text(this.model.get("startMinute"));
-			this.$endHour.text(this.model.get("endHour"));
-			this.$endMinute.text(this.model.get("endMinute"));
+			this.setFieldText(this.$title, this.model.get("title"));
+			this.setFieldText(this.$location, this.model.get("location"));
+			this.setFieldText(this.$people, this.model.get("people"));
+			this.setFieldText(this.$week, this.model.get("week"));
+			this.setFieldText(this.$term, this.model.getPrettyTerm());
+			this.setFieldText(this.$day, this.model.getPrettyDay());
+			this.setFieldText(this.$startHour, this.model.get("startHour"));
+			this.setFieldText(this.$endHour, this.model.get("endHour"));
+			this.setFieldText(this.$startMinute, this.model.get("startMinute"));
+			this.setFieldText(this.$endMinute, this.model.get("endMinute"));
+			this.$type.val(this.model.get("people"));
+
+			this.$title.attr("contenteditable", !isCancelled);
+			this.$location.attr("contenteditable", !isCancelled);
+			this.$type.attr("disabled", isCancelled === true ? "disabled" : false);
+			this.$people.attr("contenteditable", !isCancelled);
 			
 			this.$el.toggleClass("event-cancelled", isCancelled);
+		},
+
+		setFieldText: function ($field, newText) {
+			if ($field.text() !== newText) {
+				$field.text(newText);
+			}
 		},
 		
 		isCancelled: function () {
@@ -883,9 +894,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		events: function() {
 			return {
 				"click .js-close-btn": this.onCloseClick,
-				"change #date-time-week": this.onWeekChanged,
+				"keyup #date-time-week": this.onWeekChanged,
 				"change select": this.syncToModel,
-				"change .js-hour, .js-minute": this.onTimeInputChanged,
+				"keyup .js-hour, .js-minute": this.onTimeInputChanged,
 			};
 		},
  
