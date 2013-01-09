@@ -469,12 +469,6 @@ select.event-type {
 	margin-bottom: 15px;
 }
 
-#calendarHeading h4 {
-	line-height: 1em;
-	padding: 2px 15px;
-	margin: 0;
-}
-
 #calendarHeading .calendarNavigation {
 	margin-left: 230px;
 }
@@ -500,16 +494,6 @@ select.event-type {
 
 .calendarEventInfo .actions a.btn {
 	margin: 0;
-}
-
-.week-calendar-navigation .value {
-	min-width: 118px;
-	text-align: center;
-}
-
-.term-calendar-navigation .value {
-	min-width: 130px;
-	text-align: center;
 }
 
 .being-edited-alert {
