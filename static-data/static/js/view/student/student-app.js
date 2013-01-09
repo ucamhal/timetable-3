@@ -821,6 +821,7 @@ define([
             $(".js-calendar-holder").height(modulesListHeight);
             $(".js-list-view").height(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
             this.fullCalendarView.setHeight(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
+            this.fullCalendarView.eventPopup.hide();
 
         },
 

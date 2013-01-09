@@ -7,8 +7,6 @@ define([
     var ModulesList = Backbone.View.extend({
         initialize: function (opts) {
 
-            console.log("ModulesList init");
-
             if (opts.thingPath) {
                 this.thingPath = opts.thingPath;
             } else {

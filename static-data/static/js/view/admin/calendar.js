@@ -106,6 +106,13 @@ define([
             }
         },
 
+        getPosition: function () {
+            return {
+                top: this.$el.offset().top + this.$el.outerHeight() / 2,
+                left: this.$el.offset().left
+            }
+        },
+
         /**
          * Function that makes the popup element visible
          * @param {object} $context The element the popup need to be relatively
@@ -155,6 +162,8 @@ define([
         initialize: function (opts) {
             var self = this;
 
+            _.bindAll(this, "onScroll");
+
             this.$el.fullCalendar({
                 defaultView: this.options.defaultView || "month",
                 events: this.options.eventsFeed,
@@ -173,15 +182,25 @@ define([
                     console.log("event select");
                 }
             });
+
+            this.$(".fc-view-agendaWeek > div > div").on("scroll", this.onScroll);
         },
 
         events: {
             "eventRender" : "onEventRender",
-            "mousewheel" : "onScroll"
+            "scroll" : "onScroll",
         },
 
         onScroll: function () {
-            console.log("scroll");
+            this.eventPopup.updatePosition();
+
+            var popupPosition = this.eventPopup.getPosition(),
+                calendarPosition = this.$el.offset();
+
+            if (popupPosition.top < (calendarPosition.top + this.$("thead").height()) || popupPosition.top > calendarPosition.top + this.$el.height()) {
+                this.eventPopup.hide();
+                this.$(".fc-event:focus").blur();
+            }
         },
 
         refresh: function () {
