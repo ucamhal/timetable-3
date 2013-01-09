@@ -24,11 +24,6 @@ a.addModule {
 	margin-bottom: 30px;
 }
 
-td:focus,
-div:focus {
-	outline: none;
-}
-
 /* Timetable page navigation */
 .nav-label {
 	margin: 8px;
@@ -187,6 +182,21 @@ select.event-type {
  	background-position: 100% 50%;
 }
 
+#adminListView .nav-tabs,
+#timetable-view .nav-tabs {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#adminListView .nav-tabs > li > a,
+#timetable-view .nav-tabs > li > a {
+	padding: 11px 23px;
+}
+
+#adminListView .nav-tabs {
+	margin-bottom: 40px;
+}
+
 #adminListView .event.highlighted > td {
 	background-color: #D3FFD5;
 }
@@ -226,7 +236,7 @@ select.event-type {
 }
 
 .dialog-backdrop-date-time {
-	opacity: 0.1;	
+	opacity: 0.3;
 }
 
 .events.shown {
@@ -475,12 +485,6 @@ select.event-type {
 
 #calendarHeading .calendarNavigation:last-child {
 	margin: 0;
-}
-
-.calendarEventInfo h5 {
-	padding-left: 25px;
-	background-repeat: no-repeat;
-	background-position: left 2px;
 }
 
 .calendarEventInfo .actions {

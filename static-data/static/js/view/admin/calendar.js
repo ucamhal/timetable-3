@@ -42,10 +42,7 @@ define([
         render: function () {
             this.$(".js-course-title").text(this.eventData.title || "")
                 .removeClass()
-                .addClass("js-course-title")
-                .addClass(typeof this.eventData.type !== "undefined" ?
-                        "event-type-" + this.eventData.type
-                        : "");
+                .addClass("js-course-title");
             this.$(".js-course-date-pattern").text(
                 this.eventData.datePattern || ""
             );
@@ -71,8 +68,6 @@ define([
                 type: calEvent.type,
                 seriesId: parseInt(calEvent.eventSourceId)
             };
-
-            console.log("bla");
         },
 
         /**
@@ -426,6 +421,10 @@ define([
             }
             this.render();
             this.trigger("change");
+
+            //fix for safari 6 not updating the heading dates
+            this.calendar.$el.trigger("scroll");
+
             event.preventDefault();
         },
 
@@ -473,6 +472,10 @@ define([
             }
             this.render();
             this.trigger("change");
+
+            //fix for safari 6 not updating the heading dates
+            this.calendar.$el.trigger("scroll");
+            
             event.preventDefault();
         },
 
