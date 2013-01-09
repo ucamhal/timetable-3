@@ -194,6 +194,7 @@ define([
 
             if (popupPosition.top < (calendarPosition.top + this.$("thead").height()) || popupPosition.top > calendarPosition.top + this.$el.height()) {
                 this.eventPopup.hide();
+                this.$(".fc-event:focus").blur();
             }
         },
 
@@ -420,6 +421,10 @@ define([
             }
             this.render();
             this.trigger("change");
+
+            //fix for safari 6 not updating the heading dates
+            this.calendar.$el.trigger("scroll");
+
             event.preventDefault();
         },
 
@@ -467,6 +472,10 @@ define([
             }
             this.render();
             this.trigger("change");
+
+            //fix for safari 6 not updating the heading dates
+            this.calendar.$el.trigger("scroll");
+            
             event.preventDefault();
         },
 

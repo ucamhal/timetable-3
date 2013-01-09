@@ -182,9 +182,15 @@ select.event-type {
  	background-position: 100% 50%;
 }
 
-#adminListView .nav-tabs, #timetable-view .nav-tabs {
+#adminListView .nav-tabs,
+#timetable-view .nav-tabs {
 	font-size: 1.2em;
 	font-weight: bold;
+}
+
+#adminListView .nav-tabs > li > a,
+#timetable-view .nav-tabs > li > a {
+	padding: 11px 23px;
 }
 
 #adminListView .nav-tabs {
@@ -230,7 +236,7 @@ select.event-type {
 }
 
 .dialog-backdrop-date-time {
-	opacity: 0.1;	
+	opacity: 0.3;
 }
 
 .events.shown {
