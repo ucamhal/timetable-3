@@ -1,24 +1,107 @@
 {% extends "base.html" %}
+{% load url from future %}
 
 {% block top_bar %}
 <div id="inputArea">
-	{% include "student/inputArea.html" %}
+    <div class="clearfix js-modules-selector">
+        <label for="iAmInput" class="pull-left">I am studying</label>
+        
+        <select id="iAmInput" class="pull-left js-module-select">
+            <option value="" disabled="disabled" selected="selected">&dash;&dash;&dash;</option>
+            {% include "subject-picker.html" %}
+        </select>
+        
+        <select id="courseSelect" name="course" class="pull-left js-part-select">
+            <option value="" disabled="disabled" selected="selected">&dash;&dash;&dash;</option>
+        </select>
+    </div>
 </div>
 
 <!-- ## USER NOT LOGGED IN -->
 
 <div id="actionsContainer">
-	{% include "student/actionsContainer.html" %}
+    <div class="pull-right">
+        {% if loggedin %}
+        <a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
+        <a href="{{ ics_feed_url }}" class="btn notImplemented">Export to calendar</a>
+        {% else %}
+        <a href="{% url "login url" %}" class="btn btn-primary">Sign in</a>
+        <!-- 
+        <a href="#" class="btn dontDisplayMe save">Save</a>
+         -->
+        {% endif %}
+    </div>
 </div>
 {% endblock top_bar %}
 
 {% block content %}
-{% include "student/calendarEventInfo.html" %}
-<div id="results" class="pull-left">
-	{% include "student/resultsPanel.html" %}
+<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe student">
+    <div class="arrow"></div>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <h5>An introduction to the language of 16th century texts</h5>
+    <span class="courseDatePattern">Wednesday 1pm,</span>
+    <br/>
+    <span class="courseLocation">LT1 William Gates Bdg,</span>
+    <br/>
+    <span class="courseLecturer">Dr R. Harle</span>
+    <a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
 </div>
 
-<div id="calendarHolder" class="pull-right">
-	{% include "student/calendarHolder.html" %}
+<div id="results" class="pull-left js-modules-list">
+    <div id="resultsHead" class="js-modules-found">
+        <h3>Found 0 modules</h3>
+    </div>
+
+    <ul id="resultsList" class="js-modules-list">
+    </ul>
+</div>
+
+<div id="calendarHolder" class="pull-right js-calendar-holder">
+    <div id="calendarHeading">
+        <ul class="nav nav-tabs js-calendar-view-navigation">
+            <li class="active agendaWeek js-week"><a href="#">Week</a></li>
+            <li class="month js-month"><a href="#">Month</a></li>
+            <li class="list js-list"><a href="#">List</a></li>
+        </ul>
+
+        <div id="calendarData" class="js-calendar-navigation calendar-navigation clearfix">
+            <ul class="clearfix js-date-spinner js-agendaWeek week-calendar-navigation pull-left">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+
+            <ul class="clearfix js-date-spinner js-month month-calendar-navigation dontDisplayMe pull-left">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">January</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+
+            <ul class="clearfix js-date-spinner js-term term-calendar-navigation pull-right">
+              <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
+              <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
+              <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="calendar" class="js-calendar">
+    </div>
+
+    <div class="js-list-view list-view"></div>
+
+    <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
+      <div class="arrow"></div>
+      <button type="button" class="close js-close">x</button>
+      <h5 class="js-course-title">An introduction to the language of 16th century texts</h5>
+      <span class="js-course-date-pattern">Wednesday 1pm,</span>
+      <br/>
+      <span class="js-course-location">LT1 William Gates Bdg,</span>
+      <br/>
+      <span class="js-course-lecturer">Dr R. Harle</span>
+      <div>
+        <a href="#" class="js-remove-from-timetable btn btn-danger notImplemented">Remove from timetable</a>
+      </div>
+    </div>
 </div>
 {% endblock content %}

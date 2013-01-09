@@ -8,8 +8,8 @@
         <span class="courseLecturer">{{ eventsource.metadata.people|join:", " }}</span>
     </div>
     {% if eventsource.id in relatedsources %}
-    <a href="#" class="btn pull-right btn-remove btn-danger" data-eventsourceid="{{ eventsource.id }}" >Remove</a>
+    <a href="#" class="btn pull-right btn-remove btn-danger js-btn-remove" data-eventsourceid="{{ eventsource.id }}" >Remove</a>
     {% else %}
-    <a href="#" class="btn pull-right btn-add btn-success" data-eventsourceid="{{ eventsource.id }}" >Add</a>
+    <a href="#" class="btn pull-right btn-add btn-success js-btn-add" data-eventsourceid="{{ eventsource.id }}" >Add</a>
     {% endif %}
 </li>

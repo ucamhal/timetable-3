@@ -1,4 +1,3 @@
-define(["view/student/studentApp", "not-implemented-tooltips"],
-		function(Application) {
-	var app = new Application();
+define(["view/student/student-app", "not-implemented-tooltips"], function(studentApp) {
+    var app = new studentApp.Application();
 });
