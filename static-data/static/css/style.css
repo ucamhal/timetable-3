@@ -3,6 +3,11 @@ body {
 	height: 100%;
 }
 
+td:focus,
+div:focus {
+	outline: none;
+}
+
 #container {
 	position: relative;
 	min-height: 100%;

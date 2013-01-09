@@ -42,10 +42,7 @@ define([
         render: function () {
             this.$(".js-course-title").text(this.eventData.title || "")
                 .removeClass()
-                .addClass("js-course-title")
-                .addClass(typeof this.eventData.type !== "undefined" ?
-                        "event-type-" + this.eventData.type
-                        : "");
+                .addClass("js-course-title");
             this.$(".js-course-date-pattern").text(
                 this.eventData.datePattern || ""
             );
@@ -71,8 +68,6 @@ define([
                 type: calEvent.type,
                 seriesId: parseInt(calEvent.eventSourceId)
             };
-
-            console.log("bla");
         },
 
         /**
@@ -199,7 +194,6 @@ define([
 
             if (popupPosition.top < (calendarPosition.top + this.$("thead").height()) || popupPosition.top > calendarPosition.top + this.$el.height()) {
                 this.eventPopup.hide();
-                this.$(".fc-event:focus").blur();
             }
         },
 
