@@ -2,7 +2,7 @@
 	width: 50px;
 	min-width: 20px;
 	max-height: 125px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 
