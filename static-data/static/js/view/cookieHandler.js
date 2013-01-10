@@ -8,8 +8,7 @@ define(["jquery", "underscore", "backbone"], function ($, _, Backbone) {
 		},
 
 		events: {
-			"click .js-accept-cookies" : "onCookieAccept",
-			"click .js-close" : "onClose"
+			"click .js-close" : "onCookieAccept"
 		},
 
 		onClose: function (event) {
@@ -29,11 +28,11 @@ define(["jquery", "underscore", "backbone"], function ($, _, Backbone) {
 
 		saveCookieAccepted: function () {
 			localStorage.setItem("timetables_cookie_accept", true);
-			this.remove();
 		},
 
 		onCookieAccept: function (event) {
 			this.saveCookieAccepted();
+			this.remove();
 			event.preventDefault();
 		}
 	});

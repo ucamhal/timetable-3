@@ -1,3 +1,20 @@
+.typeahead {
+	width: 50px;
+	min-width: 20px;
+	max-height: 125px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.typeahead li {
+	width: 50px;
+}
+
+.typeahead li a {
+	padding: 3px;
+	padding-left: 10px;
+}
+
 .accordion-toggle span {
 	margin-right: 10px;
 }
@@ -135,6 +152,10 @@ a.addModule {
 	position: relative;
 }
 
+.dialog-holder .input-mini {
+	width: 35px;
+}
+
 /* A modal dialog element. */
 .dialog {
 	z-index: 950;
@@ -245,7 +266,12 @@ select.event-type {
 }
 
 .dialog-backdrop-date-time {
-	opacity: 0.3;
+	opacity: .4;
+}
+
+.dialog-date-time .dialog-actions .close-btn {
+	padding-top: 10px;
+	padding-right: 8px;
 }
 
 .events.shown {
