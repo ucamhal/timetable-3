@@ -373,7 +373,7 @@ define([
          * @return {string} The currently active month
          */
         getActiveMonthString: function () {
-            return $.fullCalendar.formatDate(this.calendar.getActiveDate(), "MMMM yyyy");
+            return $.fullCalendar.formatDate(this.calendar.getActiveDate(), "MMMM");
         },
 
         /**
@@ -395,8 +395,7 @@ define([
          * @return {string} The currently active term
          */
         getActiveTermString: function () {
-            var activeTermString = "No active term",
-                termData;
+            var activeTermString = "No active term";
             if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
                 activeTermString = this.activeTermData.term;
             }
