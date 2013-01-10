@@ -9,10 +9,10 @@
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li class="active">
-    <a href="">List</a>
+    <a href="javascript:;">List</a>
   </li>
   <li>
-    <a href="{% url "thing calendar" thing %}">Week</a>
+    <a href="{% url "thing calendar" thing %}">Calendar</a>
   </li>
   <li class="nav-label"
     {% if can_edit %}
