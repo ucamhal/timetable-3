@@ -188,6 +188,15 @@ select.event-type {
 	font-weight: bold;
 }
 
+#adminListView .nav-tabs .nav-label {
+	font-size: .9em;
+	padding-top: 4px;
+}
+
+#adminListView .nav-tabs .nav-label em {
+	padding-left: 5px;
+}
+
 #adminListView .nav-tabs > li > a,
 #timetable-view .nav-tabs > li > a {
 	padding: 11px 23px;
