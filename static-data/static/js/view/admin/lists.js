@@ -582,7 +582,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.setFieldText(this.$endHour, this.model.get("endHour"));
 			this.setFieldText(this.$startMinute, this.model.get("startMinute"));
 			this.setFieldText(this.$endMinute, this.model.get("endMinute"));
-			this.$type.val(this.model.get("people"));
+			this.$type.val(this.model.get("type"));
 
 			this.$title.attr("contenteditable", !isCancelled);
 			this.$location.attr("contenteditable", !isCancelled);
@@ -644,10 +644,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		/** S */
 		unfocusForEditing: function(event) {
-			this.$el.removeClass("being-edited");
+			if (!this.dateTimeDialog) {
+				this.$el.removeClass("being-edited");
 
-			// Mark the event as changed if it's been modified
-			this.markAsChanged(this.model.hasChangedFromOriginal());
+				// Mark the event as changed if it's been modified
+				this.markAsChanged(this.model.hasChangedFromOriginal());
+			}
 		},
 
 		markAsChanged: function(isChanged) {
@@ -677,6 +679,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				this.markAsChanged(this.model.hasChangedFromOriginal());
 				this.dateTimeDialog.remove();
 				delete this.dateTimeDialog;
+				this.unfocusForEditing();
 			}
 		},
 
@@ -899,7 +902,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				"change #date-time-week": this.onWeekChanged,
 				"change .js-hour, .js-minute": this.onTimeInputChanged,
-				"change select" : this.onSelectChange,
+				"change select" : this.onSelectChange
 			};
 		},
 
@@ -907,7 +910,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			event.stopPropagation();
 		},
  
-		initialize: function() {
+		initialize: function(opts) {
 			_.bindAll(this);
 
 			this.backdrop = new DialogBackdropView();

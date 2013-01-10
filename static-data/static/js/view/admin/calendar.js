@@ -397,7 +397,7 @@ define([
         getActiveTermString: function () {
             var activeTermString = "No active term";
             if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
-                activeTermString = this.activeTermData.term + " " + this.activeTermData.date.getFullYear();
+                activeTermString = this.activeTermData.term;
             }
             return activeTermString;
         },

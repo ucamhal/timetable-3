@@ -156,6 +156,15 @@ a.addModule {
 	width: 35px;
 }
 
+.dialog-holder span label {
+	padding-right: 10px;
+	padding-left: 6px;
+}
+
+.dialog-holder span label.first-label {
+	padding-left: 0;
+}
+
 /* A modal dialog element. */
 .dialog {
 	z-index: 950;
@@ -481,6 +490,7 @@ select.event-type {
 }
 
 .datePatternDialog {
+	left: -50%;
 	min-width: 420px;
 	box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px 0px;
 }
@@ -505,6 +515,13 @@ select.event-type {
 	padding: 20px;
 }
 
+.datePatternDialog .popover-title h3 {
+	line-height: 1em;
+}
+
+.datePatternDialog .popover-title .close {
+	margin-top: 8px;
+}
 
 /*
  * Calendar Styles
