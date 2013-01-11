@@ -737,81 +737,85 @@ div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
  */
 
 div#timetablesOverview {
-	padding-top: 20px;
+	padding-top: 30px;
 }
 
-div#timetablesOverview ul {
-	list-style-type: none;
-	margin: 0;
-}
-
-div#timetablesOverview ul li:nth-child(5n+5) {
-	margin-right: 0;
-}
-
-div#timetablesOverview ul li {
-	width: 150px;
-	height: 150px;
-	position: relative;
+#timetablesOverview li {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #434343;
 	margin-right: 50px;
 	margin-bottom: 40px;
-	cursor: pointer;
-	
+
+	padding: 1px;
+
+	width: 148px;
+	height: 148px;
+
 	overflow: hidden;
 }
-div#timetablesOverview ul li.editable {
-	border-color: #986abf;
-	background: url( '../img/editable.png' ) scroll no-repeat center center transparent;
+
+#timetablesOverview li:nth-child(5n+5) {
+	margin-right: 0;
 }
 
-div#timetablesOverview ul li.createNewTimetable {
-	border-style: dashed;
-}
-
-div#timetablesOverview ul li:hover a,
-div#timetablesOverview ul li a:active,
-div#timetablesOverview ul li a:focus {
-	text-decoration: underline;
-}
-
-div#timetablesOverview ul li .timetableTop {
-	width: 100%;
+#timetablesOverview li a {
+	display: block;
+	position: relative;
 	height: 100%;
 }
 
-div#timetablesOverview ul li.createNewTimetable .timetableTop {
-	background-image: url(../img/createNewTimetable.png);
-	background-repeat: no-repeat;
-	background-position: 50% 37%;
+#timetablesOverview li a:hover {
+	text-decoration: none;
 }
 
-div#timetablesOverview ul li .timetableTop .edit-message {
-	padding: 4px 5px;
-	margin: 1px;
+#timetablesOverview li a:hover .timetable-center {
+	text-decoration: underline;
+}
+
+#timetablesOverview li .timetable-top .edit-message {
 	background-color: #F2DEDE;
 	color: #B94A48;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	text-align: center;
 	font-size: .9em;
-	line-height: 1.2em;
+	line-height: 1.6em;
+
+	margin: 0;
+	height: 22px;
+} 
+
+#timetablesOverview li.being-edited .timetable-center {
+	padding-top: 0;
 }
 
-div#timetablesOverview ul li .timetableBottom {
+#timetablesOverview li .timetable-center {
+	padding-top: 5px;
+	height: 100%;
+}
+
+#timetablesOverview li .timetable-center  h4 {
+	font-size: 1.2em;
+	line-height: 1.3em;
+	padding: 0 5px;
+}
+
+#timetablesOverview li .timetable-bottom {
+	text-align: center;
+	background-color: #474747;
+	color: #E6E6E6;
+	text-shadow: -1px -2px 2px black;
+
 	position: absolute;
 	bottom: 0;
-	width: 140px;
-	text-align: center;
-	background-color: #434343;
-	margin: 1px;
-	padding: 4px;
+
+	width: 100%;
+
+	padding: 3px 0;
 }
 
-div#timetablesOverview ul li .timetableBottom a {
-	color: white;
-	text-shadow: -1px -2px 2px rgba(0, 0, 0, .3);
+#timetablesOverview li .timetable-bottom span {
+	margin-right: 3px;
 }
 
 .footer-wrap {

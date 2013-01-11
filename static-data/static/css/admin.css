@@ -262,12 +262,21 @@ select.event-type {
 }
 
 /* id selector used to boost priority over Bootstrap */
-#adminListView .event-editable.unsaved > td {
+#adminListView .event-editable.unsaved > td,
+#adminListView .event-editable:hover > td {
 	background-color: #fff6e2;
+}
+
+#adminListView .event-editable {
+	cursor: pointer;
 }
 
 #adminListView .event-editable.being-edited > td {
 	background-color: #f5e7d0;
+}
+
+#adminListView .event-editable.being-edited {
+	cursor: auto;
 }
 
 .dialog-date-time {
