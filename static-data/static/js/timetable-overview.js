@@ -2,11 +2,6 @@ define(["jquery", "underscore", "backbone", "view/cookieHandler"], function ($, 
 
 	// The number of milliseconds between timetable status updates.
 	UPDATE_FREQUENCY = 1000 * 10;
-
-	//Go to the selected timetable when there is a click on the li element
-	$("#timetablesOverview ul li:not(.createNewTimetable)").click(function () {
-		window.location = $("a", this).attr("href");
-	});
 	
 	$( "select.js-select-faculty" ).change( function(){
 		var target = $(this).val();
@@ -27,6 +22,7 @@ define(["jquery", "underscore", "backbone", "view/cookieHandler"], function ($, 
 		setBeingEdited: function (isBeingEdited, by) {
 			this.$name.text(by);
 			this.$editMessage.toggle(isBeingEdited);
+			this.$el.toggleClass("being-edited", isBeingEdited);
 		},
 
 		getFullpath: function() {
