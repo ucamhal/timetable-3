@@ -24,6 +24,7 @@
 {% block admin_content %}
 <div id="timetablesOverview">
   <ul class="clearfix">
+    <!--
     <li class="pull-left createNewTimetable notImplemented">
       <div class="timetableTop"></div>
       <div class="timetableBottom">
@@ -32,17 +33,19 @@
         </a>
       </div>
     </li>
-
+    -->
   {% for timetable in timetables %}
-    <li class="js-timetable pull-left {% if timetable.id in editable %}editable js-timetable-editable{% endif %}"
-        data-fullpath="{{ timetable }}">
-      <div class="timetableTop">
-        <p class="edit-message js-edit-message" style="display: none;">
-          Being edited by <strong class="js-editor"></strong>
-        </p>
-      </div>
-      <div class="timetableBottom">
-        <a href="{% url "admin list write" thing=timetable.fullpath %}">
+
+    <li class="js-timetable pull-left{% if timetable.id in editable %} js-timetable-editable editable{% endif %}" data-fullpath="{{ timetable }}">
+      <a href="{% url "admin list write" thing=timetable.fullpath %}">
+        <div class="timetable-top">
+          <p class="edit-message js-edit-message dontDisplayMe">
+            Being edited by <strong class="js-editor"></strong>
+          </p>
+        </div>
+
+        <div class="timetable-center">
+          <h4>
           {% comment %}
           For part-only timetables we use the name of the faculty followed by the
           part. For real subjects we use the subject followed by part. #}
@@ -52,9 +55,23 @@
           {% else %}
             {{ timetable.fullname }} {{ timetable.parent.fullname }}
           {% endif %}
-        </a>
-      </div>
+          </h4>
+        </div>
+
+        <div class="timetable-bottom">
+          
+          {% if timetable.id in editable %}
+            <span class="icon-pencil icon-white"></span>
+            edit
+          {% else %}
+            <span class="icon-lock icon-white"></span>
+            view only
+          {% endif %}
+          
+        </div>
+      </a>
     </li>
+
   {% endfor %}
   </ul>
 </div>
