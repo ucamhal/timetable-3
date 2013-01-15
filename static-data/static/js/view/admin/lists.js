@@ -513,6 +513,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				"focusin .js-field, input, select": this.focusForEditing,
 				"focusout .js-field, input, select": this.unfocusForEditing,
+				"keyup .js-field, input" : this.onValueChange,
 				"change select" : this.onValueChange,
 				
 				"click span.js-field-type" : this.focusTypeSelectForEditing,
@@ -570,21 +571,31 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		render: function() {
 			var isCancelled = this.isCancelled();
-			
-			this.$title.text(this.model.get("title")).attr("contenteditable", !isCancelled);
-			this.$location.text(this.model.get("location")).attr("contenteditable", !isCancelled);
-			this.$type.val(this.model.get("type")).attr("disabled", isCancelled === true ? "disabled" : false);
-			this.$people.text(this.model.get("people")).attr("contenteditable", !isCancelled);
 
-			this.$week.text(this.model.get("week"));
-			this.$term.text(this.model.getPrettyTerm());
-			this.$day.text(this.model.getPrettyDay());
-			this.$startHour.text(this.model.get("startHour"));
-			this.$startMinute.text(this.model.get("startMinute"));
-			this.$endHour.text(this.model.get("endHour"));
-			this.$endMinute.text(this.model.get("endMinute"));
+			this.setFieldText(this.$title, this.model.get("title"));
+			this.setFieldText(this.$location, this.model.get("location"));
+			this.setFieldText(this.$people, this.model.get("people"));
+			this.setFieldText(this.$week, this.model.get("week"));
+			this.setFieldText(this.$term, this.model.getPrettyTerm());
+			this.setFieldText(this.$day, this.model.getPrettyDay());
+			this.setFieldText(this.$startHour, this.model.get("startHour"));
+			this.setFieldText(this.$endHour, this.model.get("endHour"));
+			this.setFieldText(this.$startMinute, this.model.get("startMinute"));
+			this.setFieldText(this.$endMinute, this.model.get("endMinute"));
+			this.$type.val(this.model.get("type"));
+
+			this.$title.attr("contenteditable", !isCancelled);
+			this.$location.attr("contenteditable", !isCancelled);
+			this.$type.attr("disabled", isCancelled === true ? "disabled" : false);
+			this.$people.attr("contenteditable", !isCancelled);
 			
 			this.$el.toggleClass("event-cancelled", isCancelled);
+		},
+
+		setFieldText: function ($field, newText) {
+			if ($field.text() !== newText) {
+				$field.text(newText);
+			}
 		},
 		
 		isCancelled: function () {
@@ -633,10 +644,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		/** S */
 		unfocusForEditing: function(event) {
-			this.$el.removeClass("being-edited");
+			if (!this.dateTimeDialog) {
+				this.$el.removeClass("being-edited");
 
-			// Mark the event as changed if it's been modified
-			this.markAsChanged(this.model.hasChangedFromOriginal());
+				// Mark the event as changed if it's been modified
+				this.markAsChanged(this.model.hasChangedFromOriginal());
+			}
 		},
 
 		markAsChanged: function(isChanged) {
@@ -663,8 +676,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		closeDateTimeDialog: function() {
 			if(this.dateTimeDialog) {
+				this.markAsChanged(this.model.hasChangedFromOriginal());
 				this.dateTimeDialog.remove();
 				delete this.dateTimeDialog;
+				this.unfocusForEditing();
 			}
 		},
 
@@ -883,13 +898,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		events: function() {
 			return {
 				"click .js-close-btn": this.onCloseClick,
+				"click .js-ok-btn" : this.onOkClick,
+
 				"change #date-time-week": this.onWeekChanged,
-				"change select": this.syncToModel,
 				"change .js-hour, .js-minute": this.onTimeInputChanged,
+				"change select" : this.onSelectChange
 			};
 		},
+
+		onSelectChange: function (event) {
+			event.stopPropagation();
+		},
  
-		initialize: function() {
+		initialize: function(opts) {
 			_.bindAll(this);
 
 			this.backdrop = new DialogBackdropView();
@@ -905,8 +926,73 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$endHour = this.$("#date-time-end-hour");
 			this.$endMinute = this.$("#date-time-end-minute");
 
+			//initialize typeahead functionality for hour inputs
+			this.initTypeAhead(this.$startHour, this.createHourArray());
+			this.initTypeAhead(this.$endHour, this.createHourArray());
+
+			//initialize typeahead functionality for minute inputs
+			this.initTypeAhead(this.$startMinute, this.createMinuteArray());
+			this.initTypeAhead(this.$endMinute, this.createMinuteArray());
+
+			//show typeahead dropdown on focus:
+			this.$startHour.on("focus", this.$startHour.typeahead.bind(this.$startHour, "lookup"));
+			this.$endHour.on("focus", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
+			this.$startMinute.on("focus", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
+			this.$endMinute.on("focus", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
+
 			// Initialise the inputs
 			this.render();
+		},
+
+		createMinuteArray: function () {
+			var minuteArray = [],
+				maxCount = 45,
+				i = 0,
+				iterator = 15;
+
+			for (i; i <= maxCount; i += iterator) {
+				var minuteString = String(i);
+
+				if (minuteString.length === 1) {
+					minuteString = "0" + minuteString
+				}
+
+				minuteArray.push(minuteString);
+			}
+
+			return minuteArray;
+		},
+
+		createHourArray: function () {
+			var hourArray = [],
+				maxCount = 24,
+				i = 1,
+				iterator = 1;
+
+			for (i; i < maxCount; i += iterator) {
+				var hourString = String(i);
+
+				if (hourString.length === 1) {
+					hourString = "0" + hourString;
+				}
+
+				hourArray.push(hourString);
+			}
+
+			return hourArray;
+		},
+
+		initTypeAhead: function ($el, source) {
+			$el.typeahead({
+				source: source,
+				matcher: function () {
+					return true;
+				},
+				sorter: function (items) {
+					return items;
+				},
+				items: source.length
+			});
 		},
 
 		/** Update the state of hte DOM with the model's state. */
@@ -952,6 +1038,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					+ new Array(Math.max(0, minWidth - width) + 1).join("0")
 					+ Math.abs(number);
 		},
+
+		onOkClick: function (event) {
+			this.syncToModel();
+			this.requestDialogClose();
+			event.preventDefault();
+		},
 		
 		onCloseClick: function (event) {
 			this.requestDialogClose();
@@ -963,7 +1055,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			if(isNaN(safeParseInt(this.$week.val())))
 				this.$week.val(this.model.get("week"));
 
-			this.syncToModel();
+			//this.syncToModel();
 		},
 
 		onTimeInputChanged: function(event) {
@@ -1026,7 +1118,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$endHour.val(this.zeroPad(toTime[0], 2));
 			this.$endMinute.val(this.zeroPad(toTime[1], 0));
 
-			this.syncToModel();
+			//this.syncToModel();
 		},
 
 		/** Update the state of the model with the DOM's state. */

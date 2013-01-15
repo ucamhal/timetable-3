@@ -10,10 +10,10 @@
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li class="active">
-    <a href="">List</a>
+    <a href="javascript:;">List</a>
   </li>
   <li>
-    <a href="{% url "thing calendar" thing %}">Week</a>
+    <a href="{% url "thing calendar" thing %}">Calendar</a>
   </li>
 </ul>
 {% endblock timetable_tab_nav %}
@@ -51,7 +51,7 @@
       <h3 class="pull-left">When does this event take place?</h3>
       <a href="javascript:;" class="close js-close-btn" tabIndex="-1">&times;</a>
     </div>
-    <div class="popover-content form-inline">
+    <div class="popover-content form-inline clearfix">
       <div class="date-time-form-row">
         <span class="control-group">
           <label class="first-label" for="date-time-week">Week</label>
@@ -75,7 +75,7 @@
           <select id="date-time-day" name="date-time-day">
             <option value="thu">Thursday</option>
             <option value="fri">Friday</option>
-            <option value="sat">Satarday</option>
+            <option value="sat">Saturday</option>
             <option value="sun">Sunday</option>
             <option value="mon">Monday</option>
             <option value="tue">Tuesday</option>
@@ -123,6 +123,12 @@
               min="-15" max="60" step="15">
         </span>
       </div>
+
+      <div class="dialog-actions pull-right">
+        <a href="javascript:;" class="js-close-btn close-btn">cancel</a>
+        <a href="javascript:;" class="btn js-ok-btn btn-success">Okay</a>
+      </div>
+
     </div>
   </div>
 </div>

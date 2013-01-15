@@ -249,7 +249,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     # enable the haystack app so that we can index things.
-    'haystack',
+    #'haystack',
     'timetables',
     'south', # For schema migration, easy_install South to use.
 )

@@ -9,10 +9,10 @@
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
   <li class="active">
-    <a href="">List</a>
+    <a href="javascript:;">List</a>
   </li>
   <li>
-    <a href="{% url "thing calendar" thing %}">Week</a>
+    <a href="{% url "thing calendar" thing %}">Calendar</a>
   </li>
   <li class="nav-label"
     {% if can_edit %}
@@ -34,7 +34,7 @@
   
   {# Include top-level series #}
   <h4 title="These series are not part of any module.">
-    Top-level Series
+    General teaching
   </h4>
   <div class="seriesList">
     {% for series in top_level_series %}
@@ -42,7 +42,7 @@
       {% include "administrator/timetableList/fragSeriesRead.html" %}
       {% endblock top_level_series__series %}
     {% empty %}
-      <p>There are no top-level series.</p>
+      <p>There are no general teaching series.</p>
     {% endfor %}
   </div>
 
