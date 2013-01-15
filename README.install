@@ -1,0 +1,23 @@
+=========================
+INSTALLATION INSTRUCTIONS
+=========================
+
+1) Ensure system requirements are met (see below)
+2) git clone https://username@bitbucket.org/caret/timetables-3.git
+
+------------
+Requirements
+------------
+
+git is required to checkout the repository
+Python 2.7 is recommended (though 2.5 and 2.6 should work with Django 1.4)
+PostgreSQL 9.x.x
+
+Dependencies: (note version numbers are known to work; other versions may work - try and see if you are not sure!)
+	Django 1.4.x
+	psycopg2 (for PostgreSQL integration)
+	South 0.7.6
+	[django-haystack 1.2.7 (not currently used)]
+	pytz
+	
+	
