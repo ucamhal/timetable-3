@@ -14,10 +14,16 @@ class DatePatternImporter(object):
         if not datePattern:
             raise ValueError("Event source with type pattern did not contain datePattern key in data")
         group_template =  metadata.get("group_template") or ""
-        try:
+        try: # academic year for the data is provided
             start_year = int(metadata.get("year"))
-        except:
+        except: # no year provided - infer it from the current date
             start_year = server_datetime_now().year
+            
+            # for now we assume that if we are importing before the end of the academic year then the data is for this year - remove this for production site 
+            current_month = server_datetime_now().month
+            if(current_month <= 6): # if you're in a month before June then assume you want to add the data to the current academic year
+                start_year -= 1
+                
         title = source.title
         location = metadata.get("location", '')
         try:
