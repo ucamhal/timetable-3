@@ -1,16 +1,14 @@
 {% extends "administrator/timetableList/fragEventRead.html" %}
 
 {% block event_type %}
-<span
-          class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}"
-          >{{ event.metadata.type|default:"" }}</span>
+<span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}">
+  {{ event.metadata.type|default:"" }}
+</span>
+
 <select class="input-medium event-type js-field js-field-type">
   <!-- <option value="">&mdash;</option> -->
   {% for key, display_val in type_choices.items %}
-    <option
-        value="{{ key }}"
-        {% if event.metadata.type.lower == key.lower %}selected{% endif %}
-        >{{ display_val }}</option>
+    <option value="{{ key }}" {% if event.metadata.type.lower == key.lower %}selected{% endif %}>{{ display_val }}</option>
   {% endfor %}
 </select>
 {% endblock event_type %}
