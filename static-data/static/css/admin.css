@@ -191,19 +191,41 @@ select.event-type {
 	width: 100px;
 }
 
-.event.event-editable.being-edited span.event-type,
-.event.event-editable.unsaved span.event-type {
+.event.event-editable.row-being-edited .event-type-input-wrap span.event-type,
+.event.event-editable .event-type-input-wrap.being-edited span.event-type,
+.event.event-editable.event-cancelled .event-type-input-wrap span.event-type {
 	display: none;
 }
 
-.event.event-editable.being-edited select.event-type,
-.event.event-editable.unsaved select.event-type {
+.event.event-editable.row-being-edited .event-type-input-wrap select.event-type,
+.event.event-editable .event-type-input-wrap.being-edited select.event-type,
+.event.event-editable.event-cancelled .event-type-input-wrap select.event-type {
 	display: block;
 }
 
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
 	padding-right: 20px; /* To accommodate the pencil icon */
+}
+
+.event-editable .event-field .event-input {
+	padding: 2px 3px;
+	border-style: transparent;
+	border-width: 1px;
+}
+
+.event-editable.row-being-edited .event-field .event-input,
+.event-editable .event-field .event-input.being-edited {
+	background-color: #fffdf7;
+	border-style: dashed;
+	border-color: #a7a7a7;
+	cursor: auto;
+}
+
+.event-editable.row-being-edited.event-cancelled .event-field .event-input,
+.event-editable.event-cancelled .event-field .event-input.being-edited {
+	background-color: transparent;
+	border-style: none;
 }
 
 .event-editable .event-field:hover {

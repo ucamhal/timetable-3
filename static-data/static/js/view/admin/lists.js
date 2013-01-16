@@ -23,6 +23,53 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		return parseInt(stripZeros(str));
 	}
 	
+	var BaseModel = Backbone.Model.extend({
+		initialize: function () {
+			this.hasInitialState = false;
+			this.on("change", this.onChange);
+		},
+		
+		onChange: function () {
+			listEvents.trigger("page-edited");
+		},
+
+		/** 
+		 * Resets the model's attributes to the initial values.
+		 */
+		reset: function () {
+			this.set(this.originalAttributes);
+		},
+
+		/**
+		 * Mark the event's current state as being the original. After calling
+		 * this, hasChangedFromOriginal() may be called.
+		 */
+		storeInitialState: function (force) {
+			if (this.hasInitialState === true && force !== true) {
+				throw new Error("Initial state already set.");
+			}
+
+			this.hasInitialState = true;
+			this.originalAttributes = this.toJSON();
+		},
+
+		/** 
+		 * Returns true if the current attribute values differ from the initial
+		 * values.
+		 */
+		hasChangedFromOriginal: function () {
+			if (this.hasInitialState === false) {
+				throw new Error("No initial state set.");;
+			}
+
+			return !_.isEqual(this.originalAttributes, this.toJSON());
+		},
+
+		hasFieldChangedFromOriginal: function (fieldName) {
+			return !_.isEqual(this.get(fieldName), this.originalAttributes[fieldName]);
+		}
+	});
+	
 	
 	var Locker = Backbone.View.extend({
 		initialize: function (opts) {
@@ -112,8 +159,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					editing: Boolean(editing)
 				},
 				success: function (response) {
-					console.log("success");
-					console.log(response);
 					self.setTimedOutState(!response.refreshed);
 				},
 				error: function () {
@@ -420,14 +465,14 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		onCancel: function(event) {
 			_.each(this.events, function(eventView) {
-				eventView.model.reset();
-
+				eventView.cancelChanges();
 				// This works, but is a bit hacky
-				eventView.unfocusForEditing();
+				//eventView.unfocusForEditing();
 			});
 		},
 
 		onSave: function(event) {
+			console.log("save button clicked");
 			if (this.locked === true) {
 				return false;
 			}
@@ -499,252 +544,348 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		}
 	});
 
+	var EventModel = BaseModel.extend({
+		constructor: function EventModel() {
+			EventModel.__super__.constructor.apply(this, arguments);
+		},
+
+		titleCase: function(str) {
+			if(str.length > 0)
+				return str[0].toUpperCase() + str.slice(1);
+			return str;
+		},
+
+		getPrettyTerm: function() {
+			var term = this.get("term");
+			if(term)
+				return this.titleCase(term);
+			return term;
+		},
+
+		getPrettyDay: function() {
+			var day = this.get("day");
+			if(day)
+				return this.titleCase(day);
+			return day;
+		},
+
+		validate: function(attrs) {
+			return;
+
+			var errors = {};
+
+			if(!attrs.title || attrs.title.trim() == "")
+				errors.title = ["This field is required."];
+
+			if(!attrs.type || attrs.type == "")
+				errors.type = ["This field is required."];
+
+			if(!attrs.location || attrs.location.trim() == "")
+				errors.location = ["This field is required."];
+
+			if(!attrs.people || attrs.people.trim() == "")
+				errors.people = ["This field is required."];
+		},
+
+		/**
+		 * Get an object of model attributes matching the Django form fields
+		 * accepted by the series edit endpoint.
+		 */
+		asJSONDjangoForm: function() {
+			var attrs = this.attributes;
+
+			// Map our field names onto the server's Django form field names
+			return {
+				id: attrs.id,
+				title: attrs.title,
+				location: attrs.location,
+				event_type: attrs.type,
+				people: attrs.people,
+				term_week: safeParseInt(attrs.week),
+				term_name: attrs.term,
+				day_of_week: attrs.day,
+				start_hour: safeParseInt(attrs.startHour),
+				start_minute: safeParseInt(attrs.startMinute),
+				end_hour: safeParseInt(attrs.endHour),
+				end_minute: safeParseInt(attrs.endMinute),
+				cancel: attrs.cancel
+			};
+		}
+	});
+
 	var WritableEventView = EventView.extend({
 		constructor: function WritableEventView() {
 			WritableEventView.__super__.constructor.apply(this, arguments);
 		},
 
-		events: function() {
-			return {
-				// The following 2 events enable firing of "change" events from
-				// contenteditable elements on blur.
-				"focusin [contenteditable]": this.onContenteditableFocus,
-				"focusout [contenteditable]": this.onContenteditableBlur,
-
-				"focusin .js-field, input, select": this.focusForEditing,
-				"focusout .js-field, input, select": this.unfocusForEditing,
-				"keyup .js-field, input" : this.onValueChange,
-				"change select" : this.onValueChange,
-				
-				"click span.js-field-type" : this.focusTypeSelectForEditing,
-
-				// Watch for fields changing
-				"change .js-field": this.updateModel,
-				
-				// Start editing when the pencil edit icon is clicked
-				"click .js-edit-icon": this.startEditing,
-				"click .js-remove-icon" : this.onCancelClick,
-
-				"click .js-date-time-cell": this.toggleDateTimeDialog,
-				"click .js-date-time-dialog": this.onDateTimeDialogClicked
-			};
-		},
-		
-		onValueChange: function () {
-			this.updateModel();
-			this.markAsChanged(this.model.hasChangedFromOriginal());
-		},
-		
-		focusTypeSelectForEditing: function (event) {
-			this.focusForEditing();
-			this.$("select.js-field-type").focus();
-		},
-
-		initialize: function() {
+		initialize: function () {
 			WritableEventView.__super__.initialize.apply(this, arguments);
 
-			// focus/blur events have to be bound manually, otherwise the
-			// delegated focusin/focusout verisons are used.
-			this.$(".js-date-time-cell .js-focus-catcher")
-				.on("focus", this.toggleDateTimeDialog);
+			console.log("WritableEventView initialization");
 
-			this.$title = this.$(".js-field-title");
-			this.$location = this.$(".js-field-location");
-			this.$type = this.$("select.js-field-type");
-			this.$people = this.$(".js-field-people");
-			this.$week = this.$(".js-field-week");
-			this.$term = this.$(".js-field-term");
-			this.$day = this.$(".js-field-day");
-			this.$startHour = this.$(".js-field-start-hour");
-			this.$startMinute = this.$(".js-field-start-minute");
-			this.$endHour = this.$(".js-field-end-hour");
-			this.$endMinute = this.$(".js-field-end-minute");
+			this.$titleField = this.$(".js-field-title");;
+			this.$locationField = this.$(".js-field-location");
+			this.$peopleField = this.$(".js-field-people");
+			this.$typeField = this.$("select.js-field-type");
+
+			this.$weekField = this.$(".js-field-week");
+			this.$termField = this.$(".js-field-term");
+			this.$dayField = this.$(".js-field-day");
+			this.$startHourField = this.$(".js-field-start-hour");
+			this.$startMinuteField = this.$(".js-field-start-minute");
+			this.$endHourField = this.$(".js-field-end-hour");
+			this.$endMinuteField = this.$(".js-field-end-minute");
+
+			this.$typeWrapper = this.$(".js-event-type-input-wrap");
+			this.$dateTimeWrapper = this.$(".js-date-time-cell");
 
 			this.model = new EventModel();
-			// Push the state of the HTML into the model
 			this.updateModel();
-			// Tell the model that it's current state is the initial one
 			this.model.storeInitialState();
-
 			this.model.on("change", this.render);
-		},
-
-		render: function() {
-			var isCancelled = this.isCancelled();
-
-			this.setFieldText(this.$title, this.model.get("title"));
-			this.setFieldText(this.$location, this.model.get("location"));
-			this.setFieldText(this.$people, this.model.get("people"));
-			this.setFieldText(this.$week, this.model.get("week"));
-			this.setFieldText(this.$term, this.model.getPrettyTerm());
-			this.setFieldText(this.$day, this.model.getPrettyDay());
-			this.setFieldText(this.$startHour, this.model.get("startHour"));
-			this.setFieldText(this.$endHour, this.model.get("endHour"));
-			this.setFieldText(this.$startMinute, this.model.get("startMinute"));
-			this.setFieldText(this.$endMinute, this.model.get("endMinute"));
-			this.$type.val(this.model.get("type"));
-
-			this.$title.attr("contenteditable", !isCancelled);
-			this.$location.attr("contenteditable", !isCancelled);
-			this.$type.attr("disabled", isCancelled === true ? "disabled" : false);
-			this.$people.attr("contenteditable", !isCancelled);
-			
-			this.$el.toggleClass("event-cancelled", isCancelled);
-		},
-
-		setFieldText: function ($field, newText) {
-			if ($field.text() !== newText) {
-				$field.text(newText);
-			}
-		},
-		
-		isCancelled: function () {
-			return this.model.get("cancel");
 		},
 
 		updateModel: function() {
 			// Update our model with the current state of the HTML
 			this.model.set({
 				id: safeParseInt(this.$el.data("id")),
-				title: this.$title.text(),
-				location: this.$location.text(),
-				type: this.$type.val(),
-				people: this.$people.text(),
-				week: this.$week.text(),
-				term: this.$term.text().toLowerCase(),
-				day: this.$day.text().toLowerCase(),
-				startHour: this.$startHour.text(),
-				startMinute: this.$startMinute.text(),
-				endHour: this.$endHour.text(),
-				endMinute: this.$endMinute.text(),
+				title: this.$titleField.text(),
+				location: this.$locationField.text(),
+				type: this.$typeField.val(),
+				people: this.$peopleField.text(),
+				week: this.$weekField.text(),
+				term: this.$termField.text().toLowerCase(),
+				day: this.$dayField.text().toLowerCase(),
+				startHour: this.$startHourField.text(),
+				startMinute: this.$startMinuteField.text(),
+				endHour: this.$endHourField.text(),
+				endMinute: this.$endMinuteField.text(),
 				cancel: this.$el.hasClass("event-cancelled")
 			});
 		},
 
-		focusForEditing: function() {
-			if (this.isCancelled() === false) {
-				this.$el.addClass("being-edited");	
+		render: function () {
+			var isCancelled = this.isCancelled();
+
+			this.setFieldValue(this.$titleField, this.model.get("title"));
+			this.setFieldValue(this.$locationField, this.model.get("location"));
+			this.setFieldValue(this.$peopleField, this.model.get("people"));
+
+			this.setFieldValue(this.$weekField, this.model.get("week"));
+			this.setFieldValue(this.$termField, this.model.getPrettyTerm());
+			this.setFieldValue(this.$dayField, this.model.getPrettyDay());
+			this.setFieldValue(this.$startHourField, this.model.get("startHour"));
+			this.setFieldValue(this.$endHourField, this.model.get("endHour"));
+			this.setFieldValue(this.$startMinuteField, this.model.get("startMinute"));
+			this.setFieldValue(this.$endMinuteField, this.model.get("endMinute"));
+
+			this.$typeField.val(this.model.get("type"));
+
+			this.$titleField.attr("contenteditable", !isCancelled);
+			this.$locationField.attr("contenteditable", !isCancelled);
+			this.$peopleField.attr("contenteditable", !isCancelled);
+			this.$typeField.attr("disabled", isCancelled);
+
+			this.$el.toggleClass("event-cancelled", isCancelled);
+		},
+
+		isCancelled: function () {
+			return this.model.get("cancel");
+		},
+
+		setFieldValue: function ($field, value) {
+			if ($field.text() !== value) {
+				$field.text(value);
 			}
 		},
-		
-		onCancelClick: function (event) {
+
+		events: function () {
+			return {
+				"focus .js-field-title" : this.titleFieldFocusHandler,
+				"focus .js-field-location" : this.locationFieldFocusHandler,
+				"focus .js-field-people" : this.peopleFieldFocusHandler,
+				"focus .js-event-type-input-wrap" : this.typeWrapFocusHandler,
+				"focus .js-date-time-cell" : this.dateTimeWrapFocusHandler,
+				"click .js-date-time-cell" : this.dateTimeWrapFocusHandler,
+
+				"focusout .js-field-title" : this.titleFieldFocusOutHandler,
+				"focusout .js-field-location" : this.locationFieldFocusOutHandler,
+				"focusout .js-field-people" : this.peopleFieldFocusOutHandler,
+				"focusout select.js-field-type" : this.typeFieldFocusOutHandler,
+				"focusout .js-date-time-cell" : this.dateTimeFocusOutHandler,
+
+				"click .js-edit-icon" : this.editIconClickHandler,
+				"click .js-remove-icon" : this.removeIconClickHandler,
+				"focus *" : this.focusInHander,
+				"focusout" : this.focusOutHandler,
+
+				"keyup" : this.keyUpHandler,
+				"change select, input" : this.changeHandler
+			};
+		},
+
+		dateTimeFocusOutHandler: function (event) {
+			var self = this;
+			_.delay(function () {
+				if (!self.$dateTimeWrapper.is(":active") && self.$dateTimeWrapper.find(":focus, :active").length < 1) {
+					self.closeDateTimeDialog();
+				}
+			}, 50);
+		},
+
+		removeIconClickHandler: function (event) {
 			this.toggleCancelledState();
 			event.preventDefault();
 		},
-		
-		toggleCancelledState: function (isCancelled) {
-			isCancelled = typeof isCancelled !== "undefined" ? isCancelled : !this.isCancelled();
-			
-			if (isCancelled !== this.isCancelled()) {
-				this.model.set("cancel", isCancelled);
-				this.markAsChanged(this.model.hasChangedFromOriginal());
-				this.$('[contenteditable="true"]').blur();
+
+		keyUpHandler: function (event) {
+			this.updateModel();
+			this.markAsChanged();
+		},
+
+		changeHandler: function (event) {
+			this.updateModel();
+			this.markAsChanged();
+		},
+
+		cancelChanges: function () {
+			this.model.reset();
+			this.markAsChanged();
+			this.$typeWrapper.removeClass("being-edited");
+		},
+
+		titleFieldFocusOutHandler: function (event) {
+			this.$titleField.removeClass("being-edited");
+		},
+
+		locationFieldFocusOutHandler: function (event) {
+			this.$locationField.removeClass("being-edited");
+		},
+
+		peopleFieldFocusOutHandler: function (event) {
+			this.$peopleField.removeClass("being-edited");
+		},
+
+		typeFieldFocusOutHandler: function (event) {
+			//check if value is different from original; remove being-edited class
+			if (!this.model.hasFieldChangedFromOriginal("type")) {
+				this.$typeWrapper.removeClass("being-edited");
 			}
 		},
 
-		/** S */
-		unfocusForEditing: function(event) {
-			if (!this.dateTimeDialog) {
-				this.$el.removeClass("being-edited");
-
-				// Mark the event as changed if it's been modified
-				this.markAsChanged(this.model.hasChangedFromOriginal());
-			}
-		},
-
-		markAsChanged: function(isChanged) {
-			isChanged = Boolean(isChanged);
-			this.isUnsaved = isChanged;
+		markAsChanged: function () {
+			console.log("has changed: " + this.model.hasChangedFromOriginal());
+			this.$el.toggleClass("unsaved", this.model.hasChangedFromOriginal());
 			this.trigger("event:savedStatusChanged");
-			
-			if(isChanged)
-				this.$el.addClass("unsaved");
-			else
-				this.$el.removeClass("unsaved");
 		},
 
-		/** Starts editing this event by focusing the title element. */
-		startEditing: function() {
-			this.$title.focus();
+		hasFocus: function () {
+			return this.$el.find(":focus").length > 0 || this.$el.find(":active").length > 0;
 		},
 
-		onDateTimeDialogClicked: function(event) {
-			// Prevent click events on the date/time dialog reaching the 
-			// toggleDateTimeDialog() handler, which would close the dialog.
-			event.stopPropagation();
+		focusOutHandler: function (event) {
+			var self = this;
+			_.delay(function () {
+				if (!self.hasFocus()) {
+					self.$el.removeClass("row-being-edited");
+					self.toggleRowBeingEditedState(false);
+				}
+			}, 50);
 		},
 
-		closeDateTimeDialog: function() {
-			if(this.dateTimeDialog) {
-				this.markAsChanged(this.model.hasChangedFromOriginal());
+		focusInHander: function (event) {
+			this.toggleRowBeingEditedState(true);
+		},
+
+		editIconClickHandler: function (event) {
+			if (!this.isCancelled()) {
+				this.$el.addClass("row-being-edited");
+			}
+		},
+
+		dateTimeWrapFocusHandler: function (event) {
+			console.log("date time focus");
+			this.toggleDateTimeDialog(true);
+		},
+
+		typeWrapFocusHandler: function (event) {
+			if (this.$typeWrapper.hasClass("being-edited") === false) {
+				this.$typeWrapper.addClass("being-edited");
+				this.$typeField.focus();
+			}
+		},
+
+		titleFieldFocusHandler: function (event) {
+			this.$titleField.addClass("being-edited");
+		},
+
+		locationFieldFocusHandler: function (event) {
+			this.$locationField.addClass("being-edited");
+		},
+
+		peopleFieldFocusHandler: function (event) {
+			this.$peopleField.addClass("being-edited");
+		},
+
+		toggleRowBeingEditedState: function (beingEdited) {
+			beingEdited = typeof beingEdited !== "undefined" ? beingEdited : !this.$el.hasClass("being-edited");
+			this.$el.toggleClass("being-edited", beingEdited);
+		},
+
+		closeDateTimeDialog: function (toggleRowBeingEditedState) {
+			console.log("date time dialog close");
+			if (this.dateTimeDialog) {
+				this.markAsChanged();
 				this.dateTimeDialog.remove();
 				delete this.dateTimeDialog;
-				this.unfocusForEditing();
+				this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
+
+				if (toggleRowBeingEditedState) {
+					this.$(".js-edit-icon").focus().click();
+				}
 			}
 		},
 
-		toggleDateTimeDialog: function(event) {
-			if (this.isCancelled() === true) {
+		toggleCancelledState: function (cancelled) {
+			cancelled = typeof cancelled !== "undefined" ? cancelled : !this.isCancelled();
+
+			if (cancelled !== this.isCancelled()) {
+				this.model.set("cancel", cancelled);
+				this.markAsChanged();
+				this.$('[contenteditable="true"]').blur()
+			}
+		},
+
+		toggleDateTimeDialog: function(showDialog) {
+			showDialog = typeof showDialog !== "undefined" ? showDialog : typeof this.dateTimeDialog === "undefined";
+
+			if (this.isCancelled()) {
 				return false;
 			}
-			
-			var isFocus = event.type === "focus";
-			var isBeforeDialog = $(event.currentTarget)
-				.hasClass("js-focus-catcher-before");
 
-			if(this.dateTimeDialog) {
+			if(showDialog === false) {
 				this.closeDateTimeDialog();
 
-				// Move focus from this focus catcher to a real element if the
-				// dialog close was triggered by focusing a focus catching
-				// element before/after the dialog in the DOM.
-				if(isFocus) {
-					if(isBeforeDialog)
-						this.$(".js-field-type").focus();
-					else
-						this.$(".js-field-location").focus();
-				}
-			}
-			else {
-				console.log("opening dialog", event);
+				this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
+			} else if (!this.dateTimeDialog) {
 				this.dateTimeDialog = new DateTimeDialogView({
 					el: $("#templates .js-date-time-dialog").clone(),
-					model: this.model
+					model: this.model,
+					toggleRowBeingEditedStateOnClose: this.$el.hasClass("row-being-edited")
 				});
 				// dialog:close is fired by the dialog when a click is made
 				// outside its area, or the close icon is clicked.
-				this.dateTimeDialog.on(
-					"dialog:close", this.closeDateTimeDialog);
+				this.dateTimeDialog.on("dialog:close", this.closeDateTimeDialog);
 
-				this.$(".js-date-time-cell .js-dialog-holder")
-					.append(this.dateTimeDialog.$el);
+				this.$(".js-date-time-cell .js-dialog-holder").append(this.dateTimeDialog.$el);
 				this.dateTimeDialog.$el.show();
+				this.dateTimeDialog.$el.find("#date-time-week").focus();
 
-				if(!isFocus || isBeforeDialog)
-					this.dateTimeDialog.focusStart();
-				else
-					this.dateTimeDialog.focusEnd();
+				this.$dateTimeWrapper.find(".event-input").addClass("being-edited");
 			}
 		},
-
-		onContenteditableFocus: function(event) {
-			// Stash the element's value in a data property before it's edited
-			// so that we can fire a change event if it's modified.
-			var $el = $(event.target);
-			$el.data("__contenteditablePrevValue", $el.html());
-		},
-
-		onContenteditableBlur: function(event) {
-			var $el = $(event.target);
-			var html = $el.html();
-			if($el.data("__contenteditablePrevValue") !== html) {
-				// Delete the remembered HTML text
-				$el.data("__contenteditablePrevValue", undefined);
-				$el.trigger("change");
-			}
-		}
 	});
-	
+
 	var EditableTitleView = Backbone.View.extend({
 		initialize: function (opts) {
 			_.bindAll(this, "onToggleClick");
@@ -912,6 +1053,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
  
 		initialize: function(opts) {
 			_.bindAll(this);
+
+			console.log("date time dialog init");
 
 			this.backdrop = new DialogBackdropView();
 			this.backdrop.$el.addClass("dialog-backdrop-date-time");
@@ -1152,7 +1295,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		requestDialogClose: function() {
-			this.trigger("dialog:close");
+			this.trigger("dialog:close", this.options.toggleRowBeingEditedStateOnClose);
 		}
 	});
 
@@ -1264,49 +1407,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		}
 	});
 
-	var BaseModel = Backbone.Model.extend({
-		initialize: function () {
-			this.hasInitialState = false;
-			this.on("change", this.onChange);			
-		},
-		
-		onChange: function () {
-			listEvents.trigger("page-edited");
-		},
-
-		/** 
-		 * Resets the model's attributes to the initial values.
-		 */
-		reset: function () {
-			this.set(this.originalAttributes);
-		},
-
-		/**
-		 * Mark the event's current state as being the original. After calling
-		 * this, hasChangedFromOriginal() may be called.
-		 */
-		storeInitialState: function (force) {
-			if (this.hasInitialState === true && force !== true) {
-				throw new Error("Initial state already set.");
-			}
-
-			this.hasInitialState = true;
-			this.originalAttributes = this.toJSON();
-		},
-
-		/** 
-		 * Returns true if the current attribute values differ from the initial
-		 * values.
-		 */
-		hasChangedFromOriginal: function () {
-			if (this.hasInitialState === false) {
-				throw new Error("No initial state set.");;
-			}
-
-			return !_.isEqual(this.originalAttributes, this.toJSON());
-		}
-	});
-
 	var TitleModel = BaseModel.extend({
 		constructor: function TitleModel() {
 			TitleModel.__super__.constructor.apply(this, arguments);
@@ -1323,75 +1423,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			
 			returnObj[this.titleFieldName] = attrs[this.titleFieldName];
 			return returnObj;
-		}
-	});
-
-	var EventModel = BaseModel.extend({
-		constructor: function EventModel() {
-			EventModel.__super__.constructor.apply(this, arguments);
-		},
-
-		titleCase: function(str) {
-			if(str.length > 0)
-				return str[0].toUpperCase() + str.slice(1);
-			return str;
-		},
-
-		getPrettyTerm: function() {
-			var term = this.get("term");
-			if(term)
-				return this.titleCase(term);
-			return term;
-		},
-
-		getPrettyDay: function() {
-			var day = this.get("day");
-			if(day)
-				return this.titleCase(day);
-			return day;
-		},
-
-		validate: function(attrs) {
-			return;
-
-			var errors = {};
-
-			if(!attrs.title || attrs.title.trim() == "")
-				errors.title = ["This field is required."];
-
-			if(!attrs.type || attrs.type == "")
-				errors.type = ["This field is required."];
-
-			if(!attrs.location || attrs.location.trim() == "")
-				errors.location = ["This field is required."];
-
-			if(!attrs.people || attrs.people.trim() == "")
-				errors.people = ["This field is required."];
-		},
-
-		/**
-		 * Get an object of model attributes matching the Django form fields
-		 * accepted by the series edit endpoint.
-		 */
-		asJSONDjangoForm: function() {
-			var attrs = this.attributes;
-
-			// Map our field names onto the server's Django form field names
-			return {
-				id: attrs.id,
-				title: attrs.title,
-				location: attrs.location,
-				event_type: attrs.type,
-				people: attrs.people,
-				term_week: safeParseInt(attrs.week),
-				term_name: attrs.term,
-				day_of_week: attrs.day,
-				start_hour: safeParseInt(attrs.startHour),
-				start_minute: safeParseInt(attrs.startMinute),
-				end_hour: safeParseInt(attrs.endHour),
-				end_minute: safeParseInt(attrs.endMinute),
-				cancel: attrs.cancel
-			};
 		}
 	});
 
