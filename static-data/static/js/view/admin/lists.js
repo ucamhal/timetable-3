@@ -701,6 +701,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		events: function () {
 			return {
+				"click .js-field-title, .js-field-location, .js-field-people" : this.editableFieldClickHandler,
+
 				"focus .js-field-title" : this.titleFieldFocusHandler,
 				"focus .js-field-location" : this.locationFieldFocusHandler,
 				"focus .js-field-people" : this.peopleFieldFocusHandler,
@@ -785,6 +787,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		focusOutHandler: function (event) {
 			var self = this;
+			this.caretMoved = false;
 			_.delay(function () {
 				if (!self.hasFocus()) {
 					self.$el.removeClass("row-being-edited");
@@ -815,16 +818,44 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			}
 		},
 
+		editableFieldClickHandler: function (event) {
+			if (!this.caretMoved) {
+				this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+				this.caretMoved = true;
+			}
+		},
+
 		titleFieldFocusHandler: function (event) {
+			var self = this;
 			this.$titleField.addClass("being-edited");
+			this.moveCaretToEndOfContenteditableElement(event.currentTarget);
 		},
 
 		locationFieldFocusHandler: function (event) {
 			this.$locationField.addClass("being-edited");
+			this.moveCaretToEndOfContenteditableElement(event.currentTarget);
 		},
 
 		peopleFieldFocusHandler: function (event) {
 			this.$peopleField.addClass("being-edited");
+			this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+		},
+
+		moveCaretToEndOfContenteditableElement: function (contentEditableElement) {
+			var range,selection;
+			if (document.createRange) {
+				range = document.createRange();
+				range.selectNodeContents(contentEditableElement);
+				range.collapse(false);
+				selection = window.getSelection();
+				selection.removeAllRanges();
+				selection.addRange(range);
+			} else if (document.selection) { //IE 8 and lower
+				range = document.body.createTextRange();
+				range.moveToElementText(contentEditableElement);
+				range.collapse(false);
+				range.select();
+			}
 		},
 
 		toggleRowBeingEditedState: function (beingEdited) {
