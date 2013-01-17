@@ -2,8 +2,7 @@
 	width: 50px;
 	min-width: 20px;
 	max-height: 125px;
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 .typeahead li {
@@ -498,6 +497,10 @@ select.event-type {
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	padding-left: 24px;
+}
+
+select.event-type {
+	padding-left: 0;
 }
 
 .event-type-lecture {
