@@ -1,5 +1,5 @@
 define(["jquery", "underscore", "backbone", "util/django-forms",
-			"util/assert", "jquery-bbq"],
+			"util/assert", "jquery-bbq", "bootstrapTypeahead"],
 		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
@@ -1118,18 +1118,18 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$endMinute = this.$("#date-time-end-minute");
 
 			//initialize typeahead functionality for hour inputs
-			//this.initTypeAhead(this.$startHour, this.createHourArray());
-			//this.initTypeAhead(this.$endHour, this.createHourArray());
+			this.initTypeAhead(this.$startHour, this.createHourArray());
+			this.initTypeAhead(this.$endHour, this.createHourArray());
 
 			//initialize typeahead functionality for minute inputs
-			//this.initTypeAhead(this.$startMinute, this.createMinuteArray());
-			//this.initTypeAhead(this.$endMinute, this.createMinuteArray());
+			this.initTypeAhead(this.$startMinute, this.createMinuteArray());
+			this.initTypeAhead(this.$endMinute, this.createMinuteArray());
 
 			//show typeahead dropdown on focus:
-			//this.$startHour.on("focus", this.$startHour.typeahead.bind(this.$startHour, "lookup"));
-			//this.$endHour.on("focus", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
-			//this.$startMinute.on("focus", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
-			//this.$endMinute.on("focus", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
+			this.$startHour.on("focus", this.$startHour.typeahead.bind(this.$startHour, "lookup"));
+			this.$endHour.on("focus", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
+			this.$startMinute.on("focus", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
+			this.$endMinute.on("focus", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
 
 			this.updateInitialTimeOffset();
 
@@ -1182,6 +1182,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					return true;
 				},
 				sorter: function (items) {
+					console.log(this);
 					return items;
 				},
 				items: source.length
@@ -1217,8 +1218,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		getCurrentTimeOffset: function () {
 			var fromTimeMinutes =  this.minutesFromTime(safeParseInt(this.$startHour.val()), safeParseInt(this.$startMinute.val())),
-				toTimeMinutes = this.minutesFromTime(safeParseInt(this.$endHour.val()), safeParseInt(this.$endMinute.val()));
-			return toTimeMinutes - fromTimeMinutes;
+				toTimeMinutes = this.minutesFromTime(safeParseInt(this.$endHour.val()), safeParseInt(this.$endMinute.val())),
+				offset = toTimeMinutes - fromTimeMinutes;
+			return isNaN(offset) ? this.getInitialTimeOffset() : offset;
 		},
 
 		/**
@@ -1272,6 +1274,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				fromTime,
 				toTime;
+
+			fromTotalMinutes = isNaN(fromTotalMinutes) ? 0 : fromTotalMinutes;
+			toTotalMinutes = isNaN(toTotalMinutes) ? 0 : toTotalMinutes;
 
 			if (startEdited === true) {
 				toTotalMinutes += this.getInitialTimeOffset() - this.getCurrentTimeOffset();
