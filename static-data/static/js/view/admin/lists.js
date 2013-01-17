@@ -1217,8 +1217,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		getCurrentTimeOffset: function () {
 			var fromTimeMinutes =  this.minutesFromTime(safeParseInt(this.$startHour.val()), safeParseInt(this.$startMinute.val())),
-				toTimeMinutes = this.minutesFromTime(safeParseInt(this.$endHour.val()), safeParseInt(this.$endMinute.val()));
-			return toTimeMinutes - fromTimeMinutes;
+				toTimeMinutes = this.minutesFromTime(safeParseInt(this.$endHour.val()), safeParseInt(this.$endMinute.val())),
+				offset = toTimeMinutes - fromTimeMinutes;
+			return isNaN(offset) ? this.getInitialTimeOffset() : offset;
 		},
 
 		/**
@@ -1272,6 +1273,9 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 				fromTime,
 				toTime;
+
+			fromTotalMinutes = isNaN(fromTotalMinutes) ? 0 : fromTotalMinutes;
+			toTotalMinutes = isNaN(toTotalMinutes) ? 0 : toTotalMinutes;
 
 			if (startEdited === true) {
 				toTotalMinutes += this.getInitialTimeOffset() - this.getCurrentTimeOffset();
