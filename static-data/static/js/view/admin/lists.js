@@ -435,13 +435,34 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				var eventView = new WritableEventView({el: eventEl});
 
 				// Watch for events being modified
-				eventView.on("event:savedStatusChanged",
-					this.onSavedStatusChanged);
+				eventView.on("event:savedStatusChanged", this.onSavedStatusChanged);
+				eventView.on("datetimedialogopen", this.onDateTimeOpen);
+				eventView.on("datetimedialogclose", this.onDateTimeClose);
 
 				return eventView;
 			}, this);
 
 			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+		},
+
+		onDateTimeOpen: function () {
+			this.$(".js-btn-save").toggleClass("btn-success", false).css({
+				opacity: .3
+			});
+
+			this.$(".js-btn-cancel").css({
+				opacity: .3
+			});
+		},
+
+		onDateTimeClose: function () {
+			this.$(".js-btn-save").toggleClass("btn-success", true).css({
+				opacity: 1
+			});
+
+			this.$(".js-btn-cancel").css({
+				opacity: 1
+			});
 		},
 
 		onSavedStatusChanged: function() {
@@ -620,8 +641,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		initialize: function () {
 			WritableEventView.__super__.initialize.apply(this, arguments);
-
-			console.log("WritableEventView initialization");
 
 			this.$titleField = this.$(".js-field-title");;
 			this.$locationField = this.$(".js-field-location");
@@ -871,6 +890,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				if (toggleRowBeingEditedState) {
 					this.$(".js-edit-icon").focus().click();
 				}
+
+				this.trigger("datetimedialogclose");
 			}
 		},
 
@@ -893,7 +914,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 			if(showDialog === false) {
 				this.closeDateTimeDialog();
-
 				this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
 			} else if (!this.dateTimeDialog) {
 				this.dateTimeDialog = new DateTimeDialogView({
@@ -910,6 +930,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				this.dateTimeDialog.$el.find("#date-time-week").focus();
 
 				this.$dateTimeWrapper.find(".event-input").addClass("being-edited");
+
+				this.trigger("datetimedialogopen");
 			}
 		},
 	});
