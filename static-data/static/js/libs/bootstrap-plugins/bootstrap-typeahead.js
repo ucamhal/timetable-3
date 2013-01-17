@@ -66,6 +66,7 @@
           top: pos.top + pos.height,
           left: pos.left
         })
+        .attr("tabindex", 0)
         .show()
 
       this.scrollToActiveElement();
@@ -214,6 +215,7 @@
       this.$menu
         .on('click', $.proxy(this.click, this))
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
+        .on('blur', $.proxy(this.blur, this))
 
     },
 
@@ -289,7 +291,9 @@
   blur: function (e) {
       var that = this
       setTimeout(function () {
-          that.hide();
+          if (!that.$menu.is(":focus")) {
+            that.hide();
+          }
       }, 150);
     },
 
