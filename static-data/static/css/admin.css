@@ -2,7 +2,12 @@
 	width: 50px;
 	min-width: 20px;
 	max-height: 125px;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.typeahead:focus {
+	outline: none;
 }
 
 .typeahead li {
