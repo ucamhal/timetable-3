@@ -578,6 +578,10 @@ select.event-type {
 	margin: 0;
 }
 
+#calendarHeading .calendarNavigation.week-calendar-navigation {
+	margin-left: 367px;
+}
+
 .calendarEventInfo .actions {
 	margin-top: 18px;
 }
