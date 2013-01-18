@@ -58,19 +58,21 @@
     show: function () {
       var pos = $.extend({}, this.$element.position(), {
         height: this.$element[0].offsetHeight
-      })
+      });
 
-      this.$menu
-        .insertAfter(this.$element)
-        .css({
-          top: pos.top + pos.height,
-          left: pos.left
-        })
-        .attr("tabindex", 0)
-        .show()
+      if (!this.shown) {
+        this.$menu
+          .insertAfter(this.$element)
+          .css({
+            top: pos.top + pos.height,
+            left: pos.left
+          })
+          .attr("tabindex", 0)
+          .show()
 
-      this.scrollToActiveElement();
-      this.shown = true
+        this.scrollToActiveElement();
+        this.shown = true
+      }
 
       return this
     },
@@ -289,11 +291,12 @@
   },
 
   blur: function (e) {
-      var that = this
+      var that = this;
+
       setTimeout(function () {
-          if (!that.$menu.is(":focus")) {
+        if (!that.$menu.is(":focus") && !that.$menu.find(":active, :focus").length) {
             that.hide();
-          }
+        }
       }, 150);
     },
 
