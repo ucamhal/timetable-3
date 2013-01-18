@@ -1131,6 +1131,12 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$startMinute.on("focus", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
 			this.$endMinute.on("focus", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
 
+			//show typeahead dropdown on click
+			this.$startHour.on("click", this.$startHour.typeahead.bind(this.$startHour, "lookup"));
+			this.$endHour.on("click", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
+			this.$startMinute.on("click", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
+			this.$endMinute.on("click", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
+
 			this.updateInitialTimeOffset();
 
 			// Initialise the inputs
