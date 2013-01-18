@@ -933,12 +933,18 @@ div#timetablesOverview {
 	margin-top: 3px;
 }
 
-.week-calendar-navigation .value {
-	min-width: 118px;
+#calendarData .week-calendar-navigation,
+#calendarData .month-calendar-navigation {
+	margin-left: 32%;
+}
+
+.week-calendar-navigation .value,
+.month-calendar-navigation .value {
+	min-width: 112px;
 	text-align: center;
 }
 
 .term-calendar-navigation .value {
-	min-width: 138px;
+	min-width: 126px;
 	text-align: center;
 }

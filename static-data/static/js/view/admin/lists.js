@@ -618,10 +618,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			// Map our field names onto the server's Django form field names
 			return {
 				id: attrs.id,
-				title: attrs.title,
-				location: attrs.location,
+				title: attrs.title.trim(),
+				location: attrs.location.trim(),
 				event_type: attrs.type,
-				people: attrs.people,
+				people: attrs.people.trim(),
 				term_week: safeParseInt(attrs.week),
 				term_name: attrs.term,
 				day_of_week: attrs.day,
@@ -1394,7 +1394,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		postEventsForm: function(url, eventsData) {
 			this.showModal();
-
 			$.ajax({
 				url: url,
 				type: "POST",
