@@ -1,0 +1,85 @@
+{% extends "static-page-base.html" %}
+
+{% load url from future %}
+
+
+{% block title %}Privacy Policy{% endblock %}
+
+
+{% block static-text %}
+<h1>Privacy Policy for the University of Cambridge Lecture List Web Site (timetables.caret.cam.ac.uk)</h1>
+
+<h2>General</h2>
+<p>This policy explains what information we gather when you visit the University of Cambridge Lecture List web site, and explains how that information is used. This policy applies only to direct accesses to the central web site - URLs starting <a href="/">https://timetables.caret.cam.ac.uk/</a>. You will need to consult the appropriate information on other sites for information on their policies.</p>
+
+
+<h2>Cookies</h2>
+<p>This website uses cookies, which are small pieces of information that are issued to your computer or other internet-enabled device when you visit the website. Cookies are stored by your browser and hard drive and are used to distinguish you from other visitors to the site.</p>
+
+<p>For more details about cookies, how to disable them and the cookies we use (including Google Analytics cookies), there is a <a href="{% url "cookie_policy" %}">separate cookie policy</a> for pages with URLs starting https://timetables.caret.cam.ac.uk/.</p>
+
+
+<h2>Data collected</h2>
+<p>In common with most web sites, this site automatically logs certain information about every request made of it (see below for more details). This information is used for system administration, for bug tracking, and for producing usage statistics. The logged information may be kept for up to two years.</p>
+
+
+<h2>Logged data</h2>
+<p>The following data is automatically collected for each request:</p>
+
+<ul class="actually-a-list">
+	<li>The name or network address of the computer making the request. Note that under some (but not all) circumstances it may be possible to infer from this the identity of the person making the request. Note also that the data recorded may be that of a web proxy rather than that of the originating client</li>
+	<li>The username, when known during authenticated (logged in) access to the site</li>
+	<li>The date and time of connection</li>
+	<li>The HTTP request, which contains the identification of the document requested</li>
+	<li>The status code of the server's response to the request (success or failure etc.)</li>
+	<li>The number of data bytes sent in response</li>
+	<li>The contents of the HTTP Referrer header supplied by the browser</li>
+	<li>The content of the HTTP User-Agent header supplied by the browser</li>
+	<li>Logging of additional data may be enabled temporarily from time to time for specific purposes.</li>
+</ul>
+
+<p>In addition, the computers on which the web site is hosted keep records of attempts (authorised and unauthorised) to use them for purposes other than access to the web server. This data typically includes:</p>
+
+<ul class="actually-a-list">
+	<li>the date and time of the attempt,</li>
+	<li>the service to which access was attempted,</li>
+	<li>the name or network address of the computer making the connection,</li>
+	<li>and may include details of what was done or was attempted to be done.</li>
+</ul>
+
+
+<h2>Disclosure and uses of personal information</h2>
+<p>We use information held about you in the following ways:</p>
+
+<!-- We like lists -->
+<ul class="actually-a-list">
+	<li>to ensure that content from our website is presented in the most effective manner for you and for your computer or device by gathering aggregate information about our users using it to analyse the effectiveness and popularity of this website</li>
+</ul>
+
+<p>We may disclose your personal information to third parties in the following circumstances: <!-- Sorry about that --></p>
+
+<!-- We really do. -->
+<ul class="actually-a-list">
+	<li>if we have obtained your consent to do so</li>
+	<li>when we are required or authorised by law, court order, regulatory or governmental authority to disclose your personal data</li>
+	<li>if required to protect the rights, property or safety of the University of Cambridge, its members or others.</li>
+	<li>Relevant subsets of this data may be passed to computer security teams as part of investigations of computer misuse involving this site or other computing equipment in the University.</li>
+</ul>
+
+<p>In addition, this site uses Google Analytics to help us analyse site usage and to improve it. To support this, selected information about your interaction with the site is sent to Google for them to analyse on our behalf. For more information about Google Analytics see <a href="http://www.google.com/analytics/">http://www.google.com/analytics/</a>.</p>
+
+
+<h2>Links to other websites</h2>
+<p>This website contains links to and from third-party sites. <!-- Our site conatains links from other sites??! --> This policy only covers use of cookies on this site. You should consult privacy and cookie policies on third-party sites before you submit and personal data. <!-- Can't be too careful. --></p>
+
+
+<h2>Access to personal data</h2>
+<p>For the purpose of the UK Data Protection Act 1998, the 'Data Controller' for the processing of data collected by this site is the University of Cambridge, and the point of contact for subject access requests is the University Data Protection Officer (The Old Schools, Trinity Lane, Cambridge CB2 1TN, tel. <a href="tel:+44_01223-332320">01223 332320</a>, fax <a href="tel:+44_01223-332332">01223 332332</a> E-mail: <a href="mailto:data.protection@admin.cam.ac.uk">data.protection@admin.cam.ac.uk</a>).</p>
+
+<p class="lowjs">
+	<small>
+		For help, contact <a href='mailto:timetables-support@caret.cam.ac.uk'>timetables-support@caret.cam.ac.uk</a>
+		| <a href="privacy.html">Privacy Policy</a> | <a href="cookies.html">Cookie Policy</a>
+	</small>
+</p>
+{% endblock static-text %}

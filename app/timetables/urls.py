@@ -13,6 +13,7 @@ from timetables.views.indexview import IndexView
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewevents import ViewEvents
 from timetables.views.viewthing import ViewThing, ChildrenView
+from timetables.views import static
 
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
 TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
@@ -167,4 +168,12 @@ urlpatterns = patterns('',
     url(r'locks/status$',
         administrator.locks_status_view,
         name="locks status"),
+
+    url(r'cookies$',
+            static.cookie_policy,
+            name="cookie_policy"),
+
+    url(r'privacy$',
+            static.privacy_policy,
+            name="privacy_policy"),
 )
