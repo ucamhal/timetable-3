@@ -5,7 +5,6 @@ require.config({
     paths: {
         domReady: "libs/domReady",
         jquery: "libs/jquery-1.8.0",
-        "jquery-ui": "libs/jquery-ui/jquery-ui-1.8.23.custom.min",
         "jquery-bbq": "libs/jquery.bbq",
         underscore: "libs/underscore",
         backbone: "libs/backbone",

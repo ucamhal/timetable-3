@@ -745,7 +745,7 @@ define([
             });
 
             this.modulesList = new Modules.ModulesList({
-                el: ".js-modules-list",
+                el: ".js-modules-results",
                 thingPath: this.getThingPath(),
                 crsfToken: this.getCrsfToken()
             });
@@ -810,7 +810,7 @@ define([
             }
 
             modulesListHeight = windowHeight - footerHeight - this.modulesList.$el.offset().top - 30;
-            modulesListHeight = $(".js-modules-list").height(modulesListHeight).height();
+            modulesListHeight = $(".js-modules-results").height(modulesListHeight).height();
 
             $("#inputArea > div").width(maxWidth);
             $("#uniLogo").width(maxWidth);
