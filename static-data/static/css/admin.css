@@ -2,8 +2,12 @@
 	width: 50px;
 	min-width: 20px;
 	max-height: 125px;
-	overflow-y: auto;
 	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.typeahead:focus {
+	outline: none;
 }
 
 .typeahead li {
@@ -500,6 +504,10 @@ select.event-type {
 	padding-left: 24px;
 }
 
+select.event-type {
+	padding-left: 0;
+}
+
 .event-type-lecture {
 	background-image: url(../img/typeLectureIcon.png);
 }
@@ -568,6 +576,10 @@ select.event-type {
 
 #calendarHeading .calendarNavigation:last-child {
 	margin: 0;
+}
+
+#calendarHeading .calendarNavigation.week-calendar-navigation {
+	margin-left: 367px;
 }
 
 .calendarEventInfo .actions {

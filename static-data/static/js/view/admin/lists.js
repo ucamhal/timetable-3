@@ -1,5 +1,5 @@
 define(["jquery", "underscore", "backbone", "util/django-forms",
-			"util/assert", "jquery-bbq"],
+			"util/assert", "jquery-bbq", "bootstrapTypeahead"],
 		function($, _, Backbone, DjangoForms, assert) {
 	"use strict";
 
@@ -435,13 +435,34 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				var eventView = new WritableEventView({el: eventEl});
 
 				// Watch for events being modified
-				eventView.on("event:savedStatusChanged",
-					this.onSavedStatusChanged);
+				eventView.on("event:savedStatusChanged", this.onSavedStatusChanged);
+				eventView.on("datetimedialogopen", this.onDateTimeOpen);
+				eventView.on("datetimedialogclose", this.onDateTimeClose);
 
 				return eventView;
 			}, this);
 
 			this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+		},
+
+		onDateTimeOpen: function () {
+			this.$(".js-btn-save").toggleClass("btn-success", false).css({
+				opacity: .3
+			});
+
+			this.$(".js-btn-cancel").css({
+				opacity: .3
+			});
+		},
+
+		onDateTimeClose: function () {
+			this.$(".js-btn-save").toggleClass("btn-success", true).css({
+				opacity: 1
+			});
+
+			this.$(".js-btn-cancel").css({
+				opacity: 1
+			});
 		},
 
 		onSavedStatusChanged: function() {
@@ -597,10 +618,10 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			// Map our field names onto the server's Django form field names
 			return {
 				id: attrs.id,
-				title: attrs.title,
-				location: attrs.location,
+				title: attrs.title.trim(),
+				location: attrs.location.trim(),
 				event_type: attrs.type,
-				people: attrs.people,
+				people: attrs.people.trim(),
 				term_week: safeParseInt(attrs.week),
 				term_name: attrs.term,
 				day_of_week: attrs.day,
@@ -620,8 +641,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		initialize: function () {
 			WritableEventView.__super__.initialize.apply(this, arguments);
-
-			console.log("WritableEventView initialization");
 
 			this.$titleField = this.$(".js-field-title");;
 			this.$locationField = this.$(".js-field-location");
@@ -776,7 +795,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		markAsChanged: function () {
-			console.log("has changed: " + this.model.hasChangedFromOriginal());
 			this.$el.toggleClass("unsaved", this.model.hasChangedFromOriginal());
 			this.trigger("event:savedStatusChanged");
 		},
@@ -807,7 +825,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		dateTimeWrapFocusHandler: function (event) {
-			console.log("date time focus");
 			this.toggleDateTimeDialog(true);
 		},
 
@@ -864,7 +881,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		},
 
 		closeDateTimeDialog: function (toggleRowBeingEditedState) {
-			console.log("date time dialog close");
 			if (this.dateTimeDialog) {
 				this.markAsChanged();
 				this.dateTimeDialog.remove();
@@ -874,6 +890,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				if (toggleRowBeingEditedState) {
 					this.$(".js-edit-icon").focus().click();
 				}
+
+				this.trigger("datetimedialogclose");
 			}
 		},
 
@@ -896,7 +914,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 			if(showDialog === false) {
 				this.closeDateTimeDialog();
-
 				this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
 			} else if (!this.dateTimeDialog) {
 				this.dateTimeDialog = new DateTimeDialogView({
@@ -913,6 +930,8 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 				this.dateTimeDialog.$el.find("#date-time-week").focus();
 
 				this.$dateTimeWrapper.find(".event-input").addClass("being-edited");
+
+				this.trigger("datetimedialogopen");
 			}
 		},
 	});
@@ -1085,8 +1104,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 		initialize: function(opts) {
 			_.bindAll(this);
 
-			console.log("date time dialog init");
-
 			this.backdrop = new DialogBackdropView();
 			this.backdrop.$el.addClass("dialog-backdrop-date-time");
 			$("body").append(this.backdrop.el);
@@ -1113,6 +1130,14 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			this.$endHour.on("focus", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
 			this.$startMinute.on("focus", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
 			this.$endMinute.on("focus", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
+
+			//show typeahead dropdown on click
+			this.$startHour.on("click", this.$startHour.typeahead.bind(this.$startHour, "lookup"));
+			this.$endHour.on("click", this.$endHour.typeahead.bind(this.$endHour, "lookup"));
+			this.$startMinute.on("click", this.$startMinute.typeahead.bind(this.$startMinute, "lookup"));
+			this.$endMinute.on("click", this.$endMinute.typeahead.bind(this.$endMinute, "lookup"));
+
+			this.updateInitialTimeOffset();
 
 			// Initialise the inputs
 			this.render();
@@ -1163,6 +1188,7 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 					return true;
 				},
 				sorter: function (items) {
+					console.log(this);
 					return items;
 				},
 				items: source.length
@@ -1188,12 +1214,19 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			return [Math.floor(minutes / 60), minutes % 60];
 		},
 
-		/**
-		 * Clamp a minute figure to a 24 hour period. Note that 0:00-24:00
-		 * inclusive is permitted to allow times like 23:00-24:00.
-		 */
-		clampTime: function(minutes) {
-			return Math.max(0, Math.min(this.minutesFromTime(24, 0), minutes));
+		getInitialTimeOffset: function () {
+			return this.timeOffset;
+		},
+
+		updateInitialTimeOffset: function () {
+			this.timeOffset = this.getCurrentTimeOffset();
+		},
+
+		getCurrentTimeOffset: function () {
+			var fromTimeMinutes =  this.minutesFromTime(safeParseInt(this.$startHour.val()), safeParseInt(this.$startMinute.val())),
+				toTimeMinutes = this.minutesFromTime(safeParseInt(this.$endHour.val()), safeParseInt(this.$endMinute.val())),
+				offset = toTimeMinutes - fromTimeMinutes;
+			return isNaN(offset) ? this.getInitialTimeOffset() : offset;
 		},
 
 		/**
@@ -1232,67 +1265,50 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 			//this.syncToModel();
 		},
 
-		onTimeInputChanged: function(event) {
-			var $target = $(event.target);
+		onTimeInputChanged: function (event) {
+			var startEdited = $(event.currentTarget).hasClass("js-start"),
 
-			var isStart = $target.hasClass("js-start");
-			var isHour = $target.hasClass("js-hour");
-
-			// Prevent invalid numbers creaping in
-			if(isNaN(safeParseInt($target.val()))) {
-				var attr = (isStart? "start" : "end")
-					+ (isHour ? "Hour" : "Minute");
-
-				$target.val(this.model.get(attr));
-			}
-			
-			// Keep 'to' the same distance from 'from' when 'from' is updated.
-			// The principle here is to only update 'to' automatically  wherever
-			// possible. The only time this is broken is when 'from' is moved
-			// to 24:00 in which case 'from' must be moved back to avoid a 0
-			// length event.
-			// The other principle behind this is not to have to show users
-			// error messages.
-			var from = this.minutesFromTime(
+				fromTotalMinutes = this.minutesFromTime(
 					safeParseInt(this.$startHour.val()),
-					safeParseInt(this.$startMinute.val()));
+					safeParseInt(this.$startMinute.val())
+				),
 
-			var oldFrom = this.minutesFromTime(
-					safeParseInt(this.model.get("startHour")),
-					safeParseInt(this.model.get("startMinute")));
-
-			var to = this.minutesFromTime(
+				toTotalMinutes = this.minutesFromTime(
 					safeParseInt(this.$endHour.val()),
-					safeParseInt(this.$endMinute.val()));
+					safeParseInt(this.$endMinute.val())
+				),
 
-			// Make to move with from when from changes
-			// (+= 0 when to changed)
-			to += from - oldFrom;
+				fromTime,
+				toTime;
 
-			// Don't allow values outside the range of valid times
-			from = this.clampTime(from);
-			to = this.clampTime(to);
+			fromTotalMinutes = isNaN(fromTotalMinutes) ? 0 : fromTotalMinutes;
+			toTotalMinutes = isNaN(toTotalMinutes) ? 0 : toTotalMinutes;
 
-			// Prevent end being <= start
-			if(to <= from) {
-				to = this.clampTime(from + 60);
+			if (startEdited === true) {
+				toTotalMinutes += this.getInitialTimeOffset() - this.getCurrentTimeOffset();
+				toTotalMinutes = Math.max(fromTotalMinutes + 1, toTotalMinutes);
+			} else {
+				fromTotalMinutes = Math.min(toTotalMinutes - 1, fromTotalMinutes);
+				this.updateInitialTimeOffset();
 			}
 
-			if(to == from) {
-				// This can only occur if from is moved to 24
-				assert(from == this.minutesFromTime(24, 0));
-				from = this.minutesFromTime(23, 0);
-			}
+			//validating the times
+			fromTotalMinutes = Math.min(((24 * 60) - 2), fromTotalMinutes);
+			fromTotalMinutes = Math.max(1, fromTotalMinutes);
 
-			var fromTime = this.timeFromMinutes(from);
-			var toTime = this.timeFromMinutes(to);
+			toTotalMinutes = Math.min(((24 * 60) - 1), toTotalMinutes);
+			toTotalMinutes = Math.max(2, toTotalMinutes);
 
+			//converting minutes to [hour, minutes]
+			fromTime = this.timeFromMinutes(fromTotalMinutes);
+			toTime = this.timeFromMinutes(toTotalMinutes);
+
+			//updating the input fields with the new values
 			this.$startHour.val(this.zeroPad(fromTime[0], 2));
 			this.$startMinute.val(this.zeroPad(fromTime[1], 2));
-			this.$endHour.val(this.zeroPad(toTime[0], 2));
-			this.$endMinute.val(this.zeroPad(toTime[1], 0));
 
-			//this.syncToModel();
+			this.$endHour.val(this.zeroPad(toTime[0], 2));
+			this.$endMinute.val(this.zeroPad(toTime[1], 2));
 		},
 
 		/** Update the state of the model with the DOM's state. */
@@ -1378,7 +1394,6 @@ define(["jquery", "underscore", "backbone", "util/django-forms",
 
 		postEventsForm: function(url, eventsData) {
 			this.showModal();
-
 			$.ajax({
 				url: url,
 				type: "POST",

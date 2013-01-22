@@ -10,9 +10,7 @@ require.config({
         underscore: "libs/underscore",
         backbone: "libs/backbone",
         bootstrap: "libs/bootstrap",
-        bootstrapDatePicker: "libs/bootstrap-plugins/bootstrap-datepicker",
-        bootstrapTimePicker: "libs/bootstrap-plugins/bootstrap-timepicker",
-        bootstrapSpinner: "libs/bootstrap-plugins/bootstrap-spinner",
+        bootstrapTypeahead: "libs/bootstrap-plugins/bootstrap-typeahead",
         fullcalendar: "libs/fullcalendar"
     },
     shim: {
