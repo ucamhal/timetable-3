@@ -3,6 +3,7 @@ import json
 
 from django import http
 from django import shortcuts
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core import urlresolvers
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
@@ -392,6 +393,7 @@ def _all_timetables(subjects):
             timetables.append(timetable["fullpath"])
     return timetables
 
+@staff_member_required
 def admin_timetable_permissions(request, username):
     """
     Allows granting/revoking write permissions to timetables for a user. 
