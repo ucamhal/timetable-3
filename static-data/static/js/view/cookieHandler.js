@@ -27,7 +27,10 @@ define(["jquery", "underscore", "backbone"], function ($, _, Backbone) {
 		},
 
 		saveCookieAccepted: function () {
-			localStorage.setItem("timetables_cookie_accept", true);
+			//try catch to handle safari private browsing mode
+			try {
+				localStorage.setItem("timetables_cookie_accept", true);
+			} catch (e) {}
 		},
 
 		onCookieAccept: function (event) {
