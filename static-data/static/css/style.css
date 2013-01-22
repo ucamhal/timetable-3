@@ -463,11 +463,7 @@ div#results li.courseSeries {
 	background-color: #F8F8F8;
 
 	clear: both;
-	padding-left: 40px;
-
-	background-image: url(../img/clock.png);
-	background-repeat: no-repeat;
-	background-position: 15px 14px;
+	padding-left: 25px;
 }
 
 div#results li.courseSeries h5 {
