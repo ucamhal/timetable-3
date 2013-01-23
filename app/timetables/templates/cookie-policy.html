@@ -5,16 +5,16 @@
 
 
 {% block static-text %}
-<h1>Cookie Policy for the University of Cambridge Lecture List Web Site (timetables.caret.cam.ac.uk)</h1>
+<h1>Cookie Policy for the University of Cambridge Lecture List Web Site (<span class="placeholder">URL TO BE CONFIRMED</span>)</h1>
 <h2>General</h2>
 
-<p>This policy explains the cookies that may be set as a result of your visiting the lecture list web site - URLs starting https://timetables.caret.cam.ac.uk/. You will need to consult the appropriate information on other sites for information on their policies. This policy is based on the <a href="http://www.cam.ac.uk/site/cookie-policy.html">policy for the University central web site</a>.</p>
+<p>This policy explains the cookies that may be set as a result of your visiting the lecture list web site - URLs starting <span class="placeholder">URL TO BE CONFIRMED</span>. You will need to consult the appropriate information on other sites for information on their policies. This policy is based on the <a href="http://www.cam.ac.uk/site/cookie-policy.html" target="_blank">policy for the University central web site</a>.</p>
 
 <p>Most web browsers automatically accept cookies, but within your web browser you can choose to accept or decline cookies for any web site. You can usually modify your browser settings to decline all cookies if you prefer, or accept or decline on a case-by-case basis. The Information Commissioner's Office Advice for Members of the Public tells you how to control cookies. Bear in mind that disabling cookies may prevent you from taking full advantage of websites.</p>
 
 <ul class="actually-a-list">
-	<li>More information about cookies - <a href="http://www.allaboutcookies.org/">http://www.allaboutcookies.org/</a>.</li>
-	<li>Information Commissioner's Office Advice for Members of the Public - <a href="http://www.ico.gov.uk/for_the_public/topic_specific_guides/online/cookies.aspx">http://www.ico.gov.uk/for_the_public/topic_specific_guides/online/cookies.aspx</a>.</li>
+	<li>More information about cookies - <a href="http://www.allaboutcookies.org/" target="_blank">http://www.allaboutcookies.org/</a>.</li>
+	<li>Information Commissioner's Office Advice for Members of the Public - <a href="http://www.ico.gov.uk/for_the_public/topic_specific_guides/online/cookies.aspx" target="_blank">http://www.ico.gov.uk/for_the_public/topic_specific_guides/online/cookies.aspx</a>.</li>
 </ul>
 
 
@@ -26,14 +26,14 @@
 	<li>measure how you use the website (using Google Analytics) so we can improve it.</li>
 </ul>
 
-<p>Only the cookies associated with Raven identify you personally, when you request authentication; other cookies used on this site do not collect personal information. This website does not require Raven authentication if you are viewing information; it does require authentication if you are editing information.</p>
+<p>Only the cookies associated with Raven identify you personally, when you request authentication; other cookies used on this site do not collect personal information. This website does not require Raven authentication if you are viewing information; it does require authentication if you are editing information, or if you are using the facility to build and save a personal timetable.</p>
 
 <h2>Raven Authentication</h2>
 <p>This site uses the University's Raven authentication service if it needs to identify you to give you access to restricted content. This may lead to two cookies being set:<p>
 
 <ol class="actually-a-list">
 	<li>One is set by and only returned to this server. It manages your authentication to this site. If you reject this cookie you will not be able to access restricted content on this site.</li>
-	<li>The other is set by and returned to the server at raven.cam.ac.uk. This is used to implement Raven's 'single sign-on' function and allows Raven to identify you to other web sites without you having to re-enter your Raven password. Further information about this cookie, including how to disable it, can be found in the Raven Privacy and cookie policy at <a href="http://raven.cam.ac.uk/privacy.html">http://raven.cam.ac.uk/privacy.html</a>.</li>
+	<li>The other is set by and returned to the server at raven.cam.ac.uk. This is used to implement Raven's 'single sign-on' function and allows Raven to identify you to other web sites without you having to re-enter your Raven password. Further information about this cookie, including how to disable it, can be found in the Raven Privacy and cookie policy at <a href="http://raven.cam.ac.uk/privacy.html" target="_blank">http://raven.cam.ac.uk/privacy.html</a>.</li>
 </ol>
 
 
@@ -44,8 +44,8 @@
 	<li>These cookies store information about what time the current visit occurred, whether the visitor has been to the site before, and what site referred the visitor to the web page.</li>
 	<li>No data specific to any identifiable user is retained, and we do not share our data with any other Google services.</li>
 	<li>With the values gained from these cookies Google Analytics can interpret journeys through our website content, give us information about how people use our site and so present an opportunity to improve it.</li>
-	<li>Google Analytics information about privacy and cookies may be found at <a href="http://www.google.com/analytics/tos.html">http://www.google.com/analytics/tos.html</a> and <a href="https://developers.google.com/analytics/resources/concepts/gaConceptsCookies">https://developers.google.com/analytics/resources/concepts/gaConceptsCookies</a>.</li>
-	<li>As a user you may opt out of the process Google Analytics uses to collect traffic log data (should your web browser be compatible). Google provides a browser add-on that enables a user to opt out of receiving Google Analytics cookies - <a href="http://tools.google.com/dlpage/gaoptout">http://tools.google.com/dlpage/gaoptout</a>.</li>
+	<li>Google Analytics information about privacy and cookies may be found at <a href="http://www.google.com/analytics/tos.html" target="_blank">http://www.google.com/analytics/tos.html</a> and <a href="https://developers.google.com/analytics/resources/concepts/gaConceptsCookies" target="_blank">https://developers.google.com/analytics/resources/concepts/gaConceptsCookies</a>.</li>
+	<li>As a user you may opt out of the process Google Analytics uses to collect traffic log data (should your web browser be compatible). Google provides a browser add-on that enables a user to opt out of receiving Google Analytics cookies - <a href="http://tools.google.com/dlpage/gaoptout" target="_blank">http://tools.google.com/dlpage/gaoptout</a>.</li>
 </ul>
 
 
@@ -57,9 +57,14 @@
 		<th>Duration</th>
 	</tr>
 	<tr>
-		<td>PHPSESSID</td>
+		<td>sessionid</td>
 		<td>Authentication</td>
 		<td>Current browsing session</td>
+	</tr>
+	<tr>
+		<td>csrftoken</td>
+		<td>Security</td>
+		<td>Used to prevent <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank">Cross site request forgery</a>.</td>
 	</tr>
 	<tr>
 		<td>__utma</td>
@@ -92,12 +97,5 @@
 
 <p>The University is also Data Controller in respect of any personal data served as content by this site.</p>
 
-<p><em>Last updated:</em> 26 September 2012</p>
-
-<p class="lowjs">
-	<small>
-		For help, contact <a href='mailto:timetables-support@caret.cam.ac.uk'>timetables-support@caret.cam.ac.uk</a>
-		| <a href="privacy.html">Privacy Policy</a> | <a href="cookies.html">Cookie Policy</a>
-	</small>
-</p>
+<p><em>Last updated:</em> 23 January 2013</p>
 {% endblock static-text %}
