@@ -38,7 +38,7 @@
 			  <button type="button" class="js-close close">&times;</button>
 			  <strong>Cookie policy</strong>
 			  <div class="clearfix">
-			  	<p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="https://timetables.caret.cam.ac.uk/live/cookies.html" target="_blank">Cookie Policy</a>.</p>
+			  	<p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="{% url "cookie_policy" %}" target="_blank">Cookie Policy</a>.</p>
 			  </div>
 			</div>
 
@@ -95,10 +95,10 @@
 						<a href="mailto:timetables-help@lib.cam.ac.uk"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>	
 					</li>
 					<li>
-			  			<a href="https://timetables.caret.cam.ac.uk/live/privacy.html" target="_blank">Privacy policy</a>
+			  			<a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
 					</li>
 					<li>
-				  		<a href="https://timetables.caret.cam.ac.uk/live/cookies.html" target="_blank">Cookie policy</a>
+				  		<a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
 					</li>
 					<li>
 			  			<a href="http://www.cam.ac.uk/site" target="_blank">Accessibility</a>
