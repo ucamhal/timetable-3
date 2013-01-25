@@ -170,10 +170,22 @@ urlpatterns = patterns('',
         name="locks status"),
 
     url(r'cookies$',
-            static.cookie_policy,
-            name="cookie_policy"),
+        static.cookie_policy,
+        name="cookie_policy"),
 
     url(r'privacy$',
-            static.privacy_policy,
-            name="privacy_policy"),
+        static.privacy_policy,
+        name="privacy_policy"),
+
+    url(r'administration/getting-started$',
+        static.admin_help_getting_started,
+        name="admin_help_getting_started"),
+
+    url(r'administration/making-changes$',
+        static.admin_help_making_changes,
+        name="admin_help_making_changes"),
+
+    url(r'administration/cancelling-events$',
+        static.admin_help_cancelling_events,
+        name="admin_help_cancelling_events"),
 )
