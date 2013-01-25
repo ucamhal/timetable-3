@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load url from future %}
 
 
 {% block javascript_module %}timetable-overview{% endblock javascript_module %}
@@ -46,10 +47,10 @@
     <div class="links">
       <ul class="pull-right">
         <li>
-          <a href="https://timetables.caret.cam.ac.uk/live/privacy.html" target="_blank">Privacy policy</a>
+          <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
         </li>
         <li>
-          <a href="https://timetables.caret.cam.ac.uk/live/cookies.html" target="_blank">Cookie policy</a>
+          <a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
         </li>
         <li>
           <a href="http://www.cam.ac.uk/site" target="_blank">Accessibility</a>
