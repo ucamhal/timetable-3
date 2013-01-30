@@ -846,15 +846,21 @@ div#timetablesOverview {
 
 .footer li {
 	display: inline;
-	border-right-style: solid;
-	border-right-width: 1px;
-	border-right-color: #81728e;
 	padding: 0 15px;
 }
 
-.footer li:last-child {
-	padding-right: 0;
+.footer .links li {
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-right-color: #81728e;
+}
+
+.footer .links li:last-child {
 	border-style: none;
+} 
+
+.footer ul li:last-child {
+	padding-right: 0;
 }
 
 .footer .copyright-message {
