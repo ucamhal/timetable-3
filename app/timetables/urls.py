@@ -13,6 +13,7 @@ from timetables.views.indexview import IndexView
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewevents import ViewEvents
 from timetables.views.viewthing import ViewThing, ChildrenView
+from timetables.views import static
 
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
 TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
@@ -167,4 +168,24 @@ urlpatterns = patterns('',
     url(r'locks/status$',
         administrator.locks_status_view,
         name="locks status"),
+
+    url(r'cookies$',
+        static.cookie_policy,
+        name="cookie_policy"),
+
+    url(r'privacy$',
+        static.privacy_policy,
+        name="privacy_policy"),
+
+    url(r'administration/getting-started$',
+        static.admin_help_getting_started,
+        name="admin_help_getting_started"),
+
+    url(r'administration/making-changes$',
+        static.admin_help_making_changes,
+        name="admin_help_making_changes"),
+
+    url(r'administration/cancelling-events$',
+        static.admin_help_cancelling_events,
+        name="admin_help_cancelling_events"),
 )

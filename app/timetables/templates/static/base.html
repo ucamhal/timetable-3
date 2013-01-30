@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Static Page{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.css" %}" />
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+  </head>
+
+  <body class="container">
+    <div class="row">
+      <div class="span12">
+        {% block static-text %}{% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -3,7 +3,7 @@
 	min-width: 20px;
 	max-height: 125px;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .typeahead:focus {

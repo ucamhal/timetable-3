@@ -1,0 +1,99 @@
+{% extends "static/admin-help/base.html" %}
+
+{% load url from future %}
+{% load staticfiles %}
+
+{% block menu %}
+<li>&nbsp;&nbsp;<a href="{% url "admin_help_getting_started" %}">get started</a></li>
+<li class="active">&nbsp;&nbsp;<strong>make changes</strong></li>
+<li>&nbsp;&nbsp;<a href="{% url "admin_help_cancelling_events" %}">cancel events</a></li>
+{% endblock menu %}
+
+{% block title %}Timetable - Making changes{% endblock title %}
+
+{% block content %}
+<header>
+  <h3>Making changes</h3>
+</header>
+
+<h4>Why would you want to edit events?</h4>
+
+<p>If a lecturer is off sick and his teaching assistant will instead take the lecture, you may want to update the name in the timetable, or if there are building works going on in a particular room, you may want to update the location for a couple of seminars. This guide will give you an overview on how to do that.<br></p>
+
+<h4>Editing events - a run through</h4>
+
+<p><strong>Timetables overview page: selecting relevant departments and viewing editable and non-editable timetables</strong></p>
+
+<p>The Timetables overview page allows you to select a department or tripos, as well as giving an overview of the different timetables associated with that department or tripos. In most cases, you'll just want to look at the department you are responsible for, but you could have a look at other departments as well if you wished to do so. </p>
+
+<p>A pencil icon indicates the timetables you have edit rights to, the others are view only. </p>
+
+<p>When being taken to a timetable on which you have edit rights, the most straightforward way to edit events is by looking at the list view. In the future it should be easier to make these changes in the week view as well.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e9.png" %}" alt="screenshot" width="593" height="364">
+</p>
+
+<p>&nbsp;</p>
+
+<p><strong>Editing one event</strong></p>
+
+<p>The list view shows an overview of all the modules within that timetable, and lecture series containing all the individual events for that series underneath it. You can click on the expanding arrow next to a lecture series title to see the list of individual events. Each row shows another event with the relevant data associated with that event: event title - event type - date/time - location/room - lecturer/presenter.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e10.png" %}" width="703" height="452">
+</p>
+
+<p>On the right side of each event, you will see a couple of icons, and the pencil icon (i.e. edit) is one of those. When hovering over the event, you will see that the event fields become yellow and pencils show up next to each field. Clicking any of these pencils will turn the fields into edit mode allowing you to start editing. As soon as you change anything, a save button appears.</p>
+
+<p><strong>Editing the event title, location or lecturer</strong><br>Clicking a pencil icon, or on the text itself, allows you to make text edits inline - just click on the text and make your changes.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e1.png" %}" alt="screenshot">
+</p>
+
+<p><strong>Editing the event type</strong><br>When clicking the type drop down, different options appear which allow you to select the relevant type of event.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e2.png" %}" width="622" height="265">
+</p>
+
+<p> <strong>Editing the event date/time</strong><br>When clicking the date/time field, a small pop up shows up with different fields. Timetable uses the Cambridge University calendar, so the weeks relate to the Cambridge weeks with weeks starting on Thursdays. Entering a negative week, e.g. '-2', allows you to add events which take place before the beginning of the academic calendar. The time fields give you a set of drop downs, but allow typing if you'd prefer to enter the data that way. If you want to change the times, you can use the 'from' and 'to' field. These won't allow you for the 'to' and 'from' field to be the same, so you'll notice you'll have to change the 'to' field first if you want the lecture to start at the time it originally ended. The 'to' field will automatically change if you change the 'from' field. Clicking the 'okay' button will close the pop up so you can continue editing.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e3.png" %}" alt="screenshot">
+</p>
+
+<p>When you've made changes, you will see a save button underneath the list of events. When clicking the save button, your changes will be saved, and these updates will be visible to students. You will see a confirmation that your changes have been saved. Clicking the okay button will take you back to the timetable list view.<br></p>
+
+<p>
+    <img src="{% static "img/admin-help/e4.png" %}" width="652" height="322">
+</p>
+
+<p><strong>Editing multiple events</strong></p>
+
+<p>If you have to change the location for three lectures within one lecture series, you can edit each of them and then click the save button once. It is possible to make these updates to different fields at the same time if you want to.<br></p>
+
+<p><img src="{% static "img/admin-help/e7.png" %}" alt="screenshot"></p>
+
+<p>At the moment, you can also edit multiple events across various series or modules. Please ensure you have clicked a save button for each group you have made changes to.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e8.png" %}" alt="screenshot" width="764" height="383">
+</p>
+
+<p><strong>Editing a lecture series or module title</strong></p>
+
+<p>To change a module or series title, click on the pencil which you see when hovering over it.<br><br>The title will become yellow which means it's editable and you can just start editing it. Clicking outside the editable field saves this change, and will automatically update in the student's view.</p>
+
+<p>
+    <img src="{% static "img/admin-help/e5.png" %}" width="584" height="258">
+</p>
+
+<p><strong>You can cancel and edit simultaneously </strong></p>
+
+<p>You don't have to treat editing and cancelling as two separate tasks. For example, if you want to change the location of a seminar, but at the same time you also want to cancel another event, you can do this all at once before hitting the save button. If you want to find out how to cancel events, have a look at the cancel guide. </p>
+<h4>
+    <img src="{% static "img/admin-help/e6.png" %}" width="682" height="392">
+</h4>
+{% endblock content %}
