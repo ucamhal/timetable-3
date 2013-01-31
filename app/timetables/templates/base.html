@@ -44,8 +44,11 @@
 
 
 			<header id="mainHeader">
-				<div id="uniLogo">
-					<h1><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h1>	
+				<div id="uniLogo" class="clearfix">
+					{% block timetable_logo %}
+					<h1 class="pull-left">Timetable <span>beta</span></h1>
+					{% endblock timetable_logo %}
+					<h2 class="pull-right"><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h2>	
 				</div>
 
 				{% block top_bar %}
