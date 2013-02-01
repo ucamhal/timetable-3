@@ -51954,6 +51954,468 @@
   }, 
   {
     "fields": {
+      "sourceurl": "mutter-courage", 
+      "data": "{\"datePattern\": \"Ea 1-4 Th 9 \", \"type\": \"lecture\", \"location\": \"Faculty Building - SR25\", \"people\": [\"Dr K Wheeler\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 7: Mutter Courage (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4729"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "shake-film", 
+      "data": "{\"datePattern\": \"Ea 1-3 Th 11, Tu 11\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Dr H Lees-Jeffries\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Shakespeare and Film (6L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4730"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "sonnets", 
+      "data": "{\"datePattern\": \"Ea 1-4 Th 11\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Dr C Russell\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Shakespeare's Sonnets (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4731"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "german-verse", 
+      "data": "{\"datePattern\": \"Ea 1-4 Th 2-3:30\", \"type\": \"lecture\", \"location\": \"Faculty Building - SR25\", \"people\": [\"Dr K Wheeler\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 7: Hearing German Verse (4C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4732"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "latin-anthology", 
+      "data": "{\"datePattern\": \"Ea 1-4 Th 2-3:30\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR03\", \"people\": [\"Dr K Ettenhuber\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 7: Latin Verse Anthology (4C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4733"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "kubrick", 
+      "data": "{\"datePattern\": \"Ea 1-2 Th 2-3:30\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Professor P de Bolla\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part II Paper 12b: Kubrick (2C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4734"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "mid-eng-lyric", 
+      "data": "{\"datePattern\": \"Ea 1-4 Th 4-5:30\", \"type\": \"lecture\", \"location\": \"Faculty Building - SR25\", \"people\": [\"Professor C Page\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 1: Middle English Lyric (4C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4735"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "res-seminar", 
+      "data": "{\"datePattern\": \"Ea 1,3 Th 4:30-6\", \"type\": \"seminar\", \"location\": \"Faculty Building - SR24\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "American Literature Graduate Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4736"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "18thC-gradsem", 
+      "data": "{\"datePattern\": \"Ea 1,3 Th 4:45-6:45\", \"type\": \"seminar\", \"location\": \"Faculty Building - Board Room\", \"people\": [\"Dr S Read\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "18th Century and Romantic Studies Graduate Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4737"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "revision", 
+      "data": "{\"datePattern\": \"Ea 1-2 F 2-3:30\", \"type\": \"seminar\", \"location\": \"Faculty Building - GR04\", \"people\": [\"Dr C Warnes and others\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part II Paper 10: Revision Seminars (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4738"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "shake-artistry", 
+      "data": "{\"datePattern\": \"Ea 1-4 F 10\", \"type\": \"lecture\", \"location\": \"Little Hall\", \"people\": [\"Dr S Mukherji\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Shakespeare's Artistry (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4739"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "20thC-poetry", 
+      "data": "{\"datePattern\": \"Ea 1-3 F 10, M10\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Dr F Green\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part II Paper 11: 20th Century American Poetry (6L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4740"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "homer", 
+      "data": "{\"datePattern\": \"Ea 1-3 M 10\", \"type\": \"lecture\", \"location\": \"Faculty Building - SR25\", \"people\": [\"Professor A Poole\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 7: Greek Set Text (Homer) (3L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4741"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "ugly-feelings", 
+      "data": "{\"datePattern\": \"Ea 1-4 M 11\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Dr M Waithe\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 4: Ugly Feelings in Literature since the 1960s (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4742"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "shake-faculty", 
+      "data": "{\"datePattern\": \"Ea 1-4 MTu 2-3:30, \", \"type\": \"lecture\", \"location\": \"Faculty Building - GR03/GR04/GR05/SR24/Board Room/SR25\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Faculty Shakespeare Class (4C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4743"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "lecture", 
+      "data": "{\"datePattern\": \"Mi 1-8 M 4-6; Le 1-8 M 4-6; Ea 1-8 M4-6\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Worthington\", \" Fox\", \" Turner\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Commercial Equity"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4744"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "", 
+      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": ""
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4745"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "", 
+      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": ""
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4746"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "", 
+      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": \"\"}", 
+      "sourcetype": "", 
+      "sourcefile": "", 
+      "title": ""
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4747"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "", 
+      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": \"\"}", 
+      "sourcetype": "", 
+      "sourcefile": "", 
+      "title": ""
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4748"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "keats", 
+      "data": "{\"datePattern\": \"Ea 1-4 Tu 9\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR04\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 3: Keats' Odes, Ballads and Letters (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4749"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "chaucer-contexts", 
+      "data": "{\"datePattern\": \"Ea 1-2 Tu 10\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR05\", \"people\": [\"Professor B Windeatt\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part II Paper 3: Chaucer Contexts (2C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4750"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "cymbeline", 
+      "data": "{\"datePattern\": \"Ea 1-4 Tu 12\", \"type\": \"lecture\", \"location\": \"Lecture Block Room 3\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Cymbeline Lecture Circus (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4751"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "dreams-workshop", 
+      "data": "{\"datePattern\": \"Ea 1-2 Tu 12\", \"type\": \"class\", \"location\": \"Faculty Building - TR26\", \"people\": [\"Professor R Beadle\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part II Paper 4: Dreams and Visions Workshop (2C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4752"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "19thc-grad", 
+      "data": "{\"datePattern\": \"Ea 1,3 Tu 5-6:30\", \"type\": \"seminar\", \"location\": \"Faculty Building - SR24\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "19th Century Graduate Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4753"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "shake-globe", 
+      "data": "{\"datePattern\": \"Ea 1-4 W 10\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR06/GR07\", \"people\": [\"Dr H Lees-Jeffries\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: Shakespeare before the Globe (4L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4754"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "gloss", 
+      "data": "{\"datePattern\": \"Ea 1-2 W 12\", \"type\": \"class\", \"location\": \"LG17, Law Faculty\", \"people\": [\"Dr H Lees-Jeffries\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 5: How to Gloss (2L)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4755"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "other", 
+      "data": "{\"datePattern\": \"Ea 1-4 W 2\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR04\", \"people\": [\"Dr M Tomalin\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Part I Paper 8: Other Topics (4C)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4756"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "mat-texts", 
+      "data": "{\"datePattern\": \"Ea 2,4 Th 5-6:30\", \"type\": \"seminar\", \"location\": \"TBC\", \"people\": [\"Dr J Scott-Warren and others\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "History of Material Texts Graduate Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4757"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "20thc-seminar", 
+      "data": "{\"datePattern\": \"Ea 2,4 Tu 5-6:30\", \"type\": \"seminar\", \"location\": \"TBC\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "20th Century Graduate Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4758"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "renaiss", 
+      "data": "{\"datePattern\": \"Ea 2,4 Tu 5:15-6:45\", \"type\": \"seminar\", \"location\": \"TBC\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Renaissance Graduate Seminar"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4759"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "seminar", 
+      "data": "{\"datePattern\": \"Ea 2,4 W 5:30-7\", \"type\": \"seminar\", \"location\": \"TBC\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Criticism and Culture Research Seminar (2S)"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4760"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "what?", 
+      "data": "{\"datePattern\": \"Mi -1 M 9 \", \"type\": \"lecture\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Prof S G Oliver\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Introduction: What is Systems Biology?"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4761"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "welcome", 
+      "data": "{\"datePattern\": \"Mi -1 M 10\", \"type\": \"class\", \"location\": \"Hopkins Reception\", \"people\": [\"tbc\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Programming of Proximity Cards and Welcome Packs"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4762"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "whatII", 
+      "data": "{\"datePattern\": \"Mi -1 M 11\", \"type\": \"lecture\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Prof S G Oliver\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Introduction: What is Systems Biology II?"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4763"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureIII", 
+      "data": "{\"datePattern\": \"Mi -1 M 2\", \"type\": \"lecture\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Dr J Griffin\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science III"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4764"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "supervision1", 
+      "data": "{\"datePattern\": \"Mi -1 M 4\", \"type\": \"practical\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Prof S G Oliver\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "Supervision 1"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4765"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureII", 
+      "data": "{\"datePattern\": \"Mi -1 Tu 9\", \"type\": \"lecture\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Dr M Hyvonen\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science II"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4766"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureI", 
+      "data": "{\"datePattern\": \"Mi -1 Tu 11\", \"type\": \"lecture\", \"location\": \"Hopkins Seminar Room 1\", \"people\": [\"Dr R Carazo-Salas\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science I"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4767"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureIV", 
+      "data": "{\"datePattern\": \"Mi -1 Tu 2\", \"type\": \"lecture\", \"location\": \"\", \"people\": [\"\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science IV"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4768"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureV", 
+      "data": "{\"datePattern\": \"Mi -1 W 9\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science V"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4769"
+  }, 
+  {
+    "fields": {
+      "sourceurl": "natureVI", 
+      "data": "{\"datePattern\": \"Mi -1 W 11\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
+      "sourcetype": "pattern", 
+      "sourcefile": "", 
+      "title": "The Nature of Biological Science VI"
+    }, 
+    "model": "timetables.eventsource", 
+    "pk": "4770"
+  }, 
+  {
+    "fields": {
       "thing": "120", 
       "eventsource": "1", 
       "annotation": "home"
@@ -116453,6 +116915,97 @@
     }, 
     "model": "timetables.thing", 
     "pk": "1148"
+  }, 
+  {
+    "fields": {
+      "name": "int", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "toEpeJiRacafXpvrshxFzGX2ibw=", 
+      "fullpath": "tripos/nst/III/sb/int", 
+      "type": "subject", 
+      "fullname": "Introductory Module"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1149"
+  }, 
+  {
+    "fields": {
+      "name": "dah", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "5TjWOpAPY0b_dISNJXi_dHFt-eY=", 
+      "fullpath": "tripos/nst/III/sb/dah", 
+      "type": "subject", 
+      "fullname": "Data Acquisition and Handling"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1150"
+  }, 
+  {
+    "fields": {
+      "name": "man", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "t0_zjaDOH9CjYSvWtrq9XGEt7uo=", 
+      "fullpath": "tripos/nst/III/sb/man", 
+      "type": "subject", 
+      "fullname": "Modelling and Analysis of networks"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1151"
+  }, 
+  {
+    "fields": {
+      "name": "seb", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "YE4EoPhSPxsJeeXgUD9Bvs7Yv0k=", 
+      "fullpath": "tripos/nst/III/sb/seb", 
+      "type": "subject", 
+      "fullname": "Synthetic and Executable Biology"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1152"
+  }, 
+  {
+    "fields": {
+      "name": "seminar", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "zW-g7E38e8VMt3ixIuYJKFS5P70=", 
+      "fullpath": "tripos/nst/III/sb/seminar", 
+      "type": "subject", 
+      "fullname": "Seminars"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1153"
+  }, 
+  {
+    "fields": {
+      "name": "practical", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "_Ekwba6s8duTUqSjZMXnw_-fmMI=", 
+      "fullpath": "tripos/nst/III/sb/practical", 
+      "type": "subject", 
+      "fullname": "Practicals"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1154"
+  }, 
+  {
+    "fields": {
+      "name": "september", 
+      "parent": "171", 
+      "data": "", 
+      "pathid": "fcO1fzPTfFVuWT06IgzN7rO31wQ=", 
+      "fullpath": "tripos/nst/III/sb/september", 
+      "type": "subject", 
+      "fullname": "September classes"
+    }, 
+    "model": "timetables.thing", 
+    "pk": "1155"
   }, 
   {
     "fields": {
