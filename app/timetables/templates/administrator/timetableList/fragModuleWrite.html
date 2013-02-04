@@ -1,0 +1,21 @@
+{% extends "administrator/timetableList/fragModuleRead.html" %}
+
+
+{% block module_title_right %}
+<p class="buttons js-module-buttons">
+	<a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
+	<a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
+	<a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
+	<a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
+</p>
+{% endblock module_title_right %}
+
+
+{% block before_series %}
+  <a href="#" class="btn addSeries notImplemented"><span class="icon-plus"></span>Add series</a>
+{% endblock before_series %}
+
+
+{% block series %}
+{% include "administrator/timetableList/fragSeriesWrite.html" %}
+{% endblock series %}

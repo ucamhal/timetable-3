@@ -1,0 +1,22 @@
+<li class="courseSeries clearfix">
+    <div class="pull-left">
+        <h5>{{ thing.fullname }}</h5>
+        
+        <span class="courseDatePattern">{{ thing.metadata.datePattern }}</span>
+        <span class="courseLocation">{{ thing.metadata.location }}</span><br>
+        <span class="courseLecturer">{{ thing.metadata.people|join:", " }}</span>
+    </div>
+    {% if thing.fullpath in related %}
+    <a href="#" class="btn pull-right js-btn-remove btn-danger" data-fullpath="{{ thing.fullpath }}" >Remove</a>
+    {% else %}
+    <a href="#" class="btn pull-right js-btn-add btn-success" data-fullpath="{{ thing.fullpath }}" >Add</a>
+    {% endif %}
+    
+    {% if thing.eventsourcetag_set.all %}
+    <ul class="courseMoreInfo">
+    {% for eventsource in thing.sources.all %}
+        {% include "things/eventsource.html" %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+</li>

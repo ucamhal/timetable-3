@@ -1,0 +1,21 @@
+{% load timetables %}
+<li class="clearfix course">
+    <h5 class="pull-left">{{ thing.fullname }}</h5>
+    <div class="pull-right clearfix">
+        <a class="pull-left more js-more" href="#">more</a>
+        {% if thing.fullpath in related %}
+        <a href="#" class="pull-left btnAddSingleLecture btn js-btn-remove js-btn-module-level btn-danger"  data-fullpath="{{ thing.fullpath }}">Remove</a>
+        {% else %}
+        <a href="#" class="pull-left btnAddSingleLecture btn js-btn-add js-btn-module-level btn-success"  data-fullpath="{{ thing.fullpath }}">Add</a>
+        {% endif %}
+    </div>
+    
+    <ul class="courseMoreInfo">
+    {% for subthing in thing.thing_set.all %}
+            {% include_thing_template "things/thing-%s.html" subthing %}
+    {% endfor %}
+    {% for eventsourcetag in thing.eventsourcetag_set.all %}
+            {% include "things/eventsource.html" with eventsource=eventsourcetag.eventsource %}
+    {% endfor %}
+    </ul>
+</li>

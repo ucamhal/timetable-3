@@ -1,0 +1,15 @@
+<li class="courseSeries clearfix">
+    
+    <div class="pull-left">
+        <h5>{{ eventsource.title }}</h5> 
+        
+        <span class="courseDatePattern">{{ eventsource.metadata.datePattern }}</span>
+        <span class="courseLocation">{{ eventsource.metadata.location }}</span><br>
+        <span class="courseLecturer">{{ eventsource.metadata.people|join:", " }}</span>
+    </div>
+    {% if eventsource.id in relatedsources %}
+    <a href="#" class="btn pull-right btn-remove btn-danger js-btn-remove" data-eventsourceid="{{ eventsource.id }}" >Remove</a>
+    {% else %}
+    <a href="#" class="btn pull-right btn-add btn-success js-btn-add" data-eventsourceid="{{ eventsource.id }}" >Add</a>
+    {% endif %}
+</li>

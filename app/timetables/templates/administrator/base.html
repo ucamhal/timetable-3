@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load url from future %}
+
+
+{% block javascript_module %}timetable-overview{% endblock javascript_module %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/admin.css" %}" />
+{% endblock head %}
+
+
+{% block bodyid %}admin{% endblock bodyid %}
+
+{% block timetable_logo %}
+<a href="{% url "admin" %}"><h1 class="pull-left">Timetable <span>beta</span></h1></a>
+{% endblock timetable_logo %}
+
+{% block top_bar %}
+<div id="inputArea">
+  <div class="clearfix">
+    <h3 class="pull-left">
+      {% block top_title %}
+      {% endblock top_title %}
+    </h3>
+
+    {% block top_title_right %}
+    {% endblock top_title_right %}
+  </div>
+</div>
+{% endblock top_bar %}
+
+
+{% block content %}
+  <div id="adminContent">
+    {% block admin_content %}
+    {% endblock admin_content %}
+  </div>
+{% endblock content %}
+
+{% block footer %}
+<div class="footer-wrap">
+  <div class="footer clearfix">
+    <div class="clearfix">
+      <ul class="pull-right">
+        <li>
+          <a href="mailto:timetables-support@caret.cam.ac.uk"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>
+        </li>
+        <li>
+          <a href="{% url "admin_help_getting_started" %}" target="_blank"><span class="icon-question-sign icon-white"></span>Help</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="links">
+      <p class="copyright-message pull-left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</p>
+      <ul class="pull-right">
+        <li>
+          <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
+        </li>
+        <li>
+          <a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
+        </li>
+        <li>
+          <a href="http://www.cam.ac.uk/site" target="_blank">Accessibility</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endblock footer %}

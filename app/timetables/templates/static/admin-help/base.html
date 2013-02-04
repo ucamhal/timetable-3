@@ -1,0 +1,48 @@
+{% load url from future %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static "css/admin-help.css" %}">
+  </head>
+    
+  <body style="background: none;">
+    <div class="container">
+      <header id="globalMasthead" class="grid_20">        
+        <a id="identifier" class="grid_4 alpha" href="#" title="University of Cambridge">University of Cambridge</a>
+      </header>
+        
+      <section id="content" class="grid_16 content" >
+        {% block content %}
+        {% endblock content %}
+      </section>
+
+      <section id="content" class="grid_4 content">
+        <div class="box">
+          <h6>How do I....?</h6>
+          <ul class="meta" style="list-style-type: none">
+            {% block menu %}
+            {% endblock menu %}
+          </ul>
+        </div>
+      </section>
+
+      <footer id="footer" class="grid_20">            
+        <p class="grid_13 prefix_1 suffix_1 alpha">&copy; 2013 Digital Services, Cambridge University Library,  CB3 9DR</p>
+        <ul class="grid_5 omega">
+          <li> 
+            <a href="{% url "privacy_policy" %}" title="Privacy" target="_blank">Privacy</a>
+          </li>
+          <li>
+            <a href="http://www.cam.ac.uk/site/" title="Accessibility" target="_blank">Accessibility</a>
+          </li>
+        </ul>
+      </footer>
+      <!-- end #footer -->
+      <div class="clear"></div>
+    </div>
+  </body>
+</html>

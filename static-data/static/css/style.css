@@ -1,0 +1,963 @@
+html,
+body {
+	height: 100%;
+}
+
+td:focus,
+div:focus {
+	outline: none;
+}
+
+#container {
+	position: relative;
+	min-height: 100%;
+	overflow: hidden;
+}
+
+div#content {
+	width: 960px;
+	margin: 0 auto;
+	padding-bottom: 135px;
+}
+
+#student div#content {
+	padding-bottom: 50px;
+}
+
+.dontDisplayMe {
+	display: none;
+}
+
+.notImplemented {
+	opacity: .6;
+}
+
+.notImplemented:hover {
+	opacity: 1;
+}
+
+.hideMe {
+	position: absolute;
+	top: -10000px;
+	overflow: hidden;
+	line-height: 1px;
+	height: 1px;
+}
+
+.fc-event {
+	cursor: pointer;
+}
+
+div#uniLogo, div#inputArea > div,
+header#mainHeader div#actionsContainer {
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+header#mainHeader div#actionsContainer {
+	padding-top: 15px;
+	padding-bottom: 16px;
+	position: relative;
+	z-index: 10;
+}
+
+header#mainHeader div#actionsContainer a {
+	margin-right: 10px;
+}
+
+header#mainHeader div#actionsContainer a:last-child {
+	margin-right: 0;
+}
+
+div#uniLogo, div#inputArea > div {
+	padding-top: 10px;
+	padding-bottom: 2px;
+}
+
+div#inputArea > div {
+	position: relative;
+}
+
+div#inputArea input,
+div#inputArea select,
+div#inputArea label {
+	margin-left: 14px;
+}
+
+div#inputArea label:first-child {
+	margin-left: 0;
+}
+
+div#inputArea select#iAmInput {
+	width: 300px;
+}
+
+div#inputArea label {
+	padding-top: 5px;
+}
+
+
+div#inputArea input {
+	width: 160px;
+	border-color: rgba(0, 0, 0, .4);
+}
+
+div#inputArea select  {
+	width: 127px;
+}
+
+div#inputArea select#yearSelect {
+	width: 100px;
+}
+
+div#inputArea a#advancedOptions span {
+	margin-left: 10px;
+}
+
+div#uniLogo {
+	margin-top: 14px;
+}
+
+div#inputArea {
+	background-color: #333333;
+	color: #ffffff;
+	border-bottom-style: solid;
+	border-bottom-color: #c7aad1;
+	border-bottom-width: 6px;
+}
+
+div#uniLogo h1 {
+	color: #6a606f;
+	padding: 9px 0 8px 0;
+	font-size: 2.5em;
+}
+
+div#uniLogo span {
+	color: #c0c0c0;
+	font-size: .5em;
+}
+
+div#uniLogo h1,
+div#uniLogo h2 {
+	margin: 0;
+	line-height: 1em;
+}
+
+div#uniLogo h2 a {
+	display: block;
+
+	width: 204px;
+	height: 42px;
+
+	background-image: url(../img/uniLogo.png);
+}
+
+div#uniLogo ul {
+	list-style-type: none;
+	margin: 0;
+	padding-top: 12px;
+}
+
+div#uniLogo ul li {
+	margin-left: 14px;
+	padding-left: 14px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: rgba(0, 0, 0, .2);
+}
+
+div#uniLogo ul li:first-child {
+	margin-left: 0;
+	border-style: none;
+}
+
+header#mainHeader {
+	margin-bottom: 34px;
+}
+
+div#results ul {
+	margin-left: 0;
+}
+
+div#results {
+	background-color: #ededed;
+	width: 320px;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #d3d3d3;
+
+	min-height: 300px;
+	overflow: hidden;
+	background-color: #f3f3f3;
+	position: relative;
+}
+
+div#results div#resultsHead h3,
+div#results div#resultsHead > a.btn {
+	position: absolute;
+	width: 320px;
+	display: block;
+	z-index: 1;
+}
+
+div#results div#resultsHead h3 {
+	position: absolute;
+	width: 320px;
+	z-index: 1;
+
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .3);
+	font-size: 1.1em;
+	text-align: center;
+
+	line-height: 2.5em;
+	padding: 0;
+
+	color: #ababab;
+	text-shadow: 0 2px 1px rgba(255, 255, 255, 1);
+
+	margin: 0;
+
+	overflow: hidden;
+	height: 40px;
+
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+div#results div#resultsHead > a.btn {
+	display: block;
+	top: 40px;
+	height: 30px;
+	border-radius: 0;
+
+	padding: 0;
+	margin: 0;
+
+	line-height: 2.1em;
+}
+
+div#results div#resultsHead form#addModule h4 {
+	font-size: 1.1em;
+	text-align: center;
+	background-color: rgba(0, 0, 0, .05);
+	padding: 12px 0;
+	margin: 0;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, .2);
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(255, 255, 255, .6);
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+}
+
+div#results div#resultsHead form#addModule ul > li {
+	padding-right: 10px;
+}
+
+div#results div#resultsHead form#addModule ul#addModuleFields > li {
+	padding: 10px;
+	padding-bottom: 0;
+	border-bottom-style: dashed;
+	border-bottom-color: rgba(0, 0, 0, .1);
+	border-bottom-width: 1px;
+}
+
+div#results div#resultsHead form#addModule ul#addModuleFields ul li input {
+	margin-top: 9px;
+	margin-right: 3px;
+}
+
+div#results div#resultsHead form#addModule {
+	position: absolute;
+	top: 72px;
+	z-index: 2;
+	background-color: #FFFFFF;
+	width: 290px;
+	padding-bottom: 5px;
+	left: 15px;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+}
+
+div#results div#resultsHead form#addModule label {
+	line-height: 2em;
+	margin: 0;
+	padding: 0;
+}
+
+div#results div#resultsHead form#addModule div label {
+	padding: 0 5px;
+}
+
+div#results div#resultsHead form#addModule div select {
+	width: 90px;
+}
+
+
+div#results div#resultsHead form#addModule br {
+	clear: both;
+}
+
+div#results div#resultsHead form#addModule ul {
+	list-style-type: none;
+}
+
+div#results div#resultsHead form#addModule input[type="text"] {
+	width: 180px;
+}
+
+div#results div#resultsHead form#addModule select {
+	width: 195px;
+}
+
+div#results div#resultsHead form#addModule .bootstrap-timepicker-component input {
+	width: 60px;
+}
+
+div#results > ul {
+	list-style-type: none;
+	height: auto;
+	
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	position: absolute;
+	top: 71px;
+	bottom: 0;
+
+	margin: 0;
+}
+
+#student div#results > ul {
+	top: 41px;
+}
+
+/*
+#admin div#results h3 {
+	border-bottom-style: none;
+	box-shadow: none;
+}
+
+#admin div#results > ul {
+	top: 82px;
+}
+
+#admin div#results > a {
+	z-index: 2;
+	position: absolute;
+	top: 41px;
+	display: block;
+	width: 320px;
+	padding: 0;
+	margin: 0;
+	line-height: 2.8em;
+	border-radius: 0;
+	height: 40px;
+
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .3);
+
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+*/
+
+div#results ul.courseList,
+div#results ul.courseMoreInfo,
+div#results div.courseMoreInfo ul {
+	list-style-type: none;
+}
+
+div#results ul.courseList > li,
+div#results li.course {
+	padding: 10px 15px;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .1);
+	border-radius: 0;
+	margin: 0;
+	background-color: #f8f8f8;
+}
+
+div#results ul#resultsList > li.courseSeries {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(0, 0, 0, .1);
+}
+
+div#results ul.courseList > li > h5 {
+	padding-left: 20px;
+}
+
+div#results ul.courseList div,
+div#results li.course div {
+	margin-right: 5px;
+	padding-top: 2px;
+}
+
+div#results ul.courseList div a.more,
+div#results li.course div a.more {
+	padding-top: 5px;
+}
+
+div#results ul.courseList div a.btn,
+div#results li.course div a.btn {
+	margin-left: 20px;
+}
+
+div#results a.btn-add, div#results a.btn-remove {
+	opacity: .8;
+}
+
+div#results ul#resultsList {
+	width: 100%;
+}
+
+div#results ul#resultsList h4 {
+	font-size: 1.2em;
+	margin: 0;
+
+	padding: 10px 20px;
+	background-image: none;
+	background-color: #8a95a4;
+}
+
+div#results ul#resultsList h4 span {
+	font-weight: normal;
+	font-size: .85em;
+}
+
+div#results li.courseSeries div {
+	width: 170px;
+}
+
+div#results li.courseSeries a.btn {
+	margin-right: 20px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries div,
+div#results div.courseMoreInfo li.courseSeries div {
+	width: 150px;
+}
+
+div#results ul.courseMoreInfo li.courseSeries a.btn,
+div#results div.courseMoreInfo li.courseSeries a.btn {
+	margin-right: 4px;
+	margin-top: 12px;
+}
+
+div#results ul.courseMoreInfo,
+div#results div.courseMoreInfo {
+	display: none;
+	clear: both;
+
+	border-top-style: dashed;
+	border-top-width: 1px;
+	border-top-color: rgba(0, 0, 0, .2);
+
+	padding: 0;
+}
+
+div#results ul.courseList li.courseSeries {
+	margin-left: 20px;
+}
+
+div#results ul.courseList li.courseSeries div {
+	width: 160px;
+}
+
+div#results li.courseSeries {
+	padding-bottom: 15px;
+	background-color: #F8F8F8;
+
+	clear: both;
+	padding-left: 25px;
+}
+
+div#results li.courseSeries h5 {
+	margin-bottom: 3px;
+}
+
+div#results.empty p {
+	border-style: dashed;
+	border-color: rgba(0, 0, 0, .3);
+	border-width: 1px;
+
+	text-align: center;
+	width: 230px;
+
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	padding: 240px 20px;
+
+	background-color: #f6f6f6;
+	color: #363636;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
+
+	box-shadow: 0 1px 2px rgba(255, 255, 255, 1);
+}
+
+
+#admin li.course > a.btn {
+	display: block;
+}
+
+#admin li.course:hover > ul.courseActions {
+	display: block;
+}
+
+#admin li.course > ul.courseActions {
+	display: none;
+}
+
+#admin li.course ul.courseActions {
+	list-style-type: none;
+}
+
+#admin li.course ul.courseActions li {
+	margin-left: 20px;
+	font-size: 1.1em;
+}
+
+
+
+
+
+.alert {
+	position: relative;
+	left: -50%;
+	margin: 0 auto;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+}
+
+.alert a.btn {
+	margin-top: 15px;
+}
+
+.alert.calendarEventInfo.admin a.btn {
+	margin-top: 0;
+}
+
+.alert.calendarEventInfo.admin a.cancel {
+	margin-right: 8px;
+}
+
+.alert.calendarEventInfo.admin .datepicker {
+	padding-left: 0;
+}
+
+.alert.calendarEventInfo.admin .datepicker input {
+	width: 90px;
+}
+
+.alert.calendarEventInfo.admin label {
+	width: 70px;
+}
+
+.alert.calendarEventInfo.admin br {
+	clear: both;
+}
+
+.alert.calendarEventInfo.admin {
+	width: 500px;
+}
+
+.alert.calendarEventInfo {
+	position: absolute;
+	left: 10px;
+	z-index: 19;
+	max-width: 320px;
+	min-width: 220px;
+}
+
+.alert.calendarEventInfo .arrow {
+	position: absolute;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	top: 50%;
+	left: -11px;
+	margin-top: -10px;
+	border-right-color: #454545;
+	border-width: 10px 10px 10px 0;
+}
+
+.alert.calendarEventInfo.js-positioned-left .arrow {
+	left: auto;
+	right: -11px;
+	border-width: 10px 0px 10px 10px;
+	border-right-color: transparent;
+	border-left-color: #454545;
+}
+
+.alert.calendarEventInfo label,
+.alert.calendarEventInfo input,
+.alert.calendarEventInfo select {
+	float: left;
+}
+
+.alertHolder {
+	position: absolute;
+	left: 50%;
+	top: 37%;
+	z-index: 20;
+}
+
+div#calendarHolder {
+	width: 590px;
+}
+
+div#calendarHolder div#calendar {
+	overflow-y: scroll;
+}
+
+ 
+div.fullWidthCalendar {
+	width: 100%!important;
+}
+
+
+div#content {
+	margin-top: -20px;
+}
+
+div#calendarData {
+	padding-bottom: 20px;
+}
+
+#calendarData ul {
+	list-style-type: none;
+	margin: 0;
+}
+
+.calendar-navigation h4, .calendarNavigation h4 {
+	text-align: center;
+	padding: 2px 15px;
+	margin: 0;
+	line-height: 1em;
+}
+
+div#calendarData div.calendarNavigation {
+	position: relative;
+	left: 35%;
+	top: 5px;
+	text-align: left;
+}
+
+div#calendarData div.calendarNavigation ul {
+	list-style-type: none;
+	position: relative;
+	left: -15%;
+}
+
+div#calendarData ul.calendarNavigation li {
+	position: relative;
+}
+
+div#calendarData div.calendarNavigation ul li a, div#calendarData div.calendarNavigation ul li h4 {
+	text-align: center;
+}
+
+div#calendarData div.calendarNavigation ul li h4 {
+	min-width: 180px;
+	margin: 0;
+	line-height: 1em;
+}
+
+div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
+	min-width: 130px;
+}
+
+.list-view {
+	overflow-y: scroll;
+}
+
+.list-view #listViewCalendar {
+	position: fixed;
+}
+.list-view table {
+	width: 230px;
+}
+
+.list-view table td.occupied {
+	background-color: #fbf9e3;
+}
+
+.list-view table td.available {
+	background-color: #e4f0d8;
+}
+
+.list-view table td,
+.list-view table th {
+	text-align: center;
+	vertical-align: middle;
+	padding: 4px 0;
+	text-shadow: 1px -1px 1px rgba(255, 255, 255, 1);
+}
+
+.list-view table th {
+	text-shadow: none;
+	padding: 5px 0;
+}
+
+.list-view h4 {
+	text-align: right;
+	margin: 0 auto;
+}
+
+.list-view div#listViewList {
+	text-align: right;
+	width: 100%;
+}
+
+.list-view div#listViewList h4, .list-view div#listViewList h5 {
+	margin: 0;
+	
+}
+
+.list-view div#listViewList ul {
+	margin: 0;
+	list-style-type: none;
+}
+
+.list-view div#listViewList ul ul {
+	width: 250px;
+	margin-left: 30px;
+	margin-bottom: 20px;
+}
+
+.list-view div#listViewList ul ul li {
+	padding-bottom: 20px;
+	line-height: 1.3em;
+	margin-right: 0;
+}
+
+/*
+ *	Admin Specific CSS
+ */
+
+div#timetablesOverview {
+	padding-top: 30px;
+}
+
+#timetablesOverview li {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #434343;
+	margin-right: 50px;
+	margin-bottom: 40px;
+
+	padding: 1px;
+
+	width: 148px;
+	height: 148px;
+
+	overflow: hidden;
+}
+
+#timetablesOverview li:nth-child(5n+5) {
+	margin-right: 0;
+}
+
+#timetablesOverview li a {
+	display: block;
+	position: relative;
+	height: 100%;
+}
+
+#timetablesOverview li a:hover {
+	text-decoration: none;
+}
+
+#timetablesOverview li a:hover .timetable-center {
+	text-decoration: underline;
+}
+
+#timetablesOverview li .timetable-top .edit-message {
+	background-color: #F2DEDE;
+	color: #B94A48;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	text-align: center;
+	font-size: .9em;
+	line-height: 1.6em;
+
+	margin: 0;
+	height: 22px;
+} 
+
+#timetablesOverview li.being-edited .timetable-center {
+	padding-top: 0;
+}
+
+#timetablesOverview li .timetable-center {
+	padding-top: 5px;
+	height: 100%;
+}
+
+#timetablesOverview li .timetable-center  h4 {
+	font-size: 1.2em;
+	line-height: 1.3em;
+	padding: 0 5px;
+}
+
+#timetablesOverview li .timetable-bottom {
+	text-align: center;
+	background-color: #474747;
+	color: #E6E6E6;
+	text-shadow: -1px -2px 2px black;
+
+	position: absolute;
+	bottom: 0;
+
+	width: 100%;
+
+	padding: 3px 0;
+}
+
+#timetablesOverview li .timetable-bottom span {
+	margin-right: 3px;
+}
+
+.footer-wrap {
+	background-color: #333;
+	border-top-style: solid;
+	border-top-width: 4px;
+	border-top-color: #C7AAD1;
+
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 110px;
+}
+
+.footer {
+	width: 960px;
+	margin: 0 auto;
+	color: #ededed;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, .9);
+	padding: 15px 0;
+	border-radius: 5px 5px 0 0;
+}
+
+.footer .links {
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: rgba(255, 255, 255, .2);
+	margin-top: 5px;
+	padding-top: 10px;
+}
+
+.footer li {
+	display: inline;
+	padding: 0 15px;
+}
+
+.footer .links li {
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-right-color: #81728e;
+}
+
+.footer .links li:last-child {
+	border-style: none;
+} 
+
+.footer ul li:last-child {
+	padding-right: 0;
+}
+
+.footer .copyright-message {
+	color: #a4a4a4;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
+}
+
+.footer div {
+	text-align: right;
+}
+
+.footer a {
+	color: #bfaad1;
+}
+
+.footer a span {
+	margin-right: 9px;
+}
+
+.student-footer-wrap {
+	font-size: .8em;
+	height: 50px;
+}
+
+.student-footer-wrap ul {
+	font-size: 1.2em;
+}
+
+.student-footer-wrap ul li {
+	padding-right: 0;
+	border-style: none;
+}
+
+
+.cookie-alert {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 260px;
+	z-index: 10;
+	border-radius: 0;
+	font-size: .9em;
+
+	background-color: #333;
+	color: #C2C2C2;
+	border-width: 5px 5px 0 0;
+	border-style: solid;
+	border-color: #C7AAD1;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
+}
+
+.cookie-alert p a {
+	color: #BFAAD1;
+}
+
+.cookie-alert button.close {
+	color: white;
+	opacity: .7;
+	text-shadow: none;
+}
+
+.cookie-alert.alert .btn {
+	font-size: 1em;
+	margin: 0;
+}
+
+.cookie-alert div {
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #B3C7D1;
+	padding-top: 5px;
+	margin-top: 3px;
+}
+
+#calendarData .week-calendar-navigation,
+#calendarData .month-calendar-navigation {
+	margin-left: 32%;
+}
+
+.week-calendar-navigation .value,
+.month-calendar-navigation .value {
+	min-width: 112px;
+	text-align: center;
+}
+
+.term-calendar-navigation .value {
+	min-width: 126px;
+	text-align: center;
+}

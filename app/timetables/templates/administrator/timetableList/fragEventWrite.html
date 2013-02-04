@@ -1,0 +1,45 @@
+{% extends "administrator/timetableList/fragEventRead.html" %}
+
+{% block event_type %}
+<span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}">
+  {{ event.metadata.type|default:"" }}
+</span>
+
+<select class="input-medium event-type js-field js-field-type">
+  <!-- <option value="">&mdash;</option> -->
+  {% for key, display_val in type_choices.items %}
+    <option value="{{ key }}" {% if event.metadata.type.lower == key.lower %}selected{% endif %}>{{ display_val }}</option>
+  {% endfor %}
+</select>
+{% endblock event_type %}
+
+
+{% block date_time_start %}
+<span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
+{% endblock date_time_start %}
+
+
+{% block date_time_end %}
+<div class="dialog-holder js-dialog-holder"></div>
+<span class="js-focus-catcher js-focus-catcher-after" tabindex="0"></span>
+{% endblock date_time_end %}
+
+
+{% block event_right %}
+  <td class="eventActions" tabindex="5">
+    <ul class="buttons">
+      <li>
+        <a href="javascript:;" class="icon-pencil edit js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
+      </li>
+      <li>
+        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
+      </li>
+      <li>
+        <a href="#" class="icon-file duplicate notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
+      </li>
+      <li>
+        <a href="#" class="icon-trash remove js-remove-icon" title="remove"><span class="hideMe">remove</span></a>
+      </li>
+    </ul>
+  </td>
+{% endblock event_right %}
