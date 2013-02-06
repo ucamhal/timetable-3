@@ -1,8 +1,3 @@
-'''
-Created on Oct 17, 2012
-
-@author: ieb
-'''
 from timetables.models import Thing, ThingTag
 from timetables.admin.widgets import TextWidget
 from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
