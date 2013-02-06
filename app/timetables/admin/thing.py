@@ -5,10 +5,10 @@ from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
-
-import json
 from django.core.urlresolvers import reverse
 from django.db.models.aggregates import Count
+
+import json
 
 
 class ThingAdminForm(forms.ModelForm):
