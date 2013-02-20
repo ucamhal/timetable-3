@@ -1,3 +1,4 @@
+
 from timetables.models import Thing, ThingTag
 from timetables.admin.widgets import TextWidget
 from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
@@ -16,7 +17,7 @@ class ThingAdminForm(forms.ModelForm):
         model = Thing
         widgets = {
          'pathid' : TextWidget(),
-         'fullpath' : TextWidget()
+         'fullpath' : TextWidget(),
         }
 
     def __init__(self, *args, **kwargs):
