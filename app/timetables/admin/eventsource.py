@@ -1,8 +1,3 @@
-'''
-Created on Oct 17, 2012
-
-@author: ieb
-'''
 from django import forms
 from timetables.models import EventSource, Event, EventSourceTag, EventTag
 from django.contrib import admin

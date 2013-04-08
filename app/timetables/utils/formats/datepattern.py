@@ -12,7 +12,10 @@ class DatePatternImporter(object):
         metadata = source.metadata
         datePattern = metadata.get("datePattern")
         if not datePattern:
-            raise ValueError("Event source with type pattern did not contain datePattern key in data")
+            log.warning("Event source with type pattern did not "
+                "contain datePattern key in data. source ID: %s" % (
+                    source.id))
+            return 0
         group_template =  metadata.get("group_template") or ""
         try: # academic year for the data is provided
             start_year = int(metadata.get("year"))
@@ -38,6 +41,6 @@ class DatePatternImporter(object):
 
             return len(events)
         except:
-            log.error("Failed to process date patter %s in eventsource %s  (%s)"
-                    % (datePattern, source.title, source.id))
-            raise
+            log.warning("Failed to parse date pattern: %s in "
+                "eventsource ID: %d" % (datePattern, source.id))
+            return 0
