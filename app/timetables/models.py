@@ -21,6 +21,7 @@ from django.utils import decorators
 
 from timetables import managers
 from timetables.utils import xact
+from timeit import itertools
 
 
 log = logging.getLogger(__name__)
@@ -823,3 +824,95 @@ class LockStrategy(object):
 
 class LockException(Exception):
     pass
+
+
+class Subject(object):
+    """
+    Represents the somewhat abstract concept of a subject, independent of the
+    hierarchy/structure of a tripos.
+    """
+
+    NESTED_SUBJECT_TYPES = ["subject", "experimental", "option"]
+
+    def __init__(self, tripos, part, nested=None):
+        if nested is not None:
+            assert nested.parent == part
+            assert nested.type in Subject.NESTED_SUBJECT_TYPES
+        assert part.parent == tripos
+        assert tripos.type == "tripos"
+        assert part.type == "part"
+
+        self._tripos = tripos
+        self._part = part
+        self._nested = nested
+
+    def is_nested_subject(self):
+        return self._nested is not None
+
+    def tripos_name(self):
+        return self._tripos.fullname
+
+    def part_name(self):
+        return self._part.fullname
+
+    def nested_name(self):
+        if not self.is_nested_subject():
+            raise TypeError("Subject is not nested: %s" % self)
+        return self._nested.fullname
+
+    def _cmp_values(self):
+        return (self.tripos_name(), self.part_name(),
+                self.nested_name() if self.is_nested_subject() else "")
+
+    def __cmp__(self, other):
+        return cmp(self._cmp_values(), other._cmp_values())
+    
+    def __unicode__(self):
+        if self.is_nested_subject():
+            return u"%s (%s, %s)" % (
+                    self.nested_name(),
+                    self.tripos_name(),
+                    self.part_name())
+        return u"%s (%s)" % (self.tripos_name(), self.part_name())
+
+class Subjects(object):
+    """
+    Static helper functions related to Subject objects.
+    """
+    
+    @staticmethod
+    def all_subjects():
+        # Find all Tripos parts without nested (sub) subjects.
+        simple_subject_things = (Thing.objects.filter(
+                ~models.Q(thing__type__in=Subject.NESTED_SUBJECT_TYPES),
+                type="part",
+                parent__type="tripos"
+            ).prefetch_related(
+                # Need to prefetch the parent tripos
+                "parent"
+            )
+        )
+        simple_subjects = (
+                Subject(part.parent, part) for part in simple_subject_things)
+        
+
+        nested_subject_things = (Thing.objects.filter(
+                type__in=Subject.NESTED_SUBJECT_TYPES,
+                parent__type="part",
+                parent__parent__type="tripos"
+            ).prefetch_related(
+                # Need to prefetch the part
+                "parent",
+                # and tripos
+                "parent__parent"
+            )
+        )
+        nested_subjects = (
+                Subject(nested.parent.parent, nested.parent, nested)
+                for nested in nested_subject_things)
+
+        return itertools.chain(simple_subjects, nested_subjects)
+
+    @staticmethod
+    def under_tripos(tripos):
+        pass
