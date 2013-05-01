@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-# Django settings for timetables project.
+"""
+Default Django settings for timetables project.
+"""
 import os
 from os import path
 import sys
+
+# TODO use unipath instead of os.path (see OpenAccess base.py)
+# (will need to be added to requirements file too)
 
 import logging
 # Run a basic config so that log messages in settings can be shown before Django
@@ -12,7 +17,7 @@ log = logging.getLogger("timetables.settings")
 del logging
 
 
-ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
+ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
