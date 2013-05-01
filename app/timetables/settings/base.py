@@ -226,8 +226,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'timetables.utils.requirejs.js_main_module_contextprocessor',
 )
 
-INTERNAL_IPS = ("127.0.0.1",)  # This means SQL and the debug setting in templates is true for 127.0.0.1 only. We need the Git version for all users.
-
 ROOT_URLCONF = 'timetables.urls'
 
 TEMPLATE_DIRS = (
