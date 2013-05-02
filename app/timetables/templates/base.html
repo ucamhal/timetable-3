@@ -1,117 +1,115 @@
 {% load staticfiles %}
 {% load url from future %}
 <!doctype html>
-	<head>
-		<title>Timetables</title>
+  <head>
+    <title>Timetables</title>
 
-		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.css" %}" />
-		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
-        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.css" %}" />
+    <link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        {% block head %}
-        {% endblock head %}
+    {% block head %}
+    {% endblock head %}
         
-    	<script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}studentIndex{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
-        <style>
-        	.notImplemented {
-        		display: none;
-        	}
-        </style>
-	</head>
-	<body id="{% block bodyid %}student{% endblock %}">
+    <script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}studentIndex{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
 
-		{% block userinfo %}
-	    <div id="userinfo" style="display:none" 
-	    	userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" 
-	    	userrole="student"
-	    	class="dontDisplayMe">
-	        {# used for ajax post operations, I prefer this to the cookie method. #}
-	        {% csrf_token %}
+    <style>
+      .notImplemented {
+        display: none;
+      }
+    </style>
+  </head>
+  <body id="{% block bodyid %}student{% endblock %}">
+
+    {% block userinfo %}
+      <div id="userinfo" style="display:none" userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" userrole="student" class="dontDisplayMe">
+          {# used for ajax post operations, I prefer this to the cookie method. #}
+          {% csrf_token %}
+      </div>
+    {% endblock %}
+
+    <div id="container">
+
+      <div class="alert alert-info cookie-alert js-cookie-alert dontDisplayMe">
+        <button type="button" class="js-close close">&times;</button>
+        <strong>Cookie policy</strong>
+        <div class="clearfix">
+          <p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="{% url "cookie_policy" %}" target="_blank">Cookie Policy</a>.</p>
         </div>
-		{% endblock %}
-
-		<div id="container">
+      </div>
 
 
-			<div class="alert alert-info cookie-alert js-cookie-alert dontDisplayMe">
+      <header id="mainHeader">
+        <div id="uniLogo" class="clearfix">
+          {% block timetable_logo %}
+          <h1 class="pull-left">Timetable <span>beta</span></h1>
+          {% endblock timetable_logo %}
+          <h2 class="pull-right">
+            <a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
+          </h2>  
+        </div>
 
-			  <button type="button" class="js-close close">&times;</button>
-			  <strong>Cookie policy</strong>
-			  <div class="clearfix">
-			  	<p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="{% url "cookie_policy" %}" target="_blank">Cookie Policy</a>.</p>
-			  </div>
-			</div>
+        {% block top_bar %}
+        {% endblock top_bar %}
+      </header>
 
+      <div class="modal hide fade in" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          <h3 id="signinLabel">Already have a timetable or want one ?</h3>
+        </div>
+        <div class="modal-body">
+          Sign-in to see your timetable and make changes
+          <a href="{% url "login url" %}" class="btn btn-success pull-right">Sign in</a>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+      </div>
 
-			<header id="mainHeader">
-				<div id="uniLogo" class="clearfix">
-					{% block timetable_logo %}
-					<h1 class="pull-left">Timetable <span>beta</span></h1>
-					{% endblock timetable_logo %}
-					<h2 class="pull-right"><a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a></h2>	
-				</div>
+      <div class="modal hide fade in" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          <h3 id="errorLabel">Ooops !</h3>
+        </div>
+        <div class="modal-body">
+            Oh No, something went wrong. If keeps happening, please do tell us.
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+      </div>
 
-				{% block top_bar %}
-				{% endblock top_bar %}
-			</header>
+      <div id="content" class="clearfix">
+        {% block content %}
 
-			<div class="modal hide fade in" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true" style="display: none;">
-			  <div class="modal-header">
-			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-			    <h3 id="signinLabel">Already have a timetable or want one ?</h3>
-			  </div>
-			  <div class="modal-body">
-					Sign-in to see your timetable and make changes
-					<a href="{% url "login url" %}" class="btn btn-success pull-right">Sign in</a>
-			  </div>
-			  <div class="modal-footer">
-			    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			  </div>
-			</div>
+        {% endblock content %}
+      </div>
 
-			<div class="modal hide fade in" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true" style="display: none;">
-			  <div class="modal-header">
-			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-			    <h3 id="errorLabel">Ooops !</h3>
-			  </div>
-			  <div class="modal-body">
-		  			Oh No, something went wrong. If keeps happening, please do tell us.
-			  </div>
-			  <div class="modal-footer">
-			    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			  </div>
-			</div>
+      {% block footer %}
+      <div class="footer-wrap student-footer-wrap">
+        <div class="footer clearfix">
 
-			<div id="content" class="clearfix">
-				{% block content %}
+          <p class="copyright-message pull-left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</p>
+        <ul class="pull-right">
+          <li>
+            <a href="mailto:timetables-help@lib.cam.ac.uk"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>  
+          </li>
+          <li>
+              <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
+          </li>
+          <li>
+              <a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
+          </li>
+          <li>
+              <a href="http://www.cam.ac.uk/site" target="_blank">Accessibility</a>
+          </li>
+        </ul>
 
-				{% endblock content %}
-			</div>
+        </div>
+      </div>
+      {% endblock footer %}
+    </div>
 
-			{% block footer %}
-			<div class="footer-wrap student-footer-wrap">
-			  <div class="footer clearfix">
-
-		    	<p class="copyright-message pull-left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</p>
-				<ul class="pull-right">
-					<li>
-						<a href="mailto:timetables-help@lib.cam.ac.uk"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>	
-					</li>
-					<li>
-			  			<a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
-					</li>
-					<li>
-				  		<a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
-					</li>
-					<li>
-			  			<a href="http://www.cam.ac.uk/site" target="_blank">Accessibility</a>
-					</li>
-				</ul>
-
-			  </div>
-			</div>
-			{% endblock footer %}
-		</div>
-
-	</body>
+  </body>
 </html>

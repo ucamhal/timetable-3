@@ -3,17 +3,16 @@
 {% load url from future %}
 {% block form %}
 <form action="{% url "thing edit" thing=form.instance.fullpath %}" method="POST">
-    {% csrf_token %}
+  {% csrf_token %}
 
-    <label for="{{ form.fullname.html_name }}">Title:</label>
-    {{ form.fullname }}
-    {{ form.fullname.errors }}
-    
-    {% if not request.is_ajax %}
-        <!-- for testing -->
-        <br/>
-        <input type="submit" value="Save"/>
-    {% endif %}
-    
+  <label for="{{ form.fullname.html_name }}">Title:</label>
+  {{ form.fullname }}
+  {{ form.fullname.errors }}
+  
+  {% if not request.is_ajax %}
+    <!-- for testing -->
+    <br/>
+    <input type="submit" value="Save"/>
+  {% endif %}
 </form>
 {% endblock %}

@@ -2,44 +2,46 @@
 {% load url from future %}
 
 <!doctype html>
-	<head>
-		<title>Timetables</title>
+  <head>
+    <title>Timetables</title>
 
-		<link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
-		<link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
-        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
 
-        <script data-main="{% static "js/main.js" %}" data-page-module="login" src="{% static "js/libs/require.js" %}"></script>
-	</head>
-<body>
-{% block form %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% if enable_raven %}
-FIXME: Add a suitable message here.
-{% else %}
-<h3>Please Login (temporary page to allow testing)</h3>
-<form action="{% url "login url" %}" method="POST" >
-  Username: <input type="text" name="username" id="username" /><br />
-  Password: <input type="password" name="password" id="password" /> <br />
-  <input type="submit" name="login" value="Login" />
-  {% if error == "invalid_login" %}
-    Incorrect username or password, access denied <br />
-  {% elif error = "account_disabled" %}
-    Account has been disabled, please contact an administrator
-  {% endif %}
-  
-  {% if next %}
-  <input type="hidden" name="next" value="{{ next }}" />
-  {% endif %}
-   {% csrf_token %}
-</form>
-{% endif %}
-{% endblock %}
-</body>	
+    <script data-main="{% static "js/main.js" %}" data-page-module="login" src="{% static "js/libs/require.js" %}"></script>
+  </head>
+  <body>
+    {% block form %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% if enable_raven %}
+        FIXME: Add a suitable message here.
+      {% else %}
+        <h3>Please Login (temporary page to allow testing)</h3>
+
+        <form action="{% url "login url" %}" method="POST" >
+          Username: <input type="text" name="username" id="username" /><br />
+          Password: <input type="password" name="password" id="password" /> <br />
+          <input type="submit" name="login" value="Login" />
+
+          {% if error == "invalid_login" %}
+            Incorrect username or password, access denied <br />
+          {% elif error = "account_disabled" %}
+            Account has been disabled, please contact an administrator
+          {% endif %}
+
+          {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+          {% endif %}
+          {% csrf_token %}
+        </form>
+      {% endif %}
+    {% endblock %}
+  </body>  
 </html>
