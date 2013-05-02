@@ -14,27 +14,28 @@ define([
     /** Strip leading zeros from an integer such as: 01, 05, 005 etc. */
     function stripZeros(str) {
         var groups = /(-*)0*(\d+)/.exec(str);
-        if(!groups)
+        if (!groups) {
             return undefined;
+        }
 
         var integer = groups[2];
-        if( groups[1] == '-' ) { // handle negative values
-            integer = -integer
+        if(groups[1] === "-") { // handle negative values
+            integer = -integer;
         }
         return integer;
     }
 
     /** As parseInt() except handles strings with leading zeros correctly. */
     function safeParseInt(str) {
-        return parseInt(stripZeros(str));
+        return parseInt(stripZeros(str), 10);
     }
-    
+
     var BaseModel = Backbone.Model.extend({
         initialize: function () {
             this.hasInitialState = false;
             this.on("change", this.onChange);
         },
-        
+
         onChange: function () {
             listEvents.trigger("page-edited");
         },
@@ -65,7 +66,7 @@ define([
          */
         hasChangedFromOriginal: function () {
             if (this.hasInitialState === false) {
-                throw new Error("No initial state set.");;
+                throw new Error("No initial state set.");
             }
 
             return !_.isEqual(this.originalAttributes, this.toJSON());
@@ -75,24 +76,24 @@ define([
             return !_.isEqual(this.get(fieldName), this.originalAttributes[fieldName]);
         }
     });
-    
-    
+
+
     var Locker = Backbone.View.extend({
         initialize: function (opts) {
             _.bindAll(this, "ping");
             _.bindAll(this, "preventTimeout");
-            
+
             this.preventTimeoutTime = opts.preventTimeoutTime || 5000;
             this.pingTime = opts.pingTime || 5000;
             this.$timedOutModal = opts.$timedOutModal;
             this.refreshUrl = opts.refreshUrl || "";
-            
+
             this.onTimeoutCallback = opts.onTimeout;
             this.setTimedOutState(false);
-            
+
             this.pingInterval = setInterval(this.ping, this.pingTime);
             this.preventTimeout = _.throttle(this.preventTimeout, this.preventTimeoutTime);
-            
+
             this.ping();
         },
 
@@ -100,7 +101,7 @@ define([
             clearInterval(this.pingInterval);
             this.pingInterval = setInterval(this.ping, this.pingTime);
         },
-        
+
         /**
          * Function that returns true if the lock has timed out
          * @return {boolean} Returns true if the lock has timed out
@@ -108,24 +109,24 @@ define([
         isTimedOut: function () {
             return this.timedOut;
         },
-        
+
         /**
          * Function that sets the timeout state of the lock and triggers a popup if true.
          * @param {boolean} timedOut The timed out state. Inverts current state by default.
          */
         setTimedOutState: function (timedOut) {
-            typeof timedOut !== "undefined" ? Boolean(timedOut) : !this.timedOut;
-            
+            timedOut = typeof timedOut !== "undefined" ? Boolean(timedOut) : !this.timedOut;
+
             if (timedOut !== this.timedOut) {
                 this.timedOut = timedOut;
-                
+
                 if (this.timedOut === true) {
                     this.triggerTimedOutModal();
                     this.onTimeout();
                 }
             }
         },
-        
+
         /**
          * Triggers the timed out popup
          */
@@ -136,23 +137,23 @@ define([
                 keyboard: false
             });
         },
-        
+
         onTimeout: function () {
             if (typeof this.onTimeoutCallback === "function") {
                 this.onTimeoutCallback.call();
             }
         },
-        
+
         unlock: function () {
             $.ajax({
                 url: "",
                 success: function (response) {
-                    
+
                 },
                 error: function () {
-                    
+
                 }
-            })
+            });
         },
 
         refreshLockRequest: function (editing) {
@@ -172,7 +173,7 @@ define([
                 }
             });
         },
-        
+
         /**
          * Pings to the server (browser window still open)
          */
@@ -180,10 +181,10 @@ define([
             if (this.isTimedOut()) {
                 return false;
             }
-            
+
             this.refreshLockRequest();
         },
-        
+
         /**
          * Sends a still active request to the server to prevent being timed out
          */
@@ -191,7 +192,7 @@ define([
             if (this.isTimedOut()) {
                 return false;
             }
-            
+
             this.refreshLockRequest(true);
             this.postponePing();
         }
@@ -239,7 +240,7 @@ define([
             this.$(".js-module-content").addClass("shown");
         }
     });
-    
+
     var SeriesView = Backbone.View.extend({
         constructor: function SeriesView() {
             SeriesView.__super__.constructor.apply(this, arguments);
@@ -249,7 +250,7 @@ define([
             return {
                 "show .js-events": this.onExpand,
                 "shown .js-events": this.onShown,
-                "hide .js-events": this.onCollapse,
+                "hide .js-events": this.onCollapse
             };
         },
 
@@ -258,7 +259,7 @@ define([
 
             // Store this view instance against the series element to
             // access it from hashchanges below.q
-            this.$el.data("view", this)
+            this.$el.data("view", this);
 
             listEvents.on("expand-series", this.onExpandSeries);
         },
@@ -281,7 +282,6 @@ define([
          */
         loadEvents: function() {
             // First we need to insert the loading indicator...
-            
             // Find and copy the global loading indicator HTML
             var loadingEl = $(".js-loading-indicator-prototype").clone()
                 .show()
@@ -302,7 +302,7 @@ define([
             this.loadingIndicator.showLoadingState();
 
             // make the ajax request to fetch the events
-            $.ajax("/series/" + encodeURIComponent(this.getSeriesId()) 
+            $.ajax("/series/" + encodeURIComponent(this.getSeriesId())
                 + "/list-events", this.getEventsRequestOptions())
                 .done(this.onEventsFetched)
                 .fail(this.onEventsFetchFailed);
@@ -366,27 +366,28 @@ define([
         },
 
         onExpandSeries: function(id) {
-            if(this.getSeriesId() == id)
+            if (this.getSeriesId() === id) {
                 this.expand();
+            }
         }
     });
-    
+
     var WritableModuleView = ModuleView.extend({
         constructor: function WritableModuleView () {
             WritableModuleView.__super__.constructor.apply(this, arguments);
         },
-        
+
         initialize: function () {
             //apply initialization of superclass
             WritableModuleView.__super__.initialize.apply(this, arguments);
-            
+
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
                 titleFieldName: "fullname"
             });
         },
-        
+
         lock: function () {
             this.locked = true;
             this.editableTitle.lock();
@@ -400,14 +401,14 @@ define([
 
         events: function() {
             var superEvents = WritableSeriesView.__super__.events.call(this);
-            
+
             return _.extend(superEvents, {
                 "click .js-btn-cancel": this.onCancel,
                 "click .js-btn-save": this.onSave,
                 "click .js-btn-add-event": this.onAddEvent
             });
         },
-        
+
         lock: function () {
             this.locked = true;
             this.editableTitle.lock();
@@ -453,11 +454,11 @@ define([
 
         onDateTimeOpen: function () {
             this.$(".js-btn-save").toggleClass("btn-success", false).css({
-                opacity: .3
+                opacity: 0.3
             });
 
             this.$(".js-btn-cancel").css({
-                opacity: .3
+                opacity: 0.3
             });
         },
 
@@ -485,7 +486,7 @@ define([
                 } else {
                     this.$cancelSaveBtns.stop().show().slideUp(200);
                 }
-                
+
                 this.currentChangesState = changesExist;
             }
         },
@@ -499,7 +500,6 @@ define([
         },
 
         onSave: function(event) {
-            console.log("save button clicked");
             if (this.locked === true) {
                 return false;
             }
@@ -522,10 +522,10 @@ define([
             // Create a modal dialog to prevent actions taking place while
             // saving.
             this.saveDialogView = new SaveEventsDialogView();
-            this.saveDialogView.on("saved", this.onEventsSaved)
+            this.saveDialogView.on("saved", this.onEventsSaved);
 
             // Show the dialog & kick off the form POST.
-            this.saveDialogView.postEventsForm(this.getSavePath(), formData)
+            this.saveDialogView.postEventsForm(this.getSavePath(), formData);
         },
 
         onEventsSaved: function(response) {
@@ -561,8 +561,9 @@ define([
         },
 
         onHighlight: function(id) {
-            if(this.getId() == id)
+            if (this.getId() === id) {
                 this.highlight();
+            }
         },
 
         highlight: function() {
@@ -577,41 +578,50 @@ define([
         },
 
         titleCase: function(str) {
-            if(str.length > 0)
+            if (str.length > 0) {
                 return str[0].toUpperCase() + str.slice(1);
+            }
             return str;
         },
 
         getPrettyTerm: function() {
             var term = this.get("term");
-            if(term)
+            if (term) {
                 return this.titleCase(term);
+            }
             return term;
         },
 
         getPrettyDay: function() {
             var day = this.get("day");
-            if(day)
+            if (day) {
                 return this.titleCase(day);
+            }
             return day;
         },
 
         validate: function(attrs) {
-            return;
+            /* Function disabled for now
 
             var errors = {};
 
-            if(!attrs.title || attrs.title.trim() == "")
+            if (!attrs.title || attrs.title.trim() === "") {
                 errors.title = ["This field is required."];
+            }
 
-            if(!attrs.type || attrs.type == "")
+            if (!attrs.type || attrs.type === "") {
                 errors.type = ["This field is required."];
+            }
 
-            if(!attrs.location || attrs.location.trim() == "")
+            if (!attrs.location || attrs.location.trim() === "") {
                 errors.location = ["This field is required."];
+            }
 
-            if(!attrs.people || attrs.people.trim() == "")
+            if (!attrs.people || attrs.people.trim() === "") {
                 errors.people = ["This field is required."];
+            }
+
+            */
         },
 
         /**
@@ -648,7 +658,7 @@ define([
         initialize: function () {
             WritableEventView.__super__.initialize.apply(this, arguments);
 
-            this.$titleField = this.$(".js-field-title");;
+            this.$titleField = this.$(".js-field-title");
             this.$locationField = this.$(".js-field-location");
             this.$peopleField = this.$(".js-field-people");
             this.$typeField = this.$("select.js-field-type");
@@ -907,7 +917,7 @@ define([
             if (cancelled !== this.isCancelled()) {
                 this.model.set("cancel", cancelled);
                 this.markAsChanged();
-                this.$('[contenteditable="true"]').blur()
+                this.$("[contenteditable=\"true\"]").blur();
             }
         },
 
@@ -939,7 +949,7 @@ define([
 
                 this.trigger("datetimedialogopen");
             }
-        },
+        }
     });
 
     var EditableTitleView = Backbone.View.extend({
@@ -950,11 +960,11 @@ define([
             this.titleFieldName = opts.titleFieldName || "title";
 
             this.$value = this.$(".js-value");
-            
+
             this.model = new TitleModel({
                 titleFieldName: opts.titleFieldName
             });
-            
+
             this.isEditable = false;
             this.isSaving = false;
             this.isError = false;
@@ -963,7 +973,7 @@ define([
 
             this.$toggleButton.on("click", this.onToggleClick);
         },
-        
+
         lock: function () {
             this.locked = true;
         },
@@ -1005,7 +1015,7 @@ define([
             if (this.locked === true) {
                 return false;
             }
-            
+
             this.updateModel();
             this.toggleEditableState(false);
 
@@ -1019,9 +1029,9 @@ define([
                 beforeSavingTime = new Date(),
                 timeDifference,
                 timer;
-            
+
             this.toggleSavingState(true);
-            
+
             $.ajax({
                 type: "POST",
                 url: this.$value.data("save-path"),
@@ -1051,17 +1061,17 @@ define([
             if (this.isEditable === true) {
                 event.stopPropagation();
             }
-            
+
             event.preventDefault();
         },
 
         updateModel: function () {
             this.model.set(this.titleFieldName, this.$value.text());
         },
-        
+
         toggleErrorState: function (isError) {
             isError = typeof isError !== "undefined" ? isError : !this.isError;
-            
+
             if (isError !== this.isError) {
                 this.isError = isError;
                 this.render();
@@ -1076,7 +1086,7 @@ define([
                 this.render();
             }
         },
-        
+
         toggleSavingState: function (isSaving) {
             isSaving = typeof isSaving !== "undefined" ? isSaving : !this.isSaving;
 
@@ -1106,7 +1116,7 @@ define([
         onSelectChange: function (event) {
             event.stopPropagation();
         },
- 
+
         initialize: function(opts) {
             _.bindAll(this);
 
@@ -1159,7 +1169,7 @@ define([
                 var minuteString = String(i);
 
                 if (minuteString.length === 1) {
-                    minuteString = "0" + minuteString
+                    minuteString = "0" + minuteString;
                 }
 
                 minuteArray.push(minuteString);
@@ -1194,7 +1204,6 @@ define([
                     return true;
                 },
                 sorter: function (items) {
-                    console.log(this);
                     return items;
                 },
                 items: source.length
@@ -1242,10 +1251,11 @@ define([
         zeroPad: function(number, minWidth) {
             minWidth = minWidth || 2;
             var width;
-            if(number == 0)
+            if (number === 0) {
                 width = 1;
-            else
+            } else {
                 width = Math.floor(Math.log(Math.abs(number)) / Math.LN10) + 1;
+            }
 
             return (number < 0 ? "-" : "")
                     + new Array(Math.max(0, minWidth - width) + 1).join("0")
@@ -1257,7 +1267,7 @@ define([
             this.requestDialogClose();
             event.preventDefault();
         },
-        
+
         onCloseClick: function (event) {
             this.requestDialogClose();
             event.preventDefault();
@@ -1265,8 +1275,9 @@ define([
 
         onWeekChanged: function() {
             // Reset week to the last good value if it's not an int
-            if(isNaN(safeParseInt(this.$week.val())))
+            if (isNaN(safeParseInt(this.$week.val()))) {
                 this.$week.val(this.model.get("week"));
+            }
 
             //this.syncToModel();
         },
@@ -1404,7 +1415,7 @@ define([
                 url: url,
                 type: "POST",
                 data: eventsData
-            }).done(this.onPOSTDone).fail(this.onPOSTFail)
+            }).done(this.onPOSTDone).fail(this.onPOSTFail);
         },
 
         onPOSTDone: function(response) {
@@ -1463,7 +1474,7 @@ define([
         constructor: function TitleModel() {
             TitleModel.__super__.constructor.apply(this, arguments);
         },
-        
+
         initialize: function (opts) {
             TitleModel.__super__.initialize.apply(this, arguments);
             this.titleFieldName = opts.titleFieldName || "title";
@@ -1472,7 +1483,7 @@ define([
         asJSONDjangoForm: function () {
             var attrs = this.attributes,
                 returnObj = {};
-            
+
             returnObj[this.titleFieldName] = attrs[this.titleFieldName];
             return returnObj;
         }
@@ -1484,26 +1495,28 @@ define([
      */
     function scrollTo(position, duration, onComplete) {
         duration = duration || 0;
-        $('html, body').animate({
+        $("html, body").animate({
             scrollTop: $(".js-event").offset().top - 100
         }, duration, "swing", onComplete);
     }
 
     /** Return value wrapped in an array if it's not an array. */
     function asArray(value) {
-        if(_.isArray(value))
+        if (_.isArray(value)) {
             return value;
+        }
         return [value];
     }
 
     function highlightEventsInHash() {
         var highlight = asArray($.bbq.getState("highlight"));
         _.each(highlight, function(id) {
-            id = parseInt(id);
-            if(isNaN(id))
+            id = parseInt(id, 10);
+            if (isNaN(id)) {
                 return;
+            }
             highlightEvent(id);
-        })
+        });
     }
 
     function highlightEvent(id) {
@@ -1527,9 +1540,10 @@ define([
             var expand = asArray($.bbq.getState("expand"));
             _.each(expand, function(seriesId) {
                 // Sanitise ID
-                var id = parseInt(seriesId)
-                if(isNaN(id))
+                var id = parseInt(seriesId, 10);
+                if (isNaN(id)) {
                     return;
+                }
 
                 // Fire the expand-series event
                 listEvents.trigger("expand-series", id);

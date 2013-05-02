@@ -11,9 +11,9 @@ define([
 
     $("select.js-select-faculty").change(function() {
         var target = $(this).val();
-        $(window.location).attr('href', '/' + target + '.home.admin.html');
+        $(window.location).attr("href", "/" + target + ".home.admin.html");
     });
-    
+
     var EditableTimetable = Backbone.View.extend({
         constructor: function EditableTimetable() {
             EditableTimetable.__super__.constructor.apply(
@@ -35,7 +35,7 @@ define([
             return this.$el.data("fullpath");
         }
     });
-    
+
     var timetables = _.map($(".js-timetable-editable"), function (el) {
         return new EditableTimetable({el: el});
     });
@@ -48,9 +48,8 @@ define([
     var timetablePaths = _.object(_.map(timetables, function(tt) {
         return [tt.getFullpath(), tt];
     }));
-    
+
     function updateTimetablesLockStatus () {
-        
         var req = $.ajax({
             url: "/locks/status",
             type: "POST",
@@ -62,8 +61,9 @@ define([
                 var timetable = timetablePaths[fullpath];
                 var editor = status.name;
 
-                if(timetable)
+                if (timetable) {
                     timetable.setBeingEdited(Boolean(editor), editor);
+                }
             });
         });
 
@@ -75,7 +75,7 @@ define([
     var cookieHandler = new CookieHandler({
         el: ".js-cookie-alert"
     });
-    
+
     // Update the lock status straight away
     updateTimetablesLockStatus();
     var updateTimetablesLockStatusInterval = setInterval(updateTimetablesLockStatus, UPDATE_FREQUENCY);

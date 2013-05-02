@@ -1,6 +1,5 @@
 require.config({
     paths: {
-        domReady: "libs/domReady",
         jquery: "libs/jquery-1.8.0",
         "jquery-bbq": "libs/jquery.bbq",
         underscore: "libs/underscore",
@@ -28,14 +27,13 @@ require.config({
         },
         "libs/jquery-django-csrf": {
             deps: ["jquery"]
-        },
+        }
     }
 });
 
 define([
     "jquery",
-    "libs/jquery-django-csrf",
-    "domReady"
+    "libs/jquery-django-csrf"
 ], function($) {
     "use strict";
 

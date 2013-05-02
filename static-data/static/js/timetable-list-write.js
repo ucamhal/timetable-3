@@ -22,7 +22,7 @@ define([
     // Make the list watch for URL hash items in order to expand series
     // & highlight events.
     Lists.bindUrlHashWatcher();
-    
+
     var locker = new Lists.Locker({
         // Minimum time between edit lock refreshes
         preventTimeoutTime: 1000 * 60 * 2,

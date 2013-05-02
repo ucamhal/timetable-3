@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(["jquery"], function ($) {
     "use strict";
 
     /**
@@ -24,7 +24,7 @@ define(['jquery'], function ($) {
         getThingPath : function () {
             if (_pageThingPath === undefined) {
                 if ($("#userinfo").length === 1) {
-                    _pageThingPath = 'user/' + $("#userinfo").attr("userid");
+                    _pageThingPath = "user/" + $("#userinfo").attr("userid");
                 } else if ($("#thinginfo").length === 1) {
                     _pageThingPath = $("#thinginfo").attr("fullpath");
                 }

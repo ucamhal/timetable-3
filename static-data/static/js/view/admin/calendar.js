@@ -65,7 +65,7 @@ define([
                 location: calEvent.location,
                 lecturers: calEvent.lecturer.toString(),
                 type: calEvent.type,
-                seriesId: parseInt(calEvent.eventSourceId)
+                seriesId: parseInt(calEvent.eventSourceId, 10)
             };
         },
 
@@ -104,7 +104,7 @@ define([
             return {
                 top: this.$el.offset().top + this.$el.outerHeight() / 2,
                 left: this.$el.offset().left
-            }
+            };
         },
 
         /**
@@ -173,7 +173,6 @@ define([
                     self.$el.trigger("eventRender", [calEvent, $el, view]);
                 },
                 select: function () {
-                    console.log("event select");
                 }
             });
 
@@ -182,7 +181,7 @@ define([
 
         events: {
             "eventRender" : "onEventRender",
-            "scroll" : "onScroll",
+            "scroll" : "onScroll"
         },
 
         onScroll: function () {
@@ -200,10 +199,10 @@ define([
         refresh: function () {
             this.$el.fullCalendar("refetchEvents");
         },
-        
+
         onEventRender: function (event, calEvent, $el, view) {
             var self = this;
-            
+
             $el.attr("tabindex", this.$(".fc-event").index($el));
             $el.on("focusin", function () {
                 self.onEventFocus(calEvent, $el, view, this);
@@ -312,7 +311,7 @@ define([
         initialize: function (opts) {
             this.type = opts.type || "week";
 
-            if (typeof opts.calendar !== "undefined" || !(calendar instanceof FullCalendarView)) {
+            if (typeof opts.calendar !== "undefined" || !(opts.calendar instanceof FullCalendarView)) {
                 this.calendar = opts.calendar;
             } else {
                 console.error("DateSpinners need an instance of FullCalendarView to operate");
@@ -473,7 +472,7 @@ define([
 
             //fix for safari 6 not updating the heading dates
             this.calendar.$el.trigger("scroll");
-            
+
             event.preventDefault();
         },
 
@@ -519,7 +518,7 @@ define([
                                 week: weekNr,
                                 date: self.parseDate(weekStartDate),
                                 term: termName
-                            }
+                            };
                         }
                     });
                 }
@@ -591,7 +590,7 @@ define([
 
             return termData ? termData.date : this.calendar.getActiveDate();
         },
-        
+
         /**
          * Converts a date string to a js Date object. Expects string format to be yyyy-mm-dd
          * @param {string} dateString The date string to be converted.

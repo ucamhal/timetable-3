@@ -7,7 +7,6 @@ define([
 
     var ModulesList = Backbone.View.extend({
         initialize: function (opts) {
-
             if (opts.thingPath) {
                 this.thingPath = opts.thingPath;
             } else {
@@ -17,7 +16,7 @@ define([
             if (opts.crsfToken) {
                 this.crsfToken = opts.crsfToken;
             } else {
-                throw new Error("Please provide a crsfToken for modules list to work.")
+                throw new Error("Please provide a crsfToken for modules list to work.");
             }
 
             _.bindAll(this, "updateList");
@@ -35,30 +34,30 @@ define([
             var crsf = this.crsfToken;
             var postdata = {};
             if ( add ) {
-                postdata['t'] = $source.attr("data-fullpath");
-                postdata['es'] = $source.attr("data-eventsourceid");
-                postdata['e'] = $source.attr("data-eventid");
+                postdata.t = $source.attr("data-fullpath");
+                postdata.es = $source.attr("data-eventsourceid");
+                postdata.e = $source.attr("data-eventid");
             } else {
-                postdata['td'] = $source.attr("data-fullpath");
-                postdata['esd'] = $source.attr("data-eventsourceid");
-                postdata['ed'] = $source.attr("data-eventid");
+                postdata.td = $source.attr("data-fullpath");
+                postdata.est = $source.attr("data-eventsourceid");
+                postdata.ed = $source.attr("data-eventid");
             }
-            postdata['csrfmiddlewaretoken'] = crsf;
+            postdata.csrfmiddlewaretoken = crsf;
             $.post(sourcepath+".link", postdata, function() {
                 self.updateButtonStates($source);
                 _.dispatchEvent(self, "timetableUpdated");
             }).error(function(response, status, error) {
                 console.log("Status code is "+response.status+" error:"+error);
                 if ( response.status === 403 ) {
-                    $('#signinModal').modal('show');                    
+                    $("#signinModal").modal("show");
                 } else {
-                    $('#errorModal').modal('show');
+                    $("#errorModal").modal("show");
                 }
             });
         },
 
         updateButtonStates: function ($source) {
-            if ($source.is('.js-btn-module-level')) {
+            if ($source.is(".js-btn-module-level")) {
                 this.toggleButtonState($source.parent().parent().find("a.btn"), $source.is(".js-btn-add"));
             } else {
                 this.toggleButtonState($source, $source.is(".js-btn-add"));
@@ -133,7 +132,7 @@ define([
 
         moreClickHandler: function (event) {
             var $target = $(event.currentTarget);
-            
+
             $target.removeClass("js-more").addClass("js-less");
             $target.text("show less");
 
@@ -181,7 +180,7 @@ define([
             this.$moduleSelect = this.$(".js-module-select");
             this.$partSelect = this.$(".js-part-select");
         },
-        
+
         events: {
             "change .js-module-select"  : "moduleChangedHandler",
             "change .js-part-select"    : "partChangedHandler"

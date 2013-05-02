@@ -1,9 +1,10 @@
 define([
+    "jquery",
     "view/admin/lists",
     "view/cookieHandler",
     "bootstrap",
     "not-implemented-tooltips"
-], function(Lists, CookieHandler) {
+], function($, Lists, CookieHandler) {
     "use strict";
 
     $(".js-module").each(function() {
@@ -17,7 +18,7 @@ define([
     var cookieHandler = new CookieHandler({
         el: ".js-cookie-alert"
     });
-    
+
     // Make the list watch for URL hash items in order to expand series
     // & highlight events.
     Lists.bindUrlHashWatcher();

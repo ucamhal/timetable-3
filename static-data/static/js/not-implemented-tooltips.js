@@ -1,4 +1,4 @@
-define(["bootstrap"], function() {
+define(["jquery", "bootstrap"], function($) {
     "use strict";
 
     // Show tooltips on all elements w/ class notImplemented (delegated)
