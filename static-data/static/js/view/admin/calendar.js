@@ -7,7 +7,6 @@ define([
     "use strict";
 
     var CalendarEventPopup = Backbone.View.extend({
-
         events: {
             "click .js-close" : "onClose"
         },
@@ -688,5 +687,4 @@ define([
         FullCalendarView: FullCalendarView,
         DateSpinner: DateSpinner
     };
-
 });

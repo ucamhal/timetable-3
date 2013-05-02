@@ -3,6 +3,7 @@ define([
     "underscore",
     "backbone"
 ], function ($, _, Backbone) {
+    "use strict";
 
     var ModulesList = Backbone.View.extend({
         initialize: function (opts) {
@@ -282,5 +283,4 @@ define([
         ModulesSelector: ModulesSelector,
         ListView: ListView
     };
-
 });

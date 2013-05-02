@@ -1,5 +1,9 @@
-define(["view/admin/lists", "view/cookieHandler", "bootstrap", "not-implemented-tooltips"],
-		function(Lists, CookieHandler) {
+define([
+    "view/admin/lists",
+    "view/cookieHandler",
+    "bootstrap",
+    "not-implemented-tooltips"
+], function(Lists, CookieHandler) {
     "use strict";
 
     $(".js-module").each(function() {
@@ -21,7 +25,6 @@ define(["view/admin/lists", "view/cookieHandler", "bootstrap", "not-implemented-
     // Fire an initial hashchange to handle hash params in the URL on
     // page load.
     $(window).trigger("hashchange");
-
 
     return undefined;
 });
