@@ -31,16 +31,16 @@
 
 {% block additional_modals %}
 <div class="js-timedout-modal modal dontDisplayMe">
-	<div class="modal-header">
-		<h3>Your session has timed out</h3>
-	</div>
-	<div class="modal-body">
-		<p>Your session has timed out to enable other admins with edit rights to edit this timetable.</p>
-		<p>Any unsaved changes have been lost.</p>
-	</div>
-	<div class="modal-footer">
-		<a href="{% url "admin timetable" timetable_thing.fullpath %}" class="btn btn-primary">Close</a>
-	</div>
+  <div class="modal-header">
+    <h3>Your session has timed out</h3>
+  </div>
+  <div class="modal-body">
+    <p>Your session has timed out to enable other admins with edit rights to edit this timetable.</p>
+    <p>Any unsaved changes have been lost.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="{% url "admin timetable" timetable_thing.fullpath %}" class="btn btn-primary">Close</a>
+  </div>
 </div>
 
 <div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"

@@ -5,12 +5,14 @@
  * assert(1 + 1 == 2, "yay maths"); // does nothing
  */
 define(["underscore"], function(_) {
-    function AssertionError(message, objects) {  
-        this.name = "AssertionError";  
+    "use strict";
+
+    function AssertionError(message, objects) {
+        this.name = "AssertionError";
         this.message = message || "";
         this.objects = objects;
-    }  
-    AssertionError.prototype = new Error();  
+    }
+    AssertionError.prototype = new Error();
     AssertionError.prototype.constructor = AssertionError;
 
     function assert(expression) {
@@ -21,9 +23,9 @@ define(["underscore"], function(_) {
                 objectsStart = 1;
                 message = "";
             }
-            
+
             var objects = _.tail(arguments, objectsStart);
-            
+
             if(console && console.error) {
                 console.error("assertion failed. expr:",
                         expression, ", message:", message,

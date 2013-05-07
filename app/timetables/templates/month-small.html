@@ -1,39 +1,39 @@
 <table class="table table-bordered">
-    {% if include_monthyear %}
-    <caption>{{ month_calendar.start_date|date:"F Y" }}</caption>
-    {% endif %}
-    <thead>
-        <!--
-        <tr class="activeMonth">
-            <th class="btn-inverse" colspan="7">{{ calendar.start_date|date:"F Y" }}</th>
-        </tr>
-        -->
-        <tr>
-        {% for day_name in month_calendar.calendar_week_days_names %}
-            <th>{{ day_name|slice:":1" }}</th>
-        {% endfor %}
-        </tr>
-    </thead>
+  {% if include_monthyear %}
+  <caption>{{ month_calendar.start_date|date:"F Y" }}</caption>
+  {% endif %}
+  <thead>
+    <!--
+    <tr class="activeMonth">
+      <th class="btn-inverse" colspan="7">{{ calendar.start_date|date:"F Y" }}</th>
+    </tr>
+    -->
+    <tr>
+    {% for day_name in month_calendar.calendar_week_days_names %}
+      <th>{{ day_name|slice:":1" }}</th>
+    {% endfor %}
+    </tr>
+  </thead>
 
-    <tbody>
-        {% for row in month_calendar.calendar_month_days_by_row %}
-        <tr>
-            {% for day in row %}
-                {% if not day %}
-                    <td></td>
-                {% else %}
-                    <td data-date="{{ day.date|date:"Y-m-d" }}"
-                    {% if day.has_events %}
-                        class="occupied"
-                    {% else %}
-                        class="available"
-                    {% endif %}
-                    >
-                        {{ day.day }}
-                    </td>
-                {% endif %}
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
+  <tbody>
+    {% for row in month_calendar.calendar_month_days_by_row %}
+    <tr>
+      {% for day in row %}
+        {% if not day %}
+          <td></td>
+        {% else %}
+          <td data-date="{{ day.date|date:"Y-m-d" }}"
+          {% if day.has_events %}
+            class="occupied"
+          {% else %}
+            class="available"
+          {% endif %}
+          >
+            {{ day.day }}
+          </td>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
