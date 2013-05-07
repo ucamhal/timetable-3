@@ -28,3 +28,6 @@ static-data/staticroot/
 # Ignore Sublime Text project files
 *.sublime-project
 *.sublime-workspace
+
+# node modules
+node_modules

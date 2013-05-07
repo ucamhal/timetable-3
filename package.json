@@ -1,0 +1,9 @@
+{
+  "name": "timetables3",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-requirejs": "latest"
+  }
+}
