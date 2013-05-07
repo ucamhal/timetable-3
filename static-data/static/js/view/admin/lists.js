@@ -261,6 +261,8 @@ define([
             // access it from hashchanges below.q
             this.$el.data("view", this);
 
+            this.model = new BaseModel();
+
             listEvents.on("expand-series", this.onExpandSeries);
         },
 
@@ -286,6 +288,7 @@ define([
             var loadingEl = $(".js-loading-indicator-prototype").clone()
                 .show()
                 .removeClass("js-loading-indicator-prototype");
+
             this.loadingIndicator = new LoadingIndicatorView({el: loadingEl});
             this.$(".js-events").empty().append(this.loadingIndicator.el);
             this.loadingIndicator.on("retry", this.startEventsRequest, this);
@@ -319,12 +322,13 @@ define([
         buildEventViews: function() {
             // At this point the events exist in the page. Instanciate a 
             // EventView wrapping each event and store the list of these
-            // views in this.eventsd
-            this.events = _.map(this.$(".js-event"), function(eventEl) {
+            // views in this.model.events
+            var events = _.map(this.$(".js-event"), function(eventEl) {
                 var eventView = new EventView({el: eventEl});
-
                 return eventView;
             }, this);
+
+            this.model.set('events', events);
         },
 
         onEventsFetchFailed: function() {
@@ -421,13 +425,15 @@ define([
                 $toggleButton: this.$(".js-series-buttons .js-edit-icon"),
                 titleFieldName: "title"
             });
-            this.currentChangesState = false;
+
+            // Bind a change handler to the model
+            this.model.on("change", this.onSavedStatusChanged);
+
             _.bindAll(this);
         },
 
         getEventsRequestOptions: function() {
-            var baseOptions = WritableSeriesView.__super__
-                .getEventsRequestOptions();
+            var baseOptions = WritableSeriesView.__super__.getEventsRequestOptions();
 
             return _.extend(baseOptions, {
                 data: {writeable: true}
@@ -435,21 +441,36 @@ define([
         },
 
         buildEventViews: function() {
-            // At this point the events exist in the page. Instanciate a 
+            // At this point the events exist in the page. Instantiate a 
             // WritableEventView wrapping each event and store the list
-            // of these views in this.events
-            this.events = _.map(this.$(".js-event"), function(eventEl) {
-                var eventView = new WritableEventView({el: eventEl});
+            // of these views in this.model.events
+            var events = _.map(this.$(".js-event"), this.buildSingleEventView, this);
 
-                // Watch for events being modified
-                eventView.on("event:savedStatusChanged", this.onSavedStatusChanged);
-                eventView.on("datetimedialogopen", this.onDateTimeOpen);
-                eventView.on("datetimedialogclose", this.onDateTimeClose);
-
-                return eventView;
-            }, this);
+            this.model.set({
+                currentChangesState: false,
+                events: events,
+                newEvents: [],
+                initialEventsCount: events.length
+            });
 
             this.$cancelSaveBtns = this.$(".js-save-cancel-btns");
+        },
+
+        /**
+         * Function that wraps a single provided element in a writableEventView
+         * view and binds all necessary events to it. 
+         */
+        buildSingleEventView: function (el) {
+            var eventView = new WritableEventView({
+                el: el
+            });
+
+            // Watch for events being modified
+            eventView.on("event:savedStatusChanged", this.onSavedStatusChanged);
+            eventView.on("datetimedialogopen", this.onDateTimeOpen);
+            eventView.on("datetimedialogclose", this.onDateTimeClose);
+
+            return eventView;
         },
 
         onDateTimeOpen: function () {
@@ -472,48 +493,70 @@ define([
             });
         },
 
+        /**
+         * Checks if there are any changes in the series, shows/hides the save
+         * and cancel buttons appropriately.
+         */
         onSavedStatusChanged: function() {
-            // Check for any events being changed and hide/show cancel/save
-            // button as needed.
-            var changesExist = _.any(this.events, function(event) {
+            // Check for changes in the events or if any new events are being
+            // added.
+            var changesExist = _.any(this.model.get("events"), function(event) {
                 return event.model.hasChangedFromOriginal();
-            });
+            }) || this.model.get("newEvents").length > 0;
 
             // Make the cancel/save buttons visible/hidden as required
-            if (changesExist !== this.currentChangesState) {
+            if (changesExist !== this.model.get("currentChangesState")) {
                 if (changesExist === true) {
                     this.$cancelSaveBtns.stop().hide().slideDown(200);
                 } else {
                     this.$cancelSaveBtns.stop().show().slideUp(200);
                 }
 
-                this.currentChangesState = changesExist;
+                this.model.set({
+                    currentChangesState: changesExist
+                });
             }
+
+            this.$el.toggleClass("hasChanges", changesExist);
         },
 
         onCancel: function(event) {
-            _.each(this.events, function(eventView) {
+            // Set each event to its original state (= undoing all the changes)
+            _.each(this.model.get("events"), function(eventView) {
                 eventView.cancelChanges();
-                // This works, but is a bit hacky
-                //eventView.unfocusForEditing();
             });
+
+            // Remove any eventviews that were added by the user
+            _.each(this.model.get("newEvents"), function (eventView) {
+                eventView.remove();
+            });
+
+            // Reset the newEvents array
+            this.model.set("newEvents", []);
         },
 
         onSave: function(event) {
+            var self = this;
+
             if (this.locked === true) {
                 return false;
             }
             // Build a JSON representation of the form. 
 
-            var forms = _.map(this.events, function(eventView) {
+            var initialEventForms = _.map(this.model.get("events"), function(eventView) {
+                return eventView.model.asJSONDjangoForm();
+            });
+
+            var newEventForms = _.map(this.model.get("newEvents"), function (eventView) {
                 return eventView.model.asJSONDjangoForm();
             });
 
             var outerForm = {
                 "event_set": {
                     // can't add forms yet so this is OK
-                    "initial": forms.length,
-                    "forms": forms
+                    "initial": initialEventForms.length,
+                    "total": initialEventForms.length + newEventForms.length,
+                    "forms": initialEventForms.concat(newEventForms)
                 }
             };
 
@@ -528,20 +571,109 @@ define([
             this.saveDialogView.postEventsForm(this.getSavePath(), formData);
         },
 
+        /**
+         * Function that removes all events and all event listeners attached to
+         * them
+         */
+        clearEvents: function () {
+            _.each(this.model.get("events").concat(this.model.get("newEvents")), function (eventView) {
+                eventView.off();
+                eventView.destroy();
+            });
+
+            this.model.set({
+                events: [],
+                newEvents: [],
+                currentChangesState: false
+            });
+        },
+
+        /**
+         * Removes the saveDialog and events, triggers recreation of the events
+         * based on the html response.
+         */
         onEventsSaved: function(response) {
             delete this.saveDialogView;
-            this.currentChangesState = false;
+            this.clearEvents();
             this.$(".js-events").empty();
             this.onEventsFetched(response);
         },
 
-        /** Gets the path to the endpoint the POST changes to when saving. */
+        /**
+         * Gets the path to the endpoint the POST changes to when saving.
+         */
         getSavePath: function() {
             return this.$el.data("save-path");
         },
 
+        /**
+         * Function that appends a new event row to the series table
+         * @return [object] new row jQuery Object
+         */
+        appendNewEventRow: function () {
+            var $eventRow;
+
+            // If events already exist, clone the latest, else append an empty
+            // row
+            if (this.model.get("events").length) {
+                $eventRow = this.$el.find(".js-event").last().clone();
+
+                // If the event is one that already exists, we need to remove
+                // the id attribute and add appropriate classes, remove any
+                // buttons not used by new items.
+                if (!$eventRow.hasClass("event-new")) {
+                    $eventRow.addClass("event-new row-being-edited").removeAttr("data-id");
+
+                    _.each($eventRow.find(".buttons a"), function (el) {
+                        var $el = $(el);
+                        if (!$el.hasClass("js-remove-icon")) {
+                            $el.parent().remove();
+                        }
+                    });
+                }
+            } else {
+                $eventRow = $($("#js-templ-new-event").html());
+            }
+
+            this.$el.find("tbody").append($eventRow);
+            return $eventRow;
+        },
+
+        /**
+         * Removes the deleted event from the newEvents array in our model
+         */
+        onNewEventRemoved: function (eventView) {
+            // We have to get the array first, then modify (= remove the new
+            // event) it and push it back into the model in order for the
+            // Backbone model change events to be dispatched.
+            this.model.set({
+                newEvents: _.without(this.model.get("newEvents"), eventView)
+            });
+        },
+
+        /**
+         * Creates a new event row and its eventView wrapper when the "create
+         * event" button is clicked, also adds it to the newEvents array in our
+         * model.
+         */
         onAddEvent: function(event) {
-            return false;
+            var $newEvent,
+                newEventView;
+
+            $newEvent = this.appendNewEventRow();
+            newEventView = this.buildSingleEventView($newEvent);
+
+            // Add an event listener that listens to the new event being removed
+            newEventView.on("destroyed", this.onNewEventRemoved);
+
+            // We have to get the array first, then modify (= add the new event)
+            // it and push it back into the model in order for the Backbone
+            // model change events to be dispatched.
+            this.model.set({
+                newEvents: this.model.get("newEvents").concat(newEventView)
+            });
+
+            event.preventDefault();
         }
     });
 
@@ -683,7 +815,8 @@ define([
         updateModel: function() {
             // Update our model with the current state of the HTML
             this.model.set({
-                id: safeParseInt(this.$el.data("id")),
+                // If no ID is specified, set as undefined (new event will be created in the backend when no ID is set)
+                id: safeParseInt(this.$el.data("id")) || undefined,
                 title: this.$titleField.text(),
                 location: this.$locationField.text(),
                 type: this.$typeField.val(),
@@ -770,9 +903,23 @@ define([
             }, 50);
         },
 
+        destroy: function () {
+            this.remove();
+            this.trigger("destroyed", this);
+        },
+
         removeIconClickHandler: function (event) {
-            this.toggleCancelledState();
             event.preventDefault();
+
+            // If the item was an event being added by the user, simply remove
+            // it and dispatch an event so the event series can lose track of it
+            if (this.isNew()) {
+                this.destroy();
+                return;
+            }
+
+            // Else if the event was already present, toggle the cancelled state
+            this.toggleCancelledState();
         },
 
         keyUpHandler: function (event) {
@@ -810,6 +957,10 @@ define([
             }
         },
 
+        isNew: function () {
+            return this.model.get("id") === undefined;
+        },
+
         markAsChanged: function () {
             this.$el.toggleClass("unsaved", this.model.hasChangedFromOriginal());
             this.trigger("event:savedStatusChanged");
@@ -823,7 +974,7 @@ define([
             var self = this;
             this.caretMoved = false;
             _.delay(function () {
-                if (!self.hasFocus()) {
+                if (!self.hasFocus() && !self.isNew()) {
                     self.$el.removeClass("row-being-edited");
                     self.toggleRowBeingEditedState(false);
                 }

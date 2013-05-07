@@ -97,13 +97,17 @@ a.addModule {
   margin-right: 7px;
 }
 
-.addEvent {
-  color: #ce7400;
+.hasChanges .addEvent {
+  opacity: .4;
+  transition: opacity .2s;
+}
+
+.hasChanges .addEvent:hover {
+  opacity: 1;
 }
 
 .addEvent {
-  margin-left: 8px;
-  padding-bottom: 10px;
+  margin: 10px 0 30px 8px;
 }
 
 .buttons > a {
@@ -264,6 +268,10 @@ select.event-type {
 
 #adminListView .event.highlighted > td {
   background-color: #D3FFD5;
+}
+
+#adminListView .event.event-editable.event-new td {
+  background-color: #d6f3d6;
 }
 
 .event.event-cancelled .buttons a {
