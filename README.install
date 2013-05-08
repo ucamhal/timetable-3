@@ -20,4 +20,8 @@ Dependencies: (note version numbers are known to work; other versions may work -
 	[django-haystack 1.2.7 (not currently used)]
 	pytz
 	
-	
+Dependencies for using grunt (jshint and/or optimized builds):
+	Node.js 0.8.16 but any other recent version should do fine
+	npm 1.2.12
+	grunt CLI (run 'npm install -g grunt-cli')
+	Node modules defined in package.json (cd into your git repo directory and run 'npm install')

@@ -29,5 +29,8 @@ static-data/staticroot/
 *.sublime-project
 *.sublime-workspace
 
-# node modules
+# Node modules
 node_modules
+
+# Front-end Build
+static-data/build
