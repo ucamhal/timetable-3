@@ -53,4 +53,9 @@ else:
 
 SECRET_KEY = EXTERNAL_CONFIG.get("crypto", "secretkey")
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'timetables.backend.TimetablesAuthorizationBackend',
+)
+
 

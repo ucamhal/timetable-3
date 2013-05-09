@@ -181,11 +181,6 @@ MIDDLEWARE_CLASSES = (
     'timetables.utils.compatibility.XUACompatibleMiddleware'
 )
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'timetables.backend.TimetablesAuthorizationBackend',
-)
-
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
