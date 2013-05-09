@@ -64,48 +64,15 @@ FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
 INSTANCE_NAME = "timetables.caret.cam.ac.uk"
 
 MANAGERS = ADMINS
+
+# PG_INSTALLED is currently used in (at least) base_non_local.py and local.py
 try:
     import psycopg2.extensions
     PG_INSTALLED = True
 except:
     PG_INSTALLED = False
 
-if 'test' in sys.argv or not PG_INSTALLED:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': "%s/app-data/data.db" % ROOT_PATH, # Or path to database file if using sqlite3.
-            'USER': '', # Not used with sqlite3.
-            'PASSWORD': '', # Not used with sqlite3.
-            'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '', # Set to empty string for default. Not used with sqlite3.
-        }
-    }
-
-else:
-    
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'timetables3', # Or path to database file if using sqlite3.
-            'USER': 'timetables3', # Not used with sqlite3.
-            'PASSWORD': 'timetables3', # Not used with sqlite3.
-            'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '5432', # Set to empty string for default. Not used with sqlite3.
-            'OPTIONS': {
-                        'autocommit': True, # If you set this to False, a transaction will be created every time even if the app doesnt use it. Dont set it to False, transactions are managed differently.
-            }
-        },
-        'testing': {
-            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': "%s/app-data/data.db" % ROOT_PATH, # Or path to database file if using sqlite3.
-            'USER': '', # Not used with sqlite3.
-            'PASSWORD': '', # Not used with sqlite3.
-            'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '', # Set to empty string for default. Not used with sqlite3.
-        }
-    }
-
+DATABASES = {}
 
 # Define a connection to Elastic search using Haystack
 

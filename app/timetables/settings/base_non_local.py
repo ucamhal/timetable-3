@@ -1,21 +1,19 @@
 """
-This is the settings file used for local development/testing with the
-Django development server (e.g. manage.py runserver).
+The base configuration for non-local (i.e. on a real server)
+deployments.
 """
+import os
+from os import path
 
-# Extend default settings from base.py
+from logging.handlers import SysLogHandler
+
+from .config_loader_utility import load_external_config
 from .base import *
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-
-#INSTALLED_APPS += (
-#    "debug_toolbar",
-#)
-
-# MIDDLEWARE_CLASSES += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
-
-INTERNAL_IPS = ("127.0.0.1",)  # This means SQL and the debug setting in templates is true for 127.0.0.1 only. We need the Git version for all users.
+# Sensitive settings which are loaded from a config file not in this repo
+## FIXME use unipath
+EXTERNAL_CONFIG_FILE = ROOT_PATH + "/local/secret.conf"
+EXTERNAL_CONFIG = load_external_config(EXTERNAL_CONFIG_FILE)
 
 if 'test' in sys.argv or not PG_INSTALLED:
     DATABASES = {
@@ -33,12 +31,12 @@ else:
     
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'timetables3', # Or path to database file if using sqlite3.
-            'USER': 'timetables3', # Not used with sqlite3.
-            'PASSWORD': 'timetables3', # Not used with sqlite3.
-            'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '5432', # Set to empty string for default. Not used with sqlite3.
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": EXTERNAL_CONFIG.get("database", "name"),
+            "USER": EXTERNAL_CONFIG.get("database", "user"),
+            "PASSWORD": EXTERNAL_CONFIG.get("database", "password"),
+            "HOST": EXTERNAL_CONFIG.get("database", "host"),
+            "PORT": EXTERNAL_CONFIG.get("database", "port"),
             'OPTIONS': {
                         'autocommit': True, # If you set this to False, a transaction will be created every time even if the app doesnt use it. Dont set it to False, transactions are managed differently.
             }
@@ -53,13 +51,6 @@ else:
         }
     }
 
-WSGI_APPLICATION = "timetables.wsgi.local.application"
+SECRET_KEY = EXTERNAL_CONFIG.get("crypto", "secretkey")
 
-# Set to True to enable the Werkzeug debugger
-#DEBUG_PROPAGATE_EXCEPTIONS = False
 
-# local conf is never used for use of a developers' machine, so it
-# doesn't matter if this value is known.
-SECRET_KEY = "super secret"
-
-ALLOWED_HOSTS = ["localhost"]
