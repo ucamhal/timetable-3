@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -e
+
+# Get the script's DIR
+DIR=`dirname ${0}`;
+
+# date command to use
+DATEBIN=`which date`
+# Python command to use
+PYTHON_CMD="python"
+# command to use to run manage.py
+MANAGE="$PYTHON_CMD $DIR/app/manage.py"
+
+function report_exit_status() {
+    echo "** post_update.sh exiting with status: $? **"
+}
+# Call report_exit_status on exit
+trap "report_exit_status" 0
+
+# Redirect entire output to .lastrun file
+exec > >(tee "$DIR/post_update.lastrun")
+# Redirect stderr to stdout
+exec 2>&1
+
+# Print usage if no argument was passed
+if [[ -z $1 ]]
+then
+    echo "usage: post_update CONTEXT_NAME"
+    exit 1
+fi
+
+# Set the DJANGO_SETTINGS_MODULE according to the first argument
+case $1 in
+    dev)
+        export DJANGO_SETTINGS_MODULE=timetables.settings.dev
+        export REQUIREMENTS_FILE=$DIR/app/requirements/dev.txt
+        ;;
+    qa)
+        export DJANGO_SETTINGS_MODULE=timetables.settings.qa
+        export REQUIREMENTS_FILE=$DIR/app/requirements/qa.txt
+        ;;
+    staging)
+        export DJANGO_SETTINGS_MODULE=timetables.settings.staging
+        export REQUIREMENTS_FILE=$DIR/app/requirements/staging.txt
+        ;;
+    production)
+        export DJANGO_SETTINGS_MODULE=timetables.settings.production
+        export REQUIREMENTS_FILE=$DIR/app/requirements/production.txt
+        ;;
+    *)
+        echo "Error: Unknown deployment context: $1"
+        exit 1
+        ;;
+esac
+
+## Capture and time, and write to local file to try and show
+## an approximate time the shell script was called.
+NOW=`${DATEBIN} '+%Y%m%d %H:%M:%S'`
+echo "** Started at: $NOW **"
+
+# Log the settings module being used
+echo "** Using settings module: $DJANGO_SETTINGS_MODULE **"
+echo "** Using requirements file: $REQUIREMENTS_FILE **"
+echo ""
+
+# Install required dependencies
+echo "** Installing Python packages w/ pip **"
+sudo pip install -r "$REQUIREMENTS_FILE"
+echo ""
+
+# The manage commands to run:
+echo "** Running Django manage commands **"
+$MANAGE syncdb --noinput || exit 2;
+$MANAGE migrate --noinput || exit 3;
+$MANAGE collectstatic  --noinput || exit 4;
+
+# Restart apache
+# Should we use sudo -n to never prompt for a pw?
+echo "** Restarting apache **"
+sudo /etc/init.d/apache2 restart || exit 5;
+
+exit 0;
