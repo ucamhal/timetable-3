@@ -968,8 +968,10 @@ define([
         },
 
         highlight: function() {
-            this.$el.addClass("highlighted");
-            scrollTo(this.$el.offset().top - 100, 200);
+            if (!this.$el.hasClass("highlighted")) {
+                this.$el.addClass("highlighted");
+                scrollTo(this.$el.offset().top - 100, 200);
+            }
         }
     });
 
