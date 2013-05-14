@@ -6,7 +6,7 @@ dev, qa, staging, production stack of servers.
 from .base_non_local import *
 
 
-ALLOWED_HOSTS = ["timetables.dev.dmz.caret.local"]
+ALLOWED_HOSTS = ["timetable.dev.ds.lib.cam.ac.uk"]
 
 WSGI_APPLICATION = "timetables.wsgi.dev.application"
 
