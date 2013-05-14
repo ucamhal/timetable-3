@@ -220,6 +220,7 @@ select.event-type {
   padding: 2px 3px;
   border-style: transparent;
   border-width: 1px;
+  min-height: 1.4em;
 }
 
 .event-editable.row-being-edited .event-field .event-input,
@@ -361,7 +362,12 @@ select.event-type {
 }
 
 .module-title .chevron {
-  margin-top: 5px;
+  float: left;
+  margin-top: 8px;
+  margin-right: 10px;
+}
+
+.module-title .title {
   margin-right: 10px;
 }
 
@@ -394,8 +400,13 @@ select.event-type {
   border-bottom-color: rgba(0, 0, 0, .2);
 }
 
-.series-title h5 span {
+.series-title h5 .title {
   margin-right: 8px;
+}
+
+.series-title .chevron {
+  float: left;
+  margin: 4px 8px 0 0;
 }
 
 .series-title > h5 a input {
@@ -473,8 +484,9 @@ select.event-type {
 
 .series-title .title,
 .module-title .title {
+  float: left;
+  min-height: 1em;
   padding: 5px;
-  display: inline-block;
 }
 
 .series-title .title.editable,
@@ -485,6 +497,8 @@ select.event-type {
 .series-title .error-message,
 .module-title .error-message {
   color: red;
+  float: left;
+  margin-top: 5px;
 }
 
 

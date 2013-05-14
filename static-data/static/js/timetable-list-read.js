@@ -11,10 +11,6 @@ define([
         new Lists.ModuleView({el: this});
     });
 
-    $(".js-series").each(function() {
-        new Lists.SeriesView({el: this});
-    });
-
     var cookieHandler = new CookieHandler({
         el: ".js-cookie-alert"
     });

@@ -16,6 +16,8 @@
     <a href="{% url "thing calendar" thing %}">Calendar</a>
   </li>
 </ul>
+
+<a href="#" class="btn js-btn-add-module"><span class="icon-plus"></span> Add module</a>
 {% endblock timetable_tab_nav %}
 
 
@@ -23,11 +25,9 @@
 {% include "administrator/timetableList/fragModuleWrite.html" %}
 {% endblock timetable_module %}
 
-
 {% block top_level_series__series %}
 {% include "administrator/timetableList/fragSeriesWrite.html" %}
 {% endblock top_level_series__series %}
-
 
 {% block additional_modals %}
 <div class="js-timedout-modal modal dontDisplayMe">
@@ -132,10 +132,8 @@
   </div>
 </div>
 
-<!--
-  Template for new events, placed this within a script tag because having a tr 
-  directly in here directly wouldn't be very nice.
--->
+{# All following templates are wrapped in script tags because having the elements directly in here with display none applied wouldn't be very nice.. #}
+{# Templates for new events #}
 <script id="js-templ-new-event" type="text/template">
   <tr class="event js-event event-editable event-new row-being-edited">
     <td title="Title" class="event-field eventTitle">
@@ -191,4 +189,82 @@
 
   </tr>
 </script>
+
+{# New series title template #}
+<script id="js-templ-new-series" type="text/template">
+  <div class="series js-series">
+    <div class="series-title collapsed clearfix js-series-title">
+      <h5 class="pull-left">
+        <a href="javascript:;" class="js-collapse">
+        <span class="chevron icon-chevron-right js-expansion-indicator"></span>
+          {# TODO insert real new module endpoint #}
+          <span class="js-value title" data-save-path="/series/new"></span>
+          <span class="js-error-message error-message dontDisplayMe">Saving failed, please try again later.</span>
+        </a>
+      </h5>
+
+      <p class="buttons js-series-buttons">
+        <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
+        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
+        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
+        <a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
+      </p>
+    </div>
+  </div>
+</script>
+
+{# New series content template #}
+<script id="js-templ-new-series-content" type="text/template">
+  <div class="events js-events clearfix collapse">
+    <table class="table table-striped">
+      <tbody>
+      </tbody>
+    </table>
+
+    <a href="javascript:;" class="js-btn-add-event addEvent pull-left btn">
+      <span class="icon-plus"></span>Add event
+    </a>
+    <ul class="js-save-cancel-btns seriesEditActions pull-right" style="display: none;">
+      <li class="pull-left">
+        <a href="javascript:;" class="js-btn-cancel cancel">cancel</a>
+      </li>
+      <li class="pull-left">
+        <a href="javascript:;" class="js-btn-save save btn btn-success" title="save event series" data-loading-text="Saving...">Save</a>
+      </li>
+    </ul>
+  </div>
+</script>
+
+{# New module title template #}
+<script id="js-templ-new-module" type="text/template">
+  <div class="module js-module">
+    <div class="js-module-title module-title clearfix">
+      <h4 class="pull-left">
+        <a href="javascript:;" class="js-collapse collapsed">
+        <span class="chevron js-expansion-indicator icon-chevron-right"></span>
+          <span class="title js-value"></span>
+          <span class="js-error-message error-message dontDisplayMe">Saving failed, please try again later.</span>
+        </a>
+      </h4>
+
+      <p class="buttons js-module-buttons">
+        <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
+        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
+        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
+        <a href="#" class="icon-trash notImplemented" title="remove"><span class="hideMe">remove</span></a>
+      </p>
+    </div>
+  </div>
+</script>
+
+{# New module content template #}
+<script id="js-templ-new-module-content" type="text/template">
+  <div class="moduleContent module-content js-module-content collapse">
+    <a href="#" class="btn addSeries js-btn-add-series"><span class="icon-plus"></span>Add series</a>
+    <div class="seriesList js-series-list">
+      <p class="js-no-series">This module contains no series.</p>
+    </div>
+  </div>
+</script>
+
 {% endblock additional_modals %}

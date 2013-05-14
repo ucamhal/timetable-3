@@ -1,22 +1,64 @@
 define([
     "jquery",
     "underscore",
+    "backbone",
     "view/admin/lists",
     "view/cookieHandler",
     "bootstrap",
     "not-implemented-tooltips"
-], function($, _, Lists, CookieHandler) {
+], function($, _, Backbone, Lists, CookieHandler) {
     "use strict";
 
-    var moduleViews = [],
-        seriesViews = [];
+    var TimetableListWrite = Backbone.View.extend({
+        initialize: function () {
+            var self = this;
 
-    $(".js-module").each(function() {
-        moduleViews.push(new Lists.WritableModuleView({el: this}));
+            $(".js-module").each(function() {
+                self.moduleViews.push(new Lists.WritableModuleView({el: this}));
+            });
+
+            _.bindAll(this);
+        },
+
+        // Arrays to store the modules and series views in
+        moduleViews: [],
+        // and any newly added ones
+        newModuleViews: [],
+
+        events: function () {
+            return {
+                "click .js-btn-add-module": this.onAddModuleClick
+            };
+        },
+
+        appendNewModule: function () {
+            var $markup = $($("#js-templ-new-module").html()),
+                newModuleView;
+
+            this.$(".modulesList").append($markup);
+            newModuleView = new Lists.WritableModuleView({
+                el: $markup,
+                added: true
+            });
+
+            newModuleView.on("destroy", this.removeModule);
+            newModuleView.editableTitle.toggleEditableState(true);
+            this.newModuleViews.push(newModuleView);
+        },
+
+        removeModule: function (removedModule) {
+            var target = removedModule.options.added === true ? "newModuleViews" : "moduleViews";
+            this[target] = _.without(this[target], removedModule);
+        },
+
+        onAddModuleClick: function (event) {
+            this.appendNewModule();
+            event.preventDefault();
+        }
     });
 
-    $(".js-series").each(function() {
-        seriesViews.push(new Lists.WritableSeriesView({el: this}));
+    var timetablesListWrite = new TimetableListWrite({
+        el: "body"
     });
 
     // Make the list watch for URL hash items in order to expand series
@@ -31,8 +73,9 @@ define([
         $timedOutModal: $(".js-timedout-modal"),
         refreshUrl: $(".js-module-list").data("lock-refresh-path"),
         onTimeout: function () {
-            _.invoke(seriesViews, "lock");
-            _.invoke(moduleViews, "lock");
+            // Lock all moduleviews including the new ones.
+            _.invoke(timetablesListWrite.moduleViews, "lock");
+            _.invoke(timetablesListWrite.newModuleViews, "lock");
         }
     });
 
