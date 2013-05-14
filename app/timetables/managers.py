@@ -1,9 +1,13 @@
+import logging
+
 from django.db import models
 from django.conf import settings
 
 from timetables.utils.reflection import newinstance
 from timetables import querysets
 
+
+log = logging.getLogger(__name__)
 
 class QuerySetManager(models.Manager):
     """
@@ -36,6 +40,8 @@ class EventManager(QuerySetManager):
                 imported = imported + importer.import_events(event_source)
                 sources = sources + 1
             except:
+                log.error("Error importing events for source id: %d"
+                    % event_source.id)
                 raise
         return sources, imported
 

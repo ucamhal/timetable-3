@@ -1,130 +1,130 @@
 .typeahead {
-	width: 50px;
-	min-width: 20px;
-	max-height: 125px;
-	overflow-x: hidden;
-	overflow-y: auto;
+  width: 50px;
+  min-width: 20px;
+  max-height: 125px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .typeahead:focus {
-	outline: none;
+  outline: none;
 }
 
 .typeahead li {
-	width: 50px;
+  width: 50px;
 }
 
 .typeahead li a {
-	padding: 3px;
-	padding-left: 10px;
+  padding: 3px;
+  padding-left: 10px;
 }
 
 .accordion-toggle span {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 body ul {
-	list-style-type: none;
-	margin-left: 0;
+  list-style-type: none;
+  margin-left: 0;
 }
 
 ul.yes-this-is-really-a-list {
-	list-style-type: disc;
-	margin: 0 0 10px 25px;
+  list-style-type: disc;
+  margin: 0 0 10px 25px;
 }
 
 .buttons a {
-	opacity: .6;
+  opacity: .6;
 }
 
 .buttons a:hover {
-	opacity: 1;
+  opacity: 1;
 }
 
 a.addModule {
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 /* Timetable page navigation */
 .nav-label {
-	margin: 8px;
+  margin: 8px;
 }
 
 
 #inputArea div {
-	margin: 0;
+  margin: 0;
 }
 
 #inputArea h3 {
-	font-size: 1.4em;
-	margin: 0 0 10px 0;
-	padding: 0;
-	line-height: 1em;
-	padding-top: 4px;
-	color: #f5f5f5;
-	text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
+  font-size: 1.4em;
+  margin: 0 0 10px 0;
+  padding: 0;
+  line-height: 1em;
+  padding-top: 4px;
+  color: #f5f5f5;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 1);
 }
 
 #inputArea h3 span {
-	padding-top: 5px;
+  padding-top: 5px;
 }
 
 #admin #inputArea select {
-	width: 114px;
+  width: 114px;
 }
 
 #adminListActions {
-	min-height: 40px;
+  min-height: 40px;
 }
 
 #adminListActions .icon-chevron-left {
-	margin-right: 4px;
+  margin-right: 4px;
 }
 
 #adminListActions ul li {
-	margin-left: 15px;
+  margin-left: 15px;
 }
 
 .modulesList .module a.addSeries {
-	margin-bottom: 9px;
+  margin-bottom: 9px;
 }
 
 .btn span.icon-plus {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 .addEvent span.icon-plus {
-	margin-right: 7px;
+  margin-right: 7px;
 }
 
 .addEvent {
-	color: #ce7400;
+  color: #ce7400;
 }
 
 .addEvent {
-	margin-left: 8px;
-	padding-bottom: 10px;
+  margin-left: 8px;
+  padding-bottom: 10px;
 }
 
 .buttons > a {
-	margin-right: 3px;
+  margin-right: 3px;
 }
 
 .loading-indicator {
-	width: 30%;
-	margin: 40px auto;
+  width: 30%;
+  margin: 40px auto;
 }
 
 .loading-indicator-content {
-	min-height: 40px;
+  min-height: 40px;
 }
 
 .events table {
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .series form {
-	margin: 0;
+  margin: 0;
 }
 
 /*
@@ -132,11 +132,11 @@ a.addModule {
  */
 
 .date-time-form-row {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .date-time-form-row .first-label {
-	min-width: 40px;
-	text-align: right;
+  min-width: 40px;
+  text-align: right;
 }
 
 /*
@@ -144,7 +144,7 @@ a.addModule {
  */
 
 .module-content.shown {
-	overflow: visible;
+  overflow: visible;
 }
 
 /*
@@ -153,330 +153,330 @@ a.addModule {
 
 /* The element which a dialog is a child of. */
 .dialog-holder {
-	position: relative;
+  position: relative;
 }
 
 .dialog-holder .input-mini {
-	width: 35px;
+  width: 35px;
 }
 
 .dialog-holder span label {
-	padding-right: 10px;
-	padding-left: 6px;
+  padding-right: 10px;
+  padding-left: 6px;
 }
 
 .dialog-holder span label.first-label {
-	padding-left: 0;
+  padding-left: 0;
 }
 
 /* A modal dialog element. */
 .dialog {
-	z-index: 950;
-	position: absolute;
+  z-index: 950;
+  position: absolute;
 }
 
 /* An element which covers the entire window behind a dialog. */
 .dialog-backdrop {
-	z-index: 900;
-	background-color: black;
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	opacity: 0.5;
+  z-index: 900;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.5;
 }
 
 .event select.event-type {
-	display: none;
+  display: none;
 }
 
 select.event-type {
-	width: 100px;
+  width: 100px;
 }
 
 .event.event-editable.row-being-edited .event-type-input-wrap span.event-type,
 .event.event-editable .event-type-input-wrap.being-edited span.event-type,
 .event.event-editable.event-cancelled .event-type-input-wrap span.event-type {
-	display: none;
+  display: none;
 }
 
 .event.event-editable.row-being-edited .event-type-input-wrap select.event-type,
 .event.event-editable .event-type-input-wrap.being-edited select.event-type,
 .event.event-editable.event-cancelled .event-type-input-wrap select.event-type {
-	display: block;
+  display: block;
 }
 
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
-	padding-right: 20px; /* To accommodate the pencil icon */
+  padding-right: 20px; /* To accommodate the pencil icon */
 }
 
 .event-editable .event-field .event-input {
-	padding: 2px 3px;
-	border-style: transparent;
-	border-width: 1px;
+  padding: 2px 3px;
+  border-style: transparent;
+  border-width: 1px;
 }
 
 .event-editable.row-being-edited .event-field .event-input,
 .event-editable .event-field .event-input.being-edited {
-	background-color: #fffdf7;
-	border-style: dashed;
-	border-color: #a7a7a7;
-	cursor: auto;
+  background-color: #fffdf7;
+  border-style: dashed;
+  border-color: #a7a7a7;
+  cursor: auto;
 }
 
 .event-editable.row-being-edited.event-cancelled .event-field .event-input,
 .event-editable.event-cancelled .event-field .event-input.being-edited {
-	background-color: transparent;
-	border-style: none;
+  background-color: transparent;
+  border-style: none;
 }
 
 .event-editable .event-field:hover {
- 	background-image: url("../img/pencil.png");
- 	background-repeat: no-repeat;
- 	background-position: 100% 50%;
+   background-image: url("../img/pencil.png");
+   background-repeat: no-repeat;
+   background-position: 100% 50%;
 }
 
 #adminListView .nav-tabs,
 #timetable-view .nav-tabs {
-	font-size: 1.2em;
-	font-weight: bold;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 #adminListView .nav-tabs .nav-label {
-	font-size: .9em;
-	padding-top: 4px;
+  font-size: .9em;
+  padding-top: 4px;
 }
 
 #adminListView .nav-tabs .nav-label em {
-	padding-left: 5px;
+  padding-left: 5px;
 }
 
 #adminListView .nav-tabs > li > a,
 #timetable-view .nav-tabs > li > a {
-	padding: 11px 23px;
+  padding: 11px 23px;
 }
 
 #adminListView .nav-tabs {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 #adminListView .event.highlighted > td {
-	background-color: #D3FFD5;
+  background-color: #D3FFD5;
 }
 
 .event.event-cancelled .buttons a {
-	opacity: .2;
+  opacity: .2;
 }
 
 .event.event-cancelled .buttons a.remove {
-	opacity: .6;
+  opacity: .6;
 }
  
 .event.event-cancelled .event-field {
-	text-decoration: line-through;
-	background-image: none;
+  text-decoration: line-through;
+  background-image: none;
 }
 
 .event.event-cancelled .event-field.eventType {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .event.event-cancelled .event-field.eventType select {
-	opacity: .4;
+  opacity: .4;
 }
 
 /* id selector used to boost priority over Bootstrap */
 #adminListView .event-editable.unsaved > td,
 #adminListView .event-editable:hover > td {
-	background-color: #fff6e2;
+  background-color: #fff6e2;
 }
 
 #adminListView .event-editable {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #adminListView .event-editable.being-edited > td {
-	background-color: #f5e7d0;
+  background-color: #f5e7d0;
 }
 
 #adminListView .event-editable.being-edited {
-	cursor: auto;
+  cursor: auto;
 }
 
 .dialog-date-time {
-	background: white;
+  background: white;
 }
 
 .dialog-backdrop-date-time {
-	opacity: .4;
+  opacity: .4;
 }
 
 .dialog-date-time .dialog-actions .close-btn {
-	padding-top: 10px;
-	padding-right: 8px;
+  padding-top: 10px;
+  padding-right: 8px;
 }
 
 .events.shown {
-	overflow: visible;
+  overflow: visible;
 }
 
 .series-title.collapsed .buttons {
-	visibility: hidden;
+  visibility: hidden;
 }
 
 .series-title.collapsed:hover .buttons {
-	visibility: visible;
+  visibility: visible;
 }
 
 .modulesList .moduleContent {
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .module-title h4, .series-title h5 {
-	margin: 0;
-	padding: 0;
-	line-height: 1em;
+  margin: 0;
+  padding: 0;
+  line-height: 1em;
 }
 
 .module-title {
-	border-bottom-style: solid;
-	border-bottom-color: rgba(0, 0, 0, .4);
-	border-bottom-width: 2px;
-	padding: 10px 0;
-	margin-bottom: 10px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, .4);
+  border-bottom-width: 2px;
+  padding: 10px 0;
+  margin-bottom: 10px;
 }
 
 .module-title a {
-	color: black;
+  color: black;
 }
 
 .module-title .chevron {
-	margin-top: 5px;
-	margin-right: 10px;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 
 .module-title .buttons {
-	visibility: hidden;
+  visibility: hidden;
 }
 
 .module-title:hover .buttons {
-	visibility: visible;
+  visibility: visible;
 }
 
 .module-title.hasOpenSeries .buttons {
-	visibility: visible;
+  visibility: visible;
 }
 
 .seriesList,
 .moduleContent > a.btn {
-	margin-left: 20px;
+  margin-left: 20px;
 }
 
 .module > a.btn {
-	margin-top: 5px;
-	margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .series-title {
-	padding: 10px 0;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: rgba(0, 0, 0, .2);
+  padding: 10px 0;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, .2);
 }
 
 .series-title h5 span {
-	margin-right: 8px;
+  margin-right: 8px;
 }
 
 .series-title > h5 a input {
-	display: none;
+  display: none;
 }
 
 .module-title .buttons,
 .series-title .buttons {
-	display: inline;
-	padding-left: 20px;
+  display: inline;
+  padding-left: 20px;
 }
 
 .series-title .buttons a {
-	margin-top: 4px;
+  margin-top: 4px;
 }
 
 .module-title .buttons a {
-	margin-top: 6px;
+  margin-top: 6px;
 }
 
 .seriesEditActions {
-	padding-top: 10px;
-	padding-right: 30px;
+  padding-top: 10px;
+  padding-right: 30px;
 }
 
 .seriesEditActions .cancel {
-	margin-right: 16px;
-	margin-top: 4px;
-	display: block;
+  margin-right: 16px;
+  margin-top: 4px;
+  display: block;
 }
 
 .series-title h5 .title {
-	color: #08C;
-	cursor: pointer;
+  color: #08C;
+  cursor: pointer;
 }
 
 .module-title h4 .title {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .series-title a:hover,
 .module-title a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .series-title a:hover .title,
 .module-title a:hover .title {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .series-title a:hover .title.editable,
 .module-title a:hover .title.editable {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .series-title .title.editable,
 .module-title .title.editable {
-	outline: none;
-	border-style: dashed;
-	border-width: 1px;
-	border-color: rgba(0, 0, 0, .2);
-	cursor: inherit;
-	color: #000;
+  outline: none;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, .2);
+  cursor: inherit;
+  color: #000;
 }
 
 .series-title .title.saving,
 .module-title .title.saving {
-	opacity: .4;
+  opacity: .4;
 }
 
 .series-title .title:focus,
 .module-title .title:focus {
-	outline: none;
+  outline: none;
 }
 
 .series-title .title,
 .module-title .title {
-	padding: 5px;
-	display: inline-block;
+  padding: 5px;
+  display: inline-block;
 }
 
 .series-title .title.editable,
 .module-title .title.editable {
-	background-color: #FFF6E2;
+  background-color: #FFF6E2;
 }
 
 .series-title .error-message,
 .module-title .error-message {
-	color: red;
+  color: red;
 }
 
 
@@ -486,80 +486,80 @@ select.event-type {
  *
  */
 .event .eventActions ul li {
-	display: inline;
+  display: inline;
 }
 
 .eventActions .buttons {
-	margin: 0;
+  margin: 0;
 }
 
 .event .eventActions ul {
-	min-width: 70px;
-	margin: 0;
+  min-width: 70px;
+  margin: 0;
 }
 
 .event-type {
-	background-repeat: no-repeat;
-	background-position: 0 50%;
-	padding-left: 24px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  padding-left: 24px;
 }
 
 select.event-type {
-	padding-left: 0;
+  padding-left: 0;
 }
 
 .event-type-lecture {
-	background-image: url(../img/typeLectureIcon.png);
+  background-image: url(../img/typeLectureIcon.png);
 }
 
 .event-type-seminar {
-	background-image: url(../img/typeSeminarIcon.png);
+  background-image: url(../img/typeSeminarIcon.png);
 }
 
 .event-type-practical {
-	background-image: url(../img/typePracticalIcon.png);
+  background-image: url(../img/typePracticalIcon.png);
 }
 
 .event-type-laboratory {
-	background-image: url(../img/typeLaboratoryIcon.png);
+  background-image: url(../img/typeLaboratoryIcon.png);
 }
 
 .event-type-language {
-	background-image: url(../img/typeLanguageClassIcon.png);
+  background-image: url(../img/typeLanguageClassIcon.png);
 }
 
 .datePatternDialog {
-	left: -50%;
-	min-width: 420px;
-	box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px 0px;
+  left: -50%;
+  min-width: 420px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 10px 0px;
 }
 
 .datePatternDialog h3 {
-	font-size: 1em;
-	font-weight: bold;
-	padding-top: 5px;
-	padding-bottom: 2px;
+  font-size: 1em;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 2px;
 }
 
 .datePatternDialog h3 a {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .datePatternDialog select {
-	width: 150px;
+  width: 150px;
 }
 
 .datePatternDialog .popover-content {
-	padding: 20px;
+  padding: 20px;
 }
 
 .datePatternDialog .popover-title h3 {
-	line-height: 1em;
+  line-height: 1em;
 }
 
 .datePatternDialog .popover-title .close {
-	margin-top: 8px;
+  margin-top: 8px;
 }
 
 /*
@@ -567,40 +567,40 @@ select.event-type {
  */
 
 #calendarHeading {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 #calendarHeading .calendarNavigation {
-	margin-left: 230px;
+  margin-left: 230px;
 }
 
 #calendarHeading .calendarNavigation:last-child {
-	margin: 0;
+  margin: 0;
 }
 
 #calendarHeading .calendarNavigation.week-calendar-navigation {
-	margin-left: 367px;
+  margin-left: 367px;
 }
 
 .calendarEventInfo .actions {
-	margin-top: 18px;
+  margin-top: 18px;
 }
 
 .calendarEventInfo .actions a {
-	margin-top: 5px;
-	display: block;
+  margin-top: 5px;
+  display: block;
 }
 
 .calendarEventInfo .actions a.btn {
-	margin: 0;
+  margin: 0;
 }
 
 .being-edited-alert {
-	position: static;
-	box-shadow: none;
-	margin-bottom: 30px;
+  position: static;
+  box-shadow: none;
+  margin-bottom: 30px;
 }
 
 .being-edited-alert a {
-	color: #B94A48;
+  color: #B94A48;
 }

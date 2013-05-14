@@ -1,8 +1,4 @@
-'''
-Created on Oct 17, 2012
 
-@author: ieb
-'''
 from timetables.models import Thing, ThingTag
 from timetables.admin.widgets import TextWidget
 from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
@@ -10,6 +6,8 @@ from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.db.models.aggregates import Count
 
 import json
 
@@ -19,9 +17,9 @@ class ThingAdminForm(forms.ModelForm):
         model = Thing
         widgets = {
          'pathid' : TextWidget(),
-         'fullpath' : TextWidget()
+         'fullpath' : TextWidget(),
         }
-    
+
     def __init__(self, *args, **kwargs):
         kwargs = self.pretty_print_initial_json_data(kwargs)
         
@@ -88,12 +86,37 @@ class ThingTagInline(admin.TabularInline):
             
 class ThingAdmin(admin.ModelAdmin):
     form = ThingAdminForm
-    list_display = ( "fullpath", "fullname", "type", )
-    list_filter = ( "type", "fullname", )
-    search_fields = ( "fullpath", "fullname", )
-    list_editable = ("type",)
+    list_display =  ("name", "fullname", "fullpath", "type", "child_count",)
+    list_filter =   ("type",)
+    search_fields = ("fullpath", "name", "fullname",)
+    ordering =      ("fullpath", "type",)
+
+    # Don't use <select> dropdowns as they become unwieldy due to the quantity
+    # of data we have.
+    raw_id_fields = ("parent",)
+
     inlines = [
         EventSourceTagInline,
         EventTagInline,
         ThingTagInline
     ]
+
+    list_select_related = True
+
+    def queryset(self, request):
+        # Annotate the qs with child_count for use in sorting the child_count
+        # display field defined below.
+        return Thing.objects.annotate(child_count=Count('thing'))
+
+    def child_count(self, thing):
+        return ('<a title="%s" href="%s?parent__id__exact=%s">%s</a>') % (
+            "Filter this list to just the children of this Thing",
+            reverse("admin:timetables_thing_changelist"),
+            thing.id,
+            thing.child_count
+        )
+    child_count.allow_tags = True
+    # Sort on the number of kids. Note that this field is an aggregate added
+    # in the queryset() method of this class.
+    child_count.admin_order_field = "child_count"
+    child_count.short_description = "Children"

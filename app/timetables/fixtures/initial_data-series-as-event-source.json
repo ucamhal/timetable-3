@@ -24883,17 +24883,6 @@
   }, 
   {
     "fields": {
-      "sourceurl": "language", 
-      "data": "{\"datePattern\": \"\", \"type\": \"class\", \"location\": \"History Faculty\", \"people\": [\"\"]}", 
-      "sourcetype": "pattern", 
-      "sourcefile": "", 
-      "title": "B2 Language training"
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "2263"
-  }, 
-  {
-    "fields": {
       "sourceurl": "formation", 
       "data": "{\"datePattern\": \"Mi1-4, 6-8 F 1-11\", \"type\": \"class\", \"location\": \"History Faculty\", \"people\": [\"Dr D. Smith\"]}", 
       "sourcetype": "pattern", 
@@ -52119,61 +52108,6 @@
   }, 
   {
     "fields": {
-      "sourceurl": "lecture", 
-      "data": "{\"datePattern\": \"Mi 1-8 M 4-6; Le 1-8 M 4-6; Ea 1-8 M4-6\", \"type\": \"lecture\", \"location\": \"G24\", \"people\": [\"Worthington\", \" Fox\", \" Turner\"]}", 
-      "sourcetype": "pattern", 
-      "sourcefile": "", 
-      "title": "Commercial Equity"
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "4744"
-  }, 
-  {
-    "fields": {
-      "sourceurl": "", 
-      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
-      "sourcetype": "pattern", 
-      "sourcefile": "", 
-      "title": ""
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "4745"
-  }, 
-  {
-    "fields": {
-      "sourceurl": "", 
-      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": [\"\"]}", 
-      "sourcetype": "pattern", 
-      "sourcefile": "", 
-      "title": ""
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "4746"
-  }, 
-  {
-    "fields": {
-      "sourceurl": "", 
-      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": \"\"}", 
-      "sourcetype": "", 
-      "sourcefile": "", 
-      "title": ""
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "4747"
-  }, 
-  {
-    "fields": {
-      "sourceurl": "", 
-      "data": "{\"datePattern\": \"\", \"type\": \"\", \"location\": \"\", \"people\": \"\"}", 
-      "sourcetype": "", 
-      "sourcefile": "", 
-      "title": ""
-    }, 
-    "model": "timetables.eventsource", 
-    "pk": "4748"
-  }, 
-  {
-    "fields": {
       "sourceurl": "keats", 
       "data": "{\"datePattern\": \"Ea 1-4 Tu 9\", \"type\": \"lecture\", \"location\": \"Faculty Building - GR04\", \"people\": [\"tbc\"]}", 
       "sourcetype": "pattern", 
@@ -74904,15 +74838,6 @@
     }, 
     "model": "timetables.eventsourcetag", 
     "pk": "2496"
-  }, 
-  {
-    "fields": {
-      "thing": "250", 
-      "eventsource": "2263", 
-      "annotation": "home"
-    }, 
-    "model": "timetables.eventsourcetag", 
-    "pk": "2497"
   }, 
   {
     "fields": {
@@ -101778,15 +101703,6 @@
     }, 
     "model": "timetables.eventsourcetag", 
     "pk": "5482"
-  }, 
-  {
-    "fields": {
-      "thing": "1001", 
-      "eventsource": "4744", 
-      "annotation": "home"
-    }, 
-    "model": "timetables.eventsourcetag", 
-    "pk": "5483"
   }, 
   {
     "fields": {

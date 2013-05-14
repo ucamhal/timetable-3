@@ -1,8 +1,3 @@
-'''
-Created on Oct 17, 2012
-
-@author: ieb
-'''
 from django import forms
 from timetables.models import EventSource, Event, EventSourceTag, EventTag
 from django.contrib import admin
@@ -11,7 +6,7 @@ from django.contrib import admin
 class EventSourceTagInline(admin.TabularInline):
     model = EventSourceTag
     extra = 1
-    raw_id_fields = ("eventsource",)
+    raw_id_fields = ("eventsource", "thing")
 
 class EventTagInline(admin.TabularInline):
     model = EventTag
@@ -30,10 +25,11 @@ class EventSourceForm(forms.ModelForm):
 
 class EventSourceAdmin(admin.ModelAdmin):
     form = EventSourceForm
-    list_display = ( "title", "sourceurl", "sourcetype", )
-    list_filter = ( "sourcetype", )
-    search_fields = ( "title",  )
-    actions = ["unpack_events"]
+    list_display =  ("title", "sourceurl", "sourcetype",)
+    list_filter =   ("sourcetype",)
+    search_fields = ( "title",)
+    raw_id_fields = ("master",)
+    actions =       ("unpack_events",)
     inlines = [
         EventSourceTagInline,
         

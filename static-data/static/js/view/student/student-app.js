@@ -6,7 +6,6 @@ define([
     "view/admin/calendar",
     "view/cookieHandler"
 ], function ($, _, Backbone, Modules, Calendar, CookieHandler) {
-
     "use strict";
 
     _.mixin({

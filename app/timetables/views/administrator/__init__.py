@@ -331,10 +331,11 @@ def get_user_editable(request):
     """
     Returns a list of IDs of the Things which the current user may edit.
     """
-    user = "user/"+request.user.username
-    user = models.Thing.objects.get(pathid=models.Thing.hash(user))
+    user = models.Thing.get_or_create_user_thing(request.user)
     # which things may this user administrate?
-    return models.Thing.objects.filter(relatedthing__thing=user, relatedthing__annotation="admin").values_list("id", flat=True)
+    return (models.Thing.objects.filter(
+                relatedthing__thing=user, relatedthing__annotation="admin")
+            .values_list("id", flat=True))
 
 
 def warning_view(request):

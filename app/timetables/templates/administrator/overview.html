@@ -4,9 +4,9 @@
 {% block top_title %}
 <span class="pull-left">Timetables in </span>
 <select id="iAmInput" class="pull-left js-select-faculty">
-	{% for fullname, fullpath in triposes %}
-	<option value="{{ fullpath }}"{% if thing.fullpath == fullpath %} selected="selected"{% endif %}>{{ fullname }}</option>
-	{% endfor %}
+  {% for fullname, fullpath in triposes %}
+    <option value="{{ fullpath }}"{% if thing.fullpath == fullpath %} selected="selected"{% endif %}>{{ fullname }}</option>
+  {% endfor %}
 </select> 
 {% endblock top_title %}
 
@@ -46,15 +46,15 @@
 
         <div class="timetable-center">
           <h4>
-          {% comment %}
-          For part-only timetables we use the name of the faculty followed by the
-          part. For real subjects we use the subject followed by part. #}
-          {% endcomment %}
-          {% if timetable.type == "part" %}
-            {{ thing.fullname }} {{ timetable.fullname }}
-          {% else %}
-            {{ timetable.fullname }} {{ timetable.parent.fullname }}
-          {% endif %}
+            {% comment %}
+            For part-only timetables we use the name of the faculty followed by the
+            part. For real subjects we use the subject followed by part. #}
+            {% endcomment %}
+            {% if timetable.type == "part" %}
+              {{ thing.fullname }} {{ timetable.fullname }}
+            {% else %}
+              {{ timetable.fullname }} {{ timetable.parent.fullname }}
+            {% endif %}
           </h4>
         </div>
 
@@ -67,11 +67,9 @@
             <span class="icon-lock icon-white"></span>
             view only
           {% endif %}
-          
         </div>
       </a>
     </li>
-
   {% endfor %}
   </ul>
 </div>

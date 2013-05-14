@@ -1,8 +1,8 @@
 {% load timetables %}
 {% for thing in things %}
-	{% include_thing_template "things/thing-%s.html" thing %}
+  {% include_thing_template "things/thing-%s.html" thing %}
 {% endfor %}
 
 {% for eventsource in sources %}
-    {% include "things/eventsource.html" %}
+  {% include "things/eventsource.html" %}
 {% endfor %}

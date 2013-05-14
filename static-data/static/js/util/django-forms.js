@@ -3,8 +3,8 @@
  * POST bodies from a JSON representation of a form. This can be used to
  * assemble form data without actually using an HTML form.
  */
-define(["underscore", "jquery", "util/assert"],
-        function(_, $, assert) {
+define(["underscore", "jquery", "util/assert"], function(_, $, assert) {
+    "use strict";
 
     /**
      * Encodes a JSON representation of a Django form into a
@@ -54,10 +54,11 @@ define(["underscore", "jquery", "util/assert"],
         assert(_.isString(prefix), prefix);
 
         _.each(jsonForm, function(value,  key) {
-            if(_.isObject(value))
+            if (_.isObject(value)) {
                 compressJSONFormset(value, join(prefix, key), dest);
-            else
+            } else {
                 merge(dest, join(prefix, key), value);
+            }
         });
 
         return dest;
@@ -124,12 +125,13 @@ define(["underscore", "jquery", "util/assert"],
 
     /** Join a form key with a prefix. */
     function join(prefix, suffix) {
-        if(!prefix)
+        if (!prefix) {
             return suffix;
+        }
         return [prefix, suffix].join("-");
     }
 
     return {
         encodeJSONForm: encodeJSONForm
     };
-})
+});
