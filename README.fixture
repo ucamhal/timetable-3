@@ -16,6 +16,9 @@ The Things2 spreadsheet may be found on Google Drive at:
 
 These instructions should be applied to setting up a local install.
 DEV, etc, servers will have the fixture applied automatically, once only.
+
+The current version of the initial fixture may be downloaded from:
+	https://bitbucket.org/caret/timetables-3/downloads/initial_fixture.json
 	
 
 ------------
