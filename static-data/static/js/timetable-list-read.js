@@ -11,7 +11,7 @@ define([
         new Lists.ModuleView({el: this});
     });
 
-    var cookieHandler = new CookieHandler({
+    new CookieHandler({
         el: ".js-cookie-alert"
     });
 

@@ -20,7 +20,7 @@ define([
                 this, arguments);
         },
 
-        initialize: function (opts) {
+        initialize: function () {
             this.$editMessage = this.$(".js-edit-message");
             this.$name = this.$(".js-editor");
         },
@@ -72,11 +72,11 @@ define([
         });
     }
 
-    var cookieHandler = new CookieHandler({
+    new CookieHandler({
         el: ".js-cookie-alert"
     });
 
     // Update the lock status straight away
     updateTimetablesLockStatus();
-    var updateTimetablesLockStatusInterval = setInterval(updateTimetablesLockStatus, UPDATE_FREQUENCY);
+    setInterval(updateTimetablesLockStatus, UPDATE_FREQUENCY);
 });

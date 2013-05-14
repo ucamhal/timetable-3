@@ -3,10 +3,9 @@ define([
     "underscore",
     "backbone",
     "util/django-forms",
-    "util/assert",
     "jquery-bbq",
     "bootstrapTypeahead"
-], function($, _, Backbone, DjangoForms, assert) {
+], function($, _, Backbone, DjangoForms) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -147,7 +146,7 @@ define([
         unlock: function () {
             $.ajax({
                 url: "",
-                success: function (response) {
+                success: function () {
 
                 },
                 error: function () {
@@ -454,7 +453,7 @@ define([
         events: function() {
             // Extend (don't overwrite) the events defined in the superclass
             var superEvents = WritableModuleView.__super__.events.call(this);
-            
+
             return _.extend(superEvents, {
                 "click .js-btn-add-series": this.onAddSeriesClick
             });
@@ -779,7 +778,7 @@ define([
             this.$el.toggleClass("hasChanges", changesExist);
         },
 
-        onCancel: function(event) {
+        onCancel: function() {
             // Set each event to its original state (= undoing all the changes)
             _.each(this.model.get("events"), function(eventView) {
                 eventView.cancelChanges();
@@ -794,9 +793,7 @@ define([
             this.model.set("newEvents", []);
         },
 
-        onSave: function(event) {
-            var self = this;
-
+        onSave: function() {
             if (this.locked === true) {
                 return false;
             }
@@ -1003,7 +1000,7 @@ define([
             return day;
         },
 
-        validate: function(attrs) {
+        validate: function() {
             /* Function disabled for now
 
             var errors = {};
@@ -1165,7 +1162,7 @@ define([
             };
         },
 
-        dateTimeFocusOutHandler: function (event) {
+        dateTimeFocusOutHandler: function () {
             var self = this;
             _.delay(function () {
                 if (!self.$dateTimeWrapper.is(":active") && self.$dateTimeWrapper.find(":focus, :active").length < 1) {
@@ -1193,12 +1190,12 @@ define([
             this.toggleCancelledState();
         },
 
-        keyUpHandler: function (event) {
+        keyUpHandler: function () {
             this.updateModel();
             this.markAsChanged();
         },
 
-        changeHandler: function (event) {
+        changeHandler: function () {
             this.updateModel();
             this.markAsChanged();
         },
@@ -1209,19 +1206,19 @@ define([
             this.$typeWrapper.removeClass("being-edited");
         },
 
-        titleFieldFocusOutHandler: function (event) {
+        titleFieldFocusOutHandler: function () {
             this.$titleField.removeClass("being-edited");
         },
 
-        locationFieldFocusOutHandler: function (event) {
+        locationFieldFocusOutHandler: function () {
             this.$locationField.removeClass("being-edited");
         },
 
-        peopleFieldFocusOutHandler: function (event) {
+        peopleFieldFocusOutHandler: function () {
             this.$peopleField.removeClass("being-edited");
         },
 
-        typeFieldFocusOutHandler: function (event) {
+        typeFieldFocusOutHandler: function () {
             //check if value is different from original; remove being-edited class
             if (!this.model.hasFieldChangedFromOriginal("type")) {
                 this.$typeWrapper.removeClass("being-edited");
@@ -1241,7 +1238,7 @@ define([
             return this.$el.find(":focus").length > 0 || this.$el.find(":active").length > 0;
         },
 
-        focusOutHandler: function (event) {
+        focusOutHandler: function () {
             var self = this;
             this.caretMoved = false;
             _.delay(function () {
@@ -1252,21 +1249,21 @@ define([
             }, 50);
         },
 
-        focusInHander: function (event) {
+        focusInHander: function () {
             this.toggleRowBeingEditedState(true);
         },
 
-        editIconClickHandler: function (event) {
+        editIconClickHandler: function () {
             if (!this.isCancelled()) {
                 this.$el.addClass("row-being-edited");
             }
         },
 
-        dateTimeWrapFocusHandler: function (event) {
+        dateTimeWrapFocusHandler: function () {
             this.toggleDateTimeDialog(true);
         },
 
-        typeWrapFocusHandler: function (event) {
+        typeWrapFocusHandler: function () {
             if (this.$typeWrapper.hasClass("being-edited") === false) {
                 this.$typeWrapper.addClass("being-edited");
                 this.$typeField.focus();
@@ -1281,7 +1278,6 @@ define([
         },
 
         titleFieldFocusHandler: function (event) {
-            var self = this;
             this.$titleField.addClass("being-edited");
             this.moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
@@ -1438,10 +1434,10 @@ define([
             // If the escape key (27) is pressed the value should be reverted to
             // its previous state.
             // If the enter key (13) is pressed, the new value should be saved.
-            // This switch case can fall through.
             switch (event.keyCode) {
             case 27:
                 this.revert();
+                /* falls through */
             case 13:
                 this.$value.blur();
                 event.preventDefault();
@@ -1449,7 +1445,7 @@ define([
             }
         },
 
-        onFocusOut: function (event) {
+        onFocusOut: function () {
             if (this.isEditable === true) {
                 this.saveAndClose();
                 this.trigger("close", this.model.get(this.titleFieldName));
@@ -1576,7 +1572,7 @@ define([
             event.stopPropagation();
         },
 
-        initialize: function(opts) {
+        initialize: function() {
             _.bindAll(this);
 
             this.backdrop = new DialogBackdropView();
@@ -1993,9 +1989,7 @@ define([
      * scroll to the specified event.
      */
     function bindUrlHashWatcher() {
-        $(window).bind("hashchange", function(e) {
-            var state = $.bbq.getState();
-
+        $(window).bind("hashchange", function() {
             var expand = asArray($.bbq.getState("expand"));
             _.each(expand, function(seriesId) {
                 // Sanitise ID

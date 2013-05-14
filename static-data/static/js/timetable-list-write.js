@@ -82,13 +82,13 @@ define([
     // Fire an initial hashchange to handle hash params in the URL on
     // page load.
     $(window).trigger("hashchange");
-    $(window).bind("beforeunload", function (e) {
+    $(window).bind("beforeunload", function () {
         locker.unlock();
     });
 
     Lists.listEvents.on("page-edited", locker.preventTimeout);
 
-    var cookieHandler = new CookieHandler({
+    new CookieHandler({
         el: ".js-cookie-alert"
     });
 
