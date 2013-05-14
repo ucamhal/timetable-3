@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-# Django settings for timetables project.
+"""
+Default Django settings for timetables project.
+"""
 import os
 from os import path
 import sys
+
+# TODO use unipath instead of os.path (see OpenAccess base.py)
+# (will need to be added to requirements file too)
 
 import logging
 # Run a basic config so that log messages in settings can be shown before Django
@@ -12,7 +17,7 @@ log = logging.getLogger("timetables.settings")
 del logging
 
 
-ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../"))
+ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "../../../"))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -59,48 +64,15 @@ FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
 INSTANCE_NAME = "timetables.caret.cam.ac.uk"
 
 MANAGERS = ADMINS
+
+# PG_INSTALLED is currently used in (at least) base_non_local.py and local.py
 try:
     import psycopg2.extensions
     PG_INSTALLED = True
 except:
     PG_INSTALLED = False
 
-if 'test' in sys.argv or not PG_INSTALLED:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': "%s/app-data/data.db" % ROOT_PATH, # Or path to database file if using sqlite3.
-            'USER': '', # Not used with sqlite3.
-            'PASSWORD': '', # Not used with sqlite3.
-            'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '', # Set to empty string for default. Not used with sqlite3.
-        }
-    }
-
-else:
-    
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'timetables2', # Or path to database file if using sqlite3.
-            'USER': 'timetables2', # Not used with sqlite3.
-            'PASSWORD': 'timetables2', # Not used with sqlite3.
-            'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '5432', # Set to empty string for default. Not used with sqlite3.
-            'OPTIONS': {
-                        'autocommit': True, # If you set this to False, a transaction will be created every time even if the app doesnt use it. Dont set it to False, transactions are managed differently.
-            }
-        },
-        'testing': {
-            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': "%s/app-data/data.db" % ROOT_PATH, # Or path to database file if using sqlite3.
-            'USER': '', # Not used with sqlite3.
-            'PASSWORD': '', # Not used with sqlite3.
-            'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '', # Set to empty string for default. Not used with sqlite3.
-        }
-    }
-
+DATABASES = {}
 
 # Define a connection to Elastic search using Haystack
 
@@ -209,11 +181,6 @@ MIDDLEWARE_CLASSES = (
     'timetables.utils.compatibility.XUACompatibleMiddleware'
 )
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'timetables.backend.TimetablesAuthorizationBackend',
-)
-
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
@@ -225,8 +192,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'timetables.utils.gitrevision.git_revivion_contextprocessor',
     'timetables.utils.requirejs.js_main_module_contextprocessor',
 )
-
-INTERNAL_IPS = ("127.0.0.1",)  # This means SQL and the debug setting in templates is true for 127.0.0.1 only. We need the Git version for all users.
 
 ROOT_URLCONF = 'timetables.urls'
 
