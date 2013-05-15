@@ -34,10 +34,6 @@ TEST_RUNNER = "timetables.utils.testrunner.DiscoveryRunner"
 # If false, a testing url will be used.
 ENABLE_RAVEN=False
 
-# login URL; primarily used to auto-login administrators
-LOGIN_URL='/accounts/login/'
-
-
 # To enable redeployment, set this to a unique string in your local settings and configure
 # your source code repository to post to http://host/repo/{{ REDEPLOY_KEY }}
 # All this will do it write a file to disk in a known location of a set size.
