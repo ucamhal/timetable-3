@@ -9,7 +9,7 @@ DATEBIN=`which date`
 # Python command to use
 PYTHON_CMD="python"
 # command to use to run manage.py
-MANAGE="$PYTHON_CMD $DIR/app/manage.py"
+MANAGE="$PYTHON_CMD $DIR/app/django/manage.py"
 
 function report_exit_status() {
     echo "** post_update.sh exiting with status: $? **"
