@@ -2,7 +2,7 @@
 *.pyc
 
 # SQLite databases etc
-app-data/*
+app/django/timetables.db
 
 # Annoying OSX files
 .DS_Store
@@ -15,15 +15,17 @@ app-data/*
 .pydevproject
 .settings
 
-# Django project marker for dj (could add this really...)
-.djangoproject
-
 # Personal/local settings files
 app/local_settings.py
 app/personal_settings.py
 
+# Non-local config files
+local/
+
 # Assembled static files
-static-data/staticroot/
+app/django/collected_static_files
+app/django/media
+
 
 # Ignore Sublime Text project files
 *.sublime-project
