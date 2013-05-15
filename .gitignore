@@ -32,7 +32,7 @@ app/django/media
 *.sublime-workspace
 
 # Node modules
-node_modules
+app/node_modules
 
 # Front-end Build
-static-data/build
+app/static-build

@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-imagemin");
 
-    var jsBasePath = "static-data/static/js/",
+    var jsBasePath = "django/timetables/static/js/",
         jsFiles = [
             jsBasePath + "*.js",
             jsBasePath + "view/**/*.js",
@@ -43,30 +43,30 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: "static-data/static/js",
-                    mainConfigFile: "static-data/static/js/main.js",
-                    dir: "static-data/build/js",
+                    baseUrl: jsBasePath,
+                    mainConfigFile: jsBasePath + "main.js",
+                    dir: "static-build/js",
                     name: "libs/require"
                 }
             }
         },
         cssmin: {
             minify: {
-                cwd: "static-data/static/css",
+                cwd: "django/timetables/static/css",
                 expand: true,
                 src: [
                     "**/*.css"
                 ],
-                dest: "static-data/build/css/"
+                dest: "static-build/css/"
             }
         },
         imagemin: {
             minify: {
                 files: [{
                     expand: true,
-                    cwd: "static-data/static/img",
+                    cwd: "django/timetables/static/img",
                     src: "{,*/}*.{png,jpg,jpeg}",
-                    dest: "static-data/build/img"
+                    dest: "static-build/img"
                 }]
             }
         },
