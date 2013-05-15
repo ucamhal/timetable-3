@@ -2,7 +2,6 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.views.decorators.csrf import csrf_exempt
 
-from timetables.utils.repo import RepoView
 from timetables.views import administrator
 from timetables.views.account import LogoutView, LoginView
 from timetables.views.calendarview import (CalendarView, CalendarHtmlView,
@@ -82,12 +81,6 @@ urlpatterns = patterns('',
     url(r'^series/(?P<series_id>\d+)/list-events/$',
         administrator.list_view_events,
         name="list events"),
-
-
-    # This has to be csrf exempt. Look at the view to see what it does.
-    url(r'repo/(?P<key>.*)',
-        csrf_exempt(RepoView.as_view()),
-        name="REPO"),
     
     url(r'^series/(?P<series_id>\d+)/edit$',
         administrator.edit_series_view,
