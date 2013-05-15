@@ -55,6 +55,11 @@ Installation
 
 	python manage.py syncdb (not required for fixture import, but needed if database is out of sync / not previously set up)
 	python manage.py migrate
+	
+6) Unpack events
+
+	The migrate command does not create the individual events associated with timetable modules.
+	After building the database the unpack_events command can be run either through the Django admin or using manage.py
 
 	
 ---------------
