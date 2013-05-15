@@ -12,12 +12,19 @@ Requirements
 git is required to checkout the repository
 Python 2.7 is recommended (though 2.5 and 2.6 should work with Django 1.4)
 PostgreSQL 9.x.x
+pip is required to manage python packages
 
-Dependencies: (note version numbers are known to work; other versions may work - try and see if you are not sure!)
-	Django 1.4.x
-	psycopg2 (for PostgreSQL integration)
-	South 0.7.6
-	[django-haystack 1.2.7 (not currently used)]
-	pytz
-	
-	
+Some Python dependencies may also require other system dependencies,
+e.g. on Ubuntu Precise, you may need to "apt-get install libpq-dev python-dev"
+
+Python dependencies can be automatically installed by "pip":
+
+$ pip install -r requirements.txt
+
+Where requirements.txt is a file in app/requirements/
+
+Dependencies for using grunt (jshint and/or optimized builds):
+    Node.js 0.8.16 but any other recent version should do fine
+    npm 1.2.12
+    grunt CLI (run 'npm install -g grunt-cli')
+    Node modules defined in package.json (cd into your git repo directory and run 'npm install')

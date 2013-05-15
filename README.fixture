@@ -1,0 +1,144 @@
+==================================================
+Import Timetable fixtures from Things2 spreadsheet
+==================================================
+Author: Geoff Martin
+Last updated: 2013-05-14
+
+
+------------
+Introduction
+------------
+
+This README contains instructions for importing Timetable data from the Things2 spreadsheet to the Timetable system.
+
+The Things2 spreadsheet may be found on Google Drive at:
+	https://docs.google.com/a/caret.cam.ac.uk/spreadsheet/ccc?key=0Avg5Hz4jji8CdGhOYjM0dlNaZnRVZmZab09hTERJRVE#gid=3
+
+
+------------
+Installation
+------------
+
+1) Create CSV files from Things2
+
+	Export each of the Things2 sheets (Things, EventSource, EventSourceTag) to a CSV file, one CSV per sheet.
+	To achieve this, use File -> Download as -> Comma Separated Values (.csv, current sheet)
+	
+	These instructions will assume that files Things.csv, EventSource.csv and EventSourceTag.csv have been created.
+	
+2) Convert CSV files to JSON fixtures using the csv2json_fixture.py script
+
+	In the directory containing the CSV files, run:
+		python path_to_scripts/csv2json_fixture.py < filename.csv > filename.json
+	
+		Where path_to_scripts is the relative path to the Timetables project "scripts" directory
+		and filename is one of Things, EventSource or EventSourceTag.
+	
+	Repeat for each CSV file.
+
+3) Concatenate the JSON files into a single fixture
+
+	In the directory containing the JSON files, run:
+		python path_to_scripts/concat_json.py EventSource.json EventSourceTag.json Things.json > initial_data-series-as-event-source.json
+		
+		Where path_to_scripts is the relative path to the Timetables project "scripts" directory
+
+4) Copy initial_data-series-as-event-source.json to Timetable /app/timetables/fixtures
+	
+	Note that the Timetable import process will look for a file named initial_data.json; in the current setup this is a symlink to initial_data-series-as-event-source.json
+	Obviously initial_data-series-as-event-source.json may also be named initial_data.json, although this may lessen future flexibility to support different initial data.
+	
+5) Import the fixture into Timetables
+
+	[python manage.py syncdb]
+	python manage.py migrate
+
+	
+---------------
+Troubleshooting
+---------------
+
+Errors may occur when running "python manage.py migrate"
+
+1) Input data error
+
+	For example:
+	
+		Running migrations for timetables:
+			- some error messages here ...
+			
+		DeserializationError: Invalid model identifier: ''
+			OR
+		IntegrityError: Could not load timetables.Thing(pk=15): duplicate key value violates unique constraint "timetables_thing_pathid_key"
+		DETAIL:  Key (pathid)=(viMlgw4yj2-THTfa9G6_SUF3hCU=) already exists.
+			OR
+		DeserializationError: 'pk'
+			OR
+		etc
+	
+	This means there is an error in the Things2 spreadsheet.
+	The final line of the migrate error message usually provides sufficient information to track down the problem.
+	Seek out and destroy this error with extreme prejudice, then re-import the data.
+
+2) New data doesn't show
+
+	South may not install the new fixture data where old data exists with the same IDs.
+	To resolve this, clear all data from the affected Timetable database tables using:
+	
+		TRUNCATE timetables_event CASCADE;
+		TRUNCATE timetables_eventsource CASCADE;
+		TRUNCATE timetables_eventsourcetag CASCADE;
+		TRUNCATE timetables_eventtag CASCADE;
+		TRUNCATE timetables_thing CASCADE;
+		TRUNCATE timetables_thinglock CASCADE;
+		TRUNCATE timetables_thingtag CASCADE;
+		
+	These commands may be executed using a GUI tool such as pgAdmin or:
+		python manage.py dbshell
+		
+	Note that truncating all tables is problematic if user data exists in the system, or if the Timetable data has been updated from the original fixture.
+	Apply this solution with care!
+	
+3) South migration previously run
+
+	South may fail to apply the new fixture if its migration log shows all migrations have previously been run.
+	The migration log is stored in database table "south_migrationhistory".
+	If a this occurs, it will be necessary to clear out existing data. This can be achieved using a GUI tool such as pgAdmin or:
+		python manage.py dbshell
+
+	Clear the South migration history:
+	
+		TRUNCATE "south_migrationhistory";
+
+	Remove the affected Timetable database tables:
+		
+		DROP TABLE "timetables_event" CASCADE;
+		DROP TABLE "timetables_eventsource" CASCADE;
+		DROP TABLE "timetables_eventsourcetag" CASCADE;
+		DROP TABLE "timetables_eventtag" CASCADE;
+		DROP TABLE "timetables_thing" CASCADE;
+		DROP TABLE "timetables_thinglock" CASCADE;
+		DROP TABLE "timetables_thingtag" CASCADE;
+		
+	Again, note that this will irrevocably remove all data that has been modified since the fixture was created so apply this solution with care!
+		
+
+---------------------------
+Copy-and-paste command line
+---------------------------
+
+Modify to your needs ...
+
+WINDOWS:
+
+Run from C:\xampp_1-7-7\django\things_data 
+
+python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - Things.csv" > things.json
+python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSource.csv" > eventsource.json
+python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSourceTag.csv" > eventsourcetag.json
+
+copy /Y .\things.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+copy /Y .\eventsource.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+copy /Y .\eventsourcetag.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+
+python ..\timetables-prototype\scripts\concat_json.py eventsource.json eventsourcetag.json things.json > ..\timetables-prototype\app\timetables\fixtures\initial_data.json
