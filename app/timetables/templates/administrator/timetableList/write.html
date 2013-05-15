@@ -16,9 +16,19 @@
     <a href="{% url "thing calendar" thing %}">Calendar</a>
   </li>
 </ul>
-
-<a href="#" class="btn js-btn-add-module"><span class="icon-plus"></span> Add module</a>
 {% endblock timetable_tab_nav %}
+
+{% block before_general_series %}
+<a href="#" class="btn btn-small addSeries js-btn-add-series"><span class="icon-plus"></span>Add series</a>
+{% endblock before_general_series %}
+
+{% block before_modules_content %}
+<a href="#" class="btn btn-small pull-right js-btn-add-module js-prepend addModule"><span class="icon-plus"></span> Add module</a>
+{% endblock before_modules_content %}
+
+{% block after_modules_content %}
+<a href="#" class="btn btn-small pull-right js-btn-add-module js-append addModule"><span class="icon-plus"></span> Add module</a>
+{% endblock after_modules_content %}
 
 
 {% block timetable_module %}
@@ -221,7 +231,7 @@
       </tbody>
     </table>
 
-    <a href="javascript:;" class="js-btn-add-event addEvent pull-left btn">
+    <a href="javascript:;" class="js-btn-add-event addEvent pull-left btn btn-small">
       <span class="icon-plus"></span>Add event
     </a>
     <ul class="js-save-cancel-btns seriesEditActions pull-right" style="display: none;">
@@ -260,9 +270,9 @@
 {# New module content template #}
 <script id="js-templ-new-module-content" type="text/template">
   <div class="moduleContent module-content js-module-content collapse">
-    <a href="#" class="btn addSeries js-btn-add-series"><span class="icon-plus"></span>Add series</a>
+    <a href="#" class="btn btn-small addSeries js-btn-add-series"><span class="icon-plus"></span>Add series</a>
     <div class="seriesList js-series-list">
-      <p class="js-no-series">This module contains no series.</p>
+      <p class="js-no-series no-series">This module contains no series.</p>
     </div>
   </div>
 </script>

@@ -42,7 +42,19 @@ ul.yes-this-is-really-a-list {
 }
 
 a.addModule {
+  margin-top: 10px;
+}
+
+a.addModule:last-child {
   margin-bottom: 30px;
+}
+
+.btn.addModule .icon-plus {
+  margin-right: 7px;
+}
+
+a.addModule:last-child {
+  margin-top: 30px;
 }
 
 /* Timetable page navigation */
@@ -127,6 +139,10 @@ a.addModule {
   margin-bottom: 5px;
 }
 
+.seriesList {
+  margin-bottom: 30px;
+}
+
 .series form {
   margin: 0;
 }
@@ -149,6 +165,10 @@ a.addModule {
 
 .module-content.shown {
   overflow: visible;
+}
+
+.module-content > *:first-child {
+  margin-top: 15px;
 }
 
 /*
@@ -218,8 +238,7 @@ select.event-type {
 
 .event-editable .event-field .event-input {
   padding: 2px 3px;
-  border-style: transparent;
-  border-width: 1px;
+  border: 1px solid transparent;
   min-height: 1.4em;
 }
 
@@ -238,9 +257,9 @@ select.event-type {
 }
 
 .event-editable .event-field:hover {
-   background-image: url("../img/pencil.png");
-   background-repeat: no-repeat;
-   background-position: 100% 50%;
+  background-image: url("../img/pencil.png");
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
 }
 
 #adminListView .nav-tabs,
@@ -339,8 +358,12 @@ select.event-type {
   visibility: visible;
 }
 
-.modulesList .moduleContent {
-  margin-bottom: 30px;
+#modules {
+  clear: both;
+}
+
+.module:first-child .module-title {
+  padding-top: 0;
 }
 
 .module-title h4, .series-title h5 {
@@ -350,21 +373,23 @@ select.event-type {
 }
 
 .module-title {
-  border-bottom-style: solid;
-  border-bottom-color: rgba(0, 0, 0, .4);
-  border-bottom-width: 2px;
+  border-bottom: 1px solid #b3b3b3;
   padding: 10px 0;
-  margin-bottom: 10px;
+}
+
+.module-title h4 {
+  font-size: 1.1em;
 }
 
 .module-title a {
-  color: black;
+  color: #292929;
 }
 
 .module-title .chevron {
   float: left;
-  margin-top: 8px;
-  margin-right: 10px;
+  margin-top: 6px;
+  margin-right: 7px;
+  opacity: .8;
 }
 
 .module-title .title {
@@ -388,6 +413,11 @@ select.event-type {
   margin-left: 20px;
 }
 
+#top-level-series .addSeries {
+  margin-top: 7px;
+  margin-bottom: 6px;
+}
+
 .module > a.btn {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -406,7 +436,8 @@ select.event-type {
 
 .series-title .chevron {
   float: left;
-  margin: 4px 8px 0 0;
+  margin: 5px 8px 0 0;
+  opacity: .8;
 }
 
 .series-title > h5 a input {
@@ -416,15 +447,15 @@ select.event-type {
 .module-title .buttons,
 .series-title .buttons {
   display: inline;
-  padding-left: 20px;
+  padding-left: 5px;
 }
 
 .series-title .buttons a {
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
 .module-title .buttons a {
-  margin-top: 6px;
+  margin-top: 5px;
 }
 
 .seriesEditActions {
@@ -441,10 +472,12 @@ select.event-type {
 .series-title h5 .title {
   color: #08C;
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .module-title h4 .title {
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .series-title a:hover,

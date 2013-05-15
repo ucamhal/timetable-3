@@ -229,12 +229,21 @@ define([
         },
 
         createInitialSeriesViews: function () {
-            var series = [];
+            var series = [],
+                newSeriesView,
+                self = this;
+
             this.$(".js-series").each(function() {
-                series.push(new SeriesView({el: this}));
+                newSeriesView = new SeriesView({el: this});
+                newSeriesView.on("expand", self.onSeriesExpand);
+                series.push(newSeriesView);
             });
 
             this.model.set("series", series);
+        },
+
+        onSeriesExpand: function () {
+            this.$(".js-module-content").collapse("show");
         },
 
         onExpand: function() {
@@ -388,6 +397,7 @@ define([
          */
         expand: function() {
             this.$(".js-events").collapse("show");
+            this.trigger("expand");
         },
 
         onExpandSeries: function(id) {
@@ -405,16 +415,18 @@ define([
         initialize: function () {
             _.bindAll(this);
 
-            //apply initialization of superclass
+            // Apply initialization of superclass
             WritableModuleView.__super__.initialize.apply(this, arguments);
 
+            // Initialize the editableTitle view
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
                 titleFieldName: "fullname"
             });
 
-            // Bind extra event listeners and hide buttons if the module is new
+            // Bind extra event listeners and hide buttons we don't need if the
+            // module is new
             if (this.options.added === true) {
                 this.editableTitle.on("close", this.onTitleClose);
                 this.editableTitle.on("save", this.onTitleSaveSuccess);
@@ -422,15 +434,21 @@ define([
             }
         },
 
+        /**
+         * Function that creates seriesViews for each series found within the
+         * module (based on the markup ".js-series".each)
+         */
         createInitialSeriesViews: function () {
-            var series = [];
+            var series = [],
+                newSeriesView,
+                self = this;
 
             // Create a WritableSeriesView for each series found within the
             // module
             this.$(".js-series").each(function() {
-                series.push(new WritableSeriesView({
-                    el: this
-                }));
+                newSeriesView = new WritableSeriesView({el: this});
+                newSeriesView.on("expand", self.onSeriesExpand);
+                series.push(newSeriesView);
             });
 
             // Save the series array in the model
@@ -444,6 +462,11 @@ define([
             }
         },
 
+        /**
+         * Triggered when the newSeries array in the model has changed. Check
+         * whether there are events in the module and show/hide the no-series
+         * text accordingly.
+         */
         onNewSeriesChanged: function () {
             // Toggle the "This module contains no series text" based on whether
             // series have been added or not.
@@ -464,6 +487,10 @@ define([
             event.preventDefault();
         },
 
+        /**
+         * Adds a new series to the module. Binds all necesary listeners, saves
+         * it in the model, etc.
+         */
         appendNewSeries: function () {
             var $markup = $($("#js-templ-new-series").html()),
                 newSeriesView = new WritableSeriesView({
@@ -471,6 +498,7 @@ define([
                     added: true
                 });
 
+            newSeriesView.on("expand", this.onSeriesExpand);
             this.$(".js-series-list").prepend($markup);
 
             this.model.set({
@@ -486,9 +514,7 @@ define([
         },
 
         /**
-         * Removes a seriesView from the newSeries or series array based on
-         * whether the series was already there or has been added by the user
-         * this session.
+         * Removes a seriesView from the our model.
          */
         removeSeriesView: function (seriesView) {
             // Determine which array to remove the seriesView from.
@@ -508,15 +534,15 @@ define([
             // here.
             this.appendModuleContent();
             this.editableTitle.setSavePath(savePath);
-            this.makeCollapsable(id);
+            this.makeCollapsible(id);
         },
 
         /**
-         * Function that makes the module collapsable (show/hide the series).
+         * Function that makes the module collapsible (show/hide the series).
          * This is used for modules which have been added by the user, expects a
          * module id.
          */
-        makeCollapsable: function (id) {
+        makeCollapsible: function (id) {
             var idString = "module-" + id + "-content";
             this.$(".js-collapse").attr({
                 "data-target": "#" + idString,
@@ -626,7 +652,7 @@ define([
             // here.
             this.$el.data("id", id);
             this.appendSeriesContent();
-            this.makeCollapsable(id);
+            this.makeCollapsible(id);
             this.editableTitle.setSavePath(titleSavePath);
             this.setSavePath(eventsSavePath);
 
@@ -642,7 +668,7 @@ define([
          * This is used for series which have been added by the user, expects a
          * series id.
          */
-        makeCollapsable: function (id) {
+        makeCollapsible: function (id) {
             var idString = "series-" + id + "-events";
 
             // Using $.data doesn't seem to work, bootstrap doesn't pick it up,
@@ -967,7 +993,10 @@ define([
         highlight: function() {
             if (!this.$el.hasClass("highlighted")) {
                 this.$el.addClass("highlighted");
-                scrollTo(this.$el.offset().top - 100, 200);
+                // Scroll to the highlighted element
+                $("body, html").animate({
+                    scrollTop: this.$el.offset().top - 100
+                }, 300);
             }
         }
     });
@@ -1943,17 +1972,6 @@ define([
             return returnObj;
         }
     });
-
-    /**
-     * Scroll the window so that the top is at the specified vertical
-     * position on the page.
-     */
-    function scrollTo(position, duration, onComplete) {
-        duration = duration || 0;
-        $("html, body").animate({
-            scrollTop: $(".js-event").offset().top - 100
-        }, duration, "swing", onComplete);
-    }
 
     /** Return value wrapped in an array if it's not an array. */
     function asArray(value) {

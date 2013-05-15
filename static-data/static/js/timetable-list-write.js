@@ -31,11 +31,17 @@ define([
             };
         },
 
-        appendNewModule: function () {
+        appendNewModule: function (prepend) {
             var $markup = $($("#js-templ-new-module").html()),
+                $addTo = this.$(".js-individual-modules"),
                 newModuleView;
 
-            this.$(".modulesList").append($markup);
+            if (prepend === true) {
+                $addTo.prepend($markup);
+            } else {
+                $addTo.append($markup);
+            }
+
             newModuleView = new Lists.WritableModuleView({
                 el: $markup,
                 added: true
@@ -52,7 +58,8 @@ define([
         },
 
         onAddModuleClick: function (event) {
-            this.appendNewModule();
+            var prepend = $(event.currentTarget).hasClass("js-prepend");
+            this.appendNewModule(prepend);
             event.preventDefault();
         }
     });

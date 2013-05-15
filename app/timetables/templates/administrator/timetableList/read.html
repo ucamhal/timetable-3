@@ -33,26 +33,38 @@
     data-lock-refresh-path={% url "admin refresh lock" thing %}>
   
   {# Include top-level series #}
-  <h4 title="These series are not part of any module.">
-    General teaching
-  </h4>
-  <div class="seriesList js-module">
-    {% for series in top_level_series %}
-      {% block top_level_series__series %}
-      {% include "administrator/timetableList/fragSeriesRead.html" %}
-      {% endblock top_level_series__series %}
-    {% empty %}
-      <p>There are no general teaching series.</p>
+  <div id="top-level-series" class="js-module">
+    <h4 title="These series are not part of any module.">
+      General teaching
+    </h4>
+    <div class="moduleContent module-content">
+      {% block before_general_series %}
+      {% endblock before_general_series %}
+      <div class="seriesList js-series-list">
+        {% for series in top_level_series %}
+          {% block top_level_series__series %}
+          {% include "administrator/timetableList/fragSeriesRead.html" %}
+          {% endblock top_level_series__series %}
+        {% empty %}
+          <p>There are no general teaching series.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% block before_modules_content %}
+  {% endblock before_modules_content %}
+  
+  <div id="modules" class="js-individual-modules">
+    {% for module in modules %}
+      {% block timetable_module %}
+      {% include "administrator/timetableList/fragModuleRead.html" %}
+      {% endblock timetable_module %}
     {% endfor %}
   </div>
 
-  {% for module in modules %}
-    {% block timetable_module %}
-    {% include "administrator/timetableList/fragModuleRead.html" %}
-    {% endblock timetable_module %}
-  {% endfor %}
-
-  <a href="#" class="btn js-btn-add-module"><span class="icon-plus"></span> Add module</a>
+  {% block after_modules_content %}
+  {% endblock after_modules_content %}
 </div>
 
 <div id="templates">
