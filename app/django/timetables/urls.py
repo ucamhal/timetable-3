@@ -33,11 +33,11 @@ urlpatterns = patterns('',
             include('django.contrib.admindocs.urls')),
 
 
-    url(r'^account/login',
+    url(r'^accounts/login',
         LoginView.as_view(),
         name="login url"),
 
-    url(r'^account/logout',
+    url(r'^accounts/logout',
         LogoutView.as_view(),
         name="logout url"),
 
