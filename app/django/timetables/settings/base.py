@@ -35,7 +35,7 @@ TEST_RUNNER = "timetables.utils.testrunner.DiscoveryRunner"
 ENABLE_RAVEN=False
 
 # login URL; primarily used to auto-login administrators
-LOGIN_URL='/account/login/'
+LOGIN_URL='/accounts/login/'
 
 
 # To enable redeployment, set this to a unique string in your local settings and configure
