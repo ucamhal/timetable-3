@@ -14,6 +14,12 @@ This README contains instructions for importing Timetable data from the Things2 
 The Things2 spreadsheet may be found on Google Drive at:
 	https://docs.google.com/a/caret.cam.ac.uk/spreadsheet/ccc?key=0Avg5Hz4jji8CdGhOYjM0dlNaZnRVZmZab09hTERJRVE#gid=3
 
+These instructions should be applied to setting up a local install.
+DEV, etc, servers will have the fixture applied automatically, once only.
+
+The current version of the initial fixture may be downloaded from:
+	https://bitbucket.org/caret/timetables-3/downloads/initial_fixture.json
+	
 
 ------------
 Installation
@@ -39,19 +45,21 @@ Installation
 3) Concatenate the JSON files into a single fixture
 
 	In the directory containing the JSON files, run:
-		python path_to_scripts/concat_json.py EventSource.json EventSourceTag.json Things.json > initial_data-series-as-event-source.json
+		python path_to_scripts/concat_json.py EventSource.json EventSourceTag.json Things.json > initial_data.json
 		
 		Where path_to_scripts is the relative path to the Timetables project "scripts" directory
 
-4) Copy initial_data-series-as-event-source.json to Timetable /app/timetables/fixtures
-	
-	Note that the Timetable import process will look for a file named initial_data.json; in the current setup this is a symlink to initial_data-series-as-event-source.json
-	Obviously initial_data-series-as-event-source.json may also be named initial_data.json, although this may lessen future flexibility to support different initial data.
+4) Plase initial_data.json in Timetable /app/timetables/fixtures
 	
 5) Import the fixture into Timetables
 
-	[python manage.py syncdb]
+	python manage.py syncdb (not required for fixture import, but needed if database is out of sync / not previously set up)
 	python manage.py migrate
+	
+6) Unpack events
+
+	The migrate command does not create the individual events associated with timetable modules.
+	After building the database the unpack_events command can be run either through the Django admin or using manage.py
 
 	
 ---------------
@@ -133,12 +141,15 @@ WINDOWS:
 
 Run from C:\xampp_1-7-7\django\things_data 
 
-python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - Things.csv" > things.json
-python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSource.csv" > eventsource.json
-python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSourceTag.csv" > eventsourcetag.json
+To create JSON files from CSVs:
+	python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - Things.csv" > things.json
+	python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSource.csv" > eventsource.json
+	python ..\timetables-prototype\scripts\csv2json_fixture.py < "Things2 - EventSourceTag.csv" > eventsourcetag.json
 
-copy /Y .\things.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
-copy /Y .\eventsource.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
-copy /Y .\eventsourcetag.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+To test partial fixtures:
+	copy /Y .\things.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+	copy /Y .\eventsource.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+	copy /Y .\eventsourcetag.json ..\timetables-prototype\app\timetables\fixtures\initial_data.json
 
-python ..\timetables-prototype\scripts\concat_json.py eventsource.json eventsourcetag.json things.json > ..\timetables-prototype\app\timetables\fixtures\initial_data.json
+Create entire fixture:
+	python ..\timetables-prototype\scripts\concat_json.py eventsource.json eventsourcetag.json things.json > ..\timetables-prototype\app\timetables\fixtures\initial_data.json
