@@ -480,18 +480,13 @@ select.event-type {
   border: 1px solid transparent;
 }
 
-.series-title a:hover,
-.module-title a:hover {
-  text-decoration: none;
-}
-
-.series-title a:hover .title,
-.module-title a:hover .title {
+.series-title h5:hover .title,
+.module-title h4:hover .title {
   text-decoration: underline;
 }
 
-.series-title a:hover .title.editable,
-.module-title a:hover .title.editable {
+.series-title h5:hover .title.editable,
+.module-title h4:hover .title.editable {
   text-decoration: none;
 }
 
@@ -531,7 +526,7 @@ select.event-type {
 .module-title .error-message {
   color: red;
   float: left;
-  margin-top: 5px;
+  margin: 6px 10px 0 0;
 }
 
 

@@ -11,19 +11,29 @@ define([
 
     var TimetableListWrite = Backbone.View.extend({
         initialize: function () {
-            var self = this;
-
-            $(".js-module").each(function() {
-                self.moduleViews.push(new Lists.WritableModuleView({el: this}));
-            });
+            var modules = [];
 
             _.bindAll(this);
+
+            $(".js-module").each(function() {
+                modules.push(new Lists.WritableModuleView({el: this}));
+            });
+
+            this.model = new Lists.BaseModel();
+            this.model.on("change", this.onModelChange);
+            this.model.set({
+                moduleViews: modules,
+                newModuleViews: []
+            });
         },
 
-        // Arrays to store the modules and series views in
-        moduleViews: [],
-        // and any newly added ones
-        newModuleViews: [],
+        // Only show the last add modules button if there are modules on the
+        // page.
+        onModelChange: function () {
+            // There is always at least 1 moduleView: the general lectures one.
+            var hasModules = this.model.get("moduleViews").length > 1 || this.model.get("newModuleViews").length > 0;
+            this.$(".js-btn-add-module").last().toggle(hasModules);
+        },
 
         events: function () {
             return {
@@ -49,12 +59,14 @@ define([
 
             newModuleView.on("destroy", this.removeModule);
             newModuleView.editableTitle.toggleEditableState(true);
-            this.newModuleViews.push(newModuleView);
+            this.model.set({
+                newModuleViews: this.model.get("newModuleViews").concat(newModuleView)
+            });
         },
 
         removeModule: function (removedModule) {
             var target = removedModule.options.added === true ? "newModuleViews" : "moduleViews";
-            this[target] = _.without(this[target], removedModule);
+            this.model.set(target, _.without(this.model.get(target), removedModule));
         },
 
         onAddModuleClick: function (event) {

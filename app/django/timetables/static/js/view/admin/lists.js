@@ -228,6 +228,10 @@ define([
             this.createInitialSeriesViews();
         },
 
+        /**
+         * Function that creates seriesViews for each series found within the
+         * module (based on the markup ".js-series".each)
+         */
         createInitialSeriesViews: function () {
             var series = [],
                 newSeriesView,
@@ -495,7 +499,8 @@ define([
             var $markup = $($("#js-templ-new-series").html()),
                 newSeriesView = new WritableSeriesView({
                     el: $markup,
-                    added: true
+                    added: true,
+                    titleSavePath: this.$(".js-btn-add-series").data("new-series-path")
                 });
 
             newSeriesView.on("expand", this.onSeriesExpand);
@@ -525,7 +530,7 @@ define([
         /**
          * Triggered when the module has been successfully saved.
          */
-        onTitleSaveSuccess: function (id, savePath) {
+        onTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
             this.editableTitle.off("save");
             this.editableTitle.off("close");
@@ -533,8 +538,18 @@ define([
             // Do everything needed to successfully track the new module from
             // here.
             this.appendModuleContent();
-            this.editableTitle.setSavePath(savePath);
-            this.makeCollapsible(id);
+            this.setNewSeriesPath(data.new_series_path);
+            this.editableTitle.setSavePath(data.module_save_path);
+            this.makeCollapsible(data.id);
+        },
+
+        /**
+         * Saves the new series url in a data attribute on the add series button
+         */
+        setNewSeriesPath: function (seriesPath) {
+            this.$(".js-btn-add-series").data({
+                "new-series-path": seriesPath
+            });
         },
 
         /**
@@ -631,6 +646,10 @@ define([
                 this.editableTitle.on("close", this.onTitleClose);
                 this.editableTitle.on("save", this.onTitleSaveSuccess);
                 this.$(".js-series-buttons").hide();
+
+                if (this.options.titleSavePath !== undefined) {
+                    this.editableTitle.setSavePath(this.options.titleSavePath);
+                }
             }
 
             // Bind a change handler to the model
@@ -643,18 +662,18 @@ define([
          * Function that runs when the title for a new series has been 
          * successfully saved.
          */
-        onTitleSaveSuccess: function (id, titleSavePath, eventsSavePath) {
+        onTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
             this.editableTitle.off("save");
             this.editableTitle.off("close");
 
             // Do everything needed to successfully track the new series from
             // here.
-            this.$el.data("id", id);
+            this.$el.data("id", data.id);
             this.appendSeriesContent();
-            this.makeCollapsible(id);
-            this.editableTitle.setSavePath(titleSavePath);
-            this.setSavePath(eventsSavePath);
+            this.makeCollapsible(data.id);
+            this.editableTitle.setSavePath(data.titleSavePath);
+            this.setSavePath(data.eventsSavePath);
 
             // Perhaps not the prettiest but does what we want:
             // Triggers the code that runs when events for a series are fetched.
@@ -664,7 +683,7 @@ define([
         },
 
         /**
-         * Function that makes the series collapsable (show/hide the events).
+         * Function that makes the series collapsible (show/hide the events).
          * This is used for series which have been added by the user, expects a
          * series id.
          */
@@ -689,7 +708,6 @@ define([
          */
         appendSeriesContent: function () {
             var $seriesContent = $($("#js-templ-new-series-content").html());
-            console.log("append series content", $seriesContent);
             this.$el.append($seriesContent);
         },
 
@@ -885,14 +903,14 @@ define([
         },
 
         /**
-         * Sets the path to the endpoint to POST changes to
+         * Sets the path of the endpoint where the POST should get saved to
          */
         setSavePath: function (savePath) {
             this.$el.data("save-path", savePath);
         },
 
         /**
-         * Gets the path to the endpoint the POST changes to when saving.
+         * Gets the path of the endpoint where the POST gets saved to
          */
         getSavePath: function() {
             return this.$el.data("save-path");
@@ -910,18 +928,11 @@ define([
             if (this.model.get("events").length) {
                 $eventRow = this.$el.find(".js-event").last().clone();
 
-                // If the event is cloned from one that already exists, we need
-                // to remove the id attribute and add appropriate classes,
-                // remove any buttons not used by new items.
+                // If the event is cloned from one that already exists (= not
+                // from another new event row), we need to remove the id
+                // attribute and add appropriate classes,
                 if (!$eventRow.hasClass("event-new")) {
                     $eventRow.addClass("event-new row-being-edited").removeAttr("data-id");
-
-                    _.each($eventRow.find(".buttons a"), function (el) {
-                        var $el = $(el);
-                        if (!$el.hasClass("js-remove-icon")) {
-                            $el.parent().remove();
-                        }
-                    });
                 }
             } else {
                 $eventRow = $($("#js-templ-new-event").html());
@@ -1301,41 +1312,24 @@ define([
 
         editableFieldClickHandler: function (event) {
             if (!this.caretMoved) {
-                this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+                moveCaretToEndOfContenteditableElement(event.currentTarget);
                 this.caretMoved = true;
             }
         },
 
         titleFieldFocusHandler: function (event) {
             this.$titleField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         locationFieldFocusHandler: function (event) {
             this.$locationField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         peopleFieldFocusHandler: function (event) {
             this.$peopleField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
-        },
-
-        moveCaretToEndOfContenteditableElement: function (contentEditableElement) {
-            var range,selection;
-            if (document.createRange) {
-                range = document.createRange();
-                range.selectNodeContents(contentEditableElement);
-                range.collapse(false);
-                selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-            } else if (document.selection) { //IE 8 and lower
-                range = document.body.createTextRange();
-                range.moveToElementText(contentEditableElement);
-                range.collapse(false);
-                range.select();
-            }
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         toggleRowBeingEditedState: function (beingEdited) {
@@ -1438,13 +1432,19 @@ define([
         },
 
         render: function () {
+            // Set the value text to what value is present in the model
             this.$value.text(this.model.get(this.titleFieldName));
+            // Set the appropriate classes and attributes based on whether
+            // this.isEditable is set to true
             this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
+            // If there is an error, show the error message div
             this.$(".js-error-message").toggle(this.isError);
+            // Move the caret to the end of the text
+            moveCaretToEndOfContenteditableElement(this.$value[0]);
         },
 
         events: {
-            "click a" : "onClick",
+            "click .js-collapse" : "onClick",
             "keydown .js-value" : "onKeyDown",
             "focusout .js-value" : "onFocusOut"
         },
@@ -1514,28 +1514,15 @@ define([
                         self.$value.text(data[self.titleFieldName]);
                         self.updateModel();
                         self.model.storeInitialState(true);
-                        // TODO! remove placeholder id response from error func
-                        //self.trigger("save", data.id);
+                        self.trigger("save", data);
                     }, Math.max(200 - timeDifference, 0));
                 },
                 error: function () {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
-                        // Pretend successful save
+                        self.model.reset();
                         self.toggleSavingState(false);
-                        self.toggleErrorState(false);
-                        //self.$value.text(data[self.titleFieldName]);
-                        self.updateModel();
-                        self.model.storeInitialState(true);
-                        self.trigger("save", Math.round(Math.random() * 99999), "/tripos/blablablaa");
-
-                        /**
-                         * Original:
-                         *
-                         * self.model.reset();
-                         * self.toggleSavingState(false);
-                         * self.toggleErrorState(true);
-                         */
+                        self.toggleErrorState(true);
                     }, Math.max(200 - timeDifference, 0));
                 }
             });
@@ -1543,10 +1530,10 @@ define([
 
         onClick: function (event) {
             if (this.isEditable === true) {
+                // Stop this event from propagating to prevent the collapse
+                // functionality to be triggered.
                 event.stopPropagation();
             }
-
-            event.preventDefault();
         },
 
         updateModel: function () {
@@ -1564,7 +1551,6 @@ define([
 
         toggleEditableState: function (isEditable) {
             isEditable = typeof isEditable !== "undefined" ? isEditable : !this.isEditable;
-
             if (isEditable !== this.isEditable) {
                 this.isEditable = isEditable;
                 this.render();
@@ -2024,6 +2010,23 @@ define([
         });
     }
 
+    function moveCaretToEndOfContenteditableElement(contentEditableElement) {
+        var range,selection;
+        if (document.createRange) {
+            range = document.createRange();
+            range.selectNodeContents(contentEditableElement);
+            range.collapse(false);
+            selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else if (document.selection) { //IE 8 and lower
+            range = document.body.createTextRange();
+            range.moveToElementText(contentEditableElement);
+            range.collapse(false);
+            range.select();
+        }
+    }
+
     // This is fired when new events are added to the page.
     listEvents.on("new-events-visible", highlightEventsInHash);
     //listEvents.on("page-edited", locker.preventTimeout);
@@ -2035,7 +2038,8 @@ define([
         WritableModuleView: WritableModuleView,
         bindUrlHashWatcher: bindUrlHashWatcher,
         Locker: Locker,
-        listEvents: listEvents
+        listEvents: listEvents,
+        BaseModel: BaseModel
     };
 });
 
