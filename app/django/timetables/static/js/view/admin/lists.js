@@ -930,9 +930,17 @@ define([
 
                 // If the event is cloned from one that already exists (= not
                 // from another new event row), we need to remove the id
-                // attribute and add appropriate classes,
+                // attribute and add appropriate classes + remove any buttons
+                // which aren't used by new events.
                 if (!$eventRow.hasClass("event-new")) {
                     $eventRow.addClass("event-new row-being-edited").removeAttr("data-id");
+
+                    _.each($eventRow.find(".buttons a"), function (el) {
+                        var $el = $(el);
+                        if (!$el.hasClass("js-remove-icon")) {
+                            $el.parent().remove();
+                        }
+                    });
                 }
             } else {
                 $eventRow = $($("#js-templ-new-event").html());
