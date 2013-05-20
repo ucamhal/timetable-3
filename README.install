@@ -23,3 +23,8 @@ $ pip install -r requirements.txt
 
 Where requirements.txt is a file in app/requirements/
 
+Dependencies for using grunt (jshint and/or optimized builds):
+    Node.js 0.8.16 but any other recent version should do fine
+    npm 1.2.12
+    grunt CLI (run 'npm install -g grunt-cli')
+    Node modules defined in package.json (cd into your git repo directory and run 'npm install')

@@ -4,3 +4,4 @@ psycopg2
 pytz
 # django-haystack == 1.2.7 # (not currently used)
 unipath
+icalendar

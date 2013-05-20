@@ -30,3 +30,9 @@ app/django/media
 # Ignore Sublime Text project files
 *.sublime-project
 *.sublime-workspace
+
+# Node modules
+app/node_modules
+
+# Front-end Build
+app/static-build

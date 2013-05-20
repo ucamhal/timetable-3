@@ -43,8 +43,7 @@
   </div>
 </div>
 
-<div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom"
-    style="display: none;">
+<div class="js-date-time-dialog dialog dialog-date-time datePatternDialog popover bottom" style="display: none;">
   <div class="arrow"></div>
   <div class="popover-inner">
     <div class="popover-title clearfix">
@@ -132,4 +131,64 @@
     </div>
   </div>
 </div>
+
+<!--
+  Template for new events, placed this within a script tag because having a tr 
+  directly in here directly wouldn't be very nice.
+-->
+<script id="js-templ-new-event" type="text/template">
+  <tr class="event js-event event-editable event-new row-being-edited">
+    <td title="Title" class="event-field eventTitle">
+      <div class="js-field js-field-title event-input" contenteditable="true" data-value="" tabindex="0">
+      </div>
+    </td>
+
+    <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="" tabindex="0">
+      <span class="event-type js-field js-field-type event-type-none">
+      </span>
+
+      <select class="input-medium event-type js-field js-field-type">
+          <!--
+          <option value="">&mdash;</option>
+          -->
+          <option value="" selected="selected">—</option>
+          <option value="Practical">Practical</option>
+          <option value="Language Class">Language Class</option>
+          <option value="Lecture">Lecture</option>
+          <option value="Laboratory">Laboratory</option>
+          <option value="Seminar">Seminar</option>
+      </select>
+    </td>
+
+    <td class="event-field js-date-time-cell eventDateTime" tabindex="0">
+      <div class="event-input js-date-time-input-wrap">
+        <span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
+        <span title="Thursday 7th March ">
+          <span>W </span><span data-value="1" class="js-field-week">1</span><span> in </span><span data-value="Michaelmas" class="js-field-term">Michaelmas</span><span>, on </span><span data-value="thu" class="js-field-day">Thu</span><span>&nbsp;</span></span><span class="js-field-start-hour">09</span><span>:</span><span class="js-field-start-minute">00</span><span>–</span><span class="js-field-end-hour">11</span><span>:</span><span class="js-field-end-minute">00</span>
+
+        <div class="dialog-holder js-dialog-holder"></div>
+        <span class="js-focus-catcher js-focus-catcher-after" tabindex="0"></span>
+      </div>
+    </td>
+
+    <td title="Location" class="event-field eventLocation">
+      <div class="js-field js-field-location event-input" tabindex="0" data-value="" contenteditable="true">
+      </div>
+    </td>
+
+    <td title="Lecturer/host/etc" class="event-field eventLecturers">
+      <div class="js-field js-field-people event-input" tabindex="0" data-value="" contenteditable="true">
+      </div>
+    </td>
+    
+    <td class="eventActions" tabindex="5">
+      <ul class="buttons">
+        <li>
+          <a href="#" class="icon-trash remove js-remove-icon" title="remove"><span class="hideMe">remove</span></a>
+        </li>
+      </ul>
+    </td>
+
+  </tr>
+</script>
 {% endblock additional_modals %}
