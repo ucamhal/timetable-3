@@ -1,6 +1,8 @@
 import operator
 import json
+import re
 
+from django.core.urlresolvers import reverse
 from django import http
 from django import shortcuts
 from django.contrib.admin.views.decorators import staff_member_required
@@ -272,6 +274,102 @@ def edit_series_title(request, series_id):
 
     return http.HttpResponseBadRequest("Series form did not pass "
             "validation: %s" % editor.errors)
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def new_module(request):
+    """
+    Creates a new module
+    request POST variables should contain:
+        - parent thing ID (id_parent)
+        - module title (fullname)
+    Returns module title, ID and save path as JSON string
+    """
+    
+    # get the new module data
+    fullname = request.POST.get("fullname", "")
+    id_parent = request.POST.get("id_parent", 0)
+    
+    # get the parent Thing object
+    parent = models.Thing.objects.get(pk=id_parent)
+    parent_fullpath = parent.fullpath;
+    
+    # process fullname to create URL-friendly version 
+    name = fullname.lower() # to lower case
+    name = re.sub(r'\W+', '_', name)
+    
+    fullpath = parent_fullpath
+    if fullpath[-1] != '/':
+        parent_fullpath = parent_fullpath+'/'
+    fullpath = parent_fullpath+name
+
+
+    # check for fullpath clashes
+    clash = True
+    try:
+        thing_clash = models.Thing.objects.get(fullpath = fullpath)
+    except models.Thing.DoesNotExist:
+        clash = False
+
+
+    # return the new Thing data
+    thing_data = {
+        "error": "Module fullname is already in use"
+    }
+    if not clash:
+        # Thing object being created
+        thing = models.Thing(
+            parent = parent,
+            fullpath = fullpath,
+            name = name,
+            fullname = fullname,
+            type = "module",
+            pathid = None # initialise so that prepare_save will action
+        )
+        
+        
+        # prepare and save new Thing object
+        thing.prepare_save()
+        thing.save()
+        
+        # construct data to return to caller
+        thing_data = {
+            "id": thing.pk,
+            "fullname": thing.fullname,
+            "url_edit": reverse('edit module', args=(thing.pk,))
+        }
+
+
+    # return data
+    return HttpResponse(json.dumps(thing_data), content_type="application/json")
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def edit_module_view(request, module_id):
+    # Find the module for the form to be displayed
+    module = shortcuts.get_object_or_404(models.EventSource, id=module_id)
+    """
+    editor = SeriesEditor(series, post_data=request.POST)
+
+    events_formset = editor.get_event_formset()
+
+    if events_formset.is_valid():
+        @xact
+        def save():
+            events_formset.save()
+        save()
+        path = urlresolvers.reverse("list events",
+                kwargs={"series_id": series_id})
+        return shortcuts.redirect(path + "?writeable=true")
+
+    return http.HttpResponseBadRequest("Events formset did not pass "
+            "validation: %s" % events_formset.errors)
+    """
+    pass
 
 
 @login_required

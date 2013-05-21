@@ -74,6 +74,14 @@ urlpatterns = patterns('',
         name="admin user timetable perms"),
 
 
+    url(r'module/new$',
+        administrator.new_module,
+        name="new module"),
+
+    url(r'^module/(?P<module_id>\d+)/edit$',
+        administrator.edit_module_view,
+        name="edit module"),
+
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$',
         administrator.calendar_view,
         name="thing calendar"),

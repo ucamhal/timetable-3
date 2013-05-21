@@ -347,7 +347,7 @@ class Thing(SchemalessModel, HierachicalModel):
         
     @classmethod
     def _pre_save(cls, sender, **kwargs):
-        # Invoking multiple parent class or instnace methods is broken in python 2.6
+        # Invoking multiple parent class or instance methods is broken in python 2.6
         # So this is the only way
         HierachicalModel._prepare_save(sender,**kwargs)
         SchemalessModel._prepare_save(sender,**kwargs)
