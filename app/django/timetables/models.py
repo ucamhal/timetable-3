@@ -593,7 +593,7 @@ pre_save.connect(Event._pre_save, sender=Event)
     
 class EventSourceTag(AnnotationModel):
     '''
-    EventTag could get huge. In many cases tings will need to be connected with a large set of orriginal
+    EventTag could get huge. In many cases things will need to be connected with a large set of original
     events. This can be done via EventSourceTag which will connect to many events since there is a source
     '''
     thing = models.ForeignKey(Thing, help_text="The Thing that the EventSource is to be associated with")

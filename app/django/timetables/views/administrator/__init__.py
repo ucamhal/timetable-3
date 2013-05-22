@@ -296,10 +296,10 @@ def new_module(request):
     parent = models.Thing.objects.get(pk=id_parent)
     parent_fullpath = parent.fullpath;
     
-    # process fullname to create URL-friendly version 
-    name = fullname.lower() # to lower case
-    name = re.sub(r'\W+', '_', name)
-    
+    # process fullname to create URL-friendly version
+    name = _clean_string(fullname) 
+
+    # generate fullpath
     fullpath = parent_fullpath
     if fullpath[-1] != '/':
         parent_fullpath = parent_fullpath+'/'
@@ -337,8 +337,8 @@ def new_module(request):
         # construct data to return to caller
         thing_data = {
             "id": thing.pk,
-            "fullname": thing.fullname,
-            "url_edit": reverse('edit module', args=(thing.pk,))
+            "fullname": fullname,
+            "url_edit": reverse('thing edit', args=(fullpath,))
         }
 
 
@@ -349,27 +349,67 @@ def new_module(request):
 @require_POST
 @login_required
 @permission_required('timetables.is_admin', raise_exception=True)
-def edit_module_view(request, module_id):
-    # Find the module for the form to be displayed
-    module = shortcuts.get_object_or_404(models.EventSource, id=module_id)
+def new_series(request):
     """
-    editor = SeriesEditor(series, post_data=request.POST)
-
-    events_formset = editor.get_event_formset()
-
-    if events_formset.is_valid():
-        @xact
-        def save():
-            events_formset.save()
-        save()
-        path = urlresolvers.reverse("list events",
-                kwargs={"series_id": series_id})
-        return shortcuts.redirect(path + "?writeable=true")
-
-    return http.HttpResponseBadRequest("Events formset did not pass "
-            "validation: %s" % events_formset.errors)
+    Creates a new event series.
+    request POST variables should contain:
+        - parent thing ID (id_parent)
+        - series title (title)
+    Returns series title, ID and save path as JSON string
     """
-    pass
+    # get the new series data
+    title = request.POST.get("title", "")
+    id_parent = request.POST.get("id_parent", 0)
+    
+    # process title to create URL-friendly version
+    alias = _clean_string(title)
+    
+    # get the parent Thing object
+    parent = models.Thing.objects.get(pk=id_parent)
+    
+    # EventSource object being created
+    es = models.EventSource(
+        title = title,
+        data = "{}",
+        sourcetype = "pattern", # ???
+        sourceurl = alias
+    )
+
+
+    # prepare and save new EventSource object
+    es.prepare_save()
+    es.save()
+    es.makecurrent()
+    
+    es.master = es # ugh - need the object in order to set itself as its own master :s
+    es.save()
+
+
+    # construct data to return
+    es_data = {
+        "id": es.pk,
+        "title": title,
+        "url_edit": reverse('edit series title', args=(es.pk,))
+    }
+
+
+    # create EventSourceTag
+    est = models.EventSourceTag(
+        thing = parent,
+        eventsource = es,
+        annotation = ''
+    )
+    est.prepare_save()
+    est.save()
+
+    # return data
+    return HttpResponse(json.dumps(es_data), content_type="application/json")
+
+
+def _clean_string(txt):
+    txt = str.lower() # to lower case
+    txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
+    return txt
 
 
 @login_required

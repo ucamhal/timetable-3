@@ -76,11 +76,7 @@ urlpatterns = patterns('',
 
     url(r'module/new$',
         administrator.new_module,
-        name="new module"),
-
-    url(r'^module/(?P<module_id>\d+)/edit$',
-        administrator.edit_module_view,
-        name="edit module"),
+        name="module new"),
 
     url(r'^(?P<thing>.*?)\.calendar\.admin\.html$',
         administrator.calendar_view,
@@ -89,6 +85,10 @@ urlpatterns = patterns('',
     url(r'^series/(?P<series_id>\d+)/list-events/$',
         administrator.list_view_events,
         name="list events"),
+    
+    url(r'series/new$',
+        administrator.new_series,
+        name="series new"),
     
     url(r'^series/(?P<series_id>\d+)/edit$',
         administrator.edit_series_view,
