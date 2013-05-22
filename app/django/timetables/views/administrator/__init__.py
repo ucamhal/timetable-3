@@ -407,7 +407,7 @@ def new_series(request):
 
 
 def _clean_string(txt):
-    txt = str.lower() # to lower case
+    txt = txt.lower() # to lower case
     txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
     return txt
 
