@@ -389,7 +389,8 @@ def new_series(request):
     es_data = {
         "id": es.pk,
         "title": title,
-        "url_edit": reverse('edit series title', args=(es.pk,))
+        "url_edit_event": reverse('edit series', args=(es.pk,)),
+        "url_edit_title": reverse('edit series title', args=(es.pk,))
     }
 
 
