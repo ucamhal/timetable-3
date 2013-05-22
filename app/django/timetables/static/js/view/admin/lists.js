@@ -426,7 +426,8 @@ define([
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
-                titleFieldName: "fullname"
+                titleFieldName: "fullname",
+                extraSaveData: this.options.extraSaveData
             });
 
             // Bind extra event listeners and hide buttons we don't need if the
@@ -500,7 +501,9 @@ define([
                 newSeriesView = new WritableSeriesView({
                     el: $markup,
                     added: true,
-                    titleSavePath: this.$(".js-btn-add-series").data("new-series-path")
+                    extraSaveData: {
+                        "id_parent": this.getId()
+                    }
                 });
 
             newSeriesView.on("expand", this.onSeriesExpand);
@@ -538,18 +541,17 @@ define([
             // Do everything needed to successfully track the new module from
             // here.
             this.appendModuleContent();
-            this.setNewSeriesPath(data.new_series_path);
-            this.editableTitle.setSavePath(data.module_save_path);
+            this.editableTitle.setSavePath(data.url_edit);
             this.makeCollapsible(data.id);
+            this.setId(data.id);
         },
 
-        /**
-         * Saves the new series url in a data attribute on the add series button
-         */
-        setNewSeriesPath: function (seriesPath) {
-            this.$(".js-btn-add-series").data({
-                "new-series-path": seriesPath
-            });
+        setId: function (id) {
+            this.$el.data("id", id);
+        },
+
+        getId: function () {
+            return this.$el.data("id");
         },
 
         /**
@@ -638,7 +640,8 @@ define([
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-series-title h5"),
                 $toggleButton: this.$(".js-series-buttons .js-edit-icon"),
-                titleFieldName: "title"
+                titleFieldName: "title",
+                extraSaveData: this.options.extraSaveData
             });
 
             // Bind extra event listeners and hide buttons if the module is new
@@ -658,6 +661,14 @@ define([
             _.bindAll(this);
         },
 
+        setId: function (id) {
+            this.$el.data("id", id);
+        },
+
+        getId: function () {
+            return this.$el.data("id");
+        },
+
         /**
          * Function that runs when the title for a new series has been 
          * successfully saved.
@@ -669,11 +680,11 @@ define([
 
             // Do everything needed to successfully track the new series from
             // here.
-            this.$el.data("id", data.id);
             this.appendSeriesContent();
+            this.setId(data.id);
             this.makeCollapsible(data.id);
-            this.editableTitle.setSavePath(data.titleSavePath);
-            this.setSavePath(data.eventsSavePath);
+            this.editableTitle.setSavePath(data.url_edit_title);
+            this.setSavePath(data.url_edit_event);
 
             // Perhaps not the prettiest but does what we want:
             // Triggers the code that runs when events for a series are fetched.
@@ -1502,6 +1513,15 @@ define([
             }
         },
 
+        getEncodedData: function () {
+            var data = this.model.asJSONDjangoForm();
+            // Add extra saveData object to data. This is needed for creating
+            // new modules. Won't overwrite any properties already defined in
+            // data.
+            _.defaults(data, this.options.extraSaveData);
+            return DjangoForms.encodeJSONForm(data);
+        },
+
         saveData: function () {
             var self = this,
                 beforeSavingTime = new Date(),
@@ -1513,7 +1533,7 @@ define([
             $.ajax({
                 type: "POST",
                 url: this.$value.data("save-path"),
-                data: DjangoForms.encodeJSONForm(this.model.asJSONDjangoForm()),
+                data: this.getEncodedData(),
                 success: function (data) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {

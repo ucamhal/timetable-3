@@ -1,6 +1,6 @@
 {% load url from future %}
 
-<div class="module js-module">
+<div class="module js-module" data-id="{{ module.unique_id }}">
   <div class="js-module-title module-title clearfix">
     <h4 class="pull-left" >
       {# This initially was an anchor but that gave issues when trying to edit the title in FF and IE #}

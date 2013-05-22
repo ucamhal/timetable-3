@@ -46,7 +46,7 @@
 </div>
 -->
 
-<div id="{% block timetable_el_id %}timetable-view{% endblock %}">
+<div id="{% block timetable_el_id %}timetable-view{% endblock %}" class="js-timetable" data-id="{{ thing.pk }}">
   {% block timetable_tab_nav %}
   <ul class="nav nav-tabs">
     <li class="active">

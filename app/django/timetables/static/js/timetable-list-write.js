@@ -41,6 +41,10 @@ define([
             };
         },
 
+        getTimetableId: function () {
+            return this.$el.data("id");
+        },
+
         appendNewModule: function (prepend) {
             var $markup = $($("#js-templ-new-module").html()),
                 $addTo = this.$(".js-individual-modules"),
@@ -54,7 +58,10 @@ define([
 
             newModuleView = new Lists.WritableModuleView({
                 el: $markup,
-                added: true
+                added: true,
+                extraSaveData: {
+                    "id_parent": this.getTimetableId()
+                }
             });
 
             newModuleView.on("destroy", this.removeModule);
@@ -77,7 +84,7 @@ define([
     });
 
     var timetablesListWrite = new TimetableListWrite({
-        el: "body"
+        el: ".js-timetable"
     });
 
     // Make the list watch for URL hash items in order to expand series

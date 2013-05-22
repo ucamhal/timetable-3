@@ -33,7 +33,7 @@
     data-lock-refresh-path={% url "admin refresh lock" thing %}>
   
   {# Include top-level series #}
-  <div id="top-level-series" class="js-module">
+  <div id="top-level-series" class="js-module" data-id="{{ thing.pk }}">
     <h4 title="These series are not part of any module.">
       General teaching
     </h4>
