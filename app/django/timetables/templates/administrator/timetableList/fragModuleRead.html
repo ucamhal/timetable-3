@@ -7,7 +7,7 @@
       <div class="js-collapse collapsed" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
         <span class="chevron icon-chevron-right js-expansion-indicator"></span>
         <span class="title js-value" data-save-path="{% url "thing edit" module.fullpath %}">{{ module.name }}</span>
-        <span class="js-error-message error-message dontDisplayMe">Saving failed, please try again later.</span>
+        <span class="js-error-message error-message dontDisplayMe"></span>
       </div>
     </h4>
     {% block module_title_right %}

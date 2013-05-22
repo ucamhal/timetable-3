@@ -1457,7 +1457,10 @@ define([
             // this.isEditable is set to true
             this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
             // If there is an error, show the error message div
-            this.$(".js-error-message").toggle(this.isError);
+            if (this.isError !== false) {
+                this.$(".js-error-message").text(this.isError);
+            }
+            this.$(".js-error-message").toggle(this.isError !== false);
             // Move the caret to the end of the text
             moveCaretToEndOfContenteditableElement(this.$value[0]);
         },
@@ -1545,12 +1548,12 @@ define([
                         self.trigger("save", data);
                     }, Math.max(200 - timeDifference, 0));
                 },
-                error: function () {
+                error: function (error) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
                         self.model.reset();
                         self.toggleSavingState(false);
-                        self.toggleErrorState(true);
+                        self.toggleErrorState(error.responseText || "Saving failed, please try again later.");
                     }, Math.max(200 - timeDifference, 0));
                 }
             });
