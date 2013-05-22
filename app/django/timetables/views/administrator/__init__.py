@@ -315,9 +315,6 @@ def new_module(request):
 
 
     # return the new Thing data
-    thing_data = {
-        "error": "Module fullname is already in use"
-    }
     if not clash:
         # Thing object being created
         thing = models.Thing(
@@ -340,10 +337,11 @@ def new_module(request):
             "fullname": fullname,
             "url_edit": reverse('thing edit', args=(fullpath,))
         }
+        
+        return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
 
-
-    # return data
-    return HttpResponse(json.dumps(thing_data), content_type="application/json")
+    # return error
+    return HttpResponse(content="Module fullname is already in use", status=409)
 
 
 @require_POST
@@ -408,7 +406,7 @@ def new_series(request):
 
 
 def _clean_string(txt):
-    txt = str.lower() # to lower case
+    txt = txt.lower() # to lower case
     txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
     return txt
 
