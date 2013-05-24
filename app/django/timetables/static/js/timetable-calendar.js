@@ -699,7 +699,7 @@ define([
         weekSpinner.render();
     });
 
-    var cookieHandler = new CookieHandler({
+    new CookieHandler({
         el: ".js-cookie-alert"
     });
 

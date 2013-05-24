@@ -3,10 +3,9 @@ define([
     "underscore",
     "backbone",
     "util/django-forms",
-    "util/assert",
     "jquery-bbq",
     "bootstrapTypeahead"
-], function($, _, Backbone, DjangoForms, assert) {
+], function($, _, Backbone, DjangoForms) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -147,7 +146,7 @@ define([
         unlock: function () {
             $.ajax({
                 url: "",
-                success: function (response) {
+                success: function () {
 
                 },
                 error: function () {
@@ -219,8 +218,36 @@ define([
         initialize: function() {
             _.bindAll(this, "onExpand", "onCollapse");
 
-            this.$expansionIndicator = this.$(
-                    ".js-module-title .js-expansion-indicator");
+            this.model = new BaseModel();
+            this.model.set({
+                series: [],
+                newSeries: []
+            });
+
+            this.$expansionIndicator = this.$(".js-module-title .js-expansion-indicator");
+            this.createInitialSeriesViews();
+        },
+
+        /**
+         * Function that creates seriesViews for each series found within the
+         * module (based on the markup ".js-series".each)
+         */
+        createInitialSeriesViews: function () {
+            var series = [],
+                newSeriesView,
+                self = this;
+
+            this.$(".js-series").each(function() {
+                newSeriesView = new SeriesView({el: this});
+                newSeriesView.on("expand", self.onSeriesExpand);
+                series.push(newSeriesView);
+            });
+
+            this.model.set("series", series);
+        },
+
+        onSeriesExpand: function () {
+            this.$(".js-module-content").collapse("show");
         },
 
         onExpand: function() {
@@ -267,7 +294,13 @@ define([
         },
 
         isLoaded: function() {
-            return this.$("table").length > 0;
+            return this.$el.data("loaded");
+            // Old: empty series are possible!
+            //return this.$("table").length > 0;
+        },
+
+        setLoaded: function (loaded) {
+            this.$el.data("loaded", Boolean(loaded));
         },
 
         isLoading: function() {
@@ -317,6 +350,7 @@ define([
             this.$(".js-events").prepend(response);
             this.buildEventViews();
             listEvents.trigger("new-events-visible");
+            this.setLoaded(true);
         },
 
         buildEventViews: function() {
@@ -328,7 +362,7 @@ define([
                 return eventView;
             }, this);
 
-            this.model.set('events', events);
+            this.model.set("events", events);
         },
 
         onEventsFetchFailed: function() {
@@ -367,6 +401,7 @@ define([
          */
         expand: function() {
             this.$(".js-events").collapse("show");
+            this.trigger("expand");
         },
 
         onExpandSeries: function(id) {
@@ -382,19 +417,201 @@ define([
         },
 
         initialize: function () {
-            //apply initialization of superclass
+            _.bindAll(this);
+
+            // Apply initialization of superclass
             WritableModuleView.__super__.initialize.apply(this, arguments);
 
+            // Initialize the editableTitle view
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
-                titleFieldName: "fullname"
+                titleFieldName: "fullname",
+                extraSaveData: this.options.extraSaveData
             });
+
+            // Bind extra event listeners and hide buttons we don't need if the
+            // module is new
+            if (this.options.added === true) {
+                this.editableTitle.on("close", this.onTitleClose);
+                this.editableTitle.on("save", this.onTitleSaveSuccess);
+                this.$(".js-module-buttons").hide();
+            }
+        },
+
+        /**
+         * Function that creates seriesViews for each series found within the
+         * module (based on the markup ".js-series".each)
+         */
+        createInitialSeriesViews: function () {
+            var series = [],
+                newSeriesView,
+                self = this;
+
+            // Create a WritableSeriesView for each series found within the
+            // module
+            this.$(".js-series").each(function() {
+                newSeriesView = new WritableSeriesView({el: this});
+                newSeriesView.on("expand", self.onSeriesExpand);
+                series.push(newSeriesView);
+            });
+
+            // Save the series array in the model
+            this.model.set("series", series);
+
+            // If the module doesn't contain any series, check for series being
+            // added to show/hide the "This module contains no series text"
+            // paragraph
+            if (!series.length) {
+                this.model.on("change:newSeries", this.onNewSeriesChanged);
+            }
+        },
+
+        /**
+         * Triggered when the newSeries array in the model has changed. Check
+         * whether there are events in the module and show/hide the no-series
+         * text accordingly.
+         */
+        onNewSeriesChanged: function () {
+            // Toggle the "This module contains no series text" based on whether
+            // series have been added or not.
+            this.$(".js-no-series").toggle(!Boolean(this.model.get("newSeries").length));
+        },
+
+        events: function() {
+            // Extend (don't overwrite) the events defined in the superclass
+            var superEvents = WritableModuleView.__super__.events.call(this);
+
+            return _.extend(superEvents, {
+                "click .js-btn-add-series": this.onAddSeriesClick
+            });
+        },
+
+        onAddSeriesClick: function (event) {
+            this.appendNewSeries();
+            event.preventDefault();
+        },
+
+        /**
+         * Adds a new series to the module. Binds all necesary listeners, saves
+         * it in the model, etc.
+         */
+        appendNewSeries: function () {
+            var $markup = $($("#js-templ-new-series").html()),
+                newSeriesView = new WritableSeriesView({
+                    el: $markup,
+                    added: true,
+                    extraSaveData: {
+                        "id_parent": this.getId()
+                    }
+                });
+
+            newSeriesView.on("expand", this.onSeriesExpand);
+            this.$(".js-series-list").prepend($markup);
+
+            this.model.set({
+                newSeries: this.model.get("newSeries").concat(newSeriesView)
+            });
+
+            newSeriesView.editableTitle.toggleEditableState(true);
+            newSeriesView.on("destroy", this.onSeriesRemoved);
+        },
+
+        onSeriesRemoved: function (removedSeriesView) {
+            this.removeSeriesView(removedSeriesView);
+        },
+
+        /**
+         * Removes a seriesView from the our model.
+         */
+        removeSeriesView: function (seriesView) {
+            // Determine which array to remove the seriesView from.
+            var target = seriesView.options.added === true ? "newSeries" : "series";
+            this.model.set(target, _.without(this.model.get(target), seriesView));
+        },
+
+        /**
+         * Triggered when the module has been successfully saved.
+         */
+        onTitleSaveSuccess: function (data) {
+            // At this point we don't need these events anymore:
+            this.editableTitle.off("save");
+            this.editableTitle.off("close");
+
+            // Do everything needed to successfully track the new module from
+            // here.
+            this.appendModuleContent();
+            this.editableTitle.setSavePath(data.url_edit);
+            this.makeCollapsible(data.id);
+            this.setId(data.id);
+        },
+
+        setId: function (id) {
+            this.$el.data("id", id);
+        },
+
+        getId: function () {
+            return this.$el.data("id");
+        },
+
+        /**
+         * Function that makes the module collapsible (show/hide the series).
+         * This is used for modules which have been added by the user, expects a
+         * module id.
+         */
+        makeCollapsible: function (id) {
+            var idString = "module-" + id + "-content";
+            this.$(".js-collapse").attr({
+                "data-target": "#" + idString,
+                "data-toggle": "collapse"
+            });
+
+            this.$(".js-module-content").attr("id", idString);
+        },
+
+        /**
+         * Gets the html from the module content template and appends it to the 
+         * module. This is only used by new modules added by the user and is
+         * triggered when the modules have been succesfully created in the
+         * back-end (== title saved).
+         */
+        appendModuleContent: function () {
+            var $newModuleContent = $($("#js-templ-new-module-content").html());
+            this.$el.append($newModuleContent);
+        },
+
+        /**
+         * Triggered when the title edit field has been closed. No async 
+         * requests have happened at this point yet.
+         */
+        onTitleClose: function (value) {
+            if (value === "") {
+                this.destroy();
+                return;
+            }
+
+            this.$(".js-module-buttons").show();
+        },
+
+        /**
+         * Removes all event listeners from this series and the editableTitle
+         * and removes all elements.
+         */
+        destroy: function () {
+            this.editableTitle.off();
+            this.editableTitle.remove();
+            this.remove();
+            this.trigger("destroy", this);
+            this.off();
         },
 
         lock: function () {
             this.locked = true;
             this.editableTitle.lock();
+
+            // Also lock the series.
+            _.invoke(this.series, "lock");
+            _.invoke(this.newSeries, "lock");
         }
     });
 
@@ -423,8 +640,20 @@ define([
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-series-title h5"),
                 $toggleButton: this.$(".js-series-buttons .js-edit-icon"),
-                titleFieldName: "title"
+                titleFieldName: "title",
+                extraSaveData: this.options.extraSaveData
             });
+
+            // Bind extra event listeners and hide buttons if the module is new
+            if (this.options.added === true) {
+                this.editableTitle.on("close", this.onTitleClose);
+                this.editableTitle.on("save", this.onTitleSaveSuccess);
+                this.$(".js-series-buttons").hide();
+
+                if (this.options.titleSavePath !== undefined) {
+                    this.editableTitle.setSavePath(this.options.titleSavePath);
+                }
+            }
 
             // Bind a change handler to the model
             this.model.on("change", this.onSavedStatusChanged);
@@ -432,11 +661,95 @@ define([
             _.bindAll(this);
         },
 
+        setId: function (id) {
+            this.$el.data("id", id);
+        },
+
+        getId: function () {
+            return this.$el.data("id");
+        },
+
+        /**
+         * Function that runs when the title for a new series has been 
+         * successfully saved.
+         */
+        onTitleSaveSuccess: function (data) {
+            // At this point we don't need these events anymore:
+            this.editableTitle.off("save");
+            this.editableTitle.off("close");
+
+            // Do everything needed to successfully track the new series from
+            // here.
+            this.appendSeriesContent();
+            this.setId(data.id);
+            this.makeCollapsible(data.id);
+            this.editableTitle.setSavePath(data.url_edit_title);
+            this.setSavePath(data.url_edit_event);
+
+            // Perhaps not the prettiest but does what we want:
+            // Triggers the code that runs when events for a series are fetched.
+            // We can immediately run it here because this is a new series which
+            // doesn't contain any events yet.
+            this.onEventsFetched();
+        },
+
+        /**
+         * Function that makes the series collapsible (show/hide the events).
+         * This is used for series which have been added by the user, expects a
+         * series id.
+         */
+        makeCollapsible: function (id) {
+            var idString = "series-" + id + "-events";
+
+            // Using $.data doesn't seem to work, bootstrap doesn't pick it up,
+            // $.attr("data-*") however, seems to work perfectly fine.
+            this.$(".js-collapse").attr({
+                "data-toggle": "collapse",
+                "data-target": "#" + idString
+            });
+
+            this.$(".js-events").attr("id", idString);
+        },
+
+        /**
+         * Gets the html from the series content template and appends it to the 
+         * series. This is only used by new series added by the user and is
+         * triggered when the series have been succesfully created in the
+         * back-end (== title saved).
+         */
+        appendSeriesContent: function () {
+            var $seriesContent = $($("#js-templ-new-series-content").html());
+            this.$el.append($seriesContent);
+        },
+
+        onTitleClose: function (value) {
+            if (value === "") {
+                this.destroy();
+                return;
+            }
+
+            this.$(".js-series-buttons").show();
+        },
+
+        /**
+         * Removes all event listeners from this series and the editableTitle
+         * and removes all elements.
+         */
+        destroy: function () {
+            this.editableTitle.off();
+            this.editableTitle.remove();
+            this.remove();
+            this.trigger("destroy", this);
+            this.off();
+        },
+
         getEventsRequestOptions: function() {
             var baseOptions = WritableSeriesView.__super__.getEventsRequestOptions();
 
             return _.extend(baseOptions, {
-                data: {writeable: true}
+                data: {
+                    writeable: true
+                }
             });
         },
 
@@ -520,7 +833,7 @@ define([
             this.$el.toggleClass("hasChanges", changesExist);
         },
 
-        onCancel: function(event) {
+        onCancel: function() {
             // Set each event to its original state (= undoing all the changes)
             _.each(this.model.get("events"), function(eventView) {
                 eventView.cancelChanges();
@@ -535,9 +848,7 @@ define([
             this.model.set("newEvents", []);
         },
 
-        onSave: function(event) {
-            var self = this;
-
+        onSave: function() {
             if (this.locked === true) {
                 return false;
             }
@@ -551,11 +862,14 @@ define([
                 return eventView.model.asJSONDjangoForm();
             });
 
+            // Form data
             var outerForm = {
                 "event_set": {
-                    // can't add forms yet so this is OK
+                    // The initial amount of events
                     "initial": initialEventForms.length,
+                    // The total amount of events (initial + new)
                     "total": initialEventForms.length + newEventForms.length,
+                    // The actual events data
                     "forms": initialEventForms.concat(newEventForms)
                 }
             };
@@ -600,7 +914,14 @@ define([
         },
 
         /**
-         * Gets the path to the endpoint the POST changes to when saving.
+         * Sets the path of the endpoint where the POST should get saved to
+         */
+        setSavePath: function (savePath) {
+            this.$el.data("save-path", savePath);
+        },
+
+        /**
+         * Gets the path of the endpoint where the POST gets saved to
          */
         getSavePath: function() {
             return this.$el.data("save-path");
@@ -618,9 +939,10 @@ define([
             if (this.model.get("events").length) {
                 $eventRow = this.$el.find(".js-event").last().clone();
 
-                // If the event is one that already exists, we need to remove
-                // the id attribute and add appropriate classes, remove any
-                // buttons not used by new items.
+                // If the event is cloned from one that already exists (= not
+                // from another new event row), we need to remove the id
+                // attribute and add appropriate classes + remove any buttons
+                // which aren't used by new events.
                 if (!$eventRow.hasClass("event-new")) {
                     $eventRow.addClass("event-new row-being-edited").removeAttr("data-id");
 
@@ -699,8 +1021,13 @@ define([
         },
 
         highlight: function() {
-            this.$el.addClass("highlighted");
-            scrollTo(this.$el.offset().top - 100, 200);
+            if (!this.$el.hasClass("highlighted")) {
+                this.$el.addClass("highlighted");
+                // Scroll to the highlighted element
+                $("body, html").animate({
+                    scrollTop: this.$el.offset().top - 100
+                }, 300);
+            }
         }
     });
 
@@ -732,7 +1059,7 @@ define([
             return day;
         },
 
-        validate: function(attrs) {
+        validate: function() {
             /* Function disabled for now
 
             var errors = {};
@@ -894,7 +1221,7 @@ define([
             };
         },
 
-        dateTimeFocusOutHandler: function (event) {
+        dateTimeFocusOutHandler: function () {
             var self = this;
             _.delay(function () {
                 if (!self.$dateTimeWrapper.is(":active") && self.$dateTimeWrapper.find(":focus, :active").length < 1) {
@@ -922,12 +1249,12 @@ define([
             this.toggleCancelledState();
         },
 
-        keyUpHandler: function (event) {
+        keyUpHandler: function () {
             this.updateModel();
             this.markAsChanged();
         },
 
-        changeHandler: function (event) {
+        changeHandler: function () {
             this.updateModel();
             this.markAsChanged();
         },
@@ -938,19 +1265,19 @@ define([
             this.$typeWrapper.removeClass("being-edited");
         },
 
-        titleFieldFocusOutHandler: function (event) {
+        titleFieldFocusOutHandler: function () {
             this.$titleField.removeClass("being-edited");
         },
 
-        locationFieldFocusOutHandler: function (event) {
+        locationFieldFocusOutHandler: function () {
             this.$locationField.removeClass("being-edited");
         },
 
-        peopleFieldFocusOutHandler: function (event) {
+        peopleFieldFocusOutHandler: function () {
             this.$peopleField.removeClass("being-edited");
         },
 
-        typeFieldFocusOutHandler: function (event) {
+        typeFieldFocusOutHandler: function () {
             //check if value is different from original; remove being-edited class
             if (!this.model.hasFieldChangedFromOriginal("type")) {
                 this.$typeWrapper.removeClass("being-edited");
@@ -970,7 +1297,7 @@ define([
             return this.$el.find(":focus").length > 0 || this.$el.find(":active").length > 0;
         },
 
-        focusOutHandler: function (event) {
+        focusOutHandler: function () {
             var self = this;
             this.caretMoved = false;
             _.delay(function () {
@@ -981,21 +1308,21 @@ define([
             }, 50);
         },
 
-        focusInHander: function (event) {
+        focusInHander: function () {
             this.toggleRowBeingEditedState(true);
         },
 
-        editIconClickHandler: function (event) {
+        editIconClickHandler: function () {
             if (!this.isCancelled()) {
                 this.$el.addClass("row-being-edited");
             }
         },
 
-        dateTimeWrapFocusHandler: function (event) {
+        dateTimeWrapFocusHandler: function () {
             this.toggleDateTimeDialog(true);
         },
 
-        typeWrapFocusHandler: function (event) {
+        typeWrapFocusHandler: function () {
             if (this.$typeWrapper.hasClass("being-edited") === false) {
                 this.$typeWrapper.addClass("being-edited");
                 this.$typeField.focus();
@@ -1004,42 +1331,24 @@ define([
 
         editableFieldClickHandler: function (event) {
             if (!this.caretMoved) {
-                this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+                moveCaretToEndOfContenteditableElement(event.currentTarget);
                 this.caretMoved = true;
             }
         },
 
         titleFieldFocusHandler: function (event) {
-            var self = this;
             this.$titleField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         locationFieldFocusHandler: function (event) {
             this.$locationField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         peopleFieldFocusHandler: function (event) {
             this.$peopleField.addClass("being-edited");
-            this.moveCaretToEndOfContenteditableElement(event.currentTarget);
-        },
-
-        moveCaretToEndOfContenteditableElement: function (contentEditableElement) {
-            var range,selection;
-            if (document.createRange) {
-                range = document.createRange();
-                range.selectNodeContents(contentEditableElement);
-                range.collapse(false);
-                selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-            } else if (document.selection) { //IE 8 and lower
-                range = document.body.createTextRange();
-                range.moveToElementText(contentEditableElement);
-                range.collapse(false);
-                range.select();
-            }
+            moveCaretToEndOfContenteditableElement(event.currentTarget);
         },
 
         toggleRowBeingEditedState: function (beingEdited) {
@@ -1125,6 +1434,10 @@ define([
             this.$toggleButton.on("click", this.onToggleClick);
         },
 
+        setSavePath: function (savePath) {
+            this.$(".js-value").data("save-path", savePath);
+        },
+
         lock: function () {
             this.locked = true;
         },
@@ -1138,27 +1451,55 @@ define([
         },
 
         render: function () {
+            // Set the value text to what value is present in the model
             this.$value.text(this.model.get(this.titleFieldName));
+            // Set the appropriate classes and attributes based on whether
+            // this.isEditable is set to true
             this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
-            this.$(".js-error-message").toggle(this.isError);
+            // If there is an error, show the error message div
+            if (this.isError !== false) {
+                this.$(".js-error-message").text(this.isError);
+            }
+            this.$(".js-error-message").toggle(this.isError !== false);
+            // Move the caret to the end of the text
+            moveCaretToEndOfContenteditableElement(this.$value[0]);
         },
 
         events: {
-            "click a" : "onClick",
+            "click .js-collapse" : "onClick",
             "keydown .js-value" : "onKeyDown",
             "focusout .js-value" : "onFocusOut"
         },
 
+        revert: function () {
+            this.$value.text(this.model.get(this.titleFieldName));
+        },
+
         onKeyDown: function (event) {
-            if (event.keyCode === 13 && this.isEditable === true) {
-                this.saveAndClose();
+            // Nothing should happen if the title isn't in editable mode
+            // (= has focus). This extra check was needed in some browsers.
+            if (!this.isEditable) {
+                return;
+            }
+
+            // If the escape key (27) is pressed the value should be reverted to
+            // its previous state.
+            // If the enter key (13) is pressed, the new value should be saved.
+            switch (event.keyCode) {
+            case 27:
+                this.revert();
+                /* falls through */
+            case 13:
+                this.$value.blur();
                 event.preventDefault();
+                break;
             }
         },
 
-        onFocusOut: function (event) {
+        onFocusOut: function () {
             if (this.isEditable === true) {
                 this.saveAndClose();
+                this.trigger("close", this.model.get(this.titleFieldName));
             }
         },
 
@@ -1175,6 +1516,15 @@ define([
             }
         },
 
+        getEncodedData: function () {
+            var data = this.model.asJSONDjangoForm();
+            // Add extra saveData object to data. This is needed for creating
+            // new modules. Won't overwrite any properties already defined in
+            // data.
+            _.defaults(data, this.options.extraSaveData);
+            return DjangoForms.encodeJSONForm(data);
+        },
+
         saveData: function () {
             var self = this,
                 beforeSavingTime = new Date(),
@@ -1186,7 +1536,7 @@ define([
             $.ajax({
                 type: "POST",
                 url: this.$value.data("save-path"),
-                data: DjangoForms.encodeJSONForm(this.model.asJSONDjangoForm()),
+                data: this.getEncodedData(),
                 success: function (data) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
@@ -1195,14 +1545,15 @@ define([
                         self.$value.text(data[self.titleFieldName]);
                         self.updateModel();
                         self.model.storeInitialState(true);
+                        self.trigger("save", data);
                     }, Math.max(200 - timeDifference, 0));
                 },
-                error: function () {
+                error: function (error) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
                         self.model.reset();
                         self.toggleSavingState(false);
-                        self.toggleErrorState(true);
+                        self.toggleErrorState(error.responseText || "Saving failed, please try again later.");
                     }, Math.max(200 - timeDifference, 0));
                 }
             });
@@ -1210,10 +1561,10 @@ define([
 
         onClick: function (event) {
             if (this.isEditable === true) {
+                // Stop this event from propagating to prevent the collapse
+                // functionality to be triggered.
                 event.stopPropagation();
             }
-
-            event.preventDefault();
         },
 
         updateModel: function () {
@@ -1231,7 +1582,6 @@ define([
 
         toggleEditableState: function (isEditable) {
             isEditable = typeof isEditable !== "undefined" ? isEditable : !this.isEditable;
-
             if (isEditable !== this.isEditable) {
                 this.isEditable = isEditable;
                 this.render();
@@ -1268,7 +1618,7 @@ define([
             event.stopPropagation();
         },
 
-        initialize: function(opts) {
+        initialize: function() {
             _.bindAll(this);
 
             this.backdrop = new DialogBackdropView();
@@ -1640,17 +1990,6 @@ define([
         }
     });
 
-    /**
-     * Scroll the window so that the top is at the specified vertical
-     * position on the page.
-     */
-    function scrollTo(position, duration, onComplete) {
-        duration = duration || 0;
-        $("html, body").animate({
-            scrollTop: $(".js-event").offset().top - 100
-        }, duration, "swing", onComplete);
-    }
-
     /** Return value wrapped in an array if it's not an array. */
     function asArray(value) {
         if (_.isArray(value)) {
@@ -1685,9 +2024,7 @@ define([
      * scroll to the specified event.
      */
     function bindUrlHashWatcher() {
-        $(window).bind("hashchange", function(e) {
-            var state = $.bbq.getState();
-
+        $(window).bind("hashchange", function() {
             var expand = asArray($.bbq.getState("expand"));
             _.each(expand, function(seriesId) {
                 // Sanitise ID
@@ -1704,6 +2041,23 @@ define([
         });
     }
 
+    function moveCaretToEndOfContenteditableElement(contentEditableElement) {
+        var range,selection;
+        if (document.createRange) {
+            range = document.createRange();
+            range.selectNodeContents(contentEditableElement);
+            range.collapse(false);
+            selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else if (document.selection) { //IE 8 and lower
+            range = document.body.createTextRange();
+            range.moveToElementText(contentEditableElement);
+            range.collapse(false);
+            range.select();
+        }
+    }
+
     // This is fired when new events are added to the page.
     listEvents.on("new-events-visible", highlightEventsInHash);
     //listEvents.on("page-edited", locker.preventTimeout);
@@ -1715,7 +2069,8 @@ define([
         WritableModuleView: WritableModuleView,
         bindUrlHashWatcher: bindUrlHashWatcher,
         Locker: Locker,
-        listEvents: listEvents
+        listEvents: listEvents,
+        BaseModel: BaseModel
     };
 });
 
