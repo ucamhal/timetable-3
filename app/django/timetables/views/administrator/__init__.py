@@ -1,6 +1,8 @@
 import operator
 import json
+import re
 
+from django.core.urlresolvers import reverse
 from django import http
 from django import shortcuts
 from django.contrib.admin.views.decorators import staff_member_required
@@ -272,6 +274,141 @@ def edit_series_title(request, series_id):
 
     return http.HttpResponseBadRequest("Series form did not pass "
             "validation: %s" % editor.errors)
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def new_module(request):
+    """
+    Creates a new module
+    request POST variables should contain:
+        - parent thing ID (id_parent)
+        - module title (fullname)
+    Returns module title, ID and save path as JSON string
+    """
+    
+    # get the new module data
+    fullname = request.POST.get("fullname", "")
+    id_parent = request.POST.get("id_parent", 0)
+    
+    # get the parent Thing object
+    parent = models.Thing.objects.get(pk=id_parent)
+    parent_fullpath = parent.fullpath;
+    
+    # process fullname to create URL-friendly version
+    name = _clean_string(fullname) 
+
+    # generate fullpath
+    fullpath = parent_fullpath
+    if fullpath[-1] != '/':
+        parent_fullpath = parent_fullpath+'/'
+    fullpath = parent_fullpath+name
+
+
+    # check for fullpath clashes
+    clash = True
+    try:
+        thing_clash = models.Thing.objects.get(fullpath = fullpath)
+    except models.Thing.DoesNotExist:
+        clash = False
+
+
+    # return the new Thing data
+    if not clash:
+        # Thing object being created
+        thing = models.Thing(
+            parent = parent,
+            fullpath = fullpath,
+            name = name,
+            fullname = fullname,
+            type = "module",
+            pathid = None # initialise so that prepare_save will action
+        )
+        
+        
+        # prepare and save new Thing object
+        thing.prepare_save()
+        thing.save()
+        
+        # construct data to return to caller
+        thing_data = {
+            "id": thing.pk,
+            "fullname": fullname,
+            "url_edit": reverse('thing edit', args=(fullpath,))
+        }
+        
+        return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
+
+    # return error
+    return HttpResponse(content="Module fullname is already in use", status=409)
+
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def new_series(request):
+    """
+    Creates a new event series.
+    request POST variables should contain:
+        - parent thing ID (id_parent)
+        - series title (title)
+    Returns series title, ID and save path as JSON string
+    """
+    # get the new series data
+    title = request.POST.get("title", "")
+    id_parent = request.POST.get("id_parent", 0)
+    
+    # process title to create URL-friendly version
+    alias = _clean_string(title)
+    
+    # get the parent Thing object
+    parent = models.Thing.objects.get(pk=id_parent)
+    
+    # EventSource object being created
+    es = models.EventSource(
+        title = title,
+        data = "{}",
+        sourcetype = "pattern", # ???
+        sourceurl = alias
+    )
+
+
+    # prepare and save new EventSource object
+    es.prepare_save()
+    es.save()
+    es.makecurrent()
+    
+    es.master = es # ugh - need the object in order to set itself as its own master :s
+    es.save()
+
+
+    # construct data to return
+    es_data = {
+        "id": es.pk,
+        "title": title,
+        "url_edit_event": reverse('edit series', args=(es.pk,)),
+        "url_edit_title": reverse('edit series title', args=(es.pk,))
+    }
+
+
+    # create EventSourceTag
+    est = models.EventSourceTag(
+        thing = parent,
+        eventsource = es,
+        annotation = ''
+    )
+    est.prepare_save()
+    est.save()
+
+    # return data
+    return HttpResponse(json.dumps(es_data), content_type="application/json")
+
+
+def _clean_string(txt):
+    txt = txt.lower() # to lower case
+    txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
+    return txt
 
 
 @login_required

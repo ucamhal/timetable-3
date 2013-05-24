@@ -153,7 +153,7 @@ define([
 
     var FullCalendarView = Backbone.View.extend({
 
-        initialize: function (opts) {
+        initialize: function () {
             var self = this;
 
             _.bindAll(this, "onScroll");

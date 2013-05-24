@@ -28,7 +28,7 @@ define([
             "click a.js-btn-add, a.js-btn-remove" : "moduleButtonClickHandler"
         },
 
-        associate: function ($source, add, parentButton) {
+        associate: function ($source, add) {
             var self = this;
             var sourcepath = this.thingPath;
             var crsf = this.crsfToken;
@@ -186,13 +186,13 @@ define([
             "change .js-part-select"    : "partChangedHandler"
         },
 
-        moduleChangedHandler: function (event) {
+        moduleChangedHandler: function () {
             var selectedOption = this.$moduleSelect.find("option:selected");
             this.renderPartsSelect(selectedOption.data("levels"));
             this.partChangedHandler();
         },
 
-        partChangedHandler: function (event) {
+        partChangedHandler: function () {
             this.trigger("partChanged", this.$partSelect.val());
         },
 

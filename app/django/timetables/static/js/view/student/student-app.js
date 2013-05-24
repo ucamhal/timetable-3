@@ -794,7 +794,7 @@ define([
             this.resize();
         },
 
-        resize: function (event) {
+        resize: function () {
             var windowWidth = $(window).width(),
                 windowHeight = $(window).height(),
                 maxWidth = windowWidth - 200,

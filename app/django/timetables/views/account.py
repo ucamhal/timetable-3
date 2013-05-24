@@ -30,7 +30,7 @@ class LoginView(View):
             return HttpResponseRedirect(reverse('home'))
         if settings.ENABLE_RAVEN:
             if "REMOTE_USER" in request.META:
-                username = request.META['REMOTE_USER']
+                username = self.clean_username(request.META['REMOTE_USER'])
                 try:
                     user = User.objects.get_by_natural_key(username)
                 except User.DoesNotExist:
@@ -79,7 +79,16 @@ class LoginView(View):
             messages.add_message(request, messages.ERROR, 'Account has been disabled, you cant use this application ')
             return HttpResponseRedirect(url)
 
-        
+    def clean_username(self, username):
+        """
+        Handle shib usernames w/ @cam.ac.uk in the same way as raven
+        usernames (Raven just provides CRSIDs).
+        """
+        match = re.match(r"(\w+)(?:@cam\.ac\.uk)", username)
+
+        if match:
+            return match.group(1)
+        return username
 
 
 class LogoutView(View):
