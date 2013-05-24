@@ -39,7 +39,7 @@ define([
                 postdata.e = $source.attr("data-eventid");
             } else {
                 postdata.td = $source.attr("data-fullpath");
-                postdata.est = $source.attr("data-eventsourceid");
+                postdata.esd = $source.attr("data-eventsourceid");
                 postdata.ed = $source.attr("data-eventid");
             }
             postdata.csrfmiddlewaretoken = crsf;
