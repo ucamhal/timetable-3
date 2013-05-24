@@ -13,6 +13,9 @@ START_TIME = timezone.make_aware(datetime.datetime(2012, 12, 18, 10, 5),
 
 class SimpleLockingTestCase(TestCase):
 
+    # Load test data from the following fixture
+    fixtures = ("test_locking.json",)
+
     def assert_lock_exists(self, thing, owner, now_func):
         lock = (thing.locks.just_active(now=now_func)
                 .order_by("expires")[:1].get())
