@@ -3,6 +3,8 @@ Created on Oct 25, 2012
 
 @author: ieb
 '''
+import re
+
 from django.views.generic.base import View
 from django.contrib.auth import login, authenticate, logout
 from django.utils.decorators import method_decorator
