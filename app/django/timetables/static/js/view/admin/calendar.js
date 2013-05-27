@@ -2,7 +2,8 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "fullcalendar"
+    "fullcalendar",
+    "util/underscore-mixins"
 ], function ($, _, Backbone) {
     "use strict";
 
