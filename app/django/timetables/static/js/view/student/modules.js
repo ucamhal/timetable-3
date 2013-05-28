@@ -1,7 +1,8 @@
 define([
     "jquery",
     "underscore",
-    "backbone"
+    "backbone",
+    "util/underscore-mixins"
 ], function ($, _, Backbone) {
     "use strict";
 
