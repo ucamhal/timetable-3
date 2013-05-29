@@ -17,8 +17,46 @@ log = logging.getLogger("timetables.settings")
 del logging
 
 
+##############################
+# Timetables specific settings
+##############################
+
+EVENT_EXPORTERS = {
+    "ics" : "timetables.utils.formats.ical.ICalExporter",
+    "csv" : "timetables.utils.formats.spreadsheet.CsvExporter",
+    "json" : "timetables.utils.formats.jsonformat.JsonExporter"
+}
+
+EVENT_IMPORTERS = {
+    "ics" : "timetables.utils.formats.ical.ICalImporter",
+    "pattern" : "timetables.utils.formats.datepattern.DatePatternImporter"
+}
+
+# Forms to edit thing types keyed by thing.type
+THING_FORMS = {
+    "module" : "timetables.forms.ModuleForm"
+}
+
+# To enable Raven Authentication set this true and protect /accounts/login
+# If false, a testing url will be used.
+ENABLE_RAVEN=False
+
+# This url is where feeback from users to the application is sent.
+FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
+
+# This is the name of the server, used for generating event uids
+INSTANCE_NAME = "timetables.caret.cam.ac.uk"
+
+# In production this should be set to True, so that we maintain a cache of parsed UI Yaml ready for use.
+CACHE_YAML = False
+
 DJANGO_DIR = Path(__file__).ancestor(3)
 REPO_ROOT_DIR = DJANGO_DIR.ancestor(2)
+
+
+##########################
+# Standard Django settings
+##########################
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -29,17 +67,11 @@ TEST_DISCOVERY_ROOT = DJANGO_DIR
 # This assumes you place the above ``DiscoveryRunner`` in ``tests/runner.py``.
 TEST_RUNNER = "timetables.utils.testrunner.DiscoveryRunner"
 
-
-# To enable Raven Authentication set this true and protect /accounts/login
-# If false, a testing url will be used.
-ENABLE_RAVEN=False
-
 # To enable redeployment, set this to a unique string in your local settings and configure
 # your source code repository to post to http://host/repo/{{ REDEPLOY_KEY }}
 # All this will do it write a file to disk in a known location of a set size.
 # Its upto something else to notice that file and perform the redeployment.
 # REDEPLOY_KEY = "something"
-
 
 # We have to use timezones, the world is round not flat!
 USE_TZ=True
@@ -47,12 +79,6 @@ USE_L10N=True
 
 ADMINS = (
 )
-
-# This url is where feeback from users to the application is sent.
-FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
-
-# This is the name of the server, used for generating event uids
-INSTANCE_NAME = "timetables.caret.cam.ac.uk"
 
 MANAGERS = ADMINS
 
@@ -244,9 +270,6 @@ LOGGING = {
     }
 }
 
-# In production this should be set to True, so that we maintain a cache of parsed UI Yaml ready for use.
-CACHE_YAML = False
-
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
@@ -256,21 +279,6 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
-EVENT_EXPORTERS = {
-    "ics" : "timetables.utils.formats.ical.ICalExporter",
-    "csv" : "timetables.utils.formats.spreadsheet.CsvExporter",
-    "json" : "timetables.utils.formats.jsonformat.JsonExporter"
-}
-
-EVENT_IMPORTERS = {
-    "ics" : "timetables.utils.formats.ical.ICalImporter",
-    "pattern" : "timetables.utils.formats.datepattern.DatePatternImporter"
-}
-
-# Forms to edit thing types keyed by thing.type
-THING_FORMS = {
-    "module" : "timetables.forms.ModuleForm"
-}
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
 try:
