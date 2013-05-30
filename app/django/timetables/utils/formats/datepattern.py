@@ -1,9 +1,14 @@
+import logging
+
+from django.conf import settings
+
 from timetables.utils.datetimes import server_datetime_now
 from timetables.utils.v1 import generate
 from timetables.models import Event
-import logging
+
 
 log = logging.getLogger(__name__)
+
 
 class DatePatternImporter(object):
 
@@ -17,16 +22,8 @@ class DatePatternImporter(object):
                     source.id))
             return 0
         group_template =  metadata.get("group_template") or ""
-        try: # academic year for the data is provided
-            start_year = int(metadata.get("year"))
-        except: # no year provided - infer it from the current date
-            start_year = server_datetime_now().year
-            
-            # for now we assume that if we are importing before the end of the academic year then the data is for this year - remove this for production site 
-            current_month = server_datetime_now().month
-            if(current_month <= 6): # if you're in a month before June then assume you want to add the data to the current academic year
-                start_year -= 1
-                
+        start_year = self.get_academic_year(metadata)
+
         title = source.title
         location = metadata.get("location", '')
         try:
@@ -44,3 +41,13 @@ class DatePatternImporter(object):
             log.warning("Failed to parse date pattern: %s in "
                 "eventsource ID: %d" % (datePattern, source.id))
             return 0
+
+    def get_academic_year(self, metadata):
+        start_year = metadata.get("year")
+
+        if not start_year:
+            # Use the default academic year from settings if one isn't
+            # provided.
+            return settings.DEFAULT_ACADEMIC_YEAR
+
+        return int(start_year)
