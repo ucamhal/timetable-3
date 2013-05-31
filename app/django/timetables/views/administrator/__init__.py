@@ -265,7 +265,7 @@ def edit_series_title(request, series_id):
         return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
 
     return http.HttpResponseBadRequest("Series form did not pass "
-            "validation: %s" % editor.errors)
+            "validation: %s" % series_form.errors)
 
 
 @require_POST
