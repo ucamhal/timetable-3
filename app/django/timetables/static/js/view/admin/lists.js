@@ -427,7 +427,8 @@ define([
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
                 titleFieldName: "fullname",
-                extraSaveData: this.options.extraSaveData
+                extraSaveData: this.options.extraSaveData,
+                added: this.options.added
             });
 
             // Bind extra event listeners and hide buttons we don't need if the
@@ -641,7 +642,8 @@ define([
                 el: this.$(".js-series-title h5"),
                 $toggleButton: this.$(".js-series-buttons .js-edit-icon"),
                 titleFieldName: "title",
-                extraSaveData: this.options.extraSaveData
+                extraSaveData: this.options.extraSaveData,
+                added: this.options.added
             });
 
             // Bind extra event listeners and hide buttons if the module is new
@@ -1413,22 +1415,24 @@ define([
     });
 
     var EditableTitleView = Backbone.View.extend({
-        initialize: function (opts) {
+        initialize: function (options) {
             _.bindAll(this, "onToggleClick");
 
-            this.$toggleButton = opts.$toggleButton;
-            this.titleFieldName = opts.titleFieldName || "title";
+            this.$toggleButton = options.$toggleButton;
+            this.titleFieldName = options.titleFieldName || "title";
 
             this.$value = this.$(".js-value");
 
             this.model = new TitleModel({
-                titleFieldName: opts.titleFieldName
+                titleFieldName: options.titleFieldName
             });
 
             this.isEditable = false;
             this.isSaving = false;
             this.isError = false;
-            this.updateModel();
+            // If the item is new the value saved in the model should be an
+            // empty string.
+            this.updateModel(options.added ? "" : undefined);
             this.model.storeInitialState();
 
             this.$toggleButton.on("click", this.onToggleClick);
@@ -1451,8 +1455,6 @@ define([
         },
 
         render: function () {
-            // Set the value text to what value is present in the model
-            this.$value.text(this.model.get(this.titleFieldName));
             // Set the appropriate classes and attributes based on whether
             // this.isEditable is set to true
             this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
@@ -1567,8 +1569,12 @@ define([
             }
         },
 
-        updateModel: function () {
-            this.model.set(this.titleFieldName, this.$value.text());
+        updateModel: function (value) {
+            if (value === undefined) {
+                value = this.$value.text();
+            }
+
+            this.model.set(this.titleFieldName, value);
         },
 
         toggleErrorState: function (isError) {
