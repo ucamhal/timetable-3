@@ -1,10 +1,6 @@
 {% load timetables %}
 {% for subject in subjects %}
-  <option data-levels="{{ subject.fullpaths_by_level|json }}">
-    {% if not subject.tripos_name %}
-      {{ subject.subject_name }}
-    {% else %}
-      {{ subject.subject_name }} ({{ subject.tripos_name }})
-    {% endif %}
+  <option data-levels="{{ subject.parts|json }}">
+    {{ subject.name }}
   </option>
 {% endfor %}

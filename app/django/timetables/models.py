@@ -830,89 +830,263 @@ class Subject(object):
     """
     Represents the somewhat abstract concept of a subject, independent of the
     hierarchy/structure of a tripos.
+
+    Subject instances don't neccisarilly represent a single Thing
+    object, they can bridge several levels of the Thing tree. See the
+    subclasses for the different variations available.
+
+    In general, an abstract subject comprises the Things between Things of type
+    tripos and module.
+    """
+    def validate_thing_type(self, thing, expected_types):
+        if not thing.type in expected_types:
+            expected = ", ".join(repr(t) for t in expected_types)
+            raise ValueError(
+                "expected thing of type {}, got: {} ({})"
+                .format(expected, thing.type, thing)
+            )
+
+    def get_path(self):
+        """
+        Returns:
+            The fullpath of the most significant Thing represented by this
+            Subject.
+
+        """
+        raise NotImplementedError
+
+    def get_tripos(self):
+        return self._tripos
+
+    def get_part(self):
+        return self._part
+
+    def get_path(self):
+        return self.get_most_significant_thing().fullpath
+
+    def __str__(self):
+        return unicode(self).encode("utf-8")
+
+
+class PartSubject(Subject):
+    """
+    Part subjects are found under Things of type tripos when there are
+    no subdivisions between part and module.
+
+    For example:
+            tripos/asnc/I/old-english  <-- Thing 'fullpath'
+                   ^    ^ ^
+    Thing type:    |    | |
+        tripos-----+    | |
+        part------------+ |
+        module------------+
+
+    In this case Things of type module are found under Things of type part.
+    This means the abstract subject would be along the lines of:
+    "ASNC I" / "Part I ASNC" etc.
+    """
+    def __init__(self, tripos, part):
+        self.validate_thing_type(tripos, ["tripos"])
+        self.validate_thing_type(part, ["part"])
+
+        self._tripos = tripos
+        self._part = part
+
+    def get_most_significant_thing(self):
+        return self.get_part()
+
+    def get_name_without_part(self):
+        return self.get_tripos().fullname
+
+    def __unicode__(self):
+        return u"{} ({})".format(self._tripos.fullname, self._part.fullname)
+
+
+class NestedSubject(Subject):
+    """
+    Nested Subjects are found under Parts when there is an additional
+    level between Part and Module.
+
+    For example:
+            tripos/nst/IA/chem/practicals  <-- Thing 'fullpath'
+                   ^   ^  ^    ^
+    Thing type:    |   |  |    |
+        tripos-----+   |  |    |
+        part-----------+  |    |
+        subject-----------+    |
+        module-----------------+
+
+    The abstract subject in this example would be identified along the lines of:
+    "NST IA Chemistry" / "Chemistry (NST, IA)" etc. As you can see, Chemistry is
+    the most important part here, but it's not the only one. As such, a
+    NestedSubject covers the three significant Things here: tripos, part and
+    subject Things.
     """
 
-    NESTED_SUBJECT_TYPES = ["subject", "experimental", "option"]
+    NESTED_SUBJECT_TYPES = frozenset(["subject", "experimental", "option"])
 
-    def __init__(self, tripos, part, nested=None):
-        if nested is not None:
-            assert nested.parent == part
-            assert nested.type in Subject.NESTED_SUBJECT_TYPES
-        assert part.parent == tripos
-        assert tripos.type == "tripos"
-        assert part.type == "part"
+    def __init__(self, tripos, part, nested):
+        self.validate_thing_type(tripos, ["tripos"])
+        self.validate_thing_type(part, ["part"])
+        self.validate_thing_type(nested, self.NESTED_SUBJECT_TYPES)
 
         self._tripos = tripos
         self._part = part
         self._nested = nested
 
-    def is_nested_subject(self):
-        return self._nested is not None
+    def get_nested(self):
+        return self._nested
 
-    def tripos_name(self):
-        return self._tripos.fullname
+    def get_most_significant_thing(self):
+        return self.get_nested()
 
-    def part_name(self):
-        return self._part.fullname
+    def get_name_without_part(self):
+        return "{} ({})".format(
+            self.get_nested().fullname,
+            self.get_tripos().fullname
+        )
 
-    def nested_name(self):
-        if not self.is_nested_subject():
-            raise TypeError("Subject is not nested: %s" % self)
-        return self._nested.fullname
-
-    def _cmp_values(self):
-        return (self.tripos_name(), self.part_name(),
-                self.nested_name() if self.is_nested_subject() else "")
-
-    def __cmp__(self, other):
-        return cmp(self._cmp_values(), other._cmp_values())
-    
     def __unicode__(self):
-        if self.is_nested_subject():
-            return u"%s (%s, %s)" % (
-                    self.nested_name(),
-                    self.tripos_name(),
-                    self.part_name())
-        return u"%s (%s)" % (self.tripos_name(), self.part_name())
+        return u"{} ({}, {})".format(
+            self._subject.fullname,
+            self._tripos.fullname,
+            self._part.fullname
+        )
+
+
+class SubjectFetcher(object):
+    """
+    The base class of SubjectFetchers.
+    """
+
+    def __init__(self, tripos=None):
+        """
+        Args:
+            tripos: Limit the subjects to be children of the specified
+                Tripos 'Thing'.
+        """
+        self.tripos = tripos
+
+    def get_filter_tripos(self):
+        return self.tripos
+
+    def fetch(self):
+        return (
+            self.subject_for_thing(thing)
+            for thing in self.get_queryset()
+        )
+
+
+class PartSubjectFetcher(SubjectFetcher):
+    """
+    Finds all Tripos parts without nested (sub) subjects.
+
+    In this case the part itself is treated as the subject object.
+    """
+
+    def get_queryset(self):
+        queryset = Thing.objects.filter(
+            ~models.Q(thing__type__in=NestedSubject.NESTED_SUBJECT_TYPES),
+            type="part",
+            parent__type="tripos"
+        ).prefetch_related(
+            # Need to prefetch the parent tripos
+            "parent"
+        )
+
+        if self.get_filter_tripos():
+            queryset = queryset.filter(
+                parent__pathid=self.get_filter_tripos().pathid
+            )
+
+        return queryset
+
+    def subject_for_thing(self, thing):
+        return PartSubject(thing.parent, thing)
+
+
+class NestedSubjectFetcher(SubjectFetcher):
+    """
+    Finds Tripos parts with nested subjects.
+
+    In this case the nested subject is treated as the Subject object.
+    """
+    def get_queryset(self):
+        queryset = Thing.objects.filter(
+            type__in=NestedSubject.NESTED_SUBJECT_TYPES,
+            parent__type="part",
+            parent__parent__type="tripos"
+        ).prefetch_related(
+            # Need to prefetch the part
+            "parent",
+            # and tripos
+            "parent__parent"
+        )
+
+        if self.get_filter_tripos():
+            queryset = queryset.filter(
+                parent__parent__pathid=self.get_filter_tripos().pathid
+            )
+
+        return queryset
+
+    def subject_for_thing(self, thing):
+        return NestedSubject(thing.parent.parent, thing.parent, thing)
+
+
+class SubjectUnifier(object):
+    """
+    A simple unifier of the outputs of 1 or more SubjectFetchers.
+
+    This implementation performs no sorting or filtering, just merges
+    the outputs of the fethers.
+    """
+    def __init__(self, fetchers):
+        self.fetchers = fetchers
+
+    def get_subject_iterables(self):
+        return (
+            fetcher.fetch()
+            for fetcher in self.fetchers
+        )
+
+    def get_unification(self):
+        return itertools.chain.from_iterable(self.get_subject_iterables())
+
 
 class Subjects(object):
     """
     Static helper functions related to Subject objects.
     """
-    
-    @staticmethod
-    def all_subjects():
-        # Find all Tripos parts without nested (sub) subjects.
-        simple_subject_things = (Thing.objects.filter(
-                ~models.Q(thing__type__in=Subject.NESTED_SUBJECT_TYPES),
-                type="part",
-                parent__type="tripos"
-            ).prefetch_related(
-                # Need to prefetch the parent tripos
-                "parent"
-            )
-        )
-        simple_subjects = (
-                Subject(part.parent, part) for part in simple_subject_things)
-        
 
-        nested_subject_things = (Thing.objects.filter(
-                type__in=Subject.NESTED_SUBJECT_TYPES,
-                parent__type="part",
-                parent__parent__type="tripos"
-            ).prefetch_related(
-                # Need to prefetch the part
-                "parent",
-                # and tripos
-                "parent__parent"
-            )
-        )
-        nested_subjects = (
-                Subject(nested.parent.parent, nested.parent, nested)
-                for nested in nested_subject_things)
+    @classmethod
+    def all_subjects(cls):
+        # Don't filter by tripos
+        return cls.get_subjects()
 
-        return itertools.chain(simple_subjects, nested_subjects)
+    @classmethod
+    def under_tripos(cls, tripos):
+        if tripos is None:
+            raise ValueError("tripos was None")
+        return cls.get_subjects(tripos=tripos)
 
-    @staticmethod
-    def under_tripos(tripos):
-        pass
+    @classmethod
+    def get_subjects(cls, tripos=None):
+        subjects = [
+            PartSubjectFetcher(tripos=tripos),
+            NestedSubjectFetcher(tripos=tripos)
+        ]
+        unifier = SubjectUnifier(subjects)
+
+        return list(unifier.get_unification())
+
+    @classmethod
+    def group_for_part_drill_down(cls, subjects):
+        """
+        Group a subjects by their name excluding part so that a drill down from
+        name > part can be created.
+        """
+        key = lambda sub: sub.get_name_without_part()
+        sorted_subs = sorted(subjects, key=key)
+
+        return itertools.groupby(sorted_subs, key)

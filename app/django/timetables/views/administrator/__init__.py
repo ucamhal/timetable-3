@@ -25,16 +25,8 @@ from timetables.views import indexview
 def get_timetables(thing):
     assert thing.type == "tripos"
 
-    # If the tripos has subjects under levels then return those
-    subjects = list(models.Thing.objects.filter(
-            type__in=["subject", "experimental", "option"],
-            parent__parent__pathid=thing.pathid).order_by("fullname", "parent__fullname"))
-
-    if subjects:
-        return subjects
-
-    # Otherwise return the levels under the tripos
-    return models.Thing.objects.filter(type="part", parent__pathid=thing.pathid)
+    subjects = models.Subjects.under_tripos(thing)
+    return [sub.get_most_significant_thing() for sub in subjects]
 
 
 @login_required
