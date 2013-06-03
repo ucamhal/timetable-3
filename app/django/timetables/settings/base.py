@@ -284,6 +284,14 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
+
+# custom authentication
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'timetables.backend.TimetablesAuthorizationBackend',
+)
+
+
 # Add Query Level Cache if present on system.
 # This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
 try:
