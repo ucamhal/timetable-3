@@ -59,6 +59,14 @@ define([
             this.originalAttributes = this.toJSON();
         },
 
+        /**
+         * Function that returns the set index from the initial attributes
+         * object.
+         */
+        getInitialValue: function (index) {
+            return this.originalAttributes[index];
+        },
+
         /** 
          * Returns true if the current attribute values differ from the initial
          * values.
@@ -427,14 +435,13 @@ define([
                 el: this.$(".js-module-title h4"),
                 $toggleButton: this.$(".js-module-buttons .js-edit-icon"),
                 titleFieldName: "fullname",
-                extraSaveData: this.options.extraSaveData,
-                added: this.options.added
+                extraSaveData: this.options.extraSaveData
             });
 
             // Bind extra event listeners and hide buttons we don't need if the
             // module is new
             if (this.options.added === true) {
-                this.editableTitle.on("close", this.onTitleClose);
+                this.editableTitle.on("cancel", this.onTitleCancel);
                 this.editableTitle.on("save", this.onTitleSaveSuccess);
                 this.$(".js-module-buttons").hide();
             }
@@ -537,7 +544,7 @@ define([
         onTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
             this.editableTitle.off("save");
-            this.editableTitle.off("close");
+            this.editableTitle.off("cancel");
 
             // Do everything needed to successfully track the new module from
             // here.
@@ -545,6 +552,7 @@ define([
             this.editableTitle.setSavePath(data.url_edit);
             this.makeCollapsible(data.id);
             this.setId(data.id);
+            this.$(".js-module-buttons").show();
         },
 
         setId: function (id) {
@@ -582,16 +590,11 @@ define([
         },
 
         /**
-         * Triggered when the title edit field has been closed. No async 
-         * requests have happened at this point yet.
+         * Triggered when the title edit field has been cancelled (i.e. closed
+         * without saving).
          */
-        onTitleClose: function (value) {
-            if (value === "") {
-                this.destroy();
-                return;
-            }
-
-            this.$(".js-module-buttons").show();
+        onTitleCancel: function () {
+            this.destroy();
         },
 
         /**
@@ -642,13 +645,12 @@ define([
                 el: this.$(".js-series-title h5"),
                 $toggleButton: this.$(".js-series-buttons .js-edit-icon"),
                 titleFieldName: "title",
-                extraSaveData: this.options.extraSaveData,
-                added: this.options.added
+                extraSaveData: this.options.extraSaveData
             });
 
             // Bind extra event listeners and hide buttons if the module is new
             if (this.options.added === true) {
-                this.editableTitle.on("close", this.onTitleClose);
+                this.editableTitle.on("cancel", this.onTitleCancel);
                 this.editableTitle.on("save", this.onTitleSaveSuccess);
                 this.$(".js-series-buttons").hide();
 
@@ -678,7 +680,7 @@ define([
         onTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
             this.editableTitle.off("save");
-            this.editableTitle.off("close");
+            this.editableTitle.off("cancel");
 
             // Do everything needed to successfully track the new series from
             // here.
@@ -687,6 +689,7 @@ define([
             this.makeCollapsible(data.id);
             this.editableTitle.setSavePath(data.url_edit_title);
             this.setSavePath(data.url_edit_event);
+            this.$(".js-series-buttons").show();
 
             // Perhaps not the prettiest but does what we want:
             // Triggers the code that runs when events for a series are fetched.
@@ -724,13 +727,12 @@ define([
             this.$el.append($seriesContent);
         },
 
-        onTitleClose: function (value) {
-            if (value === "") {
-                this.destroy();
-                return;
-            }
-
-            this.$(".js-series-buttons").show();
+        /**
+         * Triggered when the title edit field has been cancelled (i.e. closed
+         * without saving).
+         */
+        onTitleCancel: function () {
+            this.destroy();
         },
 
         /**
@@ -1439,9 +1441,7 @@ define([
             this.isEditable = false;
             this.isSaving = false;
             this.isError = false;
-            // If the item is new the value saved in the model should be an
-            // empty string.
-            this.updateModel(options.added ? "" : undefined);
+            this.updateModel();
             this.model.storeInitialState();
 
             this.$toggleButton.on("click", this.onToggleClick);
@@ -1483,7 +1483,7 @@ define([
         },
 
         revert: function () {
-            this.$value.text(this.model.get(this.titleFieldName));
+            this.$value.text(this.model.getInitialValue(this.titleFieldName));
         },
 
         onKeyDown: function (event) {
@@ -1510,17 +1510,18 @@ define([
         onFocusOut: function () {
             if (this.isEditable === true) {
                 this.saveAndClose();
-                this.trigger("close", this.model.get(this.titleFieldName));
             }
         },
 
         saveAndClose: function () {
-            if (this.locked === true) {
-                return false;
-            }
+            this.toggleEditableState(false);
 
             this.updateModel();
-            this.toggleEditableState(false);
+            if (this.locked || !this.model.isValid()) {
+                this.revert();
+                this.trigger("cancel");
+                return;
+            }
 
             if (this.model.hasChangedFromOriginal()) {
                 this.saveData();
@@ -1562,9 +1563,16 @@ define([
                 error: function (error) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
+                        // Only revert the title to its previous value if the
+                        // status code isn't 409 (= conflict).
+                        if (error.status !== 409) {
+                            self.revert();
+                        }
+
                         self.model.reset();
                         self.toggleSavingState(false);
                         self.toggleErrorState(error.responseText || "Saving failed, please try again later.");
+                        self.toggleEditableState(true);
                     }, Math.max(200 - timeDifference, 0));
                 }
             });
@@ -1578,12 +1586,8 @@ define([
             }
         },
 
-        updateModel: function (value) {
-            if (value === undefined) {
-                value = this.$value.text();
-            }
-
-            this.model.set(this.titleFieldName, value);
+        updateModel: function () {
+            this.model.set(this.titleFieldName, this.$value.text());
         },
 
         toggleErrorState: function (isError) {
@@ -1994,6 +1998,14 @@ define([
         initialize: function (opts) {
             TitleModel.__super__.initialize.apply(this, arguments);
             this.titleFieldName = opts.titleFieldName || "title";
+        },
+
+        /**
+         * Returns true if the model has a valid value for the title.
+         */
+        isValid: function () {
+            var cleanTitle = this.get(this.get("titleFieldName")).toLowerCase();
+            return cleanTitle !== "" && cleanTitle !== "series title" && cleanTitle !== "module title";
         },
 
         asJSONDjangoForm: function () {
