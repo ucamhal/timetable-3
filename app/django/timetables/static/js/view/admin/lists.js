@@ -850,12 +850,34 @@ define([
             this.model.set("newEvents", []);
         },
 
+        /**
+         * Returns true if all data in the series is valid
+         */
+        isEventDataValid: function () {
+            // Merge events and newevents arrays.
+            var events = this.model.get("events").concat(this.model.get("newEvents"));
+            // Check whether every model of each event contains valid data.
+            return _.every(events, function (eventView) {
+                return eventView.model.isValid();
+            });
+        },
+
         onSave: function() {
             if (this.locked === true) {
-                return false;
+                return;
             }
-            // Build a JSON representation of the form. 
 
+            // If the events data isn't valid, show a warning and abort saving.
+            if (!this.isEventDataValid()) {
+                $(".js-invalid-event-data").modal({
+                    backdrop: "static",
+                    show: true,
+                    keyboard: false
+                });
+                return;
+            }
+
+            // Build a JSON representation of the form. 
             var initialEventForms = _.map(this.model.get("events"), function(eventView) {
                 return eventView.model.asJSONDjangoForm();
             });
@@ -1061,28 +1083,15 @@ define([
             return day;
         },
 
-        validate: function() {
-            /* Function disabled for now
-
-            var errors = {};
-
-            if (!attrs.title || attrs.title.trim() === "") {
-                errors.title = ["This field is required."];
-            }
-
-            if (!attrs.type || attrs.type === "") {
-                errors.type = ["This field is required."];
-            }
-
-            if (!attrs.location || attrs.location.trim() === "") {
-                errors.location = ["This field is required."];
-            }
-
-            if (!attrs.people || attrs.people.trim() === "") {
-                errors.people = ["This field is required."];
-            }
-
-            */
+        /**
+         * Checks whether the current data in the model is valid to save.
+         * Currently only checks whether the title isn't empty or the default
+         * value.
+         */
+        isValid: function () {
+            // Lowercase the title before checking
+            var cleanTitle = this.get("title").toLowerCase();
+            return cleanTitle !== "" && cleanTitle !== "title";
         },
 
         /**
