@@ -1,6 +1,7 @@
 import operator
 import json
 import re
+import itertools
 
 from django.core.urlresolvers import reverse
 from django import http
@@ -15,6 +16,8 @@ import django.views.generic
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+
+from braces.views import LoginRequiredMixin, SuperuserRequiredMixin
 
 from timetables import models
 from timetables import forms
@@ -515,54 +518,123 @@ def locks_status_view(request):
     return HttpResponse(json.dumps(locks_status), content_type="application/json")
 
 
-def _all_timetables(subjects):
-    timetables = []
-    
-    for subject in subjects:
-        for timetable in subject["fullpaths_by_level"]:
-            timetables.append(timetable["fullpath"])
-    return timetables
-
-@staff_member_required
-def admin_timetable_permissions(request, username):
+class UserTimetablePermissionsView(
+        LoginRequiredMixin,
+        SuperuserRequiredMixin,
+        django.views.generic.View):
     """
-    Allows granting/revoking write permissions to timetables for a user. 
+    A temporary view to allow the timetables a user may edit to be set.
     """
-    user = models.Thing.get_or_create_user_thing(
-            shortcuts.get_object_or_404(User, username=username))
+    raise_exception = True
 
-    subjects = indexview.IndexView()._all_subjects()
+    def get_subjects(self):
+        return models.Subjects.all_subjects()
 
-    writable_timetables = dict((t, False) for t in _all_timetables(subjects))
+    def get_user_writable_fullpaths(self, user, subjects):
+        """
+        Returns:
+            A set of the Thing fullpaths writable by the specified user.
+        """
+        hashed_paths = [
+            models.Thing.hash(s.get_most_significant_thing().fullpath)
+            for s in subjects
+        ]
 
-    hashed_paths = [models.Thing.hash(path)
-            for path in writable_timetables.keys()]
+        writable_thingtags = models.ThingTag.objects.filter(
+            annotation="admin",
+            thing=user,
+            targetthing__pathid__in=hashed_paths
+        )
 
-    for tag in models.ThingTag.objects.filter(annotation="admin",
-            thing=user, targetthing__pathid__in=hashed_paths):
-        writable_timetables[tag.targetthing.fullpath] = True
+        return set(tag.targetthing.fullpath for tag in writable_thingtags)
 
-    # Add (True/False) can_edit attr to each timetable
-    for subj in subjects:
-        for timetable in subj["fullpaths_by_level"]:
-            path = timetable["fullpath"]
-            timetable["can_edit"] = writable_timetables[path]
+    def get_subjects_writable_status(self, user, subjects):
+        """
+        Returns:
+            A dict mapping subjects to a bool indicating whether the specified
+            user is permitted to edit to the timetable.
+        """
 
-    if request.method == "POST":
+        writable_fullpaths = self.get_user_writable_fullpaths(user, subjects)
+
+        return dict(
+            (s, s.get_most_significant_thing().fullpath in writable_fullpaths)
+            for s in subjects
+        )
+
+    def get_writable_subjects(self, user, subjects):
+        writable_fullpaths = self.get_user_writable_fullpaths(user, subjects)
+
+        return set(
+            s for s in subjects
+            if s.get_most_significant_thing().fullpath in writable_fullpaths
+        )
+
+    def get_user(self, username):
+        return models.Thing.get_or_create_user_thing(
+            shortcuts.get_object_or_404(User, username=username)
+        )
+
+    def get_subject_tripos_groups(self, subjects):
+        """
+        Group subjects by tripos and then by part.
+        """
+        def tripos_part_key(subject):
+            return (subject.get_tripos().fullname, subject.get_part().fullname)
+
+        subjects = sorted(subjects, key=tripos_part_key)
+
+        part_groups = [
+            ((t, p), list(group))
+            for ((t, p), group) in itertools.groupby(subjects, key=tripos_part_key)
+        ]
+
+        def tripos_key(((t, p), group)):
+            assert p
+            return t
+
+        return [
+            (t, list(parts))
+            for (t, parts) in itertools.groupby(part_groups,
+                                                key=tripos_key)
+        ]
+
+    def get(self, request, username):
+        user = self.get_user(username)
+        subjects = self.get_subjects()
+        writable_subjects = self.get_writable_subjects(user, subjects)
+
+        tripos_groups = self.get_subject_tripos_groups(subjects)
+
+        return shortcuts.render(
+            request,
+            "administrator/timetable-permissions.html",
+            {
+                "tripos_groups": tripos_groups,
+                "writable_subjects": writable_subjects,
+                "user": user
+            }
+        )
+
+    def post(self, request, username):
+        user = self.get_user(username)
+        subjects = self.get_subjects()
+        subject_write_status = self.get_subjects_writable_status(user, subjects)
+
         to_create = []
         to_remove = []
-        for path in writable_timetables.keys():
-            has_access = request.POST.get(path) == "on"
+        for subject in subjects:
+            target = subject.get_most_significant_thing()
+            has_access = request.POST.get(target.fullpath) == "on"
 
-            if has_access == writable_timetables[path]:
+            if has_access == subject_write_status[subject]:
                 continue
 
             if has_access:
-                target = models.Thing.objects.get(pathid=models.Thing.hash(path))
-                to_create.append(models.ThingTag(annotation="admin",
-                        thing=user, targetthing=target))
+                to_create.append(models.ThingTag(
+                    annotation="admin", thing=user, targetthing=target))
             else:
-                to_remove.append(models.Thing.hash(path))
+                to_remove.append(models.Thing.hash(target.fullpath))
 
         if to_create:
             models.ThingTag.objects.bulk_create(to_create)
@@ -571,9 +643,3 @@ def admin_timetable_permissions(request, username):
                     targetthing__pathid__in=to_remove).delete()
 
         return shortcuts.redirect("admin user timetable perms", username)
-
-    return shortcuts.render(request,
-            "administrator/timetable-permissions.html", {
-                "subjects": subjects,
-                "user": user
-            })

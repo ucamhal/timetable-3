@@ -6,3 +6,4 @@ pytz
 unipath
 icalendar
 python-ldap
+django-braces

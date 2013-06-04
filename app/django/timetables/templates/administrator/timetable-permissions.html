@@ -1,25 +1,60 @@
 {% load url from future %}
-<!doctype html>
-<title>{{ user.name }}'s Timetable Permissions</title>
+{% load kwacros %} {# Macro support #}
 
-<h1>{{ user.name }}'s Timetable Permissions</h1>
+
+{% kwacro subject_checkbox subject %}
+<p>
+  <label title="{{ subject.get_most_significant_thing.fullpath }}">
+    <input type="checkbox" name="{{ subject.get_most_significant_thing.fullpath }}" {% if subject in writable_subjects %}checked{% endif %}>
+    {{ subject }}
+  </label>
+</p>
+{% endkwacro %}
+
+
+{% kwacro part part_groups %}
+{% for key, subjects in part_groups %}
+  {% if subjects|length > 1 %}
+    <fieldset>
+      <legend>
+        {{ key.1 }}
+      </legend>
+      {% for subject in subjects %}
+        {% usekwacro subject_checkbox subject %}
+      {% endfor %}
+    </fieldset>
+  {% else %}
+    {% usekwacro subject_checkbox subjects.0 %}
+  {% endif %}
+{% endfor %}
+{% endkwacro %}
+
+
+{# This is valid HTML :-) w3c validate if you don't believe me. #}
+<!doctype html>
+<title>Timetables editable by {{ user.name }}</title>
+<style>
+  form {
+    margin-top: 2em;
+  }
+</style>
+
+<h1>Timetables editable by {{ user.name }}</h1>
+<p>The user <code>{{ user.name }}</code> may edit timetables checked below:</p>
+
 <form method=POST action="{% url "admin user timetable perms" user.name %}">
   {% csrf_token %}
-  {% for subject in subjects %}
-  <fieldset>
-    <legend>
-      {{ subject.subject_name }}
-      {% if subject.tripos_name %}({{ subject.tripos_name }}){% endif %}:
-    </legend>
-    {% for timetable in subject.fullpaths_by_level %}
-    <p>
-    <label>
-      <input type="checkbox" name="{{ timetable.fullpath }}" {% if timetable.can_edit %}checked{% endif %}>
-      {{ timetable.level_name }}
-    </label>
-    <p>
-    {% endfor %}
-  </fieldset>
+  {% for tripos, part_groups in tripos_groups %}
+    {% if part_groups|length == 1 and part_groups.0.1|length == 1 %}
+      {% usekwacro part part_groups %}
+    {% else %}
+      <fieldset>
+        <legend>
+          {{ tripos }}
+        </legend>
+        {% usekwacro part part_groups %}
+      </fieldset>
+    {% endif %}
   {% endfor %}
 
   <p>

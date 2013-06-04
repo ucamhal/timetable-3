@@ -948,7 +948,7 @@ class NestedSubject(Subject):
 
     def __unicode__(self):
         return u"{} ({}, {})".format(
-            self._subject.fullname,
+            self._nested.fullname,
             self._tripos.fullname,
             self._part.fullname
         )

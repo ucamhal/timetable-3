@@ -70,7 +70,7 @@ urlpatterns = patterns('',
         name="admin refresh lock"),
 
     url(r'users/(\w+)/timetable-perms$',
-        administrator.admin_timetable_permissions,
+        administrator.UserTimetablePermissionsView.as_view(),
         name="admin user timetable perms"),
 
 
