@@ -256,6 +256,14 @@ def edit_series_title(request, series_id):
     # Find the series for the form to be displayed
     series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
     
+    # test for unique title
+    title = request.POST.get("title", "")
+    modules = models.EventSourceTag.objects.filter(eventsource = series)
+    for module in modules: # this isn't wondrous; assumes we don't have too much sharing of series between modules
+        if not _series_title_is_unique(title, module.thing):
+            return HttpResponse(content="Module already contains a series with this name", status=409)
+    
+    
     editor = SeriesTitleEditor(series, post_data=request.POST)
     
     series_form = editor.get_form()
@@ -353,21 +361,24 @@ def new_series(request):
     # get the new series data
     title = request.POST.get("title", "")
     id_parent = request.POST.get("id_parent", 0)
-    
-    # process title to create URL-friendly version
-    alias = _clean_string(title)
-    
+
     # get the parent Thing object
     parent = models.Thing.objects.get(pk=id_parent)
-    
+
+
+    # check for duplicate title in the parent module
+    title_unique = _series_title_is_unique(title, parent)
+    if not title_unique:
+        # return error
+        return HttpResponse(content="Module already contains a series with this name", status=409)
+
+
     # EventSource object being created
     es = models.EventSource(
         title = title,
         data = "{}",
         sourcetype = "pattern", # ???
-        sourceurl = alias
     )
-
 
     # prepare and save new EventSource object
     es.prepare_save()
@@ -376,7 +387,6 @@ def new_series(request):
     
     es.master = es # ugh - need the object in order to set itself as its own master :s
     es.save()
-
 
     # construct data to return
     es_data = {
@@ -396,14 +406,29 @@ def new_series(request):
     est.prepare_save()
     est.save()
 
+
     # return data
     return HttpResponse(json.dumps(es_data), content_type="application/json")
 
 
 def _clean_string(txt):
+    """
+    Cleans string as required
+    """
     txt = txt.lower() # to lower case
     txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
     return txt
+
+
+def _series_title_is_unique(title, module):
+    """
+    Checks whether the series title is unique for all series
+    in the specified module
+    """
+    clashes = models.EventSourceTag.objects.filter(thing = module).filter(eventsource__title = title).count()
+    if clashes > 0:
+        return False
+    return True
 
 
 @login_required
