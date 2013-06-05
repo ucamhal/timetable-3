@@ -2,13 +2,10 @@
 
 <div class="module js-module" data-id="{{ module.unique_id }}">
   <div class="js-module-title module-title clearfix">
-    <h4 class="pull-left" >
-      {# This initially was an anchor but that gave issues when trying to edit the title in FF and IE #}
-      <div class="js-collapse collapsed" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
-        <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-        <span class="title js-value" data-save-path="{% url "thing edit" module.fullpath %}">{{ module.name }}</span>
-        <span class="js-error-message error-message dontDisplayMe"></span>
-      </div>
+    <h4 class="js-collapse collapsed" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
+      <span class="chevron icon-chevron-right js-expansion-indicator"></span>
+      <span class="title js-value" data-save-path="{% url "thing edit" module.fullpath %}">{{ module.name }}</span>
+      <span class="js-error-message error-message dontDisplayMe"></span>
     </h4>
     {% block module_title_right %}
     {% endblock module_title_right %}

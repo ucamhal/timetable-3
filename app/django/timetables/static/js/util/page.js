@@ -11,9 +11,9 @@ define(["jquery"], function ($) {
         _check_is_staff = function () {
             if (_isstaff === undefined) {
                 if ($("#userinfo").length === 1) {
-                    _isstaff = ($("#userinfo").attr("userrole") === "staff");
+                    _isstaff = ($("#userinfo").data("userrole") === "staff");
                 } else if ($("#thinginfo").length === 1) {
-                    _isstaff = ($("#thinginfo").attr("userrole") === "staff");
+                    _isstaff = ($("#thinginfo").data("userrole") === "staff");
                 }
             }
             return _isstaff;
@@ -24,9 +24,9 @@ define(["jquery"], function ($) {
         getThingPath : function () {
             if (_pageThingPath === undefined) {
                 if ($("#userinfo").length === 1) {
-                    _pageThingPath = "user/" + $("#userinfo").attr("userid");
+                    _pageThingPath = "user/" + $("#userinfo").data("userid");
                 } else if ($("#thinginfo").length === 1) {
-                    _pageThingPath = $("#thinginfo").attr("fullpath");
+                    _pageThingPath = $("#thinginfo").data("fullpath");
                 }
             }
             return _pageThingPath;

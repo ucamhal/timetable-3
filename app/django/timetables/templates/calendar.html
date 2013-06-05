@@ -14,7 +14,7 @@
     <div id="results" class="dontDisplayMe"></div>
     <!--  this tag contains information about the current user. If there is a better way 
     of doing this please feel free, but remember to search the codebase for userinfo -->
-    <div id="thinginfo" style="display:none" fullpath="{{ thing.fullpath }}" userrole="{% if user.is_staff %}staff{% else %}student{% endif %}"></div>
+    <div id="thinginfo" style="display:none" data-fullpath="{{ thing.fullpath }}" data-userrole="{% if user.is_staff %}staff{% else %}student{% endif %}"></div>
 
     <header id="mainHeader">
       <h1 id="uniLogo">

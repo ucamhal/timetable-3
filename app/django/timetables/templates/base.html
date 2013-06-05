@@ -3,6 +3,7 @@
 <!doctype html>
   <head>
     <title>Timetables</title>
+    <meta charset="utf-8" />
 
     <link rel="stylesheet" href="{% static "css/libs/bootstrap/bootstrap.css" %}" />
     <link rel="stylesheet" href="{% static "css/libs/fullcalendar/fullcalendar.css" %}" />
@@ -22,7 +23,7 @@
   <body id="{% block bodyid %}student{% endblock %}">
 
     {% block userinfo %}
-      <div id="userinfo" style="display:none" userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" userrole="student" class="dontDisplayMe">
+      <div id="userinfo" style="display:none" data-userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" data-userrole="student" class="dontDisplayMe">
           {# used for ajax post operations, I prefer this to the cookie method. #}
           {% csrf_token %}
       </div>

@@ -96,40 +96,20 @@
       <div class="date-time-form-row">
         <span class="control-group">
           <label class="first-label" for="date-time-start-hour">From</label>
-          <input type="text"
-              value="09"
-              class="js-hour js-start input-mini hours"
-              name="date-time-start-hour"
-              id="date-time-start-hour"
-              min="-1" max="24">
+          <input type="text" value="09" class="js-hour js-start input-mini hours" name="date-time-start-hour" id="date-time-start-hour">
         </span>
 
         <span class="control-group">
-          <input type="text"
-                value="00"
-                class="js-minute js-start input-mini minutes"
-                name="date-time-start-minute"
-                id="date-time-start-minute"
-                min="-15" max="60" step="15">
+          <input type="text" value="00" class="js-minute js-start input-mini minutes" name="date-time-start-minute" id="date-time-start-minute">
         </span>
 
         <span class="control-group">
           <label for="date-time-end-hour">To</label>
-          <input type="text"
-              value="10"
-              class="js-hour js-end input-mini hours"
-              name="date-time-end-hour"
-              id="date-time-end-hour"
-              min="-1" max="24">
+          <input type="text" value="10" class="js-hour js-end input-mini hours" name="date-time-end-hour" id="date-time-end-hour">
         </span>
 
         <span class="control-group">
-          <input type="text"
-              value="00"
-              class="js-minute js-end input-mini minutes"
-              name="date-time-end-minute"
-              id="date-time-end-minute"
-              min="-15" max="60" step="15">
+          <input type="text" value="00" class="js-minute js-end input-mini minutes" name="date-time-end-minute" id="date-time-end-minute">
         </span>
       </div>
 
@@ -201,12 +181,10 @@
 <script id="js-templ-new-series" type="text/template">
   <div class="series js-series">
     <div class="series-title collapsed clearfix js-series-title">
-      <h5 class="pull-left">
-        <div class="js-collapse">
-          <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-          <span class="js-value title" data-save-path="/series/new">Series title</span>
-          <span class="js-error-message error-message dontDisplayMe"></span>
-        </div>
+      <h5 class="js-collapse">
+        <span class="chevron icon-chevron-right js-expansion-indicator"></span>
+        <span class="js-value title" data-save-path="/series/new">Series title</span>
+        <span class="js-error-message error-message dontDisplayMe"></span>
       </h5>
 
       <p class="buttons js-series-buttons">
@@ -245,12 +223,10 @@
 <script id="js-templ-new-module" type="text/template">
   <div class="module js-module">
     <div class="js-module-title module-title clearfix">
-      <h4 class="pull-left">
-        <div class="js-collapse collapsed">
-          <span class="chevron js-expansion-indicator icon-chevron-right"></span>
-          <span class="title js-value" data-save-path="/module/new">Module title</span>
-          <span class="js-error-message error-message dontDisplayMe"></span>
-        </div>
+      <h4 class="js-collapse collapsed">
+        <span class="chevron js-expansion-indicator icon-chevron-right"></span>
+        <span class="title js-value" data-save-path="/module/new">Module title</span>
+        <span class="js-error-message error-message dontDisplayMe"></span>
       </h4>
 
       <p class="buttons js-module-buttons">

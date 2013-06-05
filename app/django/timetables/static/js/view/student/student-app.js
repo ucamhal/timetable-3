@@ -202,9 +202,9 @@ define([
         getThingPath: function () {
             if (!this.thingPath) {
                 if ($("#userinfo").length === 1) {
-                    this.thingPath = "user/" + $("#userinfo").attr("userid");
+                    this.thingPath = "user/" + $("#userinfo").data("userid");
                 } else if ($("#thinginfo").length === 1) {
-                    this.thingPath = $("#thinginfo").attr("fullpath");
+                    this.thingPath = $("#thinginfo").data("fullpath");
                 }
             }
 
