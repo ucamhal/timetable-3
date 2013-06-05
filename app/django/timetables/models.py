@@ -8,6 +8,8 @@ import time
 import pytz
 import logging
 from itertools import chain
+import unicodedata
+import re
 
 from django.db import models, connection
 from django.db.models.signals import pre_save
@@ -204,14 +206,14 @@ class HierachicalModel(models.Model):
                     properties['type'] = "undefined"
             return cls.objects.create(**properties)
 
+    def update_fullpath(self):
+        self.fullpath = "{}/{}".format(self.parent.fullpath, self.name)
 
-    
     @classmethod
-    def _prepare_save(cls, sender, **kwargs):
-        instance = kwargs['instance']
-        if instance.pathid is None or instance.pathid == "":
-            instance.pathid = cls.hash(instance.fullpath)
-            instance.name = os.path.basename(instance.fullpath)
+    def _prepare_save(cls, sender, instance=None, **kwargs):
+        # Update pathid from fullpath when saving
+        instance.pathid = cls.hash(instance.fullpath)
+        instance.name = os.path.basename(instance.fullpath)
 
     def __unicode__(self):
         return self.fullpath
@@ -370,7 +372,32 @@ class Thing(SchemalessModel, HierachicalModel):
         return ThingTag.objects.filter(thing__pathid=user_id,
                 targetthing=self, annotation="admin").exists()
 
+    def update_name_from_fullname(self):
+        """
+        Update this Thing's name (and therefore fullpath) based on the
+        current value of the fullname field.
+        """
+        self.name = clean_string(self.fullname)
+        self.update_fullpath()
+
+
 pre_save.connect(Thing._pre_save, sender=Thing)
+
+
+def clean_string(txt):
+    """
+    Simplify a string for use in a Thing's path. The input string is
+    returned lowercased, with accents removed and non alphanumeric chars
+    replaced with an underscore.
+    """
+    txt = txt.lower() # to lower case
+    # Replace fancy unicode chars w/ boring equivilents. Note that this
+    # does not handle all chars, only obvious ones like e acute.
+    txt = unicodedata.normalize("NFKD", unicode(txt))
+    txt = re.sub(r"\W+", "_", txt) # strip non alpha-numeric
+    txt = re.sub(r"(^_+|_+$)", "", txt)
+    return txt
+
 
 def _get_upload_path(instance, filename):
     

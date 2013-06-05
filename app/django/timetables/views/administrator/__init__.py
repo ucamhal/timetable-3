@@ -300,7 +300,7 @@ def new_module(request):
     parent_fullpath = parent.fullpath;
     
     # process fullname to create URL-friendly version
-    name = _clean_string(fullname) 
+    name = models.clean_string(fullname)
 
     # generate fullpath
     fullpath = parent_fullpath
@@ -338,13 +338,13 @@ def new_module(request):
         thing_data = {
             "id": thing.pk,
             "fullname": fullname,
-            "url_edit": reverse('thing edit', args=(fullpath,))
+            "save_path": reverse('thing edit', args=(fullpath,))
         }
         
         return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
 
     # return error
-    return HttpResponse(content="Module fullname is already in use", status=409)
+    return HttpResponse(content="Title already in use", status=409)
 
 
 @require_POST
@@ -409,15 +409,6 @@ def new_series(request):
 
     # return data
     return HttpResponse(json.dumps(es_data), content_type="application/json")
-
-
-def _clean_string(txt):
-    """
-    Cleans string as required
-    """
-    txt = txt.lower() # to lower case
-    txt = re.sub(r'\W+', '_', txt) # strip non alpha-numeric
-    return txt
 
 
 def _series_title_is_unique(title, module):

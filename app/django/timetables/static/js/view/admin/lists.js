@@ -442,9 +442,10 @@ define([
             // module is new
             if (this.options.added === true) {
                 this.editableTitle.on("cancel", this.onTitleCancel);
-                this.editableTitle.on("save", this.onTitleSaveSuccess);
+                this.editableTitle.on("save", this.onInitialTitleSaveSuccess);
                 this.$(".js-module-buttons").hide();
             }
+            this.editableTitle.on("save", this.onTitleSaveSuccess);
         },
 
         /**
@@ -541,18 +542,26 @@ define([
         /**
          * Triggered when the module has been successfully saved.
          */
-        onTitleSaveSuccess: function (data) {
+        onInitialTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
-            this.editableTitle.off("save");
+            this.editableTitle.off("save", this.onTitleSaveSuccess);
             this.editableTitle.off("cancel");
 
             // Do everything needed to successfully track the new module from
             // here.
             this.appendModuleContent();
-            this.editableTitle.setSavePath(data.url_edit);
             this.makeCollapsible(data.id);
             this.setId(data.id);
             this.$(".js-module-buttons").show();
+        },
+
+        /**
+         * Called when EditableTitleView has saved the module title. Saving
+         * the title can update the fullpath, so we need to update the savepath
+         * so that future edits go to the new link.
+         */
+        onTitleSaveSuccess: function (data) {
+            this.editableTitle.setSavePath(data.save_path);
         },
 
         setId: function (id) {

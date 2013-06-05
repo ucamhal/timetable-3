@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadReque
 from django.views.generic.base import View
 
 from django import shortcuts
+from django.core.urlresolvers import reverse
 
 from timetables.models import Thing
 
@@ -30,12 +31,12 @@ class EditThingView(View):
     The template is of the form things/<thing_type>_form.html
 
     '''
-    
+
     @method_decorator(login_required)
     @method_decorator(permission_required('timetables.is_admin', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(EditThingView, self).dispatch(*args, **kwargs)
-    
+
 
     def _render_form(self, request, thing, form):
         return shortcuts.render(request, "things/%s_form.html" % thing.type, {"form": form})
@@ -60,6 +61,14 @@ class EditThingView(View):
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
 
+    def get_post_response_data(self, form):
+        data = dict(form.data)
+        data["save_path"] = reverse(
+            "thing edit",
+            kwargs=dict(thing=form.instance.fullpath)
+        )
+        return data
+
     @method_decorator(xact)
     def post(self, request, thing):
         if thing is None:
@@ -82,7 +91,10 @@ class EditThingView(View):
                         # the reason we redirect is to get the new form for the thing, just in case
                         # its type was changed.
                         #return self.get(request, fullpath)
-                        return HttpResponse(json.dumps(form.data), mimetype="application/json")
+                        return HttpResponse(
+                            json.dumps(self.get_post_response_data(form)),
+                            mimetype="application/json"
+                        )
                     # If there were errors, re-render the form without changing its type.
                     return self._render_form(request, thing, form)
                 return HttpResponseBadRequest("Sorry, No form configured for Thing of type %s , can't load class %s " % (thing.type, formclass_class) )

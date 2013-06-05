@@ -307,7 +307,11 @@ class ListPageSeriesForm(forms.ModelForm):
         fields = ("title",)
 
 class ModuleForm(forms.ModelForm):
-    
+
+    def save(self):
+        self.instance.update_name_from_fullname()
+        return super(ModuleForm, self).save()
+
     class Meta:
         model = models.Thing
         fields = ("fullname",)
