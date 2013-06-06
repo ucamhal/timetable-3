@@ -32,11 +32,14 @@ class LinkThing(View):
 
     @method_decorator(xact)
     def post(self, request, thing):
-        if not request.user.has_perm(Thing.PERM_LINK,ThingSubject(fullpath=thing)):
+        # Check if the user is logged in
+        if request.user.is_anonymous():
+            return HttpResponseForbidden("Not logged in")
+        elif not request.user.has_perm(Thing.PERM_LINK,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Not your calendar")
+
         hashid = Thing.hash(thing)
         try:
-
             try:
                 thing = Thing.objects.get(pathid=hashid)
             except Thing.DoesNotExist:
