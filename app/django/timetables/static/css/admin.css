@@ -101,6 +101,19 @@ a.addModule:last-child {
   margin-bottom: 9px;
 }
 
+.icon-add-series,
+.icon-add-module {
+  background: url(../img/icon-add-series.png) center center no-repeat;
+  height: 19px;
+  margin: -1px 10px 0 0;
+  width: 18px;
+}
+
+.icon-add-module {
+  background-image: url(../img/icon-add-module.png);
+  height: 18px;
+}
+
 .btn span.icon-plus {
   margin-right: 10px;
 }
@@ -119,7 +132,8 @@ a.addModule:last-child {
 }
 
 .addEvent {
-  margin: 10px 0 30px 8px;
+  margin: 4px 0 30px 0;
+  padding-left: 0;
 }
 
 .buttons > a {
@@ -360,6 +374,7 @@ select.event-type {
 
 #modules {
   clear: both;
+  padding-top: 22px;
 }
 
 .module:first-child .module-title {
@@ -416,6 +431,17 @@ select.event-type {
 #top-level-series .addSeries {
   margin-top: 7px;
   margin-bottom: 6px;
+}
+
+.addSeries,
+.addModule {
+  color: #0088cc;
+  padding-top: 6px;
+}
+
+.addSeries:hover,
+.addModule:hover {
+  color: #005580;
 }
 
 .module > a.btn {
