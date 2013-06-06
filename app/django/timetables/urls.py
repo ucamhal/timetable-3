@@ -7,6 +7,7 @@ from timetables.views.account import LogoutView, LoginView
 from timetables.views.calendarview import (CalendarView, CalendarHtmlView,
         EventListView)
 from timetables.views.editthing import EditThingView
+from timetables.views.deletething import DeleteThingView
 from timetables.views.exportevents import ExportEvents
 from timetables.views.indexview import IndexView
 from timetables.views.linkthing import LinkThing
@@ -98,6 +99,10 @@ urlpatterns = patterns('',
         administrator.edit_series_title,
         name="edit series title"),
 
+    url(r'^series/(?P<series_id>\d+)/delete$', # hmm ... shouldn't we post series_id?
+        administrator.delete_series,
+        name="delete series"),
+
     url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$',
         ExportEvents.as_view(),
         name="export ics hmac"),
@@ -154,6 +159,13 @@ urlpatterns = patterns('',
     url(r'(?P<thing>.*)\.edit\.html$',
         EditThingView.as_view(),
         name="thing edit"),
+
+    # Delete a thing
+    url(
+        regex=r'things/(?P<pk>[^/]+)/delete$',
+        view=DeleteThingView.as_view(),
+        name="thing delete"
+    ),
 
     # Generate an Html view of things
     url(r'(?P<thing>.*?)\.(?P<depth>.*)\.html$',

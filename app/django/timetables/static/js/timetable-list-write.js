@@ -11,7 +11,8 @@ define([
 
     var TimetableListWrite = Backbone.View.extend({
         initialize: function () {
-            var modules = [];
+            var modules = [],
+                self = this;
 
             _.bindAll(this);
 
@@ -21,10 +22,12 @@ define([
                 });
             });
 
-            $(".js-module").each(function () {
-                modules.push(new Lists.WritableModuleView({
+            $(".js-module").each(function() {
+                var moduleView = new Lists.WritableModuleView({
                     el: this
-                }));
+                });
+                moduleView.on("destroy", self.removeModule);
+                modules.push(moduleView);
             });
 
             this.model = new Lists.BaseModel();

@@ -2,10 +2,11 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "view/admin/removeDialog",
     "util/django-forms",
     "jquery-bbq",
     "bootstrapTypeahead"
-], function($, _, Backbone, DjangoForms) {
+], function($, _, Backbone, RemoveDialog, DjangoForms) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -462,6 +463,7 @@ define([
             this.$(".js-series").each(function() {
                 newSeriesView = new WritableSeriesView({el: this});
                 newSeriesView.on("expand", self.onSeriesExpand);
+                newSeriesView.on("destroy", self.onSeriesRemoved);
                 series.push(newSeriesView);
             });
 
@@ -492,13 +494,61 @@ define([
             var superEvents = WritableModuleView.__super__.events.call(this);
 
             return _.extend(superEvents, {
-                "click .js-btn-add-series": this.onAddSeriesClick
+                "click .js-btn-add-series": this.onAddSeriesClick,
+                "click .js-module-buttons .js-remove": this.onRemoveClick
             });
         },
 
         onAddSeriesClick: function (event) {
             this.appendNewSeries();
             event.preventDefault();
+        },
+
+        onRemoveClick: function (event) {
+            this.showRemoveModal();
+            event.preventDefault();
+        },
+
+        /**
+         * Initialized the remove popup dialog and attaches all necessary
+         * events.
+         */
+        showRemoveModal: function () {
+            this.removeModal = new RemoveDialog({
+                type: "module",
+                title: this.editableTitle.$value.text(),
+                contents: "its " + this.getTotalSeries() + " series and all of their events"
+            });
+
+            this.removeModal.on("confirm", this.onRemoveModalConfirm);
+            this.removeModal.on("close", this.onRemoveModalClose);
+        },
+
+        /**
+         * When removal is confirmed by the user, do an ajax call to the server
+         * to request the removal. Update the popup state based on the response
+         * of the server (success or error).
+         */
+        onRemoveModalConfirm: function () {
+            var self = this;
+            this.removeModal.off("confirm");
+
+            $.ajax({
+                url: "/things/" + this.getId() + "/delete",
+                type: "POST",
+                success: function () {
+                    self.removeModal.onSuccess();
+                    self.destroy();
+                },
+                error: function () {
+                    self.removeModal.onError();
+                }
+            });
+        },
+
+        onRemoveModalClose: function () {
+            this.removeModal.off();
+            this.removeModal.remove();
         },
 
         /**
@@ -607,10 +657,11 @@ define([
         },
 
         /**
-         * Removes all event listeners from this series and the editableTitle
-         * and removes all elements.
+         * Removes all event listeners from this module along with the
+         * editableTitle and all series/events found under the module.
          */
         destroy: function () {
+            this.clearSeries();
             this.editableTitle.off();
             this.editableTitle.remove();
             this.remove();
@@ -618,13 +669,33 @@ define([
             this.off();
         },
 
+        getAllSeries: function () {
+            var series = this.model.get("series"),
+                newSeries = this.model.get("newSeries");
+
+            if (series && newSeries) {
+                return series.concat(newSeries);
+            } else if (series) {
+                return series;
+            }
+
+            return newSeries || [];
+        },
+
+        getTotalSeries: function () {
+            return this.getAllSeries().length;
+        },
+
+        clearSeries: function () {
+            _.invoke(this.getAllSeries(), "destroy");
+        },
+
         lock: function () {
             this.locked = true;
             this.editableTitle.lock();
 
             // Also lock the series.
-            _.invoke(this.series, "lock");
-            _.invoke(this.newSeries, "lock");
+            _.invoke(this.getAllSeries(), "lock");
         }
     });
 
@@ -639,7 +710,8 @@ define([
             return _.extend(superEvents, {
                 "click .js-btn-cancel": this.onCancel,
                 "click .js-btn-save": this.onSave,
-                "click .js-btn-add-event": this.onAddEvent
+                "click .js-btn-add-event": this.onAddEvent,
+                "click .js-remove": this.onRemoveClick
             });
         },
 
@@ -751,6 +823,7 @@ define([
         destroy: function () {
             this.editableTitle.off();
             this.editableTitle.remove();
+            this.clearEvents();
             this.remove();
             this.trigger("destroy", this);
             this.off();
@@ -817,6 +890,53 @@ define([
             this.$(".js-btn-cancel").css({
                 opacity: 1
             });
+        },
+
+        onRemoveClick: function (event) {
+            this.showRemoveModal();
+            event.preventDefault();
+        },
+
+        /**
+         * Initialized the remove popup dialog and attaches all necessary
+         * events.
+         */
+        showRemoveModal: function () {
+            this.removeModal = new RemoveDialog({
+                type: "series",
+                title: this.editableTitle.$value.text(),
+                contents: "all of its events"
+            });
+
+            this.removeModal.on("confirm", this.onRemoveModalConfirm);
+            this.removeModal.on("close", this.onRemoveModalClose);
+        },
+
+        /**
+         * When removal is confirmed by the user, do an ajax call to the server
+         * to request the removal. Update the popup state based on the response
+         * of the server (success or error).
+         */
+        onRemoveModalConfirm: function () {
+            var self = this;
+            this.removeModal.off("confirm");
+
+            $.ajax({
+                url: "/series/" + this.getId() + "/delete",
+                type: "POST",
+                success: function () {
+                    self.removeModal.onSuccess();
+                    self.destroy();
+                },
+                error: function () {
+                    self.removeModal.onError();
+                }
+            });
+        },
+
+        onRemoveModalClose: function () {
+            this.removeModal.off();
+            this.removeModal.remove();
         },
 
         /**
@@ -921,11 +1041,29 @@ define([
         },
 
         /**
+         * Returns all events in the model (i.e. existing and new events). This
+         * replaced .concat since concat fails when one of the arrays is
+         * undefined.
+         */
+        getAllEvents: function () {
+            var events = this.model.get("events"),
+                newEvents = this.model.get("newEvents");
+
+            if (events && newEvents) {
+                return events.concat(newEvents);
+            } else if (events) {
+                return events;
+            }
+
+            return newEvents || [];
+        },
+
+        /**
          * Function that removes all events and all event listeners attached to
          * them
          */
         clearEvents: function () {
-            _.each(this.model.get("events").concat(this.model.get("newEvents")), function (eventView) {
+            _.each(this.getAllEvents(), function (eventView) {
                 eventView.off();
                 eventView.destroy();
             });

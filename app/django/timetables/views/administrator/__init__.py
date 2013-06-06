@@ -411,6 +411,32 @@ def new_series(request):
     return HttpResponse(json.dumps(es_data), content_type="application/json")
 
 
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def delete_series(request, series_id):
+    """
+    Deletes the specified series.
+    There is no need to delete associated EventSourceTag as this will
+    cascade after deleting EventSource.
+    Similarly events will cascade delete.
+    """
+
+    # delete the object
+    try:
+        models.EventSource.objects.get(pk=series_id).delete()
+    except models.EventSource.DoesNotExist:
+        return HttpResponse(content="Could not delete: the series does not exist", status=404)
+
+    # response
+    data = {
+        "success": True
+    }
+
+    # return success
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
 def _series_title_is_unique(title, module):
     """
     Checks whether the series title is unique for all series
