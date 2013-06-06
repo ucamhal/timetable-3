@@ -33,13 +33,9 @@ require.config({
 
 define([
     "jquery",
-    "shib-cookie-accumulation-workaround",
     "libs/jquery-django-csrf"
-], function($, ShibCookieAccumulationWorkaround) {
+], function($) {
     "use strict";
-
-    // Enable the workaround for Shib setting loads of _shibstate_xxx cookies
-    ShibCookieAccumulationWorkaround.preventShibFromDestroyingMyWebsite();
 
     // Define console.log to be an empty function in case it doesn't exist
     if (typeof window.console === "undefined") {
