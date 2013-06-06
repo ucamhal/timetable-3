@@ -15,8 +15,16 @@ define([
 
             _.bindAll(this);
 
-            $(".js-module").each(function() {
-                modules.push(new Lists.WritableModuleView({el: this}));
+            $(".js-top-level-series").each(function () {
+                new Lists.ModuleView({
+                    el: this
+                });
+            });
+
+            $(".js-module").each(function () {
+                modules.push(new Lists.WritableModuleView({
+                    el: this
+                }));
             });
 
             this.model = new Lists.BaseModel();
