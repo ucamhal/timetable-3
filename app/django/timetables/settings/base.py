@@ -120,7 +120,11 @@ HAYSTACK_CONNECTIONS = {
 LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
 
 
-CACHES = {}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
