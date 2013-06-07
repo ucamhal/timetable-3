@@ -35,8 +35,7 @@
     </li>
     -->
   {% for timetable in timetables %}
-
-    <li class="js-timetable pull-left{% if timetable.id in editable %} js-timetable-editable editable{% endif %}" data-fullpath="{{ timetable }}">
+    <li class="js-timetable pull-left{% if timetable.id in editable %} js-timetable-editable editable{% endif %}{% if forloop.counter|divisibleby:5 %} fifth{% endif %}" data-fullpath="{{ timetable }}">
       <a href="{% url "admin list write" thing=timetable.fullpath %}">
         <div class="timetable-top">
           <p class="edit-message js-edit-message dontDisplayMe">

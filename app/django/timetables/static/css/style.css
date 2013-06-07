@@ -757,7 +757,7 @@ div#timetablesOverview {
   overflow: hidden;
 }
 
-#timetablesOverview li:nth-child(5n+5) {
+#timetablesOverview .fifth {
   margin-right: 0;
 }
 
