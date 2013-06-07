@@ -74,7 +74,7 @@ define([
          * This updates the position of the popup element
          */
         updatePosition: function () {
-            if (typeof this.$context !== "undefined") {
+            if (this.$context instanceof $) {
                 var position = {
                         top: this.$context.offset().top
                             - (this.$el.outerHeight() / 2
