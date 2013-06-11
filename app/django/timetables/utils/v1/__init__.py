@@ -78,7 +78,11 @@ def generate(source, title, location, date_time_pattern, group_template,
 
         if data is not None:
             event.metadata.update(data)
-        event.prepare_save()
+        # We shouldn't have to do this... Manually doing this before bulk
+        # operations is error prone. We should either not use bulk
+        # operations or have a way to reliably perform updates on the
+        # objects which don't rely on pre/post save hooks for correctness
+        event.on_pre_save()
         events.append(event)
     return events
 

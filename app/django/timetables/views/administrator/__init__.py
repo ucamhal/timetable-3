@@ -322,8 +322,7 @@ def new_module(request):
             fullpath = fullpath,
             name = name,
             fullname = fullname,
-            type = "module",
-            pathid = None # initialise so that prepare_save will action
+            type = "module"
         )
 
         thing.save()
@@ -374,8 +373,6 @@ def new_series(request):
         sourcetype = "pattern", # ???
     )
 
-    # prepare and save new EventSource object
-    es.prepare_save()
     es.save()
     es.makecurrent()
     
@@ -397,7 +394,6 @@ def new_series(request):
         eventsource = es,
         annotation = ''
     )
-    est.prepare_save()
     est.save()
 
 

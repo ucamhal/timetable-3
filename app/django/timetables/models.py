@@ -48,6 +48,24 @@ MAX_UID_LENGTH=512
 THING_TYPE_LENGTH=12
 
 
+class PreSaveMixin(object):
+    def on_pre_save(self, **kwargs):
+        pass
+
+    @classmethod
+    def handle_pre_save_signal(cls, instance=None, **kwargs):
+        instance.on_pre_save(instance=instance, **kwargs)
+
+
+class PostSaveMixin(object):
+    def on_post_save(self, **kwargs):
+        pass
+
+    @classmethod
+    def handle_post_save_signal(cls, instance=None, **kwargs):
+        instance.on_post_save(instance=instance, **kwargs)
+
+
 class AnnotationModel(models.Model):
     '''
     Links (ie Tags) may have an annotations associated with them to indicate something. The annotations is free form.
@@ -68,10 +86,7 @@ class ModifieableModel(models.Model):
     # I would love to enforce this, but doing so is going to be onerous on anyone using it, hence the null=True
     lastmodifiedBy = models.ForeignKey(User, null=True)
 
-class VersionableModel(models.Model):
-    '''
-    
-    '''
+class VersionableModel(PreSaveMixin, models.Model):
     class Meta:
         abstract=True
 
@@ -99,13 +114,12 @@ class VersionableModel(models.Model):
         self.current = True
         self.save()
 
-    @classmethod
-    def _prepare_save(cls, sender, **kwargs):
-        instance = kwargs['instance']
-        if hasattr(instance, "master"):
-            if instance.master is None:
-                instance.master = instance
-            
+    def on_pre_save(self, **kwargs):
+        super(VersionableModel, self).on_pre_save(**kwargs)
+        if hasattr(self, "master"):
+            if self.master is None:
+                self.master = self
+
     @classmethod
     def copycreate(cls, self, instance):
         self.current = instance.current
@@ -116,24 +130,6 @@ class VersionableModel(models.Model):
                 self.master = instance.master
             
         # Do not copy the versionstamp. The DB will do this.
-
-
-class PreSaveMixin(object):
-    def on_pre_save(self, **kwargs):
-        pass
-
-    @classmethod
-    def handle_pre_save_signal(cls, instance=None, **kwargs):
-        instance.on_pre_save(instance=instance, **kwargs)
-
-
-class PostSaveMixin(object):
-    def on_post_save(self, **kwargs):
-        pass
-
-    @classmethod
-    def handle_post_save_signal(cls, instance=None, **kwargs):
-        instance.on_post_save(instance=instance, **kwargs)
 
 
 class HierachicalModel(PreSaveMixin, models.Model):
@@ -401,6 +397,7 @@ class Thing(PostSaveMixin, SchemalessModel, HierachicalModel):
 
     def _needs_fullpath_update(self):
         return (
+            self.pk is None or
             self.name != self._initial_name or
             self._initial_parent_id != self.parent_id
         )
@@ -497,17 +494,6 @@ class EventSource(SchemalessModel, VersionableModel):
             return "%s (%s bytes)" % ( self.title, self.sourcefile.size)
         except:
             return "%s" % ( self.title)
-            
-    def prepare_save(self):
-        EventSource._pre_save(Event,instance=self)
-
-
-    @classmethod
-    def _pre_save(cls, sender, **kwargs):
-        # Invoking multiple parent class or instnace methods is broken in python 2.6
-        # So this is the only way
-        VersionableModel._prepare_save(sender, **kwargs)
-        SchemalessModel._prepare_save(sender,**kwargs)
 
     def makecurrent(self):
         VersionableModel.makecurrent(self)
@@ -515,7 +501,7 @@ class EventSource(SchemalessModel, VersionableModel):
         EventSourceTag.objects.filter(eventsource__master=self.master).update(eventsource=self)
 
 
-pre_save.connect(EventSource._pre_save, sender=EventSource)
+pre_save.connect(EventSource.handle_pre_save_signal, sender=EventSource)
 
 
 class Event(SchemalessModel, VersionableModel):
@@ -589,19 +575,12 @@ class Event(SchemalessModel, VersionableModel):
         return "%s %s %s - %s  (%s)" % (self.title, self.location,
                 self.start_local(timezone.utc), self.end_local(timezone.utc),
                 self.id)
-    
-    def prepare_save(self):
-        Event._pre_save(Event,instance=self)
-    
-    @classmethod
-    def _pre_save(cls, sender, **kwargs):
-        # Invoking multiple parent class or instnace methods is broken in python 2.6
-        # So this is the only way
-        VersionableModel._prepare_save(sender, **kwargs)
-        SchemalessModel._prepare_save(sender,**kwargs)
-        instance = kwargs['instance']
-        if instance.uid is None or instance.uid == "":
-            instance.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
+
+    def on_pre_save(self, **kwargs):
+        super(Event, self).on_pre_save(**kwargs)
+
+        if self.uid is None or self.uid == "":
+            self.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
 
     @classmethod
     def after_bulk_operation(cls):
@@ -671,7 +650,7 @@ class Event(SchemalessModel, VersionableModel):
         return datetimes.date_to_termweek(self.start.date())
 
 
-pre_save.connect(Event._pre_save, sender=Event)
+pre_save.connect(Event.handle_pre_save_signal, sender=Event)
     
     
     
@@ -683,10 +662,7 @@ class EventSourceTag(AnnotationModel):
     thing = models.ForeignKey(Thing, help_text="The Thing that the EventSource is to be associated with")
     eventsource = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The EventSource that the Thing is to be associated with")
 
-    def prepare_save(self):
-        pass # If you add a pre_save hook, please wire this method into it
 
-    
 class EventTag(AnnotationModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
@@ -694,10 +670,8 @@ class EventTag(AnnotationModel):
     '''
     thing = models.ForeignKey(Thing, help_text="The Thing that the Event is to be associated with")
     event = models.ForeignKey(Event, help_text="The Event that the Thing is to be associated with")
-    def prepare_save(self):
-        pass # If you add a pre_save hook, please wire this method into it
-    
-    
+
+
 class ThingTag(AnnotationModel):
     '''
     Things can be related to one another using annotations. eg: A user thing may have administrative permissions over other things. In which case
@@ -709,7 +683,7 @@ class ThingTag(AnnotationModel):
     targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")
 
 
-class ThingLock(models.Model):
+class ThingLock(PreSaveMixin, models.Model):
     """
     Maintains the users who have exclusive access to a Thing.
     """
@@ -731,12 +705,12 @@ class ThingLock(models.Model):
             raise exceptions.ValidationError(
                     "The owner of a lock must be a 'user' Thing")
     
-    @classmethod
-    def _pre_save(cls, sender, instance=None, **kwargs):
+    def on_pre_save(self, **kwargs):
+        super(ThingLock, self).on_pre_save(**kwargs)
         # Automatically call clean() before saving
-        instance.clean()
+        self.clean()
 
-pre_save.connect(ThingLock._pre_save, sender=ThingLock)
+pre_save.connect(ThingLock.handle_pre_save_signal, sender=ThingLock)
 
 
 class LockStrategy(object):
@@ -748,8 +722,8 @@ class LockStrategy(object):
     TIMEOUT_LOCK_TIMEOUT = datetime.timedelta(seconds=30)
     EDIT_LOCK_TIMEOUT = datetime.timedelta(hours=2)
 
-    def __init__(self, now=timezone.now,
-            timeout_lock_timeout=TIMEOUT_LOCK_TIMEOUT,
+    def __init__(
+            self, now=timezone.now, timeout_lock_timeout=TIMEOUT_LOCK_TIMEOUT,
             edit_lock_timeout=EDIT_LOCK_TIMEOUT):
 
         self._now = now

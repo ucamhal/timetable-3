@@ -78,7 +78,7 @@ class LinkThing(View):
                 items = []
                 for es in EventSource.objects.filter(id__in=elist, current=True):
                     eventsourcetag = EventSourceTag(thing=thing,eventsource=es)
-                    eventsourcetag.prepare_save()
+                    eventsourcetag.on_pre_save()
                     items.append(eventsourcetag)
                 EventSourceTag.objects.bulk_create(items)
             
@@ -89,7 +89,7 @@ class LinkThing(View):
                 items = []
                 for e in Event.objects.filter(id__id=elist,current=True):
                     eventtag = EventTag(thing=thing,event=e)
-                    eventtag.prepare_save()
+                    eventtag.on_pre_save()
                     items.append(eventtag)
                 EventTag.objects.bulk_create(items)
             
@@ -111,7 +111,7 @@ class LinkThing(View):
                 items = []
                 for e in decendent_events.filter(current=True):
                     eventtag = EventTag(thing=thing,event=e)
-                    eventtag.prepare_save()
+                    eventtag.on_pre_save()
                     items.append(eventtag)
                 EventTag.objects.bulk_create(items)
 
@@ -119,7 +119,7 @@ class LinkThing(View):
                 items = []
                 for es in decendent_eventsource.filter(current=True):
                     eventtag = EventSourceTag(thing=thing,eventsource=es)
-                    eventtag.prepare_save()
+                    eventtag.on_pre_save()
                     items.append(eventtag)
                 EventSourceTag.objects.bulk_create(items)
 
