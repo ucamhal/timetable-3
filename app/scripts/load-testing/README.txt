@@ -26,6 +26,16 @@ http://www.perftestplus.com/pubs.htm (plus other interesting things on that
 page).
 
 
+JMeter configuration
+====================
+
+JMeter should be configured to store received cookies as JMeter thread variables.
+See http://jmeter.apache.org/usermanual/component_reference.html#HTTP_Cookie_Manager
+for details.
+
+Edit jmeter.properties file to set configuration.
+
+
 Test Plans
 ==========
 
