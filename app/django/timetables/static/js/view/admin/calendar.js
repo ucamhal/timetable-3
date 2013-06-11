@@ -171,6 +171,12 @@ define([
                     week: "ddd dd/M"
                 },
                 eventRender: function (calEvent, $el, view) {
+                    // Show the title and location in the event box if the
+                    // active view is "agendaWeek"
+                    if (view.name === "agendaWeek") {
+                        $el.find(".fc-event-time").text(calEvent.title);
+                        $el.find(".fc-event-title").text(calEvent.location);
+                    }
                     self.$el.trigger("eventRender", [calEvent, $el, view]);
                 },
                 select: function () {
