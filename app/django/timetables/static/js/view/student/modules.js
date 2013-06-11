@@ -143,6 +143,29 @@ define([
             return false;
         },
 
+        /**
+         * Generates a results found string based on what is found in the
+         * modules panel list.
+         */
+        generateResultsText: function () {
+            var $things = this.$(".js-modules-list").children(),
+                thingsLength = $things.length,
+                thingType = "modules",
+                resultsText = "Found no results";
+
+            if (thingsLength) {
+                if ($things.first().hasClass("js-series")) {
+                    thingType = "series";
+                } else if (thingsLength === 1) {
+                    thingType = "module";
+                }
+
+                resultsText = "Found " + thingsLength + " " + thingType;
+            }
+
+            return resultsText;
+        },
+
         updateList: function (fullpath) {
             var self = this;
 
@@ -150,25 +173,19 @@ define([
                 url: "/" + fullpath + ".children.html?t=" + encodeURIComponent(self.thingPath),
                 type: "GET",
                 success: function (data) {
-                    var modulesFound = self.$(".js-modules-list").empty().append(data).find("> li").length,
-                        modulesFoundText = "Found " + modulesFound + " modules";
-
-                    if (modulesFound === 1) {
-                        modulesFoundText = "Found 1 module";
-                    }
-
-                    self.updateModulesFoundText(modulesFoundText);
+                    self.$(".js-modules-list").empty().append(data),
+                    self.updateResultsText(self.generateResultsText());
                 },
                 error: function () {
-                    //TODO handle errors in the modules panel
-                    console.log(arguments);
+                    $("#errorModal").modal("show");
                     self.$(".js-modules-list").empty();
+                    self.updateResultsText(self.generateResultsText());
                 }
             });
         },
 
-        updateModulesFoundText: function (to) {
-            this.$(".js-modules-found h3").text(to);
+        updateResultsText: function (resultsText) {
+            this.$(".js-modules-found h3").text(resultsText);
         },
 
         setHeight: function (height) {

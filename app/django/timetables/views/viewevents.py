@@ -27,9 +27,9 @@ class ViewEvents(View):
             context = { "thing" : thing,
                        "events" : thing.get_events() }
             try:
-                return  render(request, "things/thing-events-%s.html" % typeofthing, context)
+                return  render(request, "student/things/thing-events-%s.html" % typeofthing, context)
             except:
-                return  render(request, "things/thing-events-default.html" , context)
+                return  render(request, "student/things/thing-events-default.html" , context)
                 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()

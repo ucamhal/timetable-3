@@ -29,15 +29,15 @@ class ViewThing(View):
                     typeofthing = "default"
                 context = { "thing" : thing }
                 try:
-                    return  render(request, "things/thing-%s.html" % typeofthing, context) 
+                    return  render(request, "student/things/thing-%s.html" % typeofthing, context) 
                 except:
-                    return  render(request, "things/thing-default.html" , context) 
+                    return  render(request, "student/things/thing-default.html" , context) 
             else:
                 depth = int(depth)
                 if depth > 10 or depth < 0:
                     return HttpResponseBadRequest("Sorry no more than 10 levels allowed")
                 things = Thing.objects.filter(Thing.treequery([thing], max_depth=depth)).order_by("fullname")
-                return render(request, "list-of-things.html", {"things": things})
+                return render(request, "student/list-of-things.html", {"things": things})
 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
@@ -89,10 +89,9 @@ class ChildrenView(View):
                         "thing_set__eventsourcetag_set__eventsource"
                 ),
                 "related" : relatedthings,
-                "relatedsources" : relatedsources,
-                "sources": thing.sources.filter(current=True)
+                "relatedsources" : relatedsources
             }
-            return render(request, "list-of-things.html",
+            return render(request, "student/list-of-things.html",
                           context)
         except Thing.DoesNotExist:
             return HttpResponseNotFound()

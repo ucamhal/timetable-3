@@ -39,7 +39,7 @@ class EditThingView(View):
 
 
     def _render_form(self, request, thing, form):
-        return shortcuts.render(request, "things/%s_form.html" % thing.type, {"form": form})
+        return shortcuts.render(request, "student/things/%s_form.html" % thing.type, {"form": form})
 
 
     def get(self, request, thing):

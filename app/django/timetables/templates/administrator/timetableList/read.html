@@ -31,25 +31,6 @@
 {% block timetable_content %}
 <div class="modulesList js-module-list"
     data-lock-refresh-path={% url "admin refresh lock" thing %}>
-  
-  {# Include top-level series #}
-  <div id="top-level-series" class="js-top-level-series" data-id="{{ thing.pk }}">
-    <h4 title="These series are not part of any module.">
-      General teaching
-    </h4>
-    <div class="moduleContent module-content">
-      <div class="seriesList js-series-list">
-        {% for series in top_level_series %}
-          {% block top_level_series__series %}
-          {% include "administrator/timetableList/fragSeriesRead.html" %}
-          {% endblock top_level_series__series %}
-        {% empty %}
-          <p class="js-no-series no-series">There are no general teaching series.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
   {% block before_modules_content %}
   {% endblock before_modules_content %}
   

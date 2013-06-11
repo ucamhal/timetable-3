@@ -16,12 +16,6 @@ define([
 
             _.bindAll(this);
 
-            $(".js-top-level-series").each(function () {
-                new Lists.ModuleView({
-                    el: this
-                });
-            });
-
             $(".js-module").each(function() {
                 var moduleView = new Lists.WritableModuleView({
                     el: this

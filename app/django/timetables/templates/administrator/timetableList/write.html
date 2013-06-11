@@ -18,10 +18,6 @@
 </ul>
 {% endblock timetable_tab_nav %}
 
-{% block before_general_series %}
-<a href="#" class="btn btn-small addSeries js-btn-add-series"><span class="icon-add-series"></span>Add series</a>
-{% endblock before_general_series %}
-
 {% block before_modules_content %}
 <a href="#" class="btn btn-small js-btn-add-module js-prepend addModule"><span class="icon-add-module"></span>Add module</a>
 {% endblock before_modules_content %}
@@ -34,10 +30,6 @@
 {% block timetable_module %}
 {% include "administrator/timetableList/fragModuleWrite.html" %}
 {% endblock timetable_module %}
-
-{% block top_level_series__series %}
-{% include "administrator/timetableList/fragSeriesWrite.html" %}
-{% endblock top_level_series__series %}
 
 {% block additional_modals %}
 <div class="js-timedout-modal modal dontDisplayMe">

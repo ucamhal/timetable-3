@@ -140,7 +140,7 @@ class EventListView(View):
 
         hashid = Thing.hash(thing)
         try:
-            return render(request, "event-list.html", {
+            return render(request, "student/event-list.html", {
                         "calendar": MonthListCalendar(year, month, Thing.objects.get(pathid=hashid).get_events())
                         })
         except Thing.DoesNotExist:

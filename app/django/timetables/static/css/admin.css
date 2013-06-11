@@ -428,11 +428,6 @@ select.event-type {
   margin-left: 20px;
 }
 
-#top-level-series .addSeries {
-  margin-top: 7px;
-  margin-bottom: 6px;
-}
-
 .addSeries,
 .addModule {
   color: #0088cc;

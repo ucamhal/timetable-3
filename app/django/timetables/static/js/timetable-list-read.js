@@ -7,7 +7,7 @@ define([
 ], function($, Lists, CookieHandler) {
     "use strict";
 
-    $(".js-module, .js-top-level-series").each(function() {
+    $(".js-module").each(function() {
         new Lists.ModuleView({el: this});
     });
 

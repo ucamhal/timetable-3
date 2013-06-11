@@ -148,15 +148,12 @@ class TimetableListRead(django.views.generic.View):
         assert timetable_thing.type == "tripos"
 
         modules = self.page_modules(thing)
-        # Top level series directly under the timetable
-        top_level_series = self.module_series(thing)
 
         can_edit, lock_holder = self.get_permissions(
                 request.user.username, thing)
 
         context = {
             "modules": modules,
-            "top_level_series": top_level_series,
             "thing": thing,
             "timetable_thing": timetable_thing,
             "can_edit": can_edit,
@@ -164,7 +161,7 @@ class TimetableListRead(django.views.generic.View):
         }
 
         return self.render(request, context)
-    
+
     def render(self, request, context):
         return shortcuts.render(request,
                 "administrator/timetableList/read.html", context)

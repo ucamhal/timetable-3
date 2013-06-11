@@ -1,5 +1,5 @@
 {% load timetables %}
-<li class="clearfix course">
+<li class="clearfix course js-module">
   <h5 class="pull-left">{{ thing.fullname }}</h5>
   <div class="pull-right clearfix">
     <a class="pull-left more js-more" href="#">more</a>
@@ -11,11 +11,6 @@
   </div>
   
   <ul class="courseMoreInfo">
-    {% for subthing in thing.thing_set.all %}
-        {% include_thing_template "things/thing-%s.html" subthing %}
-    {% endfor %}
-    {% for eventsourcetag in thing.eventsourcetag_set.all %}
-        {% include "things/eventsource.html" with eventsource=eventsourcetag.eventsource %}
-    {% endfor %}
+    {% include "student/things/thing-children.html" %}
   </ul>
 </li>
