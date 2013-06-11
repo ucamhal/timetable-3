@@ -1,4 +1,3 @@
-
 from timetables.models import Thing, ThingTag
 from timetables.admin.widgets import TextWidget
 from timetables.admin.eventsource import EventSourceTagInline, EventTagInline
@@ -51,7 +50,10 @@ class ThingAdminForm(forms.ModelForm):
 
     def clean_pathid(self):
         return self.instance.pathid
-    
+
+    def clean_fullpath(self):
+        return self.instance.fullpath
+
     def clean_data(self):
         # Validate data is valid json.
         json_data = self.cleaned_data["data"]
@@ -65,17 +67,7 @@ class ThingAdminForm(forms.ModelForm):
         except Exception as e:
             raise ValidationError(e.message)
         return self.cleaned_data["data"]
-    
-    def clean(self):
-        cleaned_data = super(ThingAdminForm, self).clean()
-        
-        parent = cleaned_data.get("parent")
-        if parent is None:
-            cleaned_data['fullpath'] = cleaned_data['name']
-        else:
-            cleaned_data['fullpath'] = "%s/%s" % (parent.fullpath, cleaned_data['name'])
-        return cleaned_data
-        
+
 
 class ThingTagInline(admin.TabularInline):
     model = ThingTag
@@ -83,7 +75,7 @@ class ThingTagInline(admin.TabularInline):
     fk_name = "thing"
     raw_id_fields = ("targetthing",)
 
-            
+
 class ThingAdmin(admin.ModelAdmin):
     form = ThingAdminForm
     list_display =  ("name", "fullname", "fullpath", "type", "child_count",)

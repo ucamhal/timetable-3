@@ -328,19 +328,16 @@ def new_module(request):
             type = "module",
             pathid = None # initialise so that prepare_save will action
         )
-        
-        
-        # prepare and save new Thing object
-        thing.prepare_save()
+
         thing.save()
-        
+
         # construct data to return to caller
         thing_data = {
             "id": thing.pk,
             "fullname": fullname,
             "save_path": reverse('thing edit', args=(fullpath,))
         }
-        
+
         return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
 
     # return error

@@ -12,7 +12,7 @@ import unicodedata
 import re
 
 from django.db import models, connection
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils import timezone
@@ -118,7 +118,25 @@ class VersionableModel(models.Model):
         # Do not copy the versionstamp. The DB will do this.
 
 
-class HierachicalModel(models.Model):
+class PreSaveMixin(object):
+    def on_pre_save(self, **kwargs):
+        pass
+
+    @classmethod
+    def handle_pre_save_signal(cls, instance=None, **kwargs):
+        instance.on_pre_save(instance=instance, **kwargs)
+
+
+class PostSaveMixin(object):
+    def on_post_save(self, **kwargs):
+        pass
+
+    @classmethod
+    def handle_post_save_signal(cls, instance=None, **kwargs):
+        instance.on_post_save(instance=instance, **kwargs)
+
+
+class HierachicalModel(PreSaveMixin, models.Model):
     class Meta:
         abstract=True
     # Things are hierarchical, so may have parents
@@ -206,14 +224,20 @@ class HierachicalModel(models.Model):
                     properties['type'] = "undefined"
             return cls.objects.create(**properties)
 
-    def update_fullpath(self):
-        self.fullpath = "{}/{}".format(self.parent.fullpath, self.name)
+    def update_fullpath(self, parent=None):
+        parent = parent or self.parent
 
-    @classmethod
-    def _prepare_save(cls, sender, instance=None, **kwargs):
+        if parent is None:
+            self.fullpath = self.name
+        else:
+            self.fullpath = "{}/{}".format(parent.fullpath, self.name)
+
+    def on_pre_save(self, **kwargs):
+        super(HierachicalModel, self).on_pre_save(**kwargs)
+
         # Update pathid from fullpath when saving
-        instance.pathid = cls.hash(instance.fullpath)
-        instance.name = os.path.basename(instance.fullpath)
+        self.pathid = self.hash(self.fullpath)
+        self.name = os.path.basename(self.fullpath)
 
     def __unicode__(self):
         return self.fullpath
@@ -254,23 +278,23 @@ class SchemalessModel(models.Model):
         '''
         pass
         
-    @classmethod
-    def _prepare_save(cls, sender, **kwargs):
-        '''
+    def on_pre_save(self, **kwargs):
+        """
         Called before save and makes certain data contains a json version of _data
-        '''
-        instance = kwargs['instance']
-        if hasattr(instance,"_data") and instance._data is not None:
-            instance.update_fields()
-            instance.data = json.dumps(instance._data)
-        elif instance.data is None: # Only set to nothing if None, metadata might not have been touched.
-            instance.data = ""
-        
+        """
+        super(SchemalessModel, self).on_pre_save(**kwargs)
+
+        if hasattr(self, "_data") and self._data is not None:
+            self.update_fields()
+            self.data = json.dumps(self._data)
+        elif self.data is None: # Only set to nothing if None, metadata might not have been touched.
+            self.data = ""
+
     def copycreate(self, instance):
         self.metadata = instance.metadata
 
 
-class Thing(SchemalessModel, HierachicalModel):
+class Thing(PostSaveMixin, SchemalessModel, HierachicalModel):
     '''
     I have no idea what I should call this, Node, Name, Category, Noun... so I am choosing a Thing.
     This is the "Language with which we refer to events."
@@ -320,6 +344,14 @@ class Thing(SchemalessModel, HierachicalModel):
     locked_by = models.ManyToManyField("self", through="ThingLock",
             symmetrical=False, related_name="locked_things")
 
+    def __init__(self, *args, **kwargs):
+        super(Thing, self).__init__(*args, **kwargs)
+
+        # Store the initial values for name and fullpath
+        self._initial_parent_id = self.parent_id
+        self._initial_name = self.name
+        self._initial_fullpath = self.fullpath
+
     def get_events(self, depth=1, date_range=None):
         events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
                                     models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
@@ -337,23 +369,11 @@ class Thing(SchemalessModel, HierachicalModel):
             events = chain(events, events_2)
             
         return events
-        
+
     @classmethod
     def get_all_events(cls, things):
         return Event.objects.filter(models.Q(source__eventsourcetag__thing__in=things, source__current=True)|
                                     models.Q(eventtag__thing__in=things), current=True)
-
-    def prepare_save(self):
-        Thing._pre_save(Event,instance=self)
-
-        
-    @classmethod
-    def _pre_save(cls, sender, **kwargs):
-        # Invoking multiple parent class or instance methods is broken in python 2.6
-        # So this is the only way
-        HierachicalModel._prepare_save(sender,**kwargs)
-        SchemalessModel._prepare_save(sender,**kwargs)
-        log.debug("Done Calling Super on Pre-save")
 
     @classmethod
     def get_or_create_user_thing(cls, user ):
@@ -378,10 +398,47 @@ class Thing(SchemalessModel, HierachicalModel):
         current value of the fullname field.
         """
         self.name = clean_string(self.fullname)
-        self.update_fullpath()
+
+    def _needs_fullpath_update(self):
+        return (
+            self.name != self._initial_name or
+            self._initial_parent_id != self.parent_id
+        )
+
+    def on_pre_save(self, **kwargs):
+        # Update our fullname if required. Once we're saved, on_post_save
+        # handles updating our children's fullpath.
+        if self._needs_fullpath_update():
+            self.update_fullpath()
+
+        super(Thing, self).on_pre_save(**kwargs)
+
+    def on_post_save(self, raw=None, **kwargs):
+        super(Thing, self).on_post_save(raw=raw, **kwargs)
+        # Don't mess with the db when importing data.
+        if raw:
+            return
+
+        # If our fullpath has changed we need to update the fullpaths
+        # of all our descendents.
+        if self.fullpath != self._initial_fullpath:
+            # This acts recursively to update all descendents
+            self.update_child_paths()
+
+    def update_child_paths(self):
+        """
+        Update the fullpaths of this Thing to reflect it's current fullpath.
+        This acts recursively on all descendent Things.
+        """
+        for thing in self.thing_set.all():
+            thing.update_fullpath(parent=self)
+            # Recursivley trigger update_child_paths() via _post_save()
+            # on all children.
+            thing.save()
 
 
-pre_save.connect(Thing._pre_save, sender=Thing)
+pre_save.connect(Thing.handle_pre_save_signal, sender=Thing)
+post_save.connect(Thing.handle_post_save_signal, sender=Thing)
 
 
 def clean_string(txt):
