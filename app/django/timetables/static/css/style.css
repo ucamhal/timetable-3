@@ -14,6 +14,35 @@ div:focus {
   overflow: hidden;
 }
 
+.play-site #mainHeader {
+  background-color: #aaa5be;
+  padding-top: 0;
+}
+
+.play-site #mainHeader h1 {
+  color: #444444;
+}
+
+.play-site #mainHeader h1 span {
+  color: #ffffff;
+}
+
+.play-site .play-text {
+  background: url("../img/icon-info.png") no-repeat left center;
+  color: #ffffff;
+  clear: both;
+  font-size: 1.1em;
+  padding: 6px 0 0 34px;
+  margin-bottom: 20px;
+  width: 670px;
+}
+
+.play-site #mainHeader #uniLogo a {
+  background-image: url("../img/uniLogoWhite.png");
+  width: 177px;
+  height: 43px;
+}
+
 div#content {
   width: 960px;
   margin: 0 auto;
@@ -115,10 +144,6 @@ div#inputArea a#advancedOptions span {
   margin-left: 10px;
 }
 
-div#uniLogo {
-  margin-top: 14px;
-}
-
 div#inputArea {
   background-color: #333333;
   color: #ffffff;
@@ -146,11 +171,9 @@ div#uniLogo h2 {
 
 div#uniLogo h2 a {
   display: block;
-
   width: 204px;
   height: 42px;
-
-  background-image: url(../img/uniLogo.png);
+  background: url(../img/uniLogo.png) no-repeat left bottom;
 }
 
 div#uniLogo ul {
@@ -173,6 +196,7 @@ div#uniLogo ul li:first-child {
 }
 
 header#mainHeader {
+  padding-top: 14px;
   margin-bottom: 14px;
 }
 
@@ -187,7 +211,8 @@ div#results {
   border-style: solid;
   border-width: 1px;
   border-color: #d3d3d3;
-
+  
+  margin-top: 30px;
   min-height: 300px;
   overflow: hidden;
   background-color: #f3f3f3;

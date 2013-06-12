@@ -213,6 +213,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     'timetables.utils.gitrevision.git_revivion_contextprocessor',
     'timetables.utils.requirejs.js_main_module_contextprocessor',
+    'timetables.utils.playsite.is_play_site_contextprocessor',
 )
 
 ROOT_URLCONF = 'timetables.urls'

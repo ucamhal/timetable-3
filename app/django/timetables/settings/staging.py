@@ -11,3 +11,5 @@ ALLOWED_HOSTS = ["timetables.staging.dmz.caret.local"]
 WSGI_APPLICATION = "timetables.wsgi.staging.application"
 
 GOOGLE_ANALYTICS_ID = "UA-__addthis__"
+
+IS_PLAY_SITE = True

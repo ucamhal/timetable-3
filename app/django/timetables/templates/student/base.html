@@ -18,9 +18,10 @@
     </select>
   </div>
 </div>
+{% endblock top_bar %}
 
+{% block content %}
 <!-- ## USER NOT LOGGED IN -->
-
 <div id="actionsContainer">
   <div class="pull-right">
     {% if loggedin %}
@@ -34,9 +35,7 @@
     {% endif %}
   </div>
 </div>
-{% endblock top_bar %}
 
-{% block content %}
 <div class="calendarEventInfo alert alert-block clearfix dontDisplayMe student">
   <div class="arrow"></div>
   <button type="button" class="close" data-dismiss="alert">x</button>
