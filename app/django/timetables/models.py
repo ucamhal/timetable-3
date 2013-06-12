@@ -654,7 +654,7 @@ pre_save.connect(Event.handle_pre_save_signal, sender=Event)
     
     
     
-class EventSourceTag(AnnotationModel):
+class EventSourceTag(PreSaveMixin, AnnotationModel):
     '''
     EventTag could get huge. In many cases things will need to be connected with a large set of original
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -663,7 +663,7 @@ class EventSourceTag(AnnotationModel):
     eventsource = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The EventSource that the Thing is to be associated with")
 
 
-class EventTag(AnnotationModel):
+class EventTag(PreSaveMixin, AnnotationModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -672,7 +672,7 @@ class EventTag(AnnotationModel):
     event = models.ForeignKey(Event, help_text="The Event that the Thing is to be associated with")
 
 
-class ThingTag(AnnotationModel):
+class ThingTag(PreSaveMixin, AnnotationModel):
     '''
     Things can be related to one another using annotations. eg: A user thing may have administrative permissions over other things. In which case
     a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__annotation="admin") will show all Things that a user can admin.
