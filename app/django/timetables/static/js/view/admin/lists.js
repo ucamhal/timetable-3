@@ -594,7 +594,7 @@ define([
          */
         onInitialTitleSaveSuccess: function (data) {
             // At this point we don't need these events anymore:
-            this.editableTitle.off("save", this.onTitleSaveSuccess);
+            this.editableTitle.off("save", this.onInitialTitleSaveSuccess);
             this.editableTitle.off("cancel");
 
             // Do everything needed to successfully track the new module from
