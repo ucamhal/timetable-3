@@ -35,6 +35,9 @@ for details.
 
 Edit jmeter.properties file to set configuration.
 
+Theoretically properties may be configured in the JMeter test plan using the
+Simple Config Element, but this doesn't currently seem to be working.
+
 
 Test Plans
 ==========
