@@ -133,8 +133,7 @@ define([
             this.calendarViewNavigation.on("viewChanged", this.viewChangedHandler);
             this.modulesList.on("timetableUpdated", this.timetableUpdatedHandler);
 
-            $(window).on("resize", this.resize);
-            this.resize();
+            $(window).on("resize", this.resize).trigger("resize");
         },
 
         resize: function () {
@@ -163,8 +162,7 @@ define([
             $(".js-calendar-holder").height(modulesListHeight);
             $(".js-list-view").height(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
             this.fullCalendarView.setHeight(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
-            this.fullCalendarView.eventPopup.hide();
-
+            this.fullCalendarView.eventPopup.toggle(false);
         },
 
         renderSpinners: function (changedSpinner) {

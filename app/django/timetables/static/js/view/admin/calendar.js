@@ -22,7 +22,8 @@ define([
             this.positionMutators.leftOffset = opts.leftOffset || this.positionMutators.leftOffset;
             this.positionMutators.topOffset = opts.topOffset || this.positionMutators.topOffset;
             this.positionMutators.contentWidth = opts.contentWidth || this.positionMutators.contentWidth;
-
+            this.shown = false;
+            this.$context = opts.$context;
             this.$el.appendTo("body");
         },
 
@@ -31,7 +32,7 @@ define([
          * element.
          */
         onClose: function (event) {
-            this.hide();
+            this.toggle(false);
             event.preventDefault();
         },
 
@@ -76,8 +77,7 @@ define([
         updatePosition: function () {
             if (this.$context instanceof $) {
                 var position = {
-                        top: this.$context.offset().top
-                            - (this.$el.outerHeight() / 2
+                        top: this.$context.offset().top - (this.$el.outerHeight() / 2
                             - this.$context.outerHeight() / 2)
                             + this.positionMutators.topOffset,
                         left: this.$context.offset().left
@@ -109,46 +109,23 @@ define([
         },
 
         /**
-         * Function that makes the popup element visible
-         * @param {object} $context The element the popup need to be relatively
-         *        positioned to
-         * @param {boolean} animated Set to true of popup has to be made visible
-         *        using an animation (fade). Defaults to false.
-         * @param {number} duration The duration of the animation in
-         *        milliseconds. Defaults to 200ms.
+         * Toggles the event popup.
+         * Can implicitly show/hide by giving true/false along with the context.
          */
-        show: function ($context, animated, duration) {
-            this.$context = $context;
-            this.updatePosition();
+        toggle: function (show, $context) {
+            show = typeof show === undefined ? !this.shown : show;
+            if (show !== this.shown || ($context !== this.$context && show === true)) {
+                if (show) {
+                    this.$el.show();
+                    this.$context = $context;
+                    this.updatePosition();
+                } else {
+                    this.$el.hide();
+                    this.$context = undefined;
+                }
 
-            animated = animated === true ? true : false;
-            duration = duration || 200;
-
-            if (animated === true) {
-                this.$el.fadeIn(duration);
-            } else {
-                this.$el.show();
+                this.shown = show;
             }
-        },
-
-        /**
-         * Function that hides the popup element
-         * @param {boolean} animated Set to true of popup has to be hidden using
-         *        an animation (fade). Defaults to false.
-         * @param {number} duration The duration of the animation in
-         *        milliseconds. Defaults to 200ms.
-         */
-        hide: function (animated, duration) {
-            animated = animated === true ? true : false;
-            duration = duration || 200;
-
-            if (animated === true) {
-                this.$el.fadeOut(duration);
-            } else {
-                this.$el.hide();
-            }
-
-            this.$context = undefined;
         }
     });
 
@@ -158,6 +135,11 @@ define([
             var self = this;
 
             _.bindAll(this, "onScroll");
+
+            this.eventPopup = new CalendarEventPopup({
+                el: ".js-calendar-popup",
+                $context: this.$el
+            });
 
             this.$el.fullCalendar({
                 defaultView: this.options.defaultView || "month",
@@ -177,6 +159,7 @@ define([
                         $el.find(".fc-event-time").text(calEvent.title);
                         $el.find(".fc-event-title").text(calEvent.location);
                     }
+
                     self.$el.trigger("eventRender", [calEvent, $el, view]);
                 },
                 select: function () {
@@ -198,7 +181,7 @@ define([
                 calendarPosition = this.$el.offset();
 
             if (popupPosition.top < (calendarPosition.top + this.$("thead").height()) || popupPosition.top > calendarPosition.top + this.$el.height()) {
-                this.eventPopup.hide();
+                this.eventPopup.toggle(false);
                 this.$(".fc-event:focus").blur();
             }
         },
@@ -207,12 +190,12 @@ define([
             this.$el.fullCalendar("refetchEvents");
         },
 
-        onEventRender: function (event, calEvent, $el, view) {
+        onEventRender: function (renderEvent, calEvent, $el, view) {
             var self = this;
 
             $el.attr("tabindex", this.$(".fc-event").index($el));
-            $el.on("focusin", function () {
-                self.onEventFocus(calEvent, $el, view, this);
+            $el.on("focusin", function (focusEvent) {
+                self.onEventFocus(calEvent, $el, view, this, focusEvent);
             });
         },
 
@@ -225,20 +208,16 @@ define([
             this.$el.fullCalendar("render");
         },
 
-        eventPopup: new CalendarEventPopup({
-            el: ".js-calendar-popup"
-        }),
-
         /**
          * Eventhandler that is triggered when an event on the calendar
          *        has been focussed
          */
-        onEventFocus: function (calEvent, jsEvent, view, target) {
+        onEventFocus: function (calEvent, $el, view, target) {
             this.resetZIndexForAllEvents();
             $(target).css("zIndex", 9);
             this.eventPopup.setEventDataFromCalEvent(calEvent);
             this.eventPopup.render();
-            this.eventPopup.show($(target));
+            this.eventPopup.toggle(true, $el);
         },
 
         /**
@@ -253,7 +232,7 @@ define([
          * Hides the event popup and clears its context
          */
         resetEventPopup: function () {
-            this.eventPopup.hide();
+            this.eventPopup.toggle(false);
         },
 
         /**
