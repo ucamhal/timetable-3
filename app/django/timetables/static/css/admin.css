@@ -83,6 +83,7 @@ a.addModule:last-child {
 
 #admin #inputArea select {
   width: 114px;
+  margin-bottom: 0;
 }
 
 #adminListActions {

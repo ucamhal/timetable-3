@@ -34,6 +34,11 @@
 
 {% block content %}
   <div id="adminContent">
+    <div id="adminListActions" class="clearfix">
+      {% block admin_actions %}
+      <a href="{% url "logout url" %}" class="btn btn-primary pull-right">Sign out</a>
+      {% endblock admin_actions %}
+    </div>
     {% block admin_content %}
     {% endblock admin_content %}
   </div>
