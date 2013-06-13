@@ -57,6 +57,17 @@ class PreSaveMixin(object):
         instance.on_pre_save(instance=instance, **kwargs)
 
 
+class CleanModelMixin(object):
+    """
+    A Model mixin which calls full_clean() on model instances before
+    saving.
+    """
+
+    def on_pre_save(self, **kwargs):
+        super(CleanModelMixin, self).on_pre_save(**kwargs)
+        self.full_clean()
+
+
 class PostSaveMixin(object):
     def on_post_save(self, **kwargs):
         pass
@@ -290,7 +301,7 @@ class SchemalessModel(models.Model):
         self.metadata = instance.metadata
 
 
-class Thing(PostSaveMixin, SchemalessModel, HierachicalModel):
+class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
     '''
     I have no idea what I should call this, Node, Name, Category, Noun... so I am choosing a Thing.
     This is the "Language with which we refer to events."
@@ -393,7 +404,7 @@ class Thing(PostSaveMixin, SchemalessModel, HierachicalModel):
         Update this Thing's name (and therefore fullpath) based on the
         current value of the fullname field.
         """
-        self.name = clean_string(self.fullname)
+        self.name = self.get_unique_child_name(self.fullname)
 
     def _needs_fullpath_update(self):
         return (
@@ -433,6 +444,27 @@ class Thing(PostSaveMixin, SchemalessModel, HierachicalModel):
             # on all children.
             thing.save()
 
+    def get_unique_child_name(self, base_name, max_len=MAX_NAME_LENGTH):
+        """
+        Get a unique Thing.name value for a child based on base_name.
+        Clashes are resolved by apending numbers while respecting the
+        max name length allowable.
+        """
+        short_base_name = clean_string(base_name)[:max_len]
+        name = short_base_name
+        i = 0
+        while True:
+            fullpath = "{}/{}".format(self.fullpath, name)
+            if not Thing.objects.filter(pathid=self.hash(fullpath)).exists():
+                return name
+
+            # Uniquify name
+            i = i + 1
+            num = str(i)
+            name = short_base_name[:max_len - len(num)] + num
+            assert len(name) <= max_len
+
+
 
 pre_save.connect(Thing.handle_pre_save_signal, sender=Thing)
 post_save.connect(Thing.handle_post_save_signal, sender=Thing)
@@ -458,7 +490,7 @@ def _get_upload_path(instance, filename):
     tpart = time.strftime('%Y/%m/%d',time.gmtime())
     return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , Thing.hash(filename))
 
-class EventSource(SchemalessModel, VersionableModel):
+class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
     
     PERM_READ = "eventsource.read"
     PERM_WRITE = "eventsource.write"
@@ -504,7 +536,7 @@ class EventSource(SchemalessModel, VersionableModel):
 pre_save.connect(EventSource.handle_pre_save_signal, sender=EventSource)
 
 
-class Event(SchemalessModel, VersionableModel):
+class Event(CleanModelMixin, SchemalessModel, VersionableModel):
     '''
     Events are the most basic representation of a physical event. Events have a start and an end.
     These are not metaevents with repeats
@@ -654,7 +686,7 @@ pre_save.connect(Event.handle_pre_save_signal, sender=Event)
     
     
     
-class EventSourceTag(PreSaveMixin, AnnotationModel):
+class EventSourceTag(CleanModelMixin, PreSaveMixin, AnnotationModel):
     '''
     EventTag could get huge. In many cases things will need to be connected with a large set of original
     events. This can be done via EventSourceTag which will connect to many events since there is a source
@@ -663,7 +695,10 @@ class EventSourceTag(PreSaveMixin, AnnotationModel):
     eventsource = models.ForeignKey(EventSource, verbose_name="Source of Events", help_text="The EventSource that the Thing is to be associated with")
 
 
-class EventTag(PreSaveMixin, AnnotationModel):
+pre_save.connect(EventSourceTag.handle_pre_save_signal, sender=EventSourceTag)
+
+
+class EventTag(CleanModelMixin, PreSaveMixin, AnnotationModel):
     '''
     Where the connection between thing and event is not represented via EventSourceTag and explicit connection
     can me made, via Event tag.
@@ -672,7 +707,10 @@ class EventTag(PreSaveMixin, AnnotationModel):
     event = models.ForeignKey(Event, help_text="The Event that the Thing is to be associated with")
 
 
-class ThingTag(PreSaveMixin, AnnotationModel):
+pre_save.connect(EventTag.handle_pre_save_signal, sender=EventTag)
+
+
+class ThingTag(CleanModelMixin, PreSaveMixin, AnnotationModel):
     '''
     Things can be related to one another using annotations. eg: A user thing may have administrative permissions over other things. In which case
     a query like Thing.objects.filter(relatedthing__thing=userthing,relatedthing__annotation="admin") will show all Things that a user can admin.
@@ -681,6 +719,9 @@ class ThingTag(PreSaveMixin, AnnotationModel):
     '''
     thing = models.ForeignKey(Thing, help_text="The source end of this relationship")
     targetthing = models.ForeignKey(Thing, related_name="relatedthing", help_text="The target end of this relationship")
+
+
+pre_save.connect(ThingTag.handle_pre_save_signal, sender=ThingTag)
 
 
 class ThingLock(PreSaveMixin, models.Model):

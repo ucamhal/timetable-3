@@ -4,6 +4,7 @@ import re
 import itertools
 
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 from django import http
 from django import shortcuts
 from django.contrib.admin.views.decorators import staff_member_required
@@ -297,47 +298,28 @@ def new_module(request):
     parent_fullpath = parent.fullpath;
     
     # process fullname to create URL-friendly version
-    name = models.clean_string(fullname)
+    name = parent.get_unique_child_name(fullname)
 
-    # generate fullpath
-    fullpath = parent_fullpath
-    if fullpath[-1] != '/':
-        parent_fullpath = parent_fullpath+'/'
-    fullpath = parent_fullpath+name
+    # Thing object being created
+    thing = models.Thing(parent=parent, name=name,
+                         fullname=fullname, type="module")
 
-
-    # check for fullpath clashes
-    clash = True
     try:
-        thing_clash = models.Thing.objects.get(fullpath = fullpath)
-    except models.Thing.DoesNotExist:
-        clash = False
-
-
-    # return the new Thing data
-    if not clash:
-        # Thing object being created
-        thing = models.Thing(
-            parent = parent,
-            fullpath = fullpath,
-            name = name,
-            fullname = fullname,
-            type = "module"
+        thing.save()
+    except ValidationError as e:
+        return HttpResponse(
+            " ".join(e.messages),
+            status=400
         )
 
-        thing.save()
+    # construct data to return to caller
+    thing_data = {
+        "id": thing.pk,
+        "fullname": fullname,
+        "save_path": reverse('thing edit', args=(thing.fullpath,))
+    }
 
-        # construct data to return to caller
-        thing_data = {
-            "id": thing.pk,
-            "fullname": fullname,
-            "save_path": reverse('thing edit', args=(fullpath,))
-        }
-
-        return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
-
-    # return error
-    return HttpResponse(content="Title already in use", status=409)
+    return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
 
 
 @require_POST
