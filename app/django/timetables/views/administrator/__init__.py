@@ -42,12 +42,13 @@ def timetable_view(request, thing=None):
     
     thing = shortcuts.get_object_or_404(models.Thing, type="tripos",
         pathid=models.Thing.hash(thing))
-
-    # list of timetables to display
-    timetables = get_timetables(thing)
     
     # get list of Things the current user may edit
     editable = get_user_editable(request)
+
+    # list of timetables to display
+    timetables = get_timetables(thing)
+    timetables = sorted(timetables, key=lambda timetable: timetable.id not in editable)
 
     return shortcuts.render(request, "administrator/overview.html",
             {"thing": thing, "timetables": timetables, "triposes": triposes, "editable": editable})
