@@ -13,7 +13,13 @@ from .base import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+# Enable Raven/Shib support. This relies on the RemoveUserBackend being
+# present in AUTHENTICATION_BACKENDS.
 ENABLE_RAVEN = True
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.RemoteUserBackend",
+    "timetables.backend.TimetablesAuthorizationBackend",
+)
 
 # Dump all SQL used in a request, if it exceeds thresholds or is requested.
 DUMP_FULL_SQL = False
