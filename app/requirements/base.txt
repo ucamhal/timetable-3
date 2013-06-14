@@ -1,4 +1,4 @@
-Django == 1.4
+Django >= 1.5
 South == 0.7.6
 psycopg2
 pytz
@@ -7,3 +7,5 @@ unipath
 icalendar
 python-ldap
 django-braces
+
+svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/django-cam-auth-utils/tags/0.0.1#egg=django_cam_auth_utils == 0.0.1

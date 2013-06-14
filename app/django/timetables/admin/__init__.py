@@ -6,15 +6,21 @@ from timetables.admin.thing import ThingAdmin
 from timetables.models import (Thing, EventSource, Event, EventTag,
         EventSourceTag)
 
+from django_cam_auth_utils.admin import DefaultSiteLoginPageAdminSite
+
+site = DefaultSiteLoginPageAdminSite()
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = EventSource
+
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
     list_display = ("title", "location", "start", "end")
     list_filter = ("location", "source", "status")
     search_fields = ("title", "location")
+
 
 class EventTagAdmin(admin.ModelAdmin):
     list_display = ("list_display_fullpath", "list_display_title", "list_display_location")
@@ -43,8 +49,11 @@ class EventSourceTagAdmin(admin.ModelAdmin):
         return obj.eventsource.title
 
 
-admin.site.register(Thing, ThingAdmin)
-admin.site.register(EventSource, EventSourceAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(EventTag, EventTagAdmin)
-admin.site.register(EventSourceTag, EventSourceTagAdmin)
+# Register the default Django models (User, Group etc)
+site.register_django_default_apps()
+
+site.register(Thing, ThingAdmin)
+site.register(EventSource, EventSourceAdmin)
+site.register(Event, EventAdmin)
+site.register(EventTag, EventTagAdmin)
+site.register(EventSourceTag, EventSourceTagAdmin)

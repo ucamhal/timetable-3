@@ -1,9 +1,10 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.contrib import admin
 from django.views.decorators.csrf import csrf_exempt
+from django.core.urlresolvers import reverse_lazy
 
+from timetables.admin import site as timetables_admin_site
 from timetables.views import administrator
-from timetables.views.account import LogoutView, LoginView
+from timetables.views.account import get_login_view, get_logout_view
 from timetables.views.calendarview import (CalendarView, CalendarHtmlView,
         EventListView)
 from timetables.views.editthing import EditThingView
@@ -18,8 +19,6 @@ from timetables.views import static
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
 TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
 
-admin.autodiscover()
-
 urlpatterns = patterns('',
 
     url(r"^$",
@@ -28,20 +27,23 @@ urlpatterns = patterns('',
 
 
     url(r'^admin/',
-        include(admin.site.urls)),
+        include(timetables_admin_site.urls)),
 
     url(r'^admin/doc/',
             include('django.contrib.admindocs.urls')),
 
+    url(
+        regex=r'^accounts/login',
+        view=get_login_view(),
+        name="login url"
+    ),
 
-    url(r'^accounts/login',
-        LoginView.as_view(),
-        name="login url"),
-
-    url(r'^accounts/logout',
-        LogoutView.as_view(),
-        name="logout url"),
-
+    url(
+        regex=r'^accounts/logout',
+        view=get_logout_view(),
+        kwargs={"next_page": reverse_lazy("home")},
+        name="logout url"
+    ),
 
     # Timetables administrators
     url(r'^administration/$',

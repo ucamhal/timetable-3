@@ -28,7 +28,7 @@
       <a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
       <a href="{{ ics_feed_url }}" class="btn notImplemented">Export to calendar</a>
     {% else %}
-      <a href="{% url "login url" %}" class="btn btn-primary">Sign in</a>
+      <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-primary">Sign in</a>
       <!-- 
       <a href="#" class="btn dontDisplayMe save">Save</a>
        -->
