@@ -1,0 +1,187 @@
+{% load staticfiles %}
+{% load url from future %}
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Timetable Help</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="screen" href="{% static "administratorhelp/css/style.css" %}">
+    <link rel="stylesheet" media="screen" href="{% static "administratorhelp/css/sections.css" %}">
+  </head>
+  <body>
+    <!-- Global university header -->
+    <div class="section dark-section" id="global-header">
+      <div class="container">
+        <div class="row">
+          <div class="col twelve mobile-full">
+
+            <!--- Cambridge logo -->
+            <a href="http://www.cam.ac.uk" target="_blank" class="left"><img src="{% static "img/uniLogoWhite.png" %}" alt="Cambridge University Logo"/></a>
+
+            <!-- Search form -->
+            <form class="right no-mobile no-desktop no-tablet">
+              <input type="search" placeholder="Search within help &amp; support" name="search"/>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Video section -->
+    <div class="section container center-text" id="video-section">
+      <div class="row">
+        <div class="col twelve mobile-full">
+          <h1>Getting started with Timetable</h1>
+          <!--
+          <video src="video.mp4" width="320" height="200" controls preload></video>
+          -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Content sections 1 -->
+    <div class="section grey-section">
+      <div class="container">
+        <div class="row">
+          <div class="col six mobile-full">
+            <h3>Background of the project</h3>
+            <p class="lead"><b>Timetable</b> is an application which aims to bring different timetables from all triposes, departments and faculties at the University of Cambridge together into one place.</p>
+
+            <p>Many of you will remember the printed Reporter which contained a printed version of all timetables, and the online Lecture Listings that replaced it. Timetable aims to be the next step forward - making all timetables in the University available online and easily editable for administrators before and during the academic year. Students will greatly benefit from being able to create their own personal calendar with events from their own or another department.</p>
+          </div>
+
+          <div class="col six mobile-full">
+            <h3>Where we want to get to</h3>
+
+            <p><b>Timetable</b> is currently in beta release following comprehensive feedback sessions. It will offer valuable functionality to administrators and students for the academic year 2013-14 and beyond. It will be available for administrators after the exam period and only available to students in mid-September, which means administrators will have time to familiarise themselves with it, and to update data as necessary. We are very happy for you to get in contact with us if you need assistance with any of this. Over the next few weeks we will add functionality to the beta release to provide you with an improved timetable experience.<p>
+
+            <a href="#features" class="right">Have a look at some of the future features!</a>
+          </div>
+        </div>  
+      </div>
+    </div>
+
+
+    <!-- Content sections 2 -->
+    <div class="section container" id="feature-section">
+      <h2 class="center-text">Getting started with Timetable</h2>
+
+      <div class="row clear">
+        <div class="col twelve mobile-full">
+          <h3>What do students get to see?</h3>
+          <img src="{% static "administratorhelp/img/gallery/1.png" %}" alt="Student View"/>
+
+          <p>Once data has been added by administrative staff, students will be able to look for the subject and part they're studying and will see the different modules that belong to this timetable. They will also see 'series' (or papers) belonging to these modules. In order to build their own personal timetable, students can then choose to 'add' these to or 'remove' these from the calendar visible on the right of the screen. Events (lectures, practicals, etc.,) can also be added. </p>
+        </div>
+      </div>
+
+
+    <div class="row clear">
+      <div class="col twelve mobile-full margin-top">
+        <h3>Log in to the admin interface</h3>
+        <img src="{% static "administratorhelp/img/gallery/2.png" %}" alt="Admin Overview Screen"/>
+
+        <p>Please <a href="mailto:tthelp@camacuk.zendesk.com">contact us</a> with your CRSid to be added as an admin user. Once logged in, you will be taken to the first Tripos or Department that you have edit rights to. You will also be able to view other timetables too. You can find other Triposes and Departments by using the dropdown. Each timetable in a Department or Tripos is presented as a tile. The ones you have permission to edit are indicated with a pencil icon and the text 'Edit', while the ones you can’t are shown as 'View only'. </p>
+      </div>
+    </div>
+
+
+    <div class="row clear">
+      <div class="col twelve mobile-full margin-top">
+        <h3>Make changes to existing events in a timetable</h3>
+        <img src="{% static "administratorhelp/img/gallery/3.png" %}" alt="Edit Events"/>
+
+        <p>The list view displays the entire list of modules (or papers), lecture series and events (such as lectures, classes, talks, seminars, and so on) associated with it. Each event shows the 'title of the event', lecturer/host, etc. Changes can be made by clicking the pencil icon and typing in the selected field. You can change the title of a series or module by clicking on the pencil icon next to the title. Events can be cancelled here. After making your changes, click the 'Save' button to make the changes visible to students and other administrators. </p>
+      </div>
+    </div>
+
+
+    <div class="row clear">
+      <div class="col twelve mobile-full margin-top">
+        <h3>Create a new event, series (paper) or module</h3>
+        <img src="{% static "administratorhelp/img/gallery/4.png" %}" alt="Create Event"/>
+
+        <p>To create a new event, find the series it belongs to, and click the 'add event' option below the series.
+        This will duplicate the last event, so make sure you edit the information that has be edited (eg give it a different title).
+        Once saved, this event will display chronologically. To create a new series, use the 'new series' button just below the module title.
+        Make sure you change the title, otherwise it won't be saved. If you have to create a new module, just follow the same procedure as for creating a new series.
+        Once the academic year starts, students will be able to find these new events, series and modules. The option to add a new timetable isn't available yet, but is planned for a future release.</p>
+      </div>
+    </div>
+
+
+    <div class="row clear">
+      <div class="col twelve mobile-full margin-top">
+        <h3>Removing a series or module, and cancelling an event</h3>
+        <img src="{% static "administratorhelp/img/gallery/5.png" %}" alt=""/>
+
+        <p>To cancel an event click on the bin icon next to the event, which will strike through the event.  When you save your change, that event will disappear. You can cancel or edit various events simultaneously. If you want to remove a module or series, click on the bin icon next to the series or module title. This will permanently remove these from the system – please note that removing a series or module can't be undone!</p>
+      </div>
+    </div>
+
+
+    <div class="row clear">
+      <div class="col twelve mobile-full margin-top">
+        <h3>Viewing a timetable in calendar view</h3>
+        <img src="{% static "administratorhelp/img/gallery/6.png" %}" alt=""/>
+
+        <p>Once you have created a timetable, you will see the list view. If you want to see the week view for a specific timetable, click on the 'calendar' tab at the top of the timetable page. This will show the events for this timetable only. If you wish to see different timetables together in a calendar, you would have to look at the student interface for now and add these to a personal calendar. The option to see this in the admin interface is planned for future release. </p>
+      </div>
+    </div>
+
+
+      <div class="row clear">
+        <div class="col twelve mobile-full margin-top" id="features">
+          <h3>Timetable will continue to improve</h3>
+          <img src="{% static "administratorhelp/img/gallery/7.png" %}" alt=""/>
+
+          <p>Future releases will offer a more attractive visual style and fuller functionality to make the updating of timetables an easier task. Planned features include: 'duplicating of events, series, and modules'; 'being able to send out notifications when changes are made’, ‘being able to embed the timetable on a departmental website'; and many more. We are also aware of the fact that some events or series may not be in the system yet, or seem to be incorrect. We've done a lot of work already entering all of this data, but we would hugely value any feedback and involvement from administrators...that's you! Let us know, and we’ll do our very best to incorporate your feedback. </p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Global university footer -->
+    <div class="section dark-section" id="global-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col twelve mobile-full">
+
+            <span class="copy left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</span>
+            
+            <ul class="right">
+              <li>
+                <a href="mailto:timetables-support@caret.cam.ac.uk">Contact or give us feedback</a>
+              </li>
+              <li>
+                <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
+              </li>
+              <li>
+                <a href="//www.cam.ac.uk/about-this-site/accessibility" target="_blank">Accessibility</a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Make HTML5 video work on older browsers -->
+    <!-- <script src="http://api.html5media.info/1.1.5/html5media.min.js"></script> -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your website's ID. -->
+    <!--
+    <script>
+    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+    -->
+  </body>
+</html>

@@ -16,10 +16,16 @@ from timetables.views.viewevents import ViewEvents
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views import static
 
+import timetables.administratorhelp.urls
+
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
 TIMETABLE = r"(?P<timetable>[a-zA-Z0-9-]*)"
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
+
+    # Include timetable apps urls
+    (r'^', include(timetables.administratorhelp.urls, namespace='administratorhelp')),
 
     url(r"^$",
         IndexView.as_view(),
@@ -191,16 +197,4 @@ urlpatterns = patterns('',
     url(r'privacy$',
         static.privacy_policy,
         name="privacy_policy"),
-
-    url(r'administration/getting-started$',
-        static.admin_help_getting_started,
-        name="admin_help_getting_started"),
-
-    url(r'administration/making-changes$',
-        static.admin_help_making_changes,
-        name="admin_help_making_changes"),
-
-    url(r'administration/cancelling-events$',
-        static.admin_help_cancelling_events,
-        name="admin_help_cancelling_events"),
 )

@@ -238,8 +238,13 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     # enable the haystack app so that we can index things.
     #'haystack',
+
+    # Timetables specific apps:
     'timetables',
-    'south', # For schema migration, easy_install South to use.
+    'timetables.administratorhelp',
+
+    # For schema migration, easy_install South to use.
+    'south',
 )
 
 LOGGING = {
