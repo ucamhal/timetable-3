@@ -30,11 +30,11 @@ class ICalExporter(object):
                 "VERSION:2.0\r\n"
             for e in events:
                 event = iCalEvent()
-                event['summary'] =  '%s' % e.title
-                event['dtstart'] = DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday"))
-                event['dtend'] = DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday"))
-                event['location'] = e.location
-                event["uid"] = e.uid
+                event.add('summary', '%s' % e.title)
+                event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
+                event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
+                event.add('location', e.location)
+                event.add('uid', e.uid)
                 # If a mapping has been provided, unpack
                 metadata = e.metadata
                 protected = frozenset(event.keys())
