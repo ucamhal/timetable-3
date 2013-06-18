@@ -11,24 +11,6 @@
   {% endif %}
 {% endblock top_title %}
 
-{% block admin_actions %}
-<a href="{% url "admin timetable" timetable_thing.fullpath %}" class="pull-left">
-  <span class="icon-chevron-left"></span>Back to Timetables
-</a>
-
-<ul class="pull-right">
-  <li class="pull-left">
-    <a href="{% url "logout url" %}" class="btn btn-primary">Sign out</a>
-  </li>
-  <li class="pull-left notImplemented">
-    <a href="#" class="btn">Export to calendar app</a>
-  </li>
-  <li class="pull-left notImplemented">
-    <a href="#" class="btn">Print</a>
-  </li>
-</ul>
-{% endblock admin_actions %}
-
 {% block admin_content %}
 
 {% block locked_alert %}
@@ -46,6 +28,21 @@
   <a class="pull-left badge badge-info" href="#">&gt;</a>
 </div>
 -->
+
+<div id="adminListActions" class="clearfix">
+  <a href="{% url "admin timetable" timetable_thing.fullpath %}" class="pull-left">
+    <span class="icon-chevron-left"></span>Back to Timetables
+  </a>
+
+  <ul class="pull-right">
+    <li class="pull-left notImplemented">
+      <a href="#" class="btn">Export to calendar app</a>
+    </li>
+    <li class="pull-left notImplemented">
+      <a href="#" class="btn">Print</a>
+    </li>
+  </ul>
+</div>
 
 <div id="{% block timetable_el_id %}timetable-view{% endblock %}" class="js-timetable" data-id="{{ thing.pk }}">
   {% block timetable_tab_nav %}

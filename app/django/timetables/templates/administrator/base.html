@@ -27,6 +27,7 @@
 
     {% block top_title_right %}
     {% endblock top_title_right %}
+    <a href="{% url "logout url" %}" class="btn btn-primary pull-right">Sign out</a>
   </div>
 </div>
 {% endblock top_bar %}
@@ -34,11 +35,6 @@
 
 {% block content %}
   <div id="adminContent">
-    <div id="adminListActions" class="clearfix">
-      {% block admin_actions %}
-      <a href="{% url "logout url" %}" class="btn btn-primary pull-right">Sign out</a>
-      {% endblock admin_actions %}
-    </div>
     {% block admin_content %}
     {% endblock admin_content %}
   </div>
@@ -57,7 +53,7 @@
         </li>
       </ul>
     </div>
-    
+
     <div class="links">
       <p class="copyright-message pull-left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</p>
       <ul class="pull-right">

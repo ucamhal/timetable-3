@@ -35,8 +35,7 @@ define([
         // Only show the last add modules button if there are modules on the
         // page.
         onModelChange: function () {
-            // There is always at least 1 moduleView: the general lectures one.
-            var hasModules = this.model.get("moduleViews").length > 1 || this.model.get("newModuleViews").length > 0;
+            var hasModules = this.model.get("moduleViews").length > 0 || this.model.get("newModuleViews").length > 0;
             this.$(".js-btn-add-module").last().toggle(hasModules);
         },
 

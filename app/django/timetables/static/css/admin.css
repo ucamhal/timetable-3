@@ -62,6 +62,10 @@ a.addModule:last-child {
   margin: 8px;
 }
 
+#inputArea {
+  padding-bottom: 6px;
+}
+
 
 #inputArea div {
   margin: 0;

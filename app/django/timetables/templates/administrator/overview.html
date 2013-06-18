@@ -2,16 +2,16 @@
 {% load url from future %}
 
 {% block top_title %}
-<span class="pull-left">Timetables in </span>
+Timetables in
+{% endblock top_title %}
+
+
+{% block top_title_right %}
 <select id="iAmInput" class="pull-left js-select-faculty">
   {% for fullname, fullpath in triposes %}
     <option value="{{ fullpath }}"{% if thing.fullpath == fullpath %} selected="selected"{% endif %}>{{ fullname }}</option>
   {% endfor %}
 </select> 
-{% endblock top_title %}
-
-
-{% block top_title_right %}
 <select class="pull-right notImplemented">
   <option value="12">2012 / 2013</option>
   <option value="12">2013 / 2014</option>

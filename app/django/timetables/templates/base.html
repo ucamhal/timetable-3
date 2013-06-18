@@ -13,8 +13,6 @@
     {% endblock head %}
 
     <script type="text/javascript" src="{% static "js/libs/modernizr.js" %}"></script>
-    <script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
-
     <style>
       .notImplemented {
         display: none;
@@ -119,6 +117,7 @@
       </div>
       {% endblock footer %}
     </div>
-
+    
+    <script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
   </body>
 </html>

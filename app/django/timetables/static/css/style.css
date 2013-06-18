@@ -347,6 +347,8 @@ div#results > ul {
   overflow-y: scroll;
   overflow-x: hidden;
 
+  -webkit-overflow-scrolling: touch;
+
   position: absolute;
   top: 71px;
   bottom: 0;
@@ -641,6 +643,7 @@ div#calendarHolder {
 
 div#calendarHolder div#calendar {
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
  
@@ -697,6 +700,7 @@ div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
 
 .list-view {
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .list-view #listViewCalendar {
