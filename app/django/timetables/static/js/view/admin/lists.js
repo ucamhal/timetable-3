@@ -1560,10 +1560,8 @@ define([
                 // dialog:close is fired by the dialog when a click is made
                 // outside its area, or the close icon is clicked.
                 this.dateTimeDialog.on("dialog:close", this.closeDateTimeDialog);
-
                 this.$(".js-date-time-cell .js-dialog-holder").append(this.dateTimeDialog.$el);
-                this.dateTimeDialog.$el.show();
-                this.dateTimeDialog.$el.find("#date-time-week").focus();
+                this.dateTimeDialog.show();
 
                 this.$dateTimeWrapper.find(".event-input").addClass("being-edited");
 
@@ -1782,6 +1780,52 @@ define([
 
         onSelectChange: function (event) {
             event.stopPropagation();
+        },
+
+        /**
+         * Returns true if the popup window is located outside of the viewport.
+         */
+        outsideViewport: function () {
+            var windowTop = $(window).scrollTop(),
+                windowBottom = windowTop + $(window).height(),
+                popupTop = this.$el.offset().top,
+                popupBottom = popupTop + this.$el.height();
+
+            return popupBottom > windowBottom || popupTop < windowTop;
+        },
+
+        /**
+         * Shows the dialog and scrolls to its location if it's positioned
+         * outside the viewport.
+         */
+        show: function () {
+            var self = this;
+            this.$el.show();
+
+            if (this.outsideViewport()) {
+                this.scrollTo(function () {
+                    self.focus();
+                });
+            } else {
+                this.focus();
+            }
+        },
+
+        /**
+         * Puts the window focus on the first input element.
+         */
+        focus: function () {
+            this.$("#date-time-week").focus();
+        },
+
+        /**
+         * Scrolls the window to the location of the popup.
+         */
+        scrollTo: function (callback) {
+            var scrollPosition = this.$el.offset().top - ($(window).height() / 2 - this.$el.height() / 2);
+            $("html, body").stop().animate({
+                "scrollTop": scrollPosition
+            }, 400, callback);
         },
 
         initialize: function() {

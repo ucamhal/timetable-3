@@ -217,13 +217,12 @@ a.addModule:last-child {
 /* An element which covers the entire window behind a dialog. */
 .dialog-backdrop {
   z-index: 900;
-  background-color: black;
+  background: url(../img/backdrop-bg.png);
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.5;
 }
 
 .event select.event-type {
@@ -350,10 +349,6 @@ select.event-type {
 
 .dialog-date-time {
   background: white;
-}
-
-.dialog-backdrop-date-time {
-  opacity: .4;
 }
 
 .dialog-date-time .dialog-actions .close-btn {
