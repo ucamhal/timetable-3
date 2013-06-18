@@ -490,6 +490,7 @@ def _get_upload_path(instance, filename):
     tpart = time.strftime('%Y/%m/%d',time.gmtime())
     return "%s%s/%s" % ( settings.MEDIA_ROOT, tpart , Thing.hash(filename))
 
+
 class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
     
     PERM_READ = "eventsource.read"
@@ -498,10 +499,18 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
     
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
+
     # source url if the Event Source was loaded
-    sourceurl = models.URLField("Url", max_length=MAX_URL_LENGTH, blank=True,null=True, help_text="If not uploading, enter a URL where the server can pull the events from, must be an ical feed.")
+    sourceurl = models.CharField(
+        "Url",
+        max_length=MAX_URL_LENGTH,
+        blank=True,
+        null=True,
+        help_text="If not uploading, enter a URL where the server can "
+                  "pull the events from, must be an ical feed."
+    )
+
     # local copy of the file.
-    
     sourcefile = models.FileField(upload_to=_get_upload_path, blank=True, verbose_name="iCal file", help_text="Upload an Ical file to act as a source of events")
     
     # All rows point to a master, the master points to itself
@@ -609,10 +618,12 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
                 self.id)
 
     def on_pre_save(self, **kwargs):
-        super(Event, self).on_pre_save(**kwargs)
-
         if self.uid is None or self.uid == "":
             self.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
+
+        # Call super last as this triggers a full_clean and we need to tidy
+        # our uid up first.
+        super(Event, self).on_pre_save(**kwargs)
 
     @classmethod
     def after_bulk_operation(cls):
