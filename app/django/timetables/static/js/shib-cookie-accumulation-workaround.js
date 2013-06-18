@@ -21,7 +21,7 @@ define(["jquery"], function($) {
 
     function unsetCookie(name) {
         document.cookie = escape(name)
-            + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            + "=; expires=" + new Date(0) + "; path=/";
     }
 
     function removeShibstateCookies() {
