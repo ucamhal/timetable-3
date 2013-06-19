@@ -6,7 +6,8 @@ require.config({
         backbone: "libs/backbone",
         bootstrap: "libs/bootstrap",
         bootstrapTypeahead: "libs/bootstrap-plugins/bootstrap-typeahead",
-        fullcalendar: "libs/fullcalendar"
+        fullcalendar: "libs/fullcalendar",
+        "rangy-core": "libs/rangy-core"
     },
     shim: {
         jquery: {
@@ -27,6 +28,9 @@ require.config({
         },
         "libs/jquery-django-csrf": {
             deps: ["jquery"]
+        },
+        "rangy-core": {
+            exports: "rangy"
         }
     }
 });

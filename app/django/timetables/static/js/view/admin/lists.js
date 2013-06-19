@@ -4,9 +4,10 @@ define([
     "backbone",
     "view/admin/removeDialog",
     "util/django-forms",
+    "util/contenteditable",
     "jquery-bbq",
     "bootstrapTypeahead"
-], function($, _, Backbone, RemoveDialog, DjangoForms) {
+], function($, _, Backbone, RemoveDialog, DjangoForms, contenteditable) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -2279,6 +2280,8 @@ define([
     // This is fired when new events are added to the page.
     listEvents.on("new-events-visible", highlightEventsInHash);
     //listEvents.on("page-edited", locker.preventTimeout);
+
+    contenteditable.alwaysMaintainPlainText();
 
     return {
         ModuleView: ModuleView,
