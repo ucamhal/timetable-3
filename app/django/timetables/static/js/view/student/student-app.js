@@ -63,6 +63,7 @@ define([
             _.bindAll(this, "timetableUpdatedHandler");
             _.bindAll(this, "viewChangedHandler");
             _.bindAll(this, "resize");
+            _.bindAll(this, "onFeedClick");
 
             this.fullCalendarView = new Calendar.FullCalendarView({
                 el: ".js-calendar",
@@ -132,8 +133,35 @@ define([
             this.modulesSelector.on("partChanged", this.partChangedHandler);
             this.calendarViewNavigation.on("viewChanged", this.viewChangedHandler);
             this.modulesList.on("timetableUpdated", this.timetableUpdatedHandler);
-
+            $(".js-feed-container").on("click", this.onFeedClick);
             $(window).on("resize", this.resize).trigger("resize");
+        },
+
+        onFeedClick: function (event) {
+            // Currently disabled this in IE because there is a bootstrap issue
+            // which prevents the text from being properly selected.
+            if (!$.browser.msie) {
+                this.selectElementText($(".js-feed-container p"));
+            }
+            event.preventDefault();
+        },
+
+        /**
+         * Selects the text found in the provided element.
+         */
+        selectElementText: function ($el) {
+            if (!document.createRange) {
+                return;
+            }
+
+            var element = $el[0];
+
+            var range = document.createRange();
+            range.selectNodeContents(element);
+
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
         },
 
         resize: function () {

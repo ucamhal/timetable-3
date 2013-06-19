@@ -985,3 +985,18 @@ div#timetablesOverview {
   min-width: 126px;
   text-align: center;
 }
+
+#modal-export-to-calendar .modal-body div {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+#modal-export-to-calendar #feed {
+  border: 1px dashed #b9b9b9;
+  background: #fff6ed;
+  padding: 7px;
+}
+
+#modal-export-to-calendar #feed p {
+  display: inline;
+}

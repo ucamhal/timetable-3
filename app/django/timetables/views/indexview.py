@@ -6,6 +6,7 @@ Created on Oct 19, 2012
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.db.models import Q
+from django.contrib.sites.models import Site
 
 from timetables.models import Thing, Subjects
 
@@ -39,8 +40,16 @@ class IndexView(View):
 
 
     def get(self, request):
+        current_site = Site.objects.get_current()
+
+        # Find out the http protocol
+        http_protocol = "http://"
+        if (request.is_secure()):
+            http_protocol = "https://"
+
         context = {
-            "subjects": self.get_subjects_json()
+            "subjects": self.get_subjects_json(),
+            "site_url": http_protocol + current_site.domain
         }
         if request.user.is_authenticated():
             context["user"] = request.user

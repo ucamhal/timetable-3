@@ -31,7 +31,7 @@
 <div id="actionsContainer">
   <div class="pull-right">
     {% if loggedin %}
-      <a href="{{ ics_feed_url }}" class="btn notImplemented">Export to calendar</a>
+      <a href="#modal-export-to-calendar" class="btn" data-toggle="modal">Export to calendar</a>
     {% endif %}
   </div>
 </div>
@@ -101,7 +101,30 @@
     <br/>
     <span class="js-course-lecturer">Dr R. Harle</span>
     <div>
-    <a href="#" class="js-remove-from-timetable btn btn-danger notImplemented">Remove from timetable</a>
+      <a href="#" class="js-remove-from-timetable btn btn-danger notImplemented">Remove from timetable</a>
+    </div>
+  </div>
+
+  <div class="modal hide fade" id="modal-export-to-calendar">
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Calendar feed</h3>
+    </div>
+
+    <div class="modal-body">
+      <p>Use this URL to display your timetable feed in your calendar application:</p>
+      <div id="feed" class="js-feed-container">
+        <p>{{ site_url }}{{ ics_feed_url }}</p>
+      </div>
+
+      <h5>Instructions for Google Calendar</h5>
+      <ol>
+        <li>Log into your <a href="//google.com/calendar" target="_blank">Google Calendar</a></li>
+        <li>Click the arrow button next to "Other calendars" and select "Add by URL"</li>
+        <li>Copy and paste the link above into the "URL" box</li>
+        <li>Click "Add Calendar"</li>
+        <li>Your personal timetable is now displayed in your Google Calendar</li>
+      </ol>
     </div>
   </div>
 </div>
