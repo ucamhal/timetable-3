@@ -10,6 +10,8 @@ from django.db import models
 from django.core.signing import base64_hmac
 from django.utils.timezone import now
 from django.conf import settings
+from django.utils.crypto import constant_time_compare
+
 
 log = logging.getLogger(__name__)
 
@@ -87,27 +89,37 @@ class HierachicalSubject(object):
         # Changing that will invalidate all hmacs. Deleting the salt will invalidate
         # just hmacs for this thing.
         testmac = base64_hmac(t.metadata['salt'], t.fullpath, settings.SECRET_KEY)
-        if self.hmac == testmac:
+        if constant_time_compare(self.hmac, testmac):
             return True
         return False
 
-    def create_hmac(self):
+    def create_hmac(self, update = False):
         '''
         Creates a hmac for the Thing
+        Optionally, use update=True to force regeneration of HMAC (via salt regeneration)
         '''
         t = self._get_thing()
         if t is None:
             return None
-        metadata = t.metadata
-        if 'salt' not in metadata:
-            metadata['salt'] = Thing.hash(now().isoformat())
-            t.save()
+        self.create_salt(update)
         # This depends on setting.SECRET_KEY which should be configured for the instance
         # Changing that will invalidate all hmacs. Deleting the salt will invalidate
         # just hmacs for this thing.
         return base64_hmac(t.metadata['salt'], t.fullpath, settings.SECRET_KEY)
 
-        
+    def create_salt(self, update = False):
+        '''
+        Create or update salt in the Thing metadata.
+        Separated from create_hmac so that user salts may be regenerated independently. 
+        '''
+        t = self._get_thing()
+        metadata = t.metadata
+        if update or 'salt' not in metadata:
+            metadata['salt'] = Thing.hash(now().isoformat())
+            t.save()
+            return True
+        return False
+
     def __unicode__(self):
         return "%s  at %" % (self._get_thing(), self.fullpath)
 
