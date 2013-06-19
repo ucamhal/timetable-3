@@ -49,12 +49,14 @@ class ICalExporter(object):
                                 event.add(icalname,o)
                 else:
                     for k,v in metadata.iteritems():
-                        if k not in protected:
+                        k_uc = k.upper() # when added to iCal feed, all keys are converted to uppercase
+                        if k_uc not in protected:
+                            k = 'X-CUTT-'+k # CUTT - Cambridge University TimeTable
                             if isinstance(v, list):
                                 for e in v:
-                                    event.add(k,e)
+                                    event.add(k, e)
                             else:
-                                event[k] = v
+                                event.add(k, v)
                                 
                 event.add('priority', 5)
                 yield event.to_ical()
