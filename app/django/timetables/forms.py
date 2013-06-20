@@ -1,16 +1,17 @@
 # coding=utf-8
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.forms.models import modelformset_factory, BaseModelFormSet,\
-    inlineformset_factory
+from django.forms import widgets
+from django.forms.models import (modelformset_factory, BaseModelFormSet,
+                                 inlineformset_factory)
 from django.utils import datetime_safe as datetime
 from django.utils import timezone
 
 from timetables import models
-from timetables.utils.v1 import fullpattern
 from timetables.utils import datetimes
-from django.forms import widgets
+from timetables.utils.v1 import fullpattern
 
 
 class CommaSeparatedCharField(forms.CharField):
@@ -213,8 +214,7 @@ class EventForm(forms.ModelForm):
         week = self.cleaned_data["term_week"]
         day = self.cleaned_data["day_of_week"]
 
-        # FIXME: Year needs to be made dynamic at some point.
-        year = 2012
+        year = int(settings.DEFAULT_ACADEMIC_YEAR)
         date = datetimes.termweek_to_date(year, term, week, day)
         
         start_hour = self.cleaned_data["start_hour"]
