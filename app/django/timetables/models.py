@@ -63,9 +63,12 @@ class CleanModelMixin(object):
     saving.
     """
 
-    def on_pre_save(self, **kwargs):
-        super(CleanModelMixin, self).on_pre_save(**kwargs)
-        self.full_clean()
+    def on_pre_save(self, raw=None, **kwargs):
+        super(CleanModelMixin, self).on_pre_save(raw=raw, **kwargs)
+        # Disable validation when loading data 
+        # (as fixtures may not be in dependency order)
+        if not raw:
+            self.full_clean()
 
 
 class PostSaveMixin(object):
