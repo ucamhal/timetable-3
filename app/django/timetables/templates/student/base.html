@@ -108,23 +108,20 @@
   <div class="modal hide fade" id="modal-export-to-calendar">
     <div class="modal-header">
       <a href="#" class="close" data-dismiss="modal">&times;</a>
-      <h3>Calendar feed</h3>
+      <h3>Export to</h3>
     </div>
 
     <div class="modal-body">
-      <p>Use this URL to display your timetable feed in your calendar application:</p>
-      <div id="feed" class="js-feed-container">
-        <p>{{ site_url }}{{ ics_feed_url }}</p>
-      </div>
+      <a href="https://www.google.com/calendar/render?cid={{ site_url|urlencode }}{{ ics_feed_url|urlencode }}" target="_blank" class="btn btn-large btn-primary">Google Calendar</a>
 
-      <h5>Instructions for Google Calendar</h5>
-      <ol>
-        <li>Log into your <a href="https://www.google.com/calendar" target="_blank">Google Calendar</a></li>
-        <li>Click the arrow button next to "Other calendars" and select "Add by URL"</li>
-        <li>Copy and paste the link above into the "URL" box</li>
-        <li>Click "Add Calendar"</li>
-        <li>Your personal timetable is now displayed in your Google Calendar</li>
-      </ol>
+      <div id="feed">
+        <h5>Or get the iCal feed:</h5>
+        <div class="js-feed-container">
+          <p>{{ site_url }}{{ ics_feed_url }}</p>
+        </div>
+
+        <a href="javascript:;" class="btn btn-link pull-right notImplemented"><i class="icon-refresh"></i> reset feed</a>
+      </div>
     </div>
   </div>
 </div>

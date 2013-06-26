@@ -986,17 +986,28 @@ div#timetablesOverview {
   text-align: center;
 }
 
-#modal-export-to-calendar .modal-body div {
+#modal-export-to-calendar .modal-body {
   text-align: center;
-  margin-bottom: 25px;
 }
 
 #modal-export-to-calendar #feed {
+  text-align: left;
+  margin: 10px 0 25px 0;
+}
+
+#modal-export-to-calendar h5 {
+  margin-bottom: 3px;
+}
+
+#modal-export-to-calendar #feed div {
   border: 1px dashed #b9b9b9;
   background: #fff6ed;
   padding: 7px;
+  margin-bottom: 10px;
 }
 
-#modal-export-to-calendar #feed p {
-  display: inline;
+#modal-export-to-calendar #feed div p {
+  margin: 0;
+  text-align: center;
+  word-wrap: break-word;
 }
