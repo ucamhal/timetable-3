@@ -11,3 +11,6 @@ ALLOWED_HOSTS = ["timetable.qa.ds.lib.cam.ac.uk"]
 WSGI_APPLICATION = "timetables.wsgi.qa.application"
 
 GOOGLE_ANALYTICS_ID = "UA-__addthis__"
+
+# Make QA match the 2013-14 academic year staging server
+DEFAULT_ACADEMIC_YEAR = 2013
