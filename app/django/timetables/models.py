@@ -1166,7 +1166,6 @@ class SubjectUnifier(object):
     def get_unification(self):
         return itertools.chain.from_iterable(self.get_subject_iterables())
 
-
 class Subjects(object):
     """
     Static helper functions related to Subject objects.

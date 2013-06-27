@@ -7,6 +7,7 @@ from timetables.views import administrator
 from timetables.views.account import get_login_view, get_logout_view
 from timetables.views.calendarview import (CalendarView, CalendarHtmlView,
         EventListView)
+from timetables.views.resetfeed import ResetFeed
 from timetables.views.editthing import EditThingView
 from timetables.views.deletething import DeleteThingView
 from timetables.views.exportevents import ExportEvents
@@ -156,6 +157,10 @@ urlpatterns = patterns(
     url(r'(?P<thing>.*?)\.callist\.html$',
         EventListView.as_view(),
         name="thing calendar list"),
+
+    url(r'(?P<thing>.*?)\.resetfeed$',
+        ResetFeed.as_view(),
+        name="thing calendar reset"),
 
 
     # Update service end points

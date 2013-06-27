@@ -3,18 +3,18 @@ Created on Oct 19, 2012
 
 @author: ieb
 '''
-from django.shortcuts import render
-from django.views.generic.base import View
-from django.db.models import Q
-from django.contrib.sites.models import Site
-
-from timetables.models import Thing, Subjects
-
 import itertools
+
+from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
-from timetables.backend import GlobalThingSubject, ThingSubject
 from django.core.urlresolvers import reverse
+from django.shortcuts import render
+from django.views.generic.base import View
+
+from timetables.backend import GlobalThingSubject, ThingSubject
+from timetables.models import Thing, Subjects
+from timetables.utils.site import get_site_url_from_request
 
 class IndexView(View):
 
@@ -40,16 +40,11 @@ class IndexView(View):
 
 
     def get(self, request):
-        current_site = Site.objects.get_current()
-
-        # Find out the http protocol
-        http_protocol = "http://"
-        if (request.is_secure()):
-            http_protocol = "https://"
+        site_url = get_site_url_from_request(request)
 
         context = {
             "subjects": self.get_subjects_json(),
-            "site_url": http_protocol + current_site.domain
+            "site_url": site_url
         }
         if request.user.is_authenticated():
             context["user"] = request.user

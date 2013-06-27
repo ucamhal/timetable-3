@@ -986,11 +986,36 @@ div#timetablesOverview {
   text-align: center;
 }
 
-#modal-export-to-calendar .modal-body {
-  text-align: center;
+#modal-export-to-calendar.busy h4,
+#modal-export-to-calendar.busy .feed-container,
+#modal-export-to-calendar.busy .btn {
+  opacity: .3;
+  pointer-events: none;
 }
 
-#modal-export-to-calendar #feed {
+#modal-export-to-calendar.busy .progress {
+  display: block;
+}
+
+#modal-export-to-calendar.error .error {
+  display: block;
+}
+
+#modal-export-to-calendar .error {
+  color: #ff0000;
+  font-weight: 500;
+}
+
+#modal-export-to-calendar .btn-primary {
+  margin: 8px 0 24px 0;
+}
+
+#modal-export-to-calendar h4 {
+  margin-bottom: 3px;
+}
+
+#modal-export-to-calendar .feed-container {
+  background: #fff6ed;
   text-align: left;
   margin: 10px 0 25px 0;
 }
@@ -1001,13 +1026,12 @@ div#timetablesOverview {
 
 #modal-export-to-calendar #feed div {
   border: 1px dashed #b9b9b9;
-  background: #fff6ed;
+  margin-top: 9px;
   padding: 7px;
   margin-bottom: 10px;
 }
 
-#modal-export-to-calendar #feed div p {
+#modal-export-to-calendar .feed-container p {
   margin: 0;
-  text-align: center;
   word-wrap: break-word;
 }

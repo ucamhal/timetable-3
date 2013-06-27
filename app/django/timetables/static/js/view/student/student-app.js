@@ -4,8 +4,9 @@ define([
     "backbone",
     "view/student/modules",
     "view/admin/calendar",
-    "view/cookieHandler"
-], function ($, _, Backbone, Modules, Calendar, CookieHandler) {
+    "view/cookieHandler",
+    "view/student/export-to-calendar-popup"
+], function ($, _, Backbone, Modules, Calendar, CookieHandler, ExportToCalendarPopup) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -93,6 +94,11 @@ define([
 
             this.modulesSelector = new Modules.ModulesSelector({
                 el: ".js-modules-selector"
+            });
+
+            this.exportToCalendarPopup = new ExportToCalendarPopup({
+                el: ".js-modal-export-to-calendar",
+                resetUrl: this.getThingPath() + ".resetfeed"
             });
 
             $.get("/static/js/data/terms.json", function (terms) {
