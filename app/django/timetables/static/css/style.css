@@ -680,11 +680,19 @@ div#calendarData div.calendarNavigation ul {
   left: -15%;
 }
 
+.calendarNavigation .disabled {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+  opacity: .2;
+  cursor: default!important;
+}
+
 div#calendarData ul.calendarNavigation li {
   position: relative;
 }
 
-div#calendarData div.calendarNavigation ul li a, div#calendarData div.calendarNavigation ul li h4 {
+div#calendarData div.calendarNavigation ul li a,
+div#calendarData div.calendarNavigation ul li h4 {
   text-align: center;
 }
 

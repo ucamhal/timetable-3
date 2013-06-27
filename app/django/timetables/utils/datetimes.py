@@ -1,16 +1,15 @@
 import re, pytz, logging, operator
 from datetime import timedelta
 
-from timetables.utils.compat import Counter
-from timetables.utils.v1 import TERM_STARTS
-
 from django.utils.datetime_safe import datetime, date
-
 from django.conf import settings
+
+from timetables.utils.compat import Counter
+from timetables.utils.academicyear import (
+    TERM_STARTS, TERM_MICHAELMAS, TERM_LENT, TERM_EASTER, TERMS, TERMS_REVERSE)
 
 
 log = logging.getLogger(__name__)
-
 
 class DateComponentAccessor(object):
     """Provides access to components of dates (week days, months, etc) without 
@@ -225,15 +224,6 @@ def server_datetime_now():
     settings.
     """
     return datetime.now(server_timezone())
-
-
-TERM_MICHAELMAS, TERM_LENT, TERM_EASTER = "michaelmas", "lent", "easter"
-TERMS = {
-    TERM_MICHAELMAS: 0,
-    TERM_LENT: 1,
-    TERM_EASTER: 2
-}
-TERMS_REVERSE = dict((v,k) for k,v in TERMS.items())
 
 DAY_MON, DAY_TUE, DAY_WED, DAY_THU, DAY_FRI, DAY_SAT, DAY_SUN = (
         "mon", "tue", "wed", "thu", "fri", "sat", "sun")

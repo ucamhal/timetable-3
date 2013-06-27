@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load timetables %}
 
 {% block javascript_module %}studentIndex{% endblock javascript_module %}
 
@@ -65,7 +66,7 @@
       <li class="list js-list"><a href="#">List</a></li>
     </ul>
 
-    <div id="calendarData" class="js-calendar-navigation calendar-navigation clearfix">
+    <div id="calendarData" class="js-calendar-navigation calendarNavigation clearfix">
       <ul class="clearfix js-date-spinner js-agendaWeek week-calendar-navigation pull-left">
         <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
         <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
@@ -86,7 +87,7 @@
     </div>
   </div>
 
-  <div id="calendar" class="js-calendar">
+  <div id="calendar" class="js-calendar" data-start='{{ calendar_start }}' data-end='{{ calendar_end }}' data-terms="{{ terms|json }}">
   </div>
 
   <div class="js-list-view list-view"></div>

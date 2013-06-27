@@ -5,8 +5,9 @@ define([
     "view/student/modules",
     "view/admin/calendar",
     "view/cookieHandler",
-    "view/student/export-to-calendar-popup"
-], function ($, _, Backbone, Modules, Calendar, CookieHandler, ExportToCalendarPopup) {
+    "view/student/export-to-calendar-popup",
+    "model/calendarModel"
+], function ($, _, Backbone, Modules, Calendar, CookieHandler, ExportToCalendarPopup, CalendarModel) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -58,13 +59,8 @@ define([
 
     var Application = Backbone.Router.extend({
         initialize: function () {
-            var self = this;
-
-            _.bindAll(this, "partChangedHandler");
-            _.bindAll(this, "timetableUpdatedHandler");
-            _.bindAll(this, "viewChangedHandler");
-            _.bindAll(this, "resize");
-            _.bindAll(this, "onFeedClick");
+            _.bindAll(this);
+            this.activeView = "agendaWeek";
 
             this.fullCalendarView = new Calendar.FullCalendarView({
                 el: ".js-calendar",
@@ -101,45 +97,74 @@ define([
                 resetUrl: this.getThingPath() + ".resetfeed"
             });
 
-            $.get("/static/js/data/terms.json", function (terms) {
-                self.weekSpinner = new Calendar.DateSpinner({
-                    el: ".js-date-spinner.js-agendaWeek",
-                    type: "week",
-                    calendar: self.fullCalendarView,
-                    terms: terms
-                }),
-
-                self.termSpinner = new Calendar.DateSpinner({
-                    el: ".js-date-spinner.js-term",
-                    type: "term",
-                    calendar: self.fullCalendarView,
-                    terms: terms
-                });
-
-                self.monthSpinner = new Calendar.DateSpinner({
-                    el: ".js-date-spinner.js-month",
-                    type: "month",
-                    calendar: self.fullCalendarView,
-                    terms: terms
-                });
-
-                self.calendarSpinners = [
-                    self.weekSpinner,
-                    self.termSpinner,
-                    self.monthSpinner
-                ];
-
-                self.weekSpinner.on("change", _.bind(self.renderSpinners, self, self.weekSpinner));
-                self.termSpinner.on("change", _.bind(self.renderSpinners, self, self.termSpinner));
-                self.monthSpinner.on("change", _.bind(self.renderSpinners, self, self.monthSpinner));
-            });
+            this.initCalendar();
+            this.bindEvents();
 
             Backbone.history.start();
+            this.calendarModel.setActiveDate(new Date());
+        },
 
-            this.modulesSelector.on("partChanged", this.partChangedHandler);
-            this.calendarViewNavigation.on("viewChanged", this.viewChangedHandler);
-            this.modulesList.on("timetableUpdated", this.timetableUpdatedHandler);
+        initCalendar: function () {
+            // Subtract the data from the html
+            var rawTerms = $(".js-calendar").data("terms"),
+                calendarStart = new Date($(".js-calendar").data("start")),
+                calendarEnd = new Date($(".js-calendar").data("end")),
+                terms = [];
+
+            // Build the terms array based on the data found in the html
+            _.each(rawTerms, function (term) {
+                terms.push({
+                    name: term.name,
+                    start: new Date(term.start)
+                });
+            });
+
+            this.calendarModel = new CalendarModel({
+                terms: terms,
+                start: calendarStart,
+                end: calendarEnd
+            });
+
+            this.fullCalendarView = new Calendar.FullCalendarView({
+                el: ".js-calendar",
+                eventsFeed: this.getThingPath() + ".cal.json",
+                defaultView: "agendaWeek",
+                firstDay: 4
+            });
+
+            this.weekSpinner = new Calendar.DateSpinner({
+                el: ".js-date-spinner.js-agendaWeek"
+            });
+
+            this.termSpinner = new Calendar.DateSpinner({
+                el: ".js-date-spinner.js-term"
+            });
             $(".js-feed-container").on("click", this.onFeedClick);
+            this.monthSpinner = new Calendar.DateSpinner({
+                el: ".js-date-spinner.js-month"
+            });
+        },
+
+        bindEvents: function () {
+            this.listenTo(this.modulesSelector, "partChanged", this.partChangedHandler);
+            this.listenTo(this.calendarViewNavigation, "viewChanged", this.viewChangedHandler);
+            this.listenTo(this.modulesList, "timetableUpdated", this.timetableUpdatedHandler);
+
+            this.listenTo(this.weekSpinner, "prev", this.onWeekPrev);
+            this.listenTo(this.weekSpinner, "next", this.onWeekNext);
+
+            this.listenTo(this.termSpinner, "prev", this.onTermPrev);
+            this.listenTo(this.termSpinner, "next", this.onTermNext);
+
+            this.listenTo(this.monthSpinner, "prev", this.onMonthPrev);
+            this.listenTo(this.monthSpinner, "next", this.onMonthNext);
+
+            this.listenTo(this.calendarModel, "change:activeDate", this.onActiveDateChange);
+            this.listenTo(this.calendarModel, "change:activeTerm", this.onActiveTermChange);
+            this.listenTo(this.calendarModel, "change:activeWeek", this.onActiveWeekChange);
+            this.listenTo(this.calendarModel, "change:activeMonth", this.onActiveMonthChange);
+            this.listenTo(this.calendarModel, "change:activeMonthTerm", this.onActiveMonthTermChange);
+
             $(window).on("resize", this.resize).trigger("resize");
         },
 
@@ -170,6 +195,113 @@ define([
             selection.addRange(range);
         },
 
+        onActiveDateChange: function (model, date) {
+            this.fullCalendarView.goToDate(date);
+            this.updateWeekSpinnerButtonStates();
+            this.updateMonthSpinnerButtonStates();
+            this.updateTermSpinnerButtonStates();
+        },
+
+        onActiveTermChange: function (model) {
+            if (this.activeView === "agendaWeek") {
+                this.updateTermSpinnerLabel(model.getActiveTermName());
+            }
+        },
+
+        onActiveMonthTermChange: function (model) {
+            if (this.activeView === "list" || this.activeView === "month") {
+                this.updateTermSpinnerLabel(model.getActiveMonthTermName());
+            }
+        },
+
+        updateTermSpinnerLabel: function (termName) {
+            this.termSpinner.set({
+                value: termName || "Outside term"
+            });
+        },
+
+        onActiveWeekChange: function (model, activeWeek) {
+            this.weekSpinner.set({
+                value: activeWeek ? "Week " + activeWeek : "Outside term"
+            });
+
+            this.updateWeekSpinnerButtonStates();
+        },
+
+        onActiveMonthChange: function (model, activeMonth) {
+            this.monthSpinner.set({
+                value: activeMonth
+            });
+            this.updateMonthSpinnerButtonStates();
+
+            if (this.activeView !== "agendaWeek") {
+                this.onActiveTermChange(this.calendarModel);
+                if (this.activeView === "list") {
+                    this.listView.setActiveDate(model.getActiveDate());
+                }
+            }
+        },
+
+        updateMonthSpinnerButtonStates: function () {
+            var model = this.calendarModel,
+                activeDate = model.getActiveDate(),
+                nextMonth = model.moveDateToNextMonth(activeDate),
+                prevMonth = model.moveDateToPrevMonth(activeDate),
+                prevMonthPossible = model.isMonthWithinBoundaries(prevMonth),
+                nextMonthPossible = model.isMonthWithinBoundaries(nextMonth);
+
+            this.monthSpinner.set({
+                prev: prevMonthPossible,
+                next: nextMonthPossible
+            });
+        },
+
+        updateTermSpinnerButtonStates: function () {
+            var model = this.calendarModel;
+            this.termSpinner.set({
+                prev: model.getPrevTermForDate(model.getActiveDate()),
+                next: model.getNextTermForDate(model.getActiveDate())
+            });
+        },
+
+        updateWeekSpinnerButtonStates: function () {
+            var model = this.calendarModel,
+                activeDate = model.getActiveDate(),
+                nextWeek = model.moveDateToNextWeek(activeDate),
+                prevWeek = model.moveDateToPrevWeek(activeDate),
+                prevWeekPossible = model.isCambridgeWeekWithinBoundaries(prevWeek),
+                nextWeekPossible = model.isCambridgeWeekWithinBoundaries(nextWeek);
+
+            this.weekSpinner.set({
+                prev: prevWeekPossible,
+                next: nextWeekPossible
+            });
+        },
+
+        onWeekPrev: function () {
+            this.calendarModel.goToPrevCambridgeWeek();
+        },
+
+        onWeekNext: function () {
+            this.calendarModel.goToNextCambridgeWeek();
+        },
+
+        onMonthPrev: function () {
+            this.calendarModel.goToPrevMonthFirstThursday();
+        },
+
+        onMonthNext: function () {
+            this.calendarModel.goToNextMonthFirstThursday();
+        },
+
+        onTermPrev: function () {
+            this.calendarModel.goToPrevTerm();
+        },
+
+        onTermNext: function () {
+            this.calendarModel.goToNextTerm();
+        },
+
         resize: function () {
             var windowWidth = $(window).width(),
                 windowHeight = $(window).height(),
@@ -197,18 +329,6 @@ define([
             $(".js-list-view").height(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
             this.fullCalendarView.setHeight(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
             this.fullCalendarView.eventPopup.toggle(false);
-        },
-
-        renderSpinners: function (changedSpinner) {
-            _.each(this.calendarSpinners, function (spinner) {
-                if (spinner !== changedSpinner) {
-                    spinner.render();
-                }
-            });
-
-            if (this.activeView === "list") {
-                this.listView.setActiveDate(this.fullCalendarView.getActiveDate());
-            }
         },
 
         timetableUpdatedHandler: function () {
@@ -264,31 +384,38 @@ define([
 
                 switch (activeView) {
                 case "month":
-                    $(".js-agendaWeek", ".js-calendar-navigation").hide();
                     this.listView.hide();
+                    $(".js-agendaWeek", ".js-calendar-navigation").hide();
+
                     $(".js-month, .js-term", ".js-calendar-navigation").show();
                     this.fullCalendarView.show();
                     this.fullCalendarView.setView("month");
+
+                    this.updateTermSpinnerLabel(this.calendarModel.getActiveMonthTermName());
                     break;
                 case "list":
-                    $(".js-agendaWeek", ".js-calendar-navigation").hide();
                     this.fullCalendarView.hide();
+                    $(".js-agendaWeek", ".js-calendar-navigation").hide();
+
                     $(".js-month, .js-term", ".js-calendar-navigation").show();
                     this.fullCalendarView.setView("month");
-                    this.listView.setActiveDate(this.fullCalendarView.getActiveDate());
+
+                    this.listView.setActiveDate(this.calendarModel.getActiveDate());
                     this.listView.show();
+
+                    this.updateTermSpinnerLabel(this.calendarModel.getActiveMonthTermName());
                     break;
                 case "agendaWeek":
                     $(".js-month", ".js-calendar-navigation").hide();
                     this.listView.hide();
+
                     $(".js-agendaWeek, .js-term", ".js-calendar-navigation").show();
                     this.fullCalendarView.show();
-                    this.fullCalendarView.setView(activeView);
+                    this.fullCalendarView.setView("agendaWeek");
+
+                    this.updateTermSpinnerLabel(this.calendarModel.getActiveTermName());
                     break;
                 }
-
-                this.renderSpinners();
-                this.termSpinner.updateActiveTermData();
             }
         }
     });

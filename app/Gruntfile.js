@@ -27,8 +27,11 @@ module.exports = function (grunt) {
     var jsBasePath = "django/timetables/static/js/",
         jsFiles = [
             jsBasePath + "*.js",
+            jsBasePath + "model/**/*.js",
             jsBasePath + "view/**/*.js",
             jsBasePath + "util/**/*.js",
+            jsBasePath + "test/main.js",
+            jsBasePath + "test/tests/**/*.js",
             "Gruntfile.js"
         ];
 

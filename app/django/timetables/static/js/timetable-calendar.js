@@ -1,52 +1,141 @@
 define([
     "jquery",
     "underscore",
+    "backbone",
     "view/admin/calendar",
     "view/cookieHandler",
+    "model/calendarModel",
     "bootstrap",
     "fullcalendar",
     "not-implemented-tooltips"
-], function($, _, Calendar, CookieHandler) {
+], function($, _, Backbone, Calendar, CookieHandler, CalendarModel) {
     "use strict";
 
-    var calendar = new Calendar.FullCalendarView({
-        el: $(".js-calendar"),
-        defaultView: "agendaWeek",
-        firstDay: 4,
-        eventsFeed: $(".js-calendar").data("events-url")
+    var TimetableCalendar = Backbone.View.extend({
+        initialize: function () {
+            _.bindAll(this);
+
+            // Subtract the data from the html
+            var rawTerms = $(".js-calendar").data("terms"),
+                calendarStart = new Date($(".js-calendar").data("start")),
+                calendarEnd = new Date($(".js-calendar").data("end")),
+                terms = [];
+
+            // Build the terms array based on the data found in the html
+            _.each(rawTerms, function (term) {
+                terms.push({
+                    name: term.name,
+                    start: new Date(term.start)
+                });
+            });
+
+            this.calendarModel = new CalendarModel({
+                terms: terms,
+                start: calendarStart,
+                end: calendarEnd
+            });
+
+            this.calendar = new Calendar.FullCalendarView({
+                el: $(".js-calendar"),
+                defaultView: "agendaWeek",
+                firstDay: 4,
+                eventsFeed: $(".js-calendar").data("events-url")
+            });
+
+            this.weekSpinner = new Calendar.DateSpinner({
+                el: ".js-date-spinner.js-week"
+            });
+
+            this.termSpinner = new Calendar.DateSpinner({
+                el: ".js-date-spinner.js-term"
+            });
+
+            this.bindEvents();
+
+            this.calendarModel.setActiveDate(new Date());
+        },
+
+        bindEvents: function () {
+            this.listenTo(this.weekSpinner, "prev", this.onWeekPrev);
+            this.listenTo(this.weekSpinner, "next", this.onWeekNext);
+
+            this.listenTo(this.termSpinner, "prev", this.onTermPrev);
+            this.listenTo(this.termSpinner, "next", this.onTermNext);
+
+            this.listenTo(this.calendarModel, "change:activeDate", this.onActiveDateChange);
+            this.listenTo(this.calendarModel, "change:activeTerm", this.onActiveTermChange);
+            this.listenTo(this.calendarModel, "change:activeWeek", this.onActiveWeekChange);
+
+            $(window).on("resize", this.resize);
+        },
+
+        onActiveDateChange: function (model, date) {
+            this.calendar.goToDate(date);
+            this.updateWeekSpinnerButtonStates();
+            this.updateTermSpinnerButtonStates();
+        },
+
+        onActiveTermChange: function (model) {
+            this.termSpinner.set({
+                value: model.getActiveTermName() || "Outside term"
+            });
+        },
+
+        onActiveWeekChange: function (model, activeWeek) {
+            this.weekSpinner.set({
+                value: activeWeek ? "Week " + activeWeek : "Outside term"
+            });
+
+            this.updateWeekSpinnerButtonStates();
+        },
+
+        updateWeekSpinnerButtonStates: function () {
+            var model = this.calendarModel,
+                activeDate = model.getActiveDate(),
+                nextWeek = model.moveDateToNextWeek(activeDate),
+                prevWeek = model.moveDateToPrevWeek(activeDate),
+                prevWeekPossible = model.isCambridgeWeekWithinBoundaries(prevWeek),
+                nextWeekPossible = model.isCambridgeWeekWithinBoundaries(nextWeek);
+
+            this.weekSpinner.set({
+                prev: prevWeekPossible,
+                next: nextWeekPossible
+            });
+        },
+
+        onWeekPrev: function () {
+            this.calendarModel.goToPrevCambridgeWeek();
+        },
+
+        onWeekNext: function () {
+            this.calendarModel.goToNextCambridgeWeek();
+        },
+
+        onTermPrev: function () {
+            this.calendarModel.goToPrevTerm();
+        },
+
+        onTermNext: function () {
+            this.calendarModel.goToNextTerm();
+        },
+
+        updateTermSpinnerButtonStates: function () {
+            var model = this.calendarModel;
+            this.termSpinner.set({
+                prev: model.getPrevTermForDate(model.getActiveDate()),
+                next: model.getNextTermForDate(model.getActiveDate())
+            });
+        },
+
+        resize: function () {
+            this.calendar.eventPopup.updatePosition();
+        }
     });
 
-    $.get("/static/js/data/terms.json", function (terms) {
-        var weekSpinner = new Calendar.DateSpinner({
-            el: ".js-date-spinner.js-week",
-            type: "week",
-            calendar: calendar,
-            terms: terms
-        });
-
-        var termSpinner = new Calendar.DateSpinner({
-            el: ".js-date-spinner.js-term",
-            type: "term",
-            calendar: calendar,
-            terms: terms
-        });
-
-        weekSpinner.on("change", function () {
-            termSpinner.render();
-        });
-
-        termSpinner.on("change", function () {
-            weekSpinner.render();
-        });
-    });
 
     new CookieHandler({
         el: ".js-cookie-alert"
     });
 
-    $(window).resize(function () {
-        calendar.eventPopup.updatePosition();
-    });
-
-    return undefined;
+    return new TimetableCalendar();
 });

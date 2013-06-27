@@ -1,9 +1,8 @@
 {% extends "administrator/timetableBase.html" %}
 {% load url from future %}
-
+{% load timetables %}
 
 {% block javascript_module %}timetable-calendar{% endblock javascript_module %}
-
 
 {% block timetable_tab_nav %}
 <ul class="nav nav-tabs">
@@ -43,7 +42,7 @@
   </div>
 </div>
 
-<div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}?depth={{ depth|urlencode }}"></div>
+<div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}?depth={{ depth|urlencode }}" data-start="{{ calendar_start }}" data-end="{{ calendar_end }}" data-terms="{{ terms|json }}"></div>
 
 <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
   <div class="arrow"></div>

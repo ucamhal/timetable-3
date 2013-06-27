@@ -285,386 +285,59 @@ define([
         }
     });
 
-
-
     var DateSpinner = Backbone.View.extend({
+        initialize: function () {
+            _.bindAll(this);
+
+            this.model = new Backbone.Model({
+                next: true,
+                prev: true,
+                value: undefined
+            });
+
+            this.$label = this.$(".js-value");
+            this.bindEvents();
+        },
+
+        set: function (data) {
+            this.model.set(data);
+        },
+
+        bindEvents: function () {
+            this.listenTo(this.model, "change", this.render);
+        },
+
+        render: function () {
+            this.updateLabel();
+            this.updateButtons();
+        },
+
+        updateLabel: function () {
+            this.$label.text(this.model.get("value"));
+        },
+
+        updateButtons: function () {
+            this.$(".js-prev").toggleClass("disabled", !this.model.get("prev"));
+            this.$(".js-next").toggleClass("disabled", !this.model.get("next"));
+        },
 
         events: {
-            "click .js-prev" : "onPrevious",
-            "click .js-next" : "onNext"
+            "click .js-prev": "onClickPrevious",
+            "click .js-next": "onClickNext"
         },
 
-        initialize: function (opts) {
-            this.type = opts.type || "week";
-
-            if (typeof opts.calendar !== "undefined" || !(opts.calendar instanceof FullCalendarView)) {
-                this.calendar = opts.calendar;
-            } else {
-                console.error("DateSpinners need an instance of FullCalendarView to operate");
+        onClickPrevious: function (event) {
+            if (this.model.get("prev")) {
+                this.trigger("prev");
             }
-
-            if (typeof opts.terms !== "undefined") {
-                this.terms = opts.terms;
-            } else {
-                console.error("DateSpinners need a terms object to operate");
-            }
-
-            this.render();
-        },
-
-        /**
-         * Renders the dateSpinner to expose the correct active values
-         */
-        render: function () {
-            this.updateActiveTermData();
-            this.$(".js-value").text(_.capitalize(this.getValue()));
-        },
-
-        /**
-         * Updates the activeTermData object with new values based on the active
-         *        calendar date
-         */
-        updateActiveTermData: function () {
-            if (this.type === "term" && this.calendar.getViewName() === "month") {
-                this.activeTermData = this.getTermDataForMonth(this.calendar.getActiveDate());
-            } else {
-                this.activeTermData = this.getTermDataForDate(this.calendar.getActiveDate());
-            }
-        },
-
-        /**
-         * Returns the value of the datespinner
-         * @return {string} The current value of the dateSpinner
-         *        (dependant on the type)
-         */
-        getValue: function () {
-            var value = "";
-            switch (this.type) {
-            case "week":
-                value = this.getActiveWeekString();
-                break;
-            case "term":
-                value = this.getActiveTermString();
-                break;
-            case "month":
-                value = this.getActiveMonthString();
-            }
-            return value;
-        },
-
-        /**
-         * Returns the currently active month e.g. January
-         * @return {string} The currently active month
-         */
-        getActiveMonthString: function () {
-            return $.fullCalendar.formatDate(this.calendar.getActiveDate(), "MMMM");
-        },
-
-        /**
-         * Returns the currently active week withing the currently active term
-         *        in a nice string format e.g. Week 3
-         * @return {string} A string representing the currently active week
-         *        within the active term
-         */
-        getActiveWeekString: function () {
-            var activeWeekString = "Outside term";
-            if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "week")) {
-                activeWeekString = "Week " + this.activeTermData.week;
-            }
-            return activeWeekString;
-        },
-
-        /**
-         * Returns the currently active term in a nice string format
-         * @return {string} The currently active term
-         */
-        getActiveTermString: function () {
-            var activeTermString = "No active term";
-            if (typeof this.activeTermData !== "undefined" && _.has(this.activeTermData, "term")) {
-                activeTermString = this.activeTermData.term;
-            }
-            return activeTermString;
-        },
-
-        /**
-         * Eventhandler that gets triggered when the previous button is clicked
-         * moves the calendar to the correct time
-         */
-        onPrevious: function (event) {
-            switch (this.type) {
-            case "week":
-                this.goToPreviousWeek();
-                break;
-            case "month":
-                this.goToPreviousMonth();
-                break;
-            case "term":
-                this.goToPreviousTerm();
-                break;
-            }
-            this.render();
-            this.trigger("change");
-
-            //fix for safari 6 not updating the heading dates
-            this.calendar.$el.trigger("scroll");
-
             event.preventDefault();
         },
 
-        /**
-         * Moves the calendar to the previous week
-         */
-        goToPreviousWeek: function () {
-            this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() - (1000 * 60 * 60 * 24 * 7)));
-        },
-
-        /**
-         * Moves the calendar back one month
-         */
-        goToPreviousMonth: function () {
-            var activeDate = this.calendar.getActiveDate();
-            this.calendar.goToDate(new Date(activeDate.getFullYear(), activeDate.getMonth() - 1, 1));
-        },
-
-        /**
-         * Moves the calendar to the previous term
-         */
-        goToPreviousTerm: function () {
-            if (typeof this.activeTermData !== "undefined") {
-                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("backwards", this.calendar.getViewName() === "month"));
-            } else {
-                this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "backwards"));
+        onClickNext: function (event) {
+            if (this.model.get("next")) {
+                this.trigger("next");
             }
-        },
-
-        /**
-         * Eventhandler that gets triggered when the next button is clicked
-         * moves the calendar to the correct time
-         */
-        onNext: function (event) {
-            switch (this.type) {
-            case "week":
-                this.goToNextWeek();
-                break;
-            case "month":
-                this.goToNextMonth();
-                break;
-            case "term":
-                this.goToNextTerm();
-                break;
-            }
-            this.render();
-            this.trigger("change");
-
-            //fix for safari 6 not updating the heading dates
-            this.calendar.$el.trigger("scroll");
-
             event.preventDefault();
-        },
-
-        /**
-         * Moves the calendar to the next week
-         */
-        goToNextWeek: function () {
-            this.calendar.goToDate(new Date(this.calendar.getActiveDate().valueOf() + (1000 * 60 * 60 * 24 * 7)));
-        },
-
-        /**
-         * Moves the calendar forwards on month
-         */
-        goToNextMonth: function () {
-            var activeDate = this.calendar.getActiveDate();
-            this.calendar.goToDate(new Date(activeDate.getFullYear(), activeDate.getMonth() + 1, 1));
-        },
-
-        /**
-         * Moves the calendar to the next term
-         */
-        goToNextTerm: function () {
-            if (typeof this.activeTermData !== "undefined") {
-                this.calendar.goToDate(this.getRelativeTermDateFromActiveTerm("forwards", this.calendar.getViewName() === "month"));
-            } else {
-                this.calendar.goToDate(this.getRelativeTermDateFromDate(this.calendar.getActiveDate(), "forwards"));
-            }
-        },
-
-        getTermDataForMonth: function (date) {
-            var month = date.getMonth(),
-                terms = this.getTermsForDateYear(date),
-                activeTermData,
-                selectedMonth,
-                self = this;
-
-            _.each(terms, function (termData, termName) {
-                if (typeof activeTermData === "undefined") {
-                    _.each(termData, function (weekStartDate, weekNr) {
-                        selectedMonth = self.parseDate(weekStartDate).getMonth();
-                        if (selectedMonth === month) {
-                            activeTermData = {
-                                week: weekNr,
-                                date: self.parseDate(weekStartDate),
-                                term: termName
-                            };
-                        }
-                    });
-                }
-            });
-
-            return activeTermData;
-        },
-
-        /**
-         * Returns term data for the week the date is in.
-         * @param {object} date This is the date that will be used to find the
-         *        correct term data.
-         * @param {string} rel Look forwards or backwards from date if date is
-         *        not a Thursday. (if date is not a thursday it moves to the
-         *        closest Thursday using the direction defined here)
-         * @return {object} Object containing term data of the term the date
-         *        falls in.
-         */
-        getTermDataForDate: function (date, rel) {
-            var self = this,
-                terms = this.getTermsForDateYear(date),
-                direction = rel || "backwards",
-                activeTermData,
-                activeDate = this.getClosestThursdayFromDate(date, direction),
-
-                activeYear = activeDate.getFullYear(),
-                activeMonth = (String(activeDate.getMonth() + 1).length === 1 ? "0" + (activeDate.getMonth() + 1) : activeDate.getMonth() + 1),
-                activeDay = (String(activeDate.getDate()).length === 1 ? "0" + activeDate.getDate() : activeDate.getDate()),
-
-                activeDateString = activeYear + "-" + activeMonth + "-" + activeDay;
-
-            _.each(terms, function (termData, termName) {
-                if (typeof activeTermData === "undefined") {
-                    _.each(termData, function (weekStartDate, weekNr) {
-                        if (weekStartDate === activeDateString) {
-                            activeTermData = {
-                                week: weekNr,
-                                date: self.parseDate(weekStartDate),
-                                term: termName
-                            };
-                        }
-                    });
-                }
-            });
-
-            return activeTermData;
-        },
-
-        /*
-         * Finds first possible next or previous date that falls inside a term.
-         *        Starts searching from the given date.
-         * @param {object} data The date to start searching from.
-         * @param {string} rel The direction to look, forwards by default.
-         * @return {object} The closest date relative to the provided date that
-         *        falls inside a term.
-         */
-        getRelativeTermDateFromDate: function (date, rel) {
-            var direction = rel || "forwards",
-                termData,
-                termDate = date,
-                dateIterator = direction === "forwards" ? (1000 * 60 * 60 * 24 * 7) : -(1000 * 60 * 60 * 24 * 7),
-                i = 0;
-
-            while (typeof termData === "undefined" && i < 52) {
-                termData = this.getTermDataForDate(termDate, direction);
-                termDate = new Date(termDate.valueOf() + dateIterator);
-                i += 1;
-            }
-
-            return termData ? termData.date : this.calendar.getActiveDate();
-        },
-
-        /**
-         * Converts a date string to a js Date object. Expects string format to be yyyy-mm-dd
-         * @param {string} dateString The date string to be converted.
-         * @return {object} The string as a Date object.
-         */
-        parseDate: function (dateString) {
-            var parts = dateString.match(/(\d+)/g);
-            return new Date(parts[0], parts[1] - 1, parts[2]);
-        },
-
-        /**
-         * Gets the date for the next or previous term based on the currently
-         *        active term. Remembers the currently active week.
-         * @param {string} rel The direction to go, either forwards of
-         *        backwards, forwards by default.
-         * @return {object} Date object that falls within next or previous term.
-         */
-        getRelativeTermDateFromActiveTerm: function (rel, forceFirstWeek) {
-            var activeYear = this.getAcademicStartYearFromDate(this.activeTermData.date),
-                termDate,
-                direction = rel || "forwards",
-                weekNr = forceFirstWeek ? 1 : this.activeTermData.week;
-
-            switch (this.activeTermData.term) {
-            case "michaelmas":
-                if (direction === "forwards" && this.terms[activeYear]) {
-                    termDate = this.terms[activeYear].lent[weekNr];
-                } else if (this.terms[activeYear - 1]) {
-                    termDate = this.terms[activeYear - 1].easter[weekNr];
-                }
-                break;
-            case "lent":
-                if (this.terms[activeYear]) {
-                    if (direction === "forwards") {
-                        termDate = this.terms[activeYear].easter[weekNr];
-                    } else {
-                        termDate = this.terms[activeYear].michaelmas[weekNr];
-                    }
-                }
-                break;
-            case "easter":
-                if (direction === "forwards" && this.terms[activeYear + 1]) {
-                    termDate = this.terms[activeYear + 1].michaelmas[weekNr];
-                } else if(this.terms[activeYear]) {
-                    termDate = this.terms[activeYear].lent[weekNr];
-                }
-                break;
-            }
-
-            return termDate ? this.parseDate(termDate) : this.calendar.getActiveDate();
-        },
-
-        /**
-         * Returns the closest thursday from a given date
-         * @param {object} date This is the date to search from.
-         * @param {string} rel "next" or "previous", "previous" by default.
-         *        Determines whether to look forwards or backwards from given date
-         * @return {object} A date object representing the closest Thursday
-         */
-        getClosestThursdayFromDate: function (date, rel) {
-            var iteration = rel === "backwards" ? -(1000 * 60 * 60 * 24) : (1000 * 60 * 60 * 24);
-            while (date.getDay() !== 4) {
-                date = new Date(date.valueOf() + iteration);
-            }
-            return date;
-        },
-
-        /*
-         * Returns all possible terms for the year the given date falls in.
-         * @param {object} The date/year to fetch the terms from.
-         * @return {object} All terms for the provided year.
-         */
-        getTermsForDateYear: function (date) {
-            var terms = false,
-                activeYear = this.getAcademicStartYearFromDate(date);
-            if (_.has(this.terms, activeYear)) {
-                terms = this.terms[activeYear];
-            }
-            return terms;
-        },
-
-        /**
-         * Gets the academic year from a date object.
-         * @param {object} date The date to get the academic year from.
-         * @return {number} The academic year for the provided date.
-         */
-        getAcademicStartYearFromDate: function (date) {
-            return date.getMonth() < 9 ? date.getFullYear() - 1 : date.getFullYear();
         }
     });
 

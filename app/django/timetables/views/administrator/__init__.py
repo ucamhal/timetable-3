@@ -3,6 +3,7 @@ import json
 import re
 import itertools
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django import http
@@ -23,6 +24,7 @@ from braces.views import LoginRequiredMixin, SuperuserRequiredMixin
 from timetables import models
 from timetables import forms
 from timetables.utils.xact import xact
+from timetables.utils.academicyear import AcademicYear
 from timetables.views import indexview
 
 
@@ -449,8 +451,18 @@ def calendar_view(request, thing=None):
     if request.GET.get('depth'):
         depth = request.GET['depth']
 
-    return shortcuts.render(request, "administrator/timetableCalendar.html",
-            {"thing": thing, "may_edit": may_edit, "timetable_thing": timetable_thing, "depth": depth})
+    # Get the cambridge year data for the acadamic year set in the settings.
+    acadamic_year = AcademicYear.for_year(settings.DEFAULT_ACADEMIC_YEAR)
+
+    return shortcuts.render(request, "administrator/timetableCalendar.html", {
+        "thing": thing,
+        "may_edit": may_edit,
+        "timetable_thing": timetable_thing,
+        "depth": depth,
+        "terms": acadamic_year.get_terms_json(),
+        "calendar_start": acadamic_year.start_boundary.isoformat(),
+        "calendar_end": acadamic_year.end_boundary.isoformat()
+    })
 
 
 @login_required
