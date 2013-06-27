@@ -55,9 +55,8 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "syslog": {
-            "format": "timetables: %(message)s",
-            "datefmt": "[%Y-%m-%d %H:%M:%S]"
+        "json": {
+            "()": "jsonlogging.get_json_formatter"
         }
     },
     "handlers": {
@@ -66,7 +65,7 @@ LOGGING = {
             "class": "logging.handlers.SysLogHandler",
             "facility": SysLogHandler.LOG_LOCAL6,
             "address": "/dev/log",
-            "formatter": "syslog"
+            "formatter": "json"
         }
     },
     "loggers": {
