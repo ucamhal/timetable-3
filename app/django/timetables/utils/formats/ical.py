@@ -21,6 +21,27 @@ class ICalExporter(object):
     An iCal Exporter.
     '''
 
+    def _join_comma_and(self, items):
+        """
+        Join a list of items in the normal English eay, e.g.
+        "thing1, thing2, thing3 and thing4"
+        """
+        if not items:
+            return ""
+        if len(items) == 1:
+            return str(items[0])
+        return " and ".join([", ".join(items[:-1]), items[-1]])
+
+    def _build_description(self, event):
+        """
+        Get a description for the event.
+        """
+        # Build a comma and "and" separated string of people, e.g.
+        # Mr Foo, Mr Bar and Mr Baz
+        people = self._join_comma_and(event.metadata.get("people"))
+
+        return "with {}.".format(people)
+
     def export(self, events, metadata_names=None, feed_name="events"):
         '''
         Creates a streaming http response of ical data representing the contents of the events sequence
@@ -41,6 +62,7 @@ class ICalExporter(object):
                 event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
                 event.add('location', e.location)
                 event.add('uid', e.get_ical_uid())
+                event.add('description', self._build_description(e))
                 # If a mapping has been provided, unpack
                 metadata = e.metadata
                 protected = frozenset(event.keys())
