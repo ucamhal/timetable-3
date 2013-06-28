@@ -100,15 +100,15 @@ define([
         initCalendar: function () {
             // Subtract the data from the html
             var rawTerms = $(".js-calendar").data("terms"),
-                calendarStart = new Date($(".js-calendar").data("start")),
-                calendarEnd = new Date($(".js-calendar").data("end")),
+                calendarStart = $.fullCalendar.parseDate($(".js-calendar").data("start")),
+                calendarEnd = $.fullCalendar.parseDate($(".js-calendar").data("end")),
                 terms = [];
 
             // Build the terms array based on the data found in the html
             _.each(rawTerms, function (term) {
                 terms.push({
                     name: term.name,
-                    start: new Date(term.start)
+                    start: $.fullCalendar.parseDate(term.start)
                 });
             });
 
