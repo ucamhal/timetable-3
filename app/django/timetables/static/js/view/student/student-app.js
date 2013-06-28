@@ -62,13 +62,6 @@ define([
             _.bindAll(this);
             this.activeView = "agendaWeek";
 
-            this.fullCalendarView = new Calendar.FullCalendarView({
-                el: ".js-calendar",
-                eventsFeed: this.getThingPath() + ".cal.json",
-                defaultView: "agendaWeek",
-                firstDay: 4
-            });
-
             this.listView = new Modules.ListView({
                 el: ".js-list-view",
                 thingPath: this.getThingPath()
