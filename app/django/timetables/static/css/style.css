@@ -1019,24 +1019,15 @@ div#timetablesOverview {
 }
 
 #modal-export-to-calendar h4 {
+  font-size: 1.2em;
   margin-bottom: 3px;
 }
 
 #modal-export-to-calendar .feed-container {
   background: #fff6ed;
-  text-align: left;
-  margin: 10px 0 25px 0;
-}
-
-#modal-export-to-calendar h5 {
-  margin-bottom: 3px;
-}
-
-#modal-export-to-calendar #feed div {
   border: 1px dashed #b9b9b9;
   margin-top: 9px;
   padding: 7px;
-  margin-bottom: 10px;
 }
 
 #modal-export-to-calendar .feed-container p {
