@@ -227,11 +227,8 @@ define([
             });
             this.updateMonthSpinnerButtonStates();
 
-            if (this.activeView !== "agendaWeek") {
-                this.onActiveTermChange(this.calendarModel);
-                if (this.activeView === "list") {
-                    this.listView.setActiveDate(model.getActiveDate());
-                }
+            if (this.activeView === "list") {
+                this.listView.setActiveDate(model.getActiveDate());
             }
         },
 
@@ -250,10 +247,19 @@ define([
         },
 
         updateTermSpinnerButtonStates: function () {
-            var model = this.calendarModel;
+            var model = this.calendarModel,
+                activeTerm = model.get("activeTerm"),
+                activeDate;
+
+            if (this.activeView === "month") {
+                activeTerm = model.get("activeMonthTerm");
+            }
+
+            activeDate = activeTerm ? activeTerm.start : model.getActiveDate();
+
             this.termSpinner.set({
-                prev: model.getPrevTermForDate(model.getActiveDate()),
-                next: model.getNextTermForDate(model.getActiveDate())
+                prev: model.getPrevTermForDate(activeDate),
+                next: model.getNextTermForDate(activeDate)
             });
         },
 
@@ -385,6 +391,7 @@ define([
                     this.fullCalendarView.setView("month");
 
                     this.updateTermSpinnerLabel(this.calendarModel.getActiveMonthTermName());
+                    this.updateTermSpinnerButtonStates();
                     break;
                 case "list":
                     this.fullCalendarView.hide();
@@ -397,6 +404,7 @@ define([
                     this.listView.show();
 
                     this.updateTermSpinnerLabel(this.calendarModel.getActiveMonthTermName());
+                    this.updateTermSpinnerButtonStates();
                     break;
                 case "agendaWeek":
                     $(".js-month", ".js-calendar-navigation").hide();
@@ -407,6 +415,7 @@ define([
                     this.fullCalendarView.setView("agendaWeek");
 
                     this.updateTermSpinnerLabel(this.calendarModel.getActiveTermName());
+                    this.updateTermSpinnerButtonStates();
                     break;
                 }
             }
