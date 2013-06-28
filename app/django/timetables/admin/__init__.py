@@ -14,6 +14,10 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = EventSource
 
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields["uid"].required = False
+
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm

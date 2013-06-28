@@ -1,29 +1,31 @@
 # This is the holder for the model.
 
+from itertools import chain
+import base64
 import datetime
 import hashlib
-import base64
-import os
-import time
-import pytz
 import logging
-from itertools import chain
-import unicodedata
+import os
+import pytz
 import re
+import time
+import unicodedata
+import uuid
 
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.core import exceptions
 from django.db import models, connection
 from django.db.models.signals import pre_save, post_save
-from django.conf import settings
+from django.utils import decorators
 from django.utils import simplejson as json
 from django.utils import timezone
-from django.contrib.auth.models import User
 from django.utils.timezone import now
-from django.core import exceptions
-from django.utils import decorators
 
+from timeit import itertools
 from timetables import managers
 from timetables.utils import xact
-from timeit import itertools
 
 
 log = logging.getLogger(__name__)
@@ -585,7 +587,7 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
     endtz = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The timezone in which end time was entered", default=settings.TIME_ZONE)
     title = models.CharField(max_length=MAX_LONG_NAME, help_text="Title of the event")
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
-    uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
+    uid = models.CharField(max_length=MAX_UID_LENGTH, unique=True, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
     # All rows point to a master, the master points to itself
     master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
@@ -620,9 +622,32 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
                 self.start_local(timezone.utc), self.end_local(timezone.utc),
                 self.id)
 
+    def get_ical_uid(self, domain=None):
+        """
+        Get a UID for this event for use in iCalendar documents.
+
+        This consists of the Event.uid with @domain appended. If no
+        domain is provided the current domain from the sites framework
+        is used.
+        """
+        if domain is None:
+            # Note that get_current() is cached by django so doesn't
+            # execute a db query for each call.
+            domain = Site.objects.get_current().domain
+
+        # iCalendar UIDs must be globally unique. It is recommended that
+        # this is achieved by using the format
+        # [locally-unique string]@[hostname].
+        return "{!s}@{!s}".format(self.uid, domain)
+
+    def regenerate_uid(self):
+        # Use a random (type 4) UUID as our local unique identifier for
+        # events.
+        self.uid = str(uuid.uuid4())
+
     def on_pre_save(self, **kwargs):
-        if self.uid is None or self.uid == "":
-            self.uid = HierachicalModel.hash("%s@%s" % (time.time(), settings.INSTANCE_NAME))
+        if not self.uid:
+            self.regenerate_uid()
 
         # Call super last as this triggers a full_clean and we need to tidy
         # our uid up first.

@@ -3,19 +3,24 @@ Created on Oct 17, 2012
 
 @author: ieb
 '''
-from icalendar import Event as iCalEvent
-from django.http import HttpResponse
-from icalendar.cal import Calendar, Alarm
-from timetables.models import Event
 import datetime
-from timetables.utils.date import DateConverter
+
+from django.http import HttpResponse
+
+from icalendar import Event as iCalEvent
+from icalendar.cal import Calendar, Alarm
+
 import pytz
+
+from timetables.models import Event
+from timetables.utils.date import DateConverter
 
 
 class ICalExporter(object):
     '''
     An iCal Exporter.
     '''
+
     def export(self, events, metadata_names=None, feed_name="events"):
         '''
         Creates a streaming http response of ical data representing the contents of the events sequence
@@ -24,6 +29,7 @@ class ICalExporter(object):
             The key is the metadata key, the value is the name of the ical property.
             If the metadata value is a list, it will be output as multiple properties in the ical stream.
         '''
+
         def generate():
             yield "BEGIN:VCALENDAR\r\n"\
                 "PRODID:-//University of Cambridge Timetables//timetables.caret.cam.ac.uk//\r\n"\
@@ -34,7 +40,7 @@ class ICalExporter(object):
                 event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
                 event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
                 event.add('location', e.location)
-                event.add('uid', e.uid)
+                event.add('uid', e.get_ical_uid())
                 # If a mapping has been provided, unpack
                 metadata = e.metadata
                 protected = frozenset(event.keys())
