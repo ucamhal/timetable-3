@@ -25,6 +25,14 @@
   margin: 0;
 }
 
+#helpVideo {
+  margin-top: 20px;
+}
+
+#movie {
+  border: 1px solid #ebebeb;
+}
+
 
 /* Help section */
 #feature-section .five{
