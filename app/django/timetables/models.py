@@ -587,7 +587,7 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
     endtz = models.CharField(max_length=MAX_NAME_LENGTH, help_text="The timezone in which end time was entered", default=settings.TIME_ZONE)
     title = models.CharField(max_length=MAX_LONG_NAME, help_text="Title of the event")
     location = models.CharField(max_length=MAX_LONG_NAME, help_text="Location of the event")
-    uid = models.CharField(max_length=MAX_UID_LENGTH, unique=True, help_text="The event UID that may be generated or copied from the original event in the Event Source")
+    uid = models.CharField(max_length=MAX_UID_LENGTH, help_text="The event UID that may be generated or copied from the original event in the Event Source")
     
     # All rows point to a master, the master points to itself
     master = models.ForeignKey("Event", related_name="versions", null=True, blank=True)
