@@ -1378,6 +1378,8 @@ define([
                 "focusout" : this.focusOutHandler,
 
                 "keyup" : this.keyUpHandler,
+                "paste .js-field-title, .js-field-location, .js-field-people" : this.clipboardHandler,
+                "cut .js-field-title, .js-field-location, .js-field-people" : this.clipboardHandler,
                 "change select, input" : this.changeHandler
             };
         },
@@ -1408,6 +1410,15 @@ define([
 
             // Else if the event was already present, toggle the cancelled state
             this.toggleCancelledState();
+        },
+
+        clipboardHandler: function () {
+            var self = this;
+            // Set timeout so that the field is checked after being updated.
+            setTimeout(function () {
+                self.updateModel();
+                self.markAsChanged();
+            }, 1);
         },
 
         keyUpHandler: function () {
