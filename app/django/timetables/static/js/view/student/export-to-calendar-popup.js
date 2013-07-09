@@ -1,7 +1,8 @@
 define([
     "jquery",
     "underscore",
-    "backbone"
+    "backbone",
+    "util/jquery.select-text"
 ], function ($, _, Backbone) {
     "use strict";
 
@@ -16,6 +17,7 @@ define([
 
         events: {
             "click .js-reset-feed": "onResetFeedClick",
+            "click .js-feed-container": "onFeedContainerClick",
             "hide": "onHide"
         },
 
@@ -23,13 +25,17 @@ define([
             this.listenTo(this.model, "change:state", this.onStateChange);
         },
 
-        constructGoogleFeedUrl: function (feedUrl) {
-            return "https://www.google.com/calendar/render?cid=" + escape(feedUrl);
-        },
-
         updateFeed: function (feedUrl) {
             this.$(".js-feed-container p").text(feedUrl);
-            this.$(".js-btn-google-calendar").attr("href", this.constructGoogleFeedUrl(feedUrl));
+        },
+
+        onFeedContainerClick: function (event) {
+            // Currently disabled this in IE because there is a bootstrap issue
+            // which prevents the text from being properly selected.
+            if (!$.browser.msie) {
+                this.$(".js-feed-container p").selectText();
+            }
+            event.preventDefault();
         },
 
         onResetFeedClick: function () {

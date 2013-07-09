@@ -61,7 +61,6 @@ define([
             });
 
             newModuleView.on("destroy", this.removeModule);
-            newModuleView.editableTitle.toggleEditableState(true);
             this.model.set({
                 newModuleViews: this.model.get("newModuleViews").concat(newModuleView)
             });

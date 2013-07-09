@@ -6,7 +6,8 @@ define([
     "util/django-forms",
     "util/contenteditable",
     "jquery-bbq",
-    "bootstrapTypeahead"
+    "bootstrapTypeahead",
+    "util/jquery.select-text"
 ], function($, _, Backbone, RemoveDialog, DjangoForms, contenteditable) {
     "use strict";
 
@@ -446,6 +447,8 @@ define([
                 this.editableTitle.on("cancel", this.onTitleCancel);
                 this.editableTitle.on("save", this.onInitialTitleSaveSuccess);
                 this.$(".js-module-buttons").hide();
+                this.editableTitle.toggleEditableState(true);
+                this.editableTitle.selectText();
             }
             this.editableTitle.on("save", this.onTitleSaveSuccess);
         },
@@ -558,22 +561,22 @@ define([
          */
         appendNewSeries: function () {
             var $markup = $($("#js-templ-new-series").html()),
-                newSeriesView = new WritableSeriesView({
-                    el: $markup,
-                    added: true,
-                    extraSaveData: {
-                        "id_parent": this.getId()
-                    }
-                });
+                newSeriesView;
+
+            this.$(".js-series-list").prepend($markup);
+            newSeriesView = new WritableSeriesView({
+                el: $markup,
+                added: true,
+                extraSaveData: {
+                    "id_parent": this.getId()
+                }
+            });
 
             newSeriesView.on("expand", this.onSeriesExpand);
-            this.$(".js-series-list").prepend($markup);
-
             this.model.set({
                 newSeries: this.model.get("newSeries").concat(newSeriesView)
             });
 
-            newSeriesView.editableTitle.toggleEditableState(true);
             newSeriesView.on("destroy", this.onSeriesRemoved);
         },
 
@@ -739,6 +742,9 @@ define([
                 if (this.options.titleSavePath !== undefined) {
                     this.editableTitle.setSavePath(this.options.titleSavePath);
                 }
+
+                this.editableTitle.toggleEditableState(true);
+                this.editableTitle.selectText();
             }
 
             // Bind a change handler to the model
@@ -1593,7 +1599,7 @@ define([
 
     var EditableTitleView = Backbone.View.extend({
         initialize: function (options) {
-            _.bindAll(this, "onToggleClick");
+            _.bindAll(this, "onToggleClick", "onClick");
 
             this.$toggleButton = options.$toggleButton;
             this.titleFieldName = options.titleFieldName || "title";
@@ -1611,6 +1617,10 @@ define([
             this.model.storeInitialState();
 
             this.$toggleButton.on("click", this.onToggleClick);
+        },
+
+        selectText: function () {
+            this.$value.selectText();
         },
 
         setSavePath: function (savePath) {
@@ -1643,7 +1653,7 @@ define([
         },
 
         events: {
-            "click .js-collapse" : "onClick",
+            "click .js-value" : "onClick",
             "keydown .js-value" : "onKeyDown",
             "focusout .js-value" : "onFocusOut"
         },
@@ -1745,9 +1755,9 @@ define([
         },
 
         onClick: function (event) {
-            if (this.isEditable === true) {
-                // Stop this event from propagating to prevent the collapse
-                // functionality to be triggered.
+            // Stop this event from propagating to prevent the collapse
+            // functionality to be triggered.
+            if (this.isEditable) {
                 event.stopPropagation();
             }
         },

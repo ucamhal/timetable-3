@@ -6,7 +6,8 @@ define([
     "view/admin/calendar",
     "view/cookieHandler",
     "view/student/export-to-calendar-popup",
-    "model/calendarModel"
+    "model/calendarModel",
+    "util/jquery.select-text"
 ], function ($, _, Backbone, Modules, Calendar, CookieHandler, ExportToCalendarPopup, CalendarModel) {
     "use strict";
 
@@ -132,7 +133,7 @@ define([
             this.termSpinner = new Calendar.DateSpinner({
                 el: ".js-date-spinner.js-term"
             });
-            $(".js-feed-container").on("click", this.onFeedClick);
+
             this.monthSpinner = new Calendar.DateSpinner({
                 el: ".js-date-spinner.js-month"
             });
@@ -159,33 +160,6 @@ define([
             this.listenTo(this.calendarModel, "change:activeMonthTerm", this.onActiveMonthTermChange);
 
             $(window).on("resize", this.resize).trigger("resize");
-        },
-
-        onFeedClick: function (event) {
-            // Currently disabled this in IE because there is a bootstrap issue
-            // which prevents the text from being properly selected.
-            if (!$.browser.msie) {
-                this.selectElementText($(".js-feed-container p"));
-            }
-            event.preventDefault();
-        },
-
-        /**
-         * Selects the text found in the provided element.
-         */
-        selectElementText: function ($el) {
-            if (!document.createRange) {
-                return;
-            }
-
-            var element = $el[0];
-
-            var range = document.createRange();
-            range.selectNodeContents(element);
-
-            var selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
         },
 
         onActiveDateChange: function (model, date) {
