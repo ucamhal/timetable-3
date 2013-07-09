@@ -1358,6 +1358,7 @@ define([
         events: function () {
             return {
                 "click .js-field-title, .js-field-location, .js-field-people" : this.editableFieldClickHandler,
+                "click .js-event-direct-input-wrap" : this.onDirectInputWrapClick,
 
                 "focus .js-field-title" : this.titleFieldFocusHandler,
                 "focus .js-field-location" : this.locationFieldFocusHandler,
@@ -1382,6 +1383,14 @@ define([
                 "cut .js-field-title, .js-field-location, .js-field-people" : this.clipboardHandler,
                 "change select, input" : this.changeHandler
             };
+        },
+
+        onDirectInputWrapClick: function (event) {
+            var $target = $(event.target);
+            // Only trigger the action when the direct target has been clicked.
+            if ($target.hasClass("js-event-direct-input-wrap")) {
+                $target.find(".js-field").focus();
+            }
         },
 
         dateTimeFocusOutHandler: function () {
