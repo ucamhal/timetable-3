@@ -1,0 +1,21 @@
+{% load timetables %}
+<li class="module js-module">
+  <article>
+    <header>
+      <a href="#module-{{ module.id }}-content" class="title" data-toggle="collapse">
+        <span class="chevron icon-chevron-right js-expansion-indicator"></span>
+        <h5>{{ module.title }}</h5>
+      </a>
+      <div class="action">
+        {% if module.in_calendar %}
+          <a href="javascript:;" class="btn btn-remove js-btn-module-level js-btn-remove btn-danger btn-small" data-fullpath="{{ module.fullpath }}">Remove</a>
+        {% else %}
+          <a href="javascript:;" class="btn btn-add js-btn-module-level js-btn-add btn-success btn-small" data-fullpath="{{ module.fullpath }}">Add</a>
+        {% endif %}
+      </div>
+    </header>
+    <ul id="module-{{ module.id }}-content" class="collapse module-content">
+      {% include "student/modules-list/series.html" %}
+    </ul>
+  </article>
+</li>

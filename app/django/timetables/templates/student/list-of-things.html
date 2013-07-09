@@ -1,8 +1,0 @@
-{% load timetables %}
-{% for thing in things %}
-  {% if things|length == 1 %}
-    {% include "student/things/thing-children.html" %}
-  {% else %}
-    {% include_thing_template "student/things/thing-%s.html" thing %}
-  {% endif %}
-{% endfor %}

@@ -80,18 +80,39 @@ class ChildrenView(View):
                         .filter(eventsourcetag__thing__in=related, current=True)
                         .values_list("id", flat=True))
             
-            
-            # Currently the template renders sources after things. We may wish
-            # to put them into one list and sort them as one. 
+            raw_modules = Thing.objects.filter(parent__pathid=thing.pathid).prefetch_related(
+                "eventsourcetag_set__eventsource",
+                "thing_set__eventsourcetag_set__eventsource"
+            )
+
+            modules = []
+            for raw_module in raw_modules:
+                module = {
+                    "id": raw_module.id,
+                    "title": raw_module.fullname,
+                    "fullpath": raw_module.fullpath,
+                    "in_calendar": raw_module.fullpath in relatedthings
+                }
+
+                series = []
+                for eventsourcetag in raw_module.eventsourcetag_set.all():
+                    raw_series = eventsourcetag.eventsource
+                    single_series = {
+                        "id": raw_series.id,
+                        "title": raw_series.title,
+                        "date_pattern": raw_series.metadata.get("datePattern", ""),
+                        "location": raw_series.metadata.get("location", ""),
+                        "people": raw_series.metadata.get("people", []),
+                        "in_calendar": raw_series.id in relatedsources
+                    }
+                    series.append(single_series)
+
+                module["series"] = sorted(series, key=lambda item: item.get("title", "").lower())
+                modules.append(module)
+
             context = {
-                "things": Thing.objects.filter(parent__pathid=thing.pathid).prefetch_related(
-                        "eventsourcetag_set__eventsource",
-                        "thing_set__eventsourcetag_set__eventsource"
-                ),
-                "related" : relatedthings,
-                "relatedsources" : relatedsources
+                "modules": sorted(modules, key=lambda item: item.get("title", "").lower())
             }
-            return render(request, "student/list-of-things.html",
-                          context)
+            return render(request, "student/modules-list/base.html", context)
         except Thing.DoesNotExist:
             return HttpResponseNotFound()

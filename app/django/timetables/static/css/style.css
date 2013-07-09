@@ -390,123 +390,91 @@ div#results > ul {
 }
 */
 
-div#results ul.courseList,
-div#results ul.courseMoreInfo,
-div#results div.courseMoreInfo ul {
+#results,
+#results ul {
   list-style-type: none;
 }
 
-div#results ul.courseList > li,
-div#results li.course {
-  padding: 10px 15px;
-  border-style: none;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, .1);
-  border-radius: 0;
-  margin: 0;
-  background-color: #f8f8f8;
-}
-
-div#results ul#resultsList > li.courseSeries {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, .1);
-}
-
-div#results ul.courseList > li > h5 {
-  padding-left: 20px;
-}
-
-div#results ul.courseList div,
-div#results li.course div {
-  margin-right: 5px;
-  padding-top: 2px;
-}
-
-div#results ul.courseList div a.more,
-div#results li.course div a.more {
-  padding-top: 5px;
-}
-
-div#results ul.courseList div a.btn,
-div#results li.course div a.btn {
-  margin-left: 20px;
-}
-
-div#results a.btn-add, div#results a.btn-remove {
-  opacity: .8;
-}
-
-div#results ul#resultsList {
+#resultsList {
   width: 100%;
 }
 
-div#results ul#resultsList h4 {
-  font-size: 1.2em;
-  margin: 0;
-
-  padding: 10px 20px;
-  background-image: none;
-  background-color: #8a95a4;
+#results #resultsList > .series h6,
+#results #resultsList > .series p {
+  margin-left: 10px;
 }
 
-div#results ul#resultsList h4 span {
-  font-weight: normal;
-  font-size: .85em;
+#results .module {
+  border-bottom: 1px solid #dadada;
+  border-top: 1px solid #ffffff;
 }
 
-div#results li.courseSeries div {
-  width: 170px;
+#results .module header {
+  position: relative;
 }
 
-div#results li.courseSeries a.btn {
-  margin-right: 20px;
-  margin-top: 12px;
+
+#results .module header .title {
+  display: block;
+  padding: 14px 0;
+  position: relative;
+  width: 73%;
 }
 
-div#results ul.courseMoreInfo li.courseSeries div,
-div#results div.courseMoreInfo li.courseSeries div {
-  width: 150px;
+#results .module header .title .chevron {
+  left: 10px;
+  margin-top: -7px;
+  opacity: .7;
+  position: absolute;
+  top: 50%;
 }
 
-div#results ul.courseMoreInfo li.courseSeries a.btn,
-div#results div.courseMoreInfo li.courseSeries a.btn {
-  margin-right: 4px;
-  margin-top: 12px;
+#results .module header .title h5 {
+  color: #3f3f3f;
+  margin: 0 0 0 36px;
+  word-wrap: break-word;
 }
 
-div#results ul.courseMoreInfo,
-div#results div.courseMoreInfo {
-  display: none;
-  clear: both;
-
-  border-top-style: dashed;
-  border-top-width: 1px;
-  border-top-color: rgba(0, 0, 0, .2);
-
-  padding: 0;
+#results .module-content {
+  background-color: #fafafa;
 }
 
-div#results ul.courseList li.courseSeries {
-  margin-left: 20px;
+#results .action {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
-div#results ul.courseList li.courseSeries div {
-  width: 160px;
+#results .action a {
+  margin-top: -13px;
+  min-width: 43px;
+  position: absolute;
+  padding: 2px 6px;
+  right: 12px;
+  top: 50%;
 }
 
-div#results li.courseSeries {
-  padding-bottom: 15px;
-  background-color: #F8F8F8;
-
-  clear: both;
-  padding-left: 25px;
+#results .series {
+  position: relative;
+  border-top: 1px solid #dddddd;
 }
 
-div#results li.courseSeries h5 {
-  margin-bottom: 3px;
+#results .module-content .series:first-child {
+  border-top: 1px dashed #c5c5c5;
 }
+
+#results .series .info {
+  width: 73%;
+  word-wrap: break-word;
+  padding: 15px 0;
+}
+
+#results .series h6,
+#results .series p {
+  margin: 0 0 0 36px;
+}
+
 
 div#results.empty p {
   border-style: dashed;

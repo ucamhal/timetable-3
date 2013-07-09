@@ -12,7 +12,11 @@ This one is a special staging server which is used for entering/testing
 from .staging import *
 
 
-ALLOWED_HOSTS = ["timetable-2013-14.staging.ds.lib.cam.ac.uk"]
+ALLOWED_HOSTS = [
+    "timetable-2013-14.staging.ds.lib.cam.ac.uk",
+    "www.timetable.cam.ac.uk",
+    "timetable.cam.ac.uk"
+]
 
 WSGI_APPLICATION = "timetables.wsgi.staging_2013_14.application"
 

@@ -24,9 +24,19 @@ define([
         },
 
         events: {
-            "click a.js-more" : "moreClickHandler",
-            "click a.js-less" : "lessClickHandler",
+            "hide" : "onSeriesHide",
+            "show" : "onSeriesShow",
             "click a.js-btn-add, a.js-btn-remove" : "moduleButtonClickHandler"
+        },
+
+        onSeriesHide: function (event) {
+            var $chevron = $(event.target).parent().find(".chevron");
+            $chevron.removeClass("icon-chevron-down").addClass("icon-chevron-right");
+        },
+
+        onSeriesShow: function (event) {
+            var $chevron = $(event.target).parent().find(".chevron");
+            $chevron.addClass("icon-chevron-down").removeClass("icon-chevron-right");
         },
 
         associate: function ($source, add) {
@@ -59,14 +69,14 @@ define([
 
         updateButtonStates: function ($source) {
             if ($source.is(".js-btn-module-level")) {
-                this.toggleButtonState($source.parent().parent().find("a.btn"), $source.is(".js-btn-add"));
+                this.toggleButtonState($source.parent().parent().parent().find("a.btn"), $source.is(".js-btn-add"));
             } else {
                 this.toggleButtonState($source, $source.is(".js-btn-add"));
-                if ($source.parent().parent().is(".courseMoreInfo")) {
-                    if ($source.parent().parent().find(".js-btn-add").length <= 0) {
-                        this.toggleButtonState($source.parent().parent().parent().find(".js-btn-add.js-btn-module-level"), true);
+                if ($source.parent().parent().is(".js-series")) {
+                    if ($source.parent().parent().parent().find(".js-btn-add").length <= 0) {
+                        this.toggleButtonState($source.parent().parent().parent().parent().find(".js-btn-add.js-btn-module-level"), true);
                     } else {
-                        this.toggleButtonState($source.parent().parent().parent().find(".js-btn-remove.js-btn-module-level"), false);
+                        this.toggleButtonState($source.parent().parent().parent().parent().find(".js-btn-remove.js-btn-module-level"), false);
                     }
                 }
             }
