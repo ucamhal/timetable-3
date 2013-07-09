@@ -969,8 +969,6 @@ define([
                     currentChangesState: changesExist
                 });
             }
-
-            this.$el.toggleClass("hasChanges", changesExist);
         },
 
         onCancel: function() {
