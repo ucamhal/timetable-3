@@ -50,6 +50,9 @@ def timetable_view(request, thing=None):
 
     # list of timetables to display
     timetables = get_timetables(thing)
+    # First sort alphabetically
+    timetables = sorted(timetables,key=lambda timetable: thing.fullname if timetable.type == "part" else timetable.fullname)
+    # Then sort by editable
     timetables = sorted(timetables, key=lambda timetable: timetable.id not in editable)
 
     return shortcuts.render(request, "administrator/overview.html",
