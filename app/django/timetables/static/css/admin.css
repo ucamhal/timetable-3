@@ -45,16 +45,8 @@ a.addModule {
   margin-top: 10px;
 }
 
-a.addModule:last-child {
-  margin-bottom: 30px;
-}
-
 .btn.addModule .icon-plus {
   margin-right: 7px;
-}
-
-a.addModule:last-child {
-  margin-top: 30px;
 }
 
 /* Timetable page navigation */

@@ -25,18 +25,10 @@ define([
             });
 
             this.model = new Lists.BaseModel();
-            this.model.on("change", this.onModelChange);
             this.model.set({
                 moduleViews: modules,
                 newModuleViews: []
             });
-        },
-
-        // Only show the last add modules button if there are modules on the
-        // page.
-        onModelChange: function () {
-            var hasModules = this.model.get("moduleViews").length > 0 || this.model.get("newModuleViews").length > 0;
-            this.$(".js-btn-add-module").last().toggle(hasModules);
         },
 
         events: function () {
