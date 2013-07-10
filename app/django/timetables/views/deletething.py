@@ -10,7 +10,6 @@ from timetables.models import Thing
 
 class ThingView(
         braces.views.LoginRequiredMixin,
-        braces.views.StaffuserRequiredMixin,
         braces.views.PermissionRequiredMixin,
         SingleObjectMixin,
         View):
