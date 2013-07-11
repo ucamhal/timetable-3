@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
+<tsung loglevel="debug" version="1.0">
+
+	<clients>
+		<client host="localhost" use_controller_vm="true"/>
+	</clients>
+	
+	<servers>
+		<server host="localhost" port="8000" type="tcp"></server>
+	</servers>
+	
+	<load>
+		<arrivalphase phase="1" duration="50" unit="second">
+			<users maxnumber="500" interarrival="2" unit="second"></users>
+		</arrivalphase>
+	</load>
+	
+	<options>
+		<option type="ts_http" name="user_agent">
+			<user_agent probability="100">Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:21.0) Gecko/20100101 Firefox/21.0</user_agent>
+		</option>
+		
+		<!-- Note that users.csv should be in the same folder from which you run Tsung -->
+		<option name="file_server" value="users.csv" id="users"></option>
+	</options>
+	
+	<sessions>
+		<session name="students" probability='100' type='ts_http'>
+			<!-- Simulates "normal" student usage -->
+		
+			<!-- set variables for use in the script -->
+			<setdynvars sourcetype="file" fileid="users" order="iter">
+				<!-- load users from users.csv file -->
+				<var name="username" />
+			</setdynvars>
+			<!-- Individual user for testing purposes
+			<setdynvars sourcetype="value" value="testuser_9">
+				<var name="username" />
+			</setdynvars>
+			-->
+			<setdynvars sourcetype="value" value="password">
+				<var name="password" />
+			</setdynvars>
+			<setdynvars sourcetype="value" value="1371682800">
+				<var name="time_start" />
+			</setdynvars>
+			<setdynvars sourcetype="value" value="1372287600">
+				<var name="time_end" />
+			</setdynvars>
+		
+			<!-- homepage, not logged in -->
+			<request>
+				<http url='/' version='1.1' method='GET'></http>
+			</request>
+			<!-- at the time of writing this throws an error, but it does occur and should ideally be simulated
+			<request>
+				<http url='/user/public.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
+			</request>
+			-->
+			<thinktime random='true' value='5'/>
+
+			<!-- log in -->
+			<request>
+				<dyn_variable name="csrfmiddlewaretoken"></dyn_variable>
+				<http url='/accounts/login/' version='1.1' method='GET'></http>
+			</request>
+			<thinktime random='true' value='3'/>
+
+			<request subst="true">
+				<http url='/accounts/login' version='1.1' contents='csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%&amp;username=%%_username%%&amp;password=%%_password%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
+			</request>
+			
+			<!-- homepage, logged in -->
+			<request>
+				<http url='/' version='1.1' method='GET'></http>
+			</request>
+			<request subst="true">
+				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
+			</request>
+			<thinktime random='true' value='5'/>
+
+			<!-- load ASNC Part I timetable data -->
+			<request subst="true">
+				<http url='/tripos/asnc/I.children.html?t=user%2F%%_username%%' version='1.1' method='GET'></http>
+			</request>
+			<thinktime random='true' value='5'/>
+
+			<!-- add item to calendar -->
+			<request subst="true"><!-- lest you care, this adds "Anglo-Saxon History (Paper 1)" -->
+				<http url='/user/%%_username%%.link' version='1.1' contents='t=tripos%2Fasnc%2FI%2Fas-hist&amp;csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
+			</request>
+			<request subst="true">
+				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
+			</request>
+			<thinktime random='true' value='5'/>
+			
+			<!-- remove item from calendar -->
+			<request subst="true"><!-- removes "Anglo-Saxon History (Paper 1)" -->
+				<http url='/user/%%_username%%.link' version='1.1' contents='td=tripos%2Fasnc%2FI%2Fas-hist&amp;csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
+			</request>
+			<request subst="true">
+				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
+			</request>
+			<thinktime random='true' value='5'/>
+			
+			<!-- scroll through calendar dates -->
+			<for from="1" to="3" incr="1" var="counter">
+				<request subst="true">
+					<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
+				</request>
+				<thinktime random='true' value='3'/>
+			</for>
+			
+		</session>
+	</sessions>
+	
+</tsung>
+
