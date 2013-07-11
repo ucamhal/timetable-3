@@ -48,18 +48,18 @@ class DatePatternField(forms.CharField):
         raise ValidationError(self.error_messages["unparsable"]) 
 
 TYPE_UNKNOWN = ""
-TYPE_LAB = "Laboratory"
 TYPE_LECTURE = "Lecture"
-TYPE_LANG_CLASS = "Language Class"
 TYPE_PRACTICAL = "Practical"
+TYPE_CLASS = "Class"
 TYPE_SEMINAR = "Seminar"
+TYPE_FIELD_TRIP = "Field trip"
 EVENT_TYPE_CHOICES = dict((
     (TYPE_UNKNOWN, "—"),
-    (TYPE_LAB, TYPE_LAB),
     (TYPE_LECTURE, TYPE_LECTURE),
-    (TYPE_LANG_CLASS, TYPE_LANG_CLASS),
     (TYPE_PRACTICAL, TYPE_PRACTICAL),
-    (TYPE_SEMINAR, TYPE_SEMINAR)
+    (TYPE_CLASS, TYPE_CLASS),
+    (TYPE_SEMINAR, TYPE_SEMINAR),
+    (TYPE_FIELD_TRIP, TYPE_FIELD_TRIP)
 ))
 
 TERMS = (
