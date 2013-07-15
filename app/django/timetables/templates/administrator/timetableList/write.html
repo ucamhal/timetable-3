@@ -1,5 +1,6 @@
 {% extends "administrator/timetableList/read.html" %}
 {% load url from future %}
+{% load timetables %}
 
 
 {% block javascript_module %}timetable-list-write{% endblock javascript_module %}
@@ -25,6 +26,14 @@
 {% block timetable_module %}
 {% include "administrator/timetableList/fragModuleWrite.html" %}
 {% endblock timetable_module %}
+
+{% block linked_timetables %}
+  <div id="linked-timetables" class="js-linked-timetables">
+    <h4>Borrowed modules and series</h4>
+    <ul class="js-links-list links-list yes-this-is-really-a-list" data-links="{{ links|json }}"></ul>
+    <a href="javascript:;" class="btn js-btn-add-link add-link"><span class="icon-plus-sign"></span> Add link</a>
+  </div>
+{% endblock linked_timetables %}
 
 {% block additional_modals %}
 <div class="js-timedout-modal modal dontDisplayMe">
@@ -109,131 +118,6 @@
   </div>
 </div>
 
-{# All following templates are wrapped in script tags because having the elements directly in here with display none applied wouldn't be very nice.. #}
-{# Templates for new events #}
-<script id="js-templ-new-event" type="text/template">
-  <tr class="event js-event event-editable event-new row-being-edited">
-    <td title="Title" class="event-field eventTitle">
-      <div class="js-field js-field-title event-input" contenteditable="true" data-value="" tabindex="0">Title</div>
-    </td>
-
-    <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="" tabindex="0">
-      <span class="event-type js-field js-field-type event-type-none">
-      </span>
-
-      <select class="input-medium event-type js-field js-field-type">
-          <!--
-          <option value="">&mdash;</option>
-          -->
-          <option value="">—</option>
-          <option value="Practical">Practical</option>
-          <option value="Language Class">Language Class</option>
-          <option value="Lecture" selected="selected">Lecture</option>
-          <option value="Laboratory">Laboratory</option>
-          <option value="Seminar">Seminar</option>
-      </select>
-    </td>
-
-    <td class="event-field js-date-time-cell eventDateTime" tabindex="0">
-      <div class="event-input js-date-time-input-wrap">
-        <span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
-        <span title="Thursday 7th March ">
-          <span>W </span><span data-value="1" class="js-field-week">1</span><span> in </span><span data-value="Michaelmas" class="js-field-term">Michaelmas</span><span>, on </span><span data-value="thu" class="js-field-day">Thu</span><span>&nbsp;</span></span><span class="js-field-start-hour">09</span><span>:</span><span class="js-field-start-minute">00</span><span>–</span><span class="js-field-end-hour">11</span><span>:</span><span class="js-field-end-minute">00</span>
-
-        <div class="dialog-holder js-dialog-holder"></div>
-        <span class="js-focus-catcher js-focus-catcher-after" tabindex="0"></span>
-      </div>
-    </td>
-
-    <td title="Location" class="event-field eventLocation">
-      <div class="js-field js-field-location event-input" tabindex="0" data-value="" contenteditable="true">Location</div>
-    </td>
-
-    <td title="Lecturer/host/etc" class="event-field eventLecturers">
-      <div class="js-field js-field-people event-input" tabindex="0" data-value="" contenteditable="true">Lecturer/host/etc</div>
-    </td>
-    
-    <td class="eventActions" tabindex="5">
-      <ul class="buttons">
-        <li>
-          <a href="#" class="icon-trash remove js-remove-icon" title="remove"><span class="hideMe">remove</span></a>
-        </li>
-      </ul>
-    </td>
-
-  </tr>
-</script>
-
-{# New series title template #}
-<script id="js-templ-new-series" type="text/template">
-  <div class="series js-series">
-    <div class="series-title collapsed clearfix js-series-title">
-      <h5 class="js-collapse">
-        <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-        <span class="js-value title" data-save-path="/series/new">Series title</span>
-        <span class="js-error-message error-message dontDisplayMe"></span>
-      </h5>
-
-      <p class="buttons js-series-buttons">
-        <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
-        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
-        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
-        <a href="#" class="icon-trash js-remove" title="remove"><span class="hideMe">remove</span></a>
-      </p>
-    </div>
-  </div>
-</script>
-
-{# New series content template #}
-<script id="js-templ-new-series-content" type="text/template">
-  <div class="events js-events clearfix collapse">
-    <table class="table table-striped">
-      <tbody>
-      </tbody>
-    </table>
-
-    <a href="javascript:;" class="js-btn-add-event addEvent pull-left btn btn-link">
-      <span class="icon-plus-sign"></span>Add event
-    </a>
-    <ul class="js-save-cancel-btns seriesEditActions pull-right" style="display: none;">
-      <li class="pull-left">
-        <a href="javascript:;" class="js-btn-cancel cancel">cancel</a>
-      </li>
-      <li class="pull-left">
-        <a href="javascript:;" class="js-btn-save save btn btn-success" title="save event series" data-loading-text="Saving...">Save</a>
-      </li>
-    </ul>
-  </div>
-</script>
-
-{# New module title template #}
-<script id="js-templ-new-module" type="text/template">
-  <div class="module js-module">
-    <div class="js-module-title module-title clearfix">
-      <h4 class="js-collapse collapsed">
-        <span class="chevron js-expansion-indicator icon-chevron-right"></span>
-        <span class="title js-value" data-save-path="/module/new">Module title</span>
-        <span class="js-error-message error-message dontDisplayMe"></span>
-      </h4>
-
-      <p class="buttons js-module-buttons">
-        <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
-        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
-        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
-        <a href="#" class="icon-trash js-remove" title="remove"><span class="hideMe">remove</span></a>
-      </p>
-    </div>
-  </div>
-</script>
-
-{# New module content template #}
-<script id="js-templ-new-module-content" type="text/template">
-  <div class="moduleContent module-content js-module-content collapse">
-    <a href="#" class="btn btn-small addSeries js-btn-add-series"><span class="icon-add-series"></span>Add series</a>
-    <div class="seriesList js-series-list">
-      <p class="js-no-series no-series">This module contains no series.</p>
-    </div>
-  </div>
-</script>
+{% include "administrator/timetableList/frag-write-templates.html" %}
 
 {% endblock additional_modals %}

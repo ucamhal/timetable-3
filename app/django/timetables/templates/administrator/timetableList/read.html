@@ -35,167 +35,153 @@
   {% endblock before_modules_content %}
   
   <div id="modules" class="js-individual-modules">
-    {% for module in modules %}
-      {% block timetable_module %}
-      {% include "administrator/timetableList/fragModuleRead.html" %}
-      {% endblock timetable_module %}
-    {% endfor %}
+    {% if not modules|length %}
+      <p class="js-no-modules-msg">This timetable contains no modules yet.</p>
+    {% else %}
+      {% for module in modules %}
+        {% block timetable_module %}
+        {% include "administrator/timetableList/fragModuleRead.html" %}
+        {% endblock timetable_module %}
+      {% endfor %}
+    {% endif %}
   </div>
+  
+  {% block linked_timetables %}
+    <div id="linked-timetables">
+      <h4>Borrowed modules and series</h4>
+      {% if links|length %}
+        <ul class="links-list yes-this-is-really-a-list">
+          {% for link in links %}
+            <li>
+              <a href="{% url "admin list write" link.fullpath %}">{{ link.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>This timetable has no borrowed modules or series.</p>
+      {% endif %}
+    </div>
+  {% endblock linked_timetables %}
+
 </div>
 
 <div id="templates">
-
-<div class="modal js-delete-popup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Delete '<span class="js-delete-title"></span>'</h3>
+  <div class="modal changesNotificationPopup hide fade">
+    <div class="modal-header">
+      <a href="#" class="close dontSendNotification">&times;</a>
+      <h3>Send email notification</h3>
+    </div>
+    <div class="modal-body">
+      <p>Your changes have been saved successfully.</p>
+      <p>Do you want to send an email notification to people affected by the change?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="dontSendNotification">Don't send notification</a>
+      <a href="#" class="btn btn-primary sendNotifcation notImplemented">Send notification</a>
+    </div>
   </div>
 
-  <div class="modal-body js-state-start">
-    <p>This <span class="js-delete-type"></span> and <span class="js-delete-contents"></span> will be deleted and will no longer appear in people's timetables. This can't be undone.</p>
-    <p>Are you sure you want to delete this <span class="js-delete-type"></span>?</p>
-  </div>
-  <div class="modal-footer js-state-start">
-    <a href="#" data-dismiss="modal" class="btn btn-link">cancel</a>
-    <a href="#" class="btn btn-danger js-confirm">Delete <span class="js-delete-type"></span></a>
+  <div class="modal formServerErrorPopup hide fade">
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Oops, something went wrong</h3>
+    </div>
+    <div class="modal-body">
+      <p>Apparently something went wrong whilst saving.<br />Please try again later.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+    </div>
   </div>
 
-  <div class="modal-body js-state-progress">
-    <h5>Deleting <span class="js-delete-title"></span>&hellip;</h5>
-    <div class="loading-indicator-content">
-      <div class="progress progress-striped active">
-        <div class="bar" style="width: 40%;"></div>
+  <div class="modal js-invalid-event-data hide fade">
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Invalid data</h3>
+    </div>
+    <div class="modal-body">
+      <p>Please provide a title for each event before saving.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+    </div>
+  </div>
+
+  <div class="modal formValidationErrorPopup hide fade">
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Oops, something went wrong</h3>
+    </div>
+    <div class="modal-body">
+      <p>It looks like you missed some fields.<br/>Please fill out any missing fields and hit save again</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+    </div>
+  </div>
+
+  {# Dialog used to show saving progress, errors and success msg. #}
+  <div class="js-events-save-dialog modal hide fade">
+    <div class="modal-header">
+      <h3>Save events</h3>
+    </div>
+    <div class="js-body js-body-saving">
+      <div class="modal-body">
+        <h5>Saving events...</h5>
+        <div class="loading-indicator-content">
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 40%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="js-body js-body-error" style="display: none;">
+      <div class="modal-body">
+        <h5 class="">Sorry, Timetables wasn't able to save your changes</h5>
+        <p>Here are some suggestions:</p>
+        <ul class="yes-this-is-really-a-list">
+          <li>Close this dialog and try saving again.</li>
+          <li>Check that your internet connection is working.</li>
+          <li>If this persists, Timetables probably has a bug. You can contact <a href="mailto:timetables-support@caret.cam.ac.uk">timetables-support@caret.cam.ac.uk</a> for assistance.</li>
+        </ul>
+      </div>
+      <div class="modal-footer js-buttons-bar">
+        <a href="#" class="btn btn-danger">Close</a>
+      </div>
+    </div>
+    <div class="js-body js-body-success" style="display: none;">
+      <div class="modal-body">
+        <h5 class="text-success">Your changes have been saved.</h5>
+      </div>
+      <div class="modal-footer js-buttons-bar">
+        <a href="#" class="btn btn-success">Okay</a>
       </div>
     </div>
   </div>
 
-  <div class="modal-body js-state-error">
-    <h5>Oops, something went wrong.</h5>
-    <p>Apparently something went wrong when trying to delete '<span class="js-delete-title"></span>'.<br/>Please try again later.</p>
-  </div>
+  {# Shows a progress bar when loading, or an error msg when failed #}
+  <div class="js-loading-indicator-prototype js-loading-indicator loading-indicator" style="display: none;">
+    <div class="loading" style="display: none;">
 
-  <div class="modal-footer js-state-error">
-    <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
-  </div>
-</div>
-
-<div class="modal changesNotificationPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close dontSendNotification">&times;</a>
-    <h3>Send email notification</h3>
-  </div>
-  <div class="modal-body">
-    <p>Your changes have been saved successfully.</p>
-    <p>Do you want to send an email notification to people affected by the change?</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="dontSendNotification">Don't send notification</a>
-    <a href="#" class="btn btn-primary sendNotifcation notImplemented">Send notification</a>
-  </div>
-</div>
-
-<div class="modal formServerErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>Apparently something went wrong whilst saving.<br />Please try again later.</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-
-<div class="modal js-invalid-event-data hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Invalid data</h3>
-  </div>
-  <div class="modal-body">
-    <p>Please provide a title for each event before saving.</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-
-<div class="modal formValidationErrorPopup hide fade">
-  <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Oops, something went wrong</h3>
-  </div>
-  <div class="modal-body">
-    <p>It looks like you missed some fields.<br/>Please fill out any missing fields and hit save again</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-  </div>
-</div>
-
-{# Dialog used to show saving progress, errors and success msg. #}
-<div class="js-events-save-dialog modal hide fade">
-  <div class="modal-header">
-    <h3>Save events</h3>
-  </div>
-  <div class="js-body js-body-saving">
-    <div class="modal-body">
-      <h5>Saving events...</h5>
+      <strong>Loading events...</strong>
       <div class="loading-indicator-content">
         <div class="progress progress-striped active">
           <div class="bar" style="width: 40%;"></div>
         </div>
       </div>
+      
     </div>
-  </div>
-  <div class="js-body js-body-error" style="display: none;">
-    <div class="modal-body">
-      <h5 class="">Sorry, Timetables wasn't able to save your changes</h5>
-      <p>Here are some suggestions:</p>
-      <ul class="yes-this-is-really-a-list">
-        <li>Close this dialog and try saving again.</li>
-        <li>Check that your internet connection is working.</li>
-        <li>If this persists, Timetables probably has a bug. You can contact <a href="mailto:timetables-support@caret.cam.ac.uk">timetables-support@caret.cam.ac.uk</a> for assistance.</li>
-      </ul>
-    </div>
-    <div class="modal-footer js-buttons-bar">
-      <a href="#" class="btn btn-danger">Close</a>
-    </div>
-  </div>
-  <div class="js-body js-body-success" style="display: none;">
-    <div class="modal-body">
-      <h5 class="text-success">Your changes have been saved.</h5>
-    </div>
-    <div class="modal-footer js-buttons-bar">
-      <a href="#" class="btn btn-success">Okay</a>
-    </div>
-  </div>
-</div>
-
-{# Shows a progress bar when loading, or an error msg when failed #}
-<div class="js-loading-indicator-prototype js-loading-indicator loading-indicator" style="display: none;">
-  <div class="loading" style="display: none;">
-
-    <strong>Loading events...</strong>
-    <div class="loading-indicator-content">
-      <div class="progress progress-striped active">
-        <div class="bar" style="width: 40%;"></div>
+    <div class="error">
+      <strong>Events could not be loaded</strong>
+      <div class="loading-indicator-content">
+        <button class="js-retry-btn btn">
+          Try again
+        </button>
       </div>
     </div>
-    
   </div>
-  <div class="error">
-    <strong>Events could not be loaded</strong>
-    <div class="loading-indicator-content">
-      <button class="js-retry-btn btn">
-        Try again
-      </button>
-    </div>
-  </div>
-</div>
 
-{% block additional_modals %}
-{% endblock additional_modals %}
-
+  {% block additional_modals %}
+  {% endblock additional_modals %}
 </div><!-- #templates end -->
 {% endblock timetable_content %}

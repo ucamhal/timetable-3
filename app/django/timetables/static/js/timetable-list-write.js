@@ -3,10 +3,11 @@ define([
     "underscore",
     "backbone",
     "view/admin/lists",
+    "view/admin/timetable-links",
     "view/cookieHandler",
     "bootstrap",
     "not-implemented-tooltips"
-], function($, _, Backbone, Lists, CookieHandler) {
+], function($, _, Backbone, Lists, TimetableLinks, CookieHandler) {
     "use strict";
 
     var TimetableListWrite = Backbone.View.extend({
@@ -25,10 +26,34 @@ define([
             });
 
             this.model = new Lists.BaseModel();
+            this.listenTo(this.model, "change", this.onModelChange);
             this.model.set({
                 moduleViews: modules,
                 newModuleViews: []
             });
+
+            this.initTimetableLinks();
+        },
+
+        onModelChange: function () {
+            var modules = this.model.get("moduleViews"),
+                newModules = this.model.get("newModuleViews"),
+                hasModules = (modules.length || newModules.length);
+
+            this.$(".js-no-modules-msg").toggle(!hasModules);
+        },
+
+        initTimetableLinks: function () {
+            var links = $(".js-links-list").data("links");
+
+            this.timetableLinks = new TimetableLinks({
+                el: ".js-linked-timetables",
+                timetableFullpath: this.getTimetableFullpath()
+            });
+
+            _.each(_.map(links, function (link) {
+                return link.fullpath;
+            }), this.timetableLinks.addLink);
         },
 
         events: function () {
@@ -39,6 +64,10 @@ define([
 
         getTimetableId: function () {
             return this.$el.data("id");
+        },
+
+        getTimetableFullpath: function () {
+            return this.$el.data("fullpath");
         },
 
         appendNewModule: function (prepend) {

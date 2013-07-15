@@ -112,6 +112,14 @@ urlpatterns = patterns(
         administrator.delete_series,
         name="delete series"),
 
+    url(r'(?P<thing>.*)/links/new$',
+        administrator.new_thing_link,
+        name="new thing link"),
+
+    url(r'(?P<thing>.*)/links/delete',
+        administrator.delete_thing_link,
+        name="delete thing link"),
+
     url(r'(?P<thing>.*)\.events\.(?P<hmac>.*)\.ics$',
         ExportEvents.as_view(),
         name="export ics hmac"),

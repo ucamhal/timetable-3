@@ -1227,3 +1227,21 @@ class Subjects(object):
         sorted_subs = sorted(subjects, key=key)
 
         return itertools.groupby(sorted_subs, key)
+
+    @classmethod
+    def to_json(cls, subjects):
+        # Reorganise the subject list for use in our templates
+        return [
+            {
+                "name": key,
+                "parts": [
+                    {
+                        # TODO: change level_name -> part_name
+                        "level_name": sub.get_part().fullname,
+                        "fullpath": sub.get_path()
+                    }
+                    for sub in subs
+                ]
+            }
+            for (key, subs) in subjects
+        ]

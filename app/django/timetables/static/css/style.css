@@ -8,6 +8,11 @@ div:focus {
   outline: none;
 }
 
+ul.yes-this-is-really-a-list {
+  list-style-type: disc;
+  margin: 0 0 10px 25px;
+}
+
 #container {
   position: relative;
   min-height: 100%;
@@ -1003,4 +1008,13 @@ div#timetablesOverview {
 
 #modal-export-to-calendar .instructions h5 {
   margin: 0 0 5px 0;
+}
+
+#results .links {
+  padding: 14px;
+}
+
+#results .links ul {
+  list-style-type: disc;
+  margin: 0 0 10px 25px;
 }

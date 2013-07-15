@@ -4,6 +4,17 @@
   {% include "student/modules-list/series.html" with module=modules|first %}
 {% else %}
   {% for module in modules %}
-      {% include "student/modules-list/module.html" %}
+    {% include "student/modules-list/module.html" %}
   {% endfor %}
+{% endif %}
+
+{% if links|length %}
+  <li class="links js-links yes-this-is-really-a-list">
+    <h5>See also</h5>
+    <ul>
+      {% for link in links %}
+        {% include "student/modules-list/link.html" %}
+      {% endfor %}
+    </ul>
+  </li>
 {% endif %}

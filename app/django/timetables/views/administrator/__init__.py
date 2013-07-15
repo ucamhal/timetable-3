@@ -130,6 +130,28 @@ class TimetableListRead(django.views.generic.View):
 
         return modules
 
+    def links(self, timetable):
+        raw_links = models.ThingTag.objects.filter(
+            annotation="link", thing=timetable)
+
+        links = []
+
+        for raw_link in raw_links:
+            target = raw_link.targetthing
+            if target.type == "part":
+                name = target.parent.fullname + ", " + target.fullname
+            else:
+                name = target.fullname + " " + "(" + target.parent.parent.fullname + "), " + target.parent.fullname
+
+            link = {
+                "fullpath": target.fullpath,
+                "name": name
+            }
+
+            links.append(link)
+
+        return links
+
     def get_permissions(self, username, thing):
         can_edit = thing.can_be_edited_by(username)
         if not can_edit:
@@ -155,12 +177,14 @@ class TimetableListRead(django.views.generic.View):
         assert timetable_thing.type == "tripos"
 
         modules = self.page_modules(thing)
+        links = self.links(thing)
 
         can_edit, lock_holder = self.get_permissions(
                 request.user.username, thing)
 
         context = {
             "modules": modules,
+            "links": links,
             "thing": thing,
             "timetable_thing": timetable_thing,
             "can_edit": can_edit,
@@ -193,6 +217,10 @@ class TimetableListWrite(TimetableListRead):
 
         if redirect:
             return shortcuts.redirect("admin list read", context["thing"])
+
+        grouped_subjects = models.Subjects.group_for_part_drill_down(
+            models.Subjects.all_subjects())
+        context["subjects"] = models.Subjects.to_json(grouped_subjects)
 
         return shortcuts.render(request,
                 "administrator/timetableList/write.html", context)
@@ -388,6 +416,71 @@ def new_series(request):
     # return data
     return HttpResponse(json.dumps(es_data), content_type="application/json")
 
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def new_thing_link(request, thing):
+    from_hash_id = models.Thing.hash(thing)
+    to_hash_id = models.Thing.hash(request.POST.get("fullpath"))
+
+    if from_hash_id == to_hash_id:
+        return http.HttpResponseBadRequest("Cannot link a thing to itself")
+
+    try:
+        from_thing = models.Thing.objects.get(pathid=from_hash_id)
+        to_thing = models.Thing.objects.get(pathid=to_hash_id)
+    except models.Thing.DoesNotExist:
+        return http.HttpResponseNotFound("Thing not found")
+
+    # get a list of the things which the user may edit
+    editable = get_user_editable(request)
+    if from_thing.id not in editable:
+        return http.HttpResponseForbidden("Permission denied.");
+
+    thing_tag = models.ThingTag.objects.get_or_create(
+        annotation="link", thing=from_thing, targetthing=to_thing)
+
+    if thing_tag[1] == False:
+        return http.HttpResponseBadRequest("Link already exists.")
+
+    response = {
+        "success": True,
+        "fullpath": thing_tag[0].targetthing.fullpath
+    }
+
+    return HttpResponse(json.dumps(response), content_type="application/json")
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def delete_thing_link(request, thing):
+    from_hash_id = models.Thing.hash(thing)
+    to_hash_id = models.Thing.hash(request.POST.get("fullpath"))
+
+    try:
+        from_thing = models.Thing.objects.get(pathid=from_hash_id)
+        to_thing = models.Thing.objects.get(pathid=to_hash_id)
+    except models.Thing.DoesNotExist:
+        return http.HttpResponseNotFound("Thing not found")
+
+    # get a list of the things which the user may edit
+    editable = get_user_editable(request)
+    if from_thing.id not in editable:
+        return http.HttpResponseForbidden("Permission denied.");
+
+    thing_tags = models.ThingTag.objects.filter(
+        annotation="link", thing=from_thing, targetthing=to_thing)
+
+    if not len(thing_tags):
+        return http.HttpResponseNotFound("ThingTag does not exist")
+
+    thing_tags.delete()
+
+    response = {
+        "success": True
+    }
+
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
 @require_POST
 @login_required

@@ -4,11 +4,13 @@
 
 {% block top_title %}
   Timetable for
-  {% if thing.type == "part" %}
-    {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
-  {% else %}
-    {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
-  {% endif %}
+  <span class="js-timetable-title">
+    {% if thing.type == "part" %}
+      {{ thing.parent.fullname }} &mdash; {{ thing.fullname }}
+    {% else %}
+      {{ thing.parent.parent.fullname }} &mdash; {{ thing.fullname }} {{ thing.parent.fullname }}
+    {% endif %}
+  </span>
 {% endblock top_title %}
 
 {% block admin_content %}
@@ -44,7 +46,7 @@
   </ul>
 </div>
 
-<div id="{% block timetable_el_id %}timetable-view{% endblock %}" class="js-timetable" data-id="{{ thing.pk }}">
+<div id="{% block timetable_el_id %}timetable-view{% endblock %}" class="js-timetable" data-fullpath="{{ thing.fullpath }}" data-id="{{ thing.pk }}">
   {% block timetable_tab_nav %}
   <ul class="nav nav-tabs">
     <li class="active">

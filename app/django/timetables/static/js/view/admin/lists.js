@@ -2,13 +2,13 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "view/admin/removeDialog",
+    "util/dialog-factory",
     "util/django-forms",
     "util/contenteditable",
     "jquery-bbq",
     "bootstrapTypeahead",
     "util/jquery.select-text"
-], function($, _, Backbone, RemoveDialog, DjangoForms, contenteditable) {
+], function($, _, Backbone, dialogFactory, DjangoForms, contenteditable) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -518,14 +518,14 @@ define([
          * events.
          */
         showRemoveModal: function () {
-            this.removeModal = new RemoveDialog({
-                type: "module",
+            var data = {
                 title: this.editableTitle.$value.text(),
-                contents: "its " + this.getTotalSeries() + " series and all of their events"
-            });
+                type: "module",
+                totalSeries: this.getTotalSeries()
+            };
 
+            this.removeModal = dialogFactory.removeModule(data);
             this.removeModal.on("confirm", this.onRemoveModalConfirm);
-            this.removeModal.on("close", this.onRemoveModalClose);
         },
 
         /**
@@ -548,11 +548,6 @@ define([
                     self.removeModal.onError();
                 }
             });
-        },
-
-        onRemoveModalClose: function () {
-            this.removeModal.off();
-            this.removeModal.remove();
         },
 
         /**
@@ -909,14 +904,13 @@ define([
          * events.
          */
         showRemoveModal: function () {
-            this.removeModal = new RemoveDialog({
-                type: "series",
+            var data = {
                 title: this.editableTitle.$value.text(),
-                contents: "all of its events"
-            });
+                type: "series"
+            };
 
+            this.removeModal = dialogFactory.removeSeries(data);
             this.removeModal.on("confirm", this.onRemoveModalConfirm);
-            this.removeModal.on("close", this.onRemoveModalClose);
         },
 
         /**

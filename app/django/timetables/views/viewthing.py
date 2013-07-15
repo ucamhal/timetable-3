@@ -3,13 +3,13 @@ Created on Oct 18, 2012
 
 @author: ieb
 '''
-from django.views.generic.base import View
-from timetables.models import Thing, EventSource
+from django.db import models
 from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponseForbidden
 from django.shortcuts import render
-from django.db import models
+from django.views.generic.base import View
 from timetables.backend import ThingSubject
+from timetables.models import Thing, EventSource, ThingTag
 
 
 class ViewThing(View):
@@ -110,8 +110,25 @@ class ChildrenView(View):
                 module["series"] = sorted(series, key=lambda item: item.get("title", "").lower())
                 modules.append(module)
 
+            raw_links = ThingTag.objects.filter(annotation="link", thing=thing)
+            links = []
+
+            for raw_link in raw_links:
+                target = raw_link.targetthing
+                if target.type == "part":
+                    name = target.parent.fullname + ", " + target.fullname
+                else:
+                    name = target.fullname + " " + "(" + target.parent.parent.fullname + "), " + target.parent.fullname
+                link = {
+                    "fullpath": target.fullpath,
+                    "name": name
+                }
+
+                links.append(link)
+
             context = {
-                "modules": sorted(modules, key=lambda item: item.get("title", "").lower())
+                "modules": sorted(modules, key=lambda item: item.get("title", "").lower()),
+                "links": sorted(links, key=lambda item: item.get("name", "").lower())
             }
             return render(request, "student/modules-list/base.html", context)
         except Thing.DoesNotExist:

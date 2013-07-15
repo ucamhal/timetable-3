@@ -28,11 +28,6 @@ body ul {
   margin-left: 0;
 }
 
-ul.yes-this-is-really-a-list {
-  list-style-type: disc;
-  margin: 0 0 10px 25px;
-}
-
 .buttons a {
   opacity: .6;
 }
@@ -92,6 +87,10 @@ a.addModule {
 
 #adminListActions ul li {
   margin-left: 15px;
+}
+
+.modulesList {
+  margin-top: 40px;
 }
 
 .modulesList .module a.addSeries {
@@ -278,13 +277,13 @@ select.event-type {
   padding-left: 5px;
 }
 
+#adminListView .nav-tabs {
+  margin-bottom: 0;
+}
+
 #adminListView .nav-tabs > li > a,
 #timetable-view .nav-tabs > li > a {
   padding: 11px 23px;
-}
-
-#adminListView .nav-tabs {
-  margin-bottom: 40px;
 }
 
 #adminListView .event.highlighted > td {
@@ -412,13 +411,15 @@ select.event-type {
 }
 
 .addSeries,
-.addModule {
+.addModule,
+.add-link {
   color: #0088cc;
   padding-top: 6px;
 }
 
 .addSeries:hover,
-.addModule:hover {
+.addModule:hover,
+.add-link:hover {
   color: #005580;
 }
 
@@ -661,4 +662,59 @@ select.event-type {
 
 .contenteditable {
   display: inline;
+}
+
+#linked-timetables {
+  padding-top: 36px;
+  padding-bottom: 13px;
+}
+
+#linked-timetables .links-list li {
+  padding: 2px 3px;
+}
+
+#linked-timetables .links-list li .actions a:hover {
+  opacity: 1;
+}
+
+#linked-timetables .links-list .value > a {
+  display: inline;
+}
+
+#linked-timetables .links-list li .actions {
+  margin-left: 18px;
+  display: inline;
+}
+
+#linked-timetables .links-list li .actions a {
+  opacity: .6;
+}
+
+#linked-timetables .links-list .edit {
+  background-color: #fff6e2;
+  border: 1px dashed #cccccc;
+  margin: 5px 5px 2px 5px;
+  padding: 10px;
+  display: inline-block;
+}
+
+#linked-timetables .add-link {
+  font-size: .9em;
+}
+
+#linked-timetables .add-link span {
+  margin-right: 5px;
+}
+
+#linked-timetables .links-list li .selector,
+#linked-timetables .links-list .edit .value {
+  display: none;
+}
+
+#linked-timetables .links-list .edit .selector {
+  display: block;
+}
+
+#linked-timetables select {
+  margin: 0 10px 0 0;
 }

@@ -19,34 +19,14 @@ from timetables.utils.site import get_site_url_from_request
 
 
 class IndexView(View):
-
-    def get_subjects_json(self):
-        grouped_subjects = Subjects.group_for_part_drill_down(
-                Subjects.all_subjects())
-
-        # Reorganise the subject list for use in our templates
-        return [
-            {
-                "name": key,
-                "parts": [
-                    {
-                        # TODO: change level_name -> part_name
-                        "level_name": sub.get_part().fullname,
-                        "fullpath": sub.get_path()
-                    }
-                    for sub in subs
-                ]
-            }
-            for (key, subs) in grouped_subjects
-        ]
-
     def get(self, request):
         site_url = get_site_url_from_request(request)
-
+        grouped_subjects = Subjects.group_for_part_drill_down(
+            Subjects.all_subjects())
         # Get the cambridge year data for the acadamic year set in the settings.
         acadamic_year = AcademicYear.for_year(settings.DEFAULT_ACADEMIC_YEAR)
         context = {
-            "subjects": self.get_subjects_json(),
+            "subjects": Subjects.to_json(grouped_subjects),
             "site_url": site_url,
             "terms": acadamic_year.get_terms_json(),
             "calendar_start": acadamic_year.start_boundary.isoformat(),

@@ -3,12 +3,13 @@ define([
     "underscore",
     "backbone",
     "view/student/modules",
+    "view/modules-selector",
     "view/admin/calendar",
     "view/cookieHandler",
     "view/student/export-to-calendar-popup",
     "model/calendarModel",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, Calendar, CookieHandler, ExportToCalendarPopup, CalendarModel) {
+], function ($, _, Backbone, Modules, ModulesSelector, Calendar, CookieHandler, ExportToCalendarPopup, CalendarModel) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -82,7 +83,7 @@ define([
                 crsfToken: this.getCrsfToken()
             });
 
-            this.modulesSelector = new Modules.ModulesSelector({
+            this.modulesSelector = new ModulesSelector({
                 el: ".js-modules-selector"
             });
 
