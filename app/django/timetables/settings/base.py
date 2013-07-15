@@ -56,7 +56,7 @@ REPO_ROOT_DIR = DJANGO_DIR.ancestor(2)
 # The academic year to use when expanding date patterns which don't
 # specify an academic year themselves. The number indicates the year the
 # academic year starts in, e.g. 2013 is the 2013-2014 academic year.
-DEFAULT_ACADEMIC_YEAR = 2012
+DEFAULT_ACADEMIC_YEAR = 2013
 
 
 ##########################
