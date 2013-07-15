@@ -140,7 +140,7 @@ class Command(manage_commands.ArgparseBaseCommand):
         )
 
     def get_events(self):
-        return Event.objects.all()[:20]
+        return Event.objects.all()
 
     def get_event_mover(self, args):
         return EventMover(
