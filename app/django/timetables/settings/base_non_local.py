@@ -56,7 +56,8 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "json": {
-            "()": "jsonlogging.get_json_formatter"
+            "()": "jsonlogging.json_formatter_factory",
+            "format": "timetable:{json}"
         }
     },
     "handlers": {
