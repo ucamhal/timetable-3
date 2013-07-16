@@ -21,7 +21,7 @@ define([
     };
 
     var addThingLink = function addThingLink(thingFullpath, linkFullpath, callback) {
-        var url = "/" + encodeURIComponent(thingFullpath) + "/links/new",
+        var url = "/" + thingFullpath + "/links/new",
             type = "post",
             data = {
                 fullpath: linkFullpath
@@ -30,7 +30,7 @@ define([
     };
 
     var removeThingLink = function removeThingLink(thingFullpath, linkFullpath, callback) {
-        var url = "/" + encodeURIComponent(thingFullpath) + "/links/delete",
+        var url = "/" + thingFullpath + "/links/delete",
             type = "post",
             data = {
                 fullpath: linkFullpath
