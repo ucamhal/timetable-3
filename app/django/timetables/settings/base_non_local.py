@@ -57,7 +57,7 @@ LOGGING = {
     "formatters": {
         "json": {
             "()": "jsonlogging.json_formatter_factory",
-            "format": "timetable:{json}"
+            "format": "timetable: {json}"
         }
     },
     "handlers": {
