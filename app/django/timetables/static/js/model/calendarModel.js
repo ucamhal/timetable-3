@@ -141,11 +141,14 @@ define([
          */
         goToPrevTerm: function () {
             var activeWeek = this.get("activeWeek") - 1 || 0,
-                prevTerm = this.getPrevTermForDate(this.getActiveDate());
+                prevTerm = this.getPrevTermForDate(this.getActiveDate()),
+                termDate;
 
             if (prevTerm) {
                 // Keep the week offset
-                this.setActiveDate(new Date(prevTerm.start.valueOf() + (activeWeek * this.week)));
+                termDate = new Date(prevTerm.start.valueOf());
+                termDate.setDate(termDate.getDate() + (activeWeek * 7));
+                this.setActiveDate(termDate);
             }
         },
 
@@ -155,11 +158,14 @@ define([
          */
         goToNextTerm: function () {
             var activeWeek = this.get("activeWeek") - 1 || 0,
-                nextTerm = this.getNextTermForDate(this.getActiveDate());
+                nextTerm = this.getNextTermForDate(this.getActiveDate()),
+                termDate;
 
             if (nextTerm) {
                 // Keep the week offset
-                this.setActiveDate(new Date(nextTerm.start.valueOf() + (activeWeek * this.week)));
+                termDate = new Date(nextTerm.start.valueOf());
+                termDate.setDate(termDate.getDate() + (activeWeek * 7));
+                this.setActiveDate(termDate);
             }
         },
 
@@ -274,10 +280,10 @@ define([
                 week;
             if (term) {
                 // Calculate the week number.
-                week = Math.floor((date - term.start + this.week) / this.week);
+                week = Math.floor((date - term.start) / this.week);
             }
 
-            return week;
+            return week + 1;
         },
 
         /**
