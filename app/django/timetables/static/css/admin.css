@@ -234,12 +234,22 @@ select.event-type {
 /* Event fields need a pencil icon when hovering over them */
 .event-editable .event-field {
   padding-right: 20px; /* To accommodate the pencil icon */
+  max-width: 192px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: middle;
 }
 
 .event-editable .event-field .event-input {
   padding: 2px 3px;
   border: 1px solid transparent;
   min-height: 1.4em;
+}
+
+.event-editable .event-field .direct-input {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .event-editable.row-being-edited .event-field .event-input,
@@ -540,6 +550,11 @@ select.event-type {
  * UI jumping quick fixes
  *
  */
+.event .eventActions {
+  max-width: 50px;
+  vertical-align: middle;
+}
+
 .event .eventActions ul li {
   display: inline;
 }

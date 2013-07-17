@@ -1,6 +1,6 @@
 <tr class="event js-event {{ event_classes }}" data-id="{{ event.id }}">
   <td title="Title" class="event-field eventTitle js-event-direct-input-wrap">
-    <div class="js-field js-field-title event-input" contenteditable="{{ editable }}" data-value="{{ event.title }}" tabindex="0">{{ event.title|default:"" }}</div>
+    <div class="js-field js-field-title event-input direct-input" contenteditable="{{ editable }}" data-value="{{ event.title }}" tabindex="0">{{ event.title|default:"" }}</div>
   </td>
   <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="{{ event.type }}" tabindex="0">
     {% block event_type %}
@@ -40,10 +40,10 @@
     </div>
   </td>
   <td title="Location" class="event-field eventLocation js-event-direct-input-wrap">
-    <div class="js-field js-field-location event-input" tabindex="0" data-value="{{ event.location }}" contenteditable="{{ editable }}">{{ event.location|default:"" }}</div>
+    <div class="js-field js-field-location event-input direct-input" tabindex="0" data-value="{{ event.location }}" contenteditable="{{ editable }}">{{ event.location|default:"" }}</div>
   </td>
   <td title="Lecturer/host/etc" class="event-field eventLecturers js-event-direct-input-wrap">
-    <div class="js-field js-field-people event-input" tabindex="0" data-value="{{ event.metadata.people|join:", " }}" contenteditable="{{ editable }}">{{ event.metadata.people|join:", "|default:"" }}</div>
+    <div class="js-field js-field-people event-input direct-input" tabindex="0" data-value="{{ event.metadata.people|join:", " }}" contenteditable="{{ editable }}">{{ event.metadata.people|join:", "|default:"" }}</div>
   </td>
   {% block event_right %}
   {% endblock event_right %}
