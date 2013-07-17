@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>404 &ndash; Page not found</h1>
+
+  <p>The page you tried to access does not exist.</p>
+
+  <p>
+    <ul>
+      <li>Return to the <a href="{% url "home" %}">home page</a></li>
+      <li>If you typed the URL manually check it and try again</li>
+    </ul>
+  <p>
+{% endblock content %}

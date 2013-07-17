@@ -6,6 +6,7 @@ point, or that a site only has one page which uses javascript for page
 transitions. 
 """
 from django.core import urlresolvers
+from django.http import Http404
 
 JS_MAIN_ATTR_NAME = "javascript_main_module"
 
@@ -28,8 +29,15 @@ JS_MAIN_ATTR_NAME = "javascript_main_module"
 def js_main_module_contextprocessor(request):
     """Inserts into the template context the value set by the js_main view
     decorator."""
-    match = urlresolvers.resolve(request.path)
-    return {JS_MAIN_ATTR_NAME: getattr(match.func, JS_MAIN_ATTR_NAME, None)}
+    try:
+        match = urlresolvers.resolve(request.path)
+        module = getattr(match.func, JS_MAIN_ATTR_NAME, None)
+
+    # It's possible to get a 404 when the request itself is a 404
+    except Http404:
+        module = None
+
+    return {JS_MAIN_ATTR_NAME: module}
 
 def js_main_module(module_name):
     """A function decorator which can be used to set the javascript_main_module

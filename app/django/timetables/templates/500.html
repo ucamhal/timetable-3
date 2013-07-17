@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>500 &ndash; Server error</h1>
+
+  <p>Timetable encountered an error while creating the page for you.</p>
+
+  <p>
+    <ul>
+      <li>Return to the <a href="{% url "home" %}">home page</a></li>
+      <li>Use your browser's back button to return to the previous page</li>
+    </ul>
+  <p>
+{% endblock content %}
