@@ -575,12 +575,12 @@ select.event-type {
   background-image: url(../img/typePracticalIcon.png);
 }
 
-.event-type-laboratory {
-  background-image: url(../img/typeLaboratoryIcon.png);
+.event-type-class {
+  background-image: url(../img/typeClassIcon.png);
 }
 
-.event-type-language {
-  background-image: url(../img/typeLanguageClassIcon.png);
+.event-type-fieldtrip {
+  background-image: url(../img/typeFieldTripIcon.png);
 }
 
 .datePatternDialog {

@@ -5,7 +5,7 @@
   <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="{{ event.type }}" tabindex="0">
     {% block event_type %}
     <div>
-      <span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}">
+      <span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower|cut:" " }}">
         {{ event.metadata.type|default:"" }}
       </span>
     </div>

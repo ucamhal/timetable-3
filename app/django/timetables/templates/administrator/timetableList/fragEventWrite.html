@@ -1,7 +1,7 @@
 {% extends "administrator/timetableList/fragEventRead.html" %}
 
 {% block event_type %}
-<span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower }}">
+<span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower|cut:" " }}">
   {{ event.metadata.type|default:"" }}
 </span>
 
