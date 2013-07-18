@@ -77,7 +77,7 @@
         <h3>Log in to the admin interface</h3>
         <img src="{% static "administratorhelp/img/gallery/2.png" %}" alt="Admin Overview Screen"/>
 
-        <p>Please <a href="mailto:tthelp@camacuk.zendesk.com">contact us</a> with your CRSid to be added as an admin user. Once logged in, you will be taken to the first Tripos or Department that you have edit rights to. You will also be able to view other timetables too. You can find other Triposes and Departments by using the dropdown. Each timetable in a Department or Tripos is presented as a tile. The ones you have permission to edit are indicated with a pencil icon and the text 'Edit', while the ones you can’t are shown as 'View only'. </p>
+        <p>Please <a href="mailto:{{ contact_us_address }}">contact us</a> with your CRSid to be added as an admin user. Once logged in, you will be taken to the first Tripos or Department that you have edit rights to. You will also be able to view other timetables too. You can find other Triposes and Departments by using the dropdown. Each timetable in a Department or Tripos is presented as a tile. The ones you have permission to edit are indicated with a pencil icon and the text 'Edit', while the ones you can’t are shown as 'View only'. </p>
       </div>
     </div>
 
@@ -147,7 +147,7 @@
             
             <ul class="right">
               <li>
-                <a href="mailto:timetables-support@caret.cam.ac.uk">Contact or give us feedback</a>
+                <a href="mailto:{{ contact_us_address }}">Contact or give us feedback</a>
               </li>
               <li>
                 <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
