@@ -1,0 +1,99 @@
+The scripts in this directory are intended to assist with migrating data
+between Timetable servers. They were designed with one particular use case in
+mind (as shown in example below), but it is probably possible to adapt them/
+their outputs for other uses too.
+
+=== Scenario ===
+* "Live" server contains authoritative event-related data (e.g. lecture listings).
+* We want to update another, "Play" server with this authoritative Event data,
+  but want to preserve the User Permissions data on the "Play" server.
+
+
+=== Data flow that these scripts use to achieve this ===
+
+1) "Live" ->datadump ->[exclude user-related data]    -> "non-user" datadump [1]
+                                                        (i.e. event-related data)
+
+2a) "Play"->datadump ->[extract user permissions data] -> user permissions CSV
+
+2b) Edit CSV if necessary
+
+2c) user permissions CSV from "Play" -----[merge]---> user-related datadump [2] 
+                                             |
+                                             |
+     "non-user" datadump from "Live" --------/
+
+NOTE: this "merge" operation attempts to match "fullpath" names of Subjects that
+the "Play" CSV specifies to "fullpath" names in the dump from "Live"; there may
+be mismatches. If so, optionally go back to 2b) and repeat.
+
+3) Delete ALL Timetable data from "Play"
+
+4) Populate "Play":
+4a)   "non-user" datadump [1] ->load into-> "Play"
+4b) user-related datadump [2] ->load into-> "Play"
+
+
+=== HOWTO actually do this with the scripts ===
+
+N.B. substitute appropriate values for things in ((brackets))
+e.g. ((pathtoscript)) is the same directory that this README lives in
+
+HANDY HINT: if you need to debug JSON files, you can pretty print them like this:
+$ cat ((file)) | python -mjson.tool
+
+1) Dump and filter "Live" data:
+liveserver$ export DJANGO_SETTINGS_MODULE=timetables.settings.((live))
+liveserver$ python ((pathtoapp))/app/django/manage.py dumpdata timetables > live.dump
+# move live.dump to play server
+playserver$ cat live.dump | python ((pathtoscript))/extract_non_user_data.py > live-non_user.json
+
+2a) Dump and extract data from "Play":
+playserver$ export DJANGO_SETTINGS_MODULE=timetables.settings.((play))
+playserver$ python ((pathtoapp))/app/django/manage.py dumpdata timetables > play.dump
+playserver$ cat play.dump | python ((pathtoscript))/extract_user_permissions_as_csv.py > play-userperms.csv
+
+2b) Edit CSV if necessary (skip this step first time round)
+
+2c) Attempt to merge with "Live" data:
+playserver$ cat play-userperms.csv | \
+    python ((pathtoscript))/merge_user_permissions_csv_with_non_user_data.py live-non_user.json \
+    > merged-userperms.json 
+
+Inspect any errors output by the script, go back to 2b) if necessary.
+You may decide that some errors can be ignored, or that some errors are best fixed
+by admin users manually after this is finished.
+
+3) Delete ALL Timetable data from "Play"
+
+- First, probably best to disable Apache to keep users out!
+
+- Next, check the current list of tables (unless you've been told otherwise)
+
+The SQL below was correct at the time of writing; in future, tables may
+have been added or removed. The only tables we care about here are those
+prefixed with "timetables_". To get a current list of tables, do this command
+and check the line starting "TRUNCATE" (don't worry about the sequence related
+commands, they're not needed):
+
+playserver$ python ((pathtoapp))/app/django/manage.py sqlflush
+
+Check the line starting TRUNCATE to see that all table names beginning with 
+"timetables_" to see that they match the SQL below.
+
+- Now run the SQL:
+
+playserver$ psql ((play-dbname)) ((play-username)) -h ((db-hostname))
+
+psql=> TRUNCATE "timetables_eventsourcetag", "timetables_thingtag", "timetables_thing", "timetables_eventsource", "timetables_thinglock", "timetables_eventtag", "timetables_event";
+
+4) Load newly generated files into "Play"
+# N.B. The first loaddata step could take around 10 minutes
+playserver$ python ((pathtoapp))/app/django/manage.py loaddata live-non_user.json
+playserver$ python ((pathtoapp))/app/django/manage.py loaddata merged-userperms.json
+
+- Now Apache can be re-enabled.
+
+- Don't forget to manually fix up any permissions if necessary (i.e. those you decided
+not to fix in 2b) but to fix manually instead rather than ignoring).
+
