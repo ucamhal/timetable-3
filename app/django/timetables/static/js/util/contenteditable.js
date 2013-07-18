@@ -13,7 +13,7 @@ define(["jquery", "underscore", "rangy-core", "util/assert"], function($, _, ran
      * have been converted to plaintext.
      */
     function maintainPlainText(pasteEvent) {
-        var $this = $(pasteEvent.target),
+        var $this = $(this),
             selection = rangy.getSelection(),
             range,
             rangeRightOffset,
@@ -27,10 +27,20 @@ define(["jquery", "underscore", "rangy-core", "util/assert"], function($, _, ran
 
         // Get the current cursor position
         range = selection.getRangeAt(0);
-        assert(range.endContainer.nodeType === TEXT_NODE);
 
-        // We need the offset from the right side of the textnode
-        rangeRightOffset = range.endContainer.length - range.endOffset;
+        // Is the range end on the editable element itself?
+        if(range.endContainer === this) {
+            // The element is either empty, or we're on the right end
+            // in Firefox. Either way, the right offset is 0.
+            rangeRightOffset = 0;
+        }
+        else if(range.endContainer.nodeType === TEXT_NODE) {
+            // We need the offset from the right side of the textnode
+            rangeRightOffset = range.endContainer.length - range.endOffset;
+        }
+        else {
+            assert(false, "Unexpected range state");
+        }
 
         // Defer to allow the browser to paste in the content
         _.defer(function() {
