@@ -29,7 +29,7 @@ define([
             this.render();
         },
 
-        template: _.template($("#js-templ-remove-dialog").text()),
+        template: _.template($("#js-templ-remove-dialog").html()),
 
         /**
          * Bind all necessary external events.

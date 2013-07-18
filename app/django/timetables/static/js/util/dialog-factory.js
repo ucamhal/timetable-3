@@ -8,8 +8,8 @@ define([
 
     var saveLinkError = function saveLinkError(data) {
         return new ErrorDialog({
-            titleText: _.template($("#js-templ-error-popup-save-link-title").text(), data),
-            messageText: _.template($("#js-templ-error-popup-save-link-message").text(), data)
+            titleText: _.template($("#js-templ-error-popup-save-link-title").html(), data),
+            messageText: _.template($("#js-templ-error-popup-save-link-message").html(), data)
         });
     };
 
@@ -36,31 +36,31 @@ define([
 
     var removeLink = function removeLink(data) {
         return new RemoveDialog({
-            titleText: _.template($("#js-templ-remove-link-popup-title").text(), data),
-            contentsText: _.template($("#js-templ-remove-link-popup-contents").text(), data),
-            confirmBtnText: _.template($("#js-templ-remove-link-popup-btn-confirm").text(), data),
-            errorText: _.template($("#js-templ-remove-link-popup-error").text(), data),
-            removingTitleText: _.template($("#js-templ-remove-link-popup-removing-title").text(), data)
+            titleText: _.template($("#js-templ-remove-link-popup-title").html(), data),
+            contentsText: _.template($("#js-templ-remove-link-popup-contents").html(), data),
+            confirmBtnText: _.template($("#js-templ-remove-link-popup-btn-confirm").html(), data),
+            errorText: _.template($("#js-templ-remove-link-popup-error").html(), data),
+            removingTitleText: _.template($("#js-templ-remove-link-popup-removing-title").html(), data)
         });
     };
 
     var removeModule = function removeModule(data) {
         return new RemoveDialog({
-            titleText: _.template($("#js-templ-remove-module-series-popup-title").text(), data),
-            contentsText: _.template($("#js-templ-remove-module-popup-contents").text(), data),
-            confirmBtnText: _.template($("#js-templ-remove-module-series-popup-btn-confirm").text(), data),
-            errorText: _.template($("#js-templ-remove-module-series-popup-error").text(), data),
-            removingTitleText: _.template($("#js-templ-remove-module-series-popup-removing-title").text(), data)
+            titleText: _.template($("#js-templ-remove-module-series-popup-title").html(), data),
+            contentsText: _.template($("#js-templ-remove-module-popup-contents").html(), data),
+            confirmBtnText: _.template($("#js-templ-remove-module-series-popup-btn-confirm").html(), data),
+            errorText: _.template($("#js-templ-remove-module-series-popup-error").html(), data),
+            removingTitleText: _.template($("#js-templ-remove-module-series-popup-removing-title").html(), data)
         });
     };
 
     var removeSeries = function removeSeries(data) {
         return new RemoveDialog({
-            titleText: _.template($("#js-templ-remove-module-series-popup-title").text(), data),
-            contentsText: _.template($("#js-templ-remove-series-popup-contents").text(), data),
-            confirmBtnText: _.template($("#js-templ-remove-module-series-popup-btn-confirm").text(), data),
-            errorText: _.template($("#js-templ-remove-module-series-popup-error").text(), data),
-            removingTitleText: _.template($("#js-templ-remove-module-series-popup-removing-title").text(), data)
+            titleText: _.template($("#js-templ-remove-module-series-popup-title").html(), data),
+            contentsText: _.template($("#js-templ-remove-series-popup-contents").html(), data),
+            confirmBtnText: _.template($("#js-templ-remove-module-series-popup-btn-confirm").html(), data),
+            errorText: _.template($("#js-templ-remove-module-series-popup-error").html(), data),
+            removingTitleText: _.template($("#js-templ-remove-module-series-popup-removing-title").html(), data)
         });
     };
 

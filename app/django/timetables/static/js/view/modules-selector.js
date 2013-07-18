@@ -52,7 +52,7 @@ define([
 
         getModuleTextFromFullpath: function (fullpath) {
             var $selectedModule = this.getSelectedModuleOptionFromFullpath(fullpath);
-            return $selectedModule ? $selectedModule.text() : "";
+            return $selectedModule ? $.trim($selectedModule.text()) : "";
         },
 
         getPartTextFromFullpath: function (fullpath) {

@@ -24,7 +24,7 @@ define([
             this.render();
         },
 
-        template: _.template($("#js-templ-error-dialog").text()),
+        template: _.template($("#js-templ-error-dialog").html()),
 
         bindEvents: function () {
             this.listenTo(this.model, "change", this.render);

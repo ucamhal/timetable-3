@@ -7,7 +7,7 @@ define([
     "use strict";
 
     var TimetableLinkView = Backbone.View.extend({
-        template: _.template($("#js-templ-link").text()),
+        template: _.template($.trim($("#js-templ-link").html())),
         tagName: "li",
 
         initialize: function () {
