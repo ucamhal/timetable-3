@@ -37,9 +37,9 @@ class DatePatternImporter(object):
             Event.after_bulk_operation()
 
             return len(events)
-        except:
+        except Exception as e:
             log.warning("Failed to parse date pattern: %s in "
-                "eventsource ID: %d" % (datePattern, source.id))
+                "eventsource ID: %d %s" % (datePattern, source.id, e))
             return 0
 
     def get_academic_year(self, metadata):

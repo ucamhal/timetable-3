@@ -7,6 +7,7 @@ from django.utils.datetime_safe import date
 from django.utils import timezone
 
 from timetables.models import Event
+from timetables.utils.academicyear import TERM_STARTS
 from timetables.utils.v1 import pparser
 from timetables.utils.v1.fullpattern import FullPattern
 from timetables.utils.v1.grouptemplate import GroupTemplate

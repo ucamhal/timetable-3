@@ -43,4 +43,41 @@ WSGI_APPLICATION = "timetables.wsgi.local.application"
 # doesn't matter if this value is known.
 SECRET_KEY = "super secret"
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {
+            "format": "timetables: "
+                      "%(levelname)s %(asctime)s %(name)s: %(message)s",
+
+            "datefmt": "[%Y-%m-%d %H:%M:%S]"
+        }
+    },
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "ERROR",
+            "class": "logging.StreamHandler",
+            "formatter": "console"
+        }
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "timetables": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        }
+    }
+}
+
 ALLOWED_HOSTS = ["localhost"]

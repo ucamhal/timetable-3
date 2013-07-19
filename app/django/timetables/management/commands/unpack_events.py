@@ -18,4 +18,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         sources, imported = Event.objects.unpack_sources(EventSource.objects.all())
-        log.info("%s sources successfully unpacked producing %s events " % (sources, imported) )
+        print "%s sources successfully unpacked producing %s events " % (sources, imported)
