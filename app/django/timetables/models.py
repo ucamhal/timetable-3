@@ -409,7 +409,7 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
         Update this Thing's name (and therefore fullpath) based on the
         current value of the fullname field.
         """
-        self.name = self.get_unique_child_name(self.fullname)
+        self.name = self.parent.get_unique_child_name(self.fullname)
 
     def _needs_fullpath_update(self):
         return (
