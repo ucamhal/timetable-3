@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>403 &ndash; Permission denied</h1>
+  <h2>403 &ndash; Permission denied</h2>
 
-  <p>You don't have permission to access this page.</p>
+  <p class="">You don't have permissions to access this page.</p>
 
-  <p>If you think you should, please email <a href="mailto:{{ contact_us_address }}">{{ contact_us_address }}</a></p>
+  {% if permission_denied_alternative_server %}
+    <div class="hero hero-unit">
+        <p>If you are a University administrator wanting to try out the new Timetable system please visit this url instead: <a href="{{ no_permissions_alternative_server }}"><strong>{{ no_permissions_alternative_server }}</strong></a></p>
+    </div>
+  {% else %}
+    <p>If you think you should have permissions to this site, please email <a href="mailto:{{ contact_us_address }}">{{ contact_us_address }}</a></p>
+  {% endif %}
 {% endblock content %}

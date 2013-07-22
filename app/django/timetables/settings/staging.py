@@ -13,3 +13,5 @@ WSGI_APPLICATION = "timetables.wsgi.staging.application"
 GOOGLE_ANALYTICS_ID = "UA-__addthis__"
 
 IS_PLAY_SITE = True
+
+PERMISSION_DENIED_ALTERNATIVE_SERVER = "https://play.timetable.cam.ac.uk"
