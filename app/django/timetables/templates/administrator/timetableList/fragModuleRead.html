@@ -4,7 +4,7 @@
   <div class="js-module-title module-title clearfix">
     <h4 class="js-collapse collapsed" data-toggle="collapse" data-target="#module-{{ module.unique_id }}-content">
       <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-      <div class="contenteditable title js-value" data-save-path="{% url "thing edit" module.fullpath %}">{{ module.name }}</div>
+      <div class="contenteditable title js-value" data-save-path="{% url "module title edit" module.unique_id %}">{{ module.name }}</div>
       <span class="js-error-message error-message dontDisplayMe"></span>
     </h4>
     {% block module_title_right %}

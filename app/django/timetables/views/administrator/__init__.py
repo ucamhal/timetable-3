@@ -307,9 +307,7 @@ def edit_series_title(request, series_id):
         save()
         return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
 
-    return http.HttpResponseBadRequest("Series form did not pass "
-            "validation: %s" % series_form.errors)
-
+    return http.HttpResponseBadRequest(series_form.errors.get("title"))
 
 @require_POST
 @login_required
@@ -350,10 +348,48 @@ def new_module(request):
     thing_data = {
         "id": thing.pk,
         "fullname": fullname,
-        "save_path": reverse('thing edit', args=(thing.fullpath,))
+        "save_path": reverse("module title edit", args=(thing.pk,))
     }
 
     return HttpResponse(content=json.dumps(thing_data), content_type="application/json")
+
+@require_POST
+@login_required
+@permission_required('timetables.is_admin', raise_exception=True)
+def edit_module_title(request, pk):
+    try:
+        # Get only things of type "module"
+        thing = models.Thing.objects.get(pk=pk, type="module")
+    except models.Thing.DoesNotExist:
+        return http.HttpResponseNotFound("Module not found.")
+
+    # Check if the logged in admin has the proper edit permissions
+    editable = get_user_editable(request)
+    if thing.parent.id not in editable:
+        return http.HttpResponseForbidden("Permission denied.")
+
+    # Extract the module fullname from the post object
+    form_data = {
+        "fullname": request.POST.get("fullname")
+    }
+
+    # Initialise the form object
+    form = forms.ModuleForm(data=form_data, instance=thing)
+
+    if form.is_valid():
+        form.save()
+
+        # Construct the data object needed in the front-end
+        data = dict(form.data)
+        data["save_path"] = urlresolvers.reverse("module title edit", args=(form.instance.pk,))
+
+        return http.HttpResponse(
+            json.dumps(data),
+            mimetype="application/json"
+        )
+
+    # If the form is not valid return the errors
+    return http.HttpResponseBadRequest(form.errors.get("fullname"))
 
 
 @require_POST

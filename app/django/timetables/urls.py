@@ -8,7 +8,6 @@ from timetables.views.account import get_login_view, get_logout_view
 from timetables.views.calendarview import (CalendarView, CalendarHtmlView,
         EventListView)
 from timetables.views.resetfeed import ResetFeed
-from timetables.views.editthing import EditThingView
 from timetables.views.deletething import DeleteThingView
 from timetables.views.exportevents import ExportEvents
 from timetables.views.indexview import IndexView
@@ -112,6 +111,11 @@ urlpatterns = patterns(
         administrator.delete_series,
         name="delete series"),
 
+    # Edit a module title
+    url(r'modules/(?P<pk>[^/]+)/edit/title$',
+        administrator.edit_module_title,
+        name="module title edit"),
+
     url(r'(?P<thing>.*)/links/new$',
         administrator.new_thing_link,
         name="new thing link"),
@@ -175,11 +179,6 @@ urlpatterns = patterns(
     url(r'(?P<thing>.*)\.link$',
         LinkThing.as_view(),
         name="thing link"),
-
-    # Edit a thing
-    url(r'(?P<thing>.*)\.edit\.html$',
-        EditThingView.as_view(),
-        name="thing edit"),
 
     # Delete a thing
     url(

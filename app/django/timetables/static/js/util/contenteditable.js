@@ -12,7 +12,8 @@ define(["jquery", "underscore", "rangy-core", "util/assert"], function($, _, ran
      * and the caret is restored to this position after the pasted text/elements
      * have been converted to plaintext.
      */
-    function maintainPlainText(pasteEvent) {
+    function maintainPlainText() {
+        /*jshint validthis:true */
         var $this = $(this),
             selection = rangy.getSelection(),
             range,

@@ -1634,6 +1634,7 @@ define([
 
         saveAndClose: function () {
             this.toggleEditableState(false);
+            this.toggleErrorState(false);
 
             this.updateModel();
             if (this.locked || !this.model.isValid()) {
@@ -1682,15 +1683,17 @@ define([
                 error: function (error) {
                     timeDifference = new Date() - beforeSavingTime;
                     timer = setTimeout(function () {
-                        // Only revert the title to its previous value if the
-                        // status code isn't 409 (= conflict).
-                        if (error.status !== 409) {
+                        var responseText = "Saving failed, please try again later.";
+
+                        if (error.status === 500) {
                             self.revert();
+                        } else {
+                            responseText = error.responseText || responseText;
                         }
 
                         self.model.reset();
                         self.toggleSavingState(false);
-                        self.toggleErrorState(error.responseText || "Saving failed, please try again later.");
+                        self.toggleErrorState(responseText);
                         self.toggleEditableState(true);
                     }, Math.max(200 - timeDifference, 0));
                 }
