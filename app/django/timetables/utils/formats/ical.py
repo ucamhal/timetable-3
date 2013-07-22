@@ -21,6 +21,8 @@ class ICalExporter(object):
     An iCal Exporter.
     '''
 
+    stream_response = False
+
     def _join_comma_and(self, items):
         """
         Join a list of items in the normal English eay, e.g.
@@ -44,7 +46,7 @@ class ICalExporter(object):
 
     def export(self, events, metadata_names=None, feed_name="events"):
         '''
-        Creates a streaming http response of ical data representing the contents of the events sequence
+        Creates an HTTP response of ical data representing the contents of the events sequence
         :param events: a sequence of events
         :param metadata_names: mapping between the metadata key and the ical property name. 
             The key is the metadata key, the value is the name of the ical property.
@@ -89,9 +91,14 @@ class ICalExporter(object):
                 event.add('priority', 5)
                 yield event.to_ical()
             yield "END:VCALENDAR\r\n"
-        response = HttpResponse(generate(),content_type="text/calendar; charset=utf-8")
+
+        ical_body = generate()
+        if not self.stream_response:
+            ical_body = "".join(ical_body)
+
+        response = HttpResponse(ical_body,content_type="text/calendar; charset=utf-8")
         response['Content-Disposition'] = "attachment; filename=%s.ics" % feed_name
-        response.streaming = True
+        response.streaming = self.stream_response
         return response
 
 
