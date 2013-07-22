@@ -1,0 +1,64 @@
+{# Remove dialog #}
+<script id="js-templ-remove-dialog" type="text/template">
+  <% if (state === "start" || state === "progress") { %>
+    <div class="modal-header">
+      <% if (state !== "progress") { %>
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <% } %>
+      <h3><%= titleText %></h3>
+    </div>
+  <% } %>
+
+  <% if (state === "start") { %>
+    <div class="modal-body js-state-start js-delete-contents">
+      <%= contentsText %>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" data-dismiss="modal" class="btn btn-link">cancel</a>
+      <a href="#" class="btn btn-danger js-confirm"><%= confirmBtnText %></span></a>
+    </div>
+  <% } %>
+
+  <% if (state === "progress")  { %>
+    <div class="modal-body">
+      <h5><%= removingTitleText %></h5>
+      <div class="loading-indicator-content">
+        <div class="progress progress-striped active">
+          <div class="bar" style="width: 40%;"></div>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (state === "error") { %>
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3><%= titleText %></h3>
+    </div>
+
+    <div class="modal-body">
+      <%= errorText %>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+    </div>
+  <% } %>
+</script>
+
+{# Error dialog #}
+<script id="js-templ-error-dialog" type="text/template">
+  <div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3><%= titleText %></h3>
+  </div>
+
+  <div class="modal-body">
+    <%= messageText %>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+  </div>
+</script>
