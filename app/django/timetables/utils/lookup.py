@@ -6,10 +6,9 @@ from ldap import ldapobject
 from ldap.resiter import ResultProcessor
 from django.conf import settings
 
-try:
-    LDAP_LOOKUP_URL = settings.LDAP_LOOKUP_URL
-except:
-    LDAP_LOOKUP_URL = None
+
+LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
+
 
 # This class allows us to instantiate a ResultProcessor object
 # which allows us to retrieve results from an LDAP server
@@ -17,6 +16,7 @@ except:
 # results and allowing for faster retrieval:
 class AsyncLDAP(ldapobject.LDAPObject, ResultProcessor):
     pass
+
 
 class Lookup(object):
     """
@@ -31,10 +31,13 @@ class Lookup(object):
     LookupUser = collections.namedtuple(
             "LookupUser", ["crsid", "name", "email"])
 
-    def __init__(self):
-        if LDAP_LOOKUP_URL is not None:
-            self._ldap = AsyncLDAP(LDAP_LOOKUP_URL)
-            self._is_connected = False
+    def __init__(self, lookup_url=LDAP_LOOKUP_URL):
+        if not lookup_url:
+            raise ValueError(
+                "A lookup_url must be provided, got: {!r}".format(lookup_url))
+
+        self._ldap = AsyncLDAP(LDAP_LOOKUP_URL)
+        self._is_connected = False
 
     def __enter__(self):
         self.connect()

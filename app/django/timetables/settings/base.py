@@ -116,10 +116,6 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# Lookup url, to disable set to None
-LDAP_LOOKUP_URL = "ldaps://ldap.lookup.cam.ac.uk"
-
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
