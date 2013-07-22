@@ -1,10 +1,10 @@
 """
-The WSGI config for the staging instance.
+The WSGI config for the "play" (sandbox) production instance.
 """
 import os
 
-# Use the staging settings
-os.environ["DJANGO_SETTINGS_MODULE"] = "timetables.settings.staging_2013_14"
+# Use the production settings
+os.environ["DJANGO_SETTINGS_MODULE"] = "timetables.settings.production_play"
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
