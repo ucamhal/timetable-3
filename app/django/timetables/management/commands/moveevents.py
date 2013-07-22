@@ -126,8 +126,7 @@ class Command(manage_commands.ArgparseBaseCommand):
         }
 
     def format_datetime(self, dt):
-        now = datetime.datetime.now()
-        timestamp = time.mktime(now.timetuple())
+        timestamp = time.mktime(dt.timetuple())
         return format_date_time(timestamp)
 
     def format_relative_date(self, dt):
