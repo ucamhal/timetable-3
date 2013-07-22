@@ -121,7 +121,7 @@ define([
         // Time between short term lock refreshes
         pingTime: 1000 * 10,
         $timedOutModal: $(".js-timedout-modal"),
-        refreshUrl: $(".js-module-list").data("lock-refresh-path"),
+        fullpath: $(".js-timetable").data("fullpath"),
         onTimeout: function () {
             // Lock all moduleviews including the new ones.
             _.invoke(timetablesListWrite.moduleViews, "lock");

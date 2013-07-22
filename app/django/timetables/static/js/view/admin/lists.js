@@ -2,13 +2,14 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "util/admin-api",
     "util/dialog-factory",
     "util/django-forms",
     "util/contenteditable",
     "jquery-bbq",
     "bootstrapTypeahead",
     "util/jquery.select-text"
-], function($, _, Backbone, dialogFactory, DjangoForms, contenteditable) {
+], function($, _, Backbone, api, dialogFactory, DjangoForms, contenteditable) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -96,7 +97,7 @@ define([
             this.preventTimeoutTime = opts.preventTimeoutTime || 5000;
             this.pingTime = opts.pingTime || 5000;
             this.$timedOutModal = opts.$timedOutModal;
-            this.refreshUrl = opts.refreshUrl || "";
+            this.fullpath = opts.fullpath || "";
 
             this.onTimeoutCallback = opts.onTimeout;
             this.setTimedOutState(false);
@@ -154,33 +155,15 @@ define([
             }
         },
 
-        unlock: function () {
-            $.ajax({
-                url: "",
-                success: function () {
-
-                },
-                error: function () {
-
-                }
-            });
-        },
-
         refreshLockRequest: function (editing) {
             var self = this;
-
-            $.ajax({
-                url: self.refreshUrl,
-                type: "POST",
-                data: {
-                    editing: Boolean(editing)
-                },
-                success: function (response) {
-                    self.setTimedOutState(!response.refreshed);
-                },
-                error: function () {
+            api.refreshLock(this.fullpath, Boolean(editing), function (error, response) {
+                if (error) {
                     console.log(arguments);
+                    return;
                 }
+
+                self.setTimedOutState(!response.refreshed);
             });
         },
 
@@ -318,7 +301,7 @@ define([
             return this.$(".js-loading-indicator").length > 0;
         },
 
-        getSeriesId: function() {
+        getId: function() {
             return this.$el.data("id");
         },
 
@@ -341,18 +324,19 @@ define([
             this.startEventsRequest();
         },
 
-        getEventsRequestOptions:  function() {
-            return {};
-        },
-
         startEventsRequest: function() {
+            var self = this;
             this.loadingIndicator.showLoadingState();
 
             // make the ajax request to fetch the events
-            $.ajax("/series/" + encodeURIComponent(this.getSeriesId())
-                + "/list-events", this.getEventsRequestOptions())
-                .done(this.onEventsFetched)
-                .fail(this.onEventsFetchFailed);
+            api.getEvents(this.getId(), this instanceof WritableSeriesView, function (error, response) {
+                if (error) {
+                    self.onEventsFetchFailed();
+                    return;
+                }
+
+                self.onEventsFetched(response);
+            });
         },
 
         onEventsFetched: function(response) {
@@ -416,7 +400,7 @@ define([
         },
 
         onExpandSeries: function(id) {
-            if (this.getSeriesId() === id) {
+            if (this.getId() === id) {
                 this.expand();
             }
         }
@@ -537,16 +521,14 @@ define([
             var self = this;
             this.removeModal.off("confirm");
 
-            $.ajax({
-                url: "/things/" + this.getId() + "/delete",
-                type: "POST",
-                success: function () {
-                    self.removeModal.onSuccess();
-                    self.destroy();
-                },
-                error: function () {
+            api.deleteModule(this.getId(), function (error) {
+                if (error) {
                     self.removeModal.onError();
+                    return;
                 }
+
+                self.removeModal.onSuccess();
+                self.destroy();
             });
         },
 
@@ -752,10 +734,6 @@ define([
             this.$el.data("id", id);
         },
 
-        getId: function () {
-            return this.$el.data("id");
-        },
-
         /**
          * Function that runs when the title for a new series has been 
          * successfully saved.
@@ -771,7 +749,6 @@ define([
             this.setId(data.id);
             this.makeCollapsible(data.id);
             this.editableTitle.setSavePath(data.url_edit_title);
-            this.setSavePath(data.url_edit_event);
             this.$(".js-series-buttons").show();
 
             // Perhaps not the prettiest but does what we want:
@@ -829,16 +806,6 @@ define([
             this.remove();
             this.trigger("destroy", this);
             this.off();
-        },
-
-        getEventsRequestOptions: function() {
-            var baseOptions = WritableSeriesView.__super__.getEventsRequestOptions();
-
-            return _.extend(baseOptions, {
-                data: {
-                    writeable: true
-                }
-            });
         },
 
         buildEventViews: function() {
@@ -922,16 +889,14 @@ define([
             var self = this;
             this.removeModal.off("confirm");
 
-            $.ajax({
-                url: "/series/" + this.getId() + "/delete",
-                type: "POST",
-                success: function () {
-                    self.removeModal.onSuccess();
-                    self.destroy();
-                },
-                error: function () {
+            api.deleteSeries(this.getId(), function (error) {
+                if (error) {
                     self.removeModal.onError();
+                    return;
                 }
+
+                self.removeModal.onSuccess();
+                self.destroy();
             });
         },
 
@@ -1036,7 +1001,7 @@ define([
             this.saveDialogView.on("saved", this.onEventsSaved);
 
             // Show the dialog & kick off the form POST.
-            this.saveDialogView.postEventsForm(this.getSavePath(), formData);
+            this.saveDialogView.postEventsForm(this.getId(), formData);
         },
 
         /**
@@ -1083,20 +1048,6 @@ define([
             this.clearEvents();
             this.$(".js-events").empty();
             this.onEventsFetched(response);
-        },
-
-        /**
-         * Sets the path of the endpoint where the POST should get saved to
-         */
-        setSavePath: function (savePath) {
-            this.$el.data("save-path", savePath);
-        },
-
-        /**
-         * Gets the path of the endpoint where the POST gets saved to
-         */
-        getSavePath: function() {
-            return this.$el.data("save-path");
         },
 
         /**
@@ -2143,13 +2094,18 @@ define([
             });
         },
 
-        postEventsForm: function(url, eventsData) {
+        postEventsForm: function(id, eventsData) {
+            var self = this;
             this.showModal();
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: eventsData
-            }).done(this.onPOSTDone).fail(this.onPOSTFail);
+
+            api.saveEvents(id, eventsData, function (error, response) {
+                if (error) {
+                    self.onPOSTFail();
+                    return;
+                }
+
+                self.onPOSTDone(response);
+            });
         },
 
         onPOSTDone: function(response) {

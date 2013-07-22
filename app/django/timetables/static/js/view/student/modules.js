@@ -2,8 +2,9 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "util/student-api",
     "util/underscore-mixins"
-], function ($, _, Backbone) {
+], function ($, _, Backbone, api) {
     "use strict";
 
     var ModulesList = Backbone.View.extend({
@@ -40,30 +41,26 @@ define([
         },
 
         associate: function ($source, add) {
-            var self = this;
-            var sourcepath = this.thingPath;
-            var crsf = this.crsfToken;
-            var postdata = {};
-            if ( add ) {
-                postdata.t = $source.attr("data-fullpath");
-                postdata.es = $source.attr("data-eventsourceid");
-                postdata.e = $source.attr("data-eventid");
-            } else {
-                postdata.td = $source.attr("data-fullpath");
-                postdata.esd = $source.attr("data-eventsourceid");
-                postdata.ed = $source.attr("data-eventid");
-            }
-            postdata.csrfmiddlewaretoken = crsf;
-            $.post(sourcepath+".link", postdata, function() {
+            var self = this,
+                userPath = this.thingPath,
+                fullpath = $source.attr("data-fullpath"),
+                crsf = this.crsfToken,
+                eventsourceId = $source.attr("data-eventsourceid"),
+                eventId = $source.attr("data-eventid"),
+                apiRequest = add === true ? api.addToTimetable : api.removeFromTimetable;
+
+            apiRequest(userPath, fullpath, eventsourceId, eventId, crsf, function (error) {
+                if (error) {
+                    if (error.code === 403) {
+                        $("#signinModal").modal("show");
+                    } else {
+                        $("#errorModal").modal("show");
+                    }
+                    return;
+                }
+
                 self.updateButtonStates($source);
                 _.dispatchEvent(self, "timetableUpdated");
-            }).error(function(response, status, error) {
-                console.log("Status code is "+response.status+" error:"+error);
-                if ( response.status === 403 ) {
-                    $("#signinModal").modal("show");
-                } else {
-                    $("#errorModal").modal("show");
-                }
             });
         },
 
@@ -100,33 +97,6 @@ define([
             }
 
             return false;
-        },
-
-        updatePersonalTimetable: function (postData, callback) {
-            var self = this;
-            postData.crsfmiddlewatetoken = this.crsfToken;
-
-            $.ajax({
-                type: "POST",
-                data: postData,
-                url: self.thingPath + ".link",
-                success: function () {
-                    if (typeof callback === "function") {
-                        callback.call();
-                    }
-
-                    console.log("Timetable update success:", arguments);
-                },
-                error: function () {
-                    if (typeof callback === "function") {
-                        callback.call();
-                    }
-
-                    console.log("Timetable update error:", arguments);
-                }
-            });
-
-            this.trigger("timetableUpdated");
         },
 
         lessClickHandler: function (event) {
@@ -177,20 +147,20 @@ define([
         },
 
         updateList: function (fullpath) {
-            var self = this;
+            var self = this,
+                userPath = this.thingPath;
 
-            $.ajax({
-                url: "/" + fullpath + ".children.html?t=" + encodeURIComponent(self.thingPath),
-                type: "GET",
-                success: function (data) {
-                    self.$(".js-modules-list").empty().append(data),
-                    self.updateResultsText(self.generateResultsText());
-                },
-                error: function () {
+            api.getModulesList(fullpath, userPath, function (error, response) {
+                self.$(".js-modules-list").empty();
+
+                if (error) {
                     $("#errorModal").modal("show");
-                    self.$(".js-modules-list").empty();
                     self.updateResultsText(self.generateResultsText());
+                    return;
                 }
+
+                self.$(".js-modules-list").append(response),
+                self.updateResultsText(self.generateResultsText());
             });
         },
 
@@ -228,22 +198,18 @@ define([
         },
 
         render: function () {
-            var self = this;
+            var self = this,
+                userPath = self.thingPath,
+                year = self.activeDate.getFullYear(),
+                month = self.activeDate.getMonth() + 1;
 
-            $.ajax({
-                url: self.thingPath + ".callist.html",
-                type: "GET",
-                data: {
-                    "y": self.activeDate.getFullYear(),
-                    "m" : self.activeDate.getMonth() + 1
-                },
-                success: function (response) {
-                    self.$el.empty().append(response);
-                },
-                error: function () {
-                    console.log("list view data not fetched");
-                    console.log(arguments);
+            api.getUserEventsList(userPath, year, month, function (error, response) {
+                if (error) {
+                    $("#errorModal").modal("show");
+                    return;
                 }
+
+                self.$el.empty().append(response);
             });
         }
     });

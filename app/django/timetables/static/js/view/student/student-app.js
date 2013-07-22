@@ -89,7 +89,7 @@ define([
 
             this.exportToCalendarPopup = new ExportToCalendarPopup({
                 el: ".js-modal-export-to-calendar",
-                resetUrl: this.getThingPath() + ".resetfeed"
+                userPath: this.getThingPath()
             });
 
             this.initCalendar();

@@ -2,15 +2,16 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "util/student-api",
     "util/jquery.select-text"
-], function ($, _, Backbone) {
+], function ($, _, Backbone, api) {
     "use strict";
 
     var ExportToCalendarPopup = Backbone.View.extend({
         initialize: function (opts) {
             _.bindAll(this);
             this.model = new Backbone.Model({
-                resetUrl: opts.resetUrl
+                userPath: opts.userPath
             });
             this.bindEvents();
         },
@@ -39,19 +40,19 @@ define([
         },
 
         onResetFeedClick: function () {
-            var self = this;
+            var self = this,
+                userPath = this.model.get("userPath");
+
             this.setState("busy");
 
-            $.ajax({
-                type: "post",
-                url: this.model.get("resetUrl"),
-                success: function (data) {
-                    self.updateFeed(data);
-                    self.setState();
-                },
-                error: function () {
+            api.resetUserFeed(userPath, function (error, response) {
+                if (error) {
                     self.setState("error");
+                    return;
                 }
+
+                self.updateFeed(response);
+                self.setState();
             });
         },
 

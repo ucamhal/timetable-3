@@ -2,8 +2,9 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "util/admin-api",
     "view/cookieHandler"
-], function ($, _, Backbone, CookieHandler) {
+], function ($, _, Backbone, api, CookieHandler) {
     "use strict";
 
     // The number of milliseconds between timetable status updates.
@@ -16,8 +17,7 @@ define([
 
     var EditableTimetable = Backbone.View.extend({
         constructor: function EditableTimetable() {
-            EditableTimetable.__super__.constructor.apply(
-                this, arguments);
+            EditableTimetable.__super__.constructor.apply(this, arguments);
         },
 
         initialize: function () {
@@ -50,14 +50,13 @@ define([
     }));
 
     function updateTimetablesLockStatus () {
-        var req = $.ajax({
-            url: "/locks/status",
-            type: "POST",
-            data: editableTimetables
-        });
+        api.getTimetablesLockStatuses(editableTimetables, function (error, statuses) {
+            if (error) {
+                console.log("timetables update lock status failure");
+                return;
+            }
 
-        req.done(function (fullpathStatuses) {
-            _.each(fullpathStatuses, function(status, fullpath) {
+            _.each(statuses, function(status, fullpath) {
                 var timetable = timetablePaths[fullpath];
                 var editor = status.name;
 
@@ -65,10 +64,6 @@ define([
                     timetable.setBeingEdited(Boolean(editor), editor);
                 }
             });
-        });
-
-        req.fail(function () {
-            console.log("timetables update lock status failure");
         });
     }
 
