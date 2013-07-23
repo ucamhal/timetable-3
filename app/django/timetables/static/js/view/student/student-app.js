@@ -160,7 +160,17 @@ define([
             this.listenTo(this.calendarModel, "change:activeMonth", this.onActiveMonthChange);
             this.listenTo(this.calendarModel, "change:activeMonthTerm", this.onActiveMonthTermChange);
 
+            $(".js-sign-in, .js-sign-out").on("click", this.onSignInOutClick);
             $(window).on("resize", this.resize).trigger("resize");
+        },
+
+        onSignInOutClick: function (event) {
+            var $target = $(event.currentTarget),
+                selection = Backbone.history.fragment ? "#" + Backbone.history.fragment : "";
+
+            // Append the dropdown selection to the ?next part of the url
+            window.location.href = $target.attr("href") + encodeURIComponent(selection);
+            event.preventDefault();
         },
 
         onActiveDateChange: function (model, date) {
