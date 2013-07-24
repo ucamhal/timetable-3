@@ -5,7 +5,7 @@ import itertools
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django import http
 from django import shortcuts
 from django.contrib.admin.views.decorators import staff_member_required
@@ -13,11 +13,12 @@ from django.core import urlresolvers
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.http import require_POST
-import django.views.generic
+from django.views.generic import View
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from django.db import transaction
 
 from braces.views import LoginRequiredMixin, SuperuserRequiredMixin
 
@@ -92,7 +93,7 @@ class SeriesTitleEditor(object):
         return self._form
 
 
-class TimetableListRead(django.views.generic.View):
+class TimetableListRead(View):
 
     @method_decorator(login_required)
     @method_decorator(permission_required('timetables.is_admin', raise_exception=True))
@@ -255,59 +256,85 @@ def list_view_events(request, series_id):
     return shortcuts.render(request, template, context)
 
 
-@require_POST
-@login_required
-@permission_required('timetables.is_admin', raise_exception=True)
-def edit_series_view(request, series_id):
+class AdministratorRequiredMixin(object):
 
-    # Find the series for the form to be displayed
-    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_is_university_administrator():
+            raise PermissionDenied
 
-    editor = SeriesEditor(series, post_data=request.POST)
+        return super(AdministratorRequiredMixin, self).dispatch(request, *args, **kwargs)
 
-    events_formset = editor.get_event_formset()
-
-    if events_formset.is_valid():
-        @xact
-        def save():
-            events_formset.save()
-        save()
-        path = urlresolvers.reverse("list events",
-                kwargs={"series_id": series_id})
-        return shortcuts.redirect(path + "?writeable=true")
-
-    return http.HttpResponseBadRequest("Events formset did not pass "
-            "validation: %s" % events_formset.errors)
+    def user_is_university_administrator(self):
+        return self.request.user.has_perm("timetables.is_admin")
 
 
-@require_POST
-@login_required
-@permission_required('timetables.is_admin', raise_exception=True)
-def edit_series_title(request, series_id):
-    
-    # Find the series for the form to be displayed
-    series = shortcuts.get_object_or_404(models.EventSource, id=series_id)
-    
-    # test for unique title
-    title = request.POST.get("title", "")
-    modules = models.EventSourceTag.objects.filter(eventsource = series)
-    for module in modules: # this isn't wondrous; assumes we don't have too much sharing of series between modules
-        if not _series_title_is_unique(title, module.thing):
-            return HttpResponse(content="Module already contains a series with this name", status=409)
-    
-    
-    editor = SeriesTitleEditor(series, post_data=request.POST)
-    
-    series_form = editor.get_form()
-    
-    if series_form.is_valid():
-        @xact
-        def save():
-            series_form.save()
-        save()
-        return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
+class AdministrationView(AdministratorRequiredMixin, View):
+    pass
 
-    return http.HttpResponseBadRequest(series_form.errors.get("title"))
+
+class SeriesMixin(object):
+
+    def get_series_id(self):
+        return self.kwargs["series_id"]
+
+    def get_series(self):
+        series = shortcuts.get_object_or_404(models.EventSource,
+                                             id=self.get_series_id())
+
+        if not series.can_be_edited_by(self.request.user.username):
+            raise PermissionDenied
+
+        return series
+
+
+class EditSeriesView(SeriesMixin, AdministrationView):
+    def post(self, request, series_id):
+        # Find the series for the form to be displayed
+        series = self.get_series()
+
+        editor = SeriesEditor(series, post_data=request.POST)
+
+        events_formset = editor.get_event_formset()
+
+        if events_formset.is_valid():
+            @xact
+            def save():
+                events_formset.save()
+            save()
+            path = urlresolvers.reverse("list events",
+                    kwargs={"series_id": series_id})
+            return shortcuts.redirect(path + "?writeable=true")
+
+        return http.HttpResponseBadRequest("Events formset did not pass "
+                "validation: %s" % events_formset.errors)
+
+
+class EditSeriesTitleView(SeriesMixin, AdministrationView):
+    def post(self, request, series_id):
+        # Find the series for the form to be displayed
+        series = self.get_series()
+
+        # test for unique title
+        title = request.POST.get("title", "")
+        modules = models.EventSourceTag.objects.filter(eventsource = series)
+        for module in modules: # this isn't wondrous; assumes we don't have too much sharing of series between modules
+            if not _series_title_is_unique(title, module.thing):
+                return HttpResponse(content="Module already contains a series with this name", status=409)
+
+
+        editor = SeriesTitleEditor(series, post_data=request.POST)
+
+        series_form = editor.get_form()
+
+        if series_form.is_valid():
+            @xact
+            def save():
+                series_form.save()
+            save()
+            return HttpResponse(json.dumps(series_form.data), mimetype="application/json")
+
+        return http.HttpResponseBadRequest(series_form.errors.get("title"))
+
 
 @require_POST
 @login_required
@@ -390,6 +417,80 @@ def edit_module_title(request, pk):
 
     # If the form is not valid return the errors
     return http.HttpResponseBadRequest(form.errors.get("fullname"))
+
+
+class NewSeriesView(AdministrationView):
+    def post(self, request):
+        """
+        Creates a new event series.
+        request POST variables should contain:
+            - parent thing ID (id_parent)
+            - series title (title)
+        Returns series title, ID and save path as JSON string
+        """
+        # get the new series data
+        title = request.POST.get("title", "")
+        id_parent = request.POST.get("id_parent", 0)
+
+        # get the parent Thing object
+        parent = models.Thing.objects.get(pk=id_parent)
+
+        title_unique = _series_title_is_unique(title, parent)
+        if not title_unique:
+            # return error
+            return HttpResponse(
+                content="Module already contains a series with this name",
+                status=409
+            )
+
+        with transaction.commit_on_success():
+            es = self.create_series(title, parent)
+
+        # construct data to return
+        es_data = {
+            "id": es.pk,
+            "title": title,
+            "url_edit_event": reverse('edit series', args=(es.pk,)),
+            "url_edit_title": reverse('edit series title', args=(es.pk,))
+        }
+
+        # return data
+        return HttpResponse(json.dumps(es_data), content_type="application/json")
+
+    def create_series(self, title, parent):
+        # This method needs to be wrapped in a transaction for correctness.
+
+        # EventSource object being created
+        es = models.EventSource(
+            title = title,
+            data = "{}",
+            sourcetype = "pattern", # ???
+        )
+
+        es.save()
+        es.makecurrent()
+
+        es.master = es # ugh - need the object in order to set itself as its own master :s
+        es.save()
+
+
+        # create EventSourceTag
+        est = models.EventSourceTag(
+            thing = parent,
+            eventsource = es,
+            annotation = "home"
+        )
+        est.save()
+
+        # Ensure users can only create eventsources inside modules they
+        # can edit.
+        if not es.can_be_edited_by(self.request.user.username):
+            # This requires the method to be wrapped in a transaction so that
+            # the transaction is rolled back when the exception is thrown.
+            # Otherwise the eventsource will persist.
+            raise PermissionDenied
+
+        return es
 
 
 @require_POST
@@ -518,30 +619,26 @@ def delete_thing_link(request, thing):
 
     return HttpResponse(json.dumps(response), content_type="application/json")
 
-@require_POST
-@login_required
-@permission_required('timetables.is_admin', raise_exception=True)
-def delete_series(request, series_id):
-    """
-    Deletes the specified series.
-    There is no need to delete associated EventSourceTag as this will
-    cascade after deleting EventSource.
-    Similarly events will cascade delete.
-    """
+class DeleteSeriesView(SeriesMixin, AdministrationView):
+    def post(self, request, series_id):
+        """
+        Deletes the specified series.
+        There is no need to delete associated EventSourceTag as this will
+        cascade after deleting EventSource.
+        Similarly events will cascade delete.
+        """
+        series = self.get_series()
 
-    # delete the object
-    try:
-        models.EventSource.objects.get(pk=series_id).delete()
-    except models.EventSource.DoesNotExist:
-        return HttpResponse(content="Could not delete: the series does not exist", status=404)
+        # delete the object
+        series.delete()
 
-    # response
-    data = {
-        "success": True
-    }
+        # response
+        data = {
+            "success": True
+        }
 
-    # return success
-    return HttpResponse(json.dumps(data), content_type="application/json")
+        # return success
+        return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def _series_title_is_unique(title, module):
@@ -680,7 +777,7 @@ def locks_status_view(request):
 class UserTimetablePermissionsView(
         LoginRequiredMixin,
         SuperuserRequiredMixin,
-        django.views.generic.View):
+        View):
     """
     A temporary view to allow the timetables a user may edit to be set.
     """

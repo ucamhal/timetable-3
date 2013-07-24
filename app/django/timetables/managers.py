@@ -58,3 +58,10 @@ class ThingLockManager(QuerySetManager):
 
     def just_active(self, **kwargs):
         return self.all().just_active(**kwargs)
+
+
+class EventSourceTagManager(QuerySetManager):
+    querySet = querysets.EventSourceQuerySet
+
+    def editable_by(self, username):
+        return self.all().editable_by(username)

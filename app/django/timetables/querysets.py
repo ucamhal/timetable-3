@@ -45,3 +45,25 @@ class ThingLockQuerySet(query.QuerySet):
         # in the db.
         current_time = now().astimezone(timezone.utc)
         return self.filter(expires__gte=current_time)
+
+
+class EventSourceQuerySet(query.QuerySet):
+
+    def editable_by(self, username):
+        """
+        Filters the queryset to contain only EventSources which can be
+        edited by the specified username.
+
+        Note that it's not verified that the username is actually an
+        administrator, just that they have the correct permission links to
+        the subject owning the EventSource.
+        """
+        # The assumption is made that the EST's parent is a module Thing, whose
+        # parent is the "subject" Thing from which there will be a ThingTag
+        # with annotation "admin" which points to the user Thing identified by
+        # username.
+        return self.filter(
+            eventsourcetag__annotation="home",
+            eventsourcetag__thing__parent__relatedthing__annotation="admin",
+            eventsourcetag__thing__parent__relatedthing__thing__name=username,
+        )

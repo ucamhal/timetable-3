@@ -501,7 +501,9 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
     PERM_READ = "eventsource.read"
     PERM_WRITE = "eventsource.write"
     PERM_LINK = "eventsource.link"
-    
+
+    objects = managers.EventSourceTagManager()
+
     title = models.CharField("Title", max_length=MAX_LONG_NAME, help_text="Title of the EventSource")
     sourcetype = models.CharField("Type of source that created this item", max_length=MAX_NAME_LENGTH, help_text="The type of feed, currently only Url and Upload are supported.")
 
@@ -545,6 +547,15 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
         VersionableModel.makecurrent(self)
         Event.objects.filter(source__master=self.master).update(source=self)
         EventSourceTag.objects.filter(eventsource__master=self.master).update(eventsource=self)
+
+    def can_be_edited_by(self, username):
+        """
+        Checks if the user identified by username is permitted to edit this
+        eventsourcetag.
+        """
+        return (EventSource.objects.editable_by(username)
+                                   .filter(pk=self.pk)
+                                   .exists())
 
 
 pre_save.connect(EventSource.handle_pre_save_signal, sender=EventSource)

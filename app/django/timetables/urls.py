@@ -96,19 +96,19 @@ urlpatterns = patterns(
         name="list events"),
     
     url(r'series/new$',
-        administrator.new_series,
+        administrator.NewSeriesView.as_view(),
         name="series new"),
     
     url(r'^series/(?P<series_id>\d+)/edit$',
-        administrator.edit_series_view,
+        administrator.EditSeriesView.as_view(),
         name="edit series"),
 
     url(r'^series/(?P<series_id>\d+)/edit/title$',
-        administrator.edit_series_title,
+        administrator.EditSeriesTitleView.as_view(),
         name="edit series title"),
 
     url(r'^series/(?P<series_id>\d+)/delete$', # hmm ... shouldn't we post series_id?
-        administrator.delete_series,
+        administrator.DeleteSeriesView.as_view(),
         name="delete series"),
 
     # Edit a module title

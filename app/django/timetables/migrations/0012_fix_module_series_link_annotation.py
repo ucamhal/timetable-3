@@ -1,54 +1,23 @@
 # -*- coding: utf-8 -*-
 import datetime
-import json
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
 class Migration(DataMigration):
 
-    bad_event_types = {
-        "seminars": "seminar",
-        "lectue": "lecture",
-        "fieldtrip": "field trip",
-        "language class": "class"
-    }
-
     def forwards(self, orm):
         """
-        Clean up event types:
-        - Make everything lowercase
-        - Sanitize wrongly entered data
+        Ensure all event source tags linking modules and series have
+        annotation "home". Currently many are the empty string.
         """
-        for event in orm.Event.objects.all():
-            event_data = self.get_metadata(event)
-            event_type = event_data.get("type", "")
-            new_event_type = event_type.lower()
-
-            # Substitute the type if it's a known bad one
-            new_event_type = self.bad_event_types.get(
-                new_event_type, new_event_type)
-
-            if new_event_type is not event_type:
-                event_data["type"] = new_event_type
-                event.data = json.dumps(event_data)
-                event.save()
-
-    def get_metadata(self, event):
-        if event.data is None or event.data == "":
-            print "Blank"
-            return {}
-        try:
-            return json.loads(event.data)
-        except ValueError as e:
-            raise ValueError(
-                "Error parsing JSON data for event: {}".format(event.id)
-            )
+        for est in (orm.EventSourceTag.objects.filter(thing__type="module")
+                                              .exclude(annotation="home")):
+            est.annotation = "home"
+            est.save()
 
     def backwards(self, orm):
-        """
-        We haven't invented time-travel yet.
-        """
+        "Write your backwards methods here."
 
     models = {
         u'timetables.event': {
