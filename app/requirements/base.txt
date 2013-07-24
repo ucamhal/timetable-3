@@ -8,5 +8,5 @@ icalendar
 python-ldap
 django-braces
 
-svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/django-cam-auth-utils/tags/0.0.1#egg=django_cam_auth_utils == 0.0.1
+svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/django-cam-auth-utils/tags/0.0.2#egg=django_cam_auth_utils == 0.0.2
 svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/jsonlogging/tags/0.0.3#egg=jsonlogging == 0.0.3
