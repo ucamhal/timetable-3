@@ -7,7 +7,7 @@
 
   {% if permission_denied_alternative_server %}
     <div class="hero hero-unit">
-        <p>If you are a University administrator wanting to try out the new Timetable system please visit this url instead: <a href="{{ no_permissions_alternative_server }}"><strong>{{ no_permissions_alternative_server }}</strong></a></p>
+        <p>If you are a University administrator wanting to try out the new Timetable system please visit this url instead: <a href="{{ permission_denied_alternative_server }}"><strong>{{ permission_denied_alternative_server }}</strong></a></p>
     </div>
   {% else %}
     <p>If you think you should have permissions to this site, please email <a href="mailto:{{ contact_us_address }}">{{ contact_us_address }}</a></p>
