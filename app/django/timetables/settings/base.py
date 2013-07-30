@@ -50,7 +50,7 @@ INSTANCE_NAME = "timetables.caret.cam.ac.uk"
 # In production this should be set to True, so that we maintain a cache of parsed UI Yaml ready for use.
 CACHE_YAML = False
 
-DJANGO_DIR = Path(__file__).ancestor(3)
+DJANGO_DIR = Path(__file__).absolute().ancestor(3)
 REPO_ROOT_DIR = DJANGO_DIR.ancestor(2)
 
 # The academic year to use when expanding date patterns which don't

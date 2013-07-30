@@ -36,3 +36,7 @@ app/node_modules
 
 # Front-end Build
 app/static-build
+
+# Tsung cruft
+erl_crash.dump
+app/scripts/load-testing/tsung/logs/

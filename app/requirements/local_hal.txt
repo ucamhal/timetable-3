@@ -1,0 +1,11 @@
+-r base.txt
+
+git+git://github.com/dcramer/django-devserver#egg=django-devserver
+
+# Optional dependancies for django-devserver
+sqlparse
+werkzeug
+guppy
+line_profiler
+dozer
+django-extensions
