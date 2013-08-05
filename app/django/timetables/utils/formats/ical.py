@@ -3,7 +3,10 @@ Created on Oct 17, 2012
 
 @author: ieb
 '''
+from __future__ import unicode_literals
+
 import datetime
+import logging
 
 from django.http import HttpResponse
 
@@ -15,6 +18,8 @@ import pytz
 from timetables.models import Event
 from timetables.utils.date import DateConverter
 
+LOG = logging.getLogger(__name__)
+
 
 class ICalExporter(object):
     '''
@@ -25,13 +30,13 @@ class ICalExporter(object):
 
     def _join_comma_and(self, items):
         """
-        Join a list of items in the normal English eay, e.g.
+        Join a list of items in the normal English way, e.g.
         "thing1, thing2, thing3 and thing4"
         """
         if not items:
             return ""
         if len(items) == 1:
-            return str(items[0])
+            return unicode(items[0])
         return " and ".join([", ".join(items[:-1]), items[-1]])
 
     def _build_description(self, event):
@@ -53,48 +58,76 @@ class ICalExporter(object):
             If the metadata value is a list, it will be output as multiple properties in the ical stream.
         '''
 
-        def generate():
-            yield "BEGIN:VCALENDAR\r\n"\
+        def generate_utf8():
+            '''
+            Generator function to produce ical data.
+            All output should be UTF-8; all internal processing should be using
+            Python Unicode objects.
+            '''
+            yield ("BEGIN:VCALENDAR\r\n"\
                 "PRODID:-//University of Cambridge Timetables//timetables.caret.cam.ac.uk//\r\n"\
-                "VERSION:2.0\r\n"
+                "VERSION:2.0\r\n").encode("utf-8")
             for e in events:
-                event = iCalEvent()
-                event.add('summary', '%s' % e.title)
-                event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
-                event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
-                event.add('location', e.location)
-                event.add('uid', e.get_ical_uid())
-                event.add('description', self._build_description(e))
-                # If a mapping has been provided, unpack
-                metadata = e.metadata
-                protected = frozenset(event.keys())
-                if metadata_names is not None:
-                    for metadata_name, icalname in metadata_names.iteritems():
-                        if icalname not in protected and metadata_name in metadata_names:
-                            o = metadata[metadata_name]
-                            if isinstance(o, list):
-                                for e in o:
-                                    event.add(icalname,e)
-                            else:
-                                event.add(icalname,o)
-                else:
-                    for k,v in metadata.iteritems():
-                        k_uc = k.upper() # when added to iCal feed, all keys are converted to uppercase
-                        if k_uc not in protected:
-                            k = 'X-CUTT-'+k # CUTT - Cambridge University TimeTable
-                            if isinstance(v, list):
-                                for e in v:
-                                    event.add(k, e)
-                            else:
-                                event.add(k, v)
-                                
-                event.add('priority', 5)
-                yield event.to_ical()
-            yield "END:VCALENDAR\r\n"
+                try:
+                    event = iCalEvent()
+                    event.add('summary', '%s' % e.title)
+                    event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
+                    event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
+                    event.add('location', e.location)
+                    event.add('uid', e.get_ical_uid())
+                    event.add('description', self._build_description(e))
+                    # If a mapping has been provided, unpack
+                    metadata = e.metadata
+                    protected = frozenset(event.keys())
+                    if metadata_names is not None:
+                        for metadata_name, icalname in metadata_names.iteritems():
+                            if icalname not in protected and metadata_name in metadata_names:
+                                o = metadata[metadata_name]
+                                if isinstance(o, list):
+                                    for e in o:
+                                        event.add(icalname,e)
+                                else:
+                                    event.add(icalname,o)
+                    else:
+                        for k,v in metadata.iteritems():
+                            k_uc = k.upper() # when added to iCal feed, all keys are converted to uppercase
+                            if k_uc not in protected:
+                                k = 'X-CUTT-'+k # CUTT - Cambridge University TimeTable
+                                if isinstance(v, list):
+                                    for e in v:
+                                        event.add(k, e)
+                                else:
+                                    event.add(k, v)
+                                    
+                    event.add('priority', 5)
+                    yield event.to_ical() # always produces UTF-8
+                except:
+                    if self.stream_response:
+                        # We have to be careful here because HttpResponse seems to eat
+                        # all exceptions produced by generator functions and then
+                        # silently truncates the response without logging anything :-(
+                        try:
+                            LOG.exception("Error generating iCal feed")
+                        except:
+                            # Fall through to the final "ABORTED" yield below
+                            pass
+                        # In all cases, make sure we at least put something in the
+                        # response body itself to indicate we deliberately truncated
+                        # the file.
+                        # The only "safe" thing to do is to 'yield' a string literal;
+                        # anything else may cause another exception and produce silent
+                        # truncation again.
+                        yield b"===== ABORTED iCal generation due to error ====="
+                        return # Don't bother carrying on, no more generations
+                    else:
+                        # If we're not streaming, then raise the exception immediately
+                        # during the join before HttpResponse has a chance to eat it!
+                        raise
+            yield "END:VCALENDAR\r\n".encode("utf-8")
 
-        ical_body = generate()
+        ical_body = generate_utf8()
         if not self.stream_response:
-            ical_body = "".join(ical_body)
+            ical_body = b"".join(ical_body)
 
         response = HttpResponse(ical_body,content_type="text/calendar; charset=utf-8")
         response['Content-Disposition'] = "attachment; filename=%s.ics" % feed_name
