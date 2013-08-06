@@ -3,8 +3,8 @@ define([
     "underscore",
     "backbone",
     "util/admin-api",
-    "view/cookieHandler"
-], function ($, _, Backbone, api, CookieHandler) {
+    "bootstrap"
+], function ($, _, Backbone, api) {
     "use strict";
 
     // The number of milliseconds between timetable status updates.
@@ -66,10 +66,6 @@ define([
             });
         });
     }
-
-    new CookieHandler({
-        el: ".js-cookie-alert"
-    });
 
     // Update the lock status straight away
     updateTimetablesLockStatus();

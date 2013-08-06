@@ -37,7 +37,7 @@ require.config({
 
 define([
     "jquery",
-    "shib-cookie-accumulation-workaround",
+    "util/shib-cookie-accumulation-workaround",
     "libs/jquery-django-csrf"
 ], function($, ShibCookieAccumulationWorkaround) {
     "use strict";
@@ -50,13 +50,6 @@ define([
         window.console = {
             log: function () {}
         };
-    }
-
-    // Work out what module was asked for and get require to load it.
-    var page_module = $("script[src$='require.js']").attr("data-page-module");
-    if (!page_module) {
-        console.log("No Script for page was defined in the html scipt tag where require.js was loaded from add data-page-module='nameofmodule' require.js's script tag.");
-        return;
     }
 
     // Check if "".trim() exists
@@ -83,9 +76,16 @@ define([
         };
     }
 
-    // Load the module defined as the page's entry point, but dont attach to the event thats loading the rest of the page.
-    window.setTimeout(function() {
-        console.log("Loading entry point:", page_module);
-        require([page_module]);
-    },10);
+    // Work out what module was asked for and get require to load it.
+    var $script = $("script[src$='require.js']"),
+        indexName = $script.data("index"),
+        pageName = $script.data("page");
+
+    // If an index has been defined, load the appropriate file
+    if (indexName) {
+        console.log("Loading entry point: '" + indexName + "' with page: '" + pageName + "'");
+        require([indexName], function (index) {
+            index.initializePage(pageName);
+        });
+    }
 });

@@ -3,12 +3,10 @@ define([
     "underscore",
     "backbone",
     "view/admin/calendar",
-    "view/cookieHandler",
     "model/calendarModel",
     "bootstrap",
-    "fullcalendar",
-    "not-implemented-tooltips"
-], function($, _, Backbone, Calendar, CookieHandler, CalendarModel) {
+    "fullcalendar"
+], function($, _, Backbone, Calendar, CalendarModel) {
     "use strict";
 
     var TimetableCalendar = Backbone.View.extend({
@@ -130,11 +128,6 @@ define([
         resize: function () {
             this.calendar.eventPopup.updatePosition();
         }
-    });
-
-
-    new CookieHandler({
-        el: ".js-cookie-alert"
     });
 
     return new TimetableCalendar();

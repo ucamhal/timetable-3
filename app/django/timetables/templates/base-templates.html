@@ -50,7 +50,9 @@
 {# Error dialog #}
 <script id="js-templ-error-dialog" type="text/template">
   <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <% if (closeable) { %>
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <% } %>
     <h3><%= titleText %></h3>
   </div>
 
@@ -59,6 +61,16 @@
   </div>
 
   <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+    <% if (!customFooterContent) { %>
+        <% if (closeable) { %>
+          <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+        <% } %>
+    <% } else { %>
+      <%= customFooterContent %>
+    <% } %>
   </div>
+</script>
+
+<script id="js-templ-session-expired-error-popup-footer" type="text/template">
+  <a href="{% url "login url" %}?next=<%= encodeURIComponent(returnURL) %>" class="btn btn-primary js-sign-in">Sign in</a>
 </script>

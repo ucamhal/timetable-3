@@ -14,6 +14,7 @@ from timetables.views.indexview import IndexView
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewevents import ViewEvents
 from timetables.views.viewthing import ViewThing, ChildrenView
+from timetables.views.canary import CanaryView
 from timetables.views import static
 
 import timetables.administratorhelp.urls
@@ -209,4 +210,8 @@ urlpatterns = patterns(
     url(r'privacy$',
         static.privacy_policy,
         name="privacy_policy"),
+
+    url(r'canary$',
+        CanaryView.as_view(),
+        name="canary"),
 )

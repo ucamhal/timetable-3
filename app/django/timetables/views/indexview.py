@@ -6,7 +6,6 @@ Created on Oct 19, 2012
 import itertools
 
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.shortcuts import render
@@ -33,16 +32,12 @@ class IndexView(View):
             "calendar_end": acadamic_year.end_boundary.isoformat()
         }
         if request.user.is_authenticated():
-            context["user"] = request.user
-            context["loggedin"] = True
             # create a url with a hmac in it if the thing is a user. If not just a simple url will do.
             thing = Thing.get_or_create_user_thing(request.user)
             thingsubject = ThingSubject(thing=thing)
             hmac = thingsubject.create_hmac()
             context["ics_feed_url"] = reverse("export ics hmac", kwargs={ "thing" : thing.fullpath, "hmac" : hmac})
         else:
-            context["user"] = AnonymousUser()
-            context["loggedin"] = False
             context["ics_feed_url"] = reverse("export ics", kwargs={ "thing" : "user/public" })
         try:
             context['raven_url'] = settings.RAVEN_URL

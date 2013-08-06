@@ -2,7 +2,7 @@
 {% load url from future %}
 {% load timetables %}
 
-{% block javascript_module %}studentIndex{% endblock javascript_module %}
+{% block javascript_index %}index-student{% endblock javascript_index %}
 
 {% block top_bar %}
 <div id="inputArea">
@@ -18,7 +18,7 @@
       <option value="" disabled="disabled" selected="selected">Choose a part</option>
     </select>
 
-    {% if loggedin %}
+    {% if user_logged_in %}
     <a href="{% url "logout url" %}?next={% url "home" %}" class="btn btn-primary pull-right js-sign-out">Sign out</a>
     {% else %}
     <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-primary pull-right js-sign-in">Sign in</a>
@@ -31,7 +31,7 @@
 <!-- ## USER NOT LOGGED IN -->
 <div id="actionsContainer">
   <div class="pull-right">
-    {% if loggedin %}
+    {% if user_logged_in %}
       <a href="#modal-export-to-calendar" class="btn" data-toggle="modal">Export to calendar</a>
     {% endif %}
   </div>

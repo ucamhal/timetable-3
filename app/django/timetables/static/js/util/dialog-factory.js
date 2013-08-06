@@ -34,6 +34,15 @@ define([
         });
     };
 
+    var sessionExpiredError = function sessionExpiredError(data) {
+        return new ErrorDialog({
+            titleText: "You've become signed out of Timetable",
+            messageText: "Sign in again or reload the page to continue.",
+            customFooterContent: _.template($("#js-templ-session-expired-error-popup-footer").html(), data),
+            closeable: false
+        });
+    };
+
     var removeLink = function removeLink(data) {
         return new RemoveDialog({
             titleText: _.template($("#js-templ-remove-link-popup-title").html(), data),
@@ -69,6 +78,7 @@ define([
         saveLinkSelectError: saveLinkSelectError,
         saveLinkClashError: saveLinkClashError,
         saveLinkTimetableError: saveLinkTimetableError,
+        sessionExpiredError: sessionExpiredError,
         removeLink: removeLink,
         removeModule: removeModule,
         removeSeries: removeSeries

@@ -23,7 +23,7 @@
   <body id="{% block bodyid %}student{% endblock %}" {% if is_play_site %}class="play-site"{% endif %}>
 
     {% block userinfo %}
-      <div id="userinfo" style="display:none" data-userid="{% if loggedin %}{{ user.username }}{% else %}public{% endif %}" data-userrole="student" class="dontDisplayMe">
+      <div id="userinfo" style="display:none" data-logged-in="{% if user_logged_in %}true{% else %}false{% endif %}" data-userid="{% if user_logged_in %}{{ user_username }}{% else %}public{% endif %}" data-userrole="{{ user_role }}" class="dontDisplayMe">
           {# used for ajax post operations, I prefer this to the cookie method. #}
           {% csrf_token %}
       </div>
@@ -120,6 +120,6 @@
       {% endblock footer %}
     </div>
     
-    <script data-main="{% static "js/main.js" %}" data-page-module="{% block javascript_module %}{% endblock javascript_module %}" src="{% static "js/libs/require.js" %}"></script>
+    <script data-main="{% static "js/main.js" %}" data-index="{% block javascript_index %}{% endblock javascript_index %}" data-page="{% block javascript_page %}{% endblock javascript_page %}" src="{% static "js/libs/require.js" %}"></script>
   </body>
 </html>

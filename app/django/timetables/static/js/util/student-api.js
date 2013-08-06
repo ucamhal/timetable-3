@@ -1,25 +1,12 @@
 define([
-    "jquery"
-], function ($) {
+    "jquery",
+    "util/api"
+], function ($, api) {
     "use strict";
 
-    var doAjax = function doAjax(url, type, data, callback) {
-        $.ajax({
-            url: url,
-            type: type,
-            data: data,
-            success: function (response) {
-                callback(null, response);
-            },
-            error: function (jqXHR) {
-                callback({
-                    code: jqXHR.status,
-                    msg: jqXHR.responseText || jqXHR.statusText
-                });
-            }
-        });
-    };
+    var doAjax = api.doAjax;
 
+    // Student specific api functions
     var addToTimetable = function addToTimetable(userPath, fullpath, eventsourceId, eventId, crsfToken, callback) {
         var url =  "/" + userPath + ".link",
             type = "post",

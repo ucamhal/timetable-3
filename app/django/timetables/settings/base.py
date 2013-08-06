@@ -210,7 +210,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'timetables.utils.gitrevision.git_revivion_contextprocessor',
     'timetables.utils.requirejs.js_main_module_contextprocessor',
     'timetables.utils.playsite.is_play_site_contextprocessor',
-    'timetables.utils.userhelp.user_help_contextprocessor'
+    'timetables.utils.userhelp.user_help_contextprocessor',
+    'timetables.utils.user.user_contextprocessor'
 )
 
 ROOT_URLCONF = 'timetables.urls'

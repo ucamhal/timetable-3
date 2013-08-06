@@ -21,6 +21,9 @@ define(["jquery"], function ($) {
         _adminEnabled = _check_is_staff();
 
     return {
+        isUserLoggedIn: function () {
+            return Boolean($("#userinfo").data("logged-in"));
+        },
         getThingPath : function () {
             if (_pageThingPath === undefined) {
                 if ($("#userinfo").length === 1) {

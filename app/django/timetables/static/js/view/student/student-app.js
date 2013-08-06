@@ -5,11 +5,10 @@ define([
     "view/student/modules",
     "view/modules-selector",
     "view/admin/calendar",
-    "view/cookieHandler",
     "view/student/export-to-calendar-popup",
     "model/calendarModel",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, ModulesSelector, Calendar, CookieHandler, ExportToCalendarPopup, CalendarModel) {
+], function ($, _, Backbone, Modules, ModulesSelector, Calendar, ExportToCalendarPopup, CalendarModel) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -71,10 +70,6 @@ define([
 
             this.calendarViewNavigation = new CalendarViewNavigation({
                 el: ".js-calendar-view-navigation"
-            });
-
-            this.cookieHandler = new CookieHandler({
-                el: ".js-cookie-alert"
             });
 
             this.modulesList = new Modules.ModulesList({

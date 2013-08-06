@@ -4,10 +4,8 @@ define([
     "backbone",
     "view/admin/lists",
     "view/admin/timetable-links",
-    "view/cookieHandler",
-    "bootstrap",
-    "not-implemented-tooltips"
-], function($, _, Backbone, Lists, TimetableLinks, CookieHandler) {
+    "bootstrap"
+], function($, _, Backbone, Lists, TimetableLinks) {
     "use strict";
 
     var TimetableListWrite = Backbone.View.extend({
@@ -132,15 +130,15 @@ define([
     // Fire an initial hashchange to handle hash params in the URL on
     // page load.
     $(window).trigger("hashchange");
+
+    // Not implemented yet:
+    /*
     $(window).bind("beforeunload", function () {
         locker.unlock();
     });
+    */
 
     Lists.listEvents.on("page-edited", locker.preventTimeout);
-
-    new CookieHandler({
-        el: ".js-cookie-alert"
-    });
 
     return undefined;
 });

@@ -3,8 +3,9 @@ define([
     "underscore",
     "backbone",
     "util/student-api",
+    "util/page",
     "util/underscore-mixins"
-], function ($, _, Backbone, api) {
+], function ($, _, Backbone, api, page) {
     "use strict";
 
     var ModulesList = Backbone.View.extend({
@@ -51,11 +52,20 @@ define([
 
             apiRequest(userPath, fullpath, eventsourceId, eventId, crsf, function (error) {
                 if (error) {
-                    if (error.code === 403) {
-                        $("#signinModal").modal("show");
-                    } else {
+                    // If the error has no code (logged out of raven/shib or
+                    // network error) we shouldn't show them the login error.
+                    // The canary watcher will take care of showing the
+                    // appropriate message.
+                    if (error.code) {
+                        // Forbidden
+                        if (error.code === 403) {
+                            $("#signinModal").modal("show");
+                            return;
+                        }
+                        // An unknown error has occured
                         $("#errorModal").modal("show");
                     }
+                    // Stop executing the code
                     return;
                 }
 
@@ -88,6 +98,12 @@ define([
         },
 
         moduleButtonClickHandler: function (event) {
+            // If the user isn't logged in prompt to login
+            if (!page.isUserLoggedIn()) {
+                $("#signinModal").modal("show");
+                return;
+            }
+
             var $target = $(event.currentTarget);
 
             if ($target.is(".js-btn-module-level")) {
@@ -153,7 +169,7 @@ define([
             api.getModulesList(fullpath, userPath, function (error, response) {
                 self.$(".js-modules-list").empty();
 
-                if (error) {
+                if (error && error.code) {
                     $("#errorModal").modal("show");
                     self.updateResultsText(self.generateResultsText());
                     return;
@@ -204,7 +220,7 @@ define([
                 month = self.activeDate.getMonth() + 1;
 
             api.getUserEventsList(userPath, year, month, function (error, response) {
-                if (error) {
+                if (error && error.code) {
                     $("#errorModal").modal("show");
                     return;
                 }

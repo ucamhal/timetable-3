@@ -17,7 +17,9 @@ define([
 
             this.model = new Backbone.Model({
                 titleText: this.options.titleText || "Woops, something went wrong...",
-                messageText: this.options.messageText || "Please try again later."
+                messageText: this.options.messageText || "Please try again later.",
+                closeable: this.options.closeable !== undefined ? this.options.closeable : true,
+                customFooterContent: this.options.customFooterContent
             });
 
             this.bindEvents();
