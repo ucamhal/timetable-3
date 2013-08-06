@@ -1,119 +1,263 @@
 <?xml version="1.0"?>
 <!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
-<tsung loglevel="debug" version="1.0">
+<tsung loglevel="warning" version="1.0">
 
-	<clients>
-		<client host="localhost" use_controller_vm="true"/>
-	</clients>
-	
-	<servers>
-		<server host="localhost" port="8000" type="tcp"></server>
-	</servers>
-	
-	<load>
-		<arrivalphase phase="1" duration="50" unit="second">
-			<users maxnumber="500" interarrival="2" unit="second"></users>
-		</arrivalphase>
-	</load>
-	
-	<options>
-		<option type="ts_http" name="user_agent">
-			<user_agent probability="100">Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:21.0) Gecko/20100101 Firefox/21.0</user_agent>
-		</option>
-		
-		<!-- Note that users.csv should be in the same folder from which you run Tsung -->
-		<option name="file_server" value="users.csv" id="users"></option>
-	</options>
-	
-	<sessions>
-		<session name="students" probability='100' type='ts_http'>
-			<!-- Simulates "normal" student usage -->
-		
-			<!-- set variables for use in the script -->
-			<setdynvars sourcetype="file" fileid="users" order="iter">
-				<!-- load users from users.csv file -->
-				<var name="username" />
-			</setdynvars>
-			<!-- Individual user for testing purposes
-			<setdynvars sourcetype="value" value="testuser_9">
-				<var name="username" />
-			</setdynvars>
-			-->
-			<setdynvars sourcetype="value" value="password">
-				<var name="password" />
-			</setdynvars>
-			<setdynvars sourcetype="value" value="1371682800">
-				<var name="time_start" />
-			</setdynvars>
-			<setdynvars sourcetype="value" value="1372287600">
-				<var name="time_end" />
-			</setdynvars>
-		
-			<!-- homepage, not logged in -->
-			<request>
-				<http url='/' version='1.1' method='GET'></http>
-			</request>
-			<!-- at the time of writing this throws an error, but it does occur and should ideally be simulated
-			<request>
-				<http url='/user/public.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
-			</request>
-			-->
-			<thinktime random='true' value='5'/>
+    <clients>
+        <client host="localhost" use_controller_vm="true"/>
+    </clients>
 
-			<!-- log in -->
-			<request>
-				<dyn_variable name="csrfmiddlewaretoken"></dyn_variable>
-				<http url='/accounts/login/' version='1.1' method='GET'></http>
-			</request>
-			<thinktime random='true' value='3'/>
+    <servers>
+        <server host="timetable-loadtesting.dev.ds.lib.cam.ac.uk" port="443" type="ssl"></server>
+    </servers>
 
-			<request subst="true">
-				<http url='/accounts/login' version='1.1' contents='csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%&amp;username=%%_username%%&amp;password=%%_password%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
-			</request>
-			
-			<!-- homepage, logged in -->
-			<request>
-				<http url='/' version='1.1' method='GET'></http>
-			</request>
-			<request subst="true">
-				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
-			</request>
-			<thinktime random='true' value='5'/>
+    <load>
+        <arrivalphase phase="1" duration="10" unit="minute">
+            <users maxnumber="300" interarrival="2" unit="second"></users>
+            <!-- 10 mins = 600 secs
+                 1 user per 2 secs = 300 users max = 600 / 2 -->
+        </arrivalphase>
 
-			<!-- load ASNC Part I timetable data -->
-			<request subst="true">
-				<http url='/tripos/asnc/I.children.html?t=user%2F%%_username%%' version='1.1' method='GET'></http>
-			</request>
-			<thinktime random='true' value='5'/>
+        <arrivalphase phase="2" duration="10" unit="minute">
+            <users maxnumber="600" interarrival="1" unit="second"></users>
+            <!-- 10 mins = 600 secs
+                 1 user per 1 secs = 600 users max = 600 / 1 -->
+        </arrivalphase>
 
-			<!-- add item to calendar -->
-			<request subst="true"><!-- lest you care, this adds "Anglo-Saxon History (Paper 1)" -->
-				<http url='/user/%%_username%%.link' version='1.1' contents='t=tripos%2Fasnc%2FI%2Fas-hist&amp;csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
-			</request>
-			<request subst="true">
-				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
-			</request>
-			<thinktime random='true' value='5'/>
-			
-			<!-- remove item from calendar -->
-			<request subst="true"><!-- removes "Anglo-Saxon History (Paper 1)" -->
-				<http url='/user/%%_username%%.link' version='1.1' contents='td=tripos%2Fasnc%2FI%2Fas-hist&amp;csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%' content_type='application/x-www-form-urlencoded' method='POST'></http>
-			</request>
-			<request subst="true">
-				<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
-			</request>
-			<thinktime random='true' value='5'/>
-			
-			<!-- scroll through calendar dates -->
-			<for from="1" to="3" incr="1" var="counter">
-				<request subst="true">
-					<http url='/user/%%_username%%.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%' version='1.1' method='GET'></http>
-				</request>
-				<thinktime random='true' value='3'/>
-			</for>
-			
-		</session>
-	</sessions>
-	
+        <arrivalphase phase="3" duration="10" unit="minute">
+            <users maxnumber="1200" arrivalrate="2" unit="second"></users>
+            <!-- 10 mins = 600 secs
+                 2 user per 1 secs = 1200 users max = 600 * 2 -->
+        </arrivalphase>
+
+        <arrivalphase phase="4" duration="10" unit="minute">
+            <users maxnumber="4800" arrivalrate="8" unit="second"></users>
+            <!-- 10 mins = 600 secs
+                 8 user per 1 secs = 4800 users max = 600 * 8 -->
+        </arrivalphase>
+
+        <arrivalphase phase="5" duration="10" unit="minute">
+            <users maxnumber="9600" arrivalrate="16" unit="second"></users>
+            <!-- 10 mins = 600 secs
+                 16 user per 1 secs = 9600 users max = 600 * 16 -->
+        </arrivalphase>
+    </load>
+
+    <options>
+        <!-- Note that *.csv should be in the same folder from which you run Tsung -->
+        <option name="file_server" value="users.csv" id="users"></option>
+        <option name="file_server" value="subject-ids.csv" id="subject_ids"></option>
+        <option name="file_server" value="calendar-add-ids.csv" id="cal_add_ids"></option>
+        <option name="file_server" value="calendar-date-ranges.csv" id="cal_date_ranges"></option>
+        <option name="file_server" value="list-page-dates.csv" id="list_page_dates"></option>
+        <option name="file_server" value="ical-types.csv" id="ical_types"></option>
+    </options>
+
+    <sessions>
+        <session name="students" probability='100' type='ts_http'>
+            <!-- Simulates "normal" student usage -->
+
+            <!-- set variables for use in the script -->
+            <setdynvars sourcetype="value" value="1371682800">
+                <var name="time_start"/>
+            </setdynvars>
+            <setdynvars sourcetype="value" value="1372287600">
+                <var name="time_end"/>
+            </setdynvars>
+
+
+            <!-- =======================
+                 homepage, not logged in
+                 ======================= -->
+            <transaction name="homepage_logged_out">
+                <request>
+                    <http url='/'/>
+                </request>
+
+                <!-- at the time of writing this throws an error, but it does occur and should ideally be simulated -->
+                <!-- FIXME: use random times -->
+                <!--
+                <request>
+                    <http url='/user/public.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%'/>
+                </request>
+                -->
+            </transaction>
+
+            <thinktime random='true' value='5'/>
+
+
+            <!-- ======
+                 log in
+                 ====== -->
+            <!-- load users from users.csv file -->
+            <setdynvars sourcetype="file" fileid="users" order="iter">
+                <var name="username"/>
+            </setdynvars>
+            <!-- request login page -->
+            <request>
+                <dyn_variable name="csrfmiddlewaretoken"></dyn_variable>
+                <http url='/accounts/login'/>
+            </request>
+            <thinktime random='true' value='3'/>
+
+            <!-- POST to login page to login -->
+            <request subst="true">
+                <http url='/accounts/login'
+                      contents='csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%&amp;username=%%_username%%&amp;password=password'
+                      content_type='application/x-www-form-urlencoded'
+                      method='POST'>
+                    <http_header name="Referer" value="https://timetable-loadtesting.dev.ds.lib.cam.ac.uk/"/>
+                </http>
+            </request>
+
+
+            <!-- homepage, logged in -->
+            <transaction name="homepage_logged_in">
+                <request>
+                    <http url='/'/>
+                </request>
+
+                <setdynvars sourcetype="file" fileid="cal_date_ranges" order="random">
+                    <var name="cal_date_type"/>
+                    <var name="cal_date_start"/>
+                    <var name="cal_date_end"/>
+                </setdynvars>
+                <request subst="true">
+                    <http url='/user/%%_username%%.cal.json?start=%%_cal_date_start%%&amp;end=%%_cal_date_end%%'/>
+                </request>
+            </transaction>
+
+
+            <thinktime random='true' value='5'/>
+
+
+            <for from="1" to="3" var="student_browse">
+                <!-- This repeated section is intended to simulate a typical
+                     usage pattern of the student UI:
+                       - Browse to a subject (lhs menu)
+                       - Add some stuff (modules & series) (updating cal each time)
+                       - browse the calendars a bit
+                 -->
+
+                <!-- lhs panel
+                     /tripos/asnc/II.children.html?t=user%2Fcalendar_large
+                -->
+                <transaction name="left_panel">
+                    <setdynvars sourcetype="file" fileid="subject_ids" order="random">
+                        <var name="subject_fullpath"/>
+                    </setdynvars>
+
+                    <request subst="true">
+                        <http url='/%%_subject_fullpath%%.children.html?t=user%2F%%_username%%'/>
+                    </request>
+                </transaction>
+
+
+                <for from="1" to="10" var="add_to_calendar">
+                    <thinktime random='true' value='5'/>
+                    <!-- add series to cal:
+                         POST /user/{{ username }}.link
+                         es: 1234 | t: tripos/some/thing/module
+                         csrfmiddlewaretoken: xxxx
+                         Note: use combo of series and module in data
+                    -->
+                    <transaction name="add_item_to_calendar">
+                        <setdynvars sourcetype="file" fileid="cal_add_ids" order="random">
+                            <var name="calendar_add_param"/>
+                        </setdynvars>
+                        <request subst="true">
+                            <http url='/user/%%_username%%.link'
+                                  contents='%%_calendar_add_param%%&amp;csrfmiddlewaretoken=%%_csrfmiddlewaretoken%%'
+                                  content_type='application/x-www-form-urlencoded'
+                                  method='POST'>
+                                <http_header name="Referer" value="https://timetable-loadtesting.dev.ds.lib.cam.ac.uk/"/>
+                            </http>
+                        </request>
+                    </transaction>
+
+                    <!-- Fetch calendar:
+                         /user/calendar_large.cal.json?start=1380150000&end=1383782400&_=1375365142675
+                         /user/{{ username }}.cal.json?start={{ start_time }}&end={{ end_time }}
+                         Note: use combo of week and month ranges in data
+                    -->
+                    <!-- A calendar fetch is triggered every time something is added to the calendar -->
+                    <transaction name="fetch_calendar">
+                        <setdynvars sourcetype="file" fileid="cal_date_ranges" order="random">
+                            <var name="cal_date_type"/>
+                            <var name="cal_date_start"/>
+                            <var name="cal_date_end"/>
+                        </setdynvars>
+                        <request subst="true">
+                            <http url='/user/%%_username%%.cal.json?start=%%_cal_date_start%%&amp;end=%%_cal_date_end%%'/>
+                        </request>
+                    </transaction>
+                </for>
+
+                <!-- Simulate the user browsing through their calendar having added some things -->
+                <for from="1" to="10" var="browse_calendar">
+                    <thinktime random='true' value='5'/>
+
+                    <transaction name="fetch_calendar">
+                        <setdynvars sourcetype="file" fileid="cal_date_ranges" order="random">
+                            <var name="cal_date_type"/>
+                            <var name="cal_date_start"/>
+                            <var name="cal_date_end"/>
+                        </setdynvars>
+                        <request subst="true">
+                            <http url='/user/%%_username%%.cal.json?start=%%_cal_date_start%%&amp;end=%%_cal_date_end%%'/>
+                        </request>
+                    </transaction>
+                </for>
+
+                <!-- Fetch list calendar
+                     /user/calendar_large.callist.html?y=2013&m=10
+                -->
+                <!-- Simulate browrsing the list calendar (not expected to be used as much as normal one). -->
+                <for from="1" to="3" var="devnull">
+                    <thinktime random='true' value='5'/>
+
+                    <transaction name="fetch_list_calendar">
+                        <setdynvars sourcetype="file" fileid="list_page_dates" order="random">
+                            <var name="list_page_year"/>
+                            <var name="list_page_month"/>
+                        </setdynvars>
+                        <request subst="true">
+                            <http url='/user/%%_username%%.callist.html?y=%%_list_page_year%%&amp;m=%%_list_page_month%%'/>
+                        </request>
+                    </transaction>
+                </for>
+            </for>
+
+            <thinktime random="true" value="5"/>
+
+            <!-- Simulate the user adding their feed to their calendar program (or not) -->
+            <setdynvars sourcetype="file" fileid="ical_types" order="random">
+                <var name="ical_type" />
+                <var name="ical_url" />
+            </setdynvars>
+
+            <if var="ical_type" eq="small">
+                <transaction name="fetch_ical_feed_small">
+                    <request subst="true">
+                        <http url='%%_ical_url%%'/>
+                    </request>
+                </transaction>
+            </if>
+
+            <if var="ical_type" eq="medium">
+                <transaction name="fetch_ical_feed_medium">
+                    <request subst="true">
+                        <http url='%%_ical_url%%'/>
+                    </request>
+                </transaction>
+            </if>
+
+            <if var="ical_type" eq="large">
+                <transaction name="fetch_ical_feed_large">
+                    <request subst="true">
+                        <http url='%%_ical_url%%'/>
+                    </request>
+                </transaction>
+            </if>
+        </session>
+    </sessions>
 </tsung>
-
