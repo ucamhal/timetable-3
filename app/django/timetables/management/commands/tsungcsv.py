@@ -422,7 +422,7 @@ class CalendarAddIdsDataExporter(object):
         return EventSource.objects.all()
 
     def get_modules(self):
-        return Thing.objects.filter()
+        return Thing.objects.filter(type="module")
 
     def get_module_value(self, module):
         return urlquote(module.fullpath, safe="")
