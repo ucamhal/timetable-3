@@ -18,11 +18,15 @@
       <option value="" disabled="disabled" selected="selected">Choose a part</option>
     </select>
 
+    <div class="user pull-right">
     {% if user_logged_in %}
-    <a href="{% url "logout url" %}?next={% url "home" %}" class="btn btn-primary pull-right js-sign-out">Sign out</a>
+      <span class="status">Signed in as {{ request.user.username }}</span>
+      <a href="{% url "logout url" %}?next={% url "home" %}" class="btn btn-primary js-sign-out">Sign out</a>
     {% else %}
-    <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-primary pull-right js-sign-in">Sign in</a>
+      <span class="status">Not signed in</span>
+      <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-primary js-sign-in">Sign in</a>
     {% endif %}
+    </div>
   </div>
 </div>
 {% endblock top_bar %}

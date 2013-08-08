@@ -104,6 +104,10 @@ header#mainHeader div#actionsContainer a:last-child {
   margin-right: 0;
 }
 
+#mainHeader .user .status {
+  padding-right: 1em;
+}
+
 div#uniLogo, div#inputArea > div {
   padding-top: 10px;
   padding-bottom: 2px;
