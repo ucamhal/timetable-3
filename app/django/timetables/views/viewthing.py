@@ -9,7 +9,7 @@ from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
 from django.shortcuts import render
 from django.views.generic.base import View
 from timetables.backend import ThingSubject
-from timetables.models import Thing, EventSource, ThingTag
+from timetables.models import Thing, EventSource, ThingTag, naturally_sort
 
 
 class ViewThing(View):
@@ -107,7 +107,7 @@ class ChildrenView(View):
                     }
                     series.append(single_series)
 
-                module["series"] = sorted(series, key=lambda item: item.get("title", "").lower())
+                module["series"] = naturally_sort(series, "title")
                 modules.append(module)
 
             raw_links = ThingTag.objects.filter(annotation="link", thing=thing)
@@ -127,8 +127,8 @@ class ChildrenView(View):
                 links.append(link)
 
             context = {
-                "modules": sorted(modules, key=lambda item: item.get("title", "").lower()),
-                "links": sorted(links, key=lambda item: item.get("name", "").lower())
+                "modules": naturally_sort(modules, "title"),
+                "links": naturally_sort(links, "name")
             }
             return render(request, "student/modules-list/base.html", context)
         except Thing.DoesNotExist:

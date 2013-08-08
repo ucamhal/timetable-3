@@ -489,6 +489,27 @@ def clean_string(txt):
     txt = re.sub(r"(^_+|_+$)", "", txt)
     return txt
 
+def naturally_sort(to_sort, sort_by_key):
+    """
+    Sorts by converting numbers within the strings to actual integers, and
+    taking them into account when sorting the array. Sorting is case
+    insensitive.
+    """
+    # Converts a supplied string to an intiger if it's numeric, otherwise it
+    # lowercases the string.
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    # Gets the appropriate value based on the supplied sortByKey if one is
+    # supplied else just returns the value
+    get_value_to_sort_by = lambda key: key.get(sort_by_key, "") if sort_by_key else key
+    # Splits a string into different parts where at least one number occurs.
+    # e.g. "Paper 12" becomes ['Paper ', '12', '']
+    # Runs the convert lambda function on each fragment.
+    alphanumeric_key = lambda key: [ convert(substr) for substr in re.split('([0-9]+)', get_value_to_sort_by(key)) ]
+    # Sorts the array, runs the alphanumeric_key function and uses its return
+    # value (in this case an array) to determine the order of the items within
+    # the set.
+    return sorted(to_sort, key = alphanumeric_key)
+
 
 def _get_upload_path(instance, filename):
     
