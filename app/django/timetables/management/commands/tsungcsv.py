@@ -168,6 +168,7 @@ class CsvExporterRunner(SubcommandRunner):
 class CsvGenerator(object):
     out_stream = sys.stdout
     csv_delimiter = b";"
+    csv_lineterminator = b"\n"
 
     def get_out_stream(self):
         return self.out_stream
@@ -175,10 +176,14 @@ class CsvGenerator(object):
     def get_csv_delimiter(self):
         return self.csv_delimiter
 
+    def get_csv_lineterminator(self):
+        return self.csv_lineterminator
+
     def get_csv_writer(self):
         return csv.writer(
             self.get_out_stream(),
-            delimiter=self.get_csv_delimiter()
+            delimiter=self.get_csv_delimiter(),
+            lineterminator=self.get_csv_lineterminator()
         )
 
     def output_data(self, data):
