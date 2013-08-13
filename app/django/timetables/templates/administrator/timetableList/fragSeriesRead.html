@@ -4,7 +4,7 @@
   <div class="series-title collapsed clearfix js-series-title">
     <h5 class="js-collapse" data-toggle="collapse" data-target="#series-{{ series.unique_id }}-events">
       <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-      <div class="contenteditable js-value title" data-save-path="{% url "edit series title" series.unique_id %}">{{ series.name }}</div>
+      <div class="js-value title" data-save-path="{% url "edit series title" series.unique_id %}" tabindex="0">{{ series.name }}</div>
       <span class="js-error-message error-message dontDisplayMe"></span>
     </h5>
     {% block series_title_right %}

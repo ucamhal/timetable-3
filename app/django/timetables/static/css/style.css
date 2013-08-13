@@ -3,11 +3,6 @@ body {
   height: 100%;
 }
 
-td:focus,
-div:focus {
-  outline: none;
-}
-
 ul.yes-this-is-really-a-list {
   list-style-type: disc;
   margin: 0 0 10px 25px;

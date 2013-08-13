@@ -2,12 +2,13 @@ require.config({
     paths: {
         jquery: "libs/jquery-1.8.0",
         "jquery-bbq": "libs/jquery.bbq",
+        "jquery-jeditable": "libs/jquery.jeditable",
+        "jquery-autosize": "libs/jquery.autosize-min",
         underscore: "libs/underscore",
         backbone: "libs/backbone",
         bootstrap: "libs/bootstrap",
         bootstrapTypeahead: "libs/bootstrap-plugins/bootstrap-typeahead",
-        fullcalendar: "libs/fullcalendar",
-        "rangy-core": "libs/rangy-core"
+        fullcalendar: "libs/fullcalendar"
     },
     shim: {
         jquery: {
@@ -29,8 +30,13 @@ require.config({
         "libs/jquery-django-csrf": {
             deps: ["jquery"]
         },
-        "rangy-core": {
-            exports: "rangy"
+        "jquery-bbq": {
+            deps: ["jquery"],
+            exports: "$"
+        },
+        "jquery-jeditable": {
+            deps: ["jquery"],
+            exports: "$"
         }
     }
 });

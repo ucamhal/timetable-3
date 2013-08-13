@@ -4,8 +4,9 @@ define([
     "backbone",
     "view/admin/lists",
     "view/admin/timetable-links",
+    "util/focus-helper",
     "bootstrap"
-], function($, _, Backbone, Lists, TimetableLinks) {
+], function($, _, Backbone, Lists, TimetableLinks, focusHelper) {
     "use strict";
 
     var TimetableListWrite = Backbone.View.extend({
@@ -19,7 +20,7 @@ define([
                 var moduleView = new Lists.WritableModuleView({
                     el: this
                 });
-                moduleView.on("destroy", self.removeModule);
+                moduleView.on("remove", self.removeModule);
                 modules.push(moduleView);
             });
 
@@ -87,15 +88,24 @@ define([
                 }
             });
 
-            newModuleView.on("destroy", this.removeModule);
+            newModuleView.on("remove", this.removeModule);
             this.model.set({
                 newModuleViews: this.model.get("newModuleViews").concat(newModuleView)
             });
         },
 
         removeModule: function (removedModule) {
-            var target = removedModule.options.added === true ? "newModuleViews" : "moduleViews";
+            var target = removedModule.options.added === true ? "newModuleViews" : "moduleViews",
+                $focusTarget = removedModule.$el.prev().find(".js-edit-icon");
             this.model.set(target, _.without(this.model.get(target), removedModule));
+
+            if (!$focusTarget.length) {
+                $focusTarget = this.$(".js-btn-add-module");
+            }
+
+            removedModule.destroy();
+            // handle the focus
+            focusHelper.focusTo($focusTarget);
         },
 
         onAddModuleClick: function (event) {

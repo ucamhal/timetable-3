@@ -24,54 +24,48 @@
 {# Templates for new events #}
 <script id="js-templ-new-event" type="text/template">
   <tr class="event js-event event-editable event-new row-being-edited">
-    <td title="Title" class="event-field eventTitle">
-      <div class="js-field js-field-title event-input" contenteditable="true" data-value="" tabindex="0">Title</div>
+    <td title="Title" class="event-field" tabindex="-1">
+      <div class="jeditable js-field js-field-title" tabindex="0" data-value=""></div>
     </td>
-
-    <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="" tabindex="0">
-      <span class="event-type js-field js-field-type event-type-none">
-      </span>
-
-      <select class="input-medium event-type js-field js-field-type">
-          <!--
-          <option value="">&mdash;</option>
-          -->
-          <option value="">—</option>
-          <option value="Practical">Practical</option>
-          <option value="Language Class">Language Class</option>
-          <option value="Lecture" selected="selected">Lecture</option>
-          <option value="Laboratory">Laboratory</option>
-          <option value="Seminar">Seminar</option>
-      </select>
+    <td title="Event Type" class="event-field event-field-type" tabindex="-1">
+      <div class="jeditable js-field js-field-type event-type" tabindex="0" data-value=""></div>
     </td>
-
-    <td class="event-field js-date-time-cell eventDateTime" tabindex="0">
-      <div class="event-input js-date-time-input-wrap">
-        <span class="js-focus-catcher js-focus-catcher-before" tabindex="0"></span>
-        <span title="Thursday 7th March ">
-          <span>W </span><span data-value="1" class="js-field-week">1</span><span> in </span><span data-value="Michaelmas" class="js-field-term">Michaelmas</span><span>, on </span><span data-value="thu" class="js-field-day">Thu</span><span>&nbsp;</span></span><span class="js-field-start-hour">09</span><span>:</span><span class="js-field-start-minute">00</span><span>–</span><span class="js-field-end-hour">10</span><span>:</span><span class="js-field-end-minute">00</span>
-
+    <td class="event-field js-date-time-cell eventDateTime" tabindex="-1">
+      <div class="js-date-time-input-wrap" tabindex="0">
+        <span title="{{ event.start|date:"l jS F " }}">
+          {% spaceless %}
+          <span>W </span>
+          <span data-value="1" class="js-field-week">1</span>
+          <span> in </span>
+          <span data-value="michaelmas" class="js-field-term">Michaelmas</span>
+          <span>, on </span>
+          <span data-value="thu" class="js-field-day">Thu</span>
+          <span>&nbsp;</span>
+        </span>
+        <span class="js-field-start-hour" data-value="09">09</span>
+        <span>:</span>
+        <span class="js-field-start-minute" data-value="00">00</span>
+        <span>&ndash;</span>
+        <span class="js-field-end-hour" data-value="10">10</span>
+        <span>:</span>
+        <span class="js-field-end-minute" data-value="00">00</span>
+        {% endspaceless %}
         <div class="dialog-holder js-dialog-holder"></div>
-        <span class="js-focus-catcher js-focus-catcher-after" tabindex="0"></span>
       </div>
     </td>
-
-    <td title="Location" class="event-field eventLocation">
-      <div class="js-field js-field-location event-input" tabindex="0" data-value="" contenteditable="true">Location</div>
+    <td title="Location" class="event-field" tabindex="-1">
+      <div class="jeditable js-field js-field-location" tabindex="0" data-value=""></div>
     </td>
-
-    <td title="Lecturer/host/etc" class="event-field eventLecturers">
-      <div class="js-field js-field-people event-input" tabindex="0" data-value="" contenteditable="true">Lecturer/host/etc</div>
+    <td title="Lecturer/host/etc" class="event-field" tabindex="-1">
+      <div class="jeditable js-field js-field-people" tabindex="0" data-value=""></div>
     </td>
-    
-    <td class="eventActions" tabindex="5">
+    <td class="eventActions" tabindex="-1">
       <ul class="buttons">
         <li>
-          <a href="#" class="icon-trash remove js-remove-icon" title="remove"><span class="hideMe">remove</span></a>
+          <a href="javascript:;" class="icon-trash remove js-remove-icon" title="remove" tabindex="0"><span class="hideMe">remove</span></a>
         </li>
       </ul>
     </td>
-
   </tr>
 </script>
 
@@ -81,14 +75,12 @@
     <div class="series-title collapsed clearfix js-series-title">
       <h5 class="js-collapse">
         <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-        <span class="js-value title" data-save-path="/series/new">Series title</span>
+        <span class="js-value title" data-save-path="/series/new" tabindex="0">Series title</span>
         <span class="js-error-message error-message dontDisplayMe"></span>
       </h5>
 
       <p class="buttons js-series-buttons">
         <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
-        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
-        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
         <a href="#" class="icon-trash js-remove" title="remove"><span class="hideMe">remove</span></a>
       </p>
     </div>
@@ -123,14 +115,12 @@
     <div class="js-module-title module-title clearfix">
       <h4 class="js-collapse collapsed">
         <span class="chevron js-expansion-indicator icon-chevron-right"></span>
-        <span class="title js-value" data-save-path="/module/new">Module title</span>
+        <span class="title js-value" data-save-path="/module/new" tabindex="0">Module title</span>
         <span class="js-error-message error-message dontDisplayMe"></span>
       </h4>
 
       <p class="buttons js-module-buttons">
         <a href="#" class="icon-pencil js-edit-icon" title="edit"><span class="hideMe">edit</span></a>
-        <a href="#" class="icon-plus-sign notImplemented" title="attach"><span class="hideMe">attach</span></a>
-        <a href="#" class="icon-file notImplemented" title="duplicate"><span class="hideMe">duplicate</span></a>
         <a href="#" class="icon-trash js-remove" title="remove"><span class="hideMe">remove</span></a>
       </p>
     </div>

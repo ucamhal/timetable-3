@@ -222,6 +222,7 @@ class TimetableListWrite(TimetableListRead):
         grouped_subjects = models.Subjects.group_for_part_drill_down(
             models.Subjects.all_subjects())
         context["subjects"] = models.Subjects.to_json(grouped_subjects)
+        context["type_choices"] = models.Event.get_type_choices_dict()
 
         return shortcuts.render(request,
                 "administrator/timetableList/write.html", context)
@@ -242,8 +243,7 @@ def list_view_events(request, series_id):
     context = {
         "series": {
             "events": events
-        },
-        "type_choices": forms.EVENT_TYPE_CHOICES
+        }
     }
 
     # if the request has ?writable=true then use the write rather than read

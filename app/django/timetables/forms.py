@@ -47,21 +47,6 @@ class DatePatternField(forms.CharField):
             pass
         raise ValidationError(self.error_messages["unparsable"]) 
 
-TYPE_UNKNOWN = ""
-TYPE_LECTURE = "Lecture"
-TYPE_PRACTICAL = "Practical"
-TYPE_CLASS = "Class"
-TYPE_SEMINAR = "Seminar"
-TYPE_FIELD_TRIP = "Field trip"
-EVENT_TYPE_CHOICES = dict((
-    (TYPE_UNKNOWN, "—"),
-    (TYPE_LECTURE, TYPE_LECTURE),
-    (TYPE_PRACTICAL, TYPE_PRACTICAL),
-    (TYPE_CLASS, TYPE_CLASS),
-    (TYPE_SEMINAR, TYPE_SEMINAR),
-    (TYPE_FIELD_TRIP, TYPE_FIELD_TRIP)
-))
-
 TERMS = (
     (datetimes.TERM_MICHAELMAS, "Michaelmas term"),
     (datetimes.TERM_LENT, "Lent term"),
@@ -78,7 +63,7 @@ DAYS = (
     (datetimes.DAY_WED, "Wednesday")
 )
 
-event_type = forms.ChoiceField(choices=EVENT_TYPE_CHOICES.items(), required=False)
+event_type = forms.ChoiceField(choices=models.Event.get_type_choices_dict().items(), required=False)
 
 
 class EventForm(forms.ModelForm):
@@ -175,8 +160,8 @@ class EventForm(forms.ModelForm):
             self.initial["end_minute"] = end.minute
         
         event_type = self.instance.metadata.get("type", "")
-        if not event_type in EVENT_TYPE_CHOICES:
-            event_type = TYPE_UNKNOWN
+        if not event_type in models.Event.get_type_choices_dict():
+            event_type = models.Event.TYPE_UNKNOWN
         self.initial["event_type"] = event_type
         
         self.initial["people"] = ", ".join(
@@ -268,8 +253,8 @@ class SeriesForm(forms.ModelForm):
         self.initial["location"] = self.instance.metadata["location"]
         
         event_type = self.instance.metadata.get("type", "")
-        if not event_type in EVENT_TYPE_CHOICES:
-            event_type = TYPE_UNKNOWN
+        if not event_type in models.Event.get_type_choices_dict():
+            event_type = models.Event.TYPE_UNKNOWN
         self.initial["event_type"] = event_type
         
         self.initial["people"] = ", ".join(
@@ -292,7 +277,7 @@ class SeriesForm(forms.ModelForm):
         series.metadata["location"] = self.cleaned_data["location"]
         series.metadata["people"] = self.cleaned_data["people"]
         
-        if self.cleaned_data["event_type"] != TYPE_UNKNOWN:
+        if self.cleaned_data["event_type"] != models.Event.TYPE_UNKNOWN:
             series.metadata["type"] =  self.cleaned_data["event_type"]
 
 

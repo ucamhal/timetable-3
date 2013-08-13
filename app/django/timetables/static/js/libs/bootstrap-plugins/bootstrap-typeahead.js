@@ -67,7 +67,7 @@
             top: pos.top + pos.height,
             left: pos.left
           })
-          .attr("tabindex", 0)
+          .attr("tabindex", -1)
           .show()
 
         this.scrollToActiveElement();

@@ -601,6 +601,14 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
     PERM_WRITE = "event.write"
     PERM_READ = "event.read"
 
+    # All possible event choices
+    TYPE_UNKNOWN = ("", "-")
+    TYPE_LECTURE = ("lecture", "Lecture")
+    TYPE_PRACTICAL = ("practical", "Practical")
+    TYPE_CLASS = ("class", "Class")
+    TYPE_SEMINAR = ("seminar", "Seminar")
+    TYPE_FIELD_TRIP = ("field trip", "Field trip")
+
 
     objects = managers.EventManager()
 
@@ -653,6 +661,17 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
         return "%s %s %s - %s  (%s)" % (self.title, self.location,
                 self.start_local(timezone.utc), self.end_local(timezone.utc),
                 self.id)
+
+    @classmethod
+    def get_type_choices_dict(cls):
+        return dict((
+            cls.TYPE_UNKNOWN,
+            cls.TYPE_LECTURE,
+            cls.TYPE_PRACTICAL,
+            cls.TYPE_CLASS,
+            cls.TYPE_SEMINAR,
+            cls.TYPE_FIELD_TRIP
+        ))
 
     def get_ical_uid(self, domain=None):
         """

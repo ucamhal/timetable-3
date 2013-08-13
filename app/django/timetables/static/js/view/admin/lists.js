@@ -5,11 +5,12 @@ define([
     "util/admin-api",
     "util/dialog-factory",
     "util/django-forms",
-    "util/contenteditable",
+    "util/focus-helper",
     "jquery-bbq",
+    "util/jeditable-types",
     "bootstrapTypeahead",
-    "util/jquery.select-text"
-], function($, _, Backbone, api, dialogFactory, DjangoForms, contenteditable) {
+    "util/underscore-mixins"
+], function($, _, Backbone, api, dialogFactory, DjangoForms, focusHelper) {
     "use strict";
 
     var listEvents = _.extend({}, Backbone.Events);
@@ -48,6 +49,10 @@ define([
          */
         reset: function () {
             this.set(this.originalAttributes);
+        },
+
+        resetAttribute: function (key) {
+            this.set(key, this.originalAttributes[key]);
         },
 
         /**
@@ -205,12 +210,22 @@ define([
             return {
                 "show .js-module-content": this.onExpand,
                 "hide .js-module-content": this.onCollapse,
-                "shown .js-module-content": this.onShown
+                "shown .js-module-content": this.onShown,
+                "focusin .js-module-title": this.onTitleFocusIn,
+                "focusout .js-module-title": this.onTitleFocusOut
             };
         },
 
+        onTitleFocusIn: function () {
+            this.$(".js-module-title").addClass("focus");
+        },
+
+        onTitleFocusOut: function () {
+            this.$(".js-module-title").removeClass("focus");
+        },
+
         initialize: function() {
-            _.bindAll(this, "onExpand", "onCollapse");
+            _.bindAll(this, "onExpand", "onCollapse", "onTitleFocusIn", "onTitleFocusOut");
 
             this.model = new BaseModel();
             this.model.set({
@@ -271,8 +286,18 @@ define([
             return {
                 "show .js-events": this.onExpand,
                 "shown .js-events": this.onShown,
-                "hide .js-events": this.onCollapse
+                "hide .js-events": this.onCollapse,
+                "focusin .js-series-title": this.onTitleFocusIn,
+                "focusout .js-series-title": this.onTitleFocusOut
             };
+        },
+
+        onTitleFocusIn: function () {
+            this.$(".js-series-title").addClass("focus");
+        },
+
+        onTitleFocusOut: function () {
+            this.$(".js-series-title").removeClass("focus");
         },
 
         initialize: function() {
@@ -431,8 +456,7 @@ define([
                 this.editableTitle.on("cancel", this.onTitleCancel);
                 this.editableTitle.on("save", this.onInitialTitleSaveSuccess);
                 this.$(".js-module-buttons").hide();
-                this.editableTitle.toggleEditableState(true);
-                this.editableTitle.selectText();
+                this.editableTitle.startEdit();
             }
             this.editableTitle.on("save", this.onTitleSaveSuccess);
         },
@@ -450,8 +474,8 @@ define([
             // module
             this.$(".js-series").each(function() {
                 newSeriesView = new WritableSeriesView({el: this});
-                newSeriesView.on("expand", self.onSeriesExpand);
-                newSeriesView.on("destroy", self.onSeriesRemoved);
+                self.listenTo(newSeriesView, "expand", self.onSeriesExpand);
+                self.listenTo(newSeriesView, "remove", self.onSeriesRemoved);
                 series.push(newSeriesView);
             });
 
@@ -493,6 +517,8 @@ define([
         },
 
         onRemoveClick: function (event) {
+            // Remove the focus from the btn
+            this.$(".js-module-buttons .js-remove").blur();
             this.showRemoveModal();
             event.preventDefault();
         },
@@ -509,7 +535,12 @@ define([
             };
 
             this.removeModal = dialogFactory.removeModule(data);
-            this.removeModal.on("confirm", this.onRemoveModalConfirm);
+            this.listenTo(this.removeModal, "confirm", this.onRemoveModalConfirm);
+            this.listenTo(this.removeModal, "close", this.onRemoveModalClose);
+        },
+
+        onRemoveModalClose: function () {
+            focusHelper.focusTo(this.$(".js-module-buttons .js-remove"));
         },
 
         /**
@@ -528,7 +559,7 @@ define([
                 }
 
                 self.removeModal.onSuccess();
-                self.destroy();
+                self.trigger("remove", self);
             });
         },
 
@@ -549,12 +580,12 @@ define([
                 }
             });
 
-            newSeriesView.on("expand", this.onSeriesExpand);
+            this.listenTo(newSeriesView, "expand", this.onSeriesExpand);
             this.model.set({
                 newSeries: this.model.get("newSeries").concat(newSeriesView)
             });
 
-            newSeriesView.on("destroy", this.onSeriesRemoved);
+            this.listenTo(newSeriesView, "remove", this.onSeriesRemoved);
         },
 
         onSeriesRemoved: function (removedSeriesView) {
@@ -566,8 +597,16 @@ define([
          */
         removeSeriesView: function (seriesView) {
             // Determine which array to remove the seriesView from.
-            var target = seriesView.options.added === true ? "newSeries" : "series";
+            var target = seriesView.options.added === true ? "newSeries" : "series",
+                $focusTarget = seriesView.$el.prev().find(".js-edit-icon");
             this.model.set(target, _.without(this.model.get(target), seriesView));
+
+            if (!$focusTarget.length) {
+                $focusTarget = this.$(".js-btn-add-series");
+            }
+
+            seriesView.destroy();
+            focusHelper.focusTo($focusTarget);
         },
 
         /**
@@ -634,7 +673,7 @@ define([
          * without saving).
          */
         onTitleCancel: function () {
-            this.destroy();
+            this.trigger("remove", this);
         },
 
         /**
@@ -702,6 +741,8 @@ define([
         },
 
         initialize: function() {
+            _.bindAll(this);
+
             WritableSeriesView.__super__.initialize.apply(this, arguments);
             this.editableTitle = new EditableTitleView({
                 el: this.$(".js-series-title h5"),
@@ -720,14 +761,11 @@ define([
                     this.editableTitle.setSavePath(this.options.titleSavePath);
                 }
 
-                this.editableTitle.toggleEditableState(true);
-                this.editableTitle.selectText();
+                this.editableTitle.startEdit();
             }
 
             // Bind a change handler to the model
             this.model.on("change", this.onSavedStatusChanged);
-
-            _.bindAll(this);
         },
 
         setId: function (id) {
@@ -792,7 +830,7 @@ define([
          * without saving).
          */
         onTitleCancel: function () {
-            this.destroy();
+            this.trigger("remove", this);
         },
 
         /**
@@ -862,6 +900,8 @@ define([
         },
 
         onRemoveClick: function (event) {
+            // Remove the focus from the btn
+            this.$(".js-remove").blur();
             this.showRemoveModal();
             event.preventDefault();
         },
@@ -877,7 +917,8 @@ define([
             };
 
             this.removeModal = dialogFactory.removeSeries(data);
-            this.removeModal.on("confirm", this.onRemoveModalConfirm);
+            this.listenTo(this.removeModal, "confirm", this.onRemoveModalConfirm);
+            this.listenTo(this.removeModal, "close", this.onRemoveModalClose);
         },
 
         /**
@@ -896,13 +937,12 @@ define([
                 }
 
                 self.removeModal.onSuccess();
-                self.destroy();
+                self.trigger("remove", self);
             });
         },
 
         onRemoveModalClose: function () {
-            this.removeModal.off();
-            this.removeModal.remove();
+            focusHelper.focusTo(this.$(".js-remove"));
         },
 
         /**
@@ -943,6 +983,8 @@ define([
 
             // Reset the newEvents array
             this.model.set("newEvents", []);
+            // Place the focus on the add event button
+            focusHelper.focusTo(this.$(".js-btn-add-event"));
         },
 
         /**
@@ -962,13 +1004,14 @@ define([
                 return;
             }
 
+            // Remove the focus from the save btn
+            this.$(".js-btn-save").blur();
+
             // If the events data isn't valid, show a warning and abort saving.
             if (!this.isEventDataValid()) {
-                $(".js-invalid-event-data").modal({
-                    backdrop: "static",
-                    show: true,
-                    keyboard: false
-                });
+                var invalidDataDialog = dialogFactory.eventInvalidDataError();
+                // Listen for the dialog close event to refocus on the save button
+                this.listenTo(invalidDataDialog, "close", this.onInvalidDataDialogClose);
                 return;
             }
 
@@ -998,10 +1041,15 @@ define([
             // Create a modal dialog to prevent actions taking place while
             // saving.
             this.saveDialogView = new SaveEventsDialogView();
+            this.saveDialogView.$el.on("hidden", this.onSaveDialogClose);
             this.saveDialogView.on("saved", this.onEventsSaved);
 
             // Show the dialog & kick off the form POST.
             this.saveDialogView.postEventsForm(this.getId(), formData);
+        },
+
+        onInvalidDataDialogClose: function () {
+            focusHelper.focusTo(this.$(".js-btn-save"));
         },
 
         /**
@@ -1039,12 +1087,17 @@ define([
             });
         },
 
+        onSaveDialogClose: function () {
+            this.saveDialogView.remove();
+            delete this.saveDialogView;
+            focusHelper.focusTo(this.$(".js-btn-add-event"));
+        },
+
         /**
          * Removes the saveDialog and events, triggers recreation of the events
          * based on the html response.
          */
         onEventsSaved: function(response) {
-            delete this.saveDialogView;
             this.clearEvents();
             this.$(".js-events").empty();
             this.onEventsFetched(response);
@@ -1055,31 +1108,7 @@ define([
          * @return [object] new row jQuery Object
          */
         appendNewEventRow: function () {
-            var $eventRow;
-
-            // If events already exist, clone the latest, else append an empty
-            // row
-            if (this.model.get("events").length) {
-                $eventRow = this.$el.find(".js-event").last().clone();
-
-                // If the event is cloned from one that already exists (= not
-                // from another new event row), we need to remove the id
-                // attribute and add appropriate classes + remove any buttons
-                // which aren't used by new events.
-                if (!$eventRow.hasClass("event-new")) {
-                    $eventRow.addClass("event-new row-being-edited").removeAttr("data-id");
-
-                    _.each($eventRow.find(".buttons a"), function (el) {
-                        var $el = $(el);
-                        if (!$el.hasClass("js-remove-icon")) {
-                            $el.parent().remove();
-                        }
-                    });
-                }
-            } else {
-                $eventRow = $($("#js-templ-new-event").html());
-            }
-
+            var $eventRow = $($("#js-templ-new-event").html());
             this.$el.find("tbody").append($eventRow);
             return $eventRow;
         },
@@ -1094,6 +1123,25 @@ define([
             this.model.set({
                 newEvents: _.without(this.model.get("newEvents"), eventView)
             });
+
+            // Place the focus on the add event button
+            focusHelper.focusTo(this.$(".js-btn-add-event"));
+        },
+
+        getNewEventInitialData: function () {
+            // Gets initial data that can be used for new events by checking
+            // the last event in the series. If the series is empty it'll return
+            // an empty object.
+            var newEvents = this.model.get("newEvents"),
+                existingEvents = this.model.get("events");
+
+            if (newEvents.length) {
+                return _.last(newEvents).getFieldData();
+            } else if (existingEvents.length) {
+                return _.last(existingEvents).getFieldData();
+            }
+
+            return {};
         },
 
         /**
@@ -1107,6 +1155,15 @@ define([
 
             $newEvent = this.appendNewEventRow();
             newEventView = this.buildSingleEventView($newEvent);
+            // Set the data of the new event view to the last event in the
+            // series or blank if the series is empty.
+            newEventView.model.set(this.getNewEventInitialData());
+            newEventView.renderFromModel();
+
+            // Open the event's edit state
+            newEventView.openJEditableFields();
+            newEventView.setRowEditState(true);
+            focusHelper.focusTo(newEventView.$("input, textarea, select").first());
 
             // Add an event listener that listens to the new event being removed
             newEventView.on("destroyed", this.onNewEventRemoved);
@@ -1227,322 +1284,468 @@ define([
         initialize: function () {
             WritableEventView.__super__.initialize.apply(this, arguments);
 
-            this.$titleField = this.$(".js-field-title");
-            this.$locationField = this.$(".js-field-location");
-            this.$peopleField = this.$(".js-field-people");
-            this.$typeField = this.$("select.js-field-type");
-
-            this.$weekField = this.$(".js-field-week");
-            this.$termField = this.$(".js-field-term");
-            this.$dayField = this.$(".js-field-day");
-            this.$startHourField = this.$(".js-field-start-hour");
-            this.$startMinuteField = this.$(".js-field-start-minute");
-            this.$endHourField = this.$(".js-field-end-hour");
-            this.$endMinuteField = this.$(".js-field-end-minute");
-
-            this.$typeWrapper = this.$(".js-event-type-input-wrap");
-            this.$dateTimeWrapper = this.$(".js-date-time-cell");
-
+            // Initialize the model.
             this.model = new EventModel();
-            this.updateModel();
+            // Save the current field values in the model
+            this.syncModel();
+            // Store the current state of the model so that we know when
+            // changes have been made (to show/hide save/cancel buttons)
             this.model.storeInitialState();
-            this.model.on("change", this.render);
-        },
 
-        updateModel: function() {
-            // Update our model with the current state of the HTML
-            this.model.set({
-                // If no ID is specified, set as undefined (new event will be created in the backend when no ID is set)
-                id: safeParseInt(this.$el.data("id")) || undefined,
-                title: this.$titleField.text(),
-                location: this.$locationField.text(),
-                type: this.$typeField.val(),
-                people: this.$peopleField.text(),
-                week: this.$weekField.text(),
-                term: this.$termField.text().toLowerCase(),
-                day: this.$dayField.text().toLowerCase(),
-                startHour: this.$startHourField.text(),
-                startMinute: this.$startMinuteField.text(),
-                endHour: this.$endHourField.text(),
-                endMinute: this.$endMinuteField.text(),
-                cancel: this.$el.hasClass("event-cancelled")
-            });
-        },
-
-        render: function () {
-            var isCancelled = this.isCancelled();
-
-            this.setFieldValue(this.$titleField, this.model.get("title"));
-            this.setFieldValue(this.$locationField, this.model.get("location"));
-            this.setFieldValue(this.$peopleField, this.model.get("people"));
-
-            this.setFieldValue(this.$weekField, this.model.get("week"));
-            this.setFieldValue(this.$termField, this.model.getPrettyTerm());
-            this.setFieldValue(this.$dayField, this.model.getPrettyDay());
-            this.setFieldValue(this.$startHourField, this.model.get("startHour"));
-            this.setFieldValue(this.$endHourField, this.model.get("endHour"));
-            this.setFieldValue(this.$startMinuteField, this.model.get("startMinute"));
-            this.setFieldValue(this.$endMinuteField, this.model.get("endMinute"));
-
-            this.$typeField.val(this.model.get("type"));
-
-            this.$titleField.attr("contenteditable", !isCancelled);
-            this.$locationField.attr("contenteditable", !isCancelled);
-            this.$peopleField.attr("contenteditable", !isCancelled);
-            this.$typeField.attr("disabled", isCancelled);
-
-            this.$el.toggleClass("event-cancelled", isCancelled);
-        },
-
-        isCancelled: function () {
-            return this.model.get("cancel");
-        },
-
-        setFieldValue: function ($field, value) {
-            if ($field.text() !== value) {
-                $field.text(value);
-            }
+            this.bindEvents();
+            // Initialize the jeditable fields
+            this.initJEditable();
         },
 
         events: function () {
             return {
-                "click .js-field-title, .js-field-location, .js-field-people" : this.editableFieldClickHandler,
-                "click .js-event-direct-input-wrap" : this.onDirectInputWrapClick,
+                "keyup .tablecell-jeditable": this.onJEditableFieldInteraction,
+                "paste .tablecell-jeditable": this.onJEditableFieldInteraction,
+                "cut .tablecell-jeditable": this.onJEditableFieldInteraction,
+                "change .type-select-jeditable": this.onJEditableFieldInteraction,
 
-                "focus .js-field-title" : this.titleFieldFocusHandler,
-                "focus .js-field-location" : this.locationFieldFocusHandler,
-                "focus .js-field-people" : this.peopleFieldFocusHandler,
-                "focus .js-event-type-input-wrap" : this.typeWrapFocusHandler,
-                "focus .js-date-time-cell" : this.dateTimeWrapFocusHandler,
-                "click .js-date-time-cell" : this.dateTimeWrapFocusHandler,
+                "onreset .jeditable-field": this.onJEditableFieldReset,
 
-                "focusout .js-field-title" : this.titleFieldFocusOutHandler,
-                "focusout .js-field-location" : this.locationFieldFocusOutHandler,
-                "focusout .js-field-people" : this.peopleFieldFocusOutHandler,
-                "focusout select.js-field-type" : this.typeFieldFocusOutHandler,
-                "focusout .js-date-time-cell" : this.dateTimeFocusOutHandler,
+                "click .js-date-time-cell": this.onDateTimeClick,
+                "keydown .js-date-time-cell": this.onDateTimeKeyDown,
 
-                "click .js-edit-icon" : this.editIconClickHandler,
-                "click .js-remove-icon" : this.removeIconClickHandler,
-                "focus *" : this.focusInHander,
-                "focusout" : this.focusOutHandler,
+                "click .js-edit-icon": this.onEventEditClick,
+                "click .js-remove-icon": this.onRemoveClick,
 
-                "keyup" : this.keyUpHandler,
-                "paste .js-field-title, .js-field-location, .js-field-people" : this.clipboardHandler,
-                "cut .js-field-title, .js-field-location, .js-field-people" : this.clipboardHandler,
-                "change select, input" : this.changeHandler
+                "click td": this.onTableCellClick,
+                "keyup .jeditable": this.onJEditableKeyup,
+                "focusin": this.onFocusIn,
+                "focusout": this.onFocusOut
             };
         },
 
-        onDirectInputWrapClick: function (event) {
+        onTableCellClick: function (event) {
             var $target = $(event.target);
-            // Only trigger the action when the direct target has been clicked.
-            if ($target.hasClass("js-event-direct-input-wrap")) {
-                $target.find(".js-field").focus();
+            // trigger a click on the field if the table cell is clicked
+            if ($target.hasClass("event-field")) {
+                var $inputElements = $target.find("input, textarea, select");
+                if ($inputElements.length) {
+                    focusHelper.focusTo($inputElements.first());
+                    return;
+                }
+                $target.children().first().trigger("click");
             }
         },
 
-        dateTimeFocusOutHandler: function () {
+        onJEditableKeyup: function (event) {
+            var $target = $(event.currentTarget);
+
+            // Only enter editable state when keys return (13) or space (32) are
+            // pressed
+            if (!$target.find("form").length && (event.keyCode === 13 || event.keyCode === 32)) {
+                $target.trigger("click");
+            }
+        },
+
+        onFocusIn: function () {
+            this.$el.addClass("being-edited");
+        },
+
+        onFocusOut: function () {
             var self = this;
-            _.delay(function () {
-                if (!self.$dateTimeWrapper.is(":active") && self.$dateTimeWrapper.find(":focus, :active").length < 1) {
-                    self.closeDateTimeDialog();
+            _.defer(function () {
+                if (!self.$el.find(":focus").length && !self.dateTimeDialog) {
+                    self.$el.removeClass("being-edited");
+                    // Close the row edit state if it's open
+                    if (self.getRowEditState() && !self.isNew()) {
+                        self.setRowEditState(false);
+                        self.closeJEditableFields();
+                    }
                 }
-            }, 50);
+            });
+        },
+
+        isNew: function () {
+            // This function checks whether the event has an id. If it doesn't
+            // it means that the event hasn't been saved yet.
+            return !Boolean(this.getId());
+        },
+
+        setRowEditState: function (beingEdited) {
+            this.$el.toggleClass("row-being-edited", beingEdited);
+        },
+
+        getRowEditState: function () {
+            return this.$el.hasClass("row-being-edited");
+        },
+
+        closeJEditableFields: function () {
+            _.each(this.getJEditableFields(), function (fieldData) {
+                fieldData.$el.find("input, textarea, select").blur();
+            });
+        },
+
+        openJEditableFields: function () {
+            _.each(this.getJEditableFields(), function (fieldData) {
+                fieldData.$el.trigger("click");
+            });
+        },
+
+        onEventEditClick: function () {
+            if (this.model.get("cancel")) {
+                // Don't enter the edit state if the event is marked as
+                // cancelled
+                return;
+            }
+
+            var newEditState = !this.getRowEditState();
+            // Set the new edit state on the element
+            this.setRowEditState(newEditState);
+            if (newEditState) {
+                // If editState is set to true, trigger jeditable on all fields
+                this.openJEditableFields();
+                focusHelper.focusTo(this.$("input, textarea, select").first(), true);
+                return;
+            }
+            // Else close them
+            this.closeJEditableFields();
         },
 
         destroy: function () {
+            this.destroyJEditableFields();
             this.remove();
             this.trigger("destroyed", this);
         },
 
-        removeIconClickHandler: function (event) {
-            event.preventDefault();
+        destroyJEditableFields: function () {
+            // Trigger the jeditable destroy code
+            _.each(this.getJEditableFields(), function (fieldData) {
+                fieldData.$el.editable("destroy");
+            });
+        },
 
-            // If the item was an event being added by the user, simply remove
-            // it and dispatch an event so the event series can lose track of it
+        onDateTimeClick: function () {
+            if (!this.dateTimeDialog && !this.model.get("cancel")) {
+                this.showDateTimeDialog();
+            }
+        },
+
+        onDateTimeKeyDown: function (event) {
+            if (this.dateTimeDialog) {
+                // Close the dialog if escape (27) is pressed
+                if (event.keyCode === 27) {
+                    this.closeDateTimeDialog();
+                }
+                return;
+            }
+
+            // Open the date time dialog if the return key (13) or the space key
+            // (32) is pressed
+            if (!this.model.get("cancel") && (event.keyCode === 13 || event.keyCode === 32)) {
+                this.showDateTimeDialog();
+            }
+        },
+
+        onRemoveClick: function () {
             if (this.isNew()) {
+                // If the event is new (not saved in the db) we can just remove it
+                // from the ui
                 this.destroy();
                 return;
             }
 
-            // Else if the event was already present, toggle the cancelled state
-            this.toggleCancelledState();
+            var model = this.model,
+                // Save whether the event is currently cancelled before we reset
+                // the model.
+                currentlyCancelled = model.get("cancel");
+            // Make sure the edit state is over
+            this.setRowEditState(false);
+            // Revert all open changes
+            model.reset();
+            // Set the appropriate cancelled value
+            model.set("cancel", !currentlyCancelled);
+            this.renderFromModel();
+            // Close all jeditable fields
+            this.closeJEditableFields();
         },
 
-        clipboardHandler: function () {
-            var self = this;
-            // Set timeout so that the field is checked after being updated.
-            setTimeout(function () {
-                self.updateModel();
-                self.markAsChanged();
-            }, 1);
+        showDateTimeDialog: function () {
+            var dialog = new DateTimeDialogView({
+                el: $("#templates .js-date-time-dialog").clone(),
+                model: this.model
+            });
+
+            this.$(".js-date-time-input-wrap").addClass("being-edited");
+            this.$(".js-date-time-cell .js-dialog-holder").append(dialog.$el);
+            this.listenTo(dialog, "dialog:close", this.closeDateTimeDialog);
+            dialog.show();
+
+            this.dateTimeDialog = dialog;
         },
 
-        keyUpHandler: function () {
-            this.updateModel();
-            this.markAsChanged();
+        closeDateTimeDialog: function () {
+            var $dateTimeInputWrap = this.$(".js-date-time-input-wrap");
+            // Update the elements with the values in the model
+            this.renderFromModel();
+            // Remove the dialog and the reference to it
+            this.dateTimeDialog.remove();
+            this.dateTimeDialog = undefined;
+            $dateTimeInputWrap.removeClass("being-edited");
+            focusHelper.focusTo($dateTimeInputWrap, true);
         },
 
-        changeHandler: function () {
-            this.updateModel();
-            this.markAsChanged();
+        onJEditableFieldInteraction: function (event) {
+            // Save the field's new value to our model.
+            var $target = $(event.target);
+            $target.parents(".js-field").data("value", $target.val());
+            this.syncModel();
+        },
+
+        bindEvents: function () {
+            this.listenTo(this.model, "change", this.onModelChange);
+        },
+
+        onModelChange: function (model) {
+            // Mark the event as changed if the model has changed from its
+            // original values.
+            this.markAsChanged(model.hasChangedFromOriginal());
+        },
+
+        markAsChanged: function (changed) {
+            // Update the classnames on the event to reflect whether the model
+            // has changed from its original attributes. Also dispatch an event
+            // to let the parent series know something has changed.
+            var hasChangedState = this.$el.hasClass("unsaved");
+            if (changed !== hasChangedState) {
+                this.$el.toggleClass("unsaved", changed);
+                this.trigger("event:savedStatusChanged");
+            }
         },
 
         cancelChanges: function () {
+            // Revert all the fields to their original values.
             this.model.reset();
-            this.markAsChanged();
-            this.$typeWrapper.removeClass("being-edited");
+            // Render the html based on what values are present in the model
+            this.renderFromModel();
+            // Reset all jeditable fields
+            this.closeJEditableFields();
         },
 
-        titleFieldFocusOutHandler: function () {
-            this.$titleField.removeClass("being-edited");
-        },
+        renderFromModel: function () {
+            var model = this.model,
+                cancelled = this.model.get("cancel");
+            _.each(this.getFields(), function (fieldData) {
+                var $jeditableField = fieldData.$el.find(".jeditable-field"),
+                    value = model.get(fieldData.name),
+                    // If this isn't a jeditable field, capitalize the value
+                    // which will be shown to the user
+                    textValue = fieldData.jeditable ? value : _.capitalize(value);
 
-        locationFieldFocusOutHandler: function () {
-            this.$locationField.removeClass("being-edited");
-        },
+                // Only update if the value is different
+                if (value !== fieldData.$el.data("value")) {
+                    if ($jeditableField.length) {
+                        // If there's a jeditable form element in the field, set its
+                        // value to the model value
+                        $jeditableField.find("input, select, textarea").val(value).trigger("resize");
+                    } else {
+                        // Else just update the element's text
+                        fieldData.$el.text(fieldData.name === "type" ? fieldData.data()[value] : textValue);
+                    }
 
-        peopleFieldFocusOutHandler: function () {
-            this.$peopleField.removeClass("being-edited");
-        },
-
-        typeFieldFocusOutHandler: function () {
-            //check if value is different from original; remove being-edited class
-            if (!this.model.hasFieldChangedFromOriginal("type")) {
-                this.$typeWrapper.removeClass("being-edited");
-            }
-        },
-
-        isNew: function () {
-            return this.model.get("id") === undefined;
-        },
-
-        markAsChanged: function () {
-            this.$el.toggleClass("unsaved", this.model.hasChangedFromOriginal());
-            this.trigger("event:savedStatusChanged");
-        },
-
-        hasFocus: function () {
-            return this.$el.find(":focus").length > 0 || this.$el.find(":active").length > 0;
-        },
-
-        focusOutHandler: function () {
-            var self = this;
-            this.caretMoved = false;
-            _.delay(function () {
-                if (!self.hasFocus() && !self.isNew()) {
-                    self.$el.removeClass("row-being-edited");
-                    self.toggleRowBeingEditedState(false);
+                    // Also update the data-value attribute on the field element
+                    fieldData.$el.data("value", value);
                 }
-            }, 50);
+            });
+
+            this.$el.toggleClass("event-cancelled", cancelled);
+            this.toggleJEditable(!cancelled);
         },
 
-        focusInHander: function () {
-            this.toggleRowBeingEditedState(true);
+        toggleJEditable: function (enabled) {
+            _.each(this.getJEditableFields(), function (fieldData) {
+                fieldData.$el.editable(enabled ? "enable" : "disable");
+            });
         },
 
-        editIconClickHandler: function () {
-            if (!this.isCancelled()) {
-                this.$el.addClass("row-being-edited");
-            }
+        initJEditable: function () {
+            // Initialize jeditable on fields which should have it enabled
+            var jEditableFields = this.getJEditableFields(),
+                self = this,
+                // Define $focussedEl to keep track of ie8 focussed element
+                $focussedEl;
+
+            _.each(jEditableFields, function (fieldData) {
+                fieldData.$el.editable(fieldData.onSubmitCallback || function (value) {
+                    // Reset the element attributes to their original values
+                    $(this).attr("tabindex", "0").removeClass("being-edited");
+                    return value;
+                }, _.defaults(fieldData, {
+                    onblur: function () {
+                        // Only close the form if row edit state is false, else
+                        // we want to keep the fields open
+                        if (!self.getRowEditState()) {
+                            $(this).find("form").submit();
+                        }
+                    },
+                    callback: (function () {
+                        // If the browser is ie8, set a timeout to focus the
+                        // element that was focussed before rendering the
+                        // jeditable field. We have to do this because ie8
+                        // removes focus from the element when the jeditable
+                        // field is rendered.
+                        if (focusHelper.isIE8()) {
+                            return function () {
+                                focusHelper.focusTo($focussedEl);
+                            };
+                        }
+                        return;
+                    }()),
+                    onsubmit: (function () {
+                        // If the browser is ie8, save a reference to the
+                        // currently focussed element.
+                        if (focusHelper.isIE8()) {
+                            return function () {
+                                $focussedEl = $(document.activeElement);
+                            };
+                        }
+                        return;
+                    }()),
+                    select: true,
+                    onreset: self.onJEditableFieldReset,
+                    placeholder: fieldData.fieldName || _.capitalize(fieldData.name),
+                    cssclass: fieldData.type + "-jeditable jeditable-field"
+                }));
+            });
         },
 
-        dateTimeWrapFocusHandler: function () {
-            this.toggleDateTimeDialog(true);
+        getEventGeneralData: function () {
+            return {
+                id: this.$el.data("id") || undefined,
+                cancel: this.$el.hasClass("event-cancelled")
+            };
         },
 
-        typeWrapFocusHandler: function () {
-            if (this.$typeWrapper.hasClass("being-edited") === false) {
-                this.$typeWrapper.addClass("being-edited");
-                this.$typeField.focus();
-            }
+        getFieldData: function () {
+            var data = {};
+            _.each(this.getFields(), function (fieldData) {
+                // Convert to string to prevent type issues
+                data[fieldData.name] = String(fieldData.$el.data("value"));
+            });
+            return data;
         },
 
-        editableFieldClickHandler: function (event) {
-            if (!this.caretMoved) {
-                moveCaretToEndOfContenteditableElement(event.currentTarget);
-                this.caretMoved = true;
-            }
+        getEventData: function () {
+            // Return the field values in an object format.
+            return _.extend(this.getEventGeneralData(), this.getFieldData());
         },
 
-        titleFieldFocusHandler: function (event) {
-            this.$titleField.addClass("being-edited");
-            moveCaretToEndOfContenteditableElement(event.currentTarget);
-        },
-
-        locationFieldFocusHandler: function (event) {
-            this.$locationField.addClass("being-edited");
-            moveCaretToEndOfContenteditableElement(event.currentTarget);
-        },
-
-        peopleFieldFocusHandler: function (event) {
-            this.$peopleField.addClass("being-edited");
-            moveCaretToEndOfContenteditableElement(event.currentTarget);
-        },
-
-        toggleRowBeingEditedState: function (beingEdited) {
-            beingEdited = typeof beingEdited !== "undefined" ? beingEdited : !this.$el.hasClass("being-edited");
-            this.$el.toggleClass("being-edited", beingEdited);
-        },
-
-        closeDateTimeDialog: function (toggleRowBeingEditedState) {
-            if (this.dateTimeDialog) {
-                this.markAsChanged();
-                this.dateTimeDialog.remove();
-                delete this.dateTimeDialog;
-                this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
-
-                if (toggleRowBeingEditedState) {
-                    this.$(".js-edit-icon").focus().click();
-                }
-
-                this.trigger("datetimedialogclose");
-            }
-        },
-
-        toggleCancelledState: function (cancelled) {
-            cancelled = typeof cancelled !== "undefined" ? cancelled : !this.isCancelled();
-
-            if (cancelled !== this.isCancelled()) {
-                this.model.set("cancel", cancelled);
-                this.markAsChanged();
-                this.$("[contenteditable=\"true\"]").blur();
-            }
-        },
-
-        toggleDateTimeDialog: function(showDialog) {
-            showDialog = typeof showDialog !== "undefined" ? showDialog : typeof this.dateTimeDialog === "undefined";
-
-            if (this.isCancelled()) {
+        onJEditableFieldReset: function (event, el) {
+            // Don't allow fields to be reset if this is a new event
+            if (this.isNew()) {
                 return false;
             }
 
-            if(showDialog === false) {
-                this.closeDateTimeDialog();
-                this.$dateTimeWrapper.find(".event-input").removeClass("being-edited");
-            } else if (!this.dateTimeDialog) {
-                this.dateTimeDialog = new DateTimeDialogView({
-                    el: $("#templates .js-date-time-dialog").clone(),
-                    model: this.model,
-                    toggleRowBeingEditedStateOnClose: this.$el.hasClass("row-being-edited")
-                });
-                // dialog:close is fired by the dialog when a click is made
-                // outside its area, or the close icon is clicked.
-                this.dateTimeDialog.on("dialog:close", this.closeDateTimeDialog);
-                this.$(".js-date-time-cell .js-dialog-holder").append(this.dateTimeDialog.$el);
-                this.dateTimeDialog.show();
+            // Also stop row editing
+            this.setRowEditState(false);
+            // Reset the attribute in the model
+            this.model.resetAttribute(event.name);
+            this.renderFromModel();
+            this.closeJEditableFields();
+            focusHelper.focusTo(el);
+            // jEditable doesn't have to update the attribute anymore:
+            return false;
+        },
 
-                this.$dateTimeWrapper.find(".event-input").addClass("being-edited");
-
-                this.trigger("datetimedialogopen");
+        getFields: function () {
+            var self = this;
+            if (!this.fields) {
+                this.fields = [
+                    {
+                        name: "title",
+                        $el: this.$(".js-field-title"),
+                        type: "tablecell",
+                        jeditable: true,
+                        maxLength: 200
+                    },
+                    {
+                        name: "location",
+                        $el: this.$(".js-field-location"),
+                        type: "tablecell",
+                        jeditable: true,
+                        maxLength: 200
+                    },
+                    {
+                        name: "people",
+                        fieldName: "Lecturer",
+                        $el: this.$(".js-field-people"),
+                        type: "tablecell",
+                        jeditable: true,
+                        maxLength: 200
+                    },
+                    {
+                        name: "type",
+                        $el: this.$(".js-field-type"),
+                        type: "type-select",
+                        onSubmitCallback: function (value, settings) {
+                            $(this).removeClass("being-edited").attr("tabindex", "0");
+                            return settings.data()[value];
+                        },
+                        data: function () {
+                            return $(".js-individual-modules").data("event-type-choices");
+                        },
+                        jeditable: true,
+                        onblur: function (value, fieldData) {
+                            if (!self.model.hasFieldChangedFromOriginal(fieldData.name) && !self.getRowEditState()) {
+                                $(this).find("form").submit();
+                            }
+                        }
+                    },
+                    {
+                        name: "week",
+                        $el: this.$(".js-field-week")
+                    },
+                    {
+                        name: "term",
+                        $el: this.$(".js-field-term")
+                    },
+                    {
+                        name: "day",
+                        $el: this.$(".js-field-day")
+                    },
+                    {
+                        name: "startHour",
+                        $el: this.$(".js-field-start-hour")
+                    },
+                    {
+                        name: "startMinute",
+                        $el: this.$(".js-field-start-minute")
+                    },
+                    {
+                        name: "endHour",
+                        $el: this.$(".js-field-end-hour")
+                    },
+                    {
+                        name: "endMinute",
+                        $el: this.$(".js-field-end-minute")
+                    }
+                ];
             }
+
+            return this.fields;
+        },
+
+        getJEditableFields: function () {
+            // Return the fields which should have jeditable enabled
+            return _.filter(this.getFields(), function (fieldData) {
+                return fieldData.jeditable;
+            });
+        },
+
+        syncModel: function () {
+            // Push all field values into the model.
+            this.model.set(this.getEventData());
         }
     });
 
     var EditableTitleView = Backbone.View.extend({
         initialize: function (options) {
-            _.bindAll(this, "onToggleClick", "onClick");
+            _.bindAll(this);
+            //_.bindAll(this, "onToggleClick", "onClick", "saveAndClose");
 
             this.$toggleButton = options.$toggleButton;
             this.titleFieldName = options.titleFieldName || "title";
@@ -1553,21 +1756,73 @@ define([
                 titleFieldName: options.titleFieldName
             });
 
-            this.isEditable = false;
-            this.isSaving = false;
-            this.isError = false;
             this.updateModel();
             this.model.storeInitialState();
 
+            this.initJEditable();
             this.$toggleButton.on("click", this.onToggleClick);
         },
 
-        selectText: function () {
-            this.$value.selectText();
+        events: {
+            "click": "onClick",
+            "keyup .js-value": "onValueKeyup"
+        },
+
+        onValueKeyup: function (event) {
+            var $target = $(event.target);
+            if ($target.is(".js-value") && event.keyCode === 13 && !$target.find("form").length) {
+                $target.trigger("click");
+            }
+        },
+
+        onClick: function (event) {
+            // Stop this event from propagating to prevent the collapse
+            // functionality to be triggered when the title is being edited.
+            if (this.$value.find("input").length) {
+                event.stopPropagation();
+            }
+        },
+
+        startEdit: function () {
+            this.$value.trigger("edit");
+        },
+
+        initJEditable: function () {
+            var self = this;
+            this.$value.editable(function (value) {
+                self.$value.removeClass("being-edited");
+                return value;
+            }, {
+                onblur: "submit",
+                type: "title",
+                event: "edit",
+                callback: this.saveAndClose,
+                maxLength: 512,
+                select: true,
+                onreset: function () {
+                    // Revert the value to what's in the model
+                    self.revert();
+                    // Trigger a submit
+                    $(this).find("input").blur();
+                    self.focusToggleButton();
+                    // Prevent the default jeditable reset
+                    return false;
+                }
+            });
         },
 
         setSavePath: function (savePath) {
             this.$(".js-value").data("save-path", savePath);
+        },
+
+        setSavingState: function (saving) {
+            this.$value.toggleClass("saving", saving);
+        },
+
+        setErrorState: function (error) {
+            var $errorMessage = this.$(".js-error-message");
+            $errorMessage.toggle(error !== false);
+            $errorMessage.text(error || "");
         },
 
         lock: function () {
@@ -1575,77 +1830,48 @@ define([
         },
 
         onToggleClick: function (event) {
-            if (this.isSaving === false && this.isEditable === false) {
-                this.toggleEditableState();
-            }
-
             event.preventDefault();
-        },
-
-        render: function () {
-            // Set the appropriate classes and attributes based on whether
-            // this.isEditable is set to true
-            this.$value.attr("contenteditable", this.isEditable).toggleClass("editable", this.isEditable).toggleClass("saving", this.isSaving).focus();
-            // If there is an error, show the error message div
-            if (this.isError !== false) {
-                this.$(".js-error-message").text(this.isError);
-            }
-            this.$(".js-error-message").toggle(this.isError !== false);
-            // Move the caret to the end of the text
-            moveCaretToEndOfContenteditableElement(this.$value[0]);
-        },
-
-        events: {
-            "click .js-value" : "onClick",
-            "keydown .js-value" : "onKeyDown",
-            "focusout .js-value" : "onFocusOut"
-        },
-
-        revert: function () {
-            this.$value.text(this.model.getInitialValue(this.titleFieldName));
-        },
-
-        onKeyDown: function (event) {
-            // Nothing should happen if the title isn't in editable mode
-            // (= has focus). This extra check was needed in some browsers.
-            if (!this.isEditable) {
+            if (this.isSaving || this.locked) {
                 return;
             }
 
-            // If the escape key (27) is pressed the value should be reverted to
-            // its previous state.
-            // If the enter key (13) is pressed, the new value should be saved.
-            switch (event.keyCode) {
-            case 27:
-                this.revert();
-                /* falls through */
-            case 13:
-                this.$value.blur();
-                event.preventDefault();
-                break;
-            }
+            this.startEdit();
         },
 
-        onFocusOut: function () {
-            if (this.isEditable === true) {
-                this.saveAndClose();
+        updateModel: function () {
+            this.model.set(this.titleFieldName, this.$value.text());
+        },
+
+        revert: function () {
+            var $input = this.$value.find("input");
+            if ($input.length) {
+                $input.val(this.model.getInitialValue(this.titleFieldName));
+                return;
             }
+
+            this.$value.text(this.model.getInitialValue(this.titleFieldName));
+        },
+
+        focusToggleButton: function () {
+            focusHelper.focusTo(this.$toggleButton);
         },
 
         saveAndClose: function () {
-            this.toggleEditableState(false);
-            this.toggleErrorState(false);
-
+            this.setErrorState(false);
             this.updateModel();
+
             if (this.locked || !this.model.isValid()) {
                 this.revert();
                 this.trigger("cancel");
+                this.focusToggleButton();
                 return;
             }
 
             if (this.model.hasChangedFromOriginal()) {
                 this.saveData();
             }
+            this.focusToggleButton();
+            return false;
         },
 
         getEncodedData: function () {
@@ -1658,84 +1884,38 @@ define([
         },
 
         saveData: function () {
-            var self = this,
-                beforeSavingTime = new Date(),
-                timeDifference,
-                timer;
-
-            this.toggleSavingState(true);
+            var self = this;
+            this.setSavingState(true);
 
             $.ajax({
                 type: "POST",
                 url: this.$value.data("save-path"),
                 data: this.getEncodedData(),
                 success: function (data) {
-                    timeDifference = new Date() - beforeSavingTime;
-                    timer = setTimeout(function () {
-                        self.toggleSavingState(false);
-                        self.toggleErrorState(false);
-                        self.$value.text(data[self.titleFieldName]);
-                        self.updateModel();
-                        self.model.storeInitialState(true);
-                        self.trigger("save", data);
-                    }, Math.max(200 - timeDifference, 0));
+                    self.setSavingState(false);
+                    self.setErrorState(false);
+                    self.$value.text(data[self.titleFieldName]);
+                    self.updateModel();
+                    self.model.storeInitialState(true);
+                    self.trigger("save", data);
+                    // Reapply focus
+                    self.focusToggleButton();
                 },
                 error: function (error) {
-                    timeDifference = new Date() - beforeSavingTime;
-                    timer = setTimeout(function () {
-                        var responseText = "Saving failed, please try again later.";
+                    var responseText = "Saving failed, please try again later.";
 
-                        if (error.status === 500) {
-                            self.revert();
-                        } else {
-                            responseText = error.responseText || responseText;
-                        }
+                    if (error.status === 500) {
+                        self.revert();
+                    } else {
+                        responseText = error.responseText || responseText;
+                    }
 
-                        self.model.reset();
-                        self.toggleSavingState(false);
-                        self.toggleErrorState(responseText);
-                        self.toggleEditableState(true);
-                    }, Math.max(200 - timeDifference, 0));
+                    self.model.reset();
+                    self.setSavingState(false);
+                    self.setErrorState(responseText);
+                    self.startEdit();
                 }
             });
-        },
-
-        onClick: function (event) {
-            // Stop this event from propagating to prevent the collapse
-            // functionality to be triggered.
-            if (this.isEditable) {
-                event.stopPropagation();
-            }
-        },
-
-        updateModel: function () {
-            this.model.set(this.titleFieldName, this.$value.text());
-        },
-
-        toggleErrorState: function (isError) {
-            isError = typeof isError !== "undefined" ? isError : !this.isError;
-
-            if (isError !== this.isError) {
-                this.isError = isError;
-                this.render();
-            }
-        },
-
-        toggleEditableState: function (isEditable) {
-            isEditable = typeof isEditable !== "undefined" ? isEditable : !this.isEditable;
-            if (isEditable !== this.isEditable) {
-                this.isEditable = isEditable;
-                this.render();
-            }
-        },
-
-        toggleSavingState: function (isSaving) {
-            isSaving = typeof isSaving !== "undefined" ? isSaving : !this.isSaving;
-
-            if (isSaving !== this.isSaving) {
-                this.isSaving = isSaving;
-                this.render();
-            }
         }
     });
 
@@ -1792,7 +1972,7 @@ define([
          * Puts the window focus on the first input element.
          */
         focus: function () {
-            this.$("#date-time-week").focus();
+            focusHelper.focusTo(this.$("#date-time-week"));
         },
 
         /**
@@ -2031,12 +2211,12 @@ define([
 
         /** Focus the first form element. */
         focusStart: function() {
-            this.$(".js-week").focus();
+            focusHelper.focusTo(this.$(".js-week"));
         },
 
         /** Focus the last form element. */
         focusEnd: function() {
-            this.$(".js-minute.js-end").focus();
+            focusHelper.focusTo(this.$(".js-minute.js-end"));
         },
 
         remove: function() {
@@ -2084,7 +2264,7 @@ define([
         initialize: function() {
             _.bindAll(this);
 
-            this.setElement($("#templates .js-events-save-dialog")[0]);
+            this.setElement($("#templates .js-events-save-dialog").clone()[0]);
             this.$(".js-body").hide();
             this.$(".js-body-saving").show();
         },
@@ -2099,27 +2279,30 @@ define([
 
         postEventsForm: function(id, eventsData) {
             var self = this;
-            this.showModal();
+            this.$el.on("shown", function () {
+                api.saveEvents(id, eventsData, function (error, response) {
+                    if (error) {
+                        self.onPOSTFail();
+                        return;
+                    }
 
-            api.saveEvents(id, eventsData, function (error, response) {
-                if (error) {
-                    self.onPOSTFail();
-                    return;
-                }
-
-                self.onPOSTDone(response);
+                    self.onPOSTDone(response);
+                });
             });
+            this.showModal();
         },
 
         onPOSTDone: function(response) {
             this.$(".js-body").hide();
             this.$(".js-body-success").show();
             this.trigger("saved", response);
+            focusHelper.focusTo(this.$(".btn-success"));
         },
 
         onPOSTFail: function() {
             this.$(".js-body").hide();
             this.$(".js-body-error").show();
+            focusHelper.focusTo(this.$(".btn-danger"));
         },
 
         dismissDialog: function(event) {
@@ -2241,28 +2424,9 @@ define([
         });
     }
 
-    function moveCaretToEndOfContenteditableElement(contentEditableElement) {
-        var range,selection;
-        if (document.createRange) {
-            range = document.createRange();
-            range.selectNodeContents(contentEditableElement);
-            range.collapse(false);
-            selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-        } else if (document.selection) { //IE 8 and lower
-            range = document.body.createTextRange();
-            range.moveToElementText(contentEditableElement);
-            range.collapse(false);
-            range.select();
-        }
-    }
-
     // This is fired when new events are added to the page.
     listEvents.on("new-events-visible", highlightEventsInHash);
     //listEvents.on("page-edited", locker.preventTimeout);
-
-    contenteditable.alwaysMaintainPlainText();
 
     return {
         ModuleView: ModuleView,

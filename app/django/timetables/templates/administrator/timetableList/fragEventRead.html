@@ -1,49 +1,41 @@
 <tr class="event js-event {{ event_classes }}" data-id="{{ event.id }}">
-  <td title="Title" class="event-field eventTitle js-event-direct-input-wrap">
-    <div class="js-field js-field-title event-input direct-input" contenteditable="{{ editable }}" data-value="{{ event.title }}" tabindex="0">{{ event.title|default:"" }}</div>
+  <td title="Title" class="event-field" tabindex="-1">
+    <div class="jeditable js-field js-field-title" tabindex="0" data-value="{{ event.title }}">{{ event.title|default:"" }}</div>
   </td>
-  <td title="Event Type" class="event-field eventType event-type-input-wrap js-event-type-input-wrap" data-value="{{ event.type }}" tabindex="0">
-    {% block event_type %}
-    <div>
-      <span class="event-type js-field js-field-type event-type-{{ event.metadata.type|default:"none"|lower|cut:" " }}">
-        {{ event.metadata.type|default:"" }}
-      </span>
-    </div>
-    {% endblock event_type %}
+  <td title="Event Type" class="event-field event-field-type" tabindex="-1">
+    <div class="jeditable js-field js-field-type event-type event-type-{{ event.metadata.type|default:"none"|lower|cut:" " }}" tabindex="0" data-value="{{ event.metadata.type|lower }}">{{ event.metadata.type|capfirst }}</div>
   </td>
-  <td class="event-field js-date-time-cell eventDateTime" tabindex="0">
-    <div class="event-input js-date-time-input-wrap">
-      {% block date_time_start %}
-      {% endblock date_time_start %}
+  <td class="event-field js-date-time-cell eventDateTime" tabindex="-1">
+    <div class="js-date-time-input-wrap date-time-input-wrap" tabindex="0">
       <span title="{{ event.start|date:"l jS F " }}">
         {% spaceless %}
         {% with rel_date=event.relative_term_date %}
         <span>W </span>
         <span data-value="{{ rel_date.2 }}" class="js-field-week">{{ rel_date.2 }}</span>
         <span> in </span>
-        <span data-value="{{ rel_date.1|capfirst }}" class="js-field-term">{{ rel_date.1|capfirst }}</span>
+        <span data-value="{{ rel_date.1 }}" class="js-field-term">{{ rel_date.1|capfirst }}</span>
         <span>, on </span>
         <span data-value="{{ rel_date.3 }}" class="js-field-day">{{ rel_date.3|capfirst }}</span>
         <span>&nbsp;</span>
         {% endwith %}
       </span>
-      <span class="js-field-start-hour">{{ event.start_local.hour|stringformat:".2d" }}</span>
+      <span class="js-field-start-hour" data-value="{{ event.start_local.hour|stringformat:".2d" }}">{{ event.start_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-start-minute">{{ event.start_local.minute|stringformat:".2d" }}</span>
+      <span class="js-field-start-minute" data-value="{{ event.start_local.minute|stringformat:".2d" }}">{{ event.start_local.minute|stringformat:".2d" }}</span>
       <span>&ndash;</span>
-      <span class="js-field-end-hour">{{ event.end_local.hour|stringformat:".2d" }}</span>
+      <span class="js-field-end-hour" data-value="{{ event.end_local.hour|stringformat:".2d" }}">{{ event.end_local.hour|stringformat:".2d" }}</span>
       <span>:</span>
-      <span class="js-field-end-minute">{{ event.end_local.minute|stringformat:".2d" }}</span>
+      <span class="js-field-end-minute" data-value="{{ event.end_local.minute|stringformat:".2d" }}">{{ event.end_local.minute|stringformat:".2d" }}</span>
       {% endspaceless %}
       {% block date_time_end %}
       {% endblock date_time_end %}
     </div>
   </td>
-  <td title="Location" class="event-field eventLocation js-event-direct-input-wrap">
-    <div class="js-field js-field-location event-input direct-input" tabindex="0" data-value="{{ event.location }}" contenteditable="{{ editable }}">{{ event.location|default:"" }}</div>
+  <td title="Location" class="event-field" tabindex="-1">
+    <div class="jeditable js-field js-field-location" tabindex="0" data-value="{{ event.location }}">{{ event.location|default:"" }}</div>
   </td>
-  <td title="Lecturer/host/etc" class="event-field eventLecturers js-event-direct-input-wrap">
-    <div class="js-field js-field-people event-input direct-input" tabindex="0" data-value="{{ event.metadata.people|join:", " }}" contenteditable="{{ editable }}">{{ event.metadata.people|join:", "|default:"" }}</div>
+  <td title="Lecturer/host/etc" class="event-field" tabindex="-1">
+    <div class="jeditable js-field js-field-people" tabindex="0" data-value="{{ event.metadata.people|join:", " }}">{{ event.metadata.people|join:", "|default:"" }}</div>
   </td>
   {% block event_right %}
   {% endblock event_right %}

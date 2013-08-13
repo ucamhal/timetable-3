@@ -168,6 +168,18 @@ a.addModule {
   overflow: visible;
 }
 
+.module-content .seriesList,
+.module-content .addSeries {
+  visibility: hidden;
+}
+
+.module-content.in .seriesList,
+.module-content.in .addSeries,
+.module-content.shown .seriesList,
+.module-content.shown .addSeries {
+  visibility: visible!important;
+}
+
 .module-content > *:first-child {
   margin-top: 15px;
 }
@@ -211,65 +223,193 @@ a.addModule {
   left: 0;
 }
 
-.event select.event-type {
-  display: none;
+.table-events {
+  table-layout: fixed;
 }
 
-select.event-type {
-  width: 100px;
+.event td:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  outline: none;
 }
 
-.event.event-editable.row-being-edited .event-type-input-wrap span.event-type,
-.event.event-editable .event-type-input-wrap.being-edited span.event-type,
-.event.event-editable.event-cancelled .event-type-input-wrap span.event-type {
-  display: none;
-}
-
-.event.event-editable.row-being-edited .event-type-input-wrap select.event-type,
-.event.event-editable .event-type-input-wrap.being-edited select.event-type,
-.event.event-editable.event-cancelled .event-type-input-wrap select.event-type {
-  display: block;
-}
-
-/* Event fields need a pencil icon when hovering over them */
-.event-editable .event-field {
-  padding-right: 20px; /* To accommodate the pencil icon */
-  max-width: 192px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  vertical-align: middle;
-}
-
-.event-editable .event-field .event-input {
-  padding: 2px 3px;
+.event-field .date-time-input-wrap,
+.event-field .jeditable {
   border: 1px solid transparent;
-  min-height: 1.4em;
-}
-
-.event-editable .event-field .direct-input {
-  white-space: pre-wrap;
+  display: inline-block;
+  margin: 10px 0 10px 4px;
   word-wrap: break-word;
 }
 
-.event-editable.row-being-edited .event-field .event-input,
-.event-editable .event-field .event-input.being-edited {
-  background-color: #fffdf7;
-  border-style: dashed;
-  border-color: #a7a7a7;
-  cursor: auto;
+.event-field .being-edited {
+  margin: 8px 0;
+  border-style: none;
 }
 
-.event-editable.row-being-edited.event-cancelled .event-field .event-input,
-.event-editable.event-cancelled .event-field .event-input.being-edited {
-  background-color: transparent;
-  border-style: none;
+.event:first-child td {
+  border-top: none;
+}
+
+.event .event-field {
+  padding: 0 30px 0 10px;
+  width: 135px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.event .event-field .jeditable {
+  width: 120px;
+}
+
+.event .event-field-type .jeditable {
+  width: 74px;
+}
+
+.event-editable .event-field {
+  padding: 0 10px;
+}
+
+.event .event-field.eventDateTime {
+  width: 280px;
+  overflow: visible;
+}
+
+.event .event-field.event-field-type {
+  width: 110px;
+}
+
+.event-field .event-type {
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  margin-left: 10px;
+  padding-left: 24px;
+}
+
+.event-field .event-type.being-edited {
+  background: none;
+  padding-left: 10px;
+  margin-left: 0;
+  width: 92px;
+}
+
+.event .eventActions {
+  width: 29px;
+  vertical-align: middle;
 }
 
 .event-editable .event-field:hover {
   background-image: url("../img/pencil.png");
   background-repeat: no-repeat;
   background-position: 100% 50%;
+}
+
+.event-field textarea {
+  background: white;
+  border: 1px dashed #a7a7a7;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  outline: 0px none transparent;
+  padding: 2px 4px;
+  resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.row-being-edited .event-field .date-time-input-wrap,
+.event-field .date-time-input-wrap.being-edited {
+  background: white;
+  border: 1px dashed #a7a7a7;
+  padding: 2px 4px;
+  margin: 8px 0;
+}
+
+.event .eventActions ul li {
+  display: inline;
+}
+
+.eventActions .buttons {
+  margin: 0;
+}
+
+.event .eventActions ul {
+  min-width: 45px;
+  margin: 0;
+}
+
+.event-field-type select {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.event-type-lecture {
+  background-image: url(../img/typeLectureIcon.png);
+}
+
+.event-type-seminar {
+  background-image: url(../img/typeSeminarIcon.png);
+}
+
+.event-type-practical {
+  background-image: url(../img/typePracticalIcon.png);
+}
+
+.event-type-class {
+  background-image: url(../img/typeClassIcon.png);
+}
+
+.event-type-fieldtrip {
+  background-image: url(../img/typeFieldTripIcon.png);
+}
+
+/* Event color states */
+.event.highlighted td {
+  background-color: #d3ffd5;
+}
+
+#adminListView .event.event-editable.event-new,
+#adminListView .event.event-editable.event-new td {
+  background-color: #d6f3d6;
+}
+
+.event.event-cancelled .buttons a {
+  opacity: .2;
+}
+
+.event.event-cancelled .buttons a.remove {
+  opacity: .6;
+}
+
+.event-cancelled .event-field .date-time-input-wrap,
+.event-cancelled .event-field .jeditable {
+  text-decoration: line-through!important;
+}
+
+.event:nth-child(odd) {
+  background-color: #f9f9f9
+}
+
+.event.event-editable.unsaved,
+.event.event-editable:hover,
+.event.event-editable.unsaved td,
+.event.event-editable:hover td {
+  background-color: #fff6e2;
+}
+
+.event.event-editable {
+  cursor: pointer;
+}
+
+.event.event-editable.being-edited,
+.event.event-editable.being-edited td {
+  background-color: #f5e7d0;
 }
 
 #adminListView .nav-tabs,
@@ -296,55 +436,9 @@ select.event-type {
   padding: 11px 23px;
 }
 
-#adminListView .event.highlighted > td {
-  background-color: #D3FFD5;
-}
-
-#adminListView .event.event-editable.event-new td {
-  background-color: #d6f3d6;
-}
-
-.event.event-cancelled .buttons a {
-  opacity: .2;
-}
-
-.event.event-cancelled .buttons a.remove {
-  opacity: .6;
-}
- 
-.event.event-cancelled .event-field {
-  text-decoration: line-through;
-  background-image: none;
-}
-
-.event.event-cancelled .event-field.eventType {
-  text-decoration: none;
-}
-
-.event.event-cancelled .event-field.eventType select {
-  opacity: .4;
-}
-
-/* id selector used to boost priority over Bootstrap */
-#adminListView .event-editable.unsaved > td,
-#adminListView .event-editable:hover > td {
-  background-color: #fff6e2;
-}
-
-#adminListView .event-editable {
-  cursor: pointer;
-}
-
-#adminListView .event-editable.being-edited > td {
-  background-color: #f5e7d0;
-}
-
-#adminListView .event-editable.being-edited {
-  cursor: auto;
-}
-
 .dialog-date-time {
   background: white;
+  cursor: auto;
 }
 
 .dialog-date-time .dialog-actions .close-btn {
@@ -356,24 +450,47 @@ select.event-type {
   overflow: visible;
 }
 
-.series-title.collapsed .buttons {
-  visibility: hidden;
-}
-
-.series-title.collapsed:hover .buttons {
-  visibility: visible;
-}
-
 #modules {
   clear: both;
   padding-top: 22px;
+}
+
+.module-title .title,
+.series-title .title {
+  display: inline;
+  cursor: pointer;
+  border: 1px solid transparent;
+  float: left;
+  min-height: 1em;
+  padding: 4px 5px 5px 5px;
+}
+
+.module-title .title.being-edited,
+.series-title .title.being-edited {
+  border-style: none;
+}
+
+.module-title .title input,
+.series-title .title input {
+  min-width: 200px;
+  outline: none;
+  border: 1px dashed #cccccc;
+  cursor: inherit;
+  color: #000;
+  background-color: #FFF6E2;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding: 4px 5px 5px 5px;
+  margin: 0;
 }
 
 .module:first-child .module-title {
   padding-top: 0;
 }
 
-.module-title h4, .series-title h5 {
+.module-title h4,
+.series-title h5 {
   margin: 0;
   padding: 0;
   line-height: 1em;
@@ -403,16 +520,25 @@ select.event-type {
   margin-right: 10px;
 }
 
-.module-title .buttons {
-  visibility: hidden;
+.module-title .buttons,
+.series-title .buttons {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  float: left;
+  margin: 0;
+  opacity: 0;
+  padding-left: 5px;
 }
 
-.module-title:hover .buttons {
-  visibility: visible;
-}
-
-.module-title.hasOpenSeries .buttons {
-  visibility: visible;
+.module-title.focus .buttons,
+.module-title:hover .buttons,
+.series-title.focus .buttons,
+.series-title:hover .buttons {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  /* Fix for IE png rendering when using the alpha filter */
+  filter: progid:DXImageTransform.Microsoft.gradient(
+      startColorstr=#00FFFFFF, endColorstr=#00FFFFFF
+  );
+  opacity: 1;
 }
 
 .seriesList,
@@ -459,12 +585,6 @@ select.event-type {
   display: none;
 }
 
-.module-title .buttons,
-.series-title .buttons {
-  display: inline;
-  padding-left: 5px;
-}
-
 .series-title .buttons a {
   margin-top: 5px;
 }
@@ -486,13 +606,6 @@ select.event-type {
 
 .series-title h5 .title {
   color: #08C;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.module-title h4 .title {
-  cursor: pointer;
-  border: 1px solid transparent;
 }
 
 .series-title h5:hover .title,
@@ -500,19 +613,9 @@ select.event-type {
   text-decoration: underline;
 }
 
-.series-title h5:hover .title.editable,
-.module-title h4:hover .title.editable {
-  text-decoration: none;
-}
-
-.series-title .title.editable,
-.module-title .title.editable {
-  outline: none;
-  border-style: dashed;
-  border-width: 1px;
-  border-color: rgba(0, 0, 0, .2);
-  cursor: inherit;
-  color: #000;
+.module-title form,
+.series-title form {
+  margin: 0;
 }
 
 .series-title .title.saving,
@@ -520,21 +623,9 @@ select.event-type {
   opacity: .4;
 }
 
-.series-title .title:focus,
-.module-title .title:focus {
-  outline: none;
-}
-
-.series-title .title,
-.module-title .title {
-  float: left;
-  min-height: 1em;
-  padding: 5px;
-}
-
-.series-title .title.editable,
-.module-title .title.editable {
-  background-color: #FFF6E2;
+.module-title .being-edited,
+.series-title .being-edited {
+  padding: 0;
 }
 
 .series-title .error-message,
@@ -542,60 +633,6 @@ select.event-type {
   color: red;
   float: left;
   margin: 6px 10px 0 0;
-}
-
-
-/*
- *
- * UI jumping quick fixes
- *
- */
-.event .eventActions {
-  max-width: 50px;
-  vertical-align: middle;
-}
-
-.event .eventActions ul li {
-  display: inline;
-}
-
-.eventActions .buttons {
-  margin: 0;
-}
-
-.event .eventActions ul {
-  min-width: 70px;
-  margin: 0;
-}
-
-.event-type {
-  background-repeat: no-repeat;
-  background-position: 0 50%;
-  padding-left: 24px;
-}
-
-select.event-type {
-  padding-left: 0;
-}
-
-.event-type-lecture {
-  background-image: url(../img/typeLectureIcon.png);
-}
-
-.event-type-seminar {
-  background-image: url(../img/typeSeminarIcon.png);
-}
-
-.event-type-practical {
-  background-image: url(../img/typePracticalIcon.png);
-}
-
-.event-type-class {
-  background-image: url(../img/typeClassIcon.png);
-}
-
-.event-type-fieldtrip {
-  background-image: url(../img/typeFieldTripIcon.png);
 }
 
 .datePatternDialog {
@@ -673,10 +710,6 @@ select.event-type {
 
 .being-edited-alert a {
   color: #B94A48;
-}
-
-.contenteditable {
-  display: inline;
 }
 
 #linked-timetables {

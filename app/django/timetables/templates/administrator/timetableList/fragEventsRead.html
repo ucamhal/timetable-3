@@ -1,4 +1,5 @@
-<table class="table table-striped">
+{% load timetables %}
+<table class="table table-striped table-events">
   <tbody>
     {% for event in series.events %}
       {% block event %}

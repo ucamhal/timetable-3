@@ -2,32 +2,42 @@ define([
     "jquery",
     "underscore",
     "backbone",
+    "util/focus-helper",
     "bootstrap"
-], function ($, _, Backbone) {
+], function ($, _, Backbone, focusHelper) {
     "use strict";
 
     var BaseDialog = Backbone.View.extend({
         initialize: function () {
             _.bindAll(this);
+        },
+
+        show: function () {
             this.$el.addClass("modal fade").modal({
                 backdrop: "static",
                 keyboard: false,
                 show: true
             });
+            return this;
         },
 
         tagName: "div",
 
         events: function () {
             return {
-                "hidden": this.onHide
+                "hidden": this.onHide,
+                "shown": this.onShown
             };
         },
 
+        onShown: function () {
+            focusHelper.focusTo(this.$(".btn").first());
+        },
+
         onHide: function () {
+            this.trigger("close");
             this.off();
             this.remove();
-            this.trigger("close");
         },
 
         render: function () {

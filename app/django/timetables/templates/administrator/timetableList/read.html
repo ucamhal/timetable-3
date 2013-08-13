@@ -33,7 +33,7 @@
   {% block before_modules_content %}
   {% endblock before_modules_content %}
   
-  <div id="modules" class="js-individual-modules">
+  <div id="modules" class="js-individual-modules" {% block general_timetable_data %}{% endblock general_timetable_data %}>
     {% if not modules|length %}
       <p class="js-no-modules-msg">This timetable contains no modules yet.</p>
     {% else %}
@@ -87,19 +87,6 @@
     </div>
     <div class="modal-body">
       <p>Apparently something went wrong whilst saving.<br />Please try again later.</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-    </div>
-  </div>
-
-  <div class="modal js-invalid-event-data hide fade">
-    <div class="modal-header">
-      <a href="#" class="close" data-dismiss="modal">&times;</a>
-      <h3>Invalid data</h3>
-    </div>
-    <div class="modal-body">
-      <p>Please provide a title for each event before saving.</p>
     </div>
     <div class="modal-footer">
       <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
