@@ -23,9 +23,6 @@ exec > >(logger -p local6.notice -s 2>&1 | tee "$DIR/post_update.lastrun")
 # Redirect stderr to stdout
 exec 2>&1
 
-echo "Running post_update..."
-echo "FYI output is recorded in syslog local6 and post_update.lastrun" 
-
 # Print usage if no argument was passed
 if [[ -z $1 ]]
 then
@@ -60,7 +57,9 @@ esac
 ## Capture and time, and write to local file to try and show
 ## an approximate time the shell script was called.
 NOW=`${DATEBIN} '+%Y%m%d %H:%M:%S'`
-echo "** Started at: $NOW **"
+echo "** post_update started at: $NOW **"
+echo "** (output is also recorded in syslog local6 and post_update.lastrun) **" 
+
 
 # Log the settings module being used
 echo "** Using settings module: $DJANGO_SETTINGS_MODULE **"
