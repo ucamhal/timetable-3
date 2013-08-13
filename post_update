@@ -18,9 +18,13 @@ function report_exit_status() {
 trap "report_exit_status" 0
 
 # Redirect entire output to .lastrun file
-exec > >(tee "$DIR/post_update.lastrun")
+# and also to syslog for ease of access by Dev Team, and persistence
+exec > >(logger -p local6.notice -s 2>&1 | tee "$DIR/post_update.lastrun")
 # Redirect stderr to stdout
 exec 2>&1
+
+echo "Running post_update..."
+echo "FYI output is recorded in syslog local6 and post_update.lastrun" 
 
 # Print usage if no argument was passed
 if [[ -z $1 ]]
