@@ -12,7 +12,7 @@ PYTHON_CMD="python"
 MANAGE="$PYTHON_CMD $DIR/app/django/manage.py"
 
 function report_exit_status() {
-    echo "** post_update.sh exiting with status: $? **"
+    echo "** **** post_update script exiting with status: $? **** **"
 }
 # Call report_exit_status on exit
 trap "report_exit_status" 0
@@ -57,7 +57,7 @@ esac
 ## Capture and time, and write to local file to try and show
 ## an approximate time the shell script was called.
 NOW=`${DATEBIN} '+%Y%m%d %H:%M:%S'`
-echo "** post_update started at: $NOW **"
+echo "** **** post_update script started at: $NOW **** **"
 echo "** (output is also recorded in syslog local6 and post_update.lastrun) **" 
 
 
