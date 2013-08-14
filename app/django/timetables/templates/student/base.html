@@ -20,10 +20,9 @@
 
     <div class="user pull-right">
     {% if user_logged_in %}
-      <span class="status">Signed in as {{ request.user.username }}</span>
+      <!-- <span class="status">Signed in as {{ request.user.username }}</span> -->
       <a href="{% url "logout url" %}?next={% url "home" %}" class="btn btn-primary js-sign-out">Sign out</a>
     {% else %}
-      <span class="status">Not signed in</span>
       <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-primary js-sign-in">Sign in</a>
     {% endif %}
     </div>
