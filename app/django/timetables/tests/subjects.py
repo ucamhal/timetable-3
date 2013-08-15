@@ -40,7 +40,7 @@ class PartSubjectTest(TestCase):
         - tripos/asnc/I/old-english
         - tripos/asnc/II/scand-hist
         """
-        tripos = Thing.objects.create(name="tripos")
+        tripos = Thing.objects.create(name="tripos", fullname="Tripos")
 
         asnc = Thing.objects.create(
             name="asnc",

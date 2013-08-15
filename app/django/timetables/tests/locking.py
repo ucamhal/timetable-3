@@ -125,11 +125,11 @@ class TestLockStrategy(SimpleLockingTestCase):
 
         self.user1 = models.Thing.objects.create(type="user",
                 parent=user, fullpath=user.fullpath + "/" + "user1",
-                name="user1")
+                name="user1", fullname="user1")
 
         self.user2 = models.Thing.objects.create(type="user",
                 parent=user, fullpath=user.fullpath + "/" + "user2",
-                name="user2")
+                name="user2", fullname="user2")
 
     def test_refreshing_unheld_lock_fails(self):
         """
