@@ -27,7 +27,6 @@ from timeit import itertools
 from timetables import managers
 from timetables.utils import xact
 
-
 log = logging.getLogger(__name__)
 
 
@@ -568,6 +567,9 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
     # All rows point to a master, the master points to itself
     master = models.ForeignKey("EventSource", related_name="versions", null=True, blank=True)
 
+    # Flag to allow set_metadata to be enabled/disabled for efficiency reasons
+    set_metadata_is_enabled = True
+
     def __init__(self,*args,**kwargs):
         instance = None
         if "from_instance" in kwargs:
@@ -602,11 +604,138 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
                                    .filter(pk=self.pk)
                                    .exists())
 
+    def get_active_events(self, **kwargs):
+        order_by = "start"
+        if "order_by" in kwargs:
+            order_by = kwargs["order_by"]
+        events = Event.objects.filter(source_id = self).just_active().order_by(order_by)
+        return events
+
+    def is_set_metadata_enabled(self):
+        return self.set_metadata_is_enabled
+
+    def enable_set_metadata(self):
+        self.set_metadata_is_enabled = True
+
+    def disable_set_metadata(self):
+        self.set_metadata_is_enabled = False
+
+    def set_metadata(self, **kwargs):
+        """
+        Convenience method to allow saving of compute_metadata
+        results to be optional - this facilitates non-destructive testing.
+        """
+        if not self.set_metadata_is_enabled:
+            return
+        self.data = self.compute_metadata()
+        if "save" in kwargs:
+            if kwargs["save"] == True:
+                self.save()
+
+    def compute_metadata(self):
+        """
+        Look at all the events in the series and use them to construct
+        displayable metadata on:
+            - datepattern
+            - location
+            - lecturer
+        Series takes data as follows (type is optional):
+            - {"datePattern": "Mi1 W 11", "type": "lecture", "location": "Faculty of English: S-R24", "people": ["Head of Department and others"]}
+        """
+        events = self.get_active_events(order_by="start")
+        
+        # construct metadata
+        data = {
+            "datePattern": self.compute_datepattern_metadata(events=events),
+            "location": self.compute_commonest_location(events=events),
+            "people": self.compute_unique_people_list(events=events)
+        }
+        return json.dumps(data)
+
+    def compute_datepattern_metadata(self, **kwargs):
+        events = None
+        if "events" in kwargs:
+            events = kwargs["events"]
+        events = events if events is not None else self.get_active_events(order_by="start")
+
+        # look up - ugh
+        terms = {
+            "michaelmas": 0,
+            "lent": 1,
+            "easter": 2
+        }
+
+        # FullPattern object to store complete date pattern for this series of events
+        from timetables.utils.v1.patternatom import PatternAtom # import PatternAtom here or we get clash with "Event" name ...
+        from timetables.utils.v1 import FullPattern # and again
+        fp = FullPattern()
+
+        for event in events:
+            # PatternAtom object to construct date pattern for event
+            pa = PatternAtom(False)
+            
+            start = event.start_local()
+            end = event.end_local()
+        
+            # add event term / week
+            rtd = event.relative_term_date()
+            pa.addTermWeek(terms[rtd[1]], rtd[2])
+        
+            # add event start / finish to PatternAtom object
+            pa.addDayTimeRange(start.weekday(), start.hour, start.minute, end.hour, end.minute)
+
+            # add individual pattern to full pattern
+            fp.addOne(pa)
+
+        return str(fp)
+
+    def compute_commonest_location(self, **kwargs):
+        events = None
+        if "events" in kwargs:
+            events = kwargs["events"]
+        events = events if events is not None else self.get_active_events(order_by="start")
+
+        locations = {}
+
+        for event in events:
+            # get locations - count instances of each to allow use of most common
+            location = event.location
+            if location not in locations:
+                locations[location] = 1
+            else:
+                locations[location] += 1
+
+        # get the most common location
+        location = None
+        if len(locations)>0:
+            location = max(locations.iterkeys(), key=(lambda key: locations[key]))
+        else:
+            location = ""
+
+        return location
+
+    def compute_unique_people_list(self, **kwargs):
+        events = None
+        if "events" in kwargs:
+            events = kwargs["events"]
+        events = events if events is not None else self.get_active_events(order_by="start")
+
+        people = []
+
+        for event in events:
+            # get people - construct list of unique individuals
+            data = json.loads(event.data)
+            peeps = data["people"]
+            for peep in peeps:
+                if peep not in people:
+                    people.append(peep)
+ 
+        return people
 
 pre_save.connect(EventSource.handle_pre_save_signal, sender=EventSource)
 
 
-class Event(CleanModelMixin, SchemalessModel, VersionableModel):
+class Event(CleanModelMixin, PostSaveMixin, SchemalessModel, VersionableModel):
     '''
     Events are the most basic representation of a physical event. Events have a start and an end.
     These are not metaevents with repeats
@@ -728,6 +857,17 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
         # our uid up first.
         super(Event, self).on_pre_save(**kwargs)
 
+    def on_post_save(self, raw=None, **kwargs):
+        super(Event, self).on_post_save(raw=raw, **kwargs)
+        '''
+        When importing data, don't waste time trying to compute metadata
+        before the data is in a complete and consistent state.
+        We deal with this separately by having overridden django's loaddata
+        with our own timetables.management.commands.loaddata
+        '''
+        if not raw:
+            self.source.set_metadata(save=True)
+
     @classmethod
     def after_bulk_operation(cls):
         # bulk creates bypass everything, so we have make certain the master value is set.
@@ -797,6 +937,7 @@ class Event(CleanModelMixin, SchemalessModel, VersionableModel):
 
 
 pre_save.connect(Event.handle_pre_save_signal, sender=Event)
+post_save.connect(Event.handle_post_save_signal, sender=Event)
     
     
     

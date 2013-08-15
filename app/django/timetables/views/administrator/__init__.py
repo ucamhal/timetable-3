@@ -26,6 +26,7 @@ from timetables import models
 from timetables import forms
 from timetables.utils.xact import xact
 from timetables.utils.academicyear import AcademicYear
+from timetables.utils.v1 import FullPattern 
 from timetables.views import indexview
 
 
@@ -299,10 +300,22 @@ class EditSeriesView(SeriesMixin, AdministrationView):
         events_formset = editor.get_event_formset()
 
         if events_formset.is_valid():
+            # temporarily disable the effect of Event.post_save() for efficiency
+            series.disable_set_metadata()
+
             @xact
             def save():
                 events_formset.save()
             save()
+
+            # re-enable the effect of Event.post_save() 
+            series.enable_set_metadata()
+
+            # manually recompute and save series metadata 
+            # (since automatic Event.post_save effect was disabled earlier)
+            series.set_metadata(save=True)
+
+            # redirect
             path = urlresolvers.reverse("list events",
                     kwargs={"series_id": series_id})
             return shortcuts.redirect(path + "?writeable=true")

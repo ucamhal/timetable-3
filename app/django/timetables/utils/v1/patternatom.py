@@ -10,6 +10,11 @@ from timetables.utils.v1.pparser import parseone
 # hours 1-7 -> 13-19
 
 class PatternAtom(object):
+    """
+    Allows construction of date patterns (in conjunction with FullPattern).
+    Use addTermWeek and addDayTimeRange to add individual event times.
+    """
+    
     dayname = ['M','Tu','W','Th','F','Sa','Su']
     terms = ['Mi','Le','Ea']
     
@@ -19,9 +24,22 @@ class PatternAtom(object):
         self._template = template # currently unused, but should be useful in reducing confusion in this class re omissions
     
     def addTermWeek(self,term,week):
+        """
+        Add a single term / week pair
+            term - term, 0-2, Mi is zero
+            week - term week, any integer
+        """
         self._termweeks.addTermWeek(term,week)
     
     def addDayTimeRange(self,dy,fh,fm,th,tm):
+        """
+        Add a single time range
+            dy - day, 0-6, Monday is zero
+            fh - from hour
+            fm - from minute
+            th - to hour
+            tm - to minute
+        """
         self._daytimes.append(DayTimeRange(dy,fh,fm,th,tm))
 
     def addDayTimeRangeDirect(self,c):
