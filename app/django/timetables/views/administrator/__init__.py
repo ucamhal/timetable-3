@@ -111,7 +111,8 @@ class TimetableListRead(View):
             }
             series_list.append(series)
 
-        return models.naturally_sort(series_list, "name")
+        return models.sorted_naturally(series_list,
+                                       key=operator.itemgetter("name"))
 
     def page_modules(self, timetable):
         modules = []
@@ -129,7 +130,8 @@ class TimetableListRead(View):
             }
             modules.append(module)
 
-        return models.naturally_sort(modules, "name")
+        return models.sorted_naturally(modules,
+                                       key=operator.itemgetter("name"))
 
     def links(self, timetable):
         raw_links = models.ThingTag.objects.filter(

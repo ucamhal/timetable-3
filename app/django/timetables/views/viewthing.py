@@ -3,13 +3,15 @@ Created on Oct 18, 2012
 
 @author: ieb
 '''
+from operator import itemgetter
+
 from django.db import models
 from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponseForbidden
 from django.shortcuts import render
 from django.views.generic.base import View
 from timetables.backend import ThingSubject
-from timetables.models import Thing, EventSource, ThingTag, naturally_sort
+from timetables.models import Thing, EventSource, ThingTag, sorted_naturally
 
 
 class ViewThing(View):
@@ -107,7 +109,7 @@ class ChildrenView(View):
                     }
                     series.append(single_series)
 
-                module["series"] = naturally_sort(series, "title")
+                module["series"] = sorted_naturally(series, key=itemgetter("title"))
                 modules.append(module)
 
             raw_links = ThingTag.objects.filter(annotation="link", thing=thing)
@@ -127,8 +129,8 @@ class ChildrenView(View):
                 links.append(link)
 
             context = {
-                "modules": naturally_sort(modules, "title"),
-                "links": naturally_sort(links, "name")
+                "modules": sorted_naturally(modules, key=itemgetter("title")),
+                "links": sorted_naturally(links, key=itemgetter("name"))
             }
             return render(request, "student/modules-list/base.html", context)
         except Thing.DoesNotExist:

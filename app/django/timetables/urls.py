@@ -15,6 +15,7 @@ from timetables.views.linkthing import LinkThing
 from timetables.views.viewevents import ViewEvents
 from timetables.views.viewthing import ViewThing, ChildrenView
 from timetables.views.canary import CanaryView
+from timetables.views.modulelist import SubjectsModuleListView
 from timetables.views import static
 
 import timetables.administratorhelp.urls
@@ -155,9 +156,11 @@ urlpatterns = patterns(
         name="thing events view"),
 
     # Generate an Html view of children
-    url(r'(?P<thing>.*?)\.children\.html$',
-        ChildrenView.as_view(),
-        name="thing childen view"),
+    url(
+        regex=r"(?P<thing>.*?).children\.html$",
+        view=SubjectsModuleListView.as_view(),
+        name="subject_module_list"
+    ),
 
     url(r'(?P<thing>.*?)\.cal\.json$',
         CalendarView.as_view(),

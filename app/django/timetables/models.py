@@ -489,26 +489,50 @@ def clean_string(txt):
     txt = re.sub(r"(^_+|_+$)", "", txt)
     return txt
 
-def naturally_sort(to_sort, sort_by_key):
+def parse_int(string, default):
+    try:
+        return int(string)
+    except ValueError:
+        return default
+
+def parse_integers(string):
     """
-    Sorts by converting numbers within the strings to actual integers, and
-    taking them into account when sorting the array. Sorting is case
-    insensitive.
+    Split a string into a sequence of substrings and integers.
+
+    >>> parse_integers("foo 123 bar")
+    ["foo ", 123, " bar"]
     """
-    # Converts a supplied string to an intiger if it's numeric, otherwise it
-    # lowercases the string.
-    convert = lambda text: int(text) if text.isdigit() else text.lower()
-    # Gets the appropriate value based on the supplied sortByKey if one is
-    # supplied else just returns the value
-    get_value_to_sort_by = lambda key: key.get(sort_by_key, "") if sort_by_key else key
-    # Splits a string into different parts where at least one number occurs.
-    # e.g. "Paper 12" becomes ['Paper ', '12', '']
-    # Runs the convert lambda function on each fragment.
-    alphanumeric_key = lambda key: [ convert(substr) for substr in re.split('([0-9]+)', get_value_to_sort_by(key)) ]
-    # Sorts the array, runs the alphanumeric_key function and uses its return
-    # value (in this case an array) to determine the order of the items within
-    # the set.
-    return sorted(to_sort, key = alphanumeric_key)
+    return [parse_int(item, item) for item in re.split("(\d+)", string)]
+
+def get_natural_key(keyfunc):
+    """
+    Gets a sorting key function which splits string values using
+    parse_integers() in order to sort strings containing numbers according
+    to the expectations of non-technical people.
+    """
+    def natural_key(item):
+        return parse_integers(keyfunc(item))
+    return natural_key
+
+def sorted_naturally(items, key=lambda x: x):
+    """
+    Sort items by treating numbers within strings as actual integers instead
+    of sorting them character by character. e.g. "10" > "5".
+
+    E.g:
+    >>> sorted_naturally(["My thing 1", "My thing 10", "My thing 5"])
+    ['My thing 1', 'My thing 5', 'My thing 10']
+
+    As opposed to:
+    >>> sorted(["My thing 1", "My thing 10", "My thing 5"])
+    ['My thing 1', 'My thing 10', 'My thing 5']
+
+    Args:
+        items: Sequence of items to sort
+        key: Funtion to apply to each item to obtain the value to sort
+             with. Must return a string. Default: identity
+    """
+    return sorted(items, key=get_natural_key(key))
 
 
 def _get_upload_path(instance, filename):

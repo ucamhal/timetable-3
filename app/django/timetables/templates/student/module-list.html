@@ -1,0 +1,74 @@
+{% load kwacros %}
+
+{% kwacro series series series_in_calendar %}
+  <li class="series js-series">
+    <div class="info">
+        <h6>{{ series.title }}</h6>
+
+        <p>{{ series.metadata.datePattern }}</p>
+        <p>{{ series.metadata.location }}</p>
+        <p>{{ series.metadata.people|join:", " }}</p>
+    </div>
+
+    <div class="action">
+      {% if series in series_in_calendar %}
+        <a href="javascript:;" class="btn btn-remove js-btn-remove btn-danger btn-small" data-eventsourceid="{{ series.id }}">Remove</a>
+      {% else %}
+        <a href="javascript:;" class="btn btn-add js-btn-add btn-success btn-small" data-eventsourceid="{{ series.id }}">Add</a>
+      {% endif %}
+    </div>
+  </li>
+{% endkwacro %}
+
+
+{% kwacro module module series_list series_in_calendar modules_in_calendar %}
+  <li class="module js-module">
+    <article>
+      <header>
+        <a href="#module-{{ module.id }}-content" class="title" data-toggle="collapse">
+          <span class="chevron icon-chevron-right js-expansion-indicator"></span>
+          <h5>{{ module.fullname }}</h5>
+        </a>
+        <div class="action">
+          {% if module in modules_in_calendar %}
+            <a href="javascript:;" class="btn btn-remove js-btn-module-level js-btn-remove btn-danger btn-small" data-fullpath="{{ module.fullpath }}">Remove</a>
+          {% else %}
+            <a href="javascript:;" class="btn btn-add js-btn-module-level js-btn-add btn-success btn-small" data-fullpath="{{ module.fullpath }}">Add</a>
+          {% endif %}
+        </div>
+      </header>
+      <ul id="module-{{ module.id }}-content" class="collapse module-content">
+        {% for series in series_list %}
+          {% usekwacro series series series_in_calendar %}
+        {% endfor %}
+      </ul>
+    </article>
+  </li>
+{% endkwacro %}
+
+
+{% if series_by_module|length == 1 %}
+  {# If there's only one module in a timetable we show the series of the module directly w/o the module *cringe* #}
+  {% with module=series_by_module.0 series_list=series_by_module.1 %}
+    {% for series in series_list %}
+      {% usekwacro series series series_in_calendar %}
+    {% endfor %}
+  {% endwith %}
+{% else %}
+  {% for module, series_list in series_by_module %}
+    {% usekwacro module module series_list series_in_calendar modules_in_calendar %}
+  {% endfor %}
+{% endif %}
+
+{% if links %}
+  <li class="links">
+    <h5>See also</h5>
+    <ul>
+      {% for link in links %}
+        <li>
+          <a href="#{{ link.fullpath }}">{{ link.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endif %}
