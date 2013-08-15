@@ -49,7 +49,7 @@
 
 {% if series_by_module|length == 1 %}
   {# If there's only one module in a timetable we show the series of the module directly w/o the module *cringe* #}
-  {% with module=series_by_module.0 series_list=series_by_module.1 %}
+  {% with module=series_by_module.0.0 series_list=series_by_module.0.1 %}
     {% for series in series_list %}
       {% usekwacro series series series_in_calendar %}
     {% endfor %}
