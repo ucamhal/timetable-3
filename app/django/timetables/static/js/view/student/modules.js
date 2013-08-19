@@ -57,13 +57,19 @@ define([
                     // The canary watcher will take care of showing the
                     // appropriate message.
                     if (error.code) {
-                        // Forbidden
-                        if (error.code === 403) {
-                            $("#signinModal").modal("show");
+                        if (error.code !== 403) {
+                            // An unknown error has occured
+                            $("#errorModal").modal("show");
                             return;
+                        } else if (!page.isUserLoggedIn()) {
+                            // If the error is a 403 and the page thinks the
+                            // user is logged in it means the session has
+                            // expired (if the user isn't doing something he 
+                            // isn't supposed to be doing). Canary will jump in
+                            // and show the appropriate error.
+                            // Otherwise we can just show the log in modal:
+                            $("#signinModal").modal("show");
                         }
-                        // An unknown error has occured
-                        $("#errorModal").modal("show");
                     }
                     // Stop executing the code
                     return;

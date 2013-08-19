@@ -7,10 +7,14 @@ define([
     "use strict";
 
     var CanaryWatcher = function () {
-        _.bindAll(this);
+        this.initialize();
     };
 
     _.extend(CanaryWatcher.prototype, {
+        initialize: function () {
+            _.bindAll(this);
+        },
+
         startWatch: function (onCanaryDied) {
             this.onCanaryDied = onCanaryDied;
             $(document).on("ajaxError", this.onAjaxError);

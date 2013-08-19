@@ -40,7 +40,7 @@ define([
             messageText: "Sign in again or reload the page to continue.",
             customFooterContent: _.template($("#js-templ-session-expired-error-popup-footer").html(), data),
             closeable: false
-        });
+        }).show();
     };
 
     var eventInvalidDataError = function eventInvalidDataError() {
