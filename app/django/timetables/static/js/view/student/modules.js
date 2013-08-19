@@ -86,10 +86,14 @@ define([
             } else {
                 this.toggleButtonState($source, $source.is(".js-btn-add"));
                 if ($source.parent().parent().is(".js-series")) {
-                    if ($source.parent().parent().parent().find(".js-btn-add").length <= 0) {
-                        this.toggleButtonState($source.parent().parent().parent().parent().find(".js-btn-add.js-btn-module-level"), true);
+                    var $module = $source.parent().parent().parent();
+                    if ($module.find(".js-btn-remove").length) {
+                        // If any of the series have been added, the module
+                        // button should become a remove button.
+                        this.toggleButtonState($module.parent().find(".js-btn-add.js-btn-module-level"), true);
                     } else {
-                        this.toggleButtonState($source.parent().parent().parent().parent().find(".js-btn-remove.js-btn-module-level"), false);
+                        // Module button should show "Add"
+                        this.toggleButtonState($module.parent().find(".js-btn-remove.js-btn-module-level"), false);
                     }
                 }
             }
@@ -111,7 +115,6 @@ define([
             }
 
             var $target = $(event.currentTarget);
-
             if ($target.is(".js-btn-module-level")) {
                 this.associate($target.parent().parent().find("a.btn"), $target.is(".js-btn-add"));
             } else {
