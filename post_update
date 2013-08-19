@@ -30,29 +30,23 @@ then
     exit 1
 fi
 
+# Find all settings modules that include base_non_local
+SETTINGS_MODULES=`grep -l '^from .base_non_local' app/django/timetables/settings/*.py | while read f ; do basename $f .py ; done | xargs echo`
+
+# Check that the supplied argument matches one of them
+SETTINGS_MODULES_REGEXP=`echo $SETTINGS_MODULES | awk '{print "^\\\(" $0 "\\\)$" }' | sed -e 's/ /\\\|/g'`
+ARG_VALIDATION_MATCHES=`echo $1 | grep $SETTINGS_MODULES_REGEXP 2>/dev/null | wc -l`
+
+if [[ $ARG_VALIDATION_MATCHES != "1" ]]
+then
+    echo "Error: Unknown deployment context: $1"
+    echo "CONTEXT_NAME must be one of: $SETTINGS_MODULES"
+    exit 1
+fi
+
 # Set the DJANGO_SETTINGS_MODULE according to the first argument
-case $1 in
-    dev)
-        export DJANGO_SETTINGS_MODULE=timetables.settings.dev
-        export REQUIREMENTS_FILE=$DIR/app/requirements/dev.txt
-        ;;
-    qa)
-        export DJANGO_SETTINGS_MODULE=timetables.settings.qa
-        export REQUIREMENTS_FILE=$DIR/app/requirements/qa.txt
-        ;;
-    staging)
-        export DJANGO_SETTINGS_MODULE=timetables.settings.staging
-        export REQUIREMENTS_FILE=$DIR/app/requirements/staging.txt
-        ;;
-    production)
-        export DJANGO_SETTINGS_MODULE=timetables.settings.production
-        export REQUIREMENTS_FILE=$DIR/app/requirements/production.txt
-        ;;
-    *)
-        echo "Error: Unknown deployment context: $1"
-        exit 1
-        ;;
-esac
+export DJANGO_SETTINGS_MODULE=timetables.settings.$1
+export REQUIREMENTS_FILE=$DIR/app/requirements/$1.txt
 
 ## Capture and time, and write to local file to try and show
 ## an approximate time the shell script was called.
