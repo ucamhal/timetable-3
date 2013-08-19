@@ -864,8 +864,8 @@ class Event(CleanModelMixin, PostSaveMixin, SchemalessModel, VersionableModel):
         '''
         When importing data, don't waste time trying to compute metadata
         before the data is in a complete and consistent state.
-        We deal with this separately by having overridden django's loaddata
-        with our own timetables.management.commands.loaddata
+        If the metadata being loaded wasn't already correct, it can be
+        fixed by running manage.py recompute_eventsource_metadata.
         '''
         if not raw:
             self.source.set_metadata(save=True)
