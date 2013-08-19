@@ -2,6 +2,7 @@ import calendar
 import itertools
 import pytz
 
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponse,\
     HttpResponseForbidden
 from django.shortcuts import render
@@ -26,18 +27,21 @@ class CalendarView(View):
     Renders a json stream suitable for use in the calendar.
     '''
     
-    @classmethod
-    def to_fullcalendar(cls, event):
+    def to_fullcalendar(self, event):
         metadata = event.metadata
         allday = bool(metadata.get("x-allday"))
         lecturer = metadata.get("people") or []
         eventtype = metadata.get("type") or False
+
+        # Note: event.start, event.end are UTC. No need to convert to
+        # local time in order to send to fullcalendar (as long as you
+        # turn OFF ignoreTimezone in fullcalendar...)
         if allday:
             return {
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : True,
-                "start" : DateConverter.from_datetime(event.start_local(), True).isoformat(),
+                "start" : DateConverter.from_datetime(event.start, True).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
                 "type" : eventtype,
@@ -48,50 +52,60 @@ class CalendarView(View):
                 "djid": event.id,
                 "title" : event.title,
                 "allDay" : False,
-                "start" : DateConverter.from_datetime(event.start_local(), False).isoformat(),
-                "end" : DateConverter.from_datetime(event.end_local(), False).isoformat(),
-                "start_origin" : DateConverter.from_datetime(event.start_origin(), False).isoformat(),
-                "end_origin" : DateConverter.from_datetime(event.end_origin(), False).isoformat(),
-                "starttz" : event.starttz,
-                "endtz" : event.endtz,
+                "start" : DateConverter.from_datetime(event.start, False).isoformat(),
+                "end" : DateConverter.from_datetime(event.end, False).isoformat(),
                 "location" : event.location,
                 "lecturer" : lecturer,
                 "type" : eventtype,
                 "eventSourceId": event.source_id
             }
-    
-    def get(self, request, thing):
-        if not request.user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
+
+    def validate_permissions(self):
+        thing = self.get_thing_fullpath()
+        user = self.request.user
+        if not user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
             return HttpResponseForbidden("Denied")
-        hashid = Thing.hash(thing)
+
+    def get_thing_fullpath(self):
+        return self.kwargs["thing"]
+
+    def __get_thing(self):
         try:
-            thing = Thing.objects.get(pathid=hashid)
-            def generate():
-                yield "[\n"
-                # TODO: Support ranges
-                pattern = "%s"
-                
-                # get depth if present (?depth=x in URL)
-                depth = 1;
-                if request.GET.get('depth'):
-                    depth = int(request.GET['depth'])
-                
-                # get time range to select for events in
-                date_range = get_request_range(request.GET)
-                
-                for e in thing.get_events( depth=depth, date_range=date_range ):
-                    event_obj = self.to_fullcalendar(e)
-                    event_obj["className"] = "thing_%s" % thing.type
-                    yield pattern % json.dumps(event_obj, indent=JSON_INDENT)
-                    pattern = ",\n%s"
-                yield "]\n"
-
-            response = HttpResponse(generate(),content_type=JSON_CONTENT_TYPE)
-            response.streaming = True
-            return response
-
+            path = self.get_thing_fullpath()
+            return Thing.objects.get(pathid=Thing.hash(path))
         except Thing.DoesNotExist:
-            return HttpResponseNotFound()
+            # Raise permission denied instead of 404 when a Thing does
+            # not exist to avoid leaking presence of a user...
+            raise PermissionDenied
+
+    def get_thing(self):
+        thing = getattr(self, "_thing", None)
+        if thing is None:
+            thing = self.__get_thing()
+            self._thing = thing
+        return thing
+
+    def get_date_range(self):
+        # get time range to select for events in
+        return get_request_range(self.request.GET)
+
+    def get_events(self):
+        return self.get_thing().get_events(depth=1,
+                                           date_range=self.get_date_range())
+
+    def get_json(self):
+        events = [
+            self.to_fullcalendar(event)
+            for event in self.get_events()
+        ]
+        return events
+
+    def get(self, request, thing):
+        self.validate_permissions()
+
+        return HttpResponse(
+            json.dumps(self.get_json())
+        )
 
 
 class CalendarHtmlView(View):

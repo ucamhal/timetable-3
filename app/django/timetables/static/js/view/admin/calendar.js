@@ -144,6 +144,7 @@ define([
             this.$el.fullCalendar({
                 defaultView: this.options.defaultView || "month",
                 events: this.options.eventsFeed,
+                ignoreTimezone: false, // Why is this true by default? WTF.
                 allDaySlot: false,
                 minTime: this.options.minTime || 7,
                 maxTime: this.options.maxTime || 20,

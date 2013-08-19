@@ -364,21 +364,23 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
         self._initial_fullpath = self.fullpath
 
     def get_events(self, depth=1, date_range=None):
-        events = Event.objects.filter(models.Q(source__eventsourcetag__thing=self,source__current=True)|
-                                    models.Q(eventtag__thing=self), current=True, status=Event.STATUS_LIVE)
+        events = Event.objects.filter(
+            current=True,
+            status=Event.STATUS_LIVE,
+            source__eventsourcetag__thing=self
+        )
+
         if date_range != None:
             start = date_range[0]
             end = date_range[1]
-            events = events.in_range(start, end)
+            # Filter just on start rather than start and end so that we
+            # can use a single index to satisfy the query.
+            events = events.filter(start__gte=start, start__lte=end)
             
         # depth 2
         if depth == 2:
-            events_2 = Event.objects.filter(models.Q(source__eventsourcetag__thing__parent=self,source__current=True)|
-                                    models.Q(eventtag__thing__parent=self), current=True, status=Event.STATUS_LIVE)
-            if date_range != None:
-                events_2 = events_2.in_range(start, end)
-            events = chain(events, events_2)
-            
+            raise NotImplementedError
+
         return events
 
     @classmethod

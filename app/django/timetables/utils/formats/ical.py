@@ -4,29 +4,32 @@ Created on Oct 17, 2012
 @author: ieb
 '''
 from __future__ import unicode_literals
-
 import datetime
 import logging
+from cStringIO import StringIO
+
+import icalendar
+from icalendar import Event as iCalEvent
+from icalendar.cal import Calendar, Alarm
+import pytz
 
 from django.http import HttpResponse
 
-from icalendar import Event as iCalEvent
-from icalendar.cal import Calendar, Alarm
-
-import pytz
+import llic
 
 from timetables.models import Event
 from timetables.utils.date import DateConverter
 
 LOG = logging.getLogger(__name__)
 
+DEFAULT_PRODID = "-//University of Cambridge Timetables//timetables.caret.cam.ac.uk//"
+DEFAULT_VERSION = "2.0"
 
-class ICalExporter(object):
-    '''
-    An iCal Exporter.
-    '''
 
-    stream_response = False
+class BaseICalExporter(object):
+    def __init__(self, prodid=DEFAULT_PRODID, version=DEFAULT_VERSION):
+        self.prodid = prodid
+        self.version = version
 
     def _join_comma_and(self, items):
         """
@@ -49,6 +52,150 @@ class ICalExporter(object):
 
         return "with {}.".format(people)
 
+    def make_event(self, e, metadata_names=None):
+        event = iCalEvent()
+        event.add('summary', '%s' % e.title)
+        event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
+        event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
+        event.add('location', e.location)
+        event.add('uid', e.get_ical_uid())
+        event.add('description', self._build_description(e))
+        # If a mapping has been provided, unpack
+        metadata = e.metadata
+        protected = frozenset(event.keys())
+        if metadata_names is not None:
+            for metadata_name, icalname in metadata_names.iteritems():
+                if icalname not in protected and metadata_name in metadata_names:
+                    o = metadata[metadata_name]
+                    if isinstance(o, list):
+                        for e in o:
+                            event.add(icalname,e)
+                    else:
+                        event.add(icalname,o)
+        else:
+            for k,v in metadata.iteritems():
+                k_uc = k.upper() # when added to iCal feed, all keys are converted to uppercase
+                if k_uc not in protected:
+                    k = 'X-CUTT-'+k # CUTT - Cambridge University TimeTable
+                    if isinstance(v, list):
+                        for e in v:
+                            event.add(k, e)
+                    else:
+                        event.add(k, v)
+
+        event.add('priority', 5)
+        return event
+
+    def export(self, events, metadata_names=None, feed_name="events"):
+        raise NotImplementedError
+
+
+class LlicICalExporter(BaseICalExporter):
+    """
+    A non-streaming iCalendar exporter for Timetable events
+
+    (Could be made streaming very easily by passing the response to the
+    writer as the output.)
+
+    This implementation uses our llic library to write the iCalendar data.
+    It's significantly faster (> 10x) than icalendar (although llic is not as
+    feature complete or well tested as icalendar).
+    """
+    def get_calendar_writer(self, outstream):
+        return llic.CalendarWriter(outstream)
+
+    def write_calendar(self, writer, events):
+        writer.begin(b"VCALENDAR")
+        writer.contentline(b"VERSION", self.version)
+        writer.contentline(b"PRODID", self.prodid)
+
+        for event in events:
+            writer.begin(b"VEVENT")
+
+            writer.contentline("SUMMARY", writer.as_text(event.title))
+            writer.contentline("DTSTART", writer.as_datetime(event.start))
+            writer.contentline("DTEND", writer.as_datetime(event.end))
+            writer.contentline("LOCATION", writer.as_text(event.location))
+            writer.contentline("UID", writer.as_text(event.get_ical_uid()))
+            writer.contentline("DESCRIPTION", writer.as_text(
+                self._build_description(event)))
+
+            writer.end(b"VEVENT")
+
+        writer.end("VCALENDAR")
+
+    def export(self, events, metadata_names=None, feed_name="events"):
+        out = StringIO()
+
+        try:
+            writer = self.get_calendar_writer(out)
+
+            self.write_calendar(writer, events)
+
+            response = HttpResponse(
+                out.getvalue(),
+                content_type="text/calendar; charset=utf-8"
+            )
+        finally:
+            out.close()
+
+        response['Content-Disposition'] = (
+            "attachment; filename={}.ics".format(feed_name)
+        )
+        return response
+
+
+class SimpleICalExporter(BaseICalExporter):
+    """
+    A non-streaming iCalendar exporter for Timetable events.
+
+    This implementation uses an icalendar.Calendar instance to hold
+    the entire calendar in memory, then converts the whole thing to
+    iCalendar format at once at the end.
+    """
+
+    def create_empty_calendar(self):
+        cal = icalendar.Calendar()
+        cal.add("PRODID", self.prodid)
+        cal.add("VERSION", self.version)
+        return cal
+
+    def create_calendar(self, events):
+        cal = self.create_empty_calendar()
+
+        for event in events:
+            cal_event = self.make_event(event)
+            cal.add_component(cal_event)
+        return cal
+
+    def get_response_body(self, cal):
+        return cal.to_ical()
+
+    def get_events(self, events):
+        return list(events)
+
+    def export(self, events, metadata_names=None, feed_name="non-streaming-events"):
+        events = self.get_events(events)
+        cal = self.create_calendar(events)
+
+        response = HttpResponse(
+            self.get_response_body(cal),
+            content_type="text/calendar; charset=utf-8"
+        )
+        response['Content-Disposition'] = "attachment; filename={}.ics".format(feed_name)
+        return response
+
+
+class StreamingICalExporter(BaseICalExporter):
+    '''
+    An iCal Exporter.
+
+    This is the origional implementation which can stream output using
+    the icalendar library to generate each event's output individually.
+    '''
+
+    stream_response = False
+
     def export(self, events, metadata_names=None, feed_name="events"):
         '''
         Creates an HTTP response of ical data representing the contents of the events sequence
@@ -64,42 +211,14 @@ class ICalExporter(object):
             All output should be UTF-8; all internal processing should be using
             Python Unicode objects.
             '''
-            yield ("BEGIN:VCALENDAR\r\n"\
-                "PRODID:-//University of Cambridge Timetables//timetables.caret.cam.ac.uk//\r\n"\
-                "VERSION:2.0\r\n").encode("utf-8")
+            yield "".join([
+                "BEGIN:VCALENDAR\r\n"
+                "PRODID:", self.prodid, "\r\n"
+                "VERSION:", self.version, "\r\n"]).encode("utf-8")
+
             for e in events:
                 try:
-                    event = iCalEvent()
-                    event.add('summary', '%s' % e.title)
-                    event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
-                    event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
-                    event.add('location', e.location)
-                    event.add('uid', e.get_ical_uid())
-                    event.add('description', self._build_description(e))
-                    # If a mapping has been provided, unpack
-                    metadata = e.metadata
-                    protected = frozenset(event.keys())
-                    if metadata_names is not None:
-                        for metadata_name, icalname in metadata_names.iteritems():
-                            if icalname not in protected and metadata_name in metadata_names:
-                                o = metadata[metadata_name]
-                                if isinstance(o, list):
-                                    for e in o:
-                                        event.add(icalname,e)
-                                else:
-                                    event.add(icalname,o)
-                    else:
-                        for k,v in metadata.iteritems():
-                            k_uc = k.upper() # when added to iCal feed, all keys are converted to uppercase
-                            if k_uc not in protected:
-                                k = 'X-CUTT-'+k # CUTT - Cambridge University TimeTable
-                                if isinstance(v, list):
-                                    for e in v:
-                                        event.add(k, e)
-                                else:
-                                    event.add(k, v)
-                                    
-                    event.add('priority', 5)
+                    event = self.make_event(e, metadata_names=metadata_names)
                     yield event.to_ical() # always produces UTF-8
                 except:
                     if self.stream_response:
@@ -133,6 +252,12 @@ class ICalExporter(object):
         response['Content-Disposition'] = "attachment; filename=%s.ics" % feed_name
         response.streaming = self.stream_response
         return response
+
+
+# Quick bodge to switch between implementations
+#ICalExporter = StreamingICalExporter
+#ICalExporter = SimpleICalExporter
+ICalExporter = LlicICalExporter
 
 
 class ICalImporter(object):
