@@ -22,44 +22,24 @@
 
 {% block timetable_content %}
 <div id="calendarHeading" class="clearfix">
-
-  <a href="#" class="btn pull-left notImplemented">Undo changes</a>
-
   <div class="calendarNavigation week-calendar-navigation pull-left">
     <ul class="clearfix js-date-spinner js-week">
-      <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-      <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
-      <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+      <li class="pull-left"><a role="button" class="js-prev btn-prev" href="#"><i class="icon-chevron-left icon-white"></i><span class="aural-text">previous week</span></a></li>
+      <li class="pull-left js-value value"></li>
+      <li class="pull-left"><a role="button" class="js-next btn-next" href="#"><i class="icon-chevron-right icon-white"></i><span class="aural-text">next week</span></a></li>
     </ul>
   </div>
 
   <div class="calendarNavigation term-calendar-navigation pull-right">
     <ul class="clearfix js-date-spinner js-term">
-      <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-      <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
-      <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+      <li class="pull-left"><a role="button" class="js-prev btn-prev" href="#"><i class="icon-chevron-left icon-white"></i><span class="aural-text">previous term</span></a></li>
+      <li class="pull-left js-value value"></li>
+      <li class="pull-left"><a role="button" class="js-next btn-next" href="#"><i class="icon-chevron-right icon-white"></i><span class="aural-text">next term</span></a></li>
     </ul>
   </div>
 </div>
 
 <div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}?depth={{ depth|urlencode }}" data-start="{{ calendar_start }}" data-end="{{ calendar_end }}" data-terms="{{ terms|json }}"></div>
 
-<div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
-  <div class="arrow"></div>
-  <button type="button" class="close js-close">x</button>
-  <h5 class="js-course-title">An introduction to the language of 16th century texts</h5>
-  <span class="js-course-date-pattern">Wednesday 1pm,</span>
-  <br/>
-  <span class="js-course-location">LT1 William Gates Bdg,</span>
-  <br/>
-  <span class="js-course-lecturer">Dr R. Harle</span>
-  <ul class="clearfix actions">
-    <li class="pull-left"><a href="#" class="js-close">Close</a></li>
-    {% if may_edit %}
-      <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list write" thing %}" >View in edit mode</a></li>
-    {% else %}
-      <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list read" thing %}" >See in list view</a></li>
-    {% endif %}
-  </ul>
-</div>
+{% include "administrator/timetable-calendar-templates.html" %}
 {% endblock timetable_content %}

@@ -5,10 +5,11 @@ define([
     "view/student/modules",
     "view/modules-selector",
     "view/admin/calendar",
-    "view/student/export-to-calendar-popup",
+    "util/dialog-factory-student",
     "model/calendarModel",
+    "util/focus-helper",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, ModulesSelector, Calendar, ExportToCalendarPopup, CalendarModel) {
+], function ($, _, Backbone, Modules, ModulesSelector, Calendar, dialogFactory, CalendarModel, focusHelper) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -29,8 +30,8 @@ define([
         tabClickHandler: function (event) {
             var $target = $(event.currentTarget);
 
-            this.$("li").removeClass("active");
-            $target.addClass("active");
+            this.$("li").removeClass("active").find("a").attr("aria-selected", "false");
+            $target.addClass("active").find("a").attr("aria-selected", "true");
 
             this.updateActiveView(this.getViewFromTab($target));
 
@@ -82,11 +83,6 @@ define([
                 el: ".js-modules-selector"
             });
 
-            this.exportToCalendarPopup = new ExportToCalendarPopup({
-                el: ".js-modal-export-to-calendar",
-                userPath: this.getThingPath()
-            });
-
             this.initCalendar();
             this.bindEvents();
 
@@ -135,6 +131,24 @@ define([
             });
         },
 
+        onExportToCalendarClick: function (event) {
+            var exportDialog = dialogFactory.exportToCalendar({
+                userPath: this.getThingPath(),
+                feedPath: $(event.currentTarget).data("feed-path")
+            });
+
+            this.listenTo(exportDialog, "feedChanged", this.onFeedChanged);
+            this.listenTo(exportDialog, "close", this.onExportDialogClose);
+        },
+
+        onExportDialogClose: function () {
+            focusHelper.focusTo($(".js-btn-export-to-calendar"));
+        },
+
+        onFeedChanged: function (feedPath) {
+            $(".js-btn-export-to-calendar").data("feed-path", feedPath);
+        },
+
         bindEvents: function () {
             this.listenTo(this.modulesSelector, "partChanged", this.partChangedHandler);
             this.listenTo(this.calendarViewNavigation, "viewChanged", this.viewChangedHandler);
@@ -155,6 +169,7 @@ define([
             this.listenTo(this.calendarModel, "change:activeMonth", this.onActiveMonthChange);
             this.listenTo(this.calendarModel, "change:activeMonthTerm", this.onActiveMonthTermChange);
 
+            $(".js-btn-export-to-calendar").on("click", this.onExportToCalendarClick);
             $(".js-sign-in, .js-sign-out").on("click", this.onSignInOutClick);
             $(window).on("resize", this.resize).trigger("resize");
         },
@@ -307,7 +322,9 @@ define([
             $(".js-calendar-holder").height(modulesListHeight);
             $(".js-list-view").height(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
             this.fullCalendarView.setHeight(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
-            this.fullCalendarView.eventPopup.toggle(false);
+            if (this.fullCalendarView.eventPopup) {
+                this.fullCalendarView.eventPopup.toggle(false);
+            }
         },
 
         timetableUpdatedHandler: function () {

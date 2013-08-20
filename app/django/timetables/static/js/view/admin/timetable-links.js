@@ -4,7 +4,7 @@ define([
     "backbone",
     "collection/timetable-links",
     "view/admin/timetable-link",
-    "util/dialog-factory"
+    "util/dialog-factory-admin"
 ], function ($, _, Backbone, TimetableLinksCollection, TimetableLinkView, dialogFactory) {
     "use strict";
 

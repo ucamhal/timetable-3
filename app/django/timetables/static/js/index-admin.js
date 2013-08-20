@@ -1,7 +1,7 @@
 define([
     "view/cookieHandler",
     "util/canary-watcher",
-    "util/dialog-factory",
+    "util/dialog-factory-admin",
     "util/page"
 ], function (CookieHandler, canaryWatcher, dialogFactory, page) {
     "use strict";

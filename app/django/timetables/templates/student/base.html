@@ -7,16 +7,19 @@
 {% block top_bar %}
 <div id="inputArea">
   <div class="clearfix js-modules-selector">
-    <label for="iAmInput" class="pull-left">I am studying</label>
+    <div role="search" class="pull-left">
+      <label for="iAmInput" class="pull-left">I am studying</label>
     
-    <select id="iAmInput" class="pull-left js-module-select">
-      <option value="" disabled="disabled" selected="selected">Choose a subject</option>
-      {% include "subject-picker.html" %}
-    </select>
-    
-    <select id="courseSelect" name="course" class="pull-left js-part-select">
-      <option value="" disabled="disabled" selected="selected">Choose a part</option>
-    </select>
+      <select id="iAmInput" class="pull-left js-module-select">
+        <option value="" disabled="disabled" selected="selected">Choose a subject</option>
+        {% include "subject-picker.html" %}
+      </select>
+
+      <label for="courseSelect" class="aural-text">Choose a part</label>
+      <select id="courseSelect" name="course" class="pull-left js-part-select">
+        <option value="" disabled="disabled" selected="selected">Choose a part</option>
+      </select>
+    </div>
 
     <div class="user pull-right">
     {% if user_logged_in %}
@@ -35,21 +38,9 @@
 <div id="actionsContainer">
   <div class="pull-right">
     {% if user_logged_in %}
-      <a href="#modal-export-to-calendar" class="btn" data-toggle="modal">Export to calendar</a>
+      <a href="javascript:;" role="button" class="btn js-btn-export-to-calendar" data-feed-path="{{ site_url }}{{ ics_feed_url }}">Export to calendar</a>
     {% endif %}
   </div>
-</div>
-
-<div class="calendarEventInfo alert alert-block clearfix dontDisplayMe student">
-  <div class="arrow"></div>
-  <button type="button" class="close" data-dismiss="alert">x</button>
-  <h5>An introduction to the language of 16th century texts</h5>
-  <span class="courseDatePattern">Wednesday 1pm,</span>
-  <br/>
-  <span class="courseLocation">LT1 William Gates Bdg,</span>
-  <br/>
-  <span class="courseLecturer">Dr R. Harle</span>
-  <a href="#" class="btn btn-danger pull-right notImplemented">Remove</a>
 </div>
 
 <div id="results" class="pull-left js-modules-results">
@@ -63,29 +54,29 @@
 
 <div id="calendarHolder" class="pull-right js-calendar-holder">
   <div id="calendarHeading">
-    <ul class="nav nav-tabs js-calendar-view-navigation">
-      <li class="active agendaWeek js-week"><a href="#">Week</a></li>
-      <li class="month js-month"><a href="#">Month</a></li>
-      <li class="list js-list"><a href="#">List</a></li>
+    <ul role="tablist" class="nav nav-tabs js-calendar-view-navigation">
+      <li role="presentation" class="active agendaWeek js-week"><a role="tab" aria-selected="true" href="#">Week</a></li>
+      <li role="presentation" class="month js-month"><a role="tab" aria-selected="false" href="#">Month</a></li>
+      <li role="presentation" class="list js-list"><a role="tab" aria-selected="false" href="#">List</a></li>
     </ul>
 
     <div id="calendarData" class="js-calendar-navigation calendarNavigation clearfix">
       <ul class="clearfix js-date-spinner js-agendaWeek week-calendar-navigation pull-left">
-        <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-        <li class="pull-left"><h4 class="js-value value">Week 2</h4></li>
-        <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+        <li class="pull-left"><a role="button" class="js-prev btn-prev" href="#"><i class="icon-chevron-left icon-white"></i><span class="aural-text">previous week</span></a></li>
+        <li class="pull-left js-value value"></li>
+        <li class="pull-left"><a role="button" class="js-next btn-next" href="#"><i class="icon-chevron-right icon-white"></i><span class="aural-text">next week</span></a></li>
       </ul>
 
       <ul class="clearfix js-date-spinner js-month month-calendar-navigation dontDisplayMe pull-left">
-        <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-        <li class="pull-left"><h4 class="js-value value">January</h4></li>
-        <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+        <li class="pull-left"><a role="button" class="js-prev btn-prev" href="#"><i class="icon-chevron-left icon-white"></i><span class="aural-text">previous month</span></a></li>
+        <li class="pull-left js-value value"></li>
+        <li class="pull-left"><a role="button" class="js-next btn-next" href="#"><i class="icon-chevron-right icon-white"></i><span class="aural-text">next month</span></a></li>
       </ul>
 
       <ul class="clearfix js-date-spinner js-term term-calendar-navigation pull-right">
-        <li class="pull-left"><a class="badge badge-info js-prev" href="#">&lt;</a></li>
-        <li class="pull-left"><h4 class="js-value value">Michaelmas Term</h4></li>
-        <li class="pull-left"><a class="badge badge-info js-next" href="#">&gt;</a></li>
+        <li class="pull-left"><a role="button" class="js-prev btn-prev" href="#"><i class="icon-chevron-left icon-white"></i><span class="aural-text">previous term</span></a></li>
+        <li class="pull-left js-value value"></li>
+        <li class="pull-left"><a role="button" class="js-next btn-next" href="#"><i class="icon-chevron-right icon-white"></i><span class="aural-text">next term</span></a></li>
       </ul>
     </div>
   </div>
@@ -94,46 +85,6 @@
   </div>
 
   <div class="js-list-view list-view"></div>
-
-  <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
-    <div class="arrow"></div>
-    <button type="button" class="close js-close">x</button>
-    <h5 class="js-course-title">An introduction to the language of 16th century texts</h5>
-    <span class="js-course-date-pattern">Wednesday 1pm,</span>
-    <br/>
-    <span class="js-course-location">LT1 William Gates Bdg,</span>
-    <br/>
-    <span class="js-course-lecturer">Dr R. Harle</span>
-    <div>
-      <a href="#" class="js-remove-from-timetable btn btn-danger notImplemented">Remove from timetable</a>
-    </div>
-  </div>
-
-  <div class="modal hide fade js-modal-export-to-calendar" id="modal-export-to-calendar">
-    <div class="modal-body">
-      <a href="#" class="close" data-dismiss="modal">&times;</a>
-      <h4>Get the iCal feed:</h4>
-      <div class="feed-container js-feed-container">
-        <p>{{ site_url }}{{ ics_feed_url }}</p>
-      </div>
-      <p class="pull-left error hide">Something went wrong, please try again later.</p>
-      <a href="javascript:;" class="btn btn-link pull-right js-reset-feed"><i class="icon-refresh"></i> reset feed</a>
-
-      <div class="progress progress-striped active hide">
-        <div class="bar" style="width: 66%;"></div>
-      </div>
-
-      <div class="instructions">
-        <h5>Instructions for Google Calendar</h5>
-        <ol>
-          <li>Log into your <a href="https://www.google.com/calendar" target="_blank">Google Calendar</a></li>
-          <li>Click the arrow button next to "Other calendars" and select "Add by URL"</li>
-          <li>Copy and paste the link above into the "URL" box</li>
-          <li>Click "Add Calendar"</li>
-          <li>Your personal timetable is now displayed in your Google Calendar</li>
-        </ol>
-      </div>
-    </div>
-  </div>
 </div>
+{% include "student/student-templates.html" %}
 {% endblock content %}

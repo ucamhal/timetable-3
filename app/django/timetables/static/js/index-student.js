@@ -3,7 +3,7 @@ define([
     "view/student/student-app",
     "view/cookieHandler",
     "util/canary-watcher",
-    "util/dialog-factory",
+    "util/dialog-factory-student",
     "util/page"
 ], function(Backbone, studentApp, CookieHandler, canaryWatcher, dialogFactory, page) {
     "use strict";

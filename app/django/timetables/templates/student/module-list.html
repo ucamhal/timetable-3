@@ -3,7 +3,7 @@
 {% kwacro series series series_in_calendar %}
   <li class="series js-series">
     <div class="info">
-        <h6>{{ series.title }}</h6>
+        <h5>{{ series.title }}</h5>
 
         <p>{{ series.metadata.datePattern }}</p>
         <p>{{ series.metadata.location }}</p>
@@ -12,9 +12,9 @@
 
     <div class="action">
       {% if series in series_in_calendar %}
-        <a href="javascript:;" class="btn btn-remove js-btn-remove btn-danger btn-small" data-eventsourceid="{{ series.id }}">Remove</a>
+        <a href="javascript:;" aria-label="Remove series from timetable" role="button" class="btn btn-remove js-btn-remove btn-danger btn-small" data-eventsourceid="{{ series.id }}">Remove</a>
       {% else %}
-        <a href="javascript:;" class="btn btn-add js-btn-add btn-success btn-small" data-eventsourceid="{{ series.id }}">Add</a>
+        <a href="javascript:;" aria-label="Add series to timetable" role="button" class="btn btn-add js-btn-add btn-success btn-small" data-eventsourceid="{{ series.id }}">Add</a>
       {% endif %}
     </div>
   </li>
@@ -25,19 +25,19 @@
   <li class="module js-module">
     <article>
       <header>
-        <a href="#module-{{ module.id }}-content" class="title" data-toggle="collapse">
+        <a role="button" aria-pressed="false" href="#module-{{ module.id }}-content" class="title" data-toggle="collapse">
           <span class="chevron icon-chevron-right js-expansion-indicator"></span>
-          <h5>{{ module.fullname }}</h5>
+          <h4>{{ module.fullname }}</h4>
         </a>
         <div class="action">
           {% if module in modules_in_calendar %}
-            <a href="javascript:;" class="btn btn-remove js-btn-module-level js-btn-remove btn-danger btn-small" data-fullpath="{{ module.fullpath }}">Remove</a>
+            <a href="javascript:;" aria-label="Remove module from timetable" role="button" class="btn btn-remove js-btn-module-level js-btn-remove btn-danger btn-small" data-fullpath="{{ module.fullpath }}">Remove</a>
           {% else %}
-            <a href="javascript:;" class="btn btn-add js-btn-module-level js-btn-add btn-success btn-small" data-fullpath="{{ module.fullpath }}">Add</a>
+            <a href="javascript:;" role="button" aria-label="Add module to timetable" class="btn btn-add js-btn-module-level js-btn-add btn-success btn-small" data-fullpath="{{ module.fullpath }}">Add</a>
           {% endif %}
         </div>
       </header>
-      <ul id="module-{{ module.id }}-content" class="collapse module-content">
+      <ul id="module-{{ module.id }}-content" class="collapse collapsed module-content">
         {% for series in series_list %}
           {% usekwacro series series series_in_calendar %}
         {% endfor %}
@@ -62,7 +62,7 @@
 
 {% if links %}
   <li class="links">
-    <h5>See also</h5>
+    <h4>See also</h4>
     <ul>
       {% for link in links %}
         <li>

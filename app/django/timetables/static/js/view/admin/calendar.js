@@ -136,11 +136,6 @@ define([
 
             _.bindAll(this, "onScroll");
 
-            this.eventPopup = new CalendarEventPopup({
-                el: ".js-calendar-popup",
-                $context: this.$el
-            });
-
             this.$el.fullCalendar({
                 defaultView: this.options.defaultView || "month",
                 events: this.options.eventsFeed,
@@ -160,6 +155,8 @@ define([
                         $el.find(".fc-event-time").text(calEvent.title);
                         $el.find(".fc-event-title").text(calEvent.location);
                     }
+                    $el.attr("aria-label", self.generateAuralEvent(calEvent))
+                       .attr("role", "article");
 
                     self.$el.trigger("eventRender", [calEvent, $el, view]);
                 },
@@ -168,6 +165,49 @@ define([
             });
 
             this.$(".fc-view-agendaWeek > div > div").on("scroll", this.onScroll);
+            this.updateCalendarTableAriaHidden();
+        },
+
+        /**
+         * Generates an accessible event string from a calEvent object.
+         */
+        generateAuralEvent: function (calEvent) {
+            var dateString = $.fullCalendar.formatDate(calEvent.start, "dddd d MMMM"),
+
+                timeStringFormat = "h:mmTT",
+                // Generate readable date and time strings from the event start
+                // and end dates.
+                fromTimeString = $.fullCalendar.formatDate(calEvent.start, timeStringFormat),
+                toTimeString = $.fullCalendar.formatDate(calEvent.end, timeStringFormat),
+                eventTimeInfo = dateString + ", from " + fromTimeString + " to " + toTimeString,
+
+                auralEvent = calEvent.title;
+
+            // Type, location and lecturer aren't required fields on an event,
+            // so we have to check whether they exist.
+            if (calEvent.type) {
+                auralEvent = calEvent.type + ": " + auralEvent;
+            }
+
+            if (calEvent.location) {
+                auralEvent += ", at " + calEvent.location;
+            }
+
+            auralEvent += ". " + eventTimeInfo + ".";
+
+            // calEvent.lecturer = Array
+            if (calEvent.lecturer && calEvent.lecturer.length) {
+                auralEvent += " Given by " + calEvent.lecturer.join(", ") + ".";
+            }
+
+            return auralEvent;
+        },
+
+        updateCalendarTableAriaHidden: function () {
+            this.$el.fullCalendar("getView")
+                .element
+                .find("table")
+                .attr("aria-hidden", true);
         },
 
         events: {
@@ -176,6 +216,11 @@ define([
         },
 
         onScroll: function () {
+            // Don't calculate the position if the popup isn't visible.
+            if (!this.eventPopup || !this.eventPopup.shown) {
+                return;
+            }
+
             this.eventPopup.updatePosition();
 
             var popupPosition = this.eventPopup.getPosition(),
@@ -194,7 +239,7 @@ define([
         onEventRender: function (renderEvent, calEvent, $el, view) {
             var self = this;
 
-            $el.attr("tabindex", this.$(".fc-event").index($el));
+            $el.attr("tabindex", 0);
             $el.on("focusin", function (focusEvent) {
                 self.onEventFocus(calEvent, $el, view, this, focusEvent);
             });
@@ -216,9 +261,27 @@ define([
         onEventFocus: function (calEvent, $el, view, target) {
             this.resetZIndexForAllEvents();
             $(target).css("zIndex", 9);
+
+            // Create an instance of the CalendarEventPopup class if it hasn't
+            // been created yet.
+            if (!this.eventPopup) {
+                this.createEventPopup();
+            }
+
             this.eventPopup.setEventDataFromCalEvent(calEvent);
             this.eventPopup.render();
             this.eventPopup.toggle(true, $el);
+        },
+
+        /**
+         * Creates an instance of the CalendarEventPopup class and saves it in
+         * this.eventPopup
+         */
+        createEventPopup: function () {
+            this.eventPopup = new CalendarEventPopup({
+                el: $("#js-templ-calendar-event-popup").clone().html(),
+                $context: this.$el
+            });
         },
 
         /**
@@ -233,7 +296,9 @@ define([
          * Hides the event popup and clears its context
          */
         resetEventPopup: function () {
-            this.eventPopup.toggle(false);
+            if (this.eventPopup) {
+                this.eventPopup.toggle(false);
+            }
         },
 
         /**
@@ -251,6 +316,7 @@ define([
         setView: function (view) {
             this.resetEventPopup();
             this.$el.fullCalendar("changeView", view);
+            this.updateCalendarTableAriaHidden();
         },
 
         /**

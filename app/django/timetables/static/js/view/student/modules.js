@@ -2,10 +2,12 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "util/student-api",
+    "util/api-student",
+    "util/dialog-factory-student",
     "util/page",
+    "util/focus-helper",
     "util/underscore-mixins"
-], function ($, _, Backbone, api, page) {
+], function ($, _, Backbone, api, dialogFactory, page, focusHelper) {
     "use strict";
 
     var ModulesList = Backbone.View.extend({
@@ -25,20 +27,38 @@ define([
             _.bindAll(this, "updateList");
         },
 
-        events: {
-            "hide" : "onSeriesHide",
-            "show" : "onSeriesShow",
-            "click a.js-btn-add, a.js-btn-remove" : "moduleButtonClickHandler"
+        events: function () {
+            return {
+                "hidden": this.onSeriesHidden,
+                "hide" : this.onSeriesHide,
+                "show" : this.onSeriesShow,
+                // The module click callback shouldn't be executed more than
+                // once every 200ms.
+                "click a.js-btn-add, a.js-btn-remove" : _.throttle(this.moduleButtonClickHandler, 200, {
+                    trailing: false
+                })
+            };
+        },
+
+        onSeriesHidden: function (event) {
+            var $hiddenContent = $(event.target);
+            $hiddenContent.addClass("collapsed");
         },
 
         onSeriesHide: function (event) {
-            var $chevron = $(event.target).parent().find(".chevron");
+            var $chevron = $(event.target).parent().find(".chevron"),
+                $button = $chevron.parent();
             $chevron.removeClass("icon-chevron-down").addClass("icon-chevron-right");
+            $button.attr("aria-pressed", "false");
         },
 
         onSeriesShow: function (event) {
-            var $chevron = $(event.target).parent().find(".chevron");
+            var $target = $(event.target),
+                $chevron = $target.parent().find(".chevron"),
+                $button = $chevron.parent();
+            $target.removeClass("collapsed");
             $chevron.addClass("icon-chevron-down").removeClass("icon-chevron-right");
+            $button.attr("aria-pressed", "true");
         },
 
         associate: function ($source, add) {
@@ -49,6 +69,10 @@ define([
                 eventsourceId = $source.attr("data-eventsourceid"),
                 eventId = $source.attr("data-eventid"),
                 apiRequest = add === true ? api.addToTimetable : api.removeFromTimetable;
+
+            // Set the saving state to true. This prevents more add/remove
+            // request from happening until this request has finished.
+            this.isSaving(true);
 
             apiRequest(userPath, fullpath, eventsourceId, eventId, crsf, function (error) {
                 if (error) {
@@ -68,8 +92,16 @@ define([
                             // isn't supposed to be doing). Canary will jump in
                             // and show the appropriate error.
                             // Otherwise we can just show the log in modal:
-                            $("#signinModal").modal("show");
+                            this.showNotSignedInError($source);
                         }
+                        // An unknown error has occured
+                        var errorDialog = dialogFactory.unknownError();
+                        // Refocus the clicked add button when the error dialog
+                        // closes.
+                        self.listenTo(errorDialog, "close", function () {
+                            focusHelper.focusTo($source);
+                        });
+
                     }
                     // Stop executing the code
                     return;
@@ -77,6 +109,8 @@ define([
 
                 self.updateButtonStates($source);
                 _.dispatchEvent(self, "timetableUpdated");
+                // Remove the saving state so modules can be removed/added again
+                self.isSaving(false);
             });
         },
 
@@ -100,17 +134,61 @@ define([
         },
 
         toggleButtonState: function ($btn, fromAdd) {
-            if (fromAdd === true) {
-                $btn.removeClass("js-btn-add btn-success").addClass("js-btn-remove btn-danger").text("Remove");
-            } else {
-                $btn.removeClass("js-btn-remove btn-danger").addClass("js-btn-add btn-success").text("Add");
+            $btn.each(function () {
+                var buttonType = "series",
+                    $target = $(this);
+                if ($(this).hasClass("js-btn-module-level")) {
+                    buttonType = "module";
+                }
+
+                if (fromAdd === true) {
+                    // Change the button to a remove button
+                    $target.removeClass("js-btn-add btn-success").addClass("js-btn-remove btn-danger");
+                    $target.text("Remove").attr("aria-label", "Remove " + buttonType + " from timetable");
+                    return;
+                }
+
+                // Change the button to an add button
+                $target.removeClass("js-btn-remove btn-danger").addClass("js-btn-add btn-success");
+                $target.text("Add").attr("aria-label", "Add " + buttonType + " to timetable");
+            });
+        },
+
+        isSaving: function (saving) {
+            if (saving === undefined) {
+                return this.saving;
+            }
+            this.saving = saving;
+        },
+
+        showNotSignedInError: function ($refocusTarget) {
+            var selection = "";
+
+            if (Backbone.history.fragment) {
+                selection = "#" + Backbone.history.fragment;
+            }
+
+            var notSignedInError = dialogFactory.notSignedInError({
+                selection: encodeURIComponent(selection)
+            });
+
+            if ($refocusTarget.length) {
+                this.listenTo(notSignedInError, "close", function () {
+                    focusHelper.focusTo($refocusTarget);
+                });
             }
         },
 
         moduleButtonClickHandler: function (event) {
             // If the user isn't logged in prompt to login
             if (!page.isUserLoggedIn()) {
-                $("#signinModal").modal("show");
+                this.showNotSignedInError($(event.currentTarget));
+                return;
+            }
+
+            // If one of the modules is still in the process of saving, prevent
+            // the button from being clicked.
+            if (this.isSaving()) {
                 return;
             }
 
@@ -179,7 +257,11 @@ define([
                 self.$(".js-modules-list").empty();
 
                 if (error && error.code) {
-                    $("#errorModal").modal("show");
+                    var $focussedEl = $(document.activeElement),
+                        errorDialog = dialogFactory.unknownError();
+                    self.listenTo(errorDialog, "close", function () {
+                        focusHelper.focusTo($focussedEl);
+                    });
                     self.updateResultsText(self.generateResultsText());
                     return;
                 }
@@ -230,7 +312,12 @@ define([
 
             api.getUserEventsList(userPath, year, month, function (error, response) {
                 if (error && error.code) {
-                    $("#errorModal").modal("show");
+                    var $focussedEl = $(document.activeElement),
+                        errorDialog = dialogFactory.unknownError();
+                    self.listenTo(errorDialog, "close", function () {
+                        focusHelper.focusTo($focussedEl);
+                    });
+
                     return;
                 }
 

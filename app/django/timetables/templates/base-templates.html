@@ -3,7 +3,7 @@
   <% if (state === "start" || state === "progress") { %>
     <div class="modal-header">
       <% if (state !== "progress") { %>
-        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <a href="#" aria-hidden="true" class="close" data-dismiss="modal">&times;</a>
       <% } %>
       <h3><%= titleText %></h3>
     </div>
@@ -15,8 +15,8 @@
     </div>
 
     <div class="modal-footer">
-      <a href="#" data-dismiss="modal" class="btn btn-link">cancel</a>
-      <a href="#" class="btn btn-danger js-confirm"><%= confirmBtnText %></span></a>
+      <a href="#" role="button" data-dismiss="modal" class="btn btn-link">cancel</a>
+      <a href="#" role="button" class="btn btn-danger js-confirm"><%= confirmBtnText %></span></a>
     </div>
   <% } %>
 
@@ -25,7 +25,7 @@
       <h5><%= removingTitleText %></h5>
       <div class="loading-indicator-content">
         <div class="progress progress-striped active">
-          <div class="bar" style="width: 40%;"></div>
+          <div role="progressbar" class="bar" style="width: 40%;"></div>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
 
   <% if (state === "error") { %>
     <div class="modal-header">
-      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <a href="#" aria-hidden="true" class="close" data-dismiss="modal">&times;</a>
       <h3><%= titleText %></h3>
     </div>
 
@@ -42,7 +42,7 @@
     </div>
 
     <div class="modal-footer">
-      <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+      <a href="#" role="button" data-dismiss="modal" class="btn btn-primary">Close</a>
     </div>
   <% } %>
 </script>
@@ -51,7 +51,7 @@
 <script id="js-templ-error-dialog" type="text/template">
   <div class="modal-header">
     <% if (closeable) { %>
-      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <a href="#" aria-hidden="true" class="close" data-dismiss="modal">&times;</a>
     <% } %>
     <h3><%= titleText %></h3>
   </div>
@@ -63,7 +63,7 @@
   <div class="modal-footer">
     <% if (!customFooterContent) { %>
         <% if (closeable) { %>
-          <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+          <a href="#" role="button" data-dismiss="modal" class="btn btn-primary">Close</a>
         <% } %>
     <% } else { %>
       <%= customFooterContent %>

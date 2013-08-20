@@ -25,7 +25,7 @@ define([
 
         events: function () {
             return {
-                "hidden": this.onHide,
+                "hidden": this.onHidden,
                 "shown": this.onShown
             };
         },
@@ -34,7 +34,7 @@ define([
             focusHelper.focusTo(this.$(".btn").first());
         },
 
-        onHide: function () {
+        onHidden: function () {
             this.trigger("close");
             this.off();
             this.remove();

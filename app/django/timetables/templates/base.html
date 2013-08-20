@@ -60,33 +60,6 @@
         {% endblock top_bar %}
       </header>
 
-      <div class="modal hide fade in" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-          <h3 id="signinLabel">Already have a timetable or want one ?</h3>
-        </div>
-        <div class="modal-body">
-          Sign-in to see your timetable and make changes
-          <a href="{% url "login url" %}?next={% url "home" %}" class="btn btn-success pull-right js-sign-in">Sign in</a>
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        </div>
-      </div>
-
-      <div class="modal hide fade in" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-          <h3 id="errorLabel">Ooops !</h3>
-        </div>
-        <div class="modal-body">
-            Oh No, something went wrong. If keeps happening, please do tell us.
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        </div>
-      </div>
-
       <div id="content" class="clearfix">
         {% block content %}
 

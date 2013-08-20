@@ -2,7 +2,7 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "util/admin-api",
+    "util/api-admin",
     "bootstrap"
 ], function ($, _, Backbone, api) {
     "use strict";

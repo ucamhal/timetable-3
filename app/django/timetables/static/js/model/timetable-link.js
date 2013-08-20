@@ -1,7 +1,7 @@
 define([
     "underscore",
     "backbone",
-    "util/admin-api"
+    "util/api-admin"
 ], function (_, Backbone, api) {
     "use strict";
 

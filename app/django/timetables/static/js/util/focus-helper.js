@@ -7,9 +7,15 @@ define([
     // This file exists so that we can keep the weird IE8 focus hacks in one
     // place.
     return {
+        isIE: function () {
+            if (this._isIE === undefined) {
+                this._isIE = ($.browser.msie !== undefined);
+            }
+            return this._isIE;
+        },
         isIE8: function () {
             if (this._isIE8 === undefined) {
-                this._isIE8 = ($.browser.msie === true && $.browser.version === "8.0");
+                this._isIE8 = (this.isIE() === true && $.browser.version === "8.0");
             }
             return this._isIE8;
         },

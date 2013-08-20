@@ -14,6 +14,21 @@ ul.yes-this-is-really-a-list {
   overflow: hidden;
 }
 
+/**
+ Class to hide elements for the screen. So they are only visible for screen
+ readers.
+ */
+.aural-text {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
 .play-site #mainHeader {
   background-color: #aaa5be;
   padding-top: 0;
@@ -157,7 +172,7 @@ div#inputArea {
 }
 
 div#uniLogo h1 {
-  color: #6a606f;
+  color: #646464;
   padding: 9px 0 8px 0;
   font-size: 2.5em;
 }
@@ -403,7 +418,11 @@ div#results > ul {
   width: 100%;
 }
 
-#results #resultsList > .series h6,
+#results #resultsList .series h5 {
+  font-size: .85em;
+}
+
+#results #resultsList > .series h5,
 #results #resultsList > .series p {
   margin-left: 10px;
 }
@@ -415,6 +434,10 @@ div#results > ul {
 
 #results .module header {
   position: relative;
+}
+
+#results .module-content.collapsed {
+  visibility: hidden;
 }
 
 
@@ -433,10 +456,11 @@ div#results > ul {
   top: 50%;
 }
 
-#results .module header .title h5 {
+#results .module header .title h4 {
   color: #3f3f3f;
   margin: 0 0 0 36px;
   word-wrap: break-word;
+  font-size: 1em;
 }
 
 #results .module-content {
@@ -474,7 +498,7 @@ div#results > ul {
   padding: 15px 0;
 }
 
-#results .series h6,
+#results .series h5,
 #results .series p {
   margin: 0 0 0 36px;
 }
@@ -632,11 +656,24 @@ div#calendarData {
   margin: 0;
 }
 
-.calendar-navigation h4, .calendarNavigation h4 {
+.calendarNavigation li {
+  line-height: 0;
+}
+
+.calendarNavigation a {
+  padding: 1px 5px;
+  background-color: #4d8fc2;
+  border-radius: 10px;
+}
+
+.calendarNavigation .value {
   text-align: center;
   padding: 2px 15px;
   margin: 0;
   line-height: 1em;
+  font-weight: 600;
+  font-size: 1.1em;
+  padding-top: 0;
 }
 
 div#calendarData div.calendarNavigation {
@@ -666,16 +703,6 @@ div#calendarData ul.calendarNavigation li {
 div#calendarData div.calendarNavigation ul li a,
 div#calendarData div.calendarNavigation ul li h4 {
   text-align: center;
-}
-
-div#calendarData div.calendarNavigation ul li h4 {
-  min-width: 180px;
-  margin: 0;
-  line-height: 1em;
-}
-
-div#calendarData .agendaWeek div.calendarNavigation ul li h4 {
-  min-width: 130px;
 }
 
 .list-view {
@@ -966,46 +993,46 @@ div#timetablesOverview {
   text-align: center;
 }
 
-#modal-export-to-calendar.busy .feed-container,
-#modal-export-to-calendar.busy .btn {
+.modal-export-to-calendar.busy .feed-container,
+.modal-export-to-calendar.busy .btn {
   opacity: .3;
   pointer-events: none;
 }
 
-#modal-export-to-calendar.busy .progress {
+.modal-export-to-calendar.busy .progress {
   display: block;
   clear: both;
 }
 
-#modal-export-to-calendar.error .error {
+.modal-export-to-calendar.error .error {
   color: #ff0000;
   display: block;
   font-weight: 500;
   padding-top: 3px;
 }
 
-#modal-export-to-calendar h4 {
+.modal-export-to-calendar h4 {
   font-size: 1.2em;
   margin-bottom: 3px;
 }
 
-#modal-export-to-calendar .feed-container {
+.modal-export-to-calendar .feed-container {
   background: #fff6ed;
   border: 1px dashed #b9b9b9;
   margin-top: 9px;
   padding: 7px;
 }
 
-#modal-export-to-calendar .feed-container p {
+.modal-export-to-calendar .feed-container p {
   margin: 0;
   word-wrap: break-word;
 }
 
-#modal-export-to-calendar .instructions {
+.modal-export-to-calendar .instructions {
   margin-top: 35px;
 }
 
-#modal-export-to-calendar .instructions h5 {
+.modal-export-to-calendar .instructions h5 {
   margin: 0 0 5px 0;
 }
 

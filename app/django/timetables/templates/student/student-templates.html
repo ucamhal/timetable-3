@@ -1,0 +1,50 @@
+{# Event popup #}
+<script type="text/template" id="js-templ-calendar-event-popup">
+  <div aria-hidden="true" class="alert alert-block clearfix calendarEventInfo dontDisplayMe">
+    <div class="arrow"></div>
+    <button type="button" class="close js-close" tabindex="-1">x</button>
+    <h5 class="js-course-title"></h5>
+    <span class="js-course-date-pattern"></span>
+    <br/>
+    <span class="js-course-location"></span>
+    <br/>
+    <span class="js-course-lecturer"></span>
+  </div>
+</script>
+
+{# Export to calendar dialog #}
+<script id="js-templ-export-to-calendar-dialog" type="text/template">
+  <div class="modal-body">
+    <a href="javascript:;" class="close" aria-hidden="true" data-dismiss="modal">&times;</a>
+    <h4>Get the iCal feed:</h4>
+    <div class="feed-container js-feed-container" tabindex="0">
+      <p><%= feedPath %></p>
+    </div>
+    <p class="pull-left error hide">Something went wrong, please try again later.</p>
+    <a href="javascript:;" role="button" <% if (state === "busy") { %>aria-disabled="true"<% } %> class="btn btn-link pull-right js-reset-feed"><i class="icon-refresh"></i> reset feed</a>
+
+    <div class="progress progress-striped active hide">
+      <div role="progressbar" class="bar" style="width: 66%;">Resetting feed...</div>
+    </div>
+
+    <div class="instructions">
+      <h5>Instructions for Google Calendar</h5>
+      <ol>
+        <li>Log into your <a href="https://www.google.com/calendar" target="_blank">Google Calendar</a></li>
+        <li>Click the arrow button next to "Other calendars" and select "Add by URL"</li>
+        <li>Copy and paste the link above into the "URL" box</li>
+        <li>Click "Add Calendar"</li>
+        <li>Your personal timetable is now displayed in your Google Calendar</li>
+      </ol>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" role="button" data-dismiss="modal" class="btn btn-primary" <% if (state === "busy") { %>aria-disabled="true"<% } %>>Close</a>
+  </div>
+</script>
+
+{# Not signed in error text #}
+<script id="js-templ-error-popup-not-signed-in-message" type="text/template">
+  Sign-in to see your timetable and make changes
+  <a href="{% url "login url" %}?next={% url "home" %}<%= selection %>" class="btn btn-success pull-right js-sign-in">Sign in</a>
+</script>
