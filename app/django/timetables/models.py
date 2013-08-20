@@ -1297,9 +1297,9 @@ class NestedSubject(Subject):
         return self.get_nested()
 
     def get_name_without_part(self):
-        return "{} ({})".format(
-            self.get_nested().fullname,
-            self.get_tripos().fullname
+        return "{} - {}".format(
+            self.get_tripos().fullname,
+            self.get_nested().fullname
         )
 
     def __unicode__(self):
