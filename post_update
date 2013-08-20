@@ -31,13 +31,13 @@ then
 fi
 
 # Find all settings modules that include base_non_local
-SETTINGS_MODULES=`grep -l '^from .base_non_local' app/django/timetables/settings/*.py | while read f ; do basename $f .py ; done | xargs echo`
+SETTINGS_MODULES=`grep -l '^from .base_non_local' $DIR/app/django/timetables/settings/*.py | while read f ; do basename $f .py ; done | xargs echo`
 
 # Check that the supplied argument matches one of them
 SETTINGS_MODULES_REGEXP=`echo $SETTINGS_MODULES | awk '{print "^\\\(" $0 "\\\)$" }' | sed -e 's/ /\\\|/g'`
 ARG_VALIDATION_MATCHES=`echo $1 | grep $SETTINGS_MODULES_REGEXP 2>/dev/null | wc -l`
 
-if [[ $ARG_VALIDATION_MATCHES != "1" ]]
+if [[ $ARG_VALIDATION_MATCHES -ne "1" ]]
 then
     echo "Error: Unknown deployment context: $1"
     echo "CONTEXT_NAME must be one of: $SETTINGS_MODULES"
