@@ -15,6 +15,17 @@ ul.yes-this-is-really-a-list {
 }
 
 /**
+ * Overwrite the default bootstrap outline color (#333) as that is the color of
+ * the background of the #inputArea and .footer containers.
+ */
+#inputArea select:focus,
+#inputArea a:focus,
+.footer a:focus {
+  outline: thin dotted invert;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+/**
  Class to hide elements for the screen. So they are only visible for screen
  readers.
  */
