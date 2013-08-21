@@ -76,24 +76,9 @@ define([
 
             apiRequest(userPath, fullpath, eventsourceId, eventId, crsf, function (error) {
                 if (error) {
-                    // If the error has no code (logged out of raven/shib or
-                    // network error) we shouldn't show them the login error.
-                    // The canary watcher will take care of showing the
-                    // appropriate message.
-                    if (error.code) {
-                        if (error.code !== 403) {
-                            // An unknown error has occured
-                            $("#errorModal").modal("show");
-                            return;
-                        } else if (!page.isUserLoggedIn()) {
-                            // If the error is a 403 and the page thinks the
-                            // user is logged in it means the session has
-                            // expired (if the user isn't doing something he 
-                            // isn't supposed to be doing). Canary will jump in
-                            // and show the appropriate error.
-                            // Otherwise we can just show the log in modal:
-                            this.showNotSignedInError($source);
-                        }
+                    // If the error has no code or the request returns 403 the
+                    // canary code will handle the error dialog.
+                    if (error.code && error.code !== 403) {
                         // An unknown error has occured
                         var errorDialog = dialogFactory.unknownError();
                         // Refocus the clicked add button when the error dialog
@@ -101,7 +86,6 @@ define([
                         self.listenTo(errorDialog, "close", function () {
                             focusHelper.focusTo($source);
                         });
-
                     }
                     // Stop executing the code
                     return;
@@ -256,13 +240,17 @@ define([
             api.getModulesList(fullpath, userPath, function (error, response) {
                 self.$(".js-modules-list").empty();
 
-                if (error && error.code) {
-                    var $focussedEl = $(document.activeElement),
-                        errorDialog = dialogFactory.unknownError();
-                    self.listenTo(errorDialog, "close", function () {
-                        focusHelper.focusTo($focussedEl);
-                    });
+                // Check this.associate for more info on this error handling
+                // pattern.
+                if (error) {
                     self.updateResultsText(self.generateResultsText());
+                    if (error.code && error.code !== 403) {
+                        var $focussedEl = $(document.activeElement),
+                            errorDialog = dialogFactory.unknownError();
+                        self.listenTo(errorDialog, "close", function () {
+                            focusHelper.focusTo($focussedEl);
+                        });
+                    }
                     return;
                 }
 

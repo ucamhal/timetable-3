@@ -1,9 +1,8 @@
 define([
     "jquery",
     "underscore",
-    "util/api",
-    "util/page"
-], function ($, _, api, page) {
+    "util/api"
+], function ($, _, api) {
     "use strict";
 
     var CanaryWatcher = function () {
