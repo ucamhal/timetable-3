@@ -1,0 +1,199 @@
+[
+    {
+        "fields": {
+            "date_joined": "2013-08-20T13:24:59.964Z",
+            "email": "geoff.martin@caret.cam.ac.uk",
+            "first_name": "",
+            "groups": [],
+            "is_active": true,
+            "is_staff": true,
+            "is_superuser": true,
+            "last_login": "2013-08-20T13:26:55.278Z",
+            "last_name": "",
+            "password": "pbkdf2_sha256$10000$z2KdWDWtuPIq$Kumo4I98cjEuKHtLeqUomY33kEQYnbce2EfyzieYEAA=",
+            "user_permissions": [],
+            "username": "admin"
+        },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "date_joined": "2013-08-20T13:27:14.927Z",
+            "email": "geoff.martin@caret.cam.ac.uk",
+            "first_name": "",
+            "groups": [],
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "last_login": "2013-08-20T13:39:38.872Z",
+            "last_name": "",
+            "password": "pbkdf2_sha256$10000$UR41BUQjZL1q$FaXMt5HDFdBQyxZ1e+gEHU4LsP3qGdTo/3MxDq33t/M=",
+            "user_permissions": [],
+            "username": "gcm23"
+        },
+        "model": "auth.user",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "user",
+            "fullpath": "user",
+            "name": "user",
+            "parent": null,
+            "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=",
+            "type": ""
+        },
+        "model": "timetables.thing",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "data": "{\"salt\": \"rVp9KCd41n__aJdMQzxyLBuWO08=\"}",
+            "fullname": "A Users Calendar",
+            "fullpath": "user/gcm23",
+            "name": "gcm23",
+            "parent": 1,
+            "pathid": "0w72RjWCozSW_qo6zKGwi0ZVmIY=",
+            "type": "user"
+        },
+        "model": "timetables.thing",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "tripos",
+            "fullpath": "tripos",
+            "name": "tripos",
+            "parent": null,
+            "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=",
+            "type": ""
+        },
+        "model": "timetables.thing",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "Test Tripos",
+            "fullpath": "tripos/test_tripos",
+            "name": "test_tripos",
+            "parent": 3,
+            "pathid": "5KKOT4j2EG4cDIX834LnhF0bPkA=",
+            "type": "tripos"
+        },
+        "model": "timetables.thing",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "Test Part",
+            "fullpath": "tripos/test_tripos/test_part",
+            "name": "test_part",
+            "parent": 4,
+            "pathid": "Ld5MXZ59TGY0YhQAsNZCuwK4s38=",
+            "type": "part"
+        },
+        "model": "timetables.thing",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "A Users Calendar",
+            "fullpath": "user/admin",
+            "name": "admin",
+            "parent": 1,
+            "pathid": "r3W9fA7UqsLEFbB_uaml8zVw2J4=",
+            "type": "user"
+        },
+        "model": "timetables.thing",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "data": "",
+            "fullname": "Test Module",
+            "fullpath": "tripos/test_tripos/test_part/test_module",
+            "name": "test_module",
+            "parent": 5,
+            "pathid": "zUcnAJXIv1CV_DDH2e9CQ-lBHWw=",
+            "type": "module"
+        },
+        "model": "timetables.thing",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "current": true,
+            "data": "{\"datePattern\": \"Mi1-2 Th 9\", \"location\": \"Lecture Room 1\", \"people\": [\"Prof C Lever\"]}",
+            "master": 1,
+            "sourcefile": "",
+            "sourcetype": "pattern",
+            "sourceurl": null,
+            "title": "Test Series",
+            "versionstamp": "2013-08-20T13:56:28.241Z"
+        },
+        "model": "timetables.eventsource",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "annotation": "home",
+            "eventsource": 1,
+            "thing": 7
+        },
+        "model": "timetables.eventsourcetag",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "annotation": null,
+            "eventsource": 1,
+            "thing": 2
+        },
+        "model": "timetables.eventsourcetag",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "current": true,
+            "data": "{\"type\": \"lecture\", \"people\": [\"Prof C Ļeveŕ\"]}",
+            "end": "2013-10-10T09:00:00Z",
+            "endtz": "Europe/London",
+            "location": "Lectűre Roōm 1",
+            "master": null,
+            "source": 1,
+            "start": "2013-10-10T08:00:00Z",
+            "starttz": "Europe/London",
+            "status": 0,
+            "title": "Evént 1",
+            "uid": "ba0373f6-a80f-4306-939a-b6233623e92d",
+            "versionstamp": "2013-08-20T13:56:57.247Z"
+        },
+        "model": "timetables.event",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "current": true,
+            "data": "{\"type\": \"lecture\", \"people\": [\"Prof C Lever\"]}",
+            "end": "2013-10-17T09:00:00Z",
+            "endtz": "Europe/London",
+            "location": "Lecture Room 1",
+            "master": null,
+            "source": 1,
+            "start": "2013-10-17T08:00:00Z",
+            "starttz": "Europe/London",
+            "status": 0,
+            "title": "Event 2",
+            "uid": "f3127b2f-5b68-4542-a66d-1a3fcf011f62",
+            "versionstamp": "2013-08-20T13:57:12.442Z"
+        },
+        "model": "timetables.event",
+        "pk": 2
+    }
+]
