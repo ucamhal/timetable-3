@@ -1544,7 +1544,19 @@ define([
                         $jeditableField.find("input, select, textarea").val(value).trigger("resize");
                     } else {
                         // Else just update the element's text
-                        fieldData.$el.text(fieldData.name === "type" ? fieldData.data()[value] : textValue);
+                        if (fieldData.name === "type") {
+                            // We have to fetch the presentational value if the
+                            // field is the type select box
+                            fieldData.$el.text(fieldData.data()[value]);
+                        } else {
+                            if (!textValue && fieldData.placeholder) {
+                                // If the value is empty, we should show the
+                                // placeholder if there is one available
+                                fieldData.$el.text(fieldData.placeholder);
+                            } else {
+                                fieldData.$el.text(textValue);
+                            }
+                        }
                     }
 
                     // Also update the data-value attribute on the field element

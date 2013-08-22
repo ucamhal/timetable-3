@@ -10,6 +10,11 @@ define([
             var $textarea = $("textarea", this);
             // Enable autogrow + add maxlength support
             $textarea.attr("maxlength", settings.maxLength).autosize(settings.autosize);
+
+            if (settings.placeholder) {
+                $textarea.attr("placeholder", settings.placeholder);
+            }
+
             $(this).parents(".js-field").addClass("being-edited").removeAttr("tabindex");
         }
     }));
