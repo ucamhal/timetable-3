@@ -126,7 +126,9 @@ define([
         },
 
         resize: function () {
-            this.calendar.eventPopup.updatePosition();
+            if (this.fullCalendarView.eventPopup) {
+                this.calendar.eventPopup.updatePosition ();
+            }
         }
     });
 
