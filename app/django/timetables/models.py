@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core import exceptions
 from django.db import models, connection
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, pre_delete
 from django.utils import decorators
 from django.utils import simplejson as json
 from django.utils import timezone
@@ -79,6 +79,15 @@ class PostSaveMixin(object):
     @classmethod
     def handle_post_save_signal(cls, instance=None, **kwargs):
         instance.on_post_save(instance=instance, **kwargs)
+
+
+class PreDeleteMixin(object):
+    def on_pre_delete(self, **kwargs):
+        pass
+
+    @classmethod
+    def handle_pre_delete_signal(cls, instance=None, **kwargs):
+        instance.on_pre_delete(instance=instance, **kwargs)
 
 
 class AnnotationModel(models.Model):
@@ -305,7 +314,7 @@ class SchemalessModel(models.Model):
         self.metadata = instance.metadata
 
 
-class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
+class Thing(CleanModelMixin, PostSaveMixin, PreDeleteMixin, SchemalessModel, HierachicalModel):
     '''
     I have no idea what I should call this, Node, Name, Category, Noun... so I am choosing a Thing.
     This is the "Language with which we refer to events."
@@ -441,6 +450,19 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
             # This acts recursively to update all descendents
             self.update_child_paths()
 
+    def on_pre_delete(self, **kwargs):
+        """
+        Check whether the Thing is a module, if so delete its child series
+        (series' events cascade).
+        """
+        super(Thing, self).on_pre_delete(**kwargs)
+
+        if(self.type == "module"):
+            # delete series - cascades to Event and EventSourceTag tables
+            EventSource.objects.filter(
+                eventsourcetag__thing=self,
+                eventsourcetag__annotation="home").delete()
+
     def update_child_paths(self):
         """
         Update the fullpaths of this Thing to reflect it's current fullpath.
@@ -476,6 +498,7 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
 
 pre_save.connect(Thing.handle_pre_save_signal, sender=Thing)
 post_save.connect(Thing.handle_post_save_signal, sender=Thing)
+pre_delete.connect(Thing.handle_pre_delete_signal, sender=Thing)
 
 
 def clean_string(txt):
