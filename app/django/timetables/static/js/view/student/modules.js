@@ -87,13 +87,14 @@ define([
                             focusHelper.focusTo($source);
                         });
                     }
+                    // Remove the saving state so modules can be removed/added again
+                    self.isSaving(false);
                     // Stop executing the code
                     return;
                 }
 
                 self.updateButtonStates($source);
                 _.dispatchEvent(self, "timetableUpdated");
-                // Remove the saving state so modules can be removed/added again
                 self.isSaving(false);
             });
         },
