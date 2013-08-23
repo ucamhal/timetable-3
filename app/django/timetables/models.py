@@ -366,9 +366,15 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
     def get_events(self, depth=1, date_range=None):
         events = Event.objects.filter(
             current=True,
-            status=Event.STATUS_LIVE,
-            source__eventsourcetag__thing=self
+            status=Event.STATUS_LIVE
         )
+
+        if depth == 1:
+            events = events.filter(source__eventsourcetag__thing=self)
+        elif depth == 2:
+            events = events.filter(source__eventsourcetag__thing__parent=self)
+        else:
+            raise NotImplementedError("Depth not supported: {}".format(depth))
 
         if date_range != None:
             start = date_range[0]
@@ -376,10 +382,6 @@ class Thing(CleanModelMixin, PostSaveMixin, SchemalessModel, HierachicalModel):
             # Filter just on start rather than start and end so that we
             # can use a single index to satisfy the query.
             events = events.filter(start__gte=start, start__lte=end)
-            
-        # depth 2
-        if depth == 2:
-            raise NotImplementedError
 
         return events
 

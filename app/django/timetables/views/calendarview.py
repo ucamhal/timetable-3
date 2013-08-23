@@ -26,6 +26,8 @@ class CalendarView(View):
     '''
     Renders a json stream suitable for use in the calendar.
     '''
+
+    default_depth = 1
     
     def to_fullcalendar(self, event):
         metadata = event.metadata
@@ -62,12 +64,27 @@ class CalendarView(View):
 
     def validate_permissions(self):
         thing = self.get_thing_fullpath()
+
+        # Don't allow listing the user thing, otherwise depth=2 gives you
+        # everyone's calendar! :D
+        if thing == "user":
+            raise PermissionDenied
+
         user = self.request.user
         if not user.has_perm(Thing.PERM_READ,ThingSubject(fullpath=thing)):
-            return HttpResponseForbidden("Denied")
+            raise PermissionDenied
 
     def get_thing_fullpath(self):
         return self.kwargs["thing"]
+
+    def get_depth(self):
+        try:
+            depth = int(self.request.GET["depth"])
+            # Only allow depth=1 or depth=2
+            if depth in [1, 2]:
+                return depth
+        except (ValueError, KeyError):
+            return self.default_depth
 
     def __get_thing(self):
         try:
@@ -90,7 +107,7 @@ class CalendarView(View):
         return get_request_range(self.request.GET)
 
     def get_events(self):
-        return self.get_thing().get_events(depth=1,
+        return self.get_thing().get_events(depth=self.get_depth(),
                                            date_range=self.get_date_range())
 
     def get_json(self):
