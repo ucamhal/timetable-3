@@ -17,11 +17,20 @@
 
 {% block locked_alert %}
 {% if can_edit and lock_holder and request.user.username !=  lock_holder.name %}
-<div class="alert alert-error being-edited-alert fade in">
+<div class="alert alert-error timetable-alert fade in">
 	You can't edit this timetable because <strong>{{ lock_holder.name }}</strong> is editing it.
 </div>
 {% endif %}
 {% endblock locked_alert %}
+
+
+{% block disabled_alert %}
+{% if thing.is_disabled %}
+<div class="alert alert-error timetable-alert fade in">
+  This timetable is currently disabled, students won't see the information on this page.
+</div>
+{% endif %}
+{% endblock disabled_alert %}
 
 <!--
 <div id="termHolder">

@@ -65,3 +65,10 @@ class EventSourceTagManager(QuerySetManager):
 
     def editable_by(self, username):
         return self.all().editable_by(username)
+
+
+class ThingManager(QuerySetManager):
+    querySet = querysets.ThingQuerySet
+
+    def is_disabled(self):
+        return self.all().is_disabled()

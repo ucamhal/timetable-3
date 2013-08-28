@@ -216,22 +216,19 @@ define([
          * modules panel list.
          */
         generateResultsText: function () {
-            var $things = this.$(".js-modules-list > li:not(.links)"),
-                thingsLength = $things.length,
-                thingType = "modules",
-                resultsText = "Found no results";
+            var $series = this.$(".js-modules-list > .js-series"),
+                $modules = this.$(".js-modules-list > .js-module"),
+                itemType;
 
-            if (thingsLength && !$things.first().hasClass("js-links")) {
-                if ($things.first().hasClass("js-series")) {
-                    thingType = "series";
-                } else if (thingsLength === 1) {
-                    thingType = "module";
-                }
-
-                resultsText = "Found " + thingsLength + " " + thingType;
+            if($series.length) {
+                return "Found " + $series.length + " series";
             }
-
-            return resultsText;
+            else if($modules.length) {
+                // Note that you can't actually get 1 module ;p
+                itemType = $modules.length === 1 ? "module" : "modules";
+                return "Found " + $modules.length + " " + itemType;
+            }
+            return "Found no results";
         },
 
         updateList: function (fullpath) {

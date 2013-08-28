@@ -67,3 +67,19 @@ class EventSourceQuerySet(query.QuerySet):
             eventsourcetag__thing__parent__relatedthing__annotation="admin",
             eventsourcetag__thing__parent__relatedthing__thing__name=username,
         )
+
+
+class ThingQuerySet(query.QuerySet):
+
+    disabled_annotation = "disabled"
+
+    def is_disabled(self):
+        """
+        Filters the queryset to contain only Things which have not been
+        marked as disabled. Disabled Things have a ThingTag pointing from
+        themselves to themselves w/ annotation "disabled".
+        """
+        return self.filter(
+            thingtag__annotation=self.disabled_annotation,
+            thingtag__targetthing_id=models.F("id")
+        )

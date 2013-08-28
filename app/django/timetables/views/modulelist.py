@@ -148,6 +148,16 @@ class SubjectsModuleListView(TemplateView):
         links.sort(key=get_natural_key(lambda l: l["name"].lower()))
         return links
 
+    def get_disabled_subject_thing(self):
+        try:
+            return (
+                Thing.objects
+                    .is_disabled()
+                    .get(pathid=self.get_subject_pathid())
+            )
+        except Thing.DoesNotExist:
+            return None
+
     def get_context_data(self, **kwargs):
         context = super(SubjectsModuleListView, self).get_context_data(
             **kwargs)
@@ -165,6 +175,9 @@ class SubjectsModuleListView(TemplateView):
         modules_in_calendar = self.get_modules_in_calendar(
             series_by_module, series_in_calendar)
 
+        disabled_subject = self.get_disabled_subject_thing()
+
+        context["disabled_subject"] = disabled_subject
         context["series_in_calendar"] = series_in_calendar
         context["modules_in_calendar"] = modules_in_calendar
         context["series_by_module"] = series_by_module

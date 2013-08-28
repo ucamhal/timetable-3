@@ -3,8 +3,14 @@ from django.contrib import admin
 
 from timetables.admin.eventsource import EventSourceAdmin
 from timetables.admin.thing import ThingAdmin
-from timetables.models import (Thing, EventSource, Event, EventTag,
-        EventSourceTag)
+from timetables.models import (
+    Thing,
+    ThingTag,
+    EventSource,
+    Event,
+    EventTag,
+    EventSourceTag
+)
 
 from django_cam_auth_utils.admin import DefaultSiteLoginPageAdminSite
 
@@ -27,9 +33,10 @@ class EventAdmin(admin.ModelAdmin):
 
 
 class EventTagAdmin(admin.ModelAdmin):
-    list_display = ("list_display_fullpath", "list_display_title", "list_display_location")
+    list_display = ("thing", "event", "list_display_fullpath", "list_display_title", "list_display_location")
     search_fields = ("thing__fullpath", "event__title", "event__location")
     list_select_related = True
+    list_filter =   ("annotation",)
 
     def list_display_fullpath(self, obj):
         return obj.thing.fullpath
@@ -42,21 +49,23 @@ class EventTagAdmin(admin.ModelAdmin):
 
 
 class EventSourceTagAdmin(admin.ModelAdmin):
-    list_display = ("list_display_fullpath", "list_display_title")
+    list_display = ("thing", "eventsource")
     search_fields = ("thing__fullpath", "eventsource__title")
     list_select_related = True
-    
-    def list_display_fullpath(self, obj):
-        return obj.thing.fullpath
+    list_filter =   ("annotation",)
 
-    def list_display_title(self, obj):
-        return obj.eventsource.title
+
+class ThingTagAdmin(admin.ModelAdmin):
+    list_display = ("thing", "targetthing", "annotation")
+    list_filter =   ("annotation",)
+    raw_id_fields = ("thing", "targetthing")
 
 
 # Register the default Django models (User, Group etc)
 site.register_django_default_apps()
 
 site.register(Thing, ThingAdmin)
+site.register(ThingTag, ThingTagAdmin)
 site.register(EventSource, EventSourceAdmin)
 site.register(Event, EventAdmin)
 site.register(EventTag, EventTagAdmin)

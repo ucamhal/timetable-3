@@ -64,6 +64,8 @@ class ThingAdminForm(forms.ModelForm):
         
         try:
             json.loads(self.cleaned_data["data"])
+        except ValueError as e:
+            raise ValidationError("Invalid JSON data: {}".format(e))
         except Exception as e:
             raise ValidationError(e.message)
         return self.cleaned_data["data"]

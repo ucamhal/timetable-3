@@ -30,3 +30,12 @@ hard to see what was changed.
 ### Git
 Ensure you line wrap your git commit messages. 
 [Here's some good advice](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+
+## Usage Notes
+
+### Deactivating a subject(/timetable/part)
+
+To deactivate a subject (e.g. tripos/asnc/I ) you create a ThingTag
+from the subject's Thing (the Thing with modules as children) to itself
+with annotation "disabled". You should also add the URL of the subject's
+website to its Thing's data JSON object against the key `"external_website_url"`.

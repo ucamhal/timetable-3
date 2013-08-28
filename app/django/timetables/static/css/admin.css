@@ -702,13 +702,13 @@ a.addModule {
   margin: 0;
 }
 
-.being-edited-alert {
+.timetable-alert {
   position: static;
   box-shadow: none;
   margin-bottom: 30px;
 }
 
-.being-edited-alert a {
+.timetable-alert a {
   color: #B94A48;
 }
 

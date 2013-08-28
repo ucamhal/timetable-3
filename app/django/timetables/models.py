@@ -335,7 +335,9 @@ class Thing(CleanModelMixin, PostSaveMixin, PreDeleteMixin, SchemalessModel, Hie
     If we want to apply permissions, they should be applied to Things.
     Probably in a separate Hierarchical model, where the permission is resolved hierarchically.
     '''
-    
+
+    objects = managers.ThingManager()
+
     # global Django permission to allow an individual user to be given admin permissions
     class Meta:
         permissions = (
@@ -494,7 +496,17 @@ class Thing(CleanModelMixin, PostSaveMixin, PreDeleteMixin, SchemalessModel, Hie
             name = short_base_name[:max_len - len(num)] + num
             assert len(name) <= max_len
 
+    def get_external_website_url(self):
+        return self.metadata.get("external_website_url")
 
+    def as_subject(self):
+        if self.type == "part":
+            return PartSubject(self.parent, self)
+        elif self.type in NestedSubject.NESTED_SUBJECT_TYPES:
+            return NestedSubject(self.parent.parent, self.parent, self)
+
+    def is_disabled(self):
+        return Thing.objects.filter(pk=self.pk).is_disabled().exists()
 
 pre_save.connect(Thing.handle_pre_save_signal, sender=Thing)
 post_save.connect(Thing.handle_post_save_signal, sender=Thing)

@@ -514,6 +514,10 @@ div#results > ul {
   margin: 0 0 0 36px;
 }
 
+#results .disabled-subject {
+  margin: 1.5em;
+}
+
 
 div#results.empty p {
   border-style: dashed;
