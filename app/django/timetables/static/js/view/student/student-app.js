@@ -4,12 +4,13 @@ define([
     "backbone",
     "view/student/modules",
     "view/modules-selector",
-    "view/admin/calendar",
-    "util/dialog-factory-student",
+    "view/calendar",
+    "view/date-spinner",
     "model/calendarModel",
+    "util/dialog-factory-student",
     "util/focus-helper",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, ModulesSelector, Calendar, dialogFactory, CalendarModel, focusHelper) {
+], function ($, _, Backbone, Modules, ModulesSelector, FullCalendarView, DateSpinner, CalendarModel, dialogFactory, focusHelper) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -111,22 +112,22 @@ define([
                 end: calendarEnd
             });
 
-            this.fullCalendarView = new Calendar.FullCalendarView({
+            this.fullCalendarView = new FullCalendarView({
                 el: ".js-calendar",
                 eventsFeed: this.getThingPath() + ".cal.json",
                 defaultView: "agendaWeek",
                 firstDay: 4
             });
 
-            this.weekSpinner = new Calendar.DateSpinner({
+            this.weekSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-agendaWeek"
             });
 
-            this.termSpinner = new Calendar.DateSpinner({
+            this.termSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-term"
             });
 
-            this.monthSpinner = new Calendar.DateSpinner({
+            this.monthSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-month"
             });
         },

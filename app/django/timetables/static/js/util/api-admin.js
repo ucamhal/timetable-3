@@ -1,7 +1,8 @@
 define([
     "jquery",
+    "underscore",
     "util/api"
-], function ($, api) {
+], function ($, _, api) {
     "use strict";
 
     var doAjax = api.doAjax;
@@ -71,7 +72,7 @@ define([
         doAjax(url, type, data, callback);
     };
 
-    return {
+    return _.extend(api, {
         addThingLink: addThingLink,
         removeThingLink: removeThingLink,
         getEvents: getEvents,
@@ -80,5 +81,5 @@ define([
         deleteModule: deleteModule,
         getTimetablesLockStatuses: getTimetablesLockStatuses,
         refreshLock: refreshLock
-    };
+    });
 });

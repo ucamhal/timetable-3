@@ -2,11 +2,12 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "view/admin/calendar",
+    "view/calendar",
+    "view/date-spinner",
     "model/calendarModel",
     "bootstrap",
     "fullcalendar"
-], function($, _, Backbone, Calendar, CalendarModel) {
+], function($, _, Backbone, FullCalendarView, DateSpinner, CalendarModel) {
     "use strict";
 
     var TimetableCalendar = Backbone.View.extend({
@@ -33,18 +34,18 @@ define([
                 end: calendarEnd
             });
 
-            this.calendar = new Calendar.FullCalendarView({
+            this.calendar = new FullCalendarView({
                 el: $(".js-calendar"),
                 defaultView: "agendaWeek",
                 firstDay: 4,
                 eventsFeed: $(".js-calendar").data("events-url")
             });
 
-            this.weekSpinner = new Calendar.DateSpinner({
+            this.weekSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-week"
             });
 
-            this.termSpinner = new Calendar.DateSpinner({
+            this.termSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-term"
             });
 

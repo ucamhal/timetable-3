@@ -13,7 +13,8 @@ from timetables.views.exportevents import ExportEvents
 from timetables.views.indexview import IndexView
 from timetables.views.linkthing import LinkThing
 from timetables.views.viewevents import ViewEvents
-from timetables.views.viewthing import ViewThing, ChildrenView
+from timetables.views.viewthing import ViewThing, ChildrenView,\
+    SeriesSubjectTitle
 from timetables.views.canary import CanaryView
 from timetables.views.modulelist import SubjectsModuleListView
 from timetables.views import static
@@ -178,6 +179,10 @@ urlpatterns = patterns(
         ResetFeed.as_view(),
         name="thing calendar reset"),
 
+    # get series' subject title for calendar event popup
+    url(r'^series/(?P<series_id>\d+)/subject$',
+        SeriesSubjectTitle.as_view(),
+        name="series subject title"),
 
     # Update service end points
     url(r'(?P<thing>.*)\.link$',

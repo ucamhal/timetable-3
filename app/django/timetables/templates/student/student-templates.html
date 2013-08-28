@@ -1,15 +1,22 @@
 {# Event popup #}
 <script type="text/template" id="js-templ-calendar-event-popup">
-  <div aria-hidden="true" class="alert alert-block clearfix calendarEventInfo dontDisplayMe">
-    <div class="arrow"></div>
-    <button type="button" class="close js-close" tabindex="-1">x</button>
-    <h5 class="js-course-title"></h5>
-    <span class="js-course-date-pattern"></span>
+  <div class="arrow"></div>
+  <button type="button" class="close js-close" tabindex="-1">x</button>
+  <h5><%= title %></h5>
+  <span><%= datePattern %></span>
+  <br/>
+  <span><%= location %></span>
+  <br/>
+  <span><%= lecturers %></span>
+  <% if (subjectTitle) { %>
     <br/>
-    <span class="js-course-location"></span>
-    <br/>
-    <span class="js-course-lecturer"></span>
-  </div>
+    <span>Belongs to <%= subjectTitle %></span>
+  <% } %>
+  <% if (state === "loading") { %>
+    <div class="progress progress-striped active">
+      <div role="progressbar" class="bar" style="width: 100%;">Fetching subject...</div>
+    </div>
+  <% } %>
 </script>
 
 {# Export to calendar dialog #}

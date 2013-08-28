@@ -33,8 +33,15 @@ define([
         doAjax(url, type, undefined, callback, global);
     };
 
+    var getSeriesSubject = function getSeriesSubject(seriesId, callback) {
+        var url = "/series/" + encodeURIComponent(seriesId) + "/subject",
+            type = "get";
+        doAjax(url, type, undefined, callback);
+    };
+
     return {
         doAjax: doAjax,
-        checkCanaryStillAlive: checkCanaryStillAlive
+        checkCanaryStillAlive: checkCanaryStillAlive,
+        getSeriesSubject: getSeriesSubject
     };
 });

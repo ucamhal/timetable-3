@@ -17,6 +17,7 @@ import json
 from django.test import TestCase
 
 from timetables.models import Thing, Subjects, EventSource, Event
+from timetables.views.viewthing import SeriesSubjectTitle
 
 
 class SubjectTest(TestCase):
@@ -150,5 +151,16 @@ class SeriesEventTest(TestCase):
         self.assertEqual(data["datePattern"], "Le3-4 F 9 ; Le6 Th 9", "datePattern should be 'Le3-4 F 9 ; Le6 Th 9'")
         self.assertEqual(data["location"], "Lecture Hall 1", "Location should be 'Lecture Hall 1'")
         self.assertEqual(set(data["people"]), set(["Prof V Bright", "Dr N O Brain"]), "Lecturers do not match")
-        
-        
+
+
+class SeriesSubjectTitleTest(TestCase):
+    # Load test data from the following fixture
+    fixtures = ("test_ical.json",)
+    
+    def test_series_subject_title(self):
+        """
+        Fetching series subject title returns expected title.
+        """
+        s = SeriesSubjectTitle()
+        response = s.get(request=None, series_id=1).content
+        self.assertJSONEqual(response, '{"subject": "Test Tripos Test Part"}')

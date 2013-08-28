@@ -1,21 +1,28 @@
 {# Event popup #}
 <script type="text/template" id="js-templ-calendar-event-popup">
-  <div class="alert alert-block clearfix calendarEventInfo js-calendar-popup dontDisplayMe">
-    <div class="arrow"></div>
-    <button type="button" class="close js-close">x</button>
-    <h5 class="js-course-title"></h5>
-    <span class="js-course-date-pattern"></span>
+  <div class="arrow"></div>
+  <button type="button" class="close js-close">x</button>
+  <h5><%= title %></h5>
+  <span><%= datePattern %></span>
+  <br/>
+  <span><%= location %></span>
+  <br/>
+  <span><%= lecturers %></span>
+  <% if (subjectTitle) { %>
     <br/>
-    <span class="js-course-location"></span>
-    <br/>
-    <span class="js-course-lecturer"></span>
-    <ul class="clearfix actions">
-      <li class="pull-left"><a href="#" class="js-close">Close</a></li>
-      {% if may_edit %}
-        <li class="pull-right"><a href="#" class="btn js-edit" data-base-url="{% url "admin list write" thing %}" >View in edit mode</a></li>
-      {% else %}
-        <li class="pull-right"><a href="#" class="js-edit" data-base-url="{% url "admin list read" thing %}" >See in list view</a></li>
-      {% endif %}
-    </ul>
-  </div>
+    <span>Belongs to <%= subjectTitle %></span>
+  <% } %>
+  <% if (state === "loading") { %>
+    <div class="progress progress-striped active">
+      <div role="progressbar" class="bar" style="width: 100%;">Fetching subject...</div>
+    </div>
+  <% } %>
+  <ul class="clearfix actions">
+    <li class="pull-left"><a href="#" class="js-close">Close</a></li>
+    {% if may_edit %}
+      <li class="pull-right"><a href="{% url "admin list write" thing %}#expand=<%= seriesId %>&highlight=<%= id %>" class="btn">View in edit mode</a></li>
+    {% else %}
+      <li class="pull-right"><a href="{% url "admin list read" thing %}#expand=<%= seriesId %>&highlight=<%= id %>" >See in list view</a></li>
+    {% endif %}
+  </ul>
 </script>

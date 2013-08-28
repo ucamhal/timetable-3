@@ -1,18 +1,23 @@
 '''
 Created on Oct 18, 2012
+Updated on 2013-08-27
 
-@author: ieb
+@author: ieb, gcm23
 '''
+import json
+import logging
+
 from operator import itemgetter
 
 from django.db import models
 from django.http import HttpResponseNotFound, HttpResponseBadRequest,\
-    HttpResponseForbidden
+    HttpResponseForbidden, HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import View
 from timetables.backend import ThingSubject
-from timetables.models import Thing, EventSource, ThingTag, sorted_naturally
+from timetables.models import Thing, EventSource, EventSourceTag, ThingTag, sorted_naturally
 
+log = logging.getLogger(__name__)
 
 class ViewThing(View):
     '''
@@ -135,3 +140,40 @@ class ChildrenView(View):
             return render(request, "student/modules-list/base.html", context)
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
+
+class SeriesSubjectTitle(View):
+    """
+    Used to retrieve the title of the identified EventSource (series)
+    """
+
+    def get(self, request, series_id):
+        # get the Thing data
+        tags = EventSourceTag.objects.\
+            filter(eventsource=series_id, annotation="home").\
+            prefetch_related("thing", "thing__parent", "thing__parent__parent",
+            "thing__parent__parent__parent")[:2] # eek :s
+
+        # return 404 if not found
+        if len(tags) == 0:
+            return HttpResponseNotFound()
+
+        # log if we have more than one hit
+        if len(tags) > 1:
+            log.warning("Series with id %s has multiple parent Things",
+                        series_id)
+
+        # get the title
+        thing = tags[0].thing.parent.parent
+        if thing.type == "tripos": # we have Tripos
+            tripos = thing
+            part = tags[0].thing.parent
+        else: # we have Part
+            part = thing
+            tripos = tags[0].thing.parent.parent.parent
+
+        response = {
+            "subject": tripos.fullname + " " + part.fullname,
+            "series_id": series_id
+        }
+
+        return HttpResponse(json.dumps(response), mimetype="application/json")

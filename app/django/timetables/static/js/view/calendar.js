@@ -2,135 +2,12 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "fullcalendar",
-    "util/underscore-mixins"
-], function ($, _, Backbone) {
+    "view/calendar-event-popup",
+    "fullcalendar"
+], function ($, _, Backbone, CalendarEventPopup) {
     "use strict";
 
-    var CalendarEventPopup = Backbone.View.extend({
-        events: {
-            "click .js-close" : "onClose"
-        },
-
-        positionMutators: {
-            leftOffset: 10,
-            topOffset: 0,
-            contentWidth: 960
-        },
-
-        initialize: function (opts) {
-            this.positionMutators.leftOffset = opts.leftOffset || this.positionMutators.leftOffset;
-            this.positionMutators.topOffset = opts.topOffset || this.positionMutators.topOffset;
-            this.positionMutators.contentWidth = opts.contentWidth || this.positionMutators.contentWidth;
-            this.shown = false;
-            this.$context = opts.$context;
-            this.$el.appendTo("body");
-        },
-
-        /**
-         * Event handler when a close button has been clicked. Hides the popup 
-         * element.
-         */
-        onClose: function (event) {
-            this.toggle(false);
-            event.preventDefault();
-        },
-
-        /**
-         * Updates the element markup to display the current values in the 
-         * eventData property
-         */
-        render: function () {
-            this.$(".js-course-title").text(this.eventData.title || "")
-                .removeClass()
-                .addClass("js-course-title");
-            this.$(".js-course-date-pattern").text(
-                this.eventData.datePattern || ""
-            );
-            this.$(".js-course-location").text(this.eventData.location || "");
-            this.$(".js-course-lecturer").text(this.eventData.lecturers || "");
-            this.$(".js-edit").attr("href", this.$(".js-edit").data("base-url")
-                + "#expand=" + this.eventData.seriesId
-                + "&highlight=" + this.eventData.id);
-        },
-
-        /**
-         * Updates the eventData property from a fullCalendar CalEvent
-         * @param {object} calEvent The fullCalendar calEvent object.
-         */
-        setEventDataFromCalEvent: function (calEvent) {
-            this.eventData = {
-                id: calEvent.djid,
-                title: calEvent.title,
-                datePattern: _.getFullDayFromDate(calEvent._start) + " "
-                    + _.getTwelveHourTimeFromDate(calEvent._start),
-                location: calEvent.location,
-                lecturers: calEvent.lecturer.toString(),
-                type: calEvent.type,
-                seriesId: parseInt(calEvent.eventSourceId, 10)
-            };
-        },
-
-        /**
-         * This updates the position of the popup element
-         */
-        updatePosition: function () {
-            if (this.$context instanceof $) {
-                var position = {
-                        top: this.$context.offset().top - (this.$el.outerHeight() / 2
-                            - this.$context.outerHeight() / 2)
-                            + this.positionMutators.topOffset,
-                        left: this.$context.offset().left
-                            + this.$context.outerWidth()
-                            + this.positionMutators.leftOffset
-                    },
-                    contentBoundary = this.positionMutators.contentWidth
-                        + Math.max(($(window).width()
-                        - this.positionMutators.contentWidth) / 2, 0),
-                    isOutsideBoundary = position.left + this.$el.outerWidth()
-                        >= contentBoundary;
-
-                if (isOutsideBoundary === true) {
-                    position.left = (this.$context.offset().left
-                        - this.$el.outerWidth())
-                        - this.positionMutators.leftOffset;
-                }
-
-                this.$el.toggleClass("js-positioned-left", isOutsideBoundary);
-                this.$el.css(position);
-            }
-        },
-
-        getPosition: function () {
-            return {
-                top: this.$el.offset().top + this.$el.outerHeight() / 2,
-                left: this.$el.offset().left
-            };
-        },
-
-        /**
-         * Toggles the event popup.
-         * Can implicitly show/hide by giving true/false along with the context.
-         */
-        toggle: function (show, $context) {
-            show = typeof show === undefined ? !this.shown : show;
-            if (show !== this.shown || ($context !== this.$context && show === true)) {
-                if (show) {
-                    this.$el.show();
-                    this.$context = $context;
-                    this.updatePosition();
-                } else {
-                    this.$el.hide();
-                    this.$context = undefined;
-                }
-
-                this.shown = show;
-            }
-        }
-    });
-
     var FullCalendarView = Backbone.View.extend({
-
         initialize: function () {
             var self = this;
 
@@ -268,7 +145,7 @@ define([
                 this.createEventPopup();
             }
 
-            this.eventPopup.setEventDataFromCalEvent(calEvent);
+            this.eventPopup.setModelFromCalEvent(calEvent);
             this.eventPopup.render();
             this.eventPopup.toggle(true, $el);
         },
@@ -279,9 +156,9 @@ define([
          */
         createEventPopup: function () {
             this.eventPopup = new CalendarEventPopup({
-                el: $("#js-templ-calendar-event-popup").clone().html(),
                 $context: this.$el
             });
+            $("body").append(this.eventPopup.$el);
         },
 
         /**
@@ -352,64 +229,5 @@ define([
         }
     });
 
-    var DateSpinner = Backbone.View.extend({
-        initialize: function () {
-            _.bindAll(this);
-
-            this.model = new Backbone.Model({
-                next: true,
-                prev: true,
-                value: undefined
-            });
-
-            this.$label = this.$(".js-value");
-            this.bindEvents();
-        },
-
-        set: function (data) {
-            this.model.set(data);
-        },
-
-        bindEvents: function () {
-            this.listenTo(this.model, "change", this.render);
-        },
-
-        render: function () {
-            this.updateLabel();
-            this.updateButtons();
-        },
-
-        updateLabel: function () {
-            this.$label.text(this.model.get("value"));
-        },
-
-        updateButtons: function () {
-            this.$(".js-prev").toggleClass("disabled", !this.model.get("prev"));
-            this.$(".js-next").toggleClass("disabled", !this.model.get("next"));
-        },
-
-        events: {
-            "click .js-prev": "onClickPrevious",
-            "click .js-next": "onClickNext"
-        },
-
-        onClickPrevious: function (event) {
-            if (this.model.get("prev")) {
-                this.trigger("prev");
-            }
-            event.preventDefault();
-        },
-
-        onClickNext: function (event) {
-            if (this.model.get("next")) {
-                this.trigger("next");
-            }
-            event.preventDefault();
-        }
-    });
-
-    return {
-        FullCalendarView: FullCalendarView,
-        DateSpinner: DateSpinner
-    };
+    return FullCalendarView;
 });
