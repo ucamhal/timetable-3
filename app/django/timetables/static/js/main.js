@@ -10,6 +10,7 @@ require.config({
         bootstrapTypeahead: "libs/bootstrap-plugins/bootstrap-typeahead",
         fullcalendar: "libs/fullcalendar"
     },
+    waitSeconds: 20,
     shim: {
         jquery: {
             exports: "$"
