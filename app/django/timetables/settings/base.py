@@ -41,6 +41,10 @@ THING_FORMS = {
 # If false, a testing url will be used.
 ENABLE_RAVEN=False
 
+# The HTTP header which contains the username of the logged in user after
+# a raven/shib authentication exchange.
+REMOTE_USER_HEADER = "REMOTE_USER"
+
 # This url is where feeback from users to the application is sent.
 FEEDBACK_URL = "http://feedback.caret.cam.ac.uk/project/timetables"
 
