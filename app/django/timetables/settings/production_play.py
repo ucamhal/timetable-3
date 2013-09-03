@@ -13,7 +13,7 @@ ALLOWED_HOSTS = [
 
 WSGI_APPLICATION = "timetables.wsgi.production_play.application"
 
-GOOGLE_ANALYTICS_ID = "UA-__addthis__"
+GOOGLE_ANALYTICS_ID = "UA-43714583-2"
 
 # Use the beta banner
 IS_PLAY_SITE = True

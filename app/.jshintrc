@@ -17,6 +17,7 @@
     "globals": {
         "require": false,
         "define": false,
-        "escape": false
+        "escape": false,
+        "ga": false
     }
 }

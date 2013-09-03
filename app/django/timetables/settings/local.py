@@ -81,3 +81,5 @@ LOGGING = {
 }
 
 ALLOWED_HOSTS = ["localhost"]
+
+GOOGLE_ANALYTICS_ID = "UA-43714583-5"

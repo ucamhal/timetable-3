@@ -22,8 +22,11 @@
   {# Add the play-site class if this is a Timetable play-site #}
   <body id="{% block bodyid %}student{% endblock %}" {% if is_play_site %}class="play-site"{% endif %}>
 
+    {% block ga_info %}
+    {% endblock ga_info %}
+
     {% block userinfo %}
-      <div id="userinfo" style="display:none" data-logged-in="{% if user_logged_in %}true{% else %}false{% endif %}" data-userid="{% if user_logged_in %}{{ user_username }}{% else %}public{% endif %}" data-userrole="{{ user_role }}" class="dontDisplayMe">
+      <div id="userinfo" class="hide" data-logged-in="{% if user_logged_in %}true{% else %}false{% endif %}" data-userid="{% if user_logged_in %}{{ user_username }}{% else %}public{% endif %}" data-userrole="{{ user_role }}">
           {# used for ajax post operations, I prefer this to the cookie method. #}
           {% csrf_token %}
       </div>

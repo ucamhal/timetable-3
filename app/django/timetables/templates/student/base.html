@@ -4,6 +4,10 @@
 
 {% block javascript_index %}index-student{% endblock javascript_index %}
 
+{% block ga_info %}
+<div class="hide js-ga-info" data-id="{{ google_analytics_id }}"></div>
+{% endblock ga_info %}
+
 {% block top_bar %}
 <div id="inputArea">
   <div class="clearfix js-modules-selector">

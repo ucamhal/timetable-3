@@ -4,7 +4,8 @@ define([
     "view/cookieHandler",
     "util/canary-watcher",
     "util/dialog-factory-student",
-    "util/page"
+    "util/page",
+    "util/google-analytics-handler"
 ], function(Backbone, studentApp, CookieHandler, canaryWatcher, dialogFactory, page) {
     "use strict";
 

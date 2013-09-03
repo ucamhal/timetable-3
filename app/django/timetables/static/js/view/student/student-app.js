@@ -10,8 +10,9 @@ define([
     "util/dialog-factory-student",
     "util/focus-helper",
     "util/page",
+    "util/timetable-events",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, ModulesSelector, FullCalendarView, DateSpinner, CalendarModel, dialogFactory, focusHelper, page) {
+], function ($, _, Backbone, Modules, ModulesSelector, FullCalendarView, DateSpinner, CalendarModel, dialogFactory, focusHelper, page, timetableEvents) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -35,7 +36,13 @@ define([
             this.$("li").removeClass("active").find("a").attr("aria-selected", "false");
             $target.addClass("active").find("a").attr("aria-selected", "true");
 
-            this.updateActiveView(this.getViewFromTab($target));
+            var view = this.getViewFromTab($target);
+
+            if(view) {
+                timetableEvents.trigger("click_tab_"+view);
+            }
+
+            this.updateActiveView(view);
 
             event.preventDefault();
         },
@@ -134,6 +141,7 @@ define([
         },
 
         onExportToCalendarClick: function (event) {
+            timetableEvents.trigger("click_btn_export");
             var exportDialog = dialogFactory.exportToCalendar({
                 userPath: this.getThingPath(),
                 feedPath: $(event.currentTarget).data("feed-path")
@@ -171,9 +179,23 @@ define([
             this.listenTo(this.calendarModel, "change:activeMonth", this.onActiveMonthChange);
             this.listenTo(this.calendarModel, "change:activeMonthTerm", this.onActiveMonthTermChange);
 
+
+            $(".js-sign-out").on("click", this.onSignOutClick);
+            $(".js-sign-in").on("click", this.onSignInClick);
+
             $(".js-btn-export-to-calendar").on("click", this.onExportToCalendarClick);
-            $(".js-sign-in, .js-sign-out").on("click", this.onSignInOutClick);
+
             $(window).on("resize", this.resize).trigger("resize");
+        },
+
+        onSignInClick: function (event) {
+            timetableEvents.trigger("click_signin");
+            this.onSignInOutClick(event);
+        },
+
+        onSignOutClick: function (event) {
+            timetableEvents.trigger("click_signout");
+            this.onSignInOutClick(event);
         },
 
         onSignInOutClick: function (event) {
@@ -371,6 +393,10 @@ define([
         },
 
         partChangedHandler: function (fullpath) {
+            if(fullpath !== "") {
+                timetableEvents.trigger("part_change", fullpath);
+            }
+
             this.navigate(fullpath, {
                 trigger: true
             });

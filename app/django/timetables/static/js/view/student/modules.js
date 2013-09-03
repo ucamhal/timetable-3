@@ -6,8 +6,9 @@ define([
     "util/dialog-factory-student",
     "util/page",
     "util/focus-helper",
+    "util/timetable-events",
     "util/underscore-mixins"
-], function ($, _, Backbone, api, dialogFactory, page, focusHelper) {
+], function ($, _, Backbone, api, dialogFactory, page, focusHelper, timetableEvents) {
     "use strict";
 
     var ModulesList = Backbone.View.extend({
@@ -87,6 +88,7 @@ define([
                             focusHelper.focusTo($source);
                         });
                     }
+
                     // Remove the saving state so modules can be removed/added again
                     self.isSaving(false);
                     // Stop executing the code
@@ -167,6 +169,7 @@ define([
         moduleButtonClickHandler: function (event) {
             // If the user isn't logged in prompt to login
             if (!page.isUserLoggedIn()) {
+                timetableEvents.trigger("interact_needs_login");
                 this.showNotSignedInError($(event.currentTarget));
                 return;
             }
@@ -178,10 +181,12 @@ define([
             }
 
             var $target = $(event.currentTarget);
+            var add = $target.is(".js-btn-add");
+            timetableEvents.trigger(add === true ? "click_add" : "click_remove");
             if ($target.is(".js-btn-module-level")) {
-                this.associate($target.parent().parent().find("a.btn"), $target.is(".js-btn-add"));
+                this.associate($target.parent().parent().find("a.btn"), add);
             } else {
-                this.associate($target, $target.is(".js-btn-add"));
+                this.associate($target, add);
             }
 
             return false;

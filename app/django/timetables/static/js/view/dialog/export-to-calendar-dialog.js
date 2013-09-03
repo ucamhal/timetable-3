@@ -5,8 +5,9 @@ define([
     "view/dialog/base-dialog",
     "util/focus-helper",
     "util/api-student",
+    "util/timetable-events",
     "util/jquery.select-text"
-], function ($, _, Backbone, BaseDialog, focusHelper, api) {
+], function ($, _, Backbone, BaseDialog, focusHelper, api, timetableEvents) {
     "use strict";
 
     var ExportToCalendarDialog = BaseDialog.extend({
@@ -33,8 +34,8 @@ define([
             var superEvents = ExportToCalendarDialog.__super__.events.call(this);
             return _.extend(superEvents, {
                 "focus .js-feed-container": this.onFeedContainerFocus,
+                "click .js-feed-container": this.onFeedContainerClick,
                 "click .js-reset-feed": this.onResetFeedClick,
-                //"click .js-feed-container": "onFeedContainerClick",
                 "hide": this.onHide
             });
         },
@@ -48,6 +49,7 @@ define([
             }
 
             this.model.set("state", "busy");
+            timetableEvents.trigger("click_btn_feed_reset");
 
             api.resetUserFeed(userPath, function(error, response) {
                 if (error) {
@@ -93,6 +95,10 @@ define([
 
         onFeedContainerFocus: function () {
             this.selectFeedPath();
+        },
+
+        onFeedContainerClick: function () {
+            timetableEvents.trigger("click_feed_path");
         },
 
         render: function () {

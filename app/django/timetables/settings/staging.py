@@ -10,7 +10,7 @@ ALLOWED_HOSTS = ["timetable.staging.ds.lib.cam.ac.uk"]
 
 WSGI_APPLICATION = "timetables.wsgi.staging.application"
 
-GOOGLE_ANALYTICS_ID = "UA-__addthis__"
+GOOGLE_ANALYTICS_ID = "UA-43714583-3"
 
 IS_PLAY_SITE = True
 

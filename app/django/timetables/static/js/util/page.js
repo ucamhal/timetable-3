@@ -18,11 +18,21 @@ define(["jquery"], function ($) {
             }
             return _isstaff;
         },
-        _adminEnabled = _check_is_staff();
+        _adminEnabled = _check_is_staff(),
+        _googleAnalyticsID,
+        _userRole;
 
     return {
         isUserLoggedIn: function () {
             return Boolean($("#userinfo").data("logged-in"));
+        },
+        getGoogleAnalyticsID: function () {
+            _googleAnalyticsID = _googleAnalyticsID || $(".js-ga-info").data("id");
+            return _googleAnalyticsID;
+        },
+        getUserRole: function () {
+            _userRole = _userRole || $("#userinfo").data("userrole");
+            return _userRole;
         },
         getThingPath : function () {
             if (_pageThingPath === undefined) {

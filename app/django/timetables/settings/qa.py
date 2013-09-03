@@ -10,4 +10,4 @@ ALLOWED_HOSTS = ["timetable.qa.ds.lib.cam.ac.uk"]
 
 WSGI_APPLICATION = "timetables.wsgi.qa.application"
 
-GOOGLE_ANALYTICS_ID = "UA-__addthis__"
+GOOGLE_ANALYTICS_ID = "UA-43714583-4"

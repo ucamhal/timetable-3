@@ -221,7 +221,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'timetables.utils.requirejs.js_main_module_contextprocessor',
     'timetables.utils.playsite.is_play_site_contextprocessor',
     'timetables.utils.userhelp.user_help_contextprocessor',
-    'timetables.utils.user.user_contextprocessor'
+    'timetables.utils.user.user_contextprocessor',
+    'timetables.utils.analytics.google_analytics_id_contextprocessor'
 )
 
 ROOT_URLCONF = 'timetables.urls'

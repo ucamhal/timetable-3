@@ -3,8 +3,9 @@ define([
     "underscore",
     "backbone",
     "model/calendar-event-popup",
+    "util/timetable-events",
     "util/underscore-mixins"
-], function ($, _, Backbone, CalendarEventPopupModel) {
+], function ($, _, Backbone, CalendarEventPopupModel, timetableEvents) {
     "use strict";
 
     var CalendarEventPopup = Backbone.View.extend({
@@ -130,6 +131,7 @@ define([
                     this.$el.show();
                     this.$context = $context;
                     this.updatePosition();
+                    timetableEvents.trigger("click_event");
                 } else {
                     this.$el.hide();
                     this.$context = undefined;
