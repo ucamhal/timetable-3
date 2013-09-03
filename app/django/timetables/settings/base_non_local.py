@@ -13,6 +13,10 @@ from .base import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+# non-local servers are deployed in gunicorn which uses the following
+# header to signify https requests:
+SECURE_PROXY_SSL_HEADER = ("wsgi.url_scheme", "https")
+
 # Enable Raven/Shib support. This relies on the RemoveUserBackend being
 # present in AUTHENTICATION_BACKENDS.
 ENABLE_RAVEN = True
