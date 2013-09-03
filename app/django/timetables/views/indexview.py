@@ -38,7 +38,7 @@ class IndexView(View):
             hmac = thingsubject.create_hmac()
             context["ics_feed_url"] = reverse("export ics hmac", kwargs={ "thing" : thing.fullpath, "hmac" : hmac})
         else:
-            context["ics_feed_url"] = reverse("export ics", kwargs={ "thing" : "user/public" })
+            context["ics_feed_url"] = None
         try:
             context['raven_url'] = settings.RAVEN_URL
         except:

@@ -72,14 +72,6 @@
                 <request>
                     <http url='/'/>
                 </request>
-
-                <!-- at the time of writing this throws an error, but it does occur and should ideally be simulated -->
-                <!-- FIXME: use random times -->
-                <!--
-                <request>
-                    <http url='/user/public.cal.json?start=%%_time_start%%&amp;end=%%_time_end%%'/>
-                </request>
-                -->
             </transaction>
 
             <thinktime random='true' value='5'/>

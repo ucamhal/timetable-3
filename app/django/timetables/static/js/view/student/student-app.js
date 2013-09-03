@@ -9,8 +9,9 @@ define([
     "model/calendarModel",
     "util/dialog-factory-student",
     "util/focus-helper",
+    "util/page",
     "util/jquery.select-text"
-], function ($, _, Backbone, Modules, ModulesSelector, FullCalendarView, DateSpinner, CalendarModel, dialogFactory, focusHelper) {
+], function ($, _, Backbone, Modules, ModulesSelector, FullCalendarView, DateSpinner, CalendarModel, dialogFactory, focusHelper, page) {
     "use strict";
 
     var CalendarViewNavigation = Backbone.View.extend({
@@ -114,7 +115,7 @@ define([
 
             this.fullCalendarView = new FullCalendarView({
                 el: ".js-calendar",
-                eventsFeed: this.getThingPath() + ".cal.json",
+                eventsFeed: page.isUserLoggedIn() ? this.getThingPath() + ".cal.json" : undefined,
                 defaultView: "agendaWeek",
                 firstDay: 4
             });
