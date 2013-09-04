@@ -10,11 +10,9 @@ define([
     var FullCalendarView = Backbone.View.extend({
         initialize: function () {
             var self = this;
-
             _.bindAll(this, "onScroll");
 
             this.$el.fullCalendar({
-                defaultView: this.options.defaultView || "month",
                 events: this.options.eventsFeed,
                 ignoreTimezone: false, // Why is this true by default? WTF.
                 allDaySlot: false,
@@ -41,6 +39,7 @@ define([
                 }
             });
 
+            this.setView(this.options.defaultView || "month");
             this.$(".fc-view-agendaWeek > div > div").on("scroll", this.onScroll);
             this.updateCalendarTableAriaHidden();
         },
@@ -192,6 +191,8 @@ define([
          */
         setView: function (view) {
             this.resetEventPopup();
+            this.$el.removeClass("view-agendaWeek view-month");
+            this.$el.addClass("view-" + view);
             this.$el.fullCalendar("changeView", view);
             this.updateCalendarTableAriaHidden();
         },

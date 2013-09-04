@@ -1,0 +1,27 @@
+#mainHeader,
+#footer,
+#actionsContainer,
+#results,
+.student-footer-wrap,
+#calendarHeading > ul,
+#calendarData .btn-prev,
+#calendarData .btn-next,
+.cookie-alert,
+.calendarEventInfo {
+    display: none!important;
+}
+
+#student div#content {
+    width: auto!important;
+    padding: 0;
+}
+
+#calendarHolder #calendar.view-month {
+    overflow: visible;
+}
+
+#calendarHolder {
+    float: none;
+    height: auto!important;
+    margin: 0 auto;
+}

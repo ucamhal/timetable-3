@@ -47,17 +47,25 @@ define([
             event.preventDefault();
         },
 
+        getActiveView: function () {
+            return this.getViewFromTab(this.$(".active"));
+        },
+
+        setActiveView: function (view) {
+            var tabClassName = _.invert(this.tabClassToView)[view];
+            if (tabClassName) {
+                this.$("." + tabClassName).trigger("click");
+            }
+        },
+
         getViewFromTab: function ($tab) {
             var classes = $tab.attr("class").split(/\s+/),
-                i;
+                self = this,
+                tabClass = _.find(classes, function (className) {
+                    return _.has(self.tabClassToView, className);
+                });
 
-            for (i = 0; i < classes.length; i += 1) {
-                if (this.tabClassToView.hasOwnProperty(classes[i])) {
-                    return this.tabClassToView[classes[i]];
-                }
-            }
-
-            return undefined;
+            return this.tabClassToView[tabClass];
         },
 
         updateActiveView: function (viewToSet) {
@@ -94,9 +102,53 @@ define([
 
             this.initCalendar();
             this.bindEvents();
+            this.bindMediaEvents();
 
             Backbone.history.start();
             this.calendarModel.setActiveDate(new Date());
+        },
+
+        bindMediaEvents: function () {
+            if (typeof window.matchMedia === "function") {
+                var self = this;
+                // Listen to changes on the mql object:
+                // The mql object is created by providing a set of media querries
+                // it must match. If at any point the list is matched the "matches"
+                // boolean on the object is set to true. If matches changes, it will
+                // dispatch an event to all attached listeners.
+                // More info:
+                // http://dev.w3.org/csswg/cssom-view/#the-mediaquerylist-interface
+                window.matchMedia("print").addListener(function (mediaQueryList) {
+                    if (mediaQueryList.matches) {
+                        self.onBeforePrint();
+                    } else {
+                        self.onAfterPrint();
+                    }
+                });
+            }
+
+            // IE and FF support:
+            window.onbeforeprint = this.onBeforePrint;
+            window.onafterprint = this.onAfterPrint;
+        },
+
+        onBeforePrint: function () {
+            // We only support week printing so we have to temporarily switch
+            // the view
+            this._beforePrintView = this.activeView;
+            this.calendarViewNavigation.setActiveView("agendaWeek");
+            this.printResize();
+        },
+
+        onAfterPrint: function () {
+            this.resize();
+            // Fixes a fullcalendar bug which nicely cutted off part of the
+            // calendar.
+            var fcHeight = this.fullCalendarView.$el.fullCalendar("option", "height");
+            this.fullCalendarView.setHeight(fcHeight);
+
+            // Restore the view active before printing
+            this.calendarViewNavigation.setActiveView(this._beforePrintView);
         },
 
         initCalendar: function () {
@@ -138,6 +190,10 @@ define([
             this.monthSpinner = new DateSpinner({
                 el: ".js-date-spinner.js-month"
             });
+        },
+
+        onPrintClick: function () {
+            window.print();
         },
 
         onExportToCalendarClick: function (event) {
@@ -184,7 +240,7 @@ define([
             $(".js-sign-in").on("click", this.onSignInClick);
 
             $(".js-btn-export-to-calendar").on("click", this.onExportToCalendarClick);
-
+            $(".js-btn-print").on("click", this.onPrintClick);
             $(window).on("resize", this.resize).trigger("resize");
         },
 
@@ -320,6 +376,22 @@ define([
             this.calendarModel.goToNextTerm();
         },
 
+        printResize: function () {
+            var calendarView = this.fullCalendarView.getView(),
+                elHeight = calendarView.element.find(".fc-agenda-slots").outerHeight(true),
+                // The days row height is independant from the agenda slots
+                // but it's still needed for the calendar height calculation so
+                // we have to include it in our calculation:
+                daysTable = calendarView.element.find(".fc-agenda-days"),
+                // The days row is in the table <thead>, we can't calculate the
+                // <thead> height directly because it wouldn't include table
+                // borders, etc.
+                daysRowHeight = daysTable.height() - daysTable.find("tbody").height();
+            // Needs to be defined in the JS for FF 
+            $("#calendarHolder").css("width", 960);
+            this.fullCalendarView.setHeight(elHeight + daysRowHeight + 1);
+        },
+
         resize: function () {
             var windowWidth = $(window).width(),
                 windowHeight = $(window).height(),
@@ -345,7 +417,9 @@ define([
 
             $(".js-calendar-holder").height(modulesListHeight);
             $(".js-list-view").height(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
+
             this.fullCalendarView.setHeight(modulesListHeight - this.calendarViewNavigation.$el.outerHeight() - $(".js-calendar-navigation").outerHeight() - 17);
+
             if (this.fullCalendarView.eventPopup) {
                 this.fullCalendarView.eventPopup.toggle(false);
             }

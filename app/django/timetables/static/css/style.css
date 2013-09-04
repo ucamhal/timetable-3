@@ -652,7 +652,7 @@ div#calendarHolder {
   width: 590px;
 }
 
-div#calendarHolder div#calendar {
+#calendarHolder #calendar.view-month {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }

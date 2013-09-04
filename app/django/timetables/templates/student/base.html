@@ -1,6 +1,11 @@
 {% extends "base.html" %}
-{% load url from future %}
+{% load staticfiles %}
 {% load timetables %}
+{% load url from future %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/print-student.css" %}" media="print" />
+{% endblock head %}
 
 {% block javascript_index %}index-student{% endblock javascript_index %}
 
@@ -42,6 +47,7 @@
 <div id="actionsContainer">
   <div class="pull-right">
     {% if user_logged_in %}
+      <a href="javascript:;" role="button" class="btn js-btn-print">Print</a>
       <a href="javascript:;" role="button" class="btn js-btn-export-to-calendar" data-feed-path="{{ site_url }}{{ ics_feed_url }}">Export to calendar</a>
     {% endif %}
   </div>
@@ -88,7 +94,7 @@
   <div id="calendar" class="js-calendar" data-start='{{ calendar_start }}' data-end='{{ calendar_end }}' data-terms="{{ terms|json }}">
   </div>
 
-  <div class="js-list-view list-view"></div>
+  <div class="js-list-view list-view hide"></div>
 </div>
 {% include "student/student-templates.html" %}
 {% endblock content %}
