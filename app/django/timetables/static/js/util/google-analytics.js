@@ -19,7 +19,7 @@ define([], function () {
     };
 
     // Load the analytics code
-    require(["http://www.google-analytics.com/analytics.js"]);
+    require(["https://www.google-analytics.com/analytics.js"]);
 
     return ga;
 });
