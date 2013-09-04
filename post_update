@@ -1,79 +1,507 @@
-#!/usr/bin/env bash
-set -e
+#!/usr/bin/env python
+"""
+This script is run every time a new version of the codebase is deployed.
+Its job is to setup the environment required for the code to run, e.g.
+install dependencies, move static files for serving by the webserver, restart
+the webserver etc.
 
-# Get the script's DIR
-DIR=`dirname ${0}`;
+Roles are used to specify which sort of actions should be taken by post_update.
+The idea is that in deployments where the codebase is deployed more than one
+(e.g. when you have multiple app servers) one should be designated as the master
+so that it alone can be responsible for performing actions which should only be
+run once, e.g. database migrations. The rest only need to perform actions which
+directly affect their own environment, e.g. installing dependencies with pip.
 
-# date command to use
-DATEBIN=`which date`
-# Python command to use
-PYTHON_CMD="python"
-# command to use to run manage.py
-MANAGE="$PYTHON_CMD $DIR/app/django/manage.py"
+This system is not really ideal. It feels somewhat wrong to make the app
+responsible for things like restarting the web server, or really anything
+outside the immediate needs of the app. Anyway, this works for now...
+"""
+from __future__ import unicode_literals
 
-function report_exit_status() {
-    echo "** **** post_update script exiting with status: $? **** **"
+from cStringIO import StringIO
+from os import path
+import argparse
+import logging
+import logging.config
+import os
+import pipes
+import subprocess
+import sys
+import traceback
+
+
+log = logging.getLogger("post_update")
+
+log_config = {
+    "version": 1,
+    "formatters": {
+        "stdout": {
+            "format": "%(message)s"
+        },
+        "syslog": {
+            "format": "post_update: (pid: %(process)d, time: %(asctime)s) %(message)s"
+        }
+    },
+    "handlers": {
+        "syslog": {
+            "level": "DEBUG",
+            "class": "logging.handlers.SysLogHandler",
+            "facility": "local6",
+            "formatter": "syslog"
+            # Use default address which is localhost UDP port 514
+        },
+        "stdout": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "stdout"
+        },
+    },
+    "loggers": {
+        "post_update": {
+            "handlers": ["syslog", "stdout"],
+            "level": "INFO",
+            "propagate": False
+        }
+    }
 }
-# Call report_exit_status on exit
-trap "report_exit_status" 0
 
-# Redirect entire output to .lastrun file
-# and also to syslog for ease of access by Dev Team, and persistence
-exec > >(logger -p local6.notice -s 2>&1 | tee "$DIR/post_update.lastrun")
-# Redirect stderr to stdout
-exec 2>&1
+def main():
+    logging.config.dictConfig(log_config)
 
-# Print usage if no argument was passed
-if [[ -z $1 ]]
-then
-    echo "usage: post_update CONTEXT_NAME"
-    exit 1
-fi
+    try:
+        args = get_parser().parse_args()
 
-# Find all settings modules that include base_non_local
-SETTINGS_MODULES=`grep -l '^from .base_non_local' $DIR/app/django/timetables/settings/*.py | while read f ; do basename $f .py ; done | xargs echo`
+        context = CONTEXTS.for_name(args.context)
 
-# Check that the supplied argument matches one of them
-SETTINGS_MODULES_REGEXP=`echo $SETTINGS_MODULES | awk '{print "^\\\(" $0 "\\\)$" }' | sed -e 's/ /\\\|/g'`
-ARG_VALIDATION_MATCHES=`echo $1 | grep $SETTINGS_MODULES_REGEXP 2>/dev/null | wc -l`
-
-if [[ $ARG_VALIDATION_MATCHES -ne "1" ]]
-then
-    echo "Error: Unknown deployment context: $1"
-    echo "CONTEXT_NAME must be one of: $SETTINGS_MODULES"
-    exit 1
-fi
-
-# Set the DJANGO_SETTINGS_MODULE according to the first argument
-export DJANGO_SETTINGS_MODULE=timetables.settings.$1
-export REQUIREMENTS_FILE=$DIR/app/requirements/$1.txt
-
-## Capture and time, and write to local file to try and show
-## an approximate time the shell script was called.
-NOW=`${DATEBIN} '+%Y%m%d %H:%M:%S'`
-echo "** **** post_update script started at: $NOW **** **"
-echo "** (output is also recorded in syslog local6 and post_update.lastrun) **" 
+        for role in args.roles:
+            log.info("Running actions for role: {}".format(role))
+            actions = ROLES.all_actions()[role]
+            for action in actions:
+                action(context)
+    except PostUpdateException as e:
+        e.set_traceback()
+        print e.format()
 
 
-# Log the settings module being used
-echo "** Using settings module: $DJANGO_SETTINGS_MODULE **"
-echo "** Using requirements file: $REQUIREMENTS_FILE **"
-echo ""
+class Roles(object):
+    SLAVE = "slave"
+    MASTER = "master"
+    DEFAULT = "__default__"
 
-# Install required dependencies
-echo "** Installing Python packages w/ pip **"
-sudo pip install -r "$REQUIREMENTS_FILE"
-echo ""
+    def non_default_roles(self):
+        return self.all_roles() - set([self.DEFAULT])
 
-# The manage commands to run:
-echo "** Running Django manage commands **"
-$MANAGE syncdb --noinput || exit 2;
-$MANAGE migrate --noinput || exit 3;
-$MANAGE collectstatic  --noinput || exit 4;
+    def all_roles(self):
+        return set([self.SLAVE, self.MASTER, self.DEFAULT])
 
-# Restart apache
-# Should we use sudo -n to never prompt for a pw?
-echo "** Restarting apache **"
-sudo /etc/init.d/apache2 restart || exit 5;
+    def all_actions(self):
+        return {
+            self.MASTER: [master_actions],
+            self.SLAVE: [slave_actions],
+            self.DEFAULT: [default_actions]
+        }
 
-exit 0;
+    def validate_roles(self, roles_input):
+        valid_roles = self.non_default_roles()
+
+        roles = set(r.strip() for r in roles_input.split(",") if r.strip())
+
+        if not roles <= valid_roles:
+            raise argparse.ArgumentTypeError(
+                "invalid role(s): {}".format(" ".join(roles - valid_roles))
+            )
+        if not roles:
+            raise argparse.ArgumentTypeError("No roles provided")
+        return [self.DEFAULT] + list(roles)
+ROLES = Roles()
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+
+    context_names = map(str, CONTEXTS.all_contexts())
+    parser.add_argument(
+        "context",
+        metavar="CONTEXT",
+        help=(
+            "The deployment server context name. Choices: {}"
+            .format(", ".join(context_names))
+        ),
+        choices=context_names
+    )
+
+    parser.add_argument(
+        "--role", "-r",
+        dest="roles",
+        metavar="ROLES",
+        type=ROLES.validate_roles,
+        default=[ROLES.DEFAULT, ROLES.MASTER],
+        help=(
+            "Comma separated list of roles. e.g. master,slave. "
+            "Available roles: {}. Default: {}"
+            .format(", ".join(ROLES.non_default_roles()), ROLES.MASTER)
+        )
+    )
+
+    return parser
+
+
+def default_actions(context):
+    log.info("Starting default actions")
+
+    run_and_log(
+        "pip to install dependencies",
+        get_sudo_runner(),
+        ["pip", "install", "-r", context.get_requirements_path()]
+    )
+
+
+def master_actions(context):
+    log.info("Starting master actions")
+
+    run_and_log(
+        "syncdb",
+        get_django_runner(context),
+        ["syncdb", "--noinput"]
+    )
+
+    run_and_log(
+        "migrate",
+        get_django_runner(context),
+        ["migrate", "--noinput"]
+    )
+
+    run_and_log(
+        "collectstatic",
+        get_django_runner(context),
+        ["collectstatic", "--noinput"]
+    )
+
+    run_and_log(
+        "restart of gunicorn",
+        get_sudo_runner(),
+        ["/etc/init.d/gunicorn", "restart"]
+    )
+
+
+def slave_actions(context):
+    log.info("Starting slave actions")
+
+    log.info("* No slave actions currently *")
+
+
+def run_and_log(name, runner, command):
+    resp = runner.run(command)
+    message = (
+        "Running %s, cmd line: %s\n"
+        "exit status: %d\n"
+        "stdout:\n"
+        "%s\n"
+        "stderr:\n"
+        "%s\n"
+    )
+    log.info(message, name, resp.get_argument_string(), resp.get_return_code(),
+             indent(resp.get_stdout()), indent(resp.get_stderr()))
+
+    if resp.get_return_code() != 0:
+        raise CommandPostUpdateException(resp)
+    return resp
+
+
+def indent(text, depth=2, char=" "):
+    lines = text.split("\n")
+    return "\n".join(char * depth + l for l in lines)
+
+
+def get_runner():
+    return CommandRunner()
+
+
+def get_sudo_runner():
+    return SudoCommandRunner(get_runner())
+
+
+def get_django_runner(context):
+    return DjangoCommandRunner(
+        get_runner(), "python", context.get_manage_py_path(),
+        context.get_settings_module()
+    )
+
+
+class CommandRunner(object):
+    """
+    """
+    def run(self, command_fragments):
+        p = subprocess.Popen(command_fragments, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        stdout, stderr = p.communicate()
+
+        return ExecutedCommand(command_fragments, p, stdout, stderr)
+
+
+class ExecutedCommand(object):
+    def __init__(self, arguments, popen, stdout, stderr):
+        assert popen.returncode is not None
+
+        self.arguments = arguments
+        self.popen = popen
+        self.stderr = stderr
+        self.stdout = stdout
+
+    def get_argument_list(self):
+        return self.arguments
+
+    def get_argument_string(self):
+        return " ".join(pipes.quote(s) for s in self.get_argument_list())
+
+    def get_pid(self):
+        return self.popen.get_pid()
+
+    def get_stdout(self):
+        return self.stdout
+
+    def get_stderr(self):
+        return self.stderr
+
+    def get_return_code(self):
+        return self.popen.returncode
+
+
+class SudoCommandRunner(object):
+    """
+    A command runner which runs commands as root w/ sudo.
+    """
+    def __init__(self, command_runner, interactive=False):
+        self.command_runner = command_runner
+        self.interactive = interactive
+
+    def get_prefix(self):
+        base = ["sudo"]
+        if not self.interactive:
+            base.append("-n")
+        return base
+
+    def run(self, command_fragments):
+        return self.command_runner.run(self.get_prefix() + command_fragments)
+
+
+class DjangoCommandRunner(object):
+    def __init__(self, command_runner, python_cmd, manage_py_path, settings_module):
+        self.command_runner = command_runner
+        self.python_cmd = python_cmd
+        self.manage_py_path = manage_py_path
+        self.settings_module = settings_module
+
+    def build_command(self, manage_command, args):
+        base_cmd = [self.python_cmd, self.manage_py_path, manage_command,
+                    "--settings", self.settings_module]
+        return base_cmd + list(args)
+
+    def run_django(self, manage_command, *args):
+        """
+        Run a manage.py command, returning its output.
+        """
+        command = self.build_command(manage_command, args)
+        return self.command_runner.run(command)
+
+    def run(self, command_fragments):
+        if not command_fragments:
+            raise ValueError(
+                "command_fragments was empty, expected [command, arg1, arg2,"
+                " ...], got: {!r}".format(command_fragments))
+
+        return self.run_django(command_fragments[0], *command_fragments[1:])
+
+
+class Context(object):
+    """
+    Represents a deployment context, e.g. dev, qa, staging, production
+    etc.
+    """
+    def __init__(self, name, repo_root_dir):
+        self.name = name
+        self.repo_root_dir = repo_root_dir
+
+    def get_requirements_path(self):
+        filename = "{}.txt".format(self.name)
+        return path.join(self.repo_root_dir, "app", "requirements", filename)
+
+    def get_settings_module(self):
+        return "timetables.settings.{}".format(self.name)
+
+    def get_manage_py_path(self):
+        return path.join(self.repo_root_dir, "app", "django", "manage.py")
+
+    def get_name(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return unicode(self).encode("utf-8")
+
+    def __eq__(self, other):
+        return (self.name == other.name and
+                self.repo_root_dir == other.repo_root_dir)
+
+    def __hash__(self):
+        return hash((self.name, self.repo_root_dir))
+
+
+class Contexts(object):
+    """
+    Helper methods related to Context instances.
+    """
+    excluded_settings_modules = set([
+        "base_non_local", "config_loader_utility", "__init__"
+    ])
+
+    def for_name(self, name):
+        context = [c for c in self.all_contexts() if c.get_name() == name]
+        if not context:
+            raise KeyError("No such context:{}".format(name))
+        assert len(context) == 1
+        return context[0]
+
+    def all_contexts(self):
+        root_dir = self.__get_repo_root_dir()
+        modules = self.__get_available_settings_modules()
+        return set(Context(module, root_dir) for module in modules)
+
+    def __get_repo_root_dir(self):
+        return path.abspath(path.join(__file__, ".."))
+
+    def __get_available_settings_modules(self):
+        """
+        Get a list of the available settings files under timetables.settings.
+        """
+        try:
+            settings_dir = path.join(
+                self.__get_repo_root_dir(),
+                "app", "django", "timetables", "settings")
+
+            return self.__get_python_module_names(settings_dir)
+        except OSError as e:
+            raise PostUpdateException.caused_by_current_exception(
+                "Error listing settings modules"
+            )
+
+    def __get_python_module_names(self, dir):
+        return [
+            m[:-3] for m in os.listdir(dir)
+            if m.endswith(".py")
+            and m[:-3] not in self.excluded_settings_modules
+        ]
+CONTEXTS = Contexts()
+
+
+def set_traceback(exception):
+    cls, exc, tb = sys.exc_info()
+    if not exc is exception:
+        raise ValueError(
+            "set_traceback() must be called with the same exception returned "
+            "by sys.exc_info(). exception arg: {!r}, exc_info exception: {!r}"
+            .format(exception, exc)
+        )
+    exc.__traceback__ = tb
+    return exc
+
+
+def get_traceback(exception):
+    if hasattr(exception, "__traceback__"):
+        return exception.__traceback__
+    raise ValueError("exception has no __traceback__: {!r}".format(exception))
+
+
+def format_exception(exc, is_cause=False):
+    prefix = "Caused by " if is_cause else ""
+
+    if hasattr(exc, "__traceback__"):
+        return prefix + "".join(
+            traceback.format_exception(type(exc), exc, get_traceback(exc))
+        )
+    return "{}{}".format(prefix, exc)
+
+
+class TracebackException(Exception):
+    def set_traceback(self):
+        set_traceback(self)
+
+    def get_traceback(self):
+        return get_traceback(self)
+
+
+class CauseException(TracebackException, Exception):
+    """
+    An Exception which maintains the exception it was caused by.
+    """
+    def __init__(self, *args, **kwargs):
+        self.cause = kwargs.pop("cause", None)
+        assert not kwargs, kwargs
+        super(CauseException, self).__init__(*args, **kwargs)
+
+    @staticmethod
+    def get_current_exception():
+        _, exc, _ = sys.exc_info()
+        return set_traceback(exc)
+
+    @classmethod
+    def caused_by_current_exception(cls, *args, **kwargs):
+        return cls(*args, cause=cls.get_current_exception(), **kwargs)
+
+    # TODO: format just traceback then use __unicode__
+    def format(self, is_cause=False):
+        self_formatted = format_exception(self, is_cause)
+
+        if self.cause is None:
+            return self_formatted
+
+        if hasattr(self.cause, "format"):
+            cause_formatted = self.cause.format(is_cause=True)
+        else:
+            cause_formatted = format_exception(self.cause, is_cause=True)
+
+        return (
+            "{}"
+            "{}"
+        ).format(self_formatted, cause_formatted)
+
+
+class PostUpdateException(CauseException):
+    def __init__(self, *args, **kwargs):
+        self.status = kwargs.pop("status", 1)
+        super(PostUpdateException, self).__init__(*args, **kwargs)
+
+
+class CommandPostUpdateException(PostUpdateException):
+    def __init__(self, executed_command, **kwargs):
+        super(CommandPostUpdateException, self).__init__(
+            executed_command, **kwargs)
+        if not isinstance(executed_command, ExecutedCommand):
+            raise ValueError(
+                "Expected ExecutedCommand instance, got: {}"
+                .format(executed_command)
+            )
+
+    def get_executed_command(self):
+        return self.args[0]
+
+    def __unicode__(self):
+        cmd = self.get_executed_command()
+        return (
+            "Command exited with non-zero status: {}, command: {}".format(
+                cmd.get_return_code(),
+                cmd.get_argument_string()
+            )
+        )
+
+    def __str__(self):
+        return unicode(self).encode("utf-8")
+
+
+if __name__ == "__main__":
+    main()
