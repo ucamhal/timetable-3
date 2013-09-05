@@ -110,8 +110,7 @@ class Roles(object):
             raise argparse.ArgumentTypeError(
                 "invalid role(s): {}".format(" ".join(roles - valid_roles))
             )
-        if not roles:
-            raise argparse.ArgumentTypeError("No roles provided")
+
         return [self.DEFAULT] + list(roles)
 ROLES = Roles()
 
@@ -138,11 +137,11 @@ def get_parser():
         dest="roles",
         metavar="ROLES",
         type=ROLES.validate_roles,
-        default=[ROLES.DEFAULT, ROLES.MASTER],
+        default=ROLES.validate_roles(""),
         help=(
             "Comma separated list of roles. e.g. master,slave. "
-            "Available roles: {}. Default: {}"
-            .format(", ".join(ROLES.non_default_roles()), ROLES.MASTER)
+            "Available roles: {}. Default: no role (default actions only)"
+            .format(", ".join(ROLES.non_default_roles()))
         )
     )
 
@@ -156,6 +155,12 @@ def default_actions(context):
         "pip to install dependencies",
         get_sudo_runner(),
         ["pip", "install", "-r", context.get_requirements_path()]
+    )
+
+    run_and_log(
+        "collectstatic",
+        get_django_runner(context),
+        ["collectstatic", "--noinput"]
     )
 
 
@@ -174,23 +179,15 @@ def master_actions(context):
         ["migrate", "--noinput"]
     )
 
-    run_and_log(
-        "collectstatic",
-        get_django_runner(context),
-        ["collectstatic", "--noinput"]
-    )
+
+def slave_actions(context):
+    log.info("Starting slave actions")
 
     run_and_log(
         "restart of gunicorn",
         get_sudo_runner(),
         ["/etc/init.d/gunicorn", "restart"]
     )
-
-
-def slave_actions(context):
-    log.info("Starting slave actions")
-
-    log.info("* No slave actions currently *")
 
 
 def run_and_log(name, runner, command):
