@@ -377,6 +377,8 @@ define([
         },
 
         printResize: function () {
+            // Needs to be defined in the JS for FF
+            $("#calendarHolder").css("width", 650);
             var calendarView = this.fullCalendarView.getView(),
                 elHeight = calendarView.element.find(".fc-agenda-slots").outerHeight(true),
                 // The days row height is independant from the agenda slots
@@ -387,9 +389,8 @@ define([
                 // <thead> height directly because it wouldn't include table
                 // borders, etc.
                 daysRowHeight = daysTable.height() - daysTable.find("tbody").height();
-            // Needs to be defined in the JS for FF 
-            $("#calendarHolder").css("width", 960);
             this.fullCalendarView.setHeight(elHeight + daysRowHeight + 1);
+            $("#calendar").fullCalendar("render");
         },
 
         resize: function () {
