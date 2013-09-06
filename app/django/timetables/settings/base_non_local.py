@@ -66,7 +66,7 @@ LOGGING = {
     },
     "handlers": {
         "syslog": {
-            "level": "DEBUG",
+            "level": "INFO",
             "class": "logging.handlers.SysLogHandler",
             "facility": SysLogHandler.LOG_LOCAL6,
             "address": "/dev/log",
@@ -81,7 +81,7 @@ LOGGING = {
         },
         "timetables": {
             "handlers": ["syslog"],
-            "level": "DEBUG",
+            "level": "INFO",
             "propagate": True,
         }
     }
