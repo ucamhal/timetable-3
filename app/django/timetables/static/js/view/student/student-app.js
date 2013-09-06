@@ -408,8 +408,12 @@ define([
             }
 
             modulesListHeight = windowHeight - footerHeight - this.modulesList.$el.offset().top - 30;
-            modulesListHeight = $(".js-modules-results").height(modulesListHeight).height();
+            // Have a minimum height of 300
+            if (modulesListHeight < 300) {
+                modulesListHeight = 300;
+            }
 
+            $(".js-modules-results").height(modulesListHeight);
             $("#inputArea > div").width(maxWidth);
             $("#uniLogo").width(maxWidth);
             $("#content").width(maxWidth);
