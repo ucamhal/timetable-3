@@ -129,6 +129,10 @@ HAYSTACK_CONNECTIONS = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    "staticfiles": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "staticfiles"
     }
 }
 
@@ -186,6 +190,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+STATICFILES_STORAGE = 'require.storage.OptimizedCachedStaticFilesStorage'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = None
@@ -254,6 +260,9 @@ INSTALLED_APPS = (
 
     # For schema migration, easy_install South to use.
     'south',
+
+    # Require js compilation as part of manage.py collectstatic
+    'require',
 )
 
 LOGGING = {
@@ -331,3 +340,17 @@ try:
     DISABLE_QUERYSET_CACHE = False
 except ImportError:
     log.info("Query Level Cache is disabled, please install johnny cache")
+
+
+############################################
+# require settings for RequireJS compilation
+############################################
+
+# Relative to static/
+REQUIRE_BASE_URL = "js"
+
+# Relative to REQUIRE_BASE_URL
+REQUIRE_JS = "libs/require.js"
+
+# Relative to REQUIRE_BASE_URL
+REQUIRE_BUILD_PROFILE = "RequirejsBuild.js"

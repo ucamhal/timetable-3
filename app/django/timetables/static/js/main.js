@@ -84,7 +84,7 @@ define([
     }
 
     // Work out what module was asked for and get require to load it.
-    var $script = $("script[src$='require.js']"),
+    var $script = $("#requirejs-script"),
         indexName = $script.data("index"),
         pageName = $script.data("page");
 

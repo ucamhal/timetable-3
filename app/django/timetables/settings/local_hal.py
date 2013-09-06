@@ -2,14 +2,17 @@ from timetables.settings.local import *
 
 
 INSTALLED_APPS += (
-    "devserver",
-    "django_extensions",
+#    "devserver",
+#    "django_extensions",
 )
 
-DEVSERVER_AJAX_PRETTY_PRINT = True
+DEBUG = False
+TEMPLATE_DEBUG = False
+
+#DEVSERVER_AJAX_PRETTY_PRINT = True
 
 # Set True to profile every request
-DEVSERVER_AUTO_PROFILE = False
+#DEVSERVER_AUTO_PROFILE = False
 
 # Configure the data printed for each request. The order here is not
 # necessarily the order output appears in as modules can produce their
