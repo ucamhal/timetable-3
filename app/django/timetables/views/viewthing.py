@@ -162,17 +162,13 @@ class SeriesSubjectTitle(View):
             log.warning("Series with id %s has multiple parent Things",
                         series_id)
 
-        # get the title
-        thing = tags[0].thing.parent.parent
-        if thing.type == "tripos": # we have Tripos
-            tripos = thing
-            part = tags[0].thing.parent
-        else: # we have Part
-            part = thing
-            tripos = tags[0].thing.parent.parent.parent
+        # get the subject object
+        subject = tags[0].thing.parent.as_subject()
+        subject_title = subject.get_name_without_part()+"; "+subject.get_part().fullname
 
+        # return data
         response = {
-            "subject": tripos.fullname + " " + part.fullname,
+            "subject": subject_title,
             "series_id": series_id
         }
 
