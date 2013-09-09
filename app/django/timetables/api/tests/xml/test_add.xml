@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<moduleList>
+    <module>
+        <path>
+            <tripos>api</tripos>
+            <part>test</part>
+        </path>
+        <name>Unit Test Module</name>
+
+        <series>
+            <uniqueid>myseries1</uniqueid>
+            <name>Unit Test Series</name>
+            <event>
+                <uniqueid>myuniqueid1</uniqueid>
+                <name>Unit Test Event 1 - Loc/Lec/Duration</name>
+                <location>location</location>
+                <lecturer>Prof. A</lecturer>
+                <lecturer>Prof. B</lecturer>
+                <date>2013-08-30</date>
+                <start>10:00:00</start>
+                <duration>01:00:00</duration>
+                <type>lecture</type>
+            </event>
+            <event>
+                <uniqueid>myuniqueid2</uniqueid>
+                <name>Unit Test Event 2 - No Loc/No Lec/End</name>
+                <date>2013-08-30</date>
+                <start>10:00:00</start>
+                <end>11:00:00</end>
+                <type>lecture</type>
+            </event>
+        </series>
+    </module>
+</moduleList>

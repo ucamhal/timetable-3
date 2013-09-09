@@ -1,0 +1,4 @@
+<!DOCTYPE bomb [
+<!ENTITY a "xxx">
+]>
+<bomb>&a;&a;&a;</bomb>

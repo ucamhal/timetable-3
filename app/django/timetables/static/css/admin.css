@@ -265,7 +265,7 @@ a.addModule {
 }
 
 .event .event-field-type .jeditable {
-  width: 74px;
+  width: 80px;
 }
 
 .event-editable .event-field {
@@ -273,12 +273,12 @@ a.addModule {
 }
 
 .event .event-field.eventDateTime {
-  width: 280px;
+  width: 238px;
   overflow: visible;
 }
 
 .event .event-field.event-field-type {
-  width: 110px;
+  width: 150px;
 }
 
 .event-field .event-type {
@@ -292,7 +292,7 @@ a.addModule {
   background: none;
   padding-left: 10px;
   margin-left: 0;
-  width: 92px;
+  width: 115px;
 }
 
 .event .eventActions {
@@ -367,6 +367,18 @@ a.addModule {
 
 .event-type-fieldtrip {
   background-image: url(../img/typeFieldTripIcon.png);
+}
+
+.event-type-presentation {
+  background-image: url(../img/typePresentationIcon.png);
+}
+
+.event-type-workshop {
+  background-image: url(../img/typeWorkshopIcon.png);
+}
+
+.event-type-journalclub {
+  background-image: url(../img/typeJournalClubIcon.png);
 }
 
 /* Event color states */

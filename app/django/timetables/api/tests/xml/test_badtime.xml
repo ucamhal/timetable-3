@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<moduleList>
+    <module>
+        <path>
+            <tripos>api</tripos>
+            <part>test</part>
+        </path>
+        <name>Unit Test Module</name>
+
+        <series>
+            <uniqueid>myseries1</uniqueid>
+            <name>Unit Test Series</name>
+            <event>
+                <uniqueid>myuniqueid3</uniqueid>
+                <name>Unit Test Event 3 - Ends before it begins</name>
+                <date>2013-08-30</date>
+                <start>10:00:00</start>
+                <end>03:00:00</end>
+                <type>lecture</type>
+            </event>
+        </series>
+    </module>
+</moduleList>

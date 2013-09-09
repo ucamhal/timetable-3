@@ -300,3 +300,6 @@ class ModuleForm(forms.ModelForm):
     class Meta:
         model = models.Thing
         fields = ("fullname",)
+
+class APIFileForm(forms.Form):
+    file  = forms.FileField()

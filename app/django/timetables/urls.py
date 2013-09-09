@@ -19,6 +19,8 @@ from timetables.views.canary import CanaryView
 from timetables.views.modulelist import SubjectsModuleListView
 from timetables.views import static
 
+from timetables.views.apiview import do_xml_import, do_xml_export, do_post_import
+
 import timetables.administratorhelp.urls
 
 FACULTY = r"(?P<faculty>[a-zA-Z0-9]*)"
@@ -222,4 +224,17 @@ urlpatterns = patterns(
     url(r'canary$',
         CanaryView.as_view(),
         name="canary"),
+
+    # access the api
+
+    url(r'^api/v0/xmlexport/(?P<path>.*[^/])/?$',
+        do_xml_export),
+
+    url(r'^api/v0/import/$',
+        do_post_import),
+
+    url(r'^api/v0/xmlimport/$',
+        do_xml_import),
+
+
 )

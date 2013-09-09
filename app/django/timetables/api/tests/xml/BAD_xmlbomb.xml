@@ -1,0 +1,5 @@
+<!DOCTYPE xmlbomb [
+<!ENTITY a "1" >
+<!ENTITY b "&a;&a;">
+]>
+<bomb>&b;</bomb>

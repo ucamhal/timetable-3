@@ -800,6 +800,9 @@ class Event(CleanModelMixin, PostSaveMixin, SchemalessModel, VersionableModel):
     TYPE_CLASS = ("class", "Class")
     TYPE_SEMINAR = ("seminar", "Seminar")
     TYPE_FIELD_TRIP = ("field trip", "Field trip")
+    TYPE_PRESENTATION = ("presentation", "Presentation")
+    TYPE_WORKSHOP = ("workshop", "Workshop")
+    TYPE_JOURNAL_CLUB = ("journal club", "Journal club")
 
 
     objects = managers.EventManager()
@@ -862,7 +865,10 @@ class Event(CleanModelMixin, PostSaveMixin, SchemalessModel, VersionableModel):
             cls.TYPE_PRACTICAL,
             cls.TYPE_CLASS,
             cls.TYPE_SEMINAR,
-            cls.TYPE_FIELD_TRIP
+            cls.TYPE_FIELD_TRIP,
+            cls.TYPE_PRESENTATION,
+            cls.TYPE_WORKSHOP,
+            cls.TYPE_JOURNAL_CLUB
         ))
 
     def get_ical_uid(self, domain=None):

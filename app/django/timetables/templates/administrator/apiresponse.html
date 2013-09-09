@@ -1,0 +1,30 @@
+{% extends "administrator/base.html" %}
+
+{% block admin_content %}
+<style>
+    .insert {
+        color: yellowgreen
+    }
+    .update {
+        color: blue
+    }
+    .delete {
+        color: grey
+    }
+    .failed {
+        color: red
+    }
+    .denied {
+        color: orange
+    }
+    .notice {
+        color: magenta
+    }
+    .highlight {
+        background-color:rgba(255,0,0,0.1);
+        display:inline-block;
+        width:100%;
+    }
+</style>
+{{ summary|safe }}
+{% endblock admin_content %}
