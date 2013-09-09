@@ -11,7 +11,7 @@ from django.utils.datastructures import SortedDict
 from django.utils.datetime_safe import datetime, date
 from django.views.generic.base import View
 
-from timetables.models import Thing
+from timetables.models import Thing, Event
 from timetables.utils.Json import JSON_CONTENT_TYPE, JSON_INDENT
 from timetables.utils.date import DateConverter
 from timetables.utils import datetimes
@@ -156,27 +156,44 @@ class EventListView(View):
     '''
     Renders an event list view of events associated with a thing.
     '''
-    
-    def get(self, request, thing):
-        if not request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing)):
-            return HttpResponseForbidden("Denied")
-        year = request.GET.get("y") or None
-        month = request.GET.get("m") or None
+    template_path = "student/event-list.html"
+    public_user_path = "user/public"
 
+    def get_user_permission(self, request, thing):
+        return (request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing)))
+
+    def get_user_thing(self, request, thing):
+        if (request.user.is_authenticated()
+            and self.get_user_permission(request, thing)):
+            return Thing.objects.get(pathid=Thing.hash(thing))
+        elif thing == self.public_user_path:
+            return None
+        raise PermissionDenied
+
+    def get_list_calendar(self, events, year, month):
         assert not bool(year) ^ bool(month), "provide both or neither year, month"
         # Default to current month/year if not provided
         now = datetimes.server_datetime_now()
         year = int(year or now.year)
         month = int(month or now.month)
+        return MonthListCalendar(year, month, events)
 
-        hashid = Thing.hash(thing)
-        try:
-            return render(request, "student/event-list.html", {
-                        "calendar": MonthListCalendar(year, month, Thing.objects.get(pathid=hashid).get_events())
-                        })
-        except Thing.DoesNotExist:
-            return HttpResponseNotFound()
+    def get_user_events(self, user):
+        if user:
+            return user.get_events()
+        # Hack to return an empty Event queryset
+        return Event.objects.filter(id=0).exclude(id=0)
 
+    def get(self, request, thing):
+        user_thing = self.get_user_thing(request, thing)
+        events = self.get_user_events(user_thing)
+        year = request.GET.get("y") or None
+        month = request.GET.get("m") or None
+        list_calendar = self.get_list_calendar(events, year, month)
+
+        return render(request, self.template_path, {
+            "calendar": list_calendar
+        })
 
 class MonthListCalendar(object):
     """

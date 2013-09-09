@@ -1,30 +1,26 @@
 {% load url from future %}
-
-<div id="listViewCalendar" class="pull-left" aria-hidden="true">
+<div class="js-list-calendar list-calendar" aria-hidden="true">
   {% include "student/month-small.html" with month_calendar=calendar %}
 </div>
 
-
-<div id="listViewList" class="pull-right">
-  {# right column containing list of days #}
+<div class="js-event-list event-list">
   <ul>
     {% for day in calendar.month_days %}
-    <li class="clearfix">
+    <li>
       <h4>{{ day.date|date:"l jS F" }}</h4>
-      <ul class="pull-right">
+      <ul>
         {% for event in day.events %}
         <li>
           <h5>{{ event.title }}</h5>
-          <span class="courseDatePattern">{{ event.start_local|date:"P" }} &ndash; {{ event.end_local|date:"P" }}{% if event.metadata.location %},{% endif %}</span>
-          <span class="courseLocation">{{ event.metadata.location }}</span>
-          {# FIXME: need to include subject + part #}
-          <span class="courseLecturer">{{ event.metadata.people|join:", " }}</span>
+          <div class="courseDatePattern">{{ event.start_local|date:"P" }} &ndash; {{ event.end_local|date:"P" }}</div>
+          <div class="courseLocation">{{ event.location }}</div>
+          <div class="courseLecturer">{{ event.metadata.people|join:", " }}</div>
         </li>
         {% endfor %}
       </ul>
     </li>
     {% empty %}
-    <li>
+    <li>  
       <p>No events for this month.</p>
     </li>
     {% endfor %}

@@ -295,6 +295,22 @@ define([
             this.$el.hide();
         },
 
+        setHeight: function (height) {
+            this.height = height;
+            this.resize();
+        },
+
+        getHeight: function () {
+            if (this.height === undefined) {
+                return "auto";
+            }
+            return this.height;
+        },
+
+        resize: function () {
+            this.$(".js-event-list").height(this.getHeight());
+        },
+
         render: function () {
             var self = this,
                 userPath = self.thingPath,
@@ -313,6 +329,7 @@ define([
                 }
 
                 self.$el.empty().append(response);
+                self.resize();
             });
         }
     });

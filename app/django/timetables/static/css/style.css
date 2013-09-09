@@ -720,69 +720,101 @@ div#calendarData div.calendarNavigation ul li h4 {
   text-align: center;
 }
 
+/* list view */
 .list-view {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
-.list-view #listViewCalendar {
-  position: fixed;
-}
-.list-view table {
-  width: 230px;
+/* list view calendar */
+
+.list-calendar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  font-size: .9em;
 }
 
-.list-view table td.occupied {
-  background-color: #fbf9e3;
+.list-calendar table {
+  border-radius: 0;
+  width: 220px;
 }
 
-.list-view table td.available {
-  background-color: #e4f0d8;
-}
-
-.list-view table td,
-.list-view table th {
-  text-align: center;
+.list-calendar td,
+.list-calendar th {
+  padding: 5px 0;
   vertical-align: middle;
-  padding: 4px 0;
+
+  text-align: center;
   text-shadow: 1px -1px 1px rgba(255, 255, 255, 1);
 }
 
-.list-view table th {
-  text-shadow: none;
+/* Overwrite Bootstrap styles... */
+.list-calendar thead:first-child tr:first-child > th:first-child,
+.list-calendar tbody:last-child tr:last-child > td:first-child {
+  border-radius: 0;
+}
+
+.list-calendar .available {
+  background-color: #e4f0d8;
+}
+
+.list-calendar .occupied {
+  background-color: #fbf9e3;
+}
+
+.list-calendar th {
   padding: 5px 0;
+
+  font-weight: 500;
+  text-shadow: none;
 }
 
-.list-view h4 {
-  text-align: right;
-  margin: 0 auto;
+/* list view events list */
+
+.event-list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.list-view div#listViewList {
-  text-align: right;
-  width: 100%;
-}
-
-.list-view div#listViewList h4, .list-view div#listViewList h5 {
-  margin: 0;
-  
-}
-
-.list-view div#listViewList ul {
-  margin: 0;
+.event-list ul {
   list-style-type: none;
 }
 
-.list-view div#listViewList ul ul {
-  width: 250px;
-  margin-left: 30px;
-  margin-bottom: 20px;
+.event-list > ul {
+  margin: 0 20px 0 260px;
 }
 
-.list-view div#listViewList ul ul li {
-  padding-bottom: 20px;
-  line-height: 1.3em;
+.event-list ul ul {
+  margin: 0 0 20px 0;
+  color: #505050;
+}
+
+.event-list ul ul li {
   margin-right: 0;
+  padding-bottom: 20px;
+
+  line-height: 1.3em;
+}
+
+.event-list ul > li:last-child ul,
+.event-list ul li:last-child ul li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.event-list h4 {
+  border-bottom: 1px solid #e4e4e4;
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: right;
+}
+
+.event-list h5 {
+  margin: 0;
 }
 
 /*
