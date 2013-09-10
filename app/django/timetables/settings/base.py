@@ -9,14 +9,6 @@ import logging
 
 from unipath import Path
 
-
-# Run a basic config so that log messages in settings can be shown before Django
-# sets up logging properly.
-logging.basicConfig(level=logging.ERROR)
-log = logging.getLogger("timetables.settings")
-del logging
-
-
 ##############################
 # Timetables specific settings
 ##############################
@@ -318,29 +310,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'timetables.backend.TimetablesAuthorizationBackend',
 )
-
-
-# Add Query Level Cache if present on system.
-# This needs an install of Johnny Cache from https://github.com/jmoiron/johnny-cache
-try:
-    import johnny.backends
-    CACHES['default'] = {
-            'BACKEND' : 'johnny.backends.locmem.LocMemCache',
-            'LOCATION' : 'unique-snowflake',
-            'JOHNNY_CACHE' : True,
-           }
-
-    JOHNNY_MIDDLEWARE_KEY_PREFIX = 'djoae'
-    JOHNNY_TABLE_BLACKLIST = ("django_session",)
-    MIDDLEWARE_CLASSES = (
-        'johnny.middleware.LocalStoreClearMiddleware',
-        'johnny.middleware.QueryCacheMiddleware',
-        ) + MIDDLEWARE_CLASSES
-
-    DISABLE_QUERYSET_CACHE = False
-except ImportError:
-    log.info("Query Level Cache is disabled, please install johnny cache")
-
 
 ############################################
 # require settings for RequireJS compilation

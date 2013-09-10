@@ -163,4 +163,8 @@ class SeriesSubjectTitleTest(TestCase):
         """
         s = SeriesSubjectTitle()
         response = s.get(request=None, series_id=1).content
-        self.assertJSONEqual(response, '{"subject": "Test Tripos Test Part"}')
+
+        self.assertJSONEqual(
+            response,
+            {"series_id": 1, "subject": "Test Tripos; Test Part"}
+        )
