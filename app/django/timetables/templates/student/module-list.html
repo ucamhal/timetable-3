@@ -51,11 +51,8 @@
   <p>
     Unfortunately the timetable for {{ disabled_subject.as_subject }} is not yet in this system.
     {% if disabled_subject.get_external_website_url %}
-      Go to the
-      <a target="_blank" href="{{ disabled_subject.get_external_website_url }}">
-        departmental website
-      </a>
-      to see your timetable.
+      You can find the current timetable
+      <a target="_blank" href="{{ disabled_subject.get_external_website_url }}">here</a>.
     {% endif %}
   </p>
 </li>
