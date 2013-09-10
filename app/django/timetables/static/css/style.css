@@ -775,6 +775,7 @@ div#calendarData div.calendarNavigation ul li h4 {
 .event-list {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  word-wrap: break-word;
 }
 
 .event-list ul {
