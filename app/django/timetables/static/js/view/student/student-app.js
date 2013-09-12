@@ -133,10 +133,10 @@ define([
         },
 
         onBeforePrint: function () {
-            // We only support week printing so we have to temporarily switch
-            // the view
-            this._beforePrintView = this.activeView;
-            this.calendarViewNavigation.setActiveView("agendaWeek");
+            if (this.activeView === "month") {
+                this.switchToMonthAfterPrint = true;
+                this.calendarViewNavigation.setActiveView("agendaWeek");
+            }
             this.printResize();
         },
 
@@ -147,8 +147,10 @@ define([
             var fcHeight = this.fullCalendarView.$el.fullCalendar("option", "height");
             this.fullCalendarView.setHeight(fcHeight);
 
-            // Restore the view active before printing
-            this.calendarViewNavigation.setActiveView(this._beforePrintView);
+            if (this.switchToMonthAfterPrint) {
+                this.switchToMonthAfterPrint = false;
+                this.calendarViewNavigation.setActiveView("month");
+            }
         },
 
         initCalendar: function () {
@@ -377,20 +379,26 @@ define([
         },
 
         printResize: function () {
-            // Needs to be defined in the JS for FF
-            $("#calendarHolder").css("width", 650);
-            var calendarView = this.fullCalendarView.getView(),
-                elHeight = calendarView.element.find(".fc-agenda-slots").outerHeight(true),
-                // The days row height is independant from the agenda slots
-                // but it's still needed for the calendar height calculation so
-                // we have to include it in our calculation:
-                daysTable = calendarView.element.find(".fc-agenda-days"),
-                // The days row is in the table <thead>, we can't calculate the
-                // <thead> height directly because it wouldn't include table
-                // borders, etc.
-                daysRowHeight = daysTable.height() - daysTable.find("tbody").height();
-            this.fullCalendarView.setHeight(elHeight + daysRowHeight + 1);
-            $("#calendar").fullCalendar("render");
+            switch (this.activeView) {
+            case "agendaWeek":
+                $("#calendarHolder").width(910);
+                var calendarView = this.fullCalendarView.getView(),
+                    elHeight = calendarView.element.find(".fc-agenda-slots").outerHeight(true),
+                    // The days row height is independant from the agenda slots
+                    // but it's still needed for the calendar height calculation so
+                    // we have to include it in our calculation:
+                    daysTable = calendarView.element.find(".fc-agenda-days"),
+                    // The days row is in the table <thead>, we can't calculate the
+                    // <thead> height directly because it wouldn't include table
+                    // borders, etc.
+                    daysRowHeight = daysTable.height() - daysTable.find("tbody").height();
+                this.fullCalendarView.setHeight(elHeight + daysRowHeight + 1);
+                $("#calendar").fullCalendar("render");
+                break;
+            case "list":
+                $("#calendarHolder").css("width", "auto");
+                break;
+            }
         },
 
         resize: function () {

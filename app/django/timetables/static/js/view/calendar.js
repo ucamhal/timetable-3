@@ -210,6 +210,7 @@ define([
             return this.getView().name;
         },
 
+
         /**
          * Moves the calendar to the specified date. Will manipulate the date to
          *        always go to the start of the week (Thursday)

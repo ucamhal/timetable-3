@@ -611,6 +611,7 @@ div#results.empty p {
   z-index: 19;
   max-width: 320px;
   min-width: 220px;
+  word-wrap: break-word;
 }
 
 .alert.calendarEventInfo .arrow {
