@@ -200,8 +200,11 @@ def run_and_log(name, runner, command):
         "stderr:\n"
         "%s\n"
     )
-    log.info(message, name, resp.get_argument_string(), resp.get_return_code(),
-             indent(resp.get_stdout()), indent(resp.get_stderr()))
+    log.info(
+        message, name, resp.get_argument_string(), resp.get_return_code(),
+        indent(resp.get_stdout().decode("utf-8")),
+        indent(resp.get_stderr().decode("utf-8"))
+    )
 
     if resp.get_return_code() != 0:
         raise CommandPostUpdateException(resp)
