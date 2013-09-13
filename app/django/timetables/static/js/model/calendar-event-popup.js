@@ -25,7 +25,9 @@ define([
 
         updateSubjectTitle: function (callback) {
             var self = this;
+            this.set("state", "busy");
             api.getSeriesSubject(this.get("seriesId"), function (error, response) {
+                self.set("state", "idle");
                 if (error) {
                     dialogFactory.unknownError();
                     self.set("subjectTitle", undefined);

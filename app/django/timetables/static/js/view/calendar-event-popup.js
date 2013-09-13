@@ -51,11 +51,8 @@ define([
 
         onModelSeriesIdChange: function (model) {
             model.set({
-                state: "loading",
                 subject: ""
-            }).updateSubjectTitle(function () {
-                model.set("state", "idle");
-            });
+            }).updateSubjectTitle();
         },
 
         /**
