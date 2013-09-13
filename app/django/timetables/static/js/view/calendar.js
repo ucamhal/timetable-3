@@ -210,6 +210,27 @@ define([
             return this.getView().name;
         },
 
+        getScrollPosition: function () {
+            // Defaults for e.g. month view: The month view is variable in
+            // height which makes retaining the scroll position pointless.
+            var position = 0,
+                $el;
+
+            // Fullcalendar uses different structures for different views..
+            if (this.getViewName() === "agendaWeek") {
+                $el = this.$(".fc-view-agendaWeek > div > div");
+                position = $el.scrollTop();
+            }
+
+            return {
+                restore: function () {
+                    // Fullcalendar sets the position to 0 by default
+                    if ($el && position > 0) {
+                        $el.scrollTop(position);
+                    }
+                }
+            };
+        },
 
         /**
          * Moves the calendar to the specified date. Will manipulate the date to
@@ -217,8 +238,11 @@ define([
          * @param {object} date The date the calendar has to move to.
          */
         goToDate: function (date) {
+            var scrollPosition = this.getScrollPosition();
             this.resetEventPopup();
             this.$el.fullCalendar("gotoDate", date);
+            // Defer to wait until fullcalendar has finished rendering
+            _.defer(scrollPosition.restore);
         },
 
         setHeight: function (height) {
