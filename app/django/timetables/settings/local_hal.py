@@ -6,8 +6,8 @@ INSTALLED_APPS += (
 #    "django_extensions",
 )
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 
 #DEVSERVER_AJAX_PRETTY_PRINT = True
 
