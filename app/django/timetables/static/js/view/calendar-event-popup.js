@@ -79,7 +79,8 @@ define([
                 location: calEvent.location,
                 lecturers: calEvent.lecturer.toString(),
                 type: calEvent.type,
-                seriesId: parseInt(calEvent.eventSourceId, 10)
+                seriesId: parseInt(calEvent.eventSourceId, 10),
+                seriesTitle: calEvent.eventSourceTitle
             });
         },
 

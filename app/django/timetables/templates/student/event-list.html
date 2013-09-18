@@ -11,7 +11,8 @@
       <ul>
         {% for event in day.events %}
         <li>
-          <h5>{{ event.title }}</h5>
+          <h5>{{ event.source.title }}</h5>
+          <div class="courseEventTitle">{{ event.title }}</div>
           <div class="courseDatePattern">{{ event.start_local|date:"P" }} &ndash; {{ event.end_local|date:"P" }}</div>
           <div class="courseLocation">{{ event.location }}</div>
           <div class="courseLecturer">{{ event.metadata.people|join:", " }}</div>

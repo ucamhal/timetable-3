@@ -24,12 +24,18 @@ define([
                     week: "ddd dd/M"
                 },
                 eventRender: function (calEvent, $el, view) {
-                    // Show the title and location in the event box if the
-                    // active view is "agendaWeek"
-                    if (view.name === "agendaWeek") {
-                        $el.find(".fc-event-time").text(calEvent.title);
+                    switch (view.name) {
+                    case "agendaWeek":
+                        // Show the series title and location in the event box
+                        $el.find(".fc-event-time").text(calEvent.eventSourceTitle);
                         $el.find(".fc-event-title").text(calEvent.location);
+                        break;
+                    case "month":
+                        // Show the event source title instead of the event title
+                        $el.find(".fc-event-title").text(calEvent.eventSourceTitle);
+                        break;
                     }
+
                     $el.attr("aria-label", self.generateAuralEvent(calEvent))
                        .attr("role", "article");
 

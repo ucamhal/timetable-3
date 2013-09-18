@@ -38,29 +38,27 @@ class CalendarView(View):
         # Note: event.start, event.end are UTC. No need to convert to
         # local time in order to send to fullcalendar (as long as you
         # turn OFF ignoreTimezone in fullcalendar...)
-        if allday:
-            return {
-                "djid": event.id,
-                "title" : event.title,
-                "allDay" : True,
-                "start" : DateConverter.from_datetime(event.start, True).isoformat(),
-                "location" : event.location,
-                "lecturer" : lecturer,
-                "type" : eventtype,
-                "eventSourceId": event.source_id
-            }
-        else:
-            return {
-                "djid": event.id,
-                "title" : event.title,
+        
+        event_data = {
+            "djid": event.id,
+            "title" : event.title,
+            "allDay" : True,
+            "start" : DateConverter.from_datetime(event.start, True).isoformat(),
+            "location" : event.location,
+            "lecturer" : lecturer,
+            "type" : eventtype,
+            "eventSourceId": event.source_id,
+            "eventSourceTitle": event.source.title
+        }
+
+        if not allday:
+            event_data.update({
                 "allDay" : False,
                 "start" : DateConverter.from_datetime(event.start, False).isoformat(),
                 "end" : DateConverter.from_datetime(event.end, False).isoformat(),
-                "location" : event.location,
-                "lecturer" : lecturer,
-                "type" : eventtype,
-                "eventSourceId": event.source_id
-            }
+            })
+
+        return event_data
 
     def validate_permissions(self):
         thing = self.get_thing_fullpath()
