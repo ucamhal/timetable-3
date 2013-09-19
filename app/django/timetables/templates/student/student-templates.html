@@ -3,13 +3,15 @@
   <div class="arrow"></div>
   <button type="button" class="close js-close" tabindex="-1">x</button>
   <h5><%= seriesTitle %></h5>
-  <span><%= title %></span>
-  <br/>
-  <span><%= datePattern %></span>
-  <br/>
-  <span><%= location %></span>
-  <br/>
-  <span><%= lecturers %></span>
+  <div class="event-metadata">
+    <span><%= title %></span>
+    <br/>
+    <span><%= datePattern %></span>
+    <br/>
+    <span><%= location %></span>
+    <br/>
+    <span><%= lecturers %></span>
+  </div>
   <% if (subjectTitle) { %>
     <br/>
     <span>Belongs to <%= subjectTitle %></span>

@@ -614,6 +614,14 @@ div#results.empty p {
   word-wrap: break-word;
 }
 
+.calendarEventInfo h5 {
+  margin-bottom: 5px;
+}
+
+.calendarEventInfo .event-metadata {
+  padding-left: 10px;
+}
+
 .alert.calendarEventInfo .arrow {
   position: absolute;
   display: inline-block;
