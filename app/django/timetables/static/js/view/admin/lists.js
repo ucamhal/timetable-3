@@ -202,10 +202,6 @@ define([
      * Bootstrap's collapse plugin.
      */
     var ModuleView = Backbone.View.extend({
-        constructor: function ModuleView() {
-            ModuleView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             return {
                 "show .js-module-content": this.onExpand,
@@ -278,10 +274,6 @@ define([
     });
 
     var SeriesView = Backbone.View.extend({
-        constructor: function SeriesView() {
-            SeriesView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             return {
                 "show .js-events": this.onExpand,
@@ -432,10 +424,6 @@ define([
     });
 
     var WritableModuleView = ModuleView.extend({
-        constructor: function WritableModuleView () {
-            WritableModuleView.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function () {
             _.bindAll(this);
 
@@ -720,10 +708,6 @@ define([
     });
 
     var WritableSeriesView = SeriesView.extend({
-        constructor: function WritableSeriesView() {
-            WritableSeriesView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             var superEvents = WritableSeriesView.__super__.events.call(this);
 
@@ -1180,10 +1164,6 @@ define([
     });
 
     var EventView = Backbone.View.extend({
-        constructor: function EventView() {
-            EventView.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function() {
             _.bindAll(this);
 
@@ -1212,10 +1192,6 @@ define([
     });
 
     var EventModel = BaseModel.extend({
-        constructor: function EventModel() {
-            EventModel.__super__.constructor.apply(this, arguments);
-        },
-
         titleCase: function(str) {
             if (str.length > 0) {
                 return str[0].toUpperCase() + str.slice(1);
@@ -1277,10 +1253,6 @@ define([
     });
 
     var WritableEventView = EventView.extend({
-        constructor: function WritableEventView() {
-            WritableEventView.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function () {
             WritableEventView.__super__.initialize.apply(this, arguments);
 
@@ -1932,10 +1904,6 @@ define([
     });
 
     var DateTimeDialogView = Backbone.View.extend({
-        constructor: function DateTimeDialogView() {
-            DateTimeDialogView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             return {
                 "click .js-close-btn": this.onCloseClick,
@@ -2244,10 +2212,6 @@ define([
     });
 
     var DialogBackdropView = Backbone.View.extend({
-        constructor: function DialogBackdropView() {
-            DialogBackdropView.__super__.constructor.apply(this, arguments);
-        },
-
         tagName: "div",
         className: "dialog-backdrop",
 
@@ -2263,10 +2227,6 @@ define([
     });
 
     var SaveEventsDialogView = Backbone.View.extend({
-        constructor: function() {
-            SaveEventsDialogView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             return {
                 "click .btn": this.dismissDialog
@@ -2329,10 +2289,6 @@ define([
      * and an error message with a retry button when failed.
      */
     var LoadingIndicatorView = Backbone.View.extend({
-        constructor: function LoadingIndicatorView() {
-            LoadingIndicatorView.__super__.constructor.apply(this, arguments);
-        },
-
         events: function() {
             return {
                 "click .js-retry-btn": "onRetry"
@@ -2359,10 +2315,6 @@ define([
     });
 
     var TitleModel = BaseModel.extend({
-        constructor: function TitleModel() {
-            TitleModel.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function (opts) {
             TitleModel.__super__.initialize.apply(this, arguments);
             this.titleFieldName = opts.titleFieldName || "title";

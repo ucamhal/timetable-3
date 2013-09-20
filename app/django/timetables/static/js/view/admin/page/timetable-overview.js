@@ -16,10 +16,6 @@ define([
     });
 
     var EditableTimetable = Backbone.View.extend({
-        constructor: function EditableTimetable() {
-            EditableTimetable.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function () {
             this.$editMessage = this.$(".js-edit-message");
             this.$name = this.$(".js-editor");

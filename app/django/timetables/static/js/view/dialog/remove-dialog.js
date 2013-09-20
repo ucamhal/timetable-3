@@ -8,10 +8,6 @@ define([
     "use strict";
 
     var RemoveDialog = BaseDialog.extend({
-        constructor: function RemoveDialog () {
-            RemoveDialog.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function () {
             // Apply initialization of superclass
             RemoveDialog.__super__.initialize.apply(this, arguments);

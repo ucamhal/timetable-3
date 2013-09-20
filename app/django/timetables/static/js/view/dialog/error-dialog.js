@@ -7,10 +7,6 @@ define([
     "use strict";
 
     var ErrorDialog = BaseDialog.extend({
-        constructor: function ErrorDialog () {
-            ErrorDialog.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function () {
             // Apply initialization of superclass
             ErrorDialog.__super__.initialize.apply(this, arguments);

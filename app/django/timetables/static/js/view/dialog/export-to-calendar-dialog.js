@@ -11,10 +11,6 @@ define([
     "use strict";
 
     var ExportToCalendarDialog = BaseDialog.extend({
-        constructor: function ExportToCalendarDialog() {
-            ExportToCalendarDialog.__super__.constructor.apply(this, arguments);
-        },
-
         initialize: function (options) {
             ExportToCalendarDialog.__super__.initialize.apply(this, arguments);
 
