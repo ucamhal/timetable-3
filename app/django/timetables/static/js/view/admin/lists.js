@@ -7,6 +7,7 @@ define([
     "util/django-forms",
     "util/focus-helper",
     "jquery-bbq",
+    "jquery-trap",
     "util/jeditable-types",
     "bootstrapTypeahead",
     "util/underscore-mixins"
@@ -2005,6 +2006,7 @@ define([
 
             // Initialise the inputs
             this.render();
+            this.$el.trap();
         },
 
         createMinuteArray: function () {
@@ -2200,6 +2202,7 @@ define([
         },
 
         remove: function() {
+            this.$el.untrap();
             // Remove our backdrop element when we're removed.
             this.backdrop.remove();
             // Call the superclass's remove()

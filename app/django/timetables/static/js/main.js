@@ -4,6 +4,7 @@ require.config({
         "jquery-bbq": "libs/jquery.bbq",
         "jquery-jeditable": "libs/jquery.jeditable",
         "jquery-autosize": "libs/jquery.autosize-min",
+        "jquery-trap": "libs/jquery.trap",
         underscore: "libs/underscore",
         backbone: "libs/backbone",
         bootstrap: "libs/bootstrap",
@@ -36,6 +37,10 @@ require.config({
             exports: "$"
         },
         "jquery-jeditable": {
+            deps: ["jquery"],
+            exports: "$"
+        },
+        "jquery-trap": {
             deps: ["jquery"],
             exports: "$"
         }
