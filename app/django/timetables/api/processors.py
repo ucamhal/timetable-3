@@ -71,7 +71,11 @@ class XMLImportProcessor(object):
         """
         Creates a ModuleData from a module node
         """
-        module = ModuleData(xml_module.find('name').text)
+        name = xml_module.find('name').text
+        if name is None:
+            name = ""
+
+        module = ModuleData(name)
 
         xml_path_node = xml_module.find('path')
         tripos = xml_path_node.find('tripos').text
