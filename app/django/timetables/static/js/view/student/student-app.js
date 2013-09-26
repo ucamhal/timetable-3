@@ -132,13 +132,22 @@ define([
             window.onafterprint = this.onAfterPrint;
         },
 
-        onBeforePrint: function () {
-            if (this.activeView === "month") {
-                this.switchToMonthAfterPrint = true;
-                this.calendarViewNavigation.setActiveView("agendaWeek");
+        onBeforePrint: (function () {
+            // Debounce because chrome triggers it multiple times for the same
+            // print dialog.
+            var debouncedTrigger = _.debounce(function (event) {
+                timetableEvents.trigger(event);
+            }, 200);
+
+            return function () {
+                debouncedTrigger("on_before_print");
+                if (this.activeView === "month") {
+                    this.switchToMonthAfterPrint = true;
+                    this.calendarViewNavigation.setActiveView("agendaWeek");
+                }
+                this.printResize();
             }
-            this.printResize();
-        },
+        }()),
 
         onAfterPrint: function () {
             this.resize();
@@ -195,6 +204,7 @@ define([
         },
 
         onPrintClick: function () {
+            timetableEvents.trigger("click_btn_print");
             window.print();
         },
 

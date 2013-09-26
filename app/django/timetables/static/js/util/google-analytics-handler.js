@@ -15,6 +15,7 @@ define([
         auth: "Auth",
         cal_manip: "Edit",
         cal_export: "Export",
+        cal_print: "Print",
         cal_view: "View"
     };
 
@@ -36,6 +37,8 @@ define([
         click_add:               {category: categories.cal_manip,    action: "Click add"},
         click_remove:            {category: categories.cal_manip,    action: "Click remove"},
         click_btn_export:        {category: categories.cal_export,   action: "Click export"},
+        on_before_print:         {category: categories.cal_print,    action: "Print"},
+        click_btn_print:         {category: categories.cal_print,    action: "Click print"},
         click_feed_path:         {category: categories.cal_export,   action: "Click feed"},
         click_btn_feed_reset:    {category: categories.cal_export,   action: "Reset feed"},
         click_event:             {category: categories.cal_view,     action: "Click Event"}
