@@ -146,7 +146,7 @@ define([
                     this.calendarViewNavigation.setActiveView("agendaWeek");
                 }
                 this.printResize();
-            }
+            };
         }()),
 
         onAfterPrint: function () {
