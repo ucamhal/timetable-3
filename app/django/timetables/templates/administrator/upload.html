@@ -1,5 +1,8 @@
 {% extends "administrator/base.html" %}
 
+{% block javascript_index %}{% endblock javascript_index %}
+{% block javascript_page %}{% endblock javascript_page %}
+
 {% block admin_content %}
 <form action="/api/v0/xmlimport/" method="post" enctype="multipart/form-data">
 {% csrf_token %}
