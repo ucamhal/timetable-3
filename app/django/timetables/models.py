@@ -666,7 +666,7 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
         """
         if not self.set_metadata_is_enabled:
             return
-        self.data = self.compute_metadata()
+        self.metadata.update(self.compute_metadata())
         if "save" in kwargs:
             if kwargs["save"] == True:
                 self.save()
@@ -689,7 +689,7 @@ class EventSource(CleanModelMixin, SchemalessModel, VersionableModel):
             "location": self.compute_commonest_location(events=events),
             "people": self.compute_unique_people_list(events=events)
         }
-        return json.dumps(data)
+        return data
 
     def compute_datepattern_metadata(self, **kwargs):
         events = None
