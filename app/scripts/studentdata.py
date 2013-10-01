@@ -2,7 +2,7 @@
 """
 Utility to assist with joining CRSID data from education section with data from
 the camsis coding manual to create a mapping of CRSID -> Tripos (roughly). I
-say roughly because we map to "Academic Plans" which are not neccisarilly a 1:1
+say roughly because we map to "Academic Plans" which are not necessarily a 1:1
 map to tripos...
 
 To use this you'll need to run each of the 4 subcommands listed under usage.
