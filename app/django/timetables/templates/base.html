@@ -27,7 +27,12 @@
     {% endblock ga_info %}
 
     {% block userinfo %}
-      <div id="userinfo" class="hide" data-logged-in="{% if user_logged_in %}true{% else %}false{% endif %}" data-userid="{% if user_logged_in %}{{ user_username }}{% else %}public{% endif %}" data-userrole="{{ user_role }}">
+      <div id="userinfo" class="hide"
+            data-logged-in="{% if user_logged_in %}true{% else %}false{% endif %}"
+            data-userid="{% if user_logged_in %}{{ user_username }}{% else %}public{% endif %}"
+            data-userrole="{{ user_role }}"
+            {# user_thing will only be defined in the student indexview, but that's fine as it's only used there... #}
+            data-tripos="{{ user_thing.metadata.studentinfo.plan_alias }}">
           {# used for ajax post operations, I prefer this to the cookie method. #}
           {% csrf_token %}
       </div>

@@ -20,9 +20,13 @@ define(["jquery"], function ($) {
         },
         _adminEnabled = _check_is_staff(),
         _googleAnalyticsID,
-        _userRole;
+        _userRole,
+        _userTripos;
 
     return {
+        getUserTripos: function () {
+            return _userTripos = _userTripos || $("#userinfo").data("tripos");
+        },
         isUserLoggedIn: function () {
             return Boolean($("#userinfo").data("logged-in"));
         },

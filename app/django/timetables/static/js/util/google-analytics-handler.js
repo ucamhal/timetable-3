@@ -58,7 +58,10 @@ define([
             if (GAID) {
                 // Initialize page tracking
                 ga("create", page.getGoogleAnalyticsID());
-                ga("set", "dimension1", page.getUserRole());
+                ga("set", {
+                    "dimension1": page.getUserRole(),
+                    "dimension2": page.getUserTripos()
+                });
                 ga("send", "pageview");
 
                 this.bindEvents();

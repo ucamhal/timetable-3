@@ -34,6 +34,8 @@ class IndexView(View):
         if request.user.is_authenticated():
             # create a url with a hmac in it if the thing is a user. If not just a simple url will do.
             thing = Thing.get_or_create_user_thing(request.user)
+            context["user_thing"] = thing
+
             thingsubject = ThingSubject(thing=thing)
             hmac = thingsubject.create_hmac()
             context["ics_feed_url"] = reverse("export ics hmac", kwargs={ "thing" : thing.fullpath, "hmac" : hmac})
