@@ -41,5 +41,10 @@
 
 <div class="js-calendar" data-events-url="{% url "thing calendar view" thing %}?depth={{ depth|urlencode }}" data-start="{{ calendar_start }}" data-end="{{ calendar_end }}" data-terms="{{ terms|json }}"></div>
 
+<h5>Calendar Feed</h5>
+<p>
+  The events in this timetable are available <a href="{% url "export ics" thing %}">as an iCalendar feed</a>.
+</p>
+
 {% include "administrator/timetable-calendar-templates.html" %}
 {% endblock timetable_content %}
