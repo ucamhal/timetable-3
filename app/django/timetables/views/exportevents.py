@@ -21,10 +21,22 @@ class ExportEvents(View):
     '''
     Export all events in either csv or ical form.
     '''
-    
+    default_depth = 1
+    permitted_depths = set([1, 2])
     
     def _path_to_filename(self, fullpath):
         return "".join(x if x.isalpha() or x.isdigit() else '_' for x in fullpath )
+
+    def get_depth(self):
+        depth_raw = self.request.GET.get("depth", self.default_depth)
+        try:
+            depth = int(depth_raw)
+            if depth in self.permitted_depths:
+                return depth
+        except:
+            pass
+        return self.default_depth
+
 
     @method_decorator(condition(etag_func=None))
     def get(self, request, thing, hmac=None):
@@ -39,7 +51,9 @@ class ExportEvents(View):
                 exporter_class = settings.EVENT_EXPORTERS[outputformat]
                 exporter = newinstance(exporter_class)
                 if exporter is not None:
-                    events = thing.get_events()
+                    depth = self.get_depth()
+                    print "Depth: {}".format(depth)
+                    events = thing.get_events(depth=depth)
                     return exporter.export(events, feed_name=self._path_to_filename(thing.fullpath))
                 return HttpResponseBadRequest("Sorry, Format not recognized, can't load class %s " % exporter_class )
             return HttpResponseBadRequest("Sorry, Format not recognized")
