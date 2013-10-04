@@ -40,8 +40,7 @@ class ExportEvents(View):
 
     @method_decorator(condition(etag_func=None))
     def get(self, request, thing, hmac=None):
-        thing_subject = ThingSubject(fullpath=thing, hmac=hmac)
-        if not request.user.has_perm(Thing.PERM_READ, thing_subject) or not thing_subject.is_hmac_valid():
+        if not request.user.has_perm(Thing.PERM_READ, ThingSubject(fullpath=thing, hmac=hmac)):
             return HttpResponseForbidden("Denied")
         hashid = Thing.hash(thing)
         outputformat = request.path.split(".")[-1]
