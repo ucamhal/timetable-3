@@ -1,0 +1,336 @@
+"""
+Export all events in the system into CSV format. Events with dodgy
+ancestors (invalid data) are skipped.
+"""
+import csv
+import sys
+import argparse
+
+import pytz
+
+from django.db import connection
+
+from timetables.models import Event, NestedSubject
+from timetables.utils import manage_commands
+
+
+class Command(manage_commands.ArgparseBaseCommand):
+
+    def __init__(self):
+        super(Command, self).__init__()
+
+        self.parser = argparse.ArgumentParser(
+            prog="exportcsv",
+            description=__doc__,
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        )
+
+    def handle(self, args):
+        start_queries = len(connection.queries)
+        events = self.get_events()
+
+        exporter = CsvExporter(
+            self.get_columns(),
+            [UnicodeEncodeRowFilter()],
+            events
+        )
+
+        exporter.export_to_stream(sys.stdout)
+
+    def get_columns(self):
+        return [
+            TriposNameColumnSpec(), TriposShortNameColumnSpec(),
+            PartNameColumnSpec(), PartShortNameColumnSpec(),
+            SubPartNameColumnSpec(), SubPartShortNameColumnSpec(),
+            ModuleNameColumnSpec(), ModuleShortNameColumnSpec(),
+            SeriesNameColumnSpec(),
+            EventTitleColumnSpec(), EventLocationColumnSpec(),
+            EventTypeColumnSpec(), EventUidColumnSpec(),
+            EventLecturerColumnSpec(),
+            EventStartDateTimeColumnSpec(), EventEndDateTimeColumnSpec()
+        ]
+
+    def get_events(self):
+        return (
+            Event.objects
+                .just_active()
+                .prefetch_related("source__"  # EventSource (series)
+                                  # m2m linking to module, should only have
+                                  # 1 link...
+                                  "eventsourcetag_set__"
+                                  "thing__" # Module
+                                  "parent__" # Subpart or part
+                                  "parent__" # part or tripos
+                                  "parent")) # tripos or nothing
+
+
+class SkipEvent(Exception):
+    pass
+
+
+class CsvExporter(object):
+    def __init__(self, columns, filters, events):
+        self.columns = columns
+        self.filters = filters
+        self.events = events
+
+    def export_to_stream(self, dest):
+        csv_writer = csv.writer(dest)
+        return self.export_to_csv_writer(csv_writer)
+
+    def export_to_csv_writer(self, csv_writer):
+        self.write_row(csv_writer, self.get_header_row())
+
+        for event in self.events:
+            try:
+                self.write_row(csv_writer, self.get_row(event))
+            except SkipEvent as e:
+                print >> sys.stderr, "Skipping event", event.pk, e
+
+    def get_header_row(self):
+        return [spec.get_column_name() for spec in self.columns]
+
+    def get_row(self, event):
+        return [spec.extract_value(event) for spec in self.columns]
+
+    def write_row(self, csv_writer, row):
+        for f in self.filters:
+            row = f.filter(row)
+
+        csv_writer.writerow(row)
+
+
+class UnicodeEncodeRowFilter(object):
+    encoding = "utf-8"
+
+    def encode_unicode(self, val):
+        if isinstance(val, unicode):
+            return val.encode(self.encoding)
+        return val
+
+    def filter(self, row):
+        return [self.encode_unicode(val) for val in row]
+
+
+class ColumnSpec(object):
+    name = None
+
+    def __init__(self, name=None):
+        if name is not None:
+            self.name = name
+        if self.name is None:
+            raise ValueError("no name value provided")
+
+    def get_column_name(self):
+        return self.name
+
+    def extract_value(self, event):
+        raise NotImplementedError()
+
+    def get_series(self, event):
+        if event.source is None:
+            raise SkipEvent("Event has no series", event.pk)
+        return event.source
+
+    def get_module(self, event):
+        series = self.get_series(event)
+        tags = series.eventsourcetag_set.all()
+
+        try:
+            tag = next(tag for tag in tags if tag.annotation == "home")
+            module = tag.thing
+        except StopIteration:
+            raise SkipEvent("Orphaned series with no module encountered", series.pk)
+
+        if module.type != "module":
+            raise SkipEvent("Series attached to non-module thing", series.pk)
+        return module
+
+    def get_subpart(self, event):
+        module = self.get_module(event)
+        subpart = module.parent
+        if subpart.type == "part":
+            return None
+        elif subpart.type in NestedSubject.NESTED_SUBJECT_TYPES:
+            return subpart
+
+        raise SkipEvent("Module's parent was not a part or subject", module.pk)
+
+    def get_part(self, event):
+        part_parent = self.get_subpart(event)
+        if part_parent is None:
+            part_parent = self.get_module(event)
+
+        part = part_parent.parent
+        if part.type != "part":
+            if part_parent.type == "module":
+                msg = "Module's parent was not a subpart or part"
+            else:
+                msg = "Subpart's parent was not type part"
+            raise SkipEvent(msg, part_parent.pk, part.pk, part.type)
+        return part
+
+    def get_tripos(self, event):
+        part = self.get_part(event)
+        tripos = part.parent
+        assert tripos.type == "tripos"
+        return tripos
+
+
+class TriposNameColumnSpec(ColumnSpec):
+    name = "Tripos Name"
+
+    def extract_value(self, event):
+        tripos = self.get_tripos(event)
+        return tripos.fullname
+
+
+class TriposShortNameColumnSpec(ColumnSpec):
+    name = "Tripos Short Name"
+
+    def extract_value(self, event):
+        tripos = self.get_tripos(event)
+        return tripos.name
+
+
+class PartNameColumnSpec(ColumnSpec):
+    name = "Part Name"
+
+    def extract_value(self, event):
+        part = self.get_part(event)
+        return part.fullname
+
+
+class PartShortNameColumnSpec(ColumnSpec):
+    name = "Part Short Name"
+
+    def extract_value(self, event):
+        part = self.get_part(event)
+        return part.name
+
+
+class SubPartNameColumnSpec(ColumnSpec):
+    name = "Subpart Name"
+
+    def extract_value(self, event):
+        subpart = self.get_subpart(event)
+        return None if subpart is None else subpart.fullname
+
+
+class SubPartShortNameColumnSpec(ColumnSpec):
+    name = "Subpart Short Name"
+
+    def extract_value(self, event):
+        subpart = self.get_subpart(event)
+        return None if subpart is None else subpart.name
+
+
+class ModuleNameColumnSpec(ColumnSpec):
+    name = "Module Name"
+
+    def extract_value(self, event):
+        module = self.get_module(event)
+        return module.fullname
+
+
+class ModuleShortNameColumnSpec(ColumnSpec):
+    name = "Module Short Name"
+
+    def extract_value(self, event):
+        module = self.get_module(event)
+        return module.name
+
+
+class SeriesNameColumnSpec(ColumnSpec):
+    name = "Series Name"
+
+    def extract_value(self, event):
+        series = self.get_series(event)
+        return series.title
+
+
+class EventAttrColumnSpec(ColumnSpec):
+    attr_name = None
+
+    def get_attr_name(self):
+        assert self.attr_name is not None
+        return self.attr_name
+
+    def extract_value(self, event):
+        return getattr(event, self.get_attr_name())
+
+
+class EventTitleColumnSpec(EventAttrColumnSpec):
+    name = "Title"
+    attr_name = "title"
+
+
+class EventLocationColumnSpec(EventAttrColumnSpec):
+    name = "Location"
+    attr_name = "location"
+
+
+class EventUidColumnSpec(ColumnSpec):
+    name = "UID"
+
+    def extract_value(self, event):
+        return event.get_ical_uid()
+
+
+class EventDateTimeColumnSpec(ColumnSpec):
+    timezone = pytz.timezone("Europe/London")
+
+    def get_datetime_utc(self, event):
+        raise NotImplementedError()
+
+    def extract_value(self, event):
+        dt_utc = self.get_datetime_utc(event)
+        return self.timezone.normalize(dt_utc.astimezone(self.timezone)).isoformat()
+
+
+class EventStartDateTimeColumnSpec(EventDateTimeColumnSpec):
+    name = "Start"
+
+    def get_datetime_utc(self, event):
+        return event.start
+
+
+class EventEndDateTimeColumnSpec(EventDateTimeColumnSpec):
+    name = "End"
+
+    def get_datetime_utc(self, event):
+        return event.end
+
+
+class EventMetadataColumnSpec(ColumnSpec):
+    metadata_path = None
+
+    def get_metadata_path(self):
+        if self.metadata_path is None:
+            raise ValueError("no metadata_path value provided")
+        return self.metadata_path
+
+    def extract_value(self, event):
+        metadata = event.metadata
+
+        segments = self.get_metadata_path().split(".")
+        for i, segment in enumerate(segments):
+            if not isinstance(metadata, dict):
+                return None
+            if i == len(segments) - 1:
+                return metadata.get(segment)
+            metadata = metadata.get(segment)
+
+
+class EventTypeColumnSpec(EventMetadataColumnSpec):
+    name = "Type"
+    metadata_path = "type"
+
+
+class EventLecturerColumnSpec(EventMetadataColumnSpec):
+    name = "People"
+    metadata_path = "people"
+
+    def extract_value(self, event):
+        value = super(EventLecturerColumnSpec, self).extract_value(event)
+        return None if value is None else ", ".join(value)
