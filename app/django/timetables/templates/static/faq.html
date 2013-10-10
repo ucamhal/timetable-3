@@ -1,0 +1,40 @@
+{% extends "static/base.html" %}
+
+{% block title %}Timetable Frequently Asked Questions{% endblock title %}
+
+{% block static-text %}
+<h1>Timetable Frequently Asked Questions</h1>
+
+
+<h2>How do I export my timetable to my Google Calendar?</h2>
+<ol>
+    <li>Log into your Google Calendar</li>
+    <li>Click the arrow button next to "Other calendars" and select "Add by URL"</li>
+    <li>Copy and paste the link above into the "URL" box</li>
+    <li>Click "Add Calendar"</li>
+    <li>Your personal timetable is now displayed in your Google Calendar</li>
+
+</ol>
+
+<h2>Why are my events shown at different times in Timetable and my own
+calendar?</h2>
+
+<p>You'll need to check the timezone of your calendar. If you live outside
+the UK, you may well have your Google or other calendar set to the
+timezone in which you normally live. This means all the events will show
+up as being at the wrong time. You can reset your calendar's timezone to
+match the timezone Cambridge is in.</p>
+
+
+<h2>Why aren't changes to my Timetable showing up in my (Google) calendar?</h2>
+
+<p>Depending on which electronic calendar client you're using, and on its
+settings, it can take up to 24 hours
+for changes you make to your personal timetable to show up in your own
+calendar. For example, Google Calendar only updates every 4-6 hours.</p>
+
+<p>If you have reset your calendar feed using the 'reset feed' link, your
+calendar won't receive updates, because it
+can no longer communicate with the Timetable system. You will need to add
+your new feed to your calendar client in order to see changes.</p>
+{% endblock static-text %}

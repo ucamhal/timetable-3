@@ -221,6 +221,12 @@ urlpatterns = patterns(
         static.privacy_policy,
         name="privacy_policy"),
 
+    url(
+        regex=r"^faq$",
+        view=static.faq,
+        name="faq"
+    ),
+
     url(r'canary$',
         CanaryView.as_view(),
         name="canary"),

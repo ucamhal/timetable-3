@@ -13,3 +13,8 @@ def privacy_policy(request):
     return shortcuts.render(request, "static/privacy-policy.html", {
         "site_url": site.get_site_url_from_request(request)
     })
+
+def faq(request):
+    return shortcuts.render(request, "static/faq.html", {
+        "site_url": site.get_site_url_from_request(request)
+    })
