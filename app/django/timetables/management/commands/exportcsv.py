@@ -8,8 +8,6 @@ import argparse
 
 import pytz
 
-from django.db import connection
-
 from timetables.models import Event, NestedSubject
 from timetables.utils import manage_commands
 from timetables.utils.traversal import (
@@ -35,7 +33,6 @@ class Command(manage_commands.ArgparseBaseCommand):
         )
 
     def handle(self, args):
-        start_queries = len(connection.queries)
         events = self.get_events()
 
         exporter = CsvExporter(
@@ -64,8 +61,7 @@ class Command(manage_commands.ArgparseBaseCommand):
             Event.objects
                 .just_active()
                 .prefetch_related("source__"  # EventSource (series)
-                                  # m2m linking to module, should only have
-                                  # 1 link...
+                                  # m2m linking to module
                                   "eventsourcetag_set__"
                                   "thing__" # Module
                                   "parent__" # Subpart or part

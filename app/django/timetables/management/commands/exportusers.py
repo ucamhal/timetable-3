@@ -34,8 +34,6 @@ import argparse
 
 import pytz
 
-from django.db import connection
-
 from timetables.models import Event, Thing
 from timetables.utils import manage_commands
 from timetables.utils.traversal import (
@@ -70,7 +68,13 @@ class Command(manage_commands.ArgparseBaseCommand):
 
     def get_users(self):
         return (Thing.objects.filter(type="user")
-                .prefetch_related("eventsourcetag_set__thing"))
+                .prefetch_related(
+                    # m2m linking modules to series
+                    "eventsourcetag_set__"
+                    "thing__"  # Module
+                    "parent__"  # Subpart or Part
+                    "parent__"  # Part or Tripos
+                    "parent"))  # Tripos or nothing
 
     def build_user_obj(self, user):
         calendar_series_tags = user.eventsourcetag_set.all()
