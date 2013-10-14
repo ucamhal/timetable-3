@@ -50,6 +50,8 @@ class ThingTraverserMixin(object):
 
 
 class EventTraverser(Traverser):
+    name = "event"
+
     def validate_obj(self):
         super(EventTraverser, self).validate_obj()
         if not isinstance(self.obj, Event):
@@ -61,6 +63,8 @@ class EventTraverser(Traverser):
 
 
 class SeriesTraverser(Traverser):
+    name = "series"
+
     def validate_obj(self):
         super(SeriesTraverser, self).validate_obj()
         if not isinstance(self.obj, EventSource):
