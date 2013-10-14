@@ -12,6 +12,15 @@ from django.db import connection
 
 from timetables.models import Event, NestedSubject
 from timetables.utils import manage_commands
+from timetables.utils.traversal import (
+    EventTraverser,
+    SeriesTraverser,
+    ModuleTraverser,
+    SubpartTraverser,
+    PartTraverser,
+    TriposTraverser,
+    InvalidStructureException
+)
 
 
 class Command(manage_commands.ArgparseBaseCommand):
@@ -64,10 +73,6 @@ class Command(manage_commands.ArgparseBaseCommand):
                                   "parent")) # tripos or nothing
 
 
-class SkipEvent(Exception):
-    pass
-
-
 class CsvExporter(object):
     def __init__(self, columns, filters, events):
         self.columns = columns
@@ -84,7 +89,7 @@ class CsvExporter(object):
         for event in self.events:
             try:
                 self.write_row(csv_writer, self.get_row(event))
-            except SkipEvent as e:
+            except InvalidStructureException as e:
                 print >> sys.stderr, "Skipping event", event.pk, e
 
     def get_header_row(self):
@@ -128,53 +133,34 @@ class ColumnSpec(object):
         raise NotImplementedError()
 
     def get_series(self, event):
-        if event.source is None:
-            raise SkipEvent("Event has no series", event.pk)
-        return event.source
+        return EventTraverser(event).step_up().get_value()
 
     def get_module(self, event):
         series = self.get_series(event)
-        tags = series.eventsourcetag_set.all()
-
-        try:
-            tag = next(tag for tag in tags if tag.annotation == "home")
-            module = tag.thing
-        except StopIteration:
-            raise SkipEvent("Orphaned series with no module encountered", series.pk)
-
-        if module.type != "module":
-            raise SkipEvent("Series attached to non-module thing", series.pk)
-        return module
+        return SeriesTraverser(series).step_up().get_value()
 
     def get_subpart(self, event):
         module = self.get_module(event)
-        subpart = module.parent
-        if subpart.type == "part":
-            return None
-        elif subpart.type in NestedSubject.NESTED_SUBJECT_TYPES:
-            return subpart
+        traverser = ModuleTraverser(module).step_up()
 
-        raise SkipEvent("Module's parent was not a part or subject", module.pk)
+        if traverser.name == SubpartTraverser.name:
+            return traverser.get_value()
+        return None
 
     def get_part(self, event):
-        part_parent = self.get_subpart(event)
-        if part_parent is None:
-            part_parent = self.get_module(event)
+        subpart = self.get_subpart(event)
+        if subpart is not None:
+            traverser = SubpartTraverser(subpart)
+        else:
+            traverser = ModuleTraverser(self.get_module(event))
 
-        part = part_parent.parent
-        if part.type != "part":
-            if part_parent.type == "module":
-                msg = "Module's parent was not a subpart or part"
-            else:
-                msg = "Subpart's parent was not type part"
-            raise SkipEvent(msg, part_parent.pk, part.pk, part.type)
-        return part
+        part_traverser = traverser.step_up()
+        assert part_traverser.name == PartTraverser.name
+        return part_traverser.get_value()
 
     def get_tripos(self, event):
         part = self.get_part(event)
-        tripos = part.parent
-        assert tripos.type == "tripos"
-        return tripos
+        return PartTraverser(part).step_up().get_value()
 
 
 class TriposNameColumnSpec(ColumnSpec):
