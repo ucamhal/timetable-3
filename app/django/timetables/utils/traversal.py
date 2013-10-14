@@ -48,6 +48,12 @@ class ThingTraverserMixin(object):
         if not isinstance(self.obj, Thing):
             raise ValidationException("Expected a Thing instance", self.obj)
 
+    def get_parent_thing(self):
+        parent = self.obj.parent
+        if parent is None:
+            raise InvalidStructureException("Thing has no parent", parent)
+        return parent
+
 
 class EventTraverser(Traverser):
     name = "event"
@@ -59,6 +65,8 @@ class EventTraverser(Traverser):
 
     def get_parent(self):
         series = self.obj.source
+        if series is None:
+            raise InvalidStructureException("Event has no series", self.obj)
         return (SeriesTraverser, series)
 
 
@@ -97,7 +105,7 @@ class ModuleTraverser(ThingTraverserMixin, Traverser):
             raise ValidationException("Expected type to be 'module'", self.obj)
 
     def get_parent(self):
-        obj = self.obj.parent
+        obj = self.get_parent_thing()
 
         if obj.type == "part":
             return (PartTraverser, obj)
@@ -115,7 +123,7 @@ class SubpartTraverser(ThingTraverserMixin, Traverser):
             raise ValidationException(msg, self.obj)
 
     def get_parent(self):
-        obj = self.obj.parent
+        obj = self.get_parent_thing()
         return (PartTraverser, obj)
 
 
@@ -128,7 +136,7 @@ class PartTraverser(ThingTraverserMixin, Traverser):
             raise ValidationException("Expected type to be 'part'", self.obj)
 
     def get_parent(self):
-        obj = self.obj.parent
+        obj = self.get_parent_thing()
         return (TriposTraverser, obj)
 
 
