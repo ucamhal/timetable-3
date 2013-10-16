@@ -213,18 +213,16 @@ urlpatterns = patterns(
         administrator.locks_status_view,
         name="locks status"),
 
-    url(r'cookies$',
-        static.cookie_policy,
-        name="cookie_policy"),
-
-    url(r'privacy$',
-        static.privacy_policy,
-        name="privacy_policy"),
-
     url(
         regex=r"^faq$",
         view=static.faq,
         name="faq"
+    ),
+
+    url(
+        regex=r"^useful-information$",
+        view=static.combined_policies,
+        name="useful_information"
     ),
 
     url(r'canary$',

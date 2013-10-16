@@ -44,7 +44,7 @@
         <button type="button" class="js-close close">&times;</button>
         <strong>Cookie policy</strong>
         <div class="clearfix">
-          <p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="{% url "cookie_policy" %}" target="_blank">Cookie Policy</a>.</p>
+          <p>This site uses cookies to store information on your computer. By using our site you accept the terms of our <a href="{% url "useful_information" %}#privacy-policy" target="_blank">Cookie Policy</a>.</p>
         </div>
       </div>
 
@@ -87,16 +87,10 @@
               <a href="mailto:{{ contact_us_address }}"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>
             </li>
             <li>
-                <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
-            </li>
-            <li>
-                <a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
-            </li>
-            <li>
-                <a href="//www.cam.ac.uk/about-this-site/accessibility" target="_blank">Accessibility</a>
-            </li>
-            <li>
               <a href="{% url "faq" %}" target="_blank"><span class="icon-question-sign icon-white"></span>FAQs</a>
+            </li>
+            <li>
+                <a href="{% url "useful_information" %}" target="_blank">Useful Information</a>
             </li>
           </ul>
 
