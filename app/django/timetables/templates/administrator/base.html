@@ -46,10 +46,10 @@
     <div class="clearfix">
       <ul class="pull-right">
         <li>
-          <a href="mailto:{{ contact_us_address }}"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>
+          <a href="{% url "faq" %}" target="_blank"><span class="icon-question-sign icon-white"></span>FAQs</a>
         </li>
         <li>
-          <a href="{% url "administratorhelp:home" %}" target="_blank"><span class="icon-question-sign icon-white"></span>Help</a>
+            <a href="{% url "useful_information" %}" target="_blank">Useful Information</a>
         </li>
       </ul>
     </div>
@@ -58,13 +58,10 @@
       <p class="copyright-message pull-left">&copy; Digital Services, Cambridge University Library, West Road, Cambridge CB3 9RD</p>
       <ul class="pull-right">
         <li>
-          <a href="{% url "privacy_policy" %}" target="_blank">Privacy policy</a>
+          <a href="mailto:{{ contact_us_address }}"><span class="icon-comment icon-white"></span>Contact us or give feedback</a>
         </li>
         <li>
-          <a href="{% url "cookie_policy" %}" target="_blank">Cookie policy</a>
-        </li>
-        <li>
-          <a href="//www.cam.ac.uk/about-this-site/accessibility" target="_blank">Accessibility</a>
+          <a href="{% url "administratorhelp:home" %}" target="_blank"><span class="icon-question-sign icon-white"></span>Help</a>
         </li>
       </ul>
     </div>
