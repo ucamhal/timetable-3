@@ -60,6 +60,15 @@ class Log2Json(object):
                 self.log("Ignoring non-ical request", path, entry)
                 continue
 
+            # Ignore non-200 statuses as we get a lot of 301 redirects
+            # bouncing from http to https (even though we give out https
+            # urls, odd). Otherwise we'd count each redirected request
+            # twice.
+            if entry["status"] != 200:
+                self.log("Ignoring non-200 status ical request",
+                         entry["status"], entry)
+                continue
+
             crsid = match.group(1)
 
             # Dates are UTC
