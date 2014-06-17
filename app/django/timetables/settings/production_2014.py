@@ -13,6 +13,6 @@ ALLOWED_HOSTS = [
     "2014.timetable.cam.ac.uk",
 ]
 
-WSGI_APPLICATION = "timetables.wsgi.production.application"
+WSGI_APPLICATION = "timetables.wsgi.production_2014.application"
 
 GOOGLE_ANALYTICS_ID = "UA-43714583-7"
