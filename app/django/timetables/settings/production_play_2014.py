@@ -19,3 +19,6 @@ GOOGLE_ANALYTICS_ID = "UA-43714583-6"
 
 # Use the beta banner
 IS_PLAY_SITE = True
+
+# This is the 2014/14 instance
+DEFAULT_ACADEMIC_YEAR = 2014

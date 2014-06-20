@@ -16,3 +16,6 @@ ALLOWED_HOSTS = [
 WSGI_APPLICATION = "timetables.wsgi.production_2014.application"
 
 GOOGLE_ANALYTICS_ID = "UA-43714583-7"
+
+# This is the 2014/14 instance
+DEFAULT_ACADEMIC_YEAR = 2014
