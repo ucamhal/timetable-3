@@ -14,8 +14,14 @@
 {% block bodyid %}admin{% endblock bodyid %}
 
 {% block timetable_logo %}
-<a href="{% url "admin" %}"><h1 class="pull-left">Timetable <span>beta</span></h1></a>
+<a href="{% url "admin" %}">
+  <h1 class="pull-left">
+    <span class="title-text">Timetable<span class="academic-year">{% if next_year_site_url %}archive {% endif %}{{ academic_year }}</span></span>
+    <span class="beta-tag">beta</span>
+  </h1>
+</a>
 {% endblock timetable_logo %}
+
 
 {% block top_bar %}
 <div id="inputArea">
@@ -35,6 +41,14 @@
 
 {% block content %}
   <div id="adminContent">
+
+    {% if next_year_site_url %}
+    <div class="alert alert-block archival-warning">
+      <h4>Timetable {{ academic_year }} has been archived</h4>
+      Data entry/checking for the next academic year can be done on the <a href="{{ next_year_site_url }}">next year's Timetable website</a>.
+    </div>
+    {% endif %}
+
     {% block admin_content %}
     {% endblock admin_content %}
   </div>

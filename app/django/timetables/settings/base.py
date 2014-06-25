@@ -217,7 +217,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     'timetables.utils.gitrevision.git_revivion_contextprocessor',
     'timetables.utils.requirejs.js_main_module_contextprocessor',
-    'timetables.utils.playsite.is_play_site_contextprocessor',
+    'timetables.utils.contextprocessors.is_play_site_contextprocessor',
+    'timetables.utils.contextprocessors.academic_year_contextprocessor',
+    'timetables.utils.contextprocessors.next_year_site_url_contextprocessor',
     'timetables.utils.userhelp.user_help_contextprocessor',
     'timetables.utils.user.user_contextprocessor',
     'timetables.utils.analytics.google_analytics_id_contextprocessor'

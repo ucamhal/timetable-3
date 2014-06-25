@@ -13,3 +13,6 @@ WSGI_APPLICATION = "timetables.wsgi.dev.application"
 GOOGLE_ANALYTICS_ID = "UA-43714583-5"
 
 IS_PLAY_SITE = True
+
+# Test archival behaviour.
+NEXT_YEAR_SITE_URL = "http://noodlytime.com/postimages/first-doge.png"

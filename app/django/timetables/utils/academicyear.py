@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.utils.datetime_safe import date
 
 TERM_START_DAY = "thu"
@@ -89,3 +91,12 @@ class AcademicYear(object):
         for term in self.terms:
             terms.append(term.to_json())
         return terms
+
+    def start_year(self):
+        return self.year
+
+    def end_year(self):
+        return self.start_year() + 1
+
+    def __unicode__(self):
+        return "{}\u2013{}".format(self.start_year(), self.end_year())

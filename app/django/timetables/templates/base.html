@@ -48,15 +48,17 @@
         </div>
       </div>
 
-
       <header id="mainHeader">
         <div id="uniLogo" class="clearfix">
           {% block timetable_logo %}
-          <h1 class="pull-left">Timetable <span>beta</span></h1>
+          <h1 class="pull-left">
+            <span class="title-text">Timetable<span class="academic-year">{% if next_year_site_url %}archive {% endif %}{{ academic_year }}</span></span>
+            <span class="beta-tag">beta</span>
+          </h1>
           {% endblock timetable_logo %}
 
           <h2 class="pull-right">
-            <a href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
+            <a class="cam-uni-logo" href="http://www.cam.ac.uk" target="_blank"><span class="hideMe">University of Cambridge</span></a>
           </h2>
 
           {# Show the play text if this is a timetable play site. #}

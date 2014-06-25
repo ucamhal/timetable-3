@@ -63,7 +63,7 @@ ul.yes-this-is-really-a-list {
   width: 670px;
 }
 
-.play-site #mainHeader #uniLogo a {
+.play-site .cam-uni-logo {
   background-image: url("../img/uniLogoWhite.png");
   width: 177px;
   height: 43px;
@@ -129,7 +129,12 @@ header#mainHeader div#actionsContainer a:last-child {
   padding-right: 1em;
 }
 
-div#uniLogo, div#inputArea > div {
+div#uniLogo {
+  padding-top: 8px;
+  padding-bottom: 4px;
+}
+
+div#inputArea > div {
   padding-top: 10px;
   padding-bottom: 2px;
 }
@@ -184,11 +189,22 @@ div#inputArea {
 
 div#uniLogo h1 {
   color: #646464;
-  padding: 9px 0 8px 0;
+  padding: 3px 0 14px 0;
   font-size: 2.5em;
 }
 
-div#uniLogo span {
+.title-text {
+  position: relative;
+}
+
+.academic-year {
+  position: absolute;
+  right: 0px;
+  bottom: -18px;
+  font-size: 14px;
+}
+
+.beta-tag {
   color: #c0c0c0;
   font-size: .5em;
 }
@@ -199,7 +215,7 @@ div#uniLogo h2 {
   line-height: 1em;
 }
 
-div#uniLogo h2 a {
+.cam-uni-logo {
   display: block;
   width: 204px;
   height: 42px;
@@ -562,15 +578,15 @@ div#results.empty p {
   font-size: 1.1em;
 }
 
-
-
-
-
 .alert {
   position: relative;
   left: -50%;
   margin: 0 auto;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+}
+.alert.archival-warning {
+  position: static;
+  margin: 10px 0 20px 0;
 }
 
 .alert a.btn {

@@ -11,3 +11,6 @@ ALLOWED_HOSTS = ["timetable.qa.ds.lib.cam.ac.uk"]
 WSGI_APPLICATION = "timetables.wsgi.qa.application"
 
 GOOGLE_ANALYTICS_ID = "UA-43714583-4"
+
+# Test archival behaviour.
+NEXT_YEAR_SITE_URL = "http://noodlytime.com/postimages/first-doge.png"
