@@ -24,7 +24,6 @@ from braces.views import LoginRequiredMixin, SuperuserRequiredMixin
 
 from timetables import models
 from timetables import forms
-from timetables.utils.xact import xact
 from timetables.utils.academicyear import AcademicYear
 from timetables.utils.v1 import FullPattern 
 from timetables.views import indexview
@@ -303,7 +302,7 @@ class EditSeriesView(SeriesMixin, AdministrationView):
             # temporarily disable the effect of Event.post_save() for efficiency
             series.disable_set_metadata()
 
-            @xact
+            @transaction.commit_on_success
             def save():
                 events_formset.save()
             save()
@@ -342,7 +341,7 @@ class EditSeriesTitleView(SeriesMixin, AdministrationView):
         series_form = editor.get_form()
 
         if series_form.is_valid():
-            @xact
+            @transaction.commit_on_success
             def save():
                 series_form.save()
             save()

@@ -4,7 +4,7 @@ Created on Oct 18, 2012
 @author: ieb
 '''
 from django.views.generic.base import View
-from timetables.utils.xact import xact
+from django.db import transaction
 from timetables.models import Thing, EventSourceTag,\
     EventSource, Event, EventTag
 from django.http import HttpResponseNotFound, HttpResponse,\
@@ -30,7 +30,7 @@ class LinkThing(View):
 
     '''
 
-    @method_decorator(xact)
+    @method_decorator(transaction.commit_on_success)
     def post(self, request, thing):
         # Check if the user is logged in
         if request.user.is_anonymous():

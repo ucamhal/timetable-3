@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core import exceptions
 from django.db import models, connection
+from django.db import transaction
 from django.db.models.signals import pre_save, post_save, pre_delete
 from django.utils import decorators
 from django.utils import simplejson as json
@@ -25,7 +26,6 @@ from django.utils.timezone import now
 
 from timeit import itertools
 from timetables import managers
-from timetables.utils import xact
 
 log = logging.getLogger(__name__)
 
@@ -1151,7 +1151,7 @@ class LockStrategy(object):
             return locks[0].owner
         return None
 
-    @decorators.method_decorator(xact.xact)
+    @decorators.method_decorator(transaction.commit_on_success)
     def refresh_lock(self, thing, owner, is_editing):
         """
         Attempts to refresh a previously acquired lock on thing for owner.
