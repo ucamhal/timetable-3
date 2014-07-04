@@ -3,18 +3,16 @@ Created on Aug 1, 2012
 
 @author: ieb
 '''
-from django.http import HttpResponseBadRequest, \
-    HttpResponseNotFound, HttpResponseForbidden
+from django.conf import settings
+from django.http import (HttpResponseBadRequest, HttpResponseNotFound,
+    HttpResponseForbidden)
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import condition
-
 from django.views.generic.base import View
-from timetables.models import Thing
-from django.conf import settings
-from timetables.utils.reflection import newinstance
+
 from timetables.backend import ThingSubject
-
-
+from timetables.models import Thing
+from timetables.utils.reflection import newinstance
 
 
 class ExportEvents(View):
