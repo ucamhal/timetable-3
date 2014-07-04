@@ -52,13 +52,15 @@ class ExportEvents(View):
                 if exporter is not None:
                     depth = self.get_depth()
                     print "Depth: {}".format(depth)
-                    events = thing.get_events(depth=depth)
+                    events = (thing.get_events(depth=depth)
+                        # The series is referenced from event in order to use
+                        # the series title in the output, so it helps to
+                        # prefetch the series to avoid len(events) queries
+                        # when iterating over events.
+                        .prefetch_related("source"))
                     return exporter.export(events, feed_name=self._path_to_filename(thing.fullpath))
                 return HttpResponseBadRequest("Sorry, Format not recognized, can't load class %s " % exporter_class )
             return HttpResponseBadRequest("Sorry, Format not recognized")
 
         except Thing.DoesNotExist:
             return HttpResponseNotFound()
-
-
-

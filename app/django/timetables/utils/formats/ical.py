@@ -52,9 +52,23 @@ class BaseICalExporter(object):
 
         return "with {}.".format(people)
 
+    def _build_summary(self, event):
+        """
+        Build the summary for an event.
+
+        The summary is the series name followed by the event name. Unless they're the
+        same, in which case we just use one not both.
+        """
+        series_name = event.source.title
+        event_name = event.title
+
+        if series_name == event_name:
+            return series_name
+        return "{} \u2013 {}".format(series_name, event_name)
+
     def make_event(self, e, metadata_names=None):
         event = iCalEvent()
-        event.add('summary', '%s' % e.title)
+        event.add('summary', self._build_summary(e))
         event.add('dtstart', DateConverter.from_datetime(e.start_origin(), e.metadata.get("x-allday")));
         event.add('dtend', DateConverter.from_datetime(e.end_origin(), e.metadata.get("x-allday")))
         event.add('location', e.location)
@@ -112,7 +126,7 @@ class LlicICalExporter(BaseICalExporter):
         for event in events:
             writer.begin(b"VEVENT")
 
-            writer.contentline("SUMMARY", writer.as_text(event.title))
+            writer.contentline("SUMMARY", writer.as_text(self._build_summary(event)))
             writer.contentline("DTSTART", writer.as_datetime(event.start))
             writer.contentline("DTEND", writer.as_datetime(event.end))
             writer.contentline("LOCATION", writer.as_text(event.location))
