@@ -52,6 +52,22 @@ define([
 
         getMinutesFromDate: function (date) {
             return $.fullCalendar.formatDate(date, "mm");
+        },
+
+        /**
+         * Returns a version of the function f which delays calls to f using
+         * _.defer. Any return value of f will be lost/ignored.
+         */
+        deferred: function (f) {
+            // The wrapped function which will defer the call to f,
+            // maintaining the origional this context and arguments.
+            return function() {
+                var _this = this;
+                var _arguments = arguments;
+                _.defer(function() {
+                    f.apply(_this, _arguments);
+                })
+            }
         }
     });
 

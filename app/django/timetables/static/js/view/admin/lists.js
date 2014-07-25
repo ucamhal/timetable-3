@@ -1273,7 +1273,11 @@ define([
         events: function () {
             return {
                 "keyup .tablecell-jeditable": this.onJEditableFieldInteraction,
-                "paste .tablecell-jeditable": this.onJEditableFieldInteraction,
+                // The paste event is fired before the clipboard's contents has
+                // been inserted into the cell. As a result we need to defer
+                // call to the paste event handler so that it happens after the
+                // content has entered the cell.
+                "paste .tablecell-jeditable": _.deferred(this.onJEditableFieldInteraction),
                 "cut .tablecell-jeditable": this.onJEditableFieldInteraction,
                 "change .type-select-jeditable": this.onJEditableFieldInteraction,
 
