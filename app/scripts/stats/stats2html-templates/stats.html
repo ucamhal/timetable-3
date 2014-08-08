@@ -1,12 +1,13 @@
 {% macro dataset_ops(dataset) -%}
     {% for op in dataset.operations %}
-        <div class="op">
+        <span class="op">
             {{ op.description }}
-        </div>
+        </span>
     {% else %}
         Root
     {% endfor %}
 {%- endmacro %}
+
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +16,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
@@ -23,23 +24,25 @@
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.js"></script>
     </head>
-    <body>
+    <body class="container">
         <h1>Timetable Stats</h1>
 
-        <h2>Dataset</h2>
-        <div class="datasets">
+        <ol class="breadcrumb">
             {% for dataset in datasets %}
-            <div class="dataset">
+            
                 {% if dataset == stats.dataset %}
-                    <strong title="current">{{ dataset_ops(dataset) }}</strong>
+                <li class="active">
+                    {{ dataset_ops(dataset) }}
+                </li>
                 {% else %}
+                <li>
                     <a href="{{ dataset|dataset_filename }}">
                         {{ dataset_ops(dataset) }}
                     </a>
+                </li>
                 {% endif %}
-            </div>
             {% endfor %}
-        </div>
+        </ol>
 
         <h2>Stats</h2>
         {% block stats %}
@@ -56,13 +59,13 @@
             <h3>{{ name }}</h3>
             {% if all_substats %}
                 {% if all_substats.0.dataset.operations.0.type == "filter" %}
-                    <ol>
+                    <ul class="list-group">
                     {% for substats in all_substats %}
-                        <li>
+                        <li class="list-group-item">
                             <a href="{{ substats.dataset|dataset_filename }}">{{ substats.dataset.operations.0.filter_value }}</a>
                         </li>
                     {% endfor %}
-                    </ol>
+                    </ul>
                 {% else %}
                     {# Pivot #}
                     <p><a href="{{ all_substats.0.dataset|dataset_filename }}">{{ all_substats.0.dataset.operations.0.description }}</a></p>

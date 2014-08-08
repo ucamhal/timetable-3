@@ -219,7 +219,7 @@ def lvl2_ical_stats_factory(dataset):
 def lvl1_ical_stats_factory(dataset):
     drilldowns = [
         base.Drilldown(
-            "useragents",
+            "UserAgents",
             ICalendarUserAgentOperationListEnumerator(),
             lvl2_ical_stats_factory
         )
@@ -281,7 +281,7 @@ def lvl2_year_stats_factory(dataset):
 def lvl1_tripos_stats_factory(dataset):
     drilldowns = timetable_drilldowns + [
         base.Drilldown(
-            "years",
+            "Years",
             StartYearOperationListEnumerator(),
             lvl2_year_stats_factory
         )
@@ -298,7 +298,7 @@ def lvl1_tripos_stats_factory(dataset):
 def lvl1_year_stats_factory(dataset):
     drilldowns = timetable_drilldowns + [
         base.Drilldown(
-            "tripos",
+            "Tripos",
             TriposOperationListEnumerator(),
             lvl2_tripos_stats_factory
         )
@@ -315,12 +315,12 @@ def lvl1_year_stats_factory(dataset):
 def root_stats_factory(dataset):
     drilldowns = timetable_drilldowns + [
         base.Drilldown(
-            "years",
+            "Years",
             StartYearOperationListEnumerator(),
             lvl1_year_stats_factory
         ),
         base.Drilldown(
-            "tripos",
+            "Tripos",
             TriposOperationListEnumerator(),
             lvl1_tripos_stats_factory
         )
