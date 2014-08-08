@@ -1,14 +1,4 @@
-"""
-Calculate aggregate statistics from raw per-user data in JSON format.
 
-Usage:
-    userstats.py <userstats.json>
-
-"""
-import json
-import sys
-
-import docopt
 
 class BaseDataset(object):
     def to_json(self):
@@ -48,6 +38,8 @@ class Dataset(BaseDataset):
         self.parent_dataset = parent_dataset
         self.operations = operations
 
+        assert len(self.operations) >= 0
+
     def get_parent(self):
         return self.parent_dataset
 
@@ -66,13 +58,8 @@ class Dataset(BaseDataset):
 
 
 class Operation(object):
-    def __init__(self, description=None):
-        self.description = description or getattr(self, "description")
-        if self.description is None:
-            raise ValueError("No value for description provided")
-
     def apply(self, data):
-        result = getattr(self, "_result")
+        result = getattr(self, "_result", None)
         if result is None:
             result = self.calculate_result(data)
             self._result = result
@@ -88,7 +75,7 @@ class Operation(object):
         }
 
     def get_description(self):
-        return self.description
+        raise NotImplementedError()
 
     def get_type(self):
         raise NotImplementedError()
@@ -116,6 +103,9 @@ class FilterOperation(Operation):
 
     def is_included(self, value):
         raise NotImplementedError()
+
+    def calculate_result(self, data):
+        return [value for value in data if self.is_included(value)]
 
 
 class PivotOperation(Operation):
@@ -149,10 +139,6 @@ class Drilldown(object):
             for op_list in self.operation_list_enumerator
                 .enumerate_operation_lists(stats.get_dataset())
         ]
-
-    def enumerate_operation_lists(self, dataset):
-        return self.operation_list_enumerator.enumerate_operation_lists(
-            dataset)
 
     def get_name(self):
         return self.name
@@ -202,12 +188,16 @@ class Stats(object):
             "drilldowns": dict(
                 (dd.get_name(), [
                     stats.evaluate_to_json()
-                    for stats in dd.get_stats_group()
+                    for stats in dd.get_stats_group(self)
                  ]
                 )
                 for dd in self.get_drilldowns()
             )
         }
+
+    @classmethod
+    def factory(cls, dataset, stat_values=[], drilldowns=[]):
+        return cls(dataset, stat_values, drilldowns)
 
 
 class StatValue(object):
@@ -224,70 +214,3 @@ class StatValue(object):
 
     def get_value(self, data):
         raise NotImplementedError()
-
-def ilen(seq):
-    try:
-        return max(i for i, _ in enumerate(seq)) + 1
-    except ValueError:
-        return 0
-
-#==============================================================================
-# Timetable specific stuff
-#==============================================================================
-
-class TotalUsersStatValue(StatValue):
-    name = "total_users"
-
-    def get_value(self, data):
-        return len(data.values())
-
-
-class TotalUsersWithCalendar(StatValue):
-    name = "total_users_with_calendar"
-
-    def get_value(self, data):
-        return ilen(user for user in data.itervalues()
-                    if len(user.get("calendar", [])) > 0)
-
-
-class TotalUsersWithICalFetch(StatValue):
-    name = "total_users_with_ical_fetch"
-
-    def get_value(self, data):
-        return ilen(user for user in data.itervalues()
-                    if len(user.get("ical_fetches", [])) > 0)
-
-class TimetableStats(Stats):
-    def __init__(self, dataset, stat_values, drilldowns):
-        stat_values = [
-            TotalUsersStatValue(),
-            TotalUsersWithCalendar(),
-            TotalUsersWithICalFetch()
-        ].append(stat_values)
-        super(TimetableStats, self).__init__(dataset, stat_values, drilldowns)
-
-
-class UserStats(object):
-    def __init__(self, args):
-        self.args = args
-
-    def get_data_filename(self):
-        return self.args["<userstats.json>"]
-
-    def get_dataset(self):
-        data_file = open(self.get_data_filename())
-        return RawDataset(json.load(data_file))
-
-    def get_user_stats(self):
-        return TimetableStats([], [], [])
-
-    def main(self):
-        stats = self.get_user_stats()
-
-        json.dump(stats.evaluate_to_json(), sys.stdout, indent=4)
-        print
-
-
-if __name__ == "__main__":
-    args = docopt.docopt(__doc__)
-    UserStats(args).main()
