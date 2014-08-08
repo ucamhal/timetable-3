@@ -1,0 +1,75 @@
+{% macro dataset_ops(dataset) -%}
+    {% for op in dataset.operations %}
+        <div class="op">
+            {{ op.description }}
+        </div>
+    {% else %}
+        Root
+    {% endfor %}
+{%- endmacro %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+    </head>
+    <body>
+        <h1>Timetable Stats</h1>
+
+        <h2>Dataset</h2>
+        <div class="datasets">
+            {% for dataset in datasets %}
+            <div class="dataset">
+                {% if dataset == stats.dataset %}
+                    <strong title="current">{{ dataset_ops(dataset) }}</strong>
+                {% else %}
+                    <a href="{{ dataset|dataset_filename }}">
+                        {{ dataset_ops(dataset) }}
+                    </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2>Stats</h2>
+        {% block stats %}
+        <dl>
+            {% for name, value in stats.stats.iteritems() %}
+            <dt>{{ name }}</dt>
+            <dd>{{ value }}</dd>
+            {% endfor %}
+        </dl>
+        {% endblock stats %}
+
+        <h2>Drill down</h2>
+        {% for name, all_substats in stats.drilldowns.iteritems() %}
+            <h3>{{ name }}</h3>
+            {% if all_substats %}
+                {% if all_substats.0.dataset.operations.0.type == "filter" %}
+                    <ol>
+                    {% for substats in all_substats %}
+                        <li>
+                            <a href="{{ substats.dataset|dataset_filename }}">{{ substats.dataset.operations.0.filter_value }}</a>
+                        </li>
+                    {% endfor %}
+                    </ol>
+                {% else %}
+                    {# Pivot #}
+                    <p><a href="{{ all_substats.0.dataset|dataset_filename }}">{{ all_substats.0.dataset.operations.0.description }}</a></p>
+                {% endif %}
+            {% else %}
+                &mdash;
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>

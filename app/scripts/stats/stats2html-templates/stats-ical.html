@@ -1,0 +1,27 @@
+{% extends "stats.html" %}
+
+{% block stats %}
+<dl>
+    <dt>Total iCalendar feed fetches</dt>
+    <dd>{{ stats.stats.total_ical_fetches }}</dd>
+    
+    <dt>Average time between iCalendar feed fetches</dt>
+    <dd>
+        {% if stats.stats.average_calendar_fetch_interval.days %}
+            {{ stats.stats.average_calendar_fetch_interval.days|int }} days,
+        {% endif %}
+        {% if stats.stats.average_calendar_fetch_interval.hours %}
+            {{ stats.stats.average_calendar_fetch_interval.hours|int }} hours,
+        {% endif %}
+        {% if stats.stats.average_calendar_fetch_interval.minutes %}
+            {{ stats.stats.average_calendar_fetch_interval.minutes|int }} minutes,
+        {% endif %}
+        {% if stats.stats.average_calendar_fetch_interval.seconds %}
+            {{ stats.stats.average_calendar_fetch_interval.seconds|int }} seconds
+        {% endif %}
+    </dd>
+
+    <dt>Average iCalendar feed size</dt>
+    <dd>{{ stats.stats.average_ical_size_bytes.size }}</dd>
+</dl>
+{% endblock stats %}

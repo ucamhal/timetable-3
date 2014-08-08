@@ -1,0 +1,20 @@
+{% extends "stats.html" %}
+
+{% block stats %}
+<dl>
+    <dt>Total users</dt>
+    <dd>{{ stats.stats.total_users }}</dd>
+    
+    <dt>Proportion of users who created a calendar</dt>
+    <dd>
+        {{ stats.stats.proportion_of_users_with_calendar.percentage }}
+        ({{ stats.stats.proportion_of_users_with_calendar.qualifying }}/{{ stats.stats.proportion_of_users_with_calendar.candidate }})
+    </dd>
+
+    <dt>Proportion of users who've fetched an iCalendar feed of their calendar</dt>
+    <dd>
+        {{ stats.stats.proportion_of_users_with_ical_fetch.percentage }}
+        ({{ stats.stats.proportion_of_users_with_ical_fetch.qualifying }}/{{ stats.stats.proportion_of_users_with_ical_fetch.candidate }})
+    </dd>
+</dl>
+{% endblock stats %}
