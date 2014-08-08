@@ -257,6 +257,15 @@ class TotalUsersWithICalFetch(StatValue):
         return ilen(user for user in data.itervalues()
                     if len(user.get("ical_fetches", [])) > 0)
 
+class TimetableStats(Stats):
+    def __init__(self, dataset, stat_values, drilldowns):
+        stat_values = [
+            TotalUsersStatValue(),
+            TotalUsersWithCalendar(),
+            TotalUsersWithICalFetch()
+        ].append(stat_values)
+        super(TimetableStats, self).__init__(dataset, stat_values, drilldowns)
+
 
 class UserStats(object):
     def __init__(self, args):
@@ -270,21 +279,7 @@ class UserStats(object):
         return RawDataset(json.load(data_file))
 
     def get_user_stats(self):
-        return Stats(
-            self.get_dataset(),
-            self.get_stat_values(),
-            self.get_drilldowns()
-        )
-
-    def get_drilldowns(self):
-        return []
-
-    def get_stat_values(self):
-        return [
-            TotalUsersStatValue(),
-            TotalUsersWithCalendar(),
-            TotalUsersWithICalFetch()
-        ]
+        return TimetableStats([], [], [])
 
     def main(self):
         stats = self.get_user_stats()
