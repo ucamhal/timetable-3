@@ -97,20 +97,17 @@ def get_years_drilldown():
         "years", StartYearOperationListEnumerator(), TimetableStats.factory)
 
 
-
-class AverageICalFetchIntervalStatValue(base.StatValue):
+class AverageICalFetchIntervalStatValue(base.TimeDeltaStatValue):
     """
     Calculates the average number of seconds between iCal fetches.
     """
     name = "average_calendar_fetch_interval"
 
-    def get_value(self, data):
+    def get_total_seconds(self, data):
         averages = list(self.get_per_calendar_subscriber_averages(data))
 
-        if len(averages) == 0:
-            return None
         # We want the average of the average fetch interval for each ical feed
-        return average(averages)
+        return average(averages, empty=None)
 
     def get_per_calendar_subscriber_averages(self, data):
         # Group by crsid and user_agent so that we get intervals between fetches
@@ -135,6 +132,13 @@ class AverageICalFetchIntervalStatValue(base.StatValue):
         if len(deltas) == 0:
             return None
         return average(deltas, division_type=int).total_seconds()
+
+
+class AverageICalSizeBytesStatValue(base.BytesStatValue):
+    name = "average_ical_size_bytes"
+
+    def get_total_bytes(self, data):
+        return average([fetch["calendar_size"] for fetch in data])
 
 
 class TotalStatValue(base.StatValue):
@@ -166,7 +170,8 @@ class TotalUsersWithICalFetch(base.StatValue):
                     if len(user.get("ical_fetches", [])) > 0)
 
 ical_stat_values = [
-    AverageICalFetchIntervalStatValue()
+    AverageICalFetchIntervalStatValue(),
+    AverageICalSizeBytesStatValue()
 ]
 
 def ical_stats_factory(dataset):

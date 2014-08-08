@@ -1,3 +1,6 @@
+from dateutil.relativedelta import relativedelta
+
+
 DEBUG = False
 
 
@@ -235,4 +238,49 @@ class StatValue(object):
         return self.name
 
     def get_value(self, data):
+        raise NotImplementedError()
+
+
+class BytesStatValue(StatValue):
+    units = [(unit, 1024**i)
+        for i, unit in enumerate(["B", "KiB", "MiB", "GiB", "TiB"])
+    ][::-1]
+
+    def human_readable_size(self, bytes):
+        for unit, size in self.units:
+            if bytes >= size:
+                return (unit, bytes / float(size))
+
+    def get_value(self, data):
+        bytes = self.get_total_bytes(data)
+        unit, quantity = self.human_readable_size(bytes)
+
+        return {
+            "total_bytes": bytes,
+            "size": "{}{}".format(quantity, unit)
+        }
+
+    def get_total_bytes(self, data):
+        raise NotImplementedError()
+
+
+class TimeDeltaStatValue(StatValue):
+    def get_value(self, data):
+        seconds = self.get_total_seconds(data)
+
+        delta = relativedelta(seconds=seconds)
+        millis = int(1000 * (seconds % 1))
+        values = {
+            "days": delta.days,
+            "hours": delta.hours,
+            "minutes": delta.minutes,
+            "seconds": delta.seconds,
+            "milliseconds": millis,
+            "total_seconds": seconds
+        }
+        return dict(
+            (k, v) for k, v in values.iteritems()
+            if v != 0 or k == "total_seconds")
+
+    def get_total_seconds(self, data):
         raise NotImplementedError()
