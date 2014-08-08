@@ -81,14 +81,24 @@ class CachedDataset(CachedDatasetMixin, Dataset):
 
 
 class Operation(object):
+    name = None
+
+    def __init__(self):
+        if getattr(self, "name", None) is None:
+            raise ValueError("No value for name provided", self)
+
     def apply(self, data):
         raise NotImplementedError()
 
     def to_json(self):
         return {
             "type": self.get_type(),
-            "description": self.get_description()
+            "description": self.get_description(),
+            "name": self.get_name()
         }
+
+    def get_name(self):
+        return self.name
 
     def get_description(self):
         raise NotImplementedError()
@@ -98,6 +108,7 @@ class Operation(object):
 
 
 class FilterOperation(Operation):
+
     def __init__(self, filter_value, **kwargs):
         super(FilterOperation, self).__init__(**kwargs)
         self.filter_value = filter_value
@@ -113,6 +124,10 @@ class FilterOperation(Operation):
     def get_filter_value_representation(self):
         return self.get_filter_value()
 
+    def get_description(self):
+        return "Filter by {} = {}".format(
+            self.get_name(), self.get_filter_value())
+
     def get_filter_value(self):
         return self.filter_value
 
@@ -126,6 +141,9 @@ class FilterOperation(Operation):
 class PivotOperation(Operation):
     def get_type(self):
         return "pivot"
+
+    def get_description(self):
+        return "Pivot to {}".format(self.get_name())
 
 
 class OperationListEnumerator(object):
@@ -176,10 +194,14 @@ class Stats(object):
     Stats objects encapsulate the calculation of 1 or more stat objects
     on a specific dataset.
     """
-    def __init__(self, dataset, stat_values, drilldowns):
+    def __init__(self, dataset, stat_values, drilldowns, name="default"):
         self.dataset = dataset
         self.stat_values = stat_values
         self.drilldowns = drilldowns
+        self.name = name
+
+    def get_name(self):
+        return self.name
 
     def get_dataset(self):
         return self.dataset
@@ -207,6 +229,7 @@ class Stats(object):
         dataset = self.get_dataset()
         data = dataset.get_data()
         return {
+            "name": self.get_name(),
             "dataset": dataset.to_json(),
             "stats": dict(
                 (stat.get_name(), stat.get_value(data))
