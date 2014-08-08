@@ -1,0 +1,5 @@
+docopt
+requests
+python-dateutil
+pytz
+jinja2
