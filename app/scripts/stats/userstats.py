@@ -187,8 +187,10 @@ class Stats(object):
     def evaluate_to_json(self):
         """
         Evaluates all stat values in the context of the dataset, returning a
-        data structure compatable with JSON serialisation (json.dump()).
+        data structure compatible with JSON serialisation (json.dump()).
         """
+        # TODO: provide evaluation context to facilitate caching?
+
         dataset = self.get_dataset()
         data = dataset.get_data()
         return {
@@ -240,6 +242,22 @@ class TotalUsersStatValue(StatValue):
         return len(data.values())
 
 
+class TotalUsersWithCalendar(StatValue):
+    name = "total_users_with_calendar"
+
+    def get_value(self, data):
+        return ilen(user for user in data.itervalues()
+                    if len(user.get("calendar", [])) > 0)
+
+
+class TotalUsersWithICalFetch(StatValue):
+    name = "total_users_with_ical_fetch"
+
+    def get_value(self, data):
+        return ilen(user for user in data.itervalues()
+                    if len(user.get("ical_fetches", [])) > 0)
+
+
 class UserStats(object):
     def __init__(self, args):
         self.args = args
@@ -263,7 +281,9 @@ class UserStats(object):
 
     def get_stat_values(self):
         return [
-            TotalUsersStatValue()
+            TotalUsersStatValue(),
+            TotalUsersWithCalendar(),
+            TotalUsersWithICalFetch()
         ]
 
     def main(self):
