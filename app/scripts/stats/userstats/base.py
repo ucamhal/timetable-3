@@ -1,3 +1,4 @@
+DEBUG = False
 
 
 class BaseDataset(object):
@@ -6,8 +7,12 @@ class BaseDataset(object):
             "operations": [
                 op.to_json()
                 for op in self.get_operations()
-            ]
+            ],
+            "size": len(self.get_data()),
         }
+
+        if DEBUG:
+            representation["data"] = self.get_data()
 
         parent = self.get_parent()
         if parent is not None:
@@ -31,6 +36,15 @@ class RawDataset(BaseDataset):
 
     def get_data(self):
         return self.data
+
+
+class CachedDatasetMixin(object):
+    def get_data(self):
+        result = getattr(self, "_result", None)
+        if result is None:
+            result = super(CachedDatasetMixin, self).get_data()
+            self._result = result
+        return result
 
 
 class Dataset(BaseDataset):
@@ -57,15 +71,12 @@ class Dataset(BaseDataset):
                       self.get_parent().get_data())
 
 
+class CachedDataset(CachedDatasetMixin, Dataset):
+    pass
+
+
 class Operation(object):
     def apply(self, data):
-        result = getattr(self, "_result", None)
-        if result is None:
-            result = self.calculate_result(data)
-            self._result = result
-        return result
-
-    def calculate_result(self, data):
         raise NotImplementedError()
 
     def to_json(self):
@@ -85,7 +96,6 @@ class FilterOperation(Operation):
     def __init__(self, filter_value, **kwargs):
         super(FilterOperation, self).__init__(**kwargs)
         self.filter_value = filter_value
-        self.__result = None
 
     def get_type(self):
         return "filter"
@@ -96,7 +106,7 @@ class FilterOperation(Operation):
         return representation
 
     def get_filter_value_representation(self):
-        return "{!r}".format(self.get_filter_value())
+        return self.get_filter_value()
 
     def get_filter_value(self):
         return self.filter_value
@@ -104,7 +114,7 @@ class FilterOperation(Operation):
     def is_included(self, value):
         raise NotImplementedError()
 
-    def calculate_result(self, data):
+    def apply(self, data):
         return [value for value in data if self.is_included(value)]
 
 
@@ -119,10 +129,12 @@ class OperationListEnumerator(object):
 
 
 class Drilldown(object):
-    def __init__(self, name, operation_list_enumerator, stats_factory):
+    def __init__(self, name, operation_list_enumerator, stats_factory,
+                 dataset_factory=CachedDataset):
         self.operation_list_enumerator = operation_list_enumerator
         self.name = name
         self.stats_factory = stats_factory
+        self.dataset_factory = dataset_factory
 
     def get_stats_factory(self):
         """
@@ -131,11 +143,21 @@ class Drilldown(object):
         """
         return self.stats_factory
 
+    def get_dataset_factory(self):
+        """
+        Geta a function that returns a dataset instance given a dataset and
+        an operation list.
+        """
+        return self.dataset_factory
+
     def get_stats_group(self, stats):
         # return a set of stats objects, one for each value to filter by
         # found in the stats' dataset
+        stats_factory = self.get_stats_factory()
+        dataset_factory = self.get_dataset_factory()
+
         return [
-            self.get_stats_factory()(Dataset(stats.get_dataset(), op_list))
+            stats_factory(dataset_factory(stats.get_dataset(), op_list))
             for op_list in self.operation_list_enumerator
                 .enumerate_operation_lists(stats.get_dataset())
         ]

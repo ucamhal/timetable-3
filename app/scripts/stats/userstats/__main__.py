@@ -22,10 +22,10 @@ class UserStats(object):
 
     def get_dataset(self):
         data_file = open(self.get_data_filename())
-        return base.RawDataset(json.load(data_file))
+        return base.RawDataset(json.load(data_file).values())
 
     def get_user_stats(self):
-        return timetable.TimetableStats(self.get_dataset(), [], [])
+        return timetable.root_stats_factory(self.get_dataset())
 
     def main(self):
         stats = self.get_user_stats()
