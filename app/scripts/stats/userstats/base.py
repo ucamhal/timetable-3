@@ -1,3 +1,5 @@
+import collections
+
 from dateutil.relativedelta import relativedelta
 
 
@@ -247,9 +249,12 @@ class BytesStatValue(StatValue):
     ][::-1]
 
     def human_readable_size(self, bytes):
+        assert len(self.units) > 0
+
         for unit, size in self.units:
             if bytes >= size:
-                return (unit, bytes / float(size))
+                break
+        return (unit, bytes / float(size))
 
     def get_value(self, data):
         bytes = self.get_total_bytes(data)
@@ -257,7 +262,7 @@ class BytesStatValue(StatValue):
 
         return {
             "total_bytes": bytes,
-            "size": "{}{}".format(quantity, unit)
+            "size": "{:.2f}{}".format(quantity, unit)
         }
 
     def get_total_bytes(self, data):
@@ -267,6 +272,8 @@ class BytesStatValue(StatValue):
 class TimeDeltaStatValue(StatValue):
     def get_value(self, data):
         seconds = self.get_total_seconds(data)
+        if seconds is None:
+            return None
 
         delta = relativedelta(seconds=seconds)
         millis = int(1000 * (seconds % 1))
@@ -284,3 +291,48 @@ class TimeDeltaStatValue(StatValue):
 
     def get_total_seconds(self, data):
         raise NotImplementedError()
+
+
+class ProportionStatValue(StatValue):
+    """
+    A stat value which provides the % of candidate values which qualify for
+    some condition.
+    """
+
+    def get_value(self, data):
+        candidate_count = self.get_candidate_count(data)
+        qualifing_count = self.get_qualifying_count(data)
+        proportion = qualifing_count / float(candidate_count)
+        return {
+            "candidate": candidate_count,
+            "qualifying": qualifing_count,
+            "percentage": "{:.2f}%".format(proportion * 100),
+            "raw": proportion
+        }
+
+    def get_candidate_count(self, data):
+        return len(data)
+
+    def get_qualifying_count(self, data):
+        raise NotImplementedError()
+
+
+class HistogramStatValue(StatValue):
+    def get_value(self, data):
+        counter = collections.Counter(
+            self.assign_bucket(value)
+            for row in data
+            for value in self.get_values(row)
+        )
+
+        key = lambda (bucket, count): self.bucket_sort_key(bucket)
+        return sorted(counter.items(), key=key)
+
+    def get_values(self, row):
+        return [row]
+
+    def assign_bucket(self, value):
+        return value
+
+    def bucket_sort_key(self, bucket):
+        return bucket

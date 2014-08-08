@@ -39,6 +39,18 @@ class ICalendarOperationListEnumerator(base.OperationListEnumerator):
         return [[ICalendarFetchPivotOperation()]]
 
 
+class ICalendarUserAgentOperationListEnumerator(base.OperationListEnumerator):
+    def enumerate_operation_lists(self, dataset):
+        useragents = self.enumerate_values(dataset)
+        return [
+            [ICalendarUserAgentFilterOperation(useragent)]
+            for useragent in useragents
+        ]
+
+    def enumerate_values(self, dataset):
+        return sorted(set(fetch["user_agent"] for fetch in dataset.get_data()))
+
+
 class StartYearFilterOperation(base.FilterOperation):
     """
     A filter operation which includes users with a specified starting year.
@@ -60,6 +72,14 @@ class TriposFilterOperation(base.FilterOperation):
     def is_included(self, value):
         return any(plan.get("name") == self.get_filter_value()
                    for plan in value.get("plans", []))
+
+
+class ICalendarUserAgentFilterOperation(base.FilterOperation):
+    def get_description(self):
+        return "Filter by user_agent = {}".format(self.get_filter_value())
+
+    def is_included(self, value):
+        return value["user_agent"] == self.get_filter_value()
 
 
 class ICalendarFetchPivotOperation(base.PivotOperation):
@@ -138,7 +158,7 @@ class AverageICalSizeBytesStatValue(base.BytesStatValue):
     name = "average_ical_size_bytes"
 
     def get_total_bytes(self, data):
-        return average([fetch["calendar_size"] for fetch in data])
+        return average([fetch["calendar_size"] for fetch in data], empty=0)
 
 
 class TotalStatValue(base.StatValue):
@@ -154,27 +174,39 @@ class TotalUsersStatValue(TotalStatValue):
     name = "total_users"
 
 
-class TotalUsersWithCalendar(base.StatValue):
-    name = "total_users_with_calendar"
+class ProportionUsersWithCalendar(base.ProportionStatValue):
+    name = "proportion_of_users_with_calendar"
 
-    def get_value(self, data):
+    def get_qualifying_count(self, data):
         return ilen(user for user in data
                     if len(user.get("calendar", [])) > 0)
 
 
-class TotalUsersWithICalFetch(base.StatValue):
-    name = "total_users_with_ical_fetch"
+class ProportionUsersWithICalFetch(base.ProportionStatValue):
+    name = "proportion_of_users_with_ical_fetch"
 
-    def get_value(self, data):
+    def get_qualifying_count(self, data):
         return ilen(user for user in data
                     if len(user.get("ical_fetches", [])) > 0)
 
+
+class CalendarSizeHistogramStatValue(base.HistogramStatValue):
+    name = "calendar_size_histogram"
+
+    def get_values(self, user):
+        if "calendar" in user:
+            return [len(user["calendar"])]
+        return []
+
+
 ical_stat_values = [
+    TotalICalFetchesStatValue(),
     AverageICalFetchIntervalStatValue(),
     AverageICalSizeBytesStatValue()
 ]
 
-def ical_stats_factory(dataset):
+
+def lvl2_ical_stats_factory(dataset):
     drilldowns = [
     ]
 
@@ -184,15 +216,44 @@ def ical_stats_factory(dataset):
         drilldowns
     )
 
+
+def lvl1_ical_stats_factory(dataset):
+    drilldowns = [
+        base.Drilldown(
+            "useragents",
+            ICalendarUserAgentOperationListEnumerator(),
+            lvl2_ical_stats_factory
+        )
+    ]
+
+    return base.Stats(
+        dataset,
+        ical_stat_values,
+        drilldowns
+    )
+
+
 # Default stat values used by all the drilldown levels
 timetable_stat_values = [
     TotalUsersStatValue(),
-    TotalUsersWithCalendar(),
-    TotalUsersWithICalFetch()
+    ProportionUsersWithCalendar(),
+    ProportionUsersWithICalFetch(),
+    CalendarSizeHistogramStatValue()
 ]
 
+
+# Drilldowns common to all standard timetable stat types
+timetable_drilldowns = [
+    base.Drilldown(
+        "iCalendar",
+        ICalendarOperationListEnumerator(),
+        lvl1_ical_stats_factory
+    )
+]
+
+
 def lvl2_tripos_stats_factory(dataset):
-    drilldowns = [
+    drilldowns = timetable_drilldowns + [
     ]
 
     return base.Stats(
@@ -203,7 +264,7 @@ def lvl2_tripos_stats_factory(dataset):
 
 
 def lvl2_year_stats_factory(dataset):
-    drilldowns = [
+    drilldowns = timetable_drilldowns + [
     ]
 
     return base.Stats(
@@ -214,7 +275,7 @@ def lvl2_year_stats_factory(dataset):
 
 
 def lvl1_tripos_stats_factory(dataset):
-    drilldowns = [
+    drilldowns = timetable_drilldowns + [
         base.Drilldown(
             "years",
             StartYearOperationListEnumerator(),
@@ -230,7 +291,7 @@ def lvl1_tripos_stats_factory(dataset):
 
 
 def lvl1_year_stats_factory(dataset):
-    drilldowns = [
+    drilldowns = timetable_drilldowns + [
         base.Drilldown(
             "tripos",
             TriposOperationListEnumerator(),
@@ -246,7 +307,7 @@ def lvl1_year_stats_factory(dataset):
 
 
 def root_stats_factory(dataset):
-    drilldowns = [
+    drilldowns = timetable_drilldowns + [
         base.Drilldown(
             "years",
             StartYearOperationListEnumerator(),
@@ -256,11 +317,6 @@ def root_stats_factory(dataset):
             "tripos",
             TriposOperationListEnumerator(),
             lvl1_tripos_stats_factory
-        ),
-        base.Drilldown(
-            "iCalendar",
-            ICalendarOperationListEnumerator(),
-            ical_stats_factory
         )
     ]
 
