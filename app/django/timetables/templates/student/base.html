@@ -18,7 +18,7 @@
   <div class="clearfix js-modules-selector">
     <div role="search" class="pull-left">
       <label for="iAmInput" class="pull-left">I am studying</label>
-    
+
       <select id="iAmInput" class="pull-left js-module-select">
         <option value="" disabled="disabled" selected="selected">Choose a subject</option>
         {% include "subject-picker.html" %}
@@ -40,6 +40,12 @@
     </div>
   </div>
 </div>
+
+{% if user_logged_in %}
+<div class="alert alert-warning tt-warning-wrapper">
+  <p class="container text-center tt-warning"><strong>If you export your calendar</strong>, make sure the timezone location of your calendar application is set to London, UK.</p>
+</div>
+{% endif %}
 {% endblock top_bar %}
 
 {% block content %}

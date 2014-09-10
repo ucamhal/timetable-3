@@ -39,8 +39,10 @@
     </div>
 
     <div class="instructions">
-      <p>To add your timetable to your online calendar (e.g. Google calendar, Outlook, ...), subscribe to it using the feed above. Your calendar will then be kept up to date with changes to the events including any new events you add.</p>
-      <p>The time it takes for your calendar to reflect the changes will depend on your calendar settings and which calendar you are using.</p>
+      <div class="alert alert-warning tt-warning-wrapper">
+        <p class="tt-warning"><strong>Remember</strong> to set the timezone location of your calendar application to London, UK. If your calendar application uses a different timezone, events' times may show up incorrectly, and you may end up arriving at your lectures at the wrong time.</p>
+      </div>
+      <a href="{% url "faq" %}" target="_blank">More information on how to export your calendar <i class="icon-share"></i></a>
     </div>
   </div>
   <div class="modal-footer">

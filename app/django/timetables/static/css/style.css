@@ -246,6 +246,10 @@ header#mainHeader {
   margin-bottom: 14px;
 }
 
+.authenticated #mainHeader {
+  margin-bottom: 6px;
+}
+
 div#results ul {
   margin-left: 0;
 }
@@ -257,7 +261,7 @@ div#results {
   border-style: solid;
   border-width: 1px;
   border-color: #d3d3d3;
-  
+
   margin-top: 30px;
   min-height: 300px;
   overflow: hidden;
@@ -389,7 +393,7 @@ div#results div#resultsHead form#addModule .bootstrap-timepicker-component input
 div#results > ul {
   list-style-type: none;
   height: auto;
-  
+
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -682,7 +686,7 @@ div#calendarHolder {
   -webkit-overflow-scrolling: touch;
 }
 
- 
+
 div.fullWidthCalendar {
   width: 100%!important;
 }
@@ -894,7 +898,7 @@ div#timetablesOverview {
 
   margin: 0;
   height: 22px;
-} 
+}
 
 #timetablesOverview li.being-edited .timetable-center {
   padding-top: 0;
@@ -972,7 +976,7 @@ div#timetablesOverview {
 
 .footer .links li:last-child {
   border-style: none;
-} 
+}
 
 .footer ul li:last-child {
   padding-right: 0;
@@ -1072,6 +1076,10 @@ div#timetablesOverview {
   pointer-events: none;
 }
 
+.modal-export-to-calendar .tt-warning-wrapper {
+  margin-bottom: 13px;
+}
+
 .modal-export-to-calendar.busy .progress {
   display: block;
   clear: both;
@@ -1116,4 +1124,14 @@ div#timetablesOverview {
 #results .links ul {
   list-style-type: disc;
   margin: 0 0 10px 25px;
+}
+
+.tt-warning-wrapper {
+  border-radius: 0;
+  position: static;
+  box-shadow: none;
+}
+
+.tt-warning {
+  margin: 3px auto;
 }

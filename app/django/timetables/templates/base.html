@@ -21,7 +21,7 @@
     </style>
   </head>
   {# Add the play-site class if this is a Timetable play-site #}
-  <body id="{% block bodyid %}student{% endblock %}" {% if is_play_site %}class="play-site"{% endif %}>
+  <body id="{% block bodyid %}student{% endblock %}" class="{% if is_play_site %}play-site{% endif %}{% if user_logged_in %} authenticated{% endif %}">
 
     {% block ga_info %}
     {% endblock ga_info %}
@@ -100,7 +100,7 @@
       </div>
       {% endblock footer %}
     </div>
-    
+
     <script id="requirejs-script" data-main="{% static "js/main.js" %}" data-index="{% block javascript_index %}{% endblock javascript_index %}" data-page="{% block javascript_page %}{% endblock javascript_page %}" src="{% static "js/libs/require.js" %}"></script>
   </body>
 </html>

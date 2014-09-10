@@ -86,5 +86,3 @@ GOOGLE_ANALYTICS_ID = "UA-43714583-5"
 
 # This is the 2014/14 instance
 DEFAULT_ACADEMIC_YEAR = 2014
-IS_PLAY_SITE = True
-NEXT_YEAR_SITE_URL = "https://2014.timetable.cam.ac.uk/administration"
