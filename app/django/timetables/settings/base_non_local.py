@@ -13,6 +13,8 @@ from .base import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+ALLOWED_HOSTS = [".timetable.cam.ac.uk"]
+
 # non-local servers are deployed in gunicorn which uses the following
 # header to signify https requests:
 SECURE_PROXY_SSL_HEADER = ("wsgi.url_scheme", "https")
