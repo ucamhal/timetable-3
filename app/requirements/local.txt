@@ -1,5 +1,3 @@
 # include the base.txt requirements file
 -r base.txt
-
-# dj command to run manage commands instead of manage.py
-Django-dj
+-r base_local.txt

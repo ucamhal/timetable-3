@@ -1,19 +1,2 @@
-Django == 1.6.5
-South == 0.8.4
-psycopg2 == 2.5.3
-pytz
-# django-haystack == 1.2.7 # (not currently used)
-unipath == 1.0
-icalendar == 3.6.2
-python-ldap == 2.4.15
-django-braces == 1.4.0
-python-dateutil == 2.2
-django-require == 1.0.6
-
-svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/django-cam-auth-utils/tags/0.0.2#egg=django_cam_auth_utils == 0.0.2
-svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/jsonlogging/tags/0.0.3#egg=jsonlogging == 0.0.3
-svn+https://source.caret.cam.ac.uk/svn/projects/reusable-code/python/llic/tags/0.0.4#egg=llic == 0.0.4
-
-# packages required for API (import/export)
-lxml == 3.3.5
-defusedxml == 0.4.1
+-r base_external.txt
+-r base_internal_svn.txt

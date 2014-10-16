@@ -1,0 +1,5 @@
+# Dependencies used locally but not in deployments
+
+# dj command to run manage commands instead of manage.py
+Django-dj
+ipython

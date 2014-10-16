@@ -1,0 +1,4 @@
+# Dependencies which aren't in external package repositories
+git+git://github.com/CUL-DigitalServices/django-cam-auth-utils@0.0.2#egg=django-cam-auth-utils == 0.0.2
+git+git://github.com/CUL-DigitalServices/llic@0.0.4#egg=llic == 0.0.4
+git+git://github.com/CUL-DigitalServices/jsonlogging@0.0.3#egg=jsonlogging == 0.0.3

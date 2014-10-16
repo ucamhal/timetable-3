@@ -1,0 +1,15 @@
+# Dependencies in external package repositories
+Django == 1.6.5
+South == 0.8.4
+psycopg2 == 2.5.3
+pytz
+unipath == 1.0
+icalendar == 3.6.2
+python-ldap == 2.4.15
+django-braces == 1.4.0
+python-dateutil == 2.2
+django-require == 1.0.6
+
+# packages required for API (import/export)
+lxml == 3.3.5
+defusedxml == 0.4.1
