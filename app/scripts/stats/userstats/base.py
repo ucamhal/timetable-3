@@ -222,7 +222,6 @@ class Stats(object):
     def evaluate_to_json(self):
         """
         Evaluates all stat values in the context of the dataset, returning a
-        data structure compatible with JSON serialisation (json.dump()).
         """
         # TODO: provide evaluation context to facilitate caching?
 
@@ -248,6 +247,42 @@ class Stats(object):
     @classmethod
     def factory(cls, dataset, stat_values=[], drilldowns=[]):
         return cls(dataset, stat_values, drilldowns)
+
+
+class AutoDrilldownStatsFactory(object):
+    """
+    A Stats factory which automatically recursively generates the Drilldowns
+    for descendent Stats levels, as Drilldowns are applied.
+
+    For example, if you have a 3 separate filter operations: (a, b, c), this
+    class automates the their application in any order, producing Stats for
+    each combination of operations. e.g:
+        (a, b, c)
+        (a, c, b)
+        (b, a, c)
+        (b, c, a)
+        (c, a, b)
+        (c, b, a)
+
+    stat_values is the set of StatValue objects to apply at each generated
+    Stats level.
+
+    operations is the initial set of available operations. Operations are
+    to be provided as a pair of a name and an OperationListEnumerator. As
+    each operation is applied, the resulting child Stats level will have
+    one less operation available, until no more are avialable at the leaves.
+
+    extra_drilldowns is a set of additional Drilldown objects to be made
+    available at each level in the auto-generated tree of Stats. This
+    allows break-out operations, like a pivot to another view.
+    """
+    def __init__(self, stat_values, operations=[], extra_drilldowns=[]):
+        self.stat_values = stat_values
+        self.operations = operations
+        self.extra_drilldowns = extra_drilldowns
+
+    def __call__(self, dataset):
+        pass
 
 
 class StatValue(object):
