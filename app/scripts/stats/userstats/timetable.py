@@ -189,7 +189,9 @@ class CalendarSizeHistogramStatValue(base.HistogramStatValue):
             return [len(user["calendar"])]
         return []
 
-
+#
+# Define iCal Stat tree
+#
 ical_stat_values = [
     TotalICalFetchesStatValue(),
     AverageICalFetchIntervalStatValue(),
@@ -198,36 +200,17 @@ ical_stat_values = [
 
 ical_stats_name = "ical"
 
-
-def lvl2_ical_stats_factory(dataset):
-    drilldowns = [
+root_ical_stats_factory = base.AutoDrilldownStatsFactory(
+    ical_stats_name,
+    ical_stat_values,
+    operations=[
+        ("UserAgents", ICalendarUserAgentOperationListEnumerator())
     ]
+)
 
-    return base.Stats(
-        dataset,
-        ical_stat_values,
-        drilldowns,
-        name=ical_stats_name
-    )
-
-
-def lvl1_ical_stats_factory(dataset):
-    drilldowns = [
-        base.Drilldown(
-            "UserAgents",
-            ICalendarUserAgentOperationListEnumerator(),
-            lvl2_ical_stats_factory
-        )
-    ]
-
-    return base.Stats(
-        dataset,
-        ical_stat_values,
-        drilldowns,
-        name=ical_stats_name
-    )
-
-
+#
+# Define (root) Timetable Stat tree
+#
 # Default stat values used by all the drilldown levels
 timetable_stat_values = [
     TotalUsersStatValue(),
@@ -243,7 +226,7 @@ timetable_drilldowns = [
     base.Drilldown(
         "iCalendar",
         ICalendarOperationListEnumerator(),
-        lvl1_ical_stats_factory
+        root_ical_stats_factory
     )
 ]
 
