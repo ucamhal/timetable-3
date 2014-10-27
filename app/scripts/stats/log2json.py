@@ -3,13 +3,22 @@ Convert HTTP access logs into a JSON document containing iCalendar
 feed fetches by CRSID.
 
 Usage:
-    log2json.py [-v] <accesslog>
+    log2json.py [options] <accesslog>
 
 Options:
+    -f, --from=<date>
+        Include log lines on or after this date. ISO date/datetime format.
+        If not UTC offset is specified, the local timezone is used.
+
+    -t, --to=<date>
+        Include log lines before this date. See --from for more details.
+
     -v
-        Be more verbose.
+        Be more verbose. This will create output explaining why log lines
+        are being ignored for example.
 
-
+    -h, --help
+        Show this usage information.
 """
 import sys
 import json
@@ -20,6 +29,8 @@ import operator
 import datetime
 
 import docopt
+import dateutil.parser
+import dateutil.tz
 
 import logparse
 
@@ -31,8 +42,42 @@ class Log2Json(object):
         self.args = args
         self.indent = 4
 
+        self.get_date_range()
+
     def is_verbose_enabled(self):
         return self.args["-v"]
+
+    def parse_date(self, date):
+        if not date:
+            return None
+        try:
+            dt = dateutil.parser.parse(date)
+            if dt.tzinfo is None:
+                # treat as local time
+                dt = dt.replace(tzinfo=dateutil.tz.tzlocal())
+                return dt
+        except Exception as e:
+            raise ValueError("Unable to parse date: {!r}".format(date))
+
+    def get_date_arg(self, arg):
+        val = self.args.get(arg, "")
+        try:
+            date = self.parse_date(val)
+            if date is not None:
+                self.log("Parsed {} as {}".format(arg, date.isoformat()))
+            return date
+        except ValueError as e:
+            print >> sys.stderr, "Bad value for argument {}: {}".format(arg, e)
+            sys.exit(2)
+
+    def get_date_range(self):
+        self.date_from = self.get_date_arg("--from")
+        self.date_to = self.get_date_arg("--to")
+
+        full_range = self.date_from is not None and self.date_to is not None
+        if full_range and self.date_from >= self.date_to:
+            print >> sys.stderr, "--from and --to specify an empty date range"
+            sys.exit(3)
 
     def log(self, *args):
         if self.is_verbose_enabled():
@@ -45,8 +90,16 @@ class Log2Json(object):
             except logparse.LogException as e:
                 self.log("Malformed log line", line, e)
 
+    def is_in_range(self, date):
+        return ((self.date_from is None or self.date_from <= date) and
+                (self.date_to is None or self.date_to > date))
+
     def filter_ical_requests(self, entries):
         for entry in entries:
+            if not self.is_in_range(entry["datetime"]):
+                self.log("Ignoring entry with datetime outside range", entry)
+                continue
+
             if entry["request"] is None:
                 self.log("Ignoring entry with None request", entry)
                 continue
