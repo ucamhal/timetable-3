@@ -108,11 +108,6 @@ class ICalendarFetchPivotOperation(base.PivotOperation):
         return list(fetches)
 
 
-def get_years_drilldown():
-    return base.Drilldown(
-        "years", StartYearOperationListEnumerator(), TimetableStats.factory)
-
-
 class AverageICalFetchIntervalStatValue(base.TimeDeltaStatValue):
     """
     Calculates the average number of seconds between iCal fetches.
