@@ -34,17 +34,18 @@ class TriposOperationListEnumerator(base.OperationListEnumerator):
         return sorted(triposes)
 
 
-class CollegeOperationListEnumerator(base.OperationListEnumerator):
+class AcademicCareerOperationListEnumerator(base.OperationListEnumerator):
     def enumerate_operation_lists(self, dataset):
-        colleges = self.enumerate_values(dataset)
-        return [[CollegeFilterOperation(college)] for college in colleges]
+        careers = self.enumerate_values(dataset)
+        return [[AcademicCareerFilterOperation(career)] for career in careers]
 
     def enumerate_values(self, dataset):
-        colleges = set(
-            user.get("college")
+        careers = set(
+            plan["career"]
             for user in dataset.get_data()
-            if "college" in user)
-        return sorted(colleges)
+            for plan in user.get("plans", [])
+            if "career" in plan and plan["career"])
+        return sorted(careers)
 
 
 class ICalendarOperationListEnumerator(base.OperationListEnumerator):
@@ -85,14 +86,15 @@ class TriposFilterOperation(base.FilterOperation):
                    for plan in value.get("plans", []))
 
 
-class CollegeFilterOperation(base.FilterOperation):
+class AcademicCareerFilterOperation(base.FilterOperation):
     """
-    A filter operation which includes users with a specified college.
+    A filter operation which includes users with a specified career.
     """
-    name = "college"
+    name = "career"
 
     def is_included(self, value):
-        return value.get("college") == self.get_filter_value()
+        return any(plan.get("career") == self.get_filter_value()
+                   for plan in value.get("plans", []))
 
 
 class ICalendarUserAgentFilterOperation(base.FilterOperation):
@@ -256,7 +258,7 @@ timetable_drilldowns = [
 timetable_operations = [
     ("Years", StartYearOperationListEnumerator()),
     ("Tripos", TriposOperationListEnumerator()),
-    ("College", CollegeOperationListEnumerator())
+    ("Academic Career", AcademicCareerOperationListEnumerator())
 ]
 
 root_stats_factory = base.AutoDrilldownStatsFactory(
