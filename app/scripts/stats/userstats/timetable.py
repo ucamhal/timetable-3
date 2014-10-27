@@ -34,6 +34,19 @@ class TriposOperationListEnumerator(base.OperationListEnumerator):
         return sorted(triposes)
 
 
+class CollegeOperationListEnumerator(base.OperationListEnumerator):
+    def enumerate_operation_lists(self, dataset):
+        colleges = self.enumerate_values(dataset)
+        return [[CollegeFilterOperation(college)] for college in colleges]
+
+    def enumerate_values(self, dataset):
+        colleges = set(
+            user.get("college")
+            for user in dataset.get_data()
+            if "college" in user)
+        return sorted(colleges)
+
+
 class ICalendarOperationListEnumerator(base.OperationListEnumerator):
     def enumerate_operation_lists(self, dataset):
         return [[ICalendarFetchPivotOperation()]]
@@ -70,6 +83,16 @@ class TriposFilterOperation(base.FilterOperation):
     def is_included(self, value):
         return any(plan.get("name") == self.get_filter_value()
                    for plan in value.get("plans", []))
+
+
+class CollegeFilterOperation(base.FilterOperation):
+    """
+    A filter operation which includes users with a specified college.
+    """
+    name = "college"
+
+    def is_included(self, value):
+        return value.get("college") == self.get_filter_value()
 
 
 class ICalendarUserAgentFilterOperation(base.FilterOperation):
@@ -232,7 +255,8 @@ timetable_drilldowns = [
 
 timetable_operations = [
     ("Years", StartYearOperationListEnumerator()),
-    ("Tripos", TriposOperationListEnumerator())
+    ("Tripos", TriposOperationListEnumerator()),
+    ("College", CollegeOperationListEnumerator())
 ]
 
 root_stats_factory = base.AutoDrilldownStatsFactory(
