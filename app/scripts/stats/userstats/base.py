@@ -276,13 +276,52 @@ class AutoDrilldownStatsFactory(object):
     available at each level in the auto-generated tree of Stats. This
     allows break-out operations, like a pivot to another view.
     """
-    def __init__(self, stat_values, operations=[], extra_drilldowns=[]):
+    def __init__(self, name, stat_values, operations=[], extra_drilldowns=[]):
+        self.name = name
         self.stat_values = stat_values
         self.operations = operations
         self.extra_drilldowns = extra_drilldowns
 
+    def get_child_factory(self, operation):
+        return AutoDrilldownStatsFactory(
+            self.name,
+            self.stat_values,
+            operations=set(self.operations) - set([operation]),
+            extra_drilldowns=self.extra_drilldowns
+        )
+
+    def get_drilldown(self, operation):
+        """
+        Get a Drilldown applying the specified operation, whose stat factory
+        is this factory without the specified operation.
+        """
+        assert operation in self.operations
+        (name, op_list_enum) = operation
+        return Drilldown(
+            name, op_list_enum, self.get_child_factory(operation)
+        )
+
+    def get_drilldowns_from_operations(self):
+        """
+        Convert our operations into full Drilldowns
+        """
+        return (
+            self.get_drilldown(operation)
+            for operation in self.operations
+        )
+
+    def get_all_drilldowns(self):
+        return (set(self.extra_drilldowns) |
+                set(self.get_drilldowns_from_operations())
+            )
+
     def __call__(self, dataset):
-        pass
+        return Stats(
+            dataset,
+            self.stat_values,
+            self.get_all_drilldowns(),
+            name=self.name
+        )
 
 
 class StatValue(object):
