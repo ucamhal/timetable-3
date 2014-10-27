@@ -238,7 +238,6 @@ timetable_stat_values = [
 
 timetable_stats_name = "timetable"
 
-
 # Drilldowns common to all standard timetable stat types
 timetable_drilldowns = [
     base.Drilldown(
@@ -248,82 +247,13 @@ timetable_drilldowns = [
     )
 ]
 
+timetable_operations = [
+    ("Years", StartYearOperationListEnumerator()),
+    ("Tripos", TriposOperationListEnumerator())
+]
 
-def lvl2_tripos_stats_factory(dataset):
-    drilldowns = timetable_drilldowns + [
-    ]
-
-    return base.Stats(
-        dataset,
-        timetable_stat_values,
-        drilldowns,
-        name=timetable_stats_name
-    )
-
-
-def lvl2_year_stats_factory(dataset):
-    drilldowns = timetable_drilldowns + [
-    ]
-
-    return base.Stats(
-        dataset,
-        timetable_stat_values,
-        drilldowns,
-        name=timetable_stats_name
-    )
-
-
-def lvl1_tripos_stats_factory(dataset):
-    drilldowns = timetable_drilldowns + [
-        base.Drilldown(
-            "Years",
-            StartYearOperationListEnumerator(),
-            lvl2_year_stats_factory
-        )
-    ]
-
-    return base.Stats(
-        dataset,
-        timetable_stat_values,
-        drilldowns,
-        name=timetable_stats_name
-    )
-
-
-def lvl1_year_stats_factory(dataset):
-    drilldowns = timetable_drilldowns + [
-        base.Drilldown(
-            "Tripos",
-            TriposOperationListEnumerator(),
-            lvl2_tripos_stats_factory
-        )
-    ]
-
-    return base.Stats(
-        dataset,
-        timetable_stat_values,
-        drilldowns,
-        name=timetable_stats_name
-    )
-
-
-def root_stats_factory(dataset):
-    drilldowns = timetable_drilldowns + [
-        base.Drilldown(
-            "Years",
-            StartYearOperationListEnumerator(),
-            lvl1_year_stats_factory
-        ),
-        base.Drilldown(
-            "Tripos",
-            TriposOperationListEnumerator(),
-            lvl1_tripos_stats_factory
-        )
-    ]
-
-    return base.Stats(
-        dataset,
-        timetable_stat_values,
-        drilldowns,
-        name=timetable_stats_name
-    )
+root_stats_factory = base.AutoDrilldownStatsFactory(
+    timetable_stats_name, timetable_stat_values,
+    operations=timetable_operations,
+    extra_drilldowns=timetable_drilldowns
+)
