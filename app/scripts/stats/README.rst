@@ -4,6 +4,11 @@ Timetable Stat Generation
 Fetch Access Logs
 -----------------
 
+Current Method
+==============
+
+We used to fetch HTTP access logs like this, but Ops are killing off syslog.dmz.caret.local and there's currently no service replacing it. The HTTP access logs for 2014-15.timetable are only stored on the VM hosting the HTTP server as far as I can see.
+
 Run the following to fetch access logs for www.timetable.cam.ac.uk (vast05)::
 
     $ python logfetch.py -u hwtb2 --insecure \
@@ -17,6 +22,12 @@ After fetching the logs, the syslog cruft needs to be stripped from each line, a
 
 You can use jsonmerge.py to merge individual JSON access log files.
 
+Current method
+==============
+
+As syslog.dmz.caret.local is no longer being used by Ops, the only way to get the logs is to SSH into the VM hosting the HTTPd. The logs are at /var/log/apache. They're log rotated, so you'll have head & tail the files to work out which ones are in the date range you need...
+
+I've added ``--from`` and ``--to`` options to ``log2json.py``, so you can filter to an exact date range once you've obtained the required log files. I found the files had some extra stuff on the front of each line which wasn't in the common log format, so I had to pass the files through ``cut -d " " -f 2- -`` to take off the first column.
 
 Fetch raw user data from the webapp db
 --------------------------------------
@@ -54,6 +65,11 @@ Once that's done you run userstats on the resulting merged JSON, then finaly sta
 * Note that the output dir needs to exist before running the command.
 * Note that userstats takes a lot of memory and time to run.
 
+Packaging
+---------
+
+You may need to package the HTML output as a zip file for people who won't know what a tar file is. Because zip files compress each file individually, and most of our files are very similar you'll get poor compression ratios with a zip. You can work around this by first zipping everything with no compression (``zip -0 foo.zip files...``), then zip the uncompressed zip in another one which will compress everything in the inner zip at one, resulting in a much better compression ratio.
+
 2014-08-06 run
 ==============
 
@@ -81,3 +97,14 @@ My most recent run looked as follows. (/Volumes/Timetable Data/ is an encrypted 
 	-rw-r--r-- 1 hwtb2 staff 590M Aug  6 14:50 ical-access-2014-05-02--2014-08-05.json
 
 The vast majority of the data comes from the iCal feed access logs. My computer has 16GB of RAM. Running userstats on data-merged.json took 11-12GB RAM and took ~135 minutes to run.
+
+2014-10-22 run
+==============
+
+Another example run. As noted above, syslog.dmz.caret.local is no longer being used, so I had to fetch lot files by sshing into the HTTPd vm.
+
+I updated unicsv2json.py to be column order agnostic as the CSV file we got had extra columns.
+
+I added an extra drilldown filter for academic career.
+
+The number of permutations of drilldowns is reaching the point that it becomes impractical to pre-generate stats for all permutations of drilldowns. It should be fairly straightforward to ``Stats`` objects from ``userstats`` through a web (or other) interface, allowing the drilldowns to be chosen dynamically (avoiding pre-calculating all permutations). This would make it less straightforward to distribute stats, but would allow additional drilldown dimensions to be added. The userstats module is optimised for ease of adding extra stats rather then performance, so such an interface would take a lot of memory and CPU resources.
