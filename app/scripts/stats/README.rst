@@ -4,13 +4,14 @@ Timetable Stat Generation
 Fetch Access Logs
 -----------------
 
-Run the following to fetch access logs for www.timetable.cam.ac.uk (vast05)
+Run the following to fetch access logs for www.timetable.cam.ac.uk (vast05)::
+
     $ python logfetch.py -u hwtb2 --insecure \
         'https://syslog.dmz.caret.local/vast05.ds.lib.cam.ac.uk/httpd-access/' \
         2013-09-22 \
         > /Volumes/Timetable\ Data/http-access--2013-09-22--2013-10-15.log
 
-After fetching the logs, the syslog cruft needs to be stripped from each line, and the logs parsed into a JSON document listing iCal fetches by CRSID. This can be done in one step as follows:
+After fetching the logs, the syslog cruft needs to be stripped from each line, and the logs parsed into a JSON document listing iCal fetches by CRSID. This can be done in one step as follows::
 
 	$ python logfetch.py -u hwtb2 --insecure 'https://syslog.dmz.caret.local/vast05.ds.lib.cam.ac.uk/httpd-access/' 2014-01-02 2014-05-01 | python stripsyslogbs.py | python log2json.py - > /Volumes/Timetable\ Data/2014-08-06/access_logs/ical-access-2014-01-02--2014-05-01.json
 
@@ -20,14 +21,15 @@ You can use jsonmerge.py to merge individual JSON access log files.
 Fetch raw user data from the webapp db
 --------------------------------------
 
-We need the contents of a user's calendar from the Timetable DB itself. There's a manage.py command which will export every user's calendar from the db in JSON format. Run 
+We need the contents of a user's calendar from the Timetable DB itself. There's a manage.py command which will export every user's calendar from the db in JSON format. Run::
+
 	$ python manage.py exportusers > /some/file.json
 
 
 Cleanup
 =======
 
-Note that there seem to be some old series without module parents in the db. The exporter will detect these and fail with an error. They should be removed from the db before exporting (in an interactive Python session):
+Note that there seem to be some old series without module parents in the db. The exporter will detect these and fail with an error. They should be removed from the db before exporting (in an interactive Python session)::
 
     >>> EventSource.objects.exclude(eventsourcetag__thing__type="module").delete()
 
@@ -44,7 +46,7 @@ Merge
 
 Once these 3 data sets have been obtained/generated, they need to be merged into a single JSON file using jsonmerge.py.
 
-Once that's done you run userstats on the resulting merged JSON, then finaly stats2html.py on the generated stats tree to make a human browsable representation.
+Once that's done you run userstats on the resulting merged JSON, then finaly stats2html.py on the generated stats tree to make a human browsable representation::
 
 	$ python -m userstats data-merged.json > data-analysed.json
 	$ python stats2html.py data-analysed.json stats2html-templates/ stats-html-SOME_TIMESTAMP
@@ -55,7 +57,7 @@ Once that's done you run userstats on the resulting merged JSON, then finaly sta
 2014-08-06 run
 ==============
 
-My most recent run looked as follows. (/Volumes/Timetable Data/ is an encrypted disk image to store the PII.)
+My most recent run looked as follows. (/Volumes/Timetable Data/ is an encrypted disk image to store the PII.)::
 
 	(timetable-stats)11:55:22 hwtb2@Gravel:/Volumes/Timetable Data/2014-08-06
 	$ ls -l . access_logs/
