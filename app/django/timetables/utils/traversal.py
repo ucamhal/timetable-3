@@ -26,8 +26,11 @@ class Traverser(object):
         pass
 
     def step_up(self):
+        return self._step(self.get_parent())
+
+    def _step(self, parent):
         try:
-            traverser, parent = self.get_parent()
+            traverser, parent = parent
             return traverser(parent)
         except ValidationException as e:
             raise InvalidStructureException(
@@ -80,20 +83,30 @@ class SeriesTraverser(Traverser):
                 "Expected an EventSource instance", self.obj)
 
     def get_parent(self):
-        series = self.obj
-        tags = series.eventsourcetag_set.all()
+        return next(self.get_parents())
 
-        try:
-            tag = next(tag for tag in tags if tag.annotation == "home")
-            module = tag.thing
-        except StopIteration:
+    def walk_parents(self):
+        """
+        Enumerate all traversers for all parent modules of the current series.
+        """
+        for parent in self.get_parents():
+            yield self._step(parent)
+
+    def get_parents(self):
+        series = self.obj
+        tags = list(series.eventsourcetag_set.filter(annotation="home"))
+
+        if(len(tags) == 0):
             raise ValidationException(
                 "Orphaned series with no module encountered", series.pk)
 
-        if module.type != "module":
-            raise ValidationException(
-                "Series attached to non-module thing", series.pk)
-        return (ModuleTraverser, module)
+        for tag in tags:
+            module = tag.thing
+
+            if module.type != "module":
+                raise ValidationException(
+                    "Series attached to non-module thing", series.pk)
+            yield (ModuleTraverser, module)
 
 
 class ModuleTraverser(ThingTraverserMixin, Traverser):
