@@ -1,0 +1,1086 @@
+[
+{
+    "pk": 1, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "tripos", 
+        "parent": null, 
+        "data": "", 
+        "pathid": "p4pmLBPvFQjdJGPWzPW-yahYfT0=", 
+        "fullpath": "tripos", 
+        "type": "", 
+        "fullname": "All Triposes"
+    }
+},
+{
+    "pk": 2, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "user", 
+        "parent": null, 
+        "data": "", 
+        "pathid": "Et6pb-wgWTVmq3VpLJlJWWgzrck=", 
+        "fullpath": "user", 
+        "type": "", 
+        "fullname": "All Users"
+    }
+},
+{
+    "pk": 3, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "hal", 
+        "parent": 2, 
+        "data": "{\"salt\": \"YYmFEIPopckMevmjcJVGkEVf274=\"}", 
+        "pathid": "6cNw3dH9KHajMrM--6Cu-BikfQg=", 
+        "fullpath": "user/hal", 
+        "type": "user", 
+        "fullname": "A Users Calendar"
+    }
+},
+{
+    "pk": 4, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "simple-tripos", 
+        "parent": 1, 
+        "data": "", 
+        "pathid": "MlUWOuWXW7qRoJnpBQjSAx5pE9g=", 
+        "fullpath": "tripos/simple-tripos", 
+        "type": "tripos", 
+        "fullname": "Simple Tripos"
+    }
+},
+{
+    "pk": 5, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "I", 
+        "parent": 4, 
+        "data": "", 
+        "pathid": "sv4CGCwxit9dVfnCk1n15Zuxrm8=", 
+        "fullpath": "tripos/simple-tripos/I", 
+        "type": "part", 
+        "fullname": "Part I"
+    }
+},
+{
+    "pk": 6, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "II", 
+        "parent": 4, 
+        "data": "", 
+        "pathid": "TlMuU-CJWtjv_1ZWoDYvx134yJI=", 
+        "fullpath": "tripos/simple-tripos/II", 
+        "type": "part", 
+        "fullname": "Part II"
+    }
+},
+{
+    "pk": 7, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "nested-subject", 
+        "parent": 1, 
+        "data": "", 
+        "pathid": "bUM7__pG2izMa6ey6dBcYfcYxdg=", 
+        "fullpath": "tripos/nested-subject", 
+        "type": "tripos", 
+        "fullname": "Nested Subject"
+    }
+},
+{
+    "pk": 8, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "I", 
+        "parent": 7, 
+        "data": "", 
+        "pathid": "zpUrgf6k6I_VYLIsDXWSBoHFnzE=", 
+        "fullpath": "tripos/nested-subject/I", 
+        "type": "part", 
+        "fullname": "Part I"
+    }
+},
+{
+    "pk": 9, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "II", 
+        "parent": 7, 
+        "data": "", 
+        "pathid": "IxvwEE76HyEfCGFA0ymMCWgZbh4=", 
+        "fullpath": "tripos/nested-subject/II", 
+        "type": "part", 
+        "fullname": "Part II"
+    }
+},
+{
+    "pk": 10, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "subj-a", 
+        "parent": 8, 
+        "data": "", 
+        "pathid": "JvLOzsX_dgeWcR51JBSHdVkvMBA=", 
+        "fullpath": "tripos/nested-subject/I/subj-a", 
+        "type": "subject", 
+        "fullname": "Subject A"
+    }
+},
+{
+    "pk": 11, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "subj-b", 
+        "parent": 8, 
+        "data": "", 
+        "pathid": "O6H16VH52s5uNh3OraL9egTCWr4=", 
+        "fullpath": "tripos/nested-subject/I/subj-b", 
+        "type": "subject", 
+        "fullname": "Subject B"
+    }
+},
+{
+    "pk": 12, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "subj-a", 
+        "parent": 9, 
+        "data": "", 
+        "pathid": "tyUGbz2hOdCV5EkZvPgvuU8tFjE=", 
+        "fullpath": "tripos/nested-subject/II/subj-a", 
+        "type": "subject", 
+        "fullname": "Subject A"
+    }
+},
+{
+    "pk": 13, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_a", 
+        "parent": 5, 
+        "data": "", 
+        "pathid": "ssnoorNX1YmiSWNEAn0N9vEMNzc=", 
+        "fullpath": "tripos/simple-tripos/I/module_a", 
+        "type": "module", 
+        "fullname": "Module A"
+    }
+},
+{
+    "pk": 14, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_b", 
+        "parent": 6, 
+        "data": "", 
+        "pathid": "LE0DWn9RbW8L2fy54MWOnPw4sDw=", 
+        "fullpath": "tripos/simple-tripos/II/module_b", 
+        "type": "module", 
+        "fullname": "Module B"
+    }
+},
+{
+    "pk": 15, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_c", 
+        "parent": 6, 
+        "data": "", 
+        "pathid": "mw9hI_aHX8jxVe17DqmF8hDJMLs=", 
+        "fullpath": "tripos/simple-tripos/II/module_c", 
+        "type": "module", 
+        "fullname": "Module C"
+    }
+},
+{
+    "pk": 16, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_d", 
+        "parent": 10, 
+        "data": "", 
+        "pathid": "ZiJjJQ5gMD-6qSvcI3yXwrY-lYc=", 
+        "fullpath": "tripos/nested-subject/I/subj-a/module_d", 
+        "type": "module", 
+        "fullname": "Module D"
+    }
+},
+{
+    "pk": 17, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_e", 
+        "parent": 11, 
+        "data": "", 
+        "pathid": "E43to0nxSw6uL4TKan5rfvAftlA=", 
+        "fullpath": "tripos/nested-subject/I/subj-b/module_e", 
+        "type": "module", 
+        "fullname": "Module E"
+    }
+},
+{
+    "pk": 18, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_f", 
+        "parent": 11, 
+        "data": "", 
+        "pathid": "I-z48bz1pxWVv_2SwS_RobnOcew=", 
+        "fullpath": "tripos/nested-subject/I/subj-b/module_f", 
+        "type": "module", 
+        "fullname": "Module F"
+    }
+},
+{
+    "pk": 19, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_g", 
+        "parent": 12, 
+        "data": "", 
+        "pathid": "JhM27mjwSqCwkU335K5hyNXS_2Y=", 
+        "fullpath": "tripos/nested-subject/II/subj-a/module_g", 
+        "type": "module", 
+        "fullname": "Module G"
+    }
+},
+{
+    "pk": 20, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "module_h", 
+        "parent": 12, 
+        "data": "", 
+        "pathid": "untJEcEfOUYMAXVs7OWpyTvlSFU=", 
+        "fullpath": "tripos/nested-subject/II/subj-a/module_h", 
+        "type": "module", 
+        "fullname": "Module H"
+    }
+},
+{
+    "pk": 21, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "common", 
+        "parent": 10, 
+        "data": "", 
+        "pathid": "wlYI2aRxNbYDwSyANMuAiOyADyQ=", 
+        "fullpath": "tripos/nested-subject/I/subj-a/common", 
+        "type": "module", 
+        "fullname": "Common"
+    }
+},
+{
+    "pk": 22, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "common", 
+        "parent": 12, 
+        "data": "", 
+        "pathid": "xnS8_sJZB1cxp0yrcaKIK_ihGdw=", 
+        "fullpath": "tripos/nested-subject/II/subj-a/common", 
+        "type": "module", 
+        "fullname": "Common"
+    }
+},
+{
+    "pk": 23, 
+    "model": "timetables.thing", 
+    "fields": {
+        "name": "External", 
+        "parent": 4, 
+        "data": "{\r\n    \"external_website_url\": \"https://www.example.org/\"\r\n}", 
+        "pathid": "h01nE8b2A-5I0kcrMjrMagMDZOo=", 
+        "fullpath": "tripos/simple-tripos/External", 
+        "type": "part", 
+        "fullname": "External Part"
+    }
+},
+{
+    "pk": 1, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series A", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 1, 
+        "data": "{\"location\": \"Room B\", \"people\": [\"Dr A\", \"Mr B and Ms C\"], \"datePattern\": \"Mi1-2 Th 9\"}", 
+        "versionstamp": "2015-05-22T20:05:37.722Z"
+    }
+},
+{
+    "pk": 2, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series B", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 2, 
+        "data": "{\"datePattern\": \"Mi4 M 12\", \"location\": \"Room B\", \"people\": [\"Mr ABC\"]}", 
+        "versionstamp": "2015-05-22T20:16:57.322Z"
+    }
+},
+{
+    "pk": 3, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series C", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 3, 
+        "data": "{\"datePattern\": \"Le4 Tu 2:25-3:46\", \"location\": \"Room C\", \"people\": [\"abc12\", \"def34\"]}", 
+        "versionstamp": "2015-05-22T20:21:01.215Z"
+    }
+},
+{
+    "pk": 4, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series D 1", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 4, 
+        "data": "{\"location\": \"Room D\", \"people\": [\"Prof D\"], \"datePattern\": \"Mi1 Le1 Ea1 F 12\"}", 
+        "versionstamp": "2015-05-22T20:30:20.208Z"
+    }
+},
+{
+    "pk": 5, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series D2", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 5, 
+        "data": "{\"datePattern\": \"Mi-1,0,9-10 Th 9\", \"location\": \"Room D\", \"people\": [\"Mr Pink\"]}", 
+        "versionstamp": "2015-05-22T20:38:01.420Z"
+    }
+},
+{
+    "pk": 6, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series E", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 6, 
+        "data": "{\"datePattern\": \"Mi1 Tu 2\", \"location\": \"Room E\", \"people\": [\"Ms E\"]}", 
+        "versionstamp": "2015-05-22T20:42:35.392Z"
+    }
+},
+{
+    "pk": 7, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series F", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 7, 
+        "data": "{\"datePattern\": \"Mi5 F 8\", \"location\": \"Room F\", \"people\": [\"Mr F\"]}", 
+        "versionstamp": "2015-05-22T20:44:11.531Z"
+    }
+},
+{
+    "pk": 8, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series G", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 8, 
+        "data": "{\"datePattern\": \"Le4 M 1\", \"location\": \"Room G\", \"people\": [\"Gee Gson\"]}", 
+        "versionstamp": "2015-05-22T20:49:19.770Z"
+    }
+},
+{
+    "pk": 9, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Series H", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 9, 
+        "data": "{\"datePattern\": \"Mi4 Th 5\", \"location\": \"Room H\", \"people\": [\"Dr H\"]}", 
+        "versionstamp": "2015-05-22T20:52:05.040Z"
+    }
+},
+{
+    "pk": 10, 
+    "model": "timetables.eventsource", 
+    "fields": {
+        "sourceurl": null, 
+        "sourcetype": "pattern", 
+        "title": "Shared Subject A Series", 
+        "sourcefile": "", 
+        "current": true, 
+        "master": 10, 
+        "data": "{\"datePattern\": \"Mi1 Th 9\", \"location\": \"A room\", \"people\": [\"Mr Blue\"]}", 
+        "versionstamp": "2015-05-22T21:10:30.195Z"
+    }
+},
+{
+    "pk": 1, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-09T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:08:02.290Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-09T08:00:00Z", 
+        "master": null, 
+        "location": "Room A", 
+        "uid": "d6560f87-3c7e-49ff-8706-16ba321cb490", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 2, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-09T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:08:18.570Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-09T08:00:00Z", 
+        "master": 1, 
+        "location": "Room A", 
+        "uid": "d6560f87-3c7e-49ff-8706-16ba321cb490", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 3, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-16T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:08:18.587Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-16T08:00:00Z", 
+        "master": null, 
+        "location": "Room A", 
+        "uid": "90bcdace-b09c-4860-8e86-1a2527931375", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 4, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-09T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:15:33.343Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-09T08:00:00Z", 
+        "master": 1, 
+        "location": "Room A", 
+        "uid": "d6560f87-3c7e-49ff-8706-16ba321cb490", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 5, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-16T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:15:33.367Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-16T08:00:00Z", 
+        "master": 3, 
+        "location": "Room B", 
+        "uid": "90bcdace-b09c-4860-8e86-1a2527931375", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\", \"Mr B and Ms C\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 6, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-09T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:15:45.222Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-09T08:00:00Z", 
+        "master": 1, 
+        "location": "Room A", 
+        "uid": "d6560f87-3c7e-49ff-8706-16ba321cb490", 
+        "data": "{\"type\": \"journal club\", \"people\": [\"Dr A\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 7, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-16T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:15:45.241Z", 
+        "title": "Blah A", 
+        "source": 1, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-16T08:00:00Z", 
+        "master": 3, 
+        "location": "Room B", 
+        "uid": "90bcdace-b09c-4860-8e86-1a2527931375", 
+        "data": "{\"type\": \"field trip\", \"people\": [\"Dr A\", \"Mr B and Ms C\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 8, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-11-03T13:00:00Z", 
+        "versionstamp": "2015-05-22T20:20:42.584Z", 
+        "title": "Thing B", 
+        "source": 2, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-11-03T12:00:00Z", 
+        "master": null, 
+        "location": "Room B", 
+        "uid": "ef6ad702-7a52-45cd-8b18-09ffcff660b9", 
+        "data": "{\"type\": \"practical\", \"people\": [\"Mr ABC\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 9, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2015-02-10T15:46:00Z", 
+        "versionstamp": "2015-05-22T20:24:11.291Z", 
+        "title": "Thing C", 
+        "source": 3, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2015-02-10T14:25:00Z", 
+        "master": null, 
+        "location": "Room C", 
+        "uid": "17e8f1f6-3813-4066-911a-6e6ae4888add", 
+        "data": "{\"type\": \"workshop\", \"people\": [\"abc12\", \"def34\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 10, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-10T12:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:01.717Z", 
+        "title": "D1", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-10T11:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "efd977cd-eb72-42e5-8516-8f6883620f28", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 11, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-10T12:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:17.279Z", 
+        "title": "D1", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2014-10-10T11:00:00Z", 
+        "master": 10, 
+        "location": "Room D", 
+        "uid": "efd977cd-eb72-42e5-8516-8f6883620f28", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 12, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2015-01-16T13:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:17.295Z", 
+        "title": "D2", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": false, 
+        "start": "2015-01-16T12:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "77aadf4b-2a54-48f0-9d3b-3818471c95cf", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 13, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-10T12:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:31.606Z", 
+        "title": "D1", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-10T11:00:00Z", 
+        "master": 10, 
+        "location": "Room D", 
+        "uid": "efd977cd-eb72-42e5-8516-8f6883620f28", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 14, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2015-01-16T13:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:31.625Z", 
+        "title": "D2", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2015-01-16T12:00:00Z", 
+        "master": 12, 
+        "location": "Room D", 
+        "uid": "77aadf4b-2a54-48f0-9d3b-3818471c95cf", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 15, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2015-04-24T12:00:00Z", 
+        "versionstamp": "2015-05-22T20:34:31.640Z", 
+        "title": "D3", 
+        "source": 4, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2015-04-24T11:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "634053a1-a29c-4ecc-aa42-61c836208857", 
+        "data": "{\"type\": \"lecture\", \"people\": [\"Prof D\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 16, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-09-25T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:40:04.192Z", 
+        "title": "D2 Thing", 
+        "source": 5, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-09-25T08:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "2ee5f91e-9d3d-46fd-8bf6-f54a5bf15498", 
+        "data": "{\"type\": \"presentation\", \"people\": [\"Mr Pink\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 17, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-02T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:40:04.211Z", 
+        "title": "D2 Thing", 
+        "source": 5, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-02T08:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "16b69975-be65-41d2-a12c-6c10fd072e27", 
+        "data": "{\"type\": \"presentation\", \"people\": [\"Mr Pink\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 18, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-12-04T10:00:00Z", 
+        "versionstamp": "2015-05-22T20:40:04.228Z", 
+        "title": "D2 Thing", 
+        "source": 5, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-12-04T09:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "2f3761e1-1205-4262-85ae-2e8a22044bc4", 
+        "data": "{\"type\": \"presentation\", \"people\": [\"Mr Pink\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 19, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-12-11T10:00:00Z", 
+        "versionstamp": "2015-05-22T20:40:04.243Z", 
+        "title": "D2 Thing", 
+        "source": 5, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-12-11T09:00:00Z", 
+        "master": null, 
+        "location": "Room D", 
+        "uid": "28874f98-8e5b-40a4-a64a-699010af7f70", 
+        "data": "{\"type\": \"presentation\", \"people\": [\"Mr Pink\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 20, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-14T14:00:00Z", 
+        "versionstamp": "2015-05-22T20:43:53.282Z", 
+        "title": "Event E", 
+        "source": 6, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-14T13:00:00Z", 
+        "master": null, 
+        "location": "Room E", 
+        "uid": "13764e88-afb0-4407-89fb-9924c9d108a9", 
+        "data": "{\"type\": \"class\", \"people\": [\"Ms E\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 21, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-11-07T09:00:00Z", 
+        "versionstamp": "2015-05-22T20:48:50.190Z", 
+        "title": "Event F", 
+        "source": 7, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-11-07T08:00:00Z", 
+        "master": null, 
+        "location": "Room F", 
+        "uid": "75367174-0791-4132-89bb-541e19d64ac4", 
+        "data": "{\"type\": \"seminar\", \"people\": [\"Mr F\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 22, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2015-02-09T14:00:00Z", 
+        "versionstamp": "2015-05-22T20:51:09.211Z", 
+        "title": "Event G", 
+        "source": 8, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2015-02-09T13:00:00Z", 
+        "master": null, 
+        "location": "Room G", 
+        "uid": "288e88be-9fa0-46e1-bb94-cbd8ce39dc3d", 
+        "data": "{\"type\": \"seminar\", \"people\": [\"Gee Gson\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 23, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-30T18:00:00Z", 
+        "versionstamp": "2015-05-22T20:52:59.525Z", 
+        "title": "Event H", 
+        "source": 9, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-30T17:00:00Z", 
+        "master": null, 
+        "location": "Room H", 
+        "uid": "9ae81002-5484-47ee-a54c-fffe5cf5b8c1", 
+        "data": "{\"type\": \"\", \"people\": [\"Dr H\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 24, 
+    "model": "timetables.event", 
+    "fields": {
+        "status": 0, 
+        "end": "2014-10-09T09:00:00Z", 
+        "versionstamp": "2015-05-22T21:13:41.890Z", 
+        "title": "Intro to Subject A", 
+        "source": 10, 
+        "endtz": "Europe/London", 
+        "current": true, 
+        "start": "2014-10-09T08:00:00Z", 
+        "master": null, 
+        "location": "A room", 
+        "uid": "6b4fd2f0-8983-4ca8-ab19-ff7fd1301f37", 
+        "data": "{\"type\": \"workshop\", \"people\": [\"Mr Blue\"]}", 
+        "starttz": "Europe/London"
+    }
+},
+{
+    "pk": 1, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 13, 
+        "eventsource": 1, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 2, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 14, 
+        "eventsource": 2, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 3, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 15, 
+        "eventsource": 3, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 4, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 16, 
+        "eventsource": 4, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 5, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 16, 
+        "eventsource": 5, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 6, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 17, 
+        "eventsource": 6, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 7, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 18, 
+        "eventsource": 7, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 8, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 19, 
+        "eventsource": 8, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 9, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 20, 
+        "eventsource": 9, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 10, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 3, 
+        "eventsource": 4, 
+        "annotation": null
+    }
+},
+{
+    "pk": 11, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 3, 
+        "eventsource": 8, 
+        "annotation": null
+    }
+},
+{
+    "pk": 12, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 3, 
+        "eventsource": 9, 
+        "annotation": null
+    }
+},
+{
+    "pk": 13, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 21, 
+        "eventsource": 10, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 14, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 22, 
+        "eventsource": 10, 
+        "annotation": "home"
+    }
+},
+{
+    "pk": 15, 
+    "model": "timetables.eventsourcetag", 
+    "fields": {
+        "thing": 3, 
+        "eventsource": 10, 
+        "annotation": null
+    }
+},
+{
+    "pk": 1, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 3, 
+        "targetthing": 6, 
+        "annotation": "admin"
+    }
+},
+{
+    "pk": 2, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 3, 
+        "targetthing": 5, 
+        "annotation": "admin"
+    }
+},
+{
+    "pk": 3, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 3, 
+        "targetthing": 12, 
+        "annotation": "admin"
+    }
+},
+{
+    "pk": 4, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 3, 
+        "targetthing": 11, 
+        "annotation": "admin"
+    }
+},
+{
+    "pk": 5, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 3, 
+        "targetthing": 10, 
+        "annotation": "admin"
+    }
+},
+{
+    "pk": 6, 
+    "model": "timetables.thingtag", 
+    "fields": {
+        "thing": 23, 
+        "targetthing": 23, 
+        "annotation": "disabled"
+    }
+}
+]

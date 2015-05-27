@@ -1,0 +1,423 @@
+{
+    "name": "Timetable",
+    "type": "root",
+    "nodes": {
+        "4": {
+            "id": "4",
+            "name": "Simple Tripos",
+            "type": "course",
+            "nodes": {
+                "5-1": {
+                    "id": "5-1",
+                    "name": "Part I",
+                    "type": "part",
+                    "nodes": {
+                        "13": {
+                            "id": "13",
+                            "name": "Module A",
+                            "type": "module",
+                            "nodes": {
+                                "1": {
+                                    "id": "1",
+                                    "name": "Series A",
+                                    "type": "series",
+                                    "nodes": {
+                                        "6": {
+                                            "id": "6",
+                                            "name": "Blah A",
+                                            "type": "event",
+                                            "event-type": "journal club",
+                                            "start": "2014-10-09T09:00:00+01:00",
+                                            "end": "2014-10-09T10:00:00+01:00",
+                                            "location": "Room A",
+                                            "people": [
+                                                "Dr A"
+                                            ]
+                                        },
+                                        "7": {
+                                            "id": "7",
+                                            "name": "Blah A",
+                                            "type": "event",
+                                            "event-type": "field trip",
+                                            "start": "2014-10-16T09:00:00+01:00",
+                                            "end": "2014-10-16T10:00:00+01:00",
+                                            "location": "Room B",
+                                            "people": [
+                                                "Dr A",
+                                                "Mr B",
+                                                "Ms C"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "6-3": {
+                    "id": "6-3",
+                    "name": "Part II",
+                    "type": "part",
+                    "nodes": {
+                        "14": {
+                            "id": "14",
+                            "name": "Module B",
+                            "type": "module",
+                            "nodes": {
+                                "2": {
+                                    "id": "2",
+                                    "name": "Series B",
+                                    "type": "series",
+                                    "nodes": {
+                                        "8": {
+                                            "id": "8",
+                                            "name": "Thing B",
+                                            "type": "event",
+                                            "event-type": "practical",
+                                            "start": "2014-11-03T12:00:00+00:00",
+                                            "end": "2014-11-03T13:00:00+00:00",
+                                            "location": "Room B",
+                                            "people": [
+                                                "Mr ABC"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "15": {
+                            "id": "15",
+                            "name": "Module C",
+                            "type": "module",
+                            "nodes": {
+                                "3": {
+                                    "id": "3",
+                                    "name": "Series C",
+                                    "type": "series",
+                                    "nodes": {
+                                        "9": {
+                                            "id": "9",
+                                            "name": "Thing C",
+                                            "type": "event",
+                                            "event-type": "workshop",
+                                            "start": "2015-02-10T14:25:00+00:00",
+                                            "end": "2015-02-10T15:46:00+00:00",
+                                            "location": "Room C",
+                                            "people": [
+                                                "abc12",
+                                                "def34"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "7": {
+            "id": "7",
+            "name": "Nested Subject",
+            "type": "course",
+            "nodes": {
+                "Subject A": {
+                    "id": "Subject A",
+                    "type": "subject",
+                    "name": "Subject A",
+                    "nodes": {
+                        "8-2": {
+                            "id": "8-2",
+                            "name": "Part I",
+                            "type": "part",
+                            "nodes": {
+                                "16": {
+                                    "id": "16",
+                                    "name": "Module D",
+                                    "type": "module",
+                                    "nodes": {
+                                        "4": {
+                                            "id": "4",
+                                            "name": "Series D 1",
+                                            "type": "series",
+                                            "nodes": {
+                                                "13": {
+                                                    "id": "13",
+                                                    "name": "D1",
+                                                    "type": "event",
+                                                    "event-type": "lecture",
+                                                    "start": "2014-10-10T12:00:00+01:00",
+                                                    "end": "2014-10-10T13:00:00+01:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Prof D"
+                                                    ]
+                                                },
+                                                "14": {
+                                                    "id": "14",
+                                                    "name": "D2",
+                                                    "type": "event",
+                                                    "event-type": "lecture",
+                                                    "start": "2015-01-16T12:00:00+00:00",
+                                                    "end": "2015-01-16T13:00:00+00:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Prof D"
+                                                    ]
+                                                },
+                                                "15": {
+                                                    "id": "15",
+                                                    "name": "D3",
+                                                    "type": "event",
+                                                    "event-type": "lecture",
+                                                    "start": "2015-04-24T12:00:00+01:00",
+                                                    "end": "2015-04-24T13:00:00+01:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Prof D"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "5": {
+                                            "id": "5",
+                                            "name": "Series D2",
+                                            "type": "series",
+                                            "nodes": {
+                                                "16": {
+                                                    "id": "16",
+                                                    "name": "D2 Thing",
+                                                    "type": "event",
+                                                    "event-type": "presentation",
+                                                    "start": "2014-09-25T09:00:00+01:00",
+                                                    "end": "2014-09-25T10:00:00+01:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Mr Pink"
+                                                    ]
+                                                },
+                                                "17": {
+                                                    "id": "17",
+                                                    "name": "D2 Thing",
+                                                    "type": "event",
+                                                    "event-type": "presentation",
+                                                    "start": "2014-10-02T09:00:00+01:00",
+                                                    "end": "2014-10-02T10:00:00+01:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Mr Pink"
+                                                    ]
+                                                },
+                                                "18": {
+                                                    "id": "18",
+                                                    "name": "D2 Thing",
+                                                    "type": "event",
+                                                    "event-type": "presentation",
+                                                    "start": "2014-12-04T09:00:00+00:00",
+                                                    "end": "2014-12-04T10:00:00+00:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Mr Pink"
+                                                    ]
+                                                },
+                                                "19": {
+                                                    "id": "19",
+                                                    "name": "D2 Thing",
+                                                    "type": "event",
+                                                    "event-type": "presentation",
+                                                    "start": "2014-12-11T09:00:00+00:00",
+                                                    "end": "2014-12-11T10:00:00+00:00",
+                                                    "location": "Room D",
+                                                    "people": [
+                                                        "Mr Pink"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "21": {
+                                    "id": "21",
+                                    "name": "Common",
+                                    "type": "module",
+                                    "nodes": {
+                                        "10": {
+                                            "id": "10",
+                                            "name": "Shared Subject A Series",
+                                            "type": "series",
+                                            "nodes": {
+                                                "24": {
+                                                    "id": "24",
+                                                    "name": "Intro to Subject A",
+                                                    "type": "event",
+                                                    "event-type": "workshop",
+                                                    "start": "2014-10-09T09:00:00+01:00",
+                                                    "end": "2014-10-09T10:00:00+01:00",
+                                                    "location": "A room",
+                                                    "people": [
+                                                        "Mr Blue"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "9-4": {
+                            "id": "9-4",
+                            "name": "Part II",
+                            "type": "part",
+                            "nodes": {
+                                "19": {
+                                    "id": "19",
+                                    "name": "Module G",
+                                    "type": "module",
+                                    "nodes": {
+                                        "8": {
+                                            "id": "8",
+                                            "name": "Series G",
+                                            "type": "series",
+                                            "nodes": {
+                                                "22": {
+                                                    "id": "22",
+                                                    "name": "Event G",
+                                                    "type": "event",
+                                                    "event-type": "seminar",
+                                                    "start": "2015-02-09T13:00:00+00:00",
+                                                    "end": "2015-02-09T14:00:00+00:00",
+                                                    "location": "Room G",
+                                                    "people": [
+                                                        "Gee Gson"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "20": {
+                                    "id": "20",
+                                    "name": "Module H",
+                                    "type": "module",
+                                    "nodes": {
+                                        "9": {
+                                            "id": "9",
+                                            "name": "Series H",
+                                            "type": "series",
+                                            "nodes": {
+                                                "23": {
+                                                    "id": "23",
+                                                    "name": "Event H",
+                                                    "type": "event",
+                                                    "event-type": "",
+                                                    "start": "2014-10-30T17:00:00+00:00",
+                                                    "end": "2014-10-30T18:00:00+00:00",
+                                                    "location": "Room H",
+                                                    "people": [
+                                                        "Dr H"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "22": {
+                                    "id": "22",
+                                    "name": "Common",
+                                    "type": "module",
+                                    "nodes": {
+                                        "10": {
+                                            "id": "10",
+                                            "name": "Shared Subject A Series",
+                                            "type": "series",
+                                            "nodes": {
+                                                "24": {
+                                                    "id": "24",
+                                                    "name": "Intro to Subject A",
+                                                    "type": "event",
+                                                    "event-type": "workshop",
+                                                    "start": "2014-10-09T09:00:00+01:00",
+                                                    "end": "2014-10-09T10:00:00+01:00",
+                                                    "location": "A room",
+                                                    "people": [
+                                                        "Mr Blue"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "Subject B": {
+                    "id": "Subject B",
+                    "type": "subject",
+                    "name": "Subject B",
+                    "nodes": {
+                        "8-5": {
+                            "id": "8-5",
+                            "name": "Part I",
+                            "type": "part",
+                            "nodes": {
+                                "17": {
+                                    "id": "17",
+                                    "name": "Module E",
+                                    "type": "module",
+                                    "nodes": {
+                                        "6": {
+                                            "id": "6",
+                                            "name": "Series E",
+                                            "type": "series",
+                                            "nodes": {
+                                                "20": {
+                                                    "id": "20",
+                                                    "name": "Event E",
+                                                    "type": "event",
+                                                    "event-type": "class",
+                                                    "start": "2014-10-14T14:00:00+01:00",
+                                                    "end": "2014-10-14T15:00:00+01:00",
+                                                    "location": "Room E",
+                                                    "people": [
+                                                        "Ms E"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "18": {
+                                    "id": "18",
+                                    "name": "Module F",
+                                    "type": "module",
+                                    "nodes": {
+                                        "7": {
+                                            "id": "7",
+                                            "name": "Series F",
+                                            "type": "series",
+                                            "nodes": {
+                                                "21": {
+                                                    "id": "21",
+                                                    "name": "Event F",
+                                                    "type": "event",
+                                                    "event-type": "seminar",
+                                                    "start": "2014-11-07T08:00:00+00:00",
+                                                    "end": "2014-11-07T09:00:00+00:00",
+                                                    "location": "Room F",
+                                                    "people": [
+                                                        "Mr F"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
