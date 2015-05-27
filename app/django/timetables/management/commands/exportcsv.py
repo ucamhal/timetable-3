@@ -5,6 +5,7 @@ ancestors (invalid data) are skipped.
 import csv
 import sys
 import argparse
+import collections
 
 import pytz
 
@@ -84,21 +85,60 @@ class CsvExporter(object):
 
         for event in self.events:
             try:
-                self.write_row(csv_writer, self.get_row(event))
+                for event_path in paths_to(event):
+                    self.write_row(csv_writer, self.get_row(event_path))
             except InvalidStructureException as e:
                 print >> sys.stderr, "Skipping event", event.pk, e
 
     def get_header_row(self):
         return [spec.get_column_name() for spec in self.columns]
 
-    def get_row(self, event):
-        return [spec.extract_value(event) for spec in self.columns]
+    def get_row(self, event_path):
+        assert isinstance(event_path, EventPath)
+        return [spec.extract_value(event_path) for spec in self.columns]
 
     def write_row(self, csv_writer, row):
         for f in self.filters:
             row = f.filter(row)
 
         csv_writer.writerow(row)
+
+
+
+EventPath = collections.namedtuple(
+    "EventPath", "tripos part subpart module series event".split())
+
+
+def paths_to(event):
+    """
+    Get the possible paths through the Thing tree to an Event
+
+    An iterable of EventPaths is returned representing each way
+    an Event can be reached from the root. There's usually a single
+    path, but when a series is linked to more than one module an Event
+    in the series will have > 1 way to access it from the root.
+    """
+    series_traverser = EventTraverser(event).step_up()
+    for module_traverser in series_traverser.walk_parents():
+        mod_parent_traverser = module_traverser.step_up()
+
+        if mod_parent_traverser.name == SubpartTraverser.name:
+            subpart = mod_parent_traverser.get_value()
+            part_traverser = mod_parent_traverser.step_up()
+        else:
+            subpart = None
+            assert mod_parent_traverser.name == PartTraverser.name
+            part_traverser = mod_parent_traverser
+
+        tripos_traverser = part_traverser.step_up()
+
+        yield EventPath(
+            tripos_traverser.get_value(),
+            part_traverser.get_value(),
+            subpart,
+            module_traverser.get_value(),
+            series_traverser.get_value(),
+            event)
 
 
 class UnicodeEncodeRowFilter(object):
@@ -125,109 +165,97 @@ class ColumnSpec(object):
     def get_column_name(self):
         return self.name
 
-    def extract_value(self, event):
+    def extract_value(self, event_path):
         raise NotImplementedError()
 
-    def get_series(self, event):
-        return EventTraverser(event).step_up().get_value()
+    def get_event(self, event_path):
+        return event_path.event
 
-    def get_module(self, event):
-        series = self.get_series(event)
-        return SeriesTraverser(series).step_up().get_value()
+    def get_series(self, event_path):
+        return event_path.series
 
-    def get_subpart(self, event):
-        module = self.get_module(event)
-        traverser = ModuleTraverser(module).step_up()
+    def get_module(self, event_path):
+        return event_path.module
 
-        if traverser.name == SubpartTraverser.name:
-            return traverser.get_value()
-        return None
+    def get_subpart(self, event_path):
+        return event_path.subpart
 
-    def get_part(self, event):
-        subpart = self.get_subpart(event)
-        if subpart is not None:
-            traverser = SubpartTraverser(subpart)
-        else:
-            traverser = ModuleTraverser(self.get_module(event))
+    def get_part(self, event_path):
+        return event_path.part
 
-        part_traverser = traverser.step_up()
-        assert part_traverser.name == PartTraverser.name
-        return part_traverser.get_value()
-
-    def get_tripos(self, event):
-        part = self.get_part(event)
-        return PartTraverser(part).step_up().get_value()
+    def get_tripos(self, event_path):
+        return event_path.tripos
 
 
 class TriposNameColumnSpec(ColumnSpec):
     name = "Tripos Name"
 
-    def extract_value(self, event):
-        tripos = self.get_tripos(event)
+    def extract_value(self, event_path):
+        tripos = self.get_tripos(event_path)
         return tripos.fullname
 
 
 class TriposShortNameColumnSpec(ColumnSpec):
     name = "Tripos Short Name"
 
-    def extract_value(self, event):
-        tripos = self.get_tripos(event)
+    def extract_value(self, event_path):
+        tripos = self.get_tripos(event_path)
         return tripos.name
 
 
 class PartNameColumnSpec(ColumnSpec):
     name = "Part Name"
 
-    def extract_value(self, event):
-        part = self.get_part(event)
+    def extract_value(self, event_path):
+        part = self.get_part(event_path)
         return part.fullname
 
 
 class PartShortNameColumnSpec(ColumnSpec):
     name = "Part Short Name"
 
-    def extract_value(self, event):
-        part = self.get_part(event)
+    def extract_value(self, event_path):
+        part = self.get_part(event_path)
         return part.name
 
 
 class SubPartNameColumnSpec(ColumnSpec):
     name = "Subpart Name"
 
-    def extract_value(self, event):
-        subpart = self.get_subpart(event)
+    def extract_value(self, event_path):
+        subpart = self.get_subpart(event_path)
         return None if subpart is None else subpart.fullname
 
 
 class SubPartShortNameColumnSpec(ColumnSpec):
     name = "Subpart Short Name"
 
-    def extract_value(self, event):
-        subpart = self.get_subpart(event)
+    def extract_value(self, event_path):
+        subpart = self.get_subpart(event_path)
         return None if subpart is None else subpart.name
 
 
 class ModuleNameColumnSpec(ColumnSpec):
     name = "Module Name"
 
-    def extract_value(self, event):
-        module = self.get_module(event)
+    def extract_value(self, event_path):
+        module = self.get_module(event_path)
         return module.fullname
 
 
 class ModuleShortNameColumnSpec(ColumnSpec):
     name = "Module Short Name"
 
-    def extract_value(self, event):
-        module = self.get_module(event)
+    def extract_value(self, event_path):
+        module = self.get_module(event_path)
         return module.name
 
 
 class SeriesNameColumnSpec(ColumnSpec):
     name = "Series Name"
 
-    def extract_value(self, event):
-        series = self.get_series(event)
+    def extract_value(self, event_path):
+        series = self.get_series(event_path)
         return series.title
 
 
@@ -238,8 +266,8 @@ class EventAttrColumnSpec(ColumnSpec):
         assert self.attr_name is not None
         return self.attr_name
 
-    def extract_value(self, event):
-        return getattr(event, self.get_attr_name())
+    def extract_value(self, event_path):
+        return getattr(self.get_event(event_path), self.get_attr_name())
 
 
 class EventTitleColumnSpec(EventAttrColumnSpec):
@@ -255,8 +283,8 @@ class EventLocationColumnSpec(EventAttrColumnSpec):
 class EventUidColumnSpec(ColumnSpec):
     name = "UID"
 
-    def extract_value(self, event):
-        return event.get_ical_uid()
+    def extract_value(self, event_path):
+        return self.get_event(event_path).get_ical_uid()
 
 
 class EventDateTimeColumnSpec(ColumnSpec):
@@ -265,8 +293,8 @@ class EventDateTimeColumnSpec(ColumnSpec):
     def get_datetime_utc(self, event):
         raise NotImplementedError()
 
-    def extract_value(self, event):
-        dt_utc = self.get_datetime_utc(event)
+    def extract_value(self, event_path):
+        dt_utc = self.get_datetime_utc(self.get_event(event_path))
         return self.timezone.normalize(dt_utc.astimezone(self.timezone)).isoformat()
 
 
@@ -292,8 +320,8 @@ class EventMetadataColumnSpec(ColumnSpec):
             raise ValueError("no metadata_path value provided")
         return self.metadata_path
 
-    def extract_value(self, event):
-        metadata = event.metadata
+    def extract_value(self, event_path):
+        metadata = self.get_event(event_path).metadata
 
         segments = self.get_metadata_path().split(".")
         for i, segment in enumerate(segments):
@@ -313,6 +341,6 @@ class EventLecturerColumnSpec(EventMetadataColumnSpec):
     name = "People"
     metadata_path = "people"
 
-    def extract_value(self, event):
-        value = super(EventLecturerColumnSpec, self).extract_value(event)
+    def extract_value(self, event_path):
+        value = super(EventLecturerColumnSpec, self).extract_value(event_path)
         return None if value is None else ", ".join(value)
