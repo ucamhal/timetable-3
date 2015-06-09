@@ -1,0 +1,102 @@
+{
+    "nodes": {
+        "4": {
+            "nodes": {
+                "25": {
+                    "type": "part", 
+                    "nodes": {}, 
+                    "data": {
+                        "external": "https://www.example.org/2"
+                    }, 
+                    "id": 25, 
+                    "name": "External (no events with URL)"
+                }, 
+                "26": {
+                    "type": "part", 
+                    "nodes": {}, 
+                    "data": null, 
+                    "id": 26, 
+                    "name": "External (no events no URL)"
+                }, 
+                "5": {
+                    "type": "part", 
+                    "nodes": {}, 
+                    "data": null, 
+                    "id": 5, 
+                    "name": "Part I"
+                }, 
+                "6": {
+                    "type": "part", 
+                    "nodes": {}, 
+                    "data": null, 
+                    "id": 6, 
+                    "name": "Part II"
+                }, 
+                "23": {
+                    "type": "part", 
+                    "nodes": {}, 
+                    "data": {
+                        "external": "https://www.example.org/"
+                    }, 
+                    "id": 23, 
+                    "name": "External Part"
+                }
+            }, 
+            "type": "course", 
+            "id": 4, 
+            "name": "Simple Tripos"
+        }, 
+        "7": {
+            "nodes": {
+                "10": {
+                    "nodes": {
+                        "8": {
+                            "type": "part", 
+                            "nodes": {}, 
+                            "data": null, 
+                            "id": 8, 
+                            "name": "Part I"
+                        }
+                    }, 
+                    "type": "subject", 
+                    "id": 10, 
+                    "name": "Subject A"
+                }, 
+                "11": {
+                    "nodes": {
+                        "8": {
+                            "type": "part", 
+                            "nodes": {}, 
+                            "data": null, 
+                            "id": 8, 
+                            "name": "Part I"
+                        }
+                    }, 
+                    "type": "subject", 
+                    "id": 11, 
+                    "name": "Subject B"
+                }, 
+                "12": {
+                    "nodes": {
+                        "9": {
+                            "type": "part", 
+                            "nodes": {}, 
+                            "data": null, 
+                            "id": 9, 
+                            "name": "Part II"
+                        }
+                    }, 
+                    "type": "subject", 
+                    "id": 12, 
+                    "name": "Subject A"
+                }
+            }, 
+            "type": "course", 
+            "id": 7, 
+            "name": "Nested Subject"
+        }
+    }, 
+    "type": "root", 
+    "id": 0, 
+    "name": "Timetable"
+}
