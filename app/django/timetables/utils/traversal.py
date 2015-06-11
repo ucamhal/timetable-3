@@ -97,14 +97,14 @@ class SeriesTraverser(Traverser):
         tags = list(series.eventsourcetag_set.filter(annotation="home"))
 
         if(len(tags) == 0):
-            raise ValidationException(
+            raise InvalidStructureException(
                 "Orphaned series with no module encountered", series.pk)
 
         for tag in tags:
             module = tag.thing
 
             if module.type != "module":
-                raise ValidationException(
+                raise InvalidStructureException(
                     "Series attached to non-module thing", series.pk)
             yield (ModuleTraverser, module)
 
